@@ -1,0 +1,97 @@
+<template>
+  <div class="patient-info">
+    <div class="tab">
+      <ul>
+        <li :class="{'active':activeIndex===1}" @click="handleActive(1)">
+          基本信息
+          <i class="el-icon-caret-bottom" v-if="activeIndex===1"></i>
+        </li>
+        <li :class="{'active':activeIndex===2}" @click="handleActive(2)">
+          检查信息
+          <i class="el-icon-caret-bottom" v-if="activeIndex===2"></i>
+        </li>
+        <li :class="{'active':activeIndex===3}" @click="handleActive(3)">
+          术后信息
+          <i class="el-icon-caret-bottom" v-if="activeIndex===3"></i>
+        </li>
+      </ul>
+    </div>
+    <div class="content">
+      <component :is="componentInfo"></component>
+    </div>
+  </div>
+</template>
+
+<script>
+import BasicInfo from './basic-info'
+import CheckInfo from './check-info'
+import PostoperativeInfo from './postoperative-info'
+export default {
+  data(){
+    return {
+      activeIndex:1,
+      componentInfo:'BasicInfo'
+    }
+  },
+  components:{
+    BasicInfo,CheckInfo,PostoperativeInfo
+  },
+  methods:{
+    handleActive(index){
+      this.activeIndex = index
+      if(index===1){
+        this.componentInfo = 'BasicInfo'
+      }else if(index===2){
+        this.componentInfo = 'CheckInfo'
+      }else{
+        this.componentInfo = 'PostoperativeInfo'
+      }
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+  .patient-info{
+    height: 100%;
+    padding: 20px 20px 30px 20px;
+    background: #ffffff;
+    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+    border-radius: 5px;
+    .tab{
+      ul{
+        display: flex;
+        li{
+          padding: 0 17px;
+          line-height: 40px;
+          background: #E9EDF7;
+          border-radius: 5px;
+          margin-right: 20px;
+          cursor: pointer;
+          position: relative;
+          i{
+            // font-size: 10px;
+            position: absolute;
+            bottom:-10px;
+            left: calc(50% - 8px);
+            right: 0;
+            margin:0 auto;
+            color: #3377FF;
+          }
+          &.active{
+            background: #3377FF;
+            color: #FFFFFF;
+          }
+          &:hover{
+            background: #3377FF;
+            color: #FFFFFF;
+          }
+        }
+      }
+    }
+    .content{
+      margin-top:20px;
+      height: calc(100% - 90px);
+    }
+  }
+</style>>
