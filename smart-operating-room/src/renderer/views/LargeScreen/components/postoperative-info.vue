@@ -6,8 +6,8 @@
 
 <script>
 export default {
-  name:'PostoperativeInfo',
-  data(){
+  name: 'PostoperativeInfo',
+  data () {
     return {
 
     }

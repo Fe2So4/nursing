@@ -26,20 +26,20 @@
 
 <script>
 export default {
-  name:'InfoList',
-  data(){
-    return{
+  name: 'InfoList',
+  data () {
+    return {
 
     }
   },
-  props:{
-    list:{
-      type:Array,
-      required:true
+  props: {
+    list: {
+      type: Array,
+      required: true
     },
-    title:{
-      type:String,
-      required:true
+    title: {
+      type: String,
+      required: true
     }
   }
 }

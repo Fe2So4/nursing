@@ -17,18 +17,18 @@ import PatientCard from './components/patient-card'
 import PatientStep from './components/patient-step'
 import PatientInfo from './components/patient-info'
 export default {
-  name:'LargeScreen',
-  data(){
+  name: 'LargeScreen',
+  data () {
     return {
 
     }
   },
-  components:{PatientCard,PatientStep,PatientInfo},
-  methods:{
+  components: {PatientCard, PatientStep, PatientInfo},
+  methods: {
 
   },
-  mounted(){
-  
+  mounted () {
+
   }
 }
 </script>

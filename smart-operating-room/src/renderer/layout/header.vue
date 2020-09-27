@@ -17,43 +17,43 @@
 
 <script>
 export default {
-  data(){
+  data () {
     return {
-      time:'',
-      interval:null,
-      radio:1
+      time: '',
+      interval: null,
+      radio: 1
     }
   },
-  methods:{
-    updateTime() {
-        var cd = new Date();
-        this.time = this.zeroPadding(cd.getHours(), 2) + ':' + this.zeroPadding(cd.getMinutes(), 2) + ':' + this.zeroPadding(cd.getSeconds(), 2);
+  methods: {
+    updateTime () {
+      var cd = new Date()
+      this.time = this.zeroPadding(cd.getHours(), 2) + ':' + this.zeroPadding(cd.getMinutes(), 2) + ':' + this.zeroPadding(cd.getSeconds(), 2)
     },
-    zeroPadding(num, digit) {
-        var zero = '';
-        for(var i = 0; i < digit; i++) {
-            zero += '0';
-        }
-        return (zero + num).slice(-digit);
+    zeroPadding (num, digit) {
+      var zero = ''
+      for (var i = 0; i < digit; i++) {
+        zero += '0'
+      }
+      return (zero + num).slice(-digit)
     },
-    handleChange(param){
-      switch(param){
+    handleChange (param) {
+      switch (param) {
         case 1:
-            this.$router.push('/home/large-screen')
-            break 
+          this.$router.push('/home/large-screen')
+          break
         case 2:
-            this.$router.push('/home/receiving-orders')
-            break 
+          this.$router.push('/home/receiving-orders')
+          break
         case 3:
-           this.$router.push('/home/operation-orders')
+          this.$router.push('/home/operation-orders')
       }
     }
   },
-  mounted(){
+  mounted () {
     this.updateTime()
-    this.interval = setInterval(this.updateTime, 1000);
+    this.interval = setInterval(this.updateTime, 1000)
   },
-  destroyed(){
+  destroyed () {
     this.interval = null
   }
 }

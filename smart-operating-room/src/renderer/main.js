@@ -7,8 +7,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './styles/index.scss'
 import router from './router'
 import store from './store'
-import * as voicePromptFun from './utils/voicePrompt' 
-Vue.prototype.voicePrompt = voicePromptFun.voicePrompt  //语音提醒
+import * as voicePromptFun from './utils/voicePrompt'
+Vue.prototype.voicePrompt = voicePromptFun.voicePrompt // 语音提醒
 
 Vue.use(ElementUI)
 

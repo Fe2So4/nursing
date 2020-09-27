@@ -23,6 +23,14 @@ npm run lint
 
 ```
 
+```
+
+# 目录列表
+# LargeScreen --术中大屏
+# OperationOrders --手术派单
+# ReceivingOders --接单中心
+
+```
 ---
 
 This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).

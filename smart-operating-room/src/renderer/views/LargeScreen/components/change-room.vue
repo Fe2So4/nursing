@@ -24,29 +24,29 @@
 
 <script>
 export default {
-  name:'ChangeRoom',
-  data(){
+  name: 'ChangeRoom',
+  data () {
     return {
-      floor:"6楼",
-      roomList:['601','602','603','604','605','606','607','608','609','6pacu'],
-      activeIndex:'601'
+      floor: '6楼',
+      roomList: ['601', '602', '603', '604', '605', '606', '607', '608', '609', '6pacu'],
+      activeIndex: '601'
     }
   },
-  props:{
-    roomVisible:{
-      type:Boolean,
-      required:true
+  props: {
+    roomVisible: {
+      type: Boolean,
+      required: true
     }
   },
-  methods:{
-    handleClose(){
+  methods: {
+    handleClose () {
       this.$emit('handleClose')
     },
-    handleChangeRoom(item){
+    handleChangeRoom (item) {
       this.activeIndex = item
     }
   },
-  mounted(){
+  mounted () {
 
   }
 }

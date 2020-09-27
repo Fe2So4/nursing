@@ -20,23 +20,23 @@
 
 <script>
 export default {
-  name:'navs',
-  data(){
+  name: 'navs',
+  data () {
     return {
       isCollapse: false,
-      fold:'el-icon-s-fold',
-      activeIndex:'/home/operation-orders',
-      menuList:[
+      fold: 'el-icon-s-fold',
+      activeIndex: '/home/operation-orders',
+      menuList: [
         // {
         //   icon:'el-icon-data-line',
         //   title:'术中大屏',
         //   path:'/home/large-screen'
         // },
         {
-          icon:'el-icon-s-order',
-          title:'手术派单',
-          path:'/home/operation-orders'
-        },
+          icon: 'el-icon-s-order',
+          title: '手术派单',
+          path: '/home/operation-orders'
+        }
         // {
         //   icon:'el-icon-s-claim',
         //   title:'接单中心',
@@ -45,31 +45,31 @@ export default {
       ]
     }
   },
-  computed:{
+  computed: {
     // el-icon-s-unfold
   },
-  watch:{
-    isCollapse:{
-      handler(newVal,old){
-        if(newVal){
+  watch: {
+    isCollapse: {
+      handler (newVal, old) {
+        if (newVal) {
           this.fold = 'el-icon-s-unfold'
-        }else{
+        } else {
           this.fold = 'el-icon-s-fold'
         }
       }
     }
   },
-  methods:{
-    handleOpen(index){
+  methods: {
+    handleOpen (index) {
       this.activeIndex = index
     },
-    handleSelect(index){
+    handleSelect (index) {
       this.activeIndex = index
     },
-    handleClose(){
+    handleClose () {
 
     },
-    handleCollapse(){
+    handleCollapse () {
       this.isCollapse = !this.isCollapse
     }
   }

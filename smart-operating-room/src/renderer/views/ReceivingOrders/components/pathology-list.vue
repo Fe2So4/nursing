@@ -20,16 +20,16 @@
 
 <script>
 export default {
-  name:'PathologyList',
-  data(){
-    return{
+  name: 'PathologyList',
+  data () {
+    return {
 
     }
   },
-  props:{
-    ptData:{
-      type:Object,
-      required:true
+  props: {
+    ptData: {
+      type: Object,
+      required: true
     }
   }
 }

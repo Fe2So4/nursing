@@ -27,23 +27,23 @@ import BasicInfo from './basic-info'
 import CheckInfo from './check-info'
 import PostoperativeInfo from './postoperative-info'
 export default {
-  data(){
+  data () {
     return {
-      activeIndex:1,
-      componentInfo:'BasicInfo'
+      activeIndex: 1,
+      componentInfo: 'BasicInfo'
     }
   },
-  components:{
-    BasicInfo,CheckInfo,PostoperativeInfo
+  components: {
+    BasicInfo, CheckInfo, PostoperativeInfo
   },
-  methods:{
-    handleActive(index){
+  methods: {
+    handleActive (index) {
       this.activeIndex = index
-      if(index===1){
+      if (index === 1) {
         this.componentInfo = 'BasicInfo'
-      }else if(index===2){
+      } else if (index === 2) {
         this.componentInfo = 'CheckInfo'
-      }else{
+      } else {
         this.componentInfo = 'PostoperativeInfo'
       }
     }

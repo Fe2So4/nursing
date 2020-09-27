@@ -7,22 +7,22 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect:'/home'
+      redirect: '/home'
     },
     {
       path: '*',
       redirect: '/'
     },
     {
-      path:'/home',
-      name:'Home',
+      path: '/home',
+      name: 'Home',
       component: Layout,
-      redirect:'/home/large-screen',
-      children:[
+      redirect: '/home/large-screen',
+      children: [
         {
-          path:'large-screen',
-          name:'LargeScreen',
-          component:() => import('@/views/LargeScreen/index'),
+          path: 'large-screen',
+          name: 'LargeScreen',
+          component: () => import('@/views/LargeScreen/index'),
           meta: {
             title: '术中大屏',
             noNavs: true,
@@ -30,23 +30,23 @@ export default new Router({
           }
         },
         {
-          path:'receiving-orders',
-          name:'ReceivingOrders',
-          component:() => import('@/views/ReceivingOrders/index'),
+          path: 'receiving-orders',
+          name: 'ReceivingOrders',
+          component: () => import('@/views/ReceivingOrders/index'),
           meta: {
             title: '接单中心',
             noNavs: true,
-            parent: 'Home',
+            parent: 'Home'
           }
         },
         {
-          path:'operation-orders',
-          name:'OperationOrders',
-          component:() => import('@/views/OperationOrders/index'),
+          path: 'operation-orders',
+          name: 'OperationOrders',
+          component: () => import('@/views/OperationOrders/index'),
           meta: {
             title: '手术派单',
             noNavs: false,
-            parent: 'Home',
+            parent: 'Home'
           }
         }
       ]
@@ -54,6 +54,6 @@ export default new Router({
   ]
 })
 const originalPush = Router.prototype.push
-Router.prototype.push = function push(location) {
+Router.prototype.push = function push (location) {
   return originalPush.call(this, location).catch(err => err)
 }

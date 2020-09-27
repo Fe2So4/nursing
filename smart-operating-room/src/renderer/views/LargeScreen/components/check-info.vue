@@ -6,8 +6,8 @@
 
 <script>
 export default {
-  name:'CheckInfo',
-  data(){
+  name: 'CheckInfo',
+  data () {
     return {
 
     }

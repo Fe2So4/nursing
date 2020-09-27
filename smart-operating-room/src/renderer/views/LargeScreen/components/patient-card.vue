@@ -40,20 +40,20 @@
 <script>
 import ChangeRoom from './change-room'
 export default {
-  name:'PatientCard',
-  data(){
-    return{
-      roomVisible:false
+  name: 'PatientCard',
+  data () {
+    return {
+      roomVisible: false
     }
   },
-  components:{
+  components: {
     ChangeRoom
   },
-  methods:{
-    handleChangeRoom(){
+  methods: {
+    handleChangeRoom () {
       this.roomVisible = true
     },
-    handleClose(){
+    handleClose () {
       this.roomVisible = false
     }
   }

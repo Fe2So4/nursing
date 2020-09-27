@@ -20,26 +20,26 @@ import Header from './header'
 import Nav from './nav'
 import moment from 'moment'
 export default {
-  name:'layout',
-  data(){
+  name: 'layout',
+  data () {
     return {
       hasNavs: true,
-      time:moment(new Date()).format('YYYY')
+      time: moment(new Date()).format('YYYY')
     }
   },
-  watch:{
+  watch: {
     $route: {
-      handler(route) {
+      handler (route) {
         if (route.meta && route.meta.noNavs) {
           this.hasNavs = false
         } else {
           this.hasNavs = true
         }
       },
-      immediate:true
+      immediate: true
     }
   },
-  components:{Header,Nav}
+  components: {Header, Nav}
 }
 </script>
 

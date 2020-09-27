@@ -80,32 +80,32 @@
 import PatientList from './components/patient-list'
 import PathologyList from './components/pathology-list'
 export default {
-  name:"ReceivingOrders",
-  data(){
+  name: 'ReceivingOrders',
+  data () {
     return {
-      roomList:['601','602','603','604','605','606','607','608','610','6pacu'],
-      room:'',
-      floor:'6楼',
-      patientList:[
-        {gender:'男',nurse:'张汉立',id:'911755436',room:'607',state:1,name:'福田有',area:'3病区',dept:'泌尿科',opeDoc:'方祖军 郑洁',opeName:"右-输尿管镜下取石术-(软镜备球囊扩张)；输尿管镜下激；输尿管镜下激；输尿管镜下激"},
-        {gender:'女',nurse:'李丽',id:'911755533',room:'606',state:1,name:'王君如',area:'3病区',dept:'妇科',opeDoc:'张琪',opeName:"左子宫切除术"},
-        {state:2,name:'袁潇梅',gender:'女',bed:'12床',id:'91175539',room:'601',locate:'6号楼手术室607',opeDoc:'王能祥',time1:'2020-9-25 08:54',time2:'2020-9-25 09:00'}
+      roomList: ['601', '602', '603', '604', '605', '606', '607', '608', '610', '6pacu'],
+      room: '',
+      floor: '6楼',
+      patientList: [
+        {gender: '男', nurse: '张汉立', id: '911755436', room: '607', state: 1, name: '福田有', area: '3病区', dept: '泌尿科', opeDoc: '方祖军 郑洁', opeName: '右-输尿管镜下取石术-(软镜备球囊扩张)；输尿管镜下激；输尿管镜下激；输尿管镜下激'},
+        {gender: '女', nurse: '李丽', id: '911755533', room: '606', state: 1, name: '王君如', area: '3病区', dept: '妇科', opeDoc: '张琪', opeName: '左子宫切除术'},
+        {state: 2, name: '袁潇梅', gender: '女', bed: '12床', id: '91175539', room: '601', locate: '6号楼手术室607', opeDoc: '王能祥', time1: '2020-9-25 08:54', time2: '2020-9-25 09:00'}
       ],
-      finishList:[
-        {gender:'女',nurse:'王芳',id:'911755452',room:'602',state:1,name:'刘晓茹',area:'2病区',dept:'泌尿科',opeDoc:'郑洁',opeName:"输尿管镜下激"},
-        {state:2,name:'曹芳',gender:'女',bed:'13床',id:'91175755',room:'601',locate:'6号楼手术室608',opeDoc:'郝军',time1:'2020-9-24 09:26',time2:'2020-9-25 10:00'}
+      finishList: [
+        {gender: '女', nurse: '王芳', id: '911755452', room: '602', state: 1, name: '刘晓茹', area: '2病区', dept: '泌尿科', opeDoc: '郑洁', opeName: '输尿管镜下激'},
+        {state: 2, name: '曹芳', gender: '女', bed: '13床', id: '91175755', room: '601', locate: '6号楼手术室608', opeDoc: '郝军', time1: '2020-9-24 09:26', time2: '2020-9-25 10:00'}
       ],
-      processList:[
-        {gender:'男',nurse:'汪琴',id:'911755439',room:'608',state:1,name:'章强',area:'3病区',dept:'泌尿科',opeDoc:'方祖军 郑洁',opeName:"软镜备球囊扩张"},
-        {state:2,name:'李平',gender:'女',bed:'13床',id:'91175539',room:'601',locate:'6号楼手术室607',opeDoc:'王能祥',time1:'2020-9-25 08:54',time2:'2020-9-25 09:00'}
-      ],
+      processList: [
+        {gender: '男', nurse: '汪琴', id: '911755439', room: '608', state: 1, name: '章强', area: '3病区', dept: '泌尿科', opeDoc: '方祖军 郑洁', opeName: '软镜备球囊扩张'},
+        {state: 2, name: '李平', gender: '女', bed: '13床', id: '91175539', room: '601', locate: '6号楼手术室607', opeDoc: '王能祥', time1: '2020-9-25 08:54', time2: '2020-9-25 09:00'}
+      ]
     }
   },
-  components:{
-    PatientList,PathologyList
+  components: {
+    PatientList, PathologyList
   },
-  methods:{
-    handleSort(param){
+  methods: {
+    handleSort (param) {
       console.log(param)
     }
   }

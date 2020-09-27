@@ -6,8 +6,8 @@
 
 <script>
 export default {
-  name: "smart-operating-room",
-};
+  name: 'smart-operating-room'
+}
 </script>
 
 <style>

@@ -14,68 +14,68 @@
 
 <script>
 export default {
-  name:'PatientStep',
-  data(){
+  name: 'PatientStep',
+  data () {
     return {
-      stepList:[
+      stepList: [
         {
-          title:'手术通知单',
-          time:'12:23',
-          mins:'',
-          status:'success'
+          title: '手术通知单',
+          time: '12:23',
+          mins: '',
+          status: 'success'
         },
         {
-          title:'工勤人员接单',
-          time:'12:23',
-          mins:'(15Mins)',
-          status:'success'
+          title: '工勤人员接单',
+          time: '12:23',
+          mins: '(15Mins)',
+          status: 'success'
         },
         {
-          title:'病房交接',
-          time:'12:23',
-          mins:'(34Mins)',
-          status:'error'
+          title: '病房交接',
+          time: '12:23',
+          mins: '(34Mins)',
+          status: 'error'
         },
         {
-          title:'进手术室',
-          time:'13:23',
-          mins:'(18Mins)',
-          status:'success'
+          title: '进手术室',
+          time: '13:23',
+          mins: '(18Mins)',
+          status: 'success'
         },
         {
-          title:'Sign In',
-          time:'13:23',
-          mins:'',
-          status:'success'
+          title: 'Sign In',
+          time: '13:23',
+          mins: '',
+          status: 'success'
         },
         {
-          title:'Time Out',
-          time:'14:23',
-          mins:'',
-          status:'success'
+          title: 'Time Out',
+          time: '14:23',
+          mins: '',
+          status: 'success'
         },
         {
-          title:'Sign Out',
-          time:'13:23',
-          mins:'',
-          status:'wait'
+          title: 'Sign Out',
+          time: '13:23',
+          mins: '',
+          status: 'wait'
         },
         {
-          title:'出手术室',
-          time:'13:23',
-          mins:'',
-          status:'wait'
+          title: '出手术室',
+          time: '13:23',
+          mins: '',
+          status: 'wait'
         },
         {
-          title:'回病房',
-          time:'13:23',
-          mins:'',
-          status:'wait'
+          title: '回病房',
+          time: '13:23',
+          mins: '',
+          status: 'wait'
         }
       ]
     }
   },
-  methods:{
+  methods: {
 
   }
 }

@@ -22,11 +22,11 @@
 
 <script>
 export default {
-  name:"PatientList",
-  props:{
-    ptData:{
-      type:Object,
-      required:true
+  name: 'PatientList',
+  props: {
+    ptData: {
+      type: Object,
+      required: true
     }
   }
 }

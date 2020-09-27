@@ -12,14 +12,14 @@
 <script>
 import InfoList from '@/components/InfoList/info-list'
 export default {
-  name:'BasicInfo',
-  data(){
+  name: 'BasicInfo',
+  data () {
     return {
-      basicInfoList:[{time:"10:00",label:'血常规,全血'},{time:"11:00",label:'T.B.NK,全血'}],
-      emptyList:[]
+      basicInfoList: [{time: '10:00', label: '血常规,全血'}, {time: '11:00', label: 'T.B.NK,全血'}],
+      emptyList: []
     }
   },
-  components:{
+  components: {
     InfoList
   }
 }
