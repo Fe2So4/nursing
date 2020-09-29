@@ -1,11 +1,18 @@
 <template>
   <div class="patient-step">
-    <el-steps :active="2" align-center>
-      <el-step :title="item.title" :status="item.status"
-       v-for="item in stepList" :key="item.title">
+    <el-steps
+      :active="2"
+      align-center
+    >
+      <el-step
+        :title="item.title"
+        :status="item.status"
+        v-for="item in stepList"
+        :key="item.title"
+      >
         <template slot="description">
-          <p>{{item.time}}</p>
-          <p>{{item.mins}}</p>
+          <p>{{ item.time }}</p>
+          <p>{{ item.mins }}</p>
         </template>
       </el-step>
     </el-steps>

@@ -1,21 +1,26 @@
 <template>
   <div class="patient-list clearfix">
-    <div class="pl-left"><span>接送患者</span></div>
+    <div class="pl-left">
+      <span>接送患者</span>
+    </div>
     <div class="pl-right">
       <p>
         <span>
-          <i class="el-icon-female" :class="{'female':ptData.gender==='女','male':ptData.gender==='男'}"></i>
-          <span class="pt-info">{{ptData.name}}</span>
-          <span class="pt-info">{{ptData.area}}</span>
-          <span class="pt-info">{{ptData.dept}}</span>
-          <span class="pt-info">{{ptData.bed}}</span>
-          <span class="pt-info">{{ptData.id}}</span>
+          <i
+            class="el-icon-female"
+            :class="{'female':ptData.gender==='女','male':ptData.gender==='男'}"
+          />
+          <span class="pt-info">{{ ptData.name }}</span>
+          <span class="pt-info">{{ ptData.area }}</span>
+          <span class="pt-info">{{ ptData.dept }}</span>
+          <span class="pt-info">{{ ptData.bed }}</span>
+          <span class="pt-info">{{ ptData.id }}</span>
         </span>
-        <span style="color:#444444;font-weight:bold;">{{ptData.room}}</span>
+        <span style="color:#444444;font-weight:bold;">{{ ptData.room }}</span>
       </p>
-      <p>{{ptData.opeName}}</p>
-      <p>手术医生：<span style="color:#08B147;">{{ptData.opeDoc}}</span></p>
-      <p>巡回/洗手：<span style="color:#FF7623;">{{ptData.nurse}}</span></p>
+      <p>{{ ptData.opeName }}</p>
+      <p>手术医生：<span style="color:#08B147;">{{ ptData.opeDoc }}</span></p>
+      <p>巡回/洗手：<span style="color:#FF7623;">{{ ptData.nurse }}</span></p>
     </div>
   </div>
 </template>
@@ -35,10 +40,12 @@ export default {
 <style scoped lang="scss">
   .patient-list{
     height: 100%;
-    // display: flex;
+    // width: 100%;
+    overflow: hidden;
+    display: flex;
     .pl-left{
       width: 36px;
-      float: left;
+      // float: left;
       height: 100%;
       text-align: center;
       background: #3478FF;
@@ -55,14 +62,14 @@ export default {
     .pl-right{
       box-sizing: border-box;
       height: 100%;
-      float: left;
-      width: calc(100% - 36px);
+      flex: 1 1 auto;
       padding:5px 10px;
       display: flex;
       flex-direction: column;
       justify-content: space-around;
       p{
-        width: 100%;
+        // width: 100%;
+        max-width: 512px;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;

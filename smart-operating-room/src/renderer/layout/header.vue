@@ -1,17 +1,25 @@
 <template>
   <div class="layout-header">
     <div class="left">
-      <img src="../assets/logo-tq.png" alt="">
-      <span>Dandelion 智慧手术中心<i></i>临床护理</span>
+      <img
+        src="../assets/logo-tq.png"
+        alt=""
+      >
+      <span>Dandelion 智慧手术中心<i />临床护理</span>
       <span>
-        <el-radio-group v-model="radio" @change="handleChange">
+        <el-radio-group
+          v-model="radio"
+          @change="handleChange"
+        >
           <el-radio :label="1">大屏</el-radio>
           <el-radio :label="2">接单</el-radio>
           <el-radio :label="3">派单</el-radio>
         </el-radio-group>
       </span>
     </div>
-    <div class="right">{{time}}</div>
+    <div class="right">
+      {{ time }}
+    </div>
   </div>
 </template>
 

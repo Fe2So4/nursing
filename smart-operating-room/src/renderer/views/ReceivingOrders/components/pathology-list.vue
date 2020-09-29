@@ -1,19 +1,24 @@
 <template>
   <div class="pathology-list">
-    <div class="pl-left"><span>术中病理</span></div>
+    <div class="pl-left">
+      <span>术中病理</span>
+    </div>
     <div class="pl-right">
       <p>
         <span>
-          <i class="el-icon-female" :class="{'female':ptData.gender==='女','male':ptData.gender==='男'}"></i>
-          <span class="pt-info">{{ptData.name}}</span>
-          <span class="pt-info">{{ptData.gender}}</span>
-          <span class="pt-info">{{ptData.bed}}</span>
+          <i
+            class="el-icon-female"
+            :class="{'female':ptData.gender==='女','male':ptData.gender==='男'}"
+          />
+          <span class="pt-info">{{ ptData.name }}</span>
+          <span class="pt-info">{{ ptData.gender }}</span>
+          <span class="pt-info">{{ ptData.bed }}</span>
         </span>
-        <span style="color:#444444;font-weight:bold;">{{ptData.room}}</span>
+        <span style="color:#444444;font-weight:bold;">{{ ptData.room }}</span>
       </p>
-      <p><span class="pt-info">{{ptData.locate}}</span><span>{{ptData.opeDoc}}</span></p>
-      <p>接单时间：{{ptData.time1}}</p>
-      <p>到达时间：{{ptData.time2}}</p>
+      <p><span class="pt-info">{{ ptData.locate }}</span><span>{{ ptData.opeDoc }}</span></p>
+      <p>接单时间：{{ ptData.time1 }}</p>
+      <p>到达时间：{{ ptData.time2 }}</p>
     </div>
   </div>
 </template>
@@ -38,10 +43,12 @@ export default {
 <style lang="scss" scoped>
  .pathology-list{
     height: 100%;
-    // display: flex;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
     .pl-left{
       width: 36px;
-      float: left;
+      // float: left;
       height: 100%;
       text-align: center;
       background: #FF617F;
@@ -58,8 +65,10 @@ export default {
     .pl-right{
       box-sizing: border-box;
       height: 100%;
-      float: left;
-      width: calc(100% - 36px);
+      // float: left;
+      flex: 1;
+      overflow: hidden;
+      // width: calc(100% - 36px);
       padding:5px 10px;
       display: flex;
       flex-direction: column;

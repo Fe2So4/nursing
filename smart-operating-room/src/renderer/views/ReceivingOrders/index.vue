@@ -1,9 +1,13 @@
 <template>
   <div class="receiving-orders">
     <div class="order-option">
-      <div class="option-left">接单中心</div>
+      <div class="option-left">
+        接单中心
+      </div>
       <div class="option-right">
-        <el-button size="mini">刷新<i class="el-icon-refresh-right"></i></el-button>
+        <el-button size="mini">
+          刷新<i class="el-icon-refresh-right" />
+        </el-button>
         <span>数据更新时间: <span style="color:#388FF7;">下午3:29</span></span>
         <span>版本号:0.20.0.2015</span>
       </div>
@@ -12,19 +16,29 @@
       <div class="list-option">
         <div class="lo-left">
           <span class="label">楼层</span>
-          <el-radio-group v-model="floor" size="medium">
-              <el-radio-button label="6楼"></el-radio-button>
-              <el-radio-button label="7楼"></el-radio-button>
-              <el-radio-button label="8楼"></el-radio-button>
+          <el-radio-group
+            v-model="floor"
+            size="medium"
+          >
+            <el-radio-button label="6楼" />
+            <el-radio-button label="7楼" />
+            <el-radio-button label="8楼" />
           </el-radio-group>
-          <span class="label" style="margin-left:34px;">手术间</span>
-          <el-select v-model="room" placeholder="请选择" size="medium">
+          <span
+            class="label"
+            style="margin-left:34px;"
+          >手术间</span>
+          <el-select
+            v-model="room"
+            placeholder="请选择"
+            size="medium"
+          >
             <el-option
               v-for="item in roomList"
               :key="item"
               :label="item"
-              :value="item">
-            </el-option>
+              :value="item"
+            />
           </el-select>
         </div>
         <div class="lo-right">
@@ -35,50 +49,106 @@
       </div>
       <div class="list-content">
         <div class="list-wait list-common">
-          <h3 class="title" style="color:#FF8B45;">未接单<i></i>
+          <h3
+            class="title"
+            style="color:#FF8B45;"
+          >
+            未接单<i />
             <div class="room-filter">
               <span>
                 房间
               </span>
               <span>
-                <em class="el-icon-caret-top" @click="handleSort(1)"></em>
-                <em class="el-icon-caret-bottom" @click="handleSort(2)"></em>
+                <em
+                  class="el-icon-caret-top"
+                  @click="handleSort(1)"
+                />
+                <em
+                  class="el-icon-caret-bottom"
+                  @click="handleSort(2)"
+                />
               </span>
             </div>
           </h3>
           <ul>
-            <li v-for="(item,index) in patientList" :key="index">
-              <patient-list v-if="item.state===1" :ptData="item"/>
-              <pathology-list v-else :ptData="item"/>
+            <li
+              v-for="(item,index) in patientList"
+              :key="index"
+              @click="handleShowDetail(item)"
+            >
+              <patient-list
+                v-if="item.state===1"
+                :pt-data="item"
+              />
+              <pathology-list
+                v-else
+                :pt-data="item"
+              />
             </li>
           </ul>
         </div>
         <div class="list-process list-common">
-          <h3 class="title" style="color:#01CB4D;">进行中<i></i></h3>
+          <h3
+            class="title"
+            style="color:#01CB4D;"
+          >
+            进行中<i />
+          </h3>
           <ul>
-            <li v-for="(item,index) in processList" :key="index">
-              <patient-list v-if="item.state===1" :ptData="item"/>
-              <pathology-list v-else :ptData="item"/>
+            <li
+              v-for="(item,index) in processList"
+              :key="index"
+              @click="handleShowDetail(item)"
+            >
+              <patient-list
+                v-if="item.state===1"
+                :pt-data="item"
+              />
+              <pathology-list
+                v-else
+                :pt-data="item"
+              />
             </li>
           </ul>
         </div>
         <div class="list-finish list-common">
-          <h3 class="title" style="color:#3478FF;">已完成<i></i></h3>
+          <h3
+            class="title"
+            style="color:#3478FF;"
+          >
+            已完成<i />
+          </h3>
           <ul>
-            <li v-for="(item,index) in finishList" :key="index">
-              <patient-list v-if="item.state===1" :ptData="item"/>
-              <pathology-list v-else :ptData="item"/>
+            <li
+              v-for="(item,index) in finishList"
+              :key="index "
+            >
+              <patient-list
+                v-if="item.state===1"
+                :pt-data="item"
+              />
+              <pathology-list
+                v-else
+                :pt-data="item"
+              />
             </li>
           </ul>
         </div>
       </div>
     </div>
+    <detail-drawer
+      v-if="detailVisible"
+      :detail-visible="detailVisible"
+      @handleClose="handleClose"
+      :detail-status="detailStatus"
+    />
   </div>
 </template>
 
 <script>
 import PatientList from './components/patient-list'
 import PathologyList from './components/pathology-list'
+import DetailDrawer from './components/detail-drawer'
 export default {
   name: 'ReceivingOrders',
   data () {
@@ -98,15 +168,24 @@ export default {
       processList: [
         {gender: '男', nurse: '汪琴', id: '911755439', room: '608', state: 1, name: '章强', area: '3病区', dept: '泌尿科', opeDoc: '方祖军 郑洁', opeName: '软镜备球囊扩张'},
         {state: 2, name: '李平', gender: '女', bed: '13床', id: '91175539', room: '601', locate: '6号楼手术室607', opeDoc: '王能祥', time1: '2020-9-25 08:54', time2: '2020-9-25 09:00'}
-      ]
+      ],
+      detailVisible: false,
+      detailStatus: null
     }
   },
   components: {
-    PatientList, PathologyList
+    PatientList, PathologyList, DetailDrawer
   },
   methods: {
     handleSort (param) {
       console.log(param)
+    },
+    handleShowDetail (item) {
+      this.detailVisible = true
+      this.detailStatus = item.state
+    },
+    handleClose () {
+      this.detailVisible = false
     }
   }
 }
@@ -121,7 +200,7 @@ export default {
       height: 56px;
       line-height: 56px;
       background: #ffffff;
-      padding: 0 20px;     
+      padding: 0 20px;
       box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
       border-radius: 5px;
       .option-left{
@@ -163,6 +242,8 @@ export default {
         margin-top: 20px;
         height: calc(100% - 76px);
         display: flex;
+        // display: grid;
+        // grid-template-columns: 1fr 1fr 1fr;
         .list-wait{
           flex: 1;
           .room-filter{
@@ -213,6 +294,7 @@ export default {
           background: #FFFFFF;
           box-shadow: 0px 0px 5px 0px rgba(5, 26, 51, 0.15);
           border-radius: 10px;
+          // width: 100%;
           height: 100%;
           .title{
             line-height: 58px;
@@ -241,7 +323,7 @@ export default {
               display: none;
             }
             li{
-              width: 512px;
+              // width: 512px;
               margin:0 auto;
               height: 110px;
               background: #F4F7FD;

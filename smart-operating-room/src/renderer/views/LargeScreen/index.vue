@@ -1,9 +1,12 @@
 <template>
   <div class="large-screen">
     <div class="pt-card">
-      <patient-card />
+      <patient-card @handleShowStep="handleShowStep" />
     </div>
-    <div class="pt-step">
+    <div
+      class="pt-step"
+      v-show="stepVisible"
+    >
       <patient-step />
     </div>
     <div class="pt-info">
@@ -20,12 +23,14 @@ export default {
   name: 'LargeScreen',
   data () {
     return {
-
+      stepVisible: true
     }
   },
   components: {PatientCard, PatientStep, PatientInfo},
   methods: {
-
+    handleShowStep () {
+      this.stepVisible = !this.stepVisible
+    }
   },
   mounted () {
 
@@ -37,14 +42,19 @@ export default {
   .large-screen{
     height: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: column;
     .pt-card{
-
+      height: 110px;
     }
     .pt-step{
-      margin:20px 0;
+      margin-top:20px;
+      height: 125px;
     }
     .pt-info{
+      margin-top:20px;
       height: calc(100% - 275px);
+      flex:1;
     }
   }
 </style>

@@ -1,9 +1,12 @@
 <template>
   <div class="patient-card clearfix">
     <div class="left">
-      <div class="card" @click="handleChangeRoom">
+      <div
+        class="card"
+        @click="handleChangeRoom"
+      >
         706
-        <i></i>
+        <i />
       </div>
     </div>
     <div class="right">
@@ -16,6 +19,18 @@
         </el-col>
         <el-col :span="6">
           麻醉医师：<span class="value">固化话</span>
+        </el-col>
+        <el-col
+          :span="6"
+          style="text-align:right;padding-right:20px;"
+        >
+          语音开关：<span class="value">
+            <el-switch
+              v-model="voice"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+            />
+          </span>
         </el-col>
       </el-row>
       <el-row style="margin-top:20px;">
@@ -32,8 +47,17 @@
           洗手护士：<span class="value">黄申慧</span>
         </el-col>
       </el-row>
+      <div
+        class="pc-option"
+        @click="handleShowStep"
+      >
+        <i class="el-icon-bottom" />
+      </div>
     </div>
-    <change-room :roomVisible="roomVisible" @handleClose="handleClose"></change-room>
+    <change-room
+      :room-visible="roomVisible"
+      @handleClose="handleClose"
+    />
   </div>
 </template>
 
@@ -43,7 +67,8 @@ export default {
   name: 'PatientCard',
   data () {
     return {
-      roomVisible: false
+      roomVisible: false,
+      voice: true
     }
   },
   components: {
@@ -55,6 +80,9 @@ export default {
     },
     handleClose () {
       this.roomVisible = false
+    },
+    handleShowStep () {
+      this.$emit('handleShowStep')
     }
   }
 }
@@ -63,6 +91,7 @@ export default {
 <style scoped lang="scss">
   .patient-card{
     height: 110px;
+    position: relative;
     background: #FFFFFF;
     box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
     border-radius: 5px;
@@ -102,6 +131,20 @@ export default {
       color: #91949A;
       .value{
         color:#444444;
+      }
+      .pc-option{
+        position: absolute;
+        cursor: pointer;
+        right: 10px;
+        bottom: -10px;
+        height: 20px;
+        font-size: 14px;
+        background: #ffff;
+        width: 20px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 20px;
+        border:1px solid #91949a;
       }
     }
   }

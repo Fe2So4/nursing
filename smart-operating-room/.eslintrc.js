@@ -1,19 +1,25 @@
 module.exports = {
   root: true,
-  parser: 'babel-eslint',
-  parserOptions: {
-    sourceType: 'module'
+  'env': {
+    'browser': true,
+    'es6': true,
+    'node': true
   },
-  env: {
-    browser: true,
-    node: true
-  },
-  extends: 'standard',
-  globals: {
+  'extends': [
+    'plugin:vue/strongly-recommended',
+    'standard'
+  ],
+  'globals': {
+    'Atomics': 'readonly',
+    'SharedArrayBuffer': 'readonly',
     __static: true
   },
-  plugins: [
-    'html',
+  'parserOptions': {
+    'parser': 'babel-eslint',
+    'ecmaVersion': 2018,
+    'sourceType': 'module'
+  },
+  'plugins': [
     'vue'
   ],
   'rules': {

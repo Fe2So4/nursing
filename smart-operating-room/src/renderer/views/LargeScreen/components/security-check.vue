@@ -1,0 +1,127 @@
+<template>
+  <div class="security-check">
+    <div class="title">
+      安全核查
+      <i />
+    </div>
+    <div class="nav">
+      <el-tabs
+        v-model="activeName"
+      >
+        <el-tab-pane
+          v-for="item in navList"
+          :key="item.name"
+          :label="item.label"
+          :name="item.name"
+        >
+          <component :is="item.component" />
+        </el-tab-pane>
+      </el-tabs>
+    </div>
+  </div>
+</template>
+<script>
+import CheckDetail from './check-detail'
+import CheckOverview from './check-overview'
+export default {
+  name: 'SecurityCheck',
+  data () {
+    return {
+      // itemStatus:1,
+      activeName: 'first',
+      navList: [
+        {label: '概览', name: 'first', component: 'CheckOverview'},
+        {label: 'Sign In', name: 'second', component: 'CheckDetail'},
+        {label: 'Time Out', name: 'third', component: 'CheckDetail'},
+        {label: 'Sign Out', name: 'fourth', component: 'CheckDetail'}
+      ]
+    }
+  },
+  components: {
+    CheckDetail,
+    CheckOverview
+  },
+  props: {
+
+  },
+  methods: {
+    handleChange () {
+
+    }
+  }
+}
+</script>
+
+<style scoped lang="scss">
+  .security-check{
+    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15);
+    border-radius: 10px;
+    height: 100%;
+    flex: 0.25;
+    padding: 0 10px;
+    margin-right: 20px;
+    &:last-child{
+      margin-right: unset;
+    }
+    .title{
+      position: relative;
+      text-indent: 33px;
+      line-height: 58px;
+      border-bottom:1px solid #E9EBF4;
+      color: #303133;
+      font-size: 20px;
+      i{
+        position: absolute;
+        width: 4px;
+        left: 20px;
+        top: 0;
+        bottom: 0;
+        margin:auto;
+        height: 18px;
+        background: #3377FF;
+        border-radius: 2px;
+      }
+    }
+    .nav{
+      height: calc(100% - 58px);
+      .el-tabs{
+        height: 100%;
+      }
+    }
+    .data-empty{
+      text-align: center;
+      height: calc(100% - 58px);
+      color: #91949A;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img{
+        // margin-top: 100px;
+        transform: translateX(10px);
+      }
+    }
+    /deep/ .el-tabs__active-bar{
+      left:16px;
+      background-color: #3377FF;
+    }
+    /deep/ .el-tabs__nav{
+      text-indent: 12px;
+    }
+    /deep/ .el-tabs__item.is-active{
+      color: #3377FF;
+    }
+    /deep/ .el-tabs__content{
+      height: calc(100% - 55px);
+      overflow-y: auto;
+      &::-webkit-scrollbar{
+        display: none;
+      }
+    }
+    /deep/ .el-tab-pane{
+      height: 100%;
+    }
+    /deep/ .el-tabs__item{
+      padding:0 10px;
+    }
+  }
+</style>

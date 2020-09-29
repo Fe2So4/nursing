@@ -1,26 +1,39 @@
 <template>
   <div class="layout-aside">
-     <el-menu
+    <el-menu
       :default-active="$route.path"
       :collapse="isCollapse"
       class="el-menu-vertical-demo"
       router
       @open="handleOpen"
       @select="handleSelect"
-      @close="handleClose">
-      <el-menu-item v-for="item in menuList" :key="item.path" :index="item.path">
-        <i :class="item.icon"></i>
-        <span slot="title">{{item.title}}</span>
-        <div slot="title" class="line" v-show="activeIndex === item.path"></div>
+      @close="handleClose"
+    >
+      <el-menu-item
+        v-for="item in menuList"
+        :key="item.path"
+        :index="item.path"
+      >
+        <i :class="item.icon" />
+        <span slot="title">{{ item.title }}</span>
+        <div
+          slot="title"
+          class="line"
+          v-show="activeIndex === item.path"
+        />
       </el-menu-item>
     </el-menu>
-    <div :class="fold" class="collapse-icon" @click="handleCollapse"></div>
+    <div
+      :class="fold"
+      class="collapse-icon"
+      @click="handleCollapse"
+    />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'navs',
+  name: 'Navs',
   data () {
     return {
       isCollapse: false,
@@ -105,7 +118,7 @@ export default {
         color: #fff;
         i{
           color: #fff;
-        }       
+        }
       }
     }
     .line{

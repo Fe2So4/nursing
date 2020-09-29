@@ -1,16 +1,46 @@
 <template>
   <div class="basic-info">
-    <info-list :list="emptyList" title='病史摘要'></info-list>
-    <info-list :list="basicInfoList" title="有效医嘱"></info-list>
-    <info-list :list="basicInfoList" title="化验报告/危急值"></info-list>
-    <info-list :list="basicInfoList" title="检查报告"></info-list>
-    <info-list :list="emptyList" title="术中带药"></info-list>
-    <info-list :list="emptyList" title="抗生素用药"></info-list>
+    <info-list
+      :list="emptyList"
+      title="病史摘要"
+      item-status="0"
+      state="inspect"
+    />
+    <info-list
+      :list="basicInfoList"
+      title="有效医嘱"
+      item-status="0"
+      state="inspect"
+    />
+    <info-list
+      :list="basicInfoList"
+      title="化验报告/危急值"
+      item-status="1"
+      state="test"
+    />
+    <info-list
+      :list="basicInfoList"
+      title="检查报告"
+      item-status="1"
+      state="inspect"
+    />
+    <info-list
+      :list="basicInfoList"
+      title="术中带药"
+      item-status="0"
+      state="inspect"
+    />
+    <info-list
+      :list="basicInfoList"
+      title="抗生素用药"
+      item-status="0"
+      state="inspect"
+    />
   </div>
 </template>
 
 <script>
-import InfoList from '@/components/InfoList/info-list'
+import InfoList from './info-list'
 export default {
   name: 'BasicInfo',
   data () {
@@ -30,4 +60,4 @@ export default {
     display: flex;
     height: 100%;
   }
-</style>>
+</style>

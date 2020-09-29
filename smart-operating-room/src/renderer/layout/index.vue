@@ -1,15 +1,17 @@
 <template>
   <el-container>
     <el-header height="60px">
-      <Header/>
+      <Header />
     </el-header>
     <el-container>
       <el-aside v-show="hasNavs">
         <Nav />
       </el-aside>
       <el-main>
-        <router-view></router-view>
-        <div class="copyright">Copyright©2011-{{time}}上海仝佥信息技术有限公司</div>
+        <router-view />
+        <div class="copyright">
+          Copyright©2011-{{ time }}上海仝佥信息技术有限公司
+        </div>
       </el-main>
     </el-container>
   </el-container>
@@ -20,7 +22,7 @@ import Header from './header'
 import Nav from './nav'
 import moment from 'moment'
 export default {
-  name: 'layout',
+  name: 'Layout',
   data () {
     return {
       hasNavs: true,
