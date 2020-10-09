@@ -1,0 +1,44 @@
+<template>
+    <div class="statistical-query">
+        <div class="statistical-container-header">
+            <statistical-header></statistical-header>
+        </div>
+        <div class="statistical-container-body">
+            <statistical-table></statistical-table>
+        </div>
+    </div>
+</template>
+
+<script>
+import StatisticalHeader from './components/statistical-header'
+import StatisticalTable from './components/statistical-table'
+export default {
+  name: 'StatisticalQuery',
+  data () {
+    return {
+
+    }
+  },
+  components: {
+    StatisticalHeader,
+    StatisticalTable
+  },
+  methods: {
+
+  }
+}
+</script>
+
+<style scoped lang="scss">
+.statistical-query {
+    width: 100%;
+    height: 100%;
+    .statistical-container-header {
+      height: 85px;
+    }
+    .statistical-container-body {
+      height: calc(100% - 105px);
+      margin-top: 20px;
+    }
+}
+</style> 
