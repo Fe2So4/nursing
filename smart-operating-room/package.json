@@ -64,7 +64,9 @@
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
-    "vuex-electron": "^1.0.0"
+    "vuex-electron": "^1.0.0",
+    "vxe-table": "^2.9.24",
+    "xe-utils": "^2.7.14"
   },
   "devDependencies": {
     "ajv": "^6.5.0",

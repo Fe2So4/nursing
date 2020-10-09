@@ -1,28 +1,64 @@
 <template>
   <div class="table-container">
-      <div class="table-content">
-          <vxe-table
-            highlight-current-row
-            ref="xTable"
-            height="300"
-            class="mytable-scrollbar"
-            border="none"
-            :data="tableData"
-            @current-change="currentChangeEvent">
-            <vxe-table-column  type="seq" width="80"></vxe-table-column>
-            <vxe-table-column field="name" title="病理号"></vxe-table-column>
-            <vxe-table-column field="sex" title="住院号"></vxe-table-column>
-            <vxe-table-column field="age" title="病人名称"></vxe-table-column>
-            <vxe-table-column field="age" title="病理类别"></vxe-table-column>
-            <vxe-table-column field="age" title="手术名称及所见"></vxe-table-column>
-            <vxe-table-column field="age" title="申请时间"></vxe-table-column>
-            <vxe-table-column field="address" title="送检医师" show-overflow></vxe-table-column>
-          </vxe-table>
-      </div>
-      <div class="button-content">
-              <vxe-button  class="btn" size="mini">撤销申请单</vxe-button>
-              <vxe-button  class="btn" size="mini">派 单</vxe-button>
-      </div>
+    <div class="table-content">
+      <vxe-table
+        highlight-current-row
+        ref="xTable"
+        height="300"
+        class="mytable-scrollbar"
+        border="none"
+        :data="tableData"
+        @current-change="currentChangeEvent"
+      >
+        <vxe-table-column
+          type="seq"
+          width="80"
+        />
+        <vxe-table-column
+          field="name"
+          title="病理号"
+        />
+        <vxe-table-column
+          field="sex"
+          title="住院号"
+        />
+        <vxe-table-column
+          field="age"
+          title="病人名称"
+        />
+        <vxe-table-column
+          field="age"
+          title="病理类别"
+        />
+        <vxe-table-column
+          field="age"
+          title="手术名称及所见"
+        />
+        <vxe-table-column
+          field="age"
+          title="申请时间"
+        />
+        <vxe-table-column
+          field="address"
+          title="送检医师"
+          show-overflow
+        />
+      </vxe-table>
+    </div>
+    <div class="button-content">
+      <vxe-button
+        class="btn"
+        size="mini"
+      >
+        撤销申请单
+      </vxe-button>
+      <vxe-button
+        class="btn"
+        size="mini"
+      >
+        派 单
+      </vxe-button>
+    </div>
   </div>
 </template>
 
@@ -69,7 +105,7 @@ export default {
 .btn {
     width: 90px;
     background-color:#E9EDF7
-} 
+}
 .btnBlue {
     width: 90px;
     background-color:#3377FF;
@@ -83,9 +119,8 @@ export default {
     }
     .button-content {
         text-align: right;
-        margin-top: 20px;
         background-color: #fff;
-        padding: 15px;
+        padding: 35px 15px 15px 15px;
     }
 }
 </style>

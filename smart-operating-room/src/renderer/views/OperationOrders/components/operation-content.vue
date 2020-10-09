@@ -1,11 +1,25 @@
 <template>
   <el-scrollbar style="height:100%;">
-    <div ref="operation" class="operation-body-container">
-      <div v-for="item in 50" @dblclick="operationCard(item)" :key="item.id" class="card">
+    <div
+      ref="operation"
+      class="operation-body-container"
+    >
+      <div
+        v-for="item in CardList"
+        @dblclick="operationCard(item)"
+        @click="selectItem(item)"
+        :key="item.id"
+        class="card"
+        :class="{active: isSelectIndex == item.id}"
+      >
         <div class="header">
-          <div class="header-img"></div>
-          <div class="mgl10 fontCss">917882</div>
-          <div class="mgl15 fontCss">关佩云</div>
+          <div class="header-img" />
+          <div class="mgl10 fontCss">
+            917882
+          </div>
+          <div class="mgl15 fontCss">
+            关佩云
+          </div>
         </div>
         <div class="body">
           <div class="body-one boxFlex mgb15">
@@ -62,24 +76,220 @@
           </div>
         </div>
       </div>
-  </div>
-  <el-dialog
-    title="提示"
-    :visible.sync="dialogVisible"
-    top="30vh"
-    width="520px"
-    :before-close="handleClose">
-    <div class="dialog-body-span">
-      <i class="el-icon-warning icon-gantanghao"></i>
-      <span>是否发起派单？</span>
     </div>
-    <span slot="footer" class="dialog-footer">
-      <div class="dialog-footer-div">
-        <el-button size="mini" class="btn" @click="dialogVisible = false">是(Y)</el-button>
-        <el-button size="mini" class="btn mgl40"  @click="dialogVisible = false">否(N)</el-button>
+    <el-dialog
+      title="提示"
+      :visible.sync="dbdialogVisible"
+      top="30vh"
+      width="520px"
+      :before-close="handleClose"
+    >
+      <div class="dialog-body-span">
+        <i class="el-icon-warning icon-gantanghao" />
+        <span>是否发起派单？</span>
       </div>
-    </span>
-  </el-dialog>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <div class="dialog-footer-div">
+          <el-button
+            size="mini"
+            class="btn"
+            @click="dbdialogVisible = false"
+          >是(Y)</el-button>
+          <el-button
+            size="mini"
+            class="btn mgl40"
+            @click="dbdialogVisible = false"
+          >否(N)</el-button>
+        </div>
+      </span>
+    </el-dialog>
+    <el-dialog
+      title="排班楼层房间修改"
+      :visible.sync="selectDialogVisible"
+      top="30vh"
+      width="520px"
+      :before-close="handleClose"
+    >
+      <div>
+        <el-row class="row-width">
+          <el-col
+            :span="12"
+            class="col-line"
+          >
+            <div class="col-left">
+              楼层
+            </div>
+            <div class="mgl20">
+              6
+            </div>
+          </el-col>
+          <el-col
+            :span="12"
+            class="col-line"
+          >
+            <div class="col-left">
+              房间
+            </div>
+            <div class="mgl20">
+              602
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="row-width mgt20">
+          <el-col
+            :span="12"
+            class="col-line"
+          >
+            <div class="col-left">
+              病人姓名
+            </div>
+            <div class="mgl20">
+              吴苏川
+            </div>
+          </el-col>
+          <el-col
+            :span="12"
+            class="col-line"
+          >
+            <div class="col-left">
+              手术名称
+            </div>
+            <div class="mgl20">
+              腹腔镜下袖状胃切除术
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="row-width mgt20">
+          <el-col
+            :span="12"
+            class="col-line"
+          >
+            <div class="col-left">
+              主刀
+            </div>
+            <div class="mgl20">
+              姚琪远
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="row-width mgt20">
+          <el-col
+            :span="12"
+            class="col-line"
+          >
+            <div class="col-left">
+              洗手
+            </div>
+            <div class="mgl20">
+              <el-select
+                size="mini"
+                style="width:96px"
+                v-model="value"
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </div>
+          </el-col>
+          <el-col
+            :span="12"
+            class="col-line"
+          >
+            <div class="col-left">
+              巡回
+            </div>
+            <div class="mgl20">
+              <el-select
+                size="mini"
+                style="width:96px"
+                v-model="value"
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="row-width mgt20">
+          <el-col
+            :span="12"
+            class="col-line"
+          >
+            <div class="col-left">
+              楼层
+            </div>
+            <div class="mgl20">
+              <el-select
+                size="mini"
+                style="width:96px"
+                v-model="value"
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </div>
+          </el-col>
+          <el-col
+            :span="12"
+            class="col-line"
+          >
+            <div class="col-left">
+              房间号
+            </div>
+            <div class="mgl20">
+              <el-select
+                size="mini"
+                style="width:96px"
+                v-model="value"
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <div class="dialog-footer-div">
+          <el-button
+            size="mini"
+            class="btn"
+            @click="selectDialogVisible = false"
+          >修改</el-button>
+          <el-button
+            size="mini"
+            class="btn mgl40"
+            @click="selectDialogVisible = false"
+          >取消</el-button>
+        </div>
+      </span>
+    </el-dialog>
   </el-scrollbar>
 </template>
 
@@ -90,16 +300,36 @@ export default {
     return {
       CardList: [
         {id: 1},
-        {id: 1},
-        {id: 1},
-        {id: 1},
-        {id: 1},
-        {id: 1},
-        {id: 1},
-        {id: 1},
-        {id: 1}
+        {id: 2},
+        {id: 3},
+        {id: 4},
+        {id: 5},
+        {id: 6},
+        {id: 7},
+        {id: 8},
+        {id: 9}
       ],
-      dialogVisible: false
+      options: [{
+        value: '选项1',
+        label: '黄金糕'
+      }, {
+        value: '选项2',
+        label: '双皮奶'
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }, {
+        value: '选项4',
+        label: '龙须面'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭'
+      }],
+      value: '',
+      dbdialogVisible: false,
+      isSelectItem: [],
+      isSelectIndex: 0,
+      selectDialogVisible: false
     }
   },
   mounted () {
@@ -116,12 +346,20 @@ export default {
 
   },
   methods: {
+    changeDialogShow () {
+      this.selectDialogVisible = true
+    },
     handleClose (done) {
       done()
     },
     operationCard (item) {
-      this.dialogVisible = true
+      this.dbdialogVisible = true
       console.log(item)
+    },
+    selectItem (item) {
+      this.isSelectItem = []
+      this.isSelectItem.push(item)
+      this.isSelectIndex = item.id
     }
   }
 }
@@ -152,10 +390,12 @@ export default {
 .mgl40 {
   margin-left: 40px !important;
 }
+.mgt20 {
+  margin-top: 20px;
+}
 .mgb15 {
   margin-bottom: 15px;
 }
-
 .operation-body-container {
     // display: flex;
     // flex-wrap: wrap;
@@ -236,5 +476,18 @@ export default {
 }
 .vxe-input.is--suffix .vxe-input--inner {
   padding-right: 0.8em;
+}
+.row-width {
+  width: 100%;
+}
+.col-line {
+  display: flex;
+}
+.col-left {
+  width: 60px;
+  text-align: right;
+}
+.active {
+  border: 1px solid red;
 }
 </style>

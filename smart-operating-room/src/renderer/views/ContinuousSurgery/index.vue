@@ -1,12 +1,12 @@
 <template>
-    <div class="continuous-query">
-        <div class="continuous-header">
-            <continuous-header></continuous-header>
-        </div>
-        <div class="continuous-body">
-            <continuous-table></continuous-table>
-        </div>
+  <div class="continuous-query">
+    <div class="continuous-header">
+      <continuous-header />
     </div>
+    <div class="continuous-body">
+      <continuous-table />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -41,4 +41,4 @@ export default {
       margin-top: 20px;
     }
 }
-</style> 
+</style>

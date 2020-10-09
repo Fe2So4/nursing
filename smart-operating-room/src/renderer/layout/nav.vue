@@ -49,12 +49,37 @@ export default {
           icon: 'el-icon-s-order',
           title: '手术派单',
           path: '/home/operation-orders'
+        },
+        {
+          icon: 'el-icon-s-order',
+          title: '病理申请',
+          path: '/home/pathological-application'
+        },
+        {
+          icon: 'el-icon-s-order',
+          title: '护理列表',
+          path: '/home/nursing-document'
+        },
+        {
+          icon: 'el-icon-s-claim',
+          title: '统计查询',
+          path: '/home/statistical-query'
+        },
+        {
+          icon: 'el-icon-s-claim',
+          title: '统计查询报表单',
+          path: '/home/statistical-query-running'
+        },
+        {
+          icon: 'el-icon-s-claim',
+          title: '连台手术',
+          path: '/home/continuous-surgery'
+        },
+        {
+          icon: 'el-icon-s-claim',
+          title: '连台手术清单',
+          path: '/home/surgery-listing'
         }
-        // {
-        //   icon:'el-icon-s-claim',
-        //   title:'接单中心',
-        //   path:'/home/receiving-orders'
-        // }
       ]
     }
   },
