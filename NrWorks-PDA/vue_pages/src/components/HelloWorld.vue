@@ -1,7 +1,6 @@
 <template>
   <div class="hello">
     pda测试页面
-    哇喀喀喀喀喀喀
     <p>132345sada</p>
     <van-dialog v-model="show" title="标题" show-cancel-button>
       <p>引入vant-UI组件库</p>

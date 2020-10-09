@@ -24,6 +24,8 @@
         </div>
       </van-form>
       {{version}}
+      {{path}}
+      <div id="num">{{progress}}</div>
       <div class="copyright">
         © 2011-2020 上海仝佥信息技术有限公司
       </div>
@@ -31,88 +33,133 @@
 </template>
 
 <script>
-import {getVersion} from '../../utils/update'
 export default {
-  name:'Login',
-  data() {
+  name: 'Login',
+  data () {
     return {
       username: '',
       password: '',
       version: '',
       newVersion: '2.0.0',
-      oldVersion: '1.0.0'
-    };
+      oldVersion: '1.0.0',
+      fileName: 'PDA',
+      path: '',
+      progress: 0
+    }
   },
   methods: {
-    onSubmit(values) {
+    onSubmit (values) {
       this.$router.push('/home')
-      console.log('submit', values);
     },
-    createFilePath: function() {
-        var _this = this;
-       window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
-          fs.root.getFile("pda.apk", { create: true, exclusive: false }, function (fileEntry) {
-              console.log(fileEntry);
-              _this.downLoadImg(fileEntry.nativeURL);
-              
-          }, function(err) {
-             console.log(err);
-          });
-       }, function(error) {
-          console.log(error);
-       });
-    },
-    // fileTransfer plugin
-    downLoadImg: function(fileURL) {
-       var _this = this;
-       // 初始化FileTransfer对象
-       var fileTransfer = new FileTransfer();
-       // 服务器下载地址
-       var uri = "http://47.103.105.200/PDA/pda.apk"
-       // 调用download方法
-       fileTransfer.download(
-           uri,         //uri网络下载路径
-           fileURL,      //url本地存储路径
-           function(entry) {
-              //  console.log("download complete: " + entry.toURL());
-              //  _this.$$('myImage').src = entry.toURL();
-           },
-           function(error) {
-               console.log("download error source " + error.source);
-               console.log("download error target " + error.target);
-               console.log("upload error code" + error.code);
-           }
-       );
-    },
-    init(){
-      // cordova.getAppVersion.getVersionNumber().then((version)=> {
-        // this.version = version
-        if(this.oldVersion !== this.newVersion){
-          this.$dialog.confirm({
-            title: '标题',
-            message: '检测到有最新更新，是否下载',
-          })
-            .then(() => {
-              // on confirm
-              this.createFilePath()
-              // alert('confirm')
-            })
-            .catch(() => {
-              // on cancel
-            });
+    // createFilePath () {
+    //   var _this = this
+    //   console.log('执行createFilePath')
+    //   window.resolveLocalFileSystemURI(cordova.file.externalDataDirectory,
+    //     function (fs) {
+    //       console.log('成功createFilePath')
+    //       fs.root.getFile(
+    //         _this.fileName, // 创建的文件名
+    //         {create: true, exclusive: true},
+    //         // create :创建新文件，exclusive: 文件已存在时抛出异常
+    //         function (fileEntry) {
+    //           _this.downloadFile(fileEntry)
+    //         },
+    //         // 失败回调
+    //         function (err) {
+    //           fs.getFile(
+    //             _this.fileName,
+    //             {create: false},
+    //             function (fileEntry) {
+    //               _this.preView(fileEntry)
+    //             },
+    //             function (err) {
+    //               _this.$notify('读取文件失败')
+    //             }
+    //           )
+    //         }
+    //       )
+    //     },
+    //     function (error) {
+    //       console.log('失败createFilePath')
+    //       _this.$notify('进入文件系统失败')
+    //     }
+    //   )
+    // },
+    downloadFile2 () {
+      var fileTransfer = new FileTransfer()
+      // 下载地址;
+      var source = 'http://47.103.105.200/PDA/pda.apk'
+      var target = '/sdcard/Download/pda.apk'
+      var trustAllHosts = true
+      var options = {}
+      function successCallback (entry) {} ;
+      function errorCallback (error) {};
+      fileTransfer.download(source, target, successCallback, errorCallback, trustAllHosts, options)
+      fileTransfer.onprogress = function (progressEvent) {
+        if (progressEvent.lengthComputable) {
+          // $ionicLoading.show({
+          //   template: '已经下载：' + Math.floor((progressEvent.loaded / progressEvent.total) * 100) + '%'
+          // })
+          this.progress = '已经下载' + Math.floor((progressEvent.loaded / progressEvent.total) * 100) + '%'
         }
+      }
+    },
+    downloadFile () {
+      var url = 'http://47.103.105.200/PDA/pda.apk'
+      var fileTransfer = new FileTransfer()
+      this.$notify('调用')
+      fileTransfer.download(
+        url,
+        cordova.file.dataDirectory + 'pda.apk'
+      ).then((entry) => {
+        cordova.plugins.fileOpener2.open(entry.toURL(),
+          'application/vnd.android.package-archive')
+          .then(() => {
+            console.log('File is opened')
+          })
+          .catch(e => {
+            console.log('Error openening file', e)
+          })
+      },
+      (error) => {
+        alert(JSON.stringify(error))
+      })
+      var oProgressNum = document.getElementById('num')
+      fileTransfer.onProgress((event) => {
+        let num = Math.ceil(event.loaded / event.total * 100)
+        if (num === 100) {
+          oProgressNum.innerHTML = '下载完成'
+        } else {
+          oProgressNum.innerHTML = '下载进度:' + num + '%'
+        }
+      })
+    },
+    init () {
+      // cordova.getAppVersion.getVersionNumber().then((version)=> {
+      // this.version = version
+      if (this.oldVersion !== this.newVersion) {
+        this.$dialog.confirm({
+          title: '标题',
+          message: '检测到有最新更新，是否下载'
+        })
+          .then(() => {
+            this.downloadFile2()
+          })
+          .catch(() => {
+          })
+      }
       // })
     }
   },
-  created(){
+  created () {
   },
-  mounted(){
-    document.addEventListener("deviceready", onDeviceReady, false);
-    var me = this;
-    function onDeviceReady() {
-      me.msg="cordova is ready";
+  mounted () {
+    document.addEventListener('deviceready', onDeviceReady, false)
+    var me = this
+    function onDeviceReady () {
+      me.msg = 'cordova is ready'
+      me.init()
     }
-    this.init()
   }
 }
 </script>
@@ -142,6 +189,6 @@ export default {
       right: 0;
       line-height: 36px;
       margin: auto;
-    }  
+    }
   }
 </style>
