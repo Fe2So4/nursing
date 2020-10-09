@@ -1,12 +1,12 @@
 <template>
-    <div class="statistical-query">
-        <div class="statistical-container-header">
-            <statistical-header></statistical-header>
-        </div>
-        <div class="statistical-container-body">
-            <statistical-table></statistical-table>
-        </div>
+  <div class="statistical-query">
+    <div class="statistical-container-header">
+      <statistical-header />
     </div>
+    <div class="statistical-container-body">
+      <statistical-table />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -41,4 +41,4 @@ export default {
       margin-top: 20px;
     }
 }
-</style> 
+</style>

@@ -1,47 +1,108 @@
 <template>
-    <div class="header-container" style="width:100%">
-        <div class="container-left">
-            <span class="mgl20 left-title">开始</span>
-            <vxe-form class="mgl10 form" :data="formData1" size="mini" @reset="resetEvent">
-                <vxe-form-item field="startDate">
-                    <template v-slot>
-                        <vxe-input v-model="formData1.startDate" type="date" clearable></vxe-input>
-                    </template>
-                </vxe-form-item>
-                <vxe-form-item  field="nickname">
-                    <template v-slot>
-                        <vxe-input v-model="formData1.nickname" placeholder="病人姓名/手术名称/住院号" clearable ></vxe-input>
-                    </template>
-                </vxe-form-item>
-            </vxe-form>
-            <div class="bottonContainer">
-                <vxe-button size="mini" class="btn" content="查询"></vxe-button>
-                <vxe-button size="mini" class="btn" content="同步"></vxe-button>
-                <vxe-button size="mini" v-if="value1 === '1'" class="btn" content="退单"></vxe-button>
-                <vxe-button size="mini" v-else class="btn" content="修改"></vxe-button>
-            </div> 
-        </div>
-
-        <div class="container-right" >
-            <vxe-form class="mgl10 form" :data="formData1"  @reset="resetEvent">
-                <vxe-form-item field="startDate">
-                    <template v-slot>
-                        <vxe-radio name="n1" v-model="value1" label="1" content="未派单" ></vxe-radio>
-                    </template>
-                </vxe-form-item>
-                <vxe-form-item  field="nickname" >
-                    <template v-slot>
-                        <vxe-radio name="n1" v-model="value1" label="2" content="已派单" ></vxe-radio>
-                    </template>
-                </vxe-form-item>
-                <vxe-form-item title="楼层"  >
-                    <vxe-select v-model="value1" placeholder="默认尺寸">
-                        <vxe-option v-for="num in 15" :key="num" :value="num" :label="`选项${num}`"></vxe-option>
-                    </vxe-select>
-                </vxe-form-item>
-            </vxe-form>
-        </div>
+  <div
+    class="header-container"
+    style="width:100%"
+  >
+    <div class="container-left">
+      <span class="mgl20 left-title">开始</span>
+      <vxe-form
+        class="mgl10 form"
+        :data="formData1"
+        size="mini"
+        @reset="resetEvent"
+      >
+        <vxe-form-item field="startDate">
+          <template v-slot>
+            <vxe-input
+              v-model="formData1.startDate"
+              type="date"
+              clearable
+            />
+          </template>
+        </vxe-form-item>
+        <vxe-form-item field="nickname">
+          <template v-slot>
+            <vxe-input
+              v-model="formData1.nickname"
+              placeholder="病人姓名/手术名称/住院号"
+              clearable
+            />
+          </template>
+        </vxe-form-item>
+      </vxe-form>
+      <div class="bottonContainer">
+        <vxe-button
+          status="my-purple"
+          size="mini"
+          class="btn"
+          content="查询"
+        />
+        <vxe-button
+          status="my-purple"
+          size="mini"
+          class="btn"
+          content="同步"
+        />
+        <vxe-button
+          status="my-purple"
+          size="mini"
+          v-if="value1 === '1'"
+          class="btn"
+          content="退单"
+        />
+        <vxe-button
+          status="my-purple"
+          size="mini"
+          v-else
+          class="btn"
+          content="修改"
+          @click="changeItem"
+        />
+      </div>
     </div>
+
+    <div class="container-right">
+      <vxe-form
+        class="mgl10 form"
+        :data="formData1"
+        @reset="resetEvent"
+      >
+        <vxe-form-item field="startDate">
+          <template v-slot>
+            <vxe-radio
+              name="n1"
+              v-model="value1"
+              label="1"
+              content="未派单"
+            />
+          </template>
+        </vxe-form-item>
+        <vxe-form-item field="nickname">
+          <template v-slot>
+            <vxe-radio
+              name="n1"
+              v-model="value1"
+              label="2"
+              content="已派单"
+            />
+          </template>
+        </vxe-form-item>
+        <vxe-form-item title="楼层">
+          <vxe-select
+            v-model="value1"
+            placeholder="默认尺寸"
+          >
+            <vxe-option
+              v-for="num in 15"
+              :key="num"
+              :value="num"
+              :label="`选项${num}`"
+            />
+          </vxe-select>
+        </vxe-form-item>
+      </vxe-form>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -59,6 +120,9 @@ export default {
   methods: {
     resetEvent () {
       this.$XModal.message({ message: '重置事件', status: 'info' })
+    },
+    changeItem () {
+      this.$emit('changeItem')
     }
   }
 }

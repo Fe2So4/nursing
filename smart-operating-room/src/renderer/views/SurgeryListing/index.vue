@@ -1,12 +1,12 @@
 <template>
-    <div class="surgery-container">
-        <div class="surgery-container-header">
-            <surgery-header></surgery-header>
-        </div>
-        <div class="surgery-container-body">
-            <surgery-table></surgery-table>
-        </div>
+  <div class="surgery-container">
+    <div class="surgery-container-header">
+      <surgery-header />
     </div>
+    <div class="surgery-container-body">
+      <surgery-table />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -41,4 +41,4 @@ export default {
       margin-top: 20px;
     }
 }
-</style> 
+</style>

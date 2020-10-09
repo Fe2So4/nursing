@@ -1,28 +1,62 @@
 <template>
-    <div class="statistical-table">
-      <div class="table-conten">
-        <vxe-table
-            highlight-current-row
-            ref="xTable"
-            class="mytable-scrollbar"
-            height="100%"
-            border="none"
-            :data="tableData"
-            @current-change="currentChangeEvent">
-            <vxe-table-column  type="seq" width="80"></vxe-table-column>
-            <vxe-table-column field="name" title="住院号"></vxe-table-column>
-            <vxe-table-column field="sex" title="患者姓名"></vxe-table-column>
-            <vxe-table-column field="age" title="手术时间"></vxe-table-column>
-            <vxe-table-column field="age" title="麻醉医师"></vxe-table-column>
-            <vxe-table-column field="age" title="病区 科室"></vxe-table-column>
-            <vxe-table-column field="age" title="洗手护士"></vxe-table-column>
-            <vxe-table-column field="age" title="主刀医师"></vxe-table-column>
-            <vxe-table-column field="age" title="巡回护士"></vxe-table-column>
-            <vxe-table-column field="age" title="进手术室时间"></vxe-table-column>
-            <vxe-table-column field="age" title="出手术室前时间"></vxe-table-column>
-        </vxe-table>
-      </div>
+  <div class="statistical-table">
+    <div class="table-conten">
+      <vxe-table
+        highlight-current-row
+        ref="xTable"
+        class="mytable-scrollbar"
+        height="100%"
+        border="none"
+        :data="tableData"
+        @current-change="currentChangeEvent"
+      >
+        <vxe-table-column
+          type="seq"
+          width="80"
+        />
+        <vxe-table-column
+          field="name"
+          title="住院号"
+        />
+        <vxe-table-column
+          field="sex"
+          title="患者姓名"
+        />
+        <vxe-table-column
+          field="age"
+          title="手术时间"
+        />
+        <vxe-table-column
+          field="age"
+          title="麻醉医师"
+        />
+        <vxe-table-column
+          field="age"
+          title="病区 科室"
+        />
+        <vxe-table-column
+          field="age"
+          title="洗手护士"
+        />
+        <vxe-table-column
+          field="age"
+          title="主刀医师"
+        />
+        <vxe-table-column
+          field="age"
+          title="巡回护士"
+        />
+        <vxe-table-column
+          field="age"
+          title="进手术室时间"
+        />
+        <vxe-table-column
+          field="age"
+          title="出手术室前时间"
+        />
+      </vxe-table>
     </div>
+  </div>
 </template>
 
 <script>

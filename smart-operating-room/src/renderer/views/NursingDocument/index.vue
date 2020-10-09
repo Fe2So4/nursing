@@ -1,12 +1,12 @@
 <template>
-    <div class="nursing-container">
-        <div class="nursing-container-header">
-            <nursing-header></nursing-header>  
-        </div>
-        <div class="nursing-container-body">
-            <nursing-table></nursing-table>
-        </div>
+  <div class="nursing-container">
+    <div class="nursing-container-header">
+      <nursing-header />
     </div>
+    <div class="nursing-container-body">
+      <nursing-table />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -41,4 +41,4 @@ export default {
         height: calc(100% - 105px);
     }
 }
-</style> 
+</style>

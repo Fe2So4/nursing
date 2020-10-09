@@ -1,24 +1,47 @@
 <template>
-    <div class="nursing-table">
-        <div class="table-conten">
-            <vxe-table
-                highlight-current-row
-                ref="xTable"
-                class="mytable-scrollbar"
-                height="100%"
-                border="none"
-                :data="tableData"
-                @current-change="currentChangeEvent">
-                <vxe-table-column  type="seq" width="80"></vxe-table-column>
-                <vxe-table-column field="name" title="住院号"></vxe-table-column>
-                <vxe-table-column field="sex" title="病人姓名"></vxe-table-column>
-                <vxe-table-column field="age" title="单据名称"></vxe-table-column>
-                <vxe-table-column field="age" title="单据类别"></vxe-table-column>
-                <vxe-table-column field="age" title="创建时间"></vxe-table-column>
-                <vxe-table-column field="address" title="创建人" show-overflow></vxe-table-column>
-            </vxe-table>
-        </div>
+  <div class="nursing-table">
+    <div class="table-conten">
+      <vxe-table
+        highlight-current-row
+        ref="xTable"
+        class="mytable-scrollbar"
+        height="100%"
+        border="none"
+        :data="tableData"
+        @current-change="currentChangeEvent"
+      >
+        <vxe-table-column
+          type="seq"
+          width="80"
+        />
+        <vxe-table-column
+          field="name"
+          title="住院号"
+        />
+        <vxe-table-column
+          field="sex"
+          title="病人姓名"
+        />
+        <vxe-table-column
+          field="age"
+          title="单据名称"
+        />
+        <vxe-table-column
+          field="age"
+          title="单据类别"
+        />
+        <vxe-table-column
+          field="age"
+          title="创建时间"
+        />
+        <vxe-table-column
+          field="address"
+          title="创建人"
+          show-overflow
+        />
+      </vxe-table>
     </div>
+  </div>
 </template>
 
 <script>
