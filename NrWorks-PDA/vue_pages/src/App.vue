@@ -11,4 +11,7 @@ export default {
 </script>
 
 <style>
+#app{
+  background:#F2F2F2;
+}
 </style>

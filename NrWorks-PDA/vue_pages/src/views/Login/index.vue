@@ -26,6 +26,7 @@
       {{version}}
       {{path}}
       <div id="num">{{progress}}</div>
+      <img :src="imgUrl" alt="">
       <div class="copyright">
         © 2011-2020 上海仝佥信息技术有限公司
       </div>
@@ -44,94 +45,74 @@ export default {
       oldVersion: '1.0.0',
       fileName: 'PDA',
       path: '',
-      progress: 0
+      progress: 0,
+      imgUrl: ''
     }
   },
   methods: {
     onSubmit (values) {
       this.$router.push('/home')
     },
-    // createFilePath () {
-    //   var _this = this
-    //   console.log('执行createFilePath')
-    //   window.resolveLocalFileSystemURI(cordova.file.externalDataDirectory,
-    //     function (fs) {
-    //       console.log('成功createFilePath')
-    //       fs.root.getFile(
-    //         _this.fileName, // 创建的文件名
-    //         {create: true, exclusive: true},
-    //         // create :创建新文件，exclusive: 文件已存在时抛出异常
-    //         function (fileEntry) {
-    //           _this.downloadFile(fileEntry)
-    //         },
-    //         // 失败回调
-    //         function (err) {
-    //           fs.getFile(
-    //             _this.fileName,
-    //             {create: false},
-    //             function (fileEntry) {
-    //               _this.preView(fileEntry)
-    //             },
-    //             function (err) {
-    //               _this.$notify('读取文件失败')
-    //             }
-    //           )
-    //         }
-    //       )
-    //     },
-    //     function (error) {
-    //       console.log('失败createFilePath')
-    //       _this.$notify('进入文件系统失败')
-    //     }
-    //   )
-    // },
-    downloadFile2 () {
-      var fileTransfer = new FileTransfer()
-      // 下载地址;
-      var source = 'http://47.103.105.200/PDA/pda.apk'
-      var target = '/sdcard/Download/pda.apk'
-      var trustAllHosts = true
-      var options = {}
-      function successCallback (entry) {} ;
-      function errorCallback (error) {};
-      fileTransfer.download(source, target, successCallback, errorCallback, trustAllHosts, options)
-      fileTransfer.onprogress = function (progressEvent) {
-        if (progressEvent.lengthComputable) {
-          // $ionicLoading.show({
-          //   template: '已经下载：' + Math.floor((progressEvent.loaded / progressEvent.total) * 100) + '%'
-          // })
-          this.progress = '已经下载' + Math.floor((progressEvent.loaded / progressEvent.total) * 100) + '%'
-        }
-      }
+    openFile () {
+      var url = '/sdcard/tencent/MicroMsg/Download/pda.apk'
+      cordova.plugins.fileOpener2.open(url,
+        'application/vnd.android.package-archive'
+      ).then(() => {
+        console.log('file is opened')
+      }).catch(e => {
+        console.log('Error openening file', e)
+      })
     },
-    downloadFile () {
-      var url = 'http://47.103.105.200/PDA/pda.apk'
+    downloadFile (fileUrl) {
+      var url = encodeURI('http://47.103.105.200/PDA/pda.apk')
+      // var url = encodeURI('https://lab.lanholding.com/pda.apk')
       var fileTransfer = new FileTransfer()
       this.$notify('调用')
       fileTransfer.download(
         url,
-        cordova.file.dataDirectory + 'pda.apk'
-      ).then((entry) => {
-        cordova.plugins.fileOpener2.open(entry.toURL(),
-          'application/vnd.android.package-archive')
-          .then(() => {
-            console.log('File is opened')
-          })
-          .catch(e => {
-            console.log('Error openening file', e)
-          })
-      },
-      (error) => {
-        alert(JSON.stringify(error))
-      })
+        fileUrl,
+        function (entry) {
+          // cordova.file.dataDirectory + 'pda.apk'
+          cordova.plugins.fileOpener2.open(entry.toURL(),
+            'application/vnd.android.package-archive')
+            .then(() => {
+              console.log('File is opened')
+            })
+            .catch(e => {
+              console.log('Error openening file', e)
+            })
+        },
+        function (error) {
+          alert(JSON.stringify(error))
+        },
+        true
+      )
       var oProgressNum = document.getElementById('num')
-      fileTransfer.onProgress((event) => {
+      fileTransfer.onprogress = function (event) {
         let num = Math.ceil(event.loaded / event.total * 100)
         if (num === 100) {
           oProgressNum.innerHTML = '下载完成'
         } else {
           oProgressNum.innerHTML = '下载进度:' + num + '%'
         }
+      }
+    },
+
+    // 创建文件路径
+    createFilePath: function () {
+      var _this = this
+      window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
+        fs.root.getFile('pda.apk', { create: true, exclusive: false }, function (fileEntry) {
+          console.log(fileEntry)
+          _this.path = fileEntry.toURL()
+          // 调用fileTransfer插件，下载图片
+          // _this.downLoadImg(fileEntry.toURL())
+          _this.downloadFile(fileEntry.toURL())
+        }, function (err) {
+          console.log(err)
+        })
+      }, function (error) {
+        console.log(error)
       })
     },
     init () {
@@ -143,7 +124,8 @@ export default {
           message: '检测到有最新更新，是否下载'
         })
           .then(() => {
-            this.downloadFile2()
+            this.createFilePath()
+            // this.openFile()
           })
           .catch(() => {
           })

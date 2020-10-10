@@ -6,8 +6,10 @@ import router from './router'
 // rem响应式适配
 import 'amfe-flexible'
 import 'vant/lib/index.css'
+import 'vant/lib/icon/local.css'
 import './styles/index.css'
-import { Button, Dialog, Grid, GridItem, Field, Form, Notify } from 'vant'
+import './utils/rem'
+import { Image, Button, Dialog, Grid, GridItem, Field, Form, Notify, NavBar, Icon } from 'vant'
 Vue.use(Dialog)
 Vue.use(Button)
 Vue.use(Grid)
@@ -15,6 +17,9 @@ Vue.use(GridItem)
 Vue.use(Form)
 Vue.use(Field)
 Vue.use(Notify)
+Vue.use(Icon)
+Vue.use(NavBar)
+Vue.use(Image)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

@@ -17,12 +17,18 @@
     <allow-intent href="geo:*" />
     <platform name="android">
         <allow-intent href="market:*" />
-        <!-- <config-file parent="/manifest" target="AndroidManifest.xml" xmlns:android="http://schemas.android.com/apk/res/android">
+        <config-file parent="/manifest" target="AndroidManifest.xml" xmlns:android="http://schemas.android.com/apk/res/android">
             <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-        </config-file> -->
+        </config-file>
+        <access origin="http://47.103.105.200/PDA/pda.apk" />
+        <access origin="*" />
+        <preference name="AndroidPersistentFileLocation" value="Compatibility"/>
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
+    </platform>
+    <platform name="browser">
+        <access origin="http://47.103.105.200" />
     </platform>
 </widget>

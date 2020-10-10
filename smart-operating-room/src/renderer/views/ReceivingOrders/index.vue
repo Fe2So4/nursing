@@ -5,7 +5,9 @@
         接单中心
       </div>
       <div class="option-right">
-        <el-button size="mini">
+        <el-button
+          size="mini"
+        >
           刷新<i class="el-icon-refresh-right" />
         </el-button>
         <span>数据更新时间: <span style="color:#388FF7;">下午3:29</span></span>
@@ -149,11 +151,14 @@
 import PatientList from './components/patient-list'
 import PathologyList from './components/pathology-list'
 import DetailDrawer from './components/detail-drawer'
+import {receiveOrderList, floorList, roomList} from '@/api/receiving-orders'
+import request from '@/utils/request'
 export default {
   name: 'ReceivingOrders',
   data () {
     return {
-      roomList: ['601', '602', '603', '604', '605', '606', '607', '608', '610', '6pacu'],
+      roomList: [],
+      floorList: [],
       room: '',
       floor: '6楼',
       patientList: [
@@ -177,6 +182,37 @@ export default {
     PatientList, PathologyList, DetailDrawer
   },
   methods: {
+    getFloorList () {
+      request({
+        url: floorList,
+        method: 'get'
+      }).then(res => {
+        this.floorList = res.data.data
+      })
+    },
+    getRoomList () {
+      request({
+        url: roomList,
+        method: 'get',
+        params: {
+          floorNo: this.floor
+        }
+      }).then(res => {
+        this.roomList = res.data.data
+      })
+    },
+    getReceiveOrders () {
+      request({
+        url: receiveOrderList,
+        method: 'post',
+        data: {
+          floor: this.floor,
+          roomNo: this.room
+        }
+      }).then(res => {
+
+      })
+    },
     handleSort (param) {
       console.log(param)
     },
@@ -187,6 +223,11 @@ export default {
     handleClose () {
       this.detailVisible = false
     }
+  },
+  mounted () {
+    // this.getRoomList()
+    this.getFloorList()
+    // this.getReceiveOrders()
   }
 }
 </script>
@@ -317,6 +358,7 @@ export default {
           }
           ul{
             overflow-y: auto;
+            padding: 0 20px;
             padding-bottom: 10px;
             height: calc(100% - 58px);
             &::-webkit-scrollbar{
