@@ -1,7 +1,7 @@
 <template>
-  <div class="sign-in">
+  <div class="sign-out">
     <van-nav-bar
-      title="麻醉前实施核查"
+      title="患者离开手术室前实施核查"
       @click-left="onClickLeft"
       @click-right="onClickRight"
       left-arrow
@@ -51,7 +51,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .sign-in{
+  .sign-out{
     height: 100%;
     .van-nav-bar{
       height: 100px;

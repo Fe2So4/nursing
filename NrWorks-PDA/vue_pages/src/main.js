@@ -9,7 +9,7 @@ import 'vant/lib/index.css'
 import 'vant/lib/icon/local.css'
 import './styles/index.css'
 import './utils/rem'
-import { Image, Button, Dialog, Grid, GridItem, Field, Form, Notify, NavBar, Icon } from 'vant'
+import { Switch, Cell, CellGroup, Image, Button, Dialog, Grid, GridItem, Field, Form, Notify, NavBar, Icon } from 'vant'
 Vue.use(Dialog)
 Vue.use(Button)
 Vue.use(Grid)
@@ -20,6 +20,9 @@ Vue.use(Notify)
 Vue.use(Icon)
 Vue.use(NavBar)
 Vue.use(Image)
+Vue.use(Cell)
+Vue.use(CellGroup)
+Vue.use(Switch)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

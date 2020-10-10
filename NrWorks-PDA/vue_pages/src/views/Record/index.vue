@@ -1,7 +1,7 @@
 <template>
-  <div class="sign-in">
+  <div class="record">
     <van-nav-bar
-      title="麻醉前实施核查"
+      title="护理记录单(二)"
       @click-left="onClickLeft"
       @click-right="onClickRight"
       left-arrow
@@ -51,7 +51,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .sign-in{
+  .record{
     height: 100%;
     .van-nav-bar{
       height: 100px;
