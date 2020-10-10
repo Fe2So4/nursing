@@ -36,6 +36,7 @@
           size="mini"
           class="btn"
           content="查询"
+          @click="searchCardList"
         />
         <vxe-button
           status="my-purple"
@@ -46,9 +47,10 @@
         <vxe-button
           status="my-purple"
           size="mini"
-          v-if="value1 === '1'"
+          v-if="formData2.isSend === '1'"
           class="btn"
           content="退单"
+          @click="changeItem(1)"
         />
         <vxe-button
           status="my-purple"
@@ -56,7 +58,7 @@
           v-else
           class="btn"
           content="修改"
-          @click="changeItem"
+          @click="changeItem(2)"
         />
       </div>
     </div>
@@ -64,14 +66,14 @@
     <div class="container-right">
       <vxe-form
         class="mgl10 form"
-        :data="formData1"
+        :data="formData2"
         @reset="resetEvent"
       >
         <vxe-form-item field="startDate">
           <template v-slot>
             <vxe-radio
               name="n1"
-              v-model="value1"
+              v-model="formData2.isSend"
               label="1"
               content="未派单"
             />
@@ -81,7 +83,7 @@
           <template v-slot>
             <vxe-radio
               name="n1"
-              v-model="value1"
+              v-model="formData2.isSend"
               label="2"
               content="已派单"
             />
@@ -89,11 +91,12 @@
         </vxe-form-item>
         <vxe-form-item title="楼层">
           <vxe-select
-            v-model="value1"
+            style="width:120px"
+            v-model="formData2.selectFloor"
             placeholder="默认尺寸"
           >
             <vxe-option
-              v-for="num in 15"
+              v-for="num in floorList"
               :key="num"
               :value="num"
               :label="`选项${num}`"
@@ -114,15 +117,35 @@ export default {
         startDate: '',
         nickname: ''
       },
-      value1: ''
+      formData2: {
+        selectFloor: '',
+        isSend: '1'
+      },
+      floorList: []
     }
   },
   methods: {
     resetEvent () {
       this.$XModal.message({ message: '重置事件', status: 'info' })
     },
-    changeItem () {
-      this.$emit('changeItem')
+    changeItem (type) {
+      this.$emit('changeItem', type)
+    },
+    searchCardList () {
+      let data = {
+        startTime: this.formData1.startDate,
+        nickname: this.formData1.nickname,
+        isSend: this.formData2.isSend,
+        selectFloor: this.formData2.selectFloor
+      }
+      console.log(data)
+    }
+  },
+  watch: {
+    'formData2.isSend' (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.$emit('changeRadio')
+      }
     }
   }
 }

@@ -7,16 +7,19 @@
     <el-button @click="handleResume">继续</el-button>
     <el-button @click="handleCancel">停止</el-button>
   </div> -->
-  <div class="container">
-    <div class="header">
-      <OperationHeader
-        @changeItem="changeItem"
-      />
+  <el-scrollbar style="height:100%;width:100%">
+    <div class="container">
+      <div class="header">
+        <OperationHeader
+          @changeRadio="changeRadio"
+          @changeItem="changeItem"
+        />
+      </div>
+      <div class="content">
+        <OperationContent ref="OperationContent" />
+      </div>
     </div>
-    <div class="content">
-      <OperationContent ref="OperationContent" />
-    </div>
-  </div>
+  </el-scrollbar>
 </template>
 
 <script>
@@ -64,15 +67,25 @@ export default {
     //   cancelSpeak()
     // }
 
-    changeItem () {
+    // 点击修改或退单
+    changeItem (type) {
       this.$nextTick(() => {
         let selectItem = this.$refs.OperationContent.isSelectItem
         if (selectItem.length === 0) {
           this.$message.warning('请先选中一条数据')
           return false
         }
-        this.$refs.OperationContent.changeDialogShow()
+        console.log(type)
+        if (type === 1) {
+          this.$refs.OperationContent.exitDialogShow()
+        } else {
+          this.$refs.OperationContent.changeDialogShow()
+        }
       })
+    },
+    // 修改派单状态radio
+    changeRadio () {
+      this.$refs.OperationContent.clearSelect()
     }
   }
 }
@@ -81,6 +94,7 @@ export default {
 <style scoped lang="scss">
 .container {
   width: 100%;
+  min-width: 1080px;
   height: 100%;
 }
 .content {

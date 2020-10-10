@@ -17,12 +17,11 @@
             title="姓名"
             field="name"
           >
-            <template v-slot="scope">
+            <template v-slot>
               <vxe-input
                 style="width:150px"
                 v-model="formData1.name"
                 clearable
-                @input="$refs.xForm.updateStatus(scope)"
               />
             </template>
           </vxe-form-item>
@@ -54,14 +53,13 @@
             span="1"
             title="年龄"
             title-width="40"
-            field="name"
+            field="age"
           >
-            <template v-slot="scope">
+            <template v-slot>
               <vxe-input
                 style="width:50px"
-                v-model="formData1.name"
+                v-model="formData1.age"
                 clearable
-                @input="$refs.xForm.updateStatus(scope)"
               />
             </template>
           </vxe-form-item>
@@ -69,28 +67,26 @@
             span="3"
             title="床位号"
             title-width="60"
-            field="name"
+            field="bandNum"
           >
-            <template v-slot="scope">
+            <template v-slot>
               <vxe-input
                 style="width:120px"
-                v-model="formData1.name"
+                v-model="formData1.bandNum"
                 clearable
-                @input="$refs.xForm.updateStatus(scope)"
               />
             </template>
           </vxe-form-item>
           <vxe-form-item
             span="3"
             title="病理检查号"
-            field="name"
+            field="pathologicalNum"
           >
-            <template v-slot="scope">
+            <template v-slot>
               <vxe-input
                 style="width:150px"
-                v-model="formData1.name"
+                v-model="formData1.pathologicalNum"
                 clearable
-                @input="$refs.xForm.updateStatus(scope)"
               />
             </template>
           </vxe-form-item>
@@ -98,14 +94,13 @@
         <div class="left-bottom">
           <vxe-form-item
             title="住院号"
-            field="name"
+            field="hospitalNum"
           >
-            <template v-slot="scope">
+            <template v-slot>
               <vxe-input
                 style="width:150px"
-                v-model="formData1.name"
+                v-model="formData1.hospitalNum"
                 clearable
-                @input="$refs.xForm.updateStatus(scope)"
               />
             </template>
           </vxe-form-item>
@@ -113,13 +108,13 @@
             span="1"
             title="科别"
             title-width="40"
-            field="sex"
+            field="division"
             width="56"
           >
             <template v-slot>
               <vxe-select
                 style="width:155px"
-                v-model="formData1.sex"
+                v-model="formData1.division"
                 clearable
               >
                 <vxe-option
@@ -137,14 +132,13 @@
             span="3"
             title="房间号"
             title-width="60"
-            field="name"
+            field="roomNum"
           >
-            <template v-slot="scope">
+            <template v-slot>
               <vxe-input
                 style="width:120px"
-                v-model="formData1.name"
+                v-model="formData1.roomNum"
                 clearable
-                @input="$refs.xForm.updateStatus(scope)"
               />
             </template>
           </vxe-form-item>
@@ -160,7 +154,7 @@
             :autosize="{ minRows: 3, maxRows: 3 }"
             outline="none"
             resize="none"
-            v-model="value1"
+            v-model="textareaValue"
             placeholder="病史摘要及临床检查所见(包括主要化验结果，特殊治疗)"
           />
         </vxe-form-item>
@@ -172,6 +166,7 @@
             <vxe-button
               style="width:90px;backgroundColor:#E9EDF7"
               type="reset"
+              status="my-purple"
             >
               文本清空
             </vxe-button>
@@ -190,7 +185,8 @@ export default {
       formData1: {
 
       },
-      value1: ''
+      value1: '',
+      textareaValue: ''
     }
   },
   methods: {

@@ -32,6 +32,7 @@ export default {
 <style scoped lang="scss">
 .statistical-query {
     width: 100%;
+    min-width: 1400px;
     height: 100%;
     .statistical-container-header {
       height: 85px;

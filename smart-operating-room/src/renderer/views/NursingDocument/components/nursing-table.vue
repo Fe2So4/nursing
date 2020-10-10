@@ -8,6 +8,7 @@
         height="100%"
         border="none"
         :data="tableData"
+        @cell-dblclick="dbSelected"
         @current-change="currentChangeEvent"
       >
         <vxe-table-column
@@ -85,6 +86,14 @@ export default {
     },
     currentChangeEvent ({ row }) {
       console.log('行选中事件')
+    },
+    dbSelected ({row}) {
+      this.$router.push({
+        path: '/home/nursing-document-list/security-check',
+        query: {
+          row
+        }
+      })
     }
   }
 }
