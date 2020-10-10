@@ -86,6 +86,7 @@
           <vxe-button
             class="btn"
             size="mini"
+            status="my-purple"
           >
             查 询
           </vxe-button>
@@ -94,6 +95,7 @@
           <vxe-button
             class="btn"
             size="mini"
+            status="my-purple"
           >
             预 览
           </vxe-button>

@@ -52,6 +52,7 @@
         <vxe-button
           class="btnBlue"
           size="mini"
+          status="my-purple"
         >
           查 询
         </vxe-button>

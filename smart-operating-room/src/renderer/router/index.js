@@ -108,6 +108,79 @@ export default new Router({
             noNavs: false,
             parent: 'Home'
           }
+        },
+        {
+          path: 'nursing-document-list',
+          name: 'NursingDocumentList',
+          component: () => import('@/views/NursingDocumentList/index'),
+          meta: {
+            title: '护理单据列表',
+            noNavs: false,
+            parent: 'Home'
+          },
+          redirect: '/home/nursing-document-list/security-check',
+          children: [
+            {
+              path: 'security-check',
+              name: 'SecurityCheck',
+              component: () => import('@/views/NursingDocumentList/components/security-check'),
+              meta: {
+                title: '安全护理',
+                noNavs: false,
+                parent: 'NursingDocumentList'
+              }
+            },
+            {
+              path: 'nursing-one',
+              name: 'NursingDocumentOne',
+              component: () => import('@/views/NursingDocumentList/components/nursing-document-one'),
+              meta: {
+                title: '护理记录一',
+                noNavs: false,
+                parent: 'NursingDocumentList'
+              }
+            },
+            {
+              path: 'nursing-two',
+              name: 'NursingDocumentTwo',
+              component: () => import('@/views/NursingDocumentList/components/nursing-document-two'),
+              meta: {
+                title: '护理记录二',
+                noNavs: false,
+                parent: 'NursingDocumentList'
+              }
+            },
+            {
+              path: 'nursing-jichu',
+              name: 'NursingDocumentJiChu',
+              component: () => import('@/views/NursingDocumentList/components/nursing-document-jichu'),
+              meta: {
+                title: '护理记录基础',
+                noNavs: false,
+                parent: 'NursingDocumentList'
+              }
+            },
+            {
+              path: 'nursing-teshu',
+              name: 'NursingDocumentTeshu',
+              component: () => import('@/views/NursingDocumentList/components/nursing-document-teshu'),
+              meta: {
+                title: '护理记录特殊',
+                noNavs: false,
+                parent: 'NursingDocumentList'
+              }
+            },
+            {
+              path: 'nursing-transit-transfer',
+              name: 'TransitTransfer',
+              component: () => import('@/views/NursingDocumentList/components/transit-transfer'),
+              meta: {
+                title: '患者转运交接',
+                noNavs: false,
+                parent: 'NursingDocumentList'
+              }
+            }
+          ]
         }
       ]
     }

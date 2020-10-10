@@ -42,12 +42,11 @@
           title="送验医师"
           field="name"
         >
-          <template v-slot="scope">
+          <template v-slot>
             <vxe-input
               style="width:150px"
               v-model="formData.name"
               clearable
-              @input="$refs.xForm.updateStatus(scope)"
             />
           </template>
         </vxe-form-item>
@@ -56,6 +55,7 @@
             @click="yanzhen"
             class="btn"
             size="mini"
+            status="my-purple"
           >
             验 证
           </vxe-button>
@@ -67,12 +67,11 @@
             title="备注"
             field="name"
           >
-            <template v-slot="scope">
+            <template v-slot>
               <vxe-input
                 style="width:280px"
                 v-model="formData.name"
                 clearable
-                @input="$refs.xForm.updateStatus(scope)"
               />
             </template>
           </vxe-form-item>
@@ -82,6 +81,7 @@
             <vxe-button
               class="btn"
               size="mini"
+              status="my-purple"
               @click="addSpecimen"
             >
               新增标本
@@ -91,6 +91,7 @@
             <vxe-button
               class="btn"
               size="mini"
+              status="my-purple"
             >
               送检单
             </vxe-button>
@@ -99,6 +100,7 @@
             <vxe-button
               class="btn"
               size="mini"
+              status="my-purple"
             >
               打印瓶贴
             </vxe-button>
@@ -120,12 +122,11 @@
                 title="标本"
                 field="specimen"
               >
-                <template v-slot="scope">
+                <template v-slot>
                   <vxe-input
                     style="width:280px"
                     v-model="item.specimen"
                     clearable
-                    @input="$refs.xForm.updateStatus(scope)"
                   />
                 </template>
               </vxe-form-item>
@@ -134,12 +135,11 @@
                 title="部位"
                 field="parts"
               >
-                <template v-slot="scope">
+                <template v-slot>
                   <vxe-input
                     style="width:280px"
                     v-model="item.parts"
                     clearable
-                    @input="$refs.xForm.updateStatus(scope)"
                   />
                 </template>
               </vxe-form-item>
@@ -160,12 +160,11 @@
                 title="备注"
                 field="name"
               >
-                <template v-slot="scope">
+                <template v-slot>
                   <vxe-input
                     style="width:100%"
                     v-model="item.note"
                     clearable
-                    @input="$refs.xForm.updateStatus(scope)"
                   />
                 </template>
               </vxe-form-item>
@@ -173,6 +172,7 @@
                 <vxe-button
                   class="btnRed"
                   size="mini"
+                  status="my-purple"
                   @click="deleteSpecimen(item)"
                 >
                   删除
@@ -193,6 +193,7 @@
           <vxe-button
             class="btn"
             size="mini"
+            status="my-purple"
           >
             提交申请
           </vxe-button>
@@ -233,12 +234,14 @@
         <div class="dialog-footer-btn">
           <el-button
             size="mini"
+            status="my-purple"
             class="btn"
             @click="dialogVisible = false"
           >验 证</el-button>
           <el-button
             size="mini"
             class="btn mgl30"
+            status="my-purple"
             type="primary"
             @click="dialogVisible = false"
           >取 消</el-button>
@@ -269,9 +272,10 @@ export default {
     },
     // 点击删除标本
     deleteSpecimen (item) {
+      console.log(item)
       this.formData.specimenList.forEach((list, index) => {
         if (list.id === item.id) {
-          this.specimenList.splice(index, 1)
+          this.formData.specimenList.splice(index, 1)
         }
       })
     },

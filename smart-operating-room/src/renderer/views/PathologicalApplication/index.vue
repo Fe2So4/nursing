@@ -1,16 +1,18 @@
 <template>
-<!-- 护理单据 -->
-  <div class="paContainer">
-    <div class="user-info">
-      <user-info />
+  <!-- 护理单据 -->
+  <el-scrollbar style="height:100%;width:100%">
+    <div class="paContainer">
+      <div class="user-info">
+        <user-info />
+      </div>
+      <div class="pathology-type">
+        <sub-pathological />
+      </div>
+      <div class="pathology-list">
+        <pathological-table />
+      </div>
     </div>
-    <div class="pathology-type">
-      <sub-pathological />
-    </div>
-    <div class="pathology-list">
-      <pathological-table />
-    </div>
-  </div>
+  </el-scrollbar>
 </template>
 
 <script>
@@ -33,9 +35,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.el-scrollbar__wrap{
+  overflow-x: hidden;
+}
 .paContainer {
-    width: 100%;
     display: flex;
+    min-width: 1200px;
     flex-direction: column;
     .user-info {
         flex:1

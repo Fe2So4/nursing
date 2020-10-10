@@ -38,6 +38,7 @@
           <vxe-button
             class="btn"
             size="mini"
+            status="my-purple"
           >
             查 询
           </vxe-button>
@@ -46,6 +47,7 @@
           <vxe-button
             class="btn"
             size="mini"
+            status="my-purple"
           >
             预 览
           </vxe-button>
@@ -71,7 +73,7 @@ export default {
 <style scoped lang="scss">
 .btn {
     width: 90px;
-    // background-color:#fff;
+    background-color:#EAEEF7;
     // color: #fff;
     // margin-left: 20px;
 }

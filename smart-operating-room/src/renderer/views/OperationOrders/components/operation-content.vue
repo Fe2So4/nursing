@@ -107,6 +107,35 @@
       </span>
     </el-dialog>
     <el-dialog
+      title="提示"
+      :visible.sync="exitdialogVisible"
+      top="30vh"
+      width="520px"
+      :before-close="handleClose"
+    >
+      <div class="dialog-body-span">
+        <i class="el-icon-warning icon-gantanghao" />
+        <span>是否发起退单？</span>
+      </div>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <div class="dialog-footer-div">
+          <el-button
+            size="mini"
+            class="btn"
+            @click="exitdialogVisible = false"
+          >是(Y)</el-button>
+          <el-button
+            size="mini"
+            class="btn mgl40"
+            @click="exitdialogVisible = false"
+          >否(N)</el-button>
+        </div>
+      </span>
+    </el-dialog>
+    <el-dialog
       title="排班楼层房间修改"
       :visible.sync="selectDialogVisible"
       top="30vh"
@@ -326,10 +355,11 @@ export default {
         label: '北京烤鸭'
       }],
       value: '',
-      dbdialogVisible: false,
+      dbdialogVisible: false, // 派单
+      exitdialogVisible: false, // 退单
       isSelectItem: [],
       isSelectIndex: 0,
-      selectDialogVisible: false
+      selectDialogVisible: false // 修改
     }
   },
   mounted () {
@@ -346,26 +376,37 @@ export default {
 
   },
   methods: {
+    // 显示修改弹窗
     changeDialogShow () {
       this.selectDialogVisible = true
+    },
+    // 显示退单弹窗
+    exitDialogShow () {
+      this.exitdialogVisible = true
     },
     handleClose (done) {
       done()
     },
+    // 显示派单弹窗
     operationCard (item) {
       this.dbdialogVisible = true
-      console.log(item)
     },
+    // 点击选中一条记录
     selectItem (item) {
       this.isSelectItem = []
       this.isSelectItem.push(item)
       this.isSelectIndex = item.id
+    },
+    // 清空点击选中
+    clearSelect () {
+      this.isSelectItem = []
+      this.isSelectIndex = -1
     }
   }
 }
 </script>
 
-<style lang="scss" scope>
+<style lang="scss" scoped>
 .el-scrollbar__wrap{
   overflow-x: hidden;
 }
@@ -488,6 +529,7 @@ export default {
   text-align: right;
 }
 .active {
-  border: 1px solid red;
+  border: 1px solid #366FE2;
+  box-shadow: 1px 1px #366FE2;
 }
 </style>
