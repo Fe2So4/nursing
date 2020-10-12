@@ -1,13 +1,589 @@
 <template>
-  <div>转运交接</div>
+  <div class="transit-container">
+    <div class="container-title">
+      <span>复旦大学附属华山医院</span>
+      <span class="title-right">患者转运交接单</span>
+    </div>
+    <div class="wenben-content-info mgt10">
+      <div class="info-content-container">
+        <div class="context1">
+          <span class="input-div ">
+            <span>部位</span>
+            <div class="input-div-context">123</div>
+          </span>
+          <span class="input-div">
+            <span>程度</span>
+            <div class="input-div-context">123</div>
+          </span>
+        </div>
+        <div class="context1">
+          <span>2、术前意识评估：</span>
+          <span style="marginLeft:77px">
+            <span>清醒</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span style="marginLeft:65px">
+            <span>烦躁</span>
+            <isSelect prop-select="false" />
+          </span>
+          <span class="mgl50">
+            <span>昏迷</span>
+            <isSelect prop-select="false" />
+          </span>
+        </div>
+        <div class="context1">
+          <span>3、术前皮肤评估：</span>
+          <span style="marginLeft:20px">
+            <span>完整</span>
+            <isSelect prop-select="true" />
+            <span>皮肤不完整</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span class="input-div mgl50">
+            <span>部位</span>
+            <div class="input-div-context">123</div>
+          </span>
+          <span class="input-div">
+            <span>程度</span>
+            <div class="input-div-context">123</div>
+          </span>
+        </div>
+        <div class="context1">
+          <span>4、麻醉方式：</span>
+          <span style="marginLeft:20px">
+            <span>全麻</span>
+            <isSelect prop-select="true" />
+          </span>
+        </div>
+        <div class="context1">
+          <span>5、手术体位：</span>
+          <span style="marginLeft:6px">
+            <span>仰卧位</span>
+            <isSelect prop-select="true" />
+          </span>
+        </div>
+        <div class="context1">
+          <span>6、体位装置：</span>
+          <span style="marginLeft:6px">
+            <span>无</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span style="marginLeft:6px">
+            <span>有</span>
+            <isSelect prop-select="true" />
+          </span>
+        </div>
+        <div class="context1">
+          <span>7、约束带：</span>
+          <span style="marginLeft:6px">
+            <span>无</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span style="marginLeft:6px">
+            <span>有</span>
+            <isSelect prop-select="true" />
+          </span>
+        </div>
+        <div class="context1">
+          <span>8、导尿管：</span>
+          <span style="marginLeft:6px">
+            <span>无</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span style="marginLeft:6px">
+            <span>病房带入</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span style="marginLeft:6px">
+            <span>手术室插入</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span class="input-div mgl5">
+            <span>插管者</span>
+            <div class="input-div-context-short">123</div>
+          </span>
+          <span class="input-div mgl5">
+            <span>型号</span>
+            <div class="input-div-context-short">123</div>
+          </span>
+          <span class="input-div mgl5">
+            <span>尿液性质</span>
+            <div class="input-div-context-short">123</div>
+          </span>
+        </div>
+        <div class="context1">
+          <span>9、设备使用：</span>
+          <span style="marginLeft:6px">
+            <span>电刀：</span>
+            <span>1. 电切</span>
+            <span>无</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span style="marginLeft:6px">
+            <span>有</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span class="input-div mgl5">
+            <span>功率</span>
+            <div class="input-div-context-short">123</div>
+          </span>
+          <span>电凝</span>
+          <span class="input-div mgl5">
+            <span>功率</span>
+            <div class="input-div-context-short">123</div>
+          </span>
+        </div>
+        <div class="context1">
+          <span>电极板位置：</span>
+          <span style="marginLeft:6px">
+            <span>大腿</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span style="marginLeft:6px">
+            <span>小腿</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span style="marginLeft:6px">
+            <span>臀部</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span style="marginLeft:6px">
+            <span>其他</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span style="marginLeft:15px">
+            <span>负极电路板回垫</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span style="marginLeft:15px">
+            <span>无</span>
+            <isSelect prop-select="true" />
+          </span>
+        </div>
+        <div class="context1">
+          <span>气囊止血机：</span>
+          <span style="marginLeft:6px">
+            <span>无</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span style="marginLeft:6px">
+            <span>有</span>
+            <isSelect prop-select="true" />
+          </span>
+        </div>
+        <div class="context2">
+          <div class="context2-box">
+            <div class="box-row">
+              <span class="input-div mgl5">
+                <span>部位</span>
+                <div class="input-div-context-short">123</div>
+              </span>
+              <span class="input-div mgl5">
+                <span style="marginLeft:8px">压力</span>
+                <div class="input-div-context-short-60">123</div>
+              </span>
+            </div>
+            <div class="box-row">
+              <span class="input-div mgl5">
+                <span>充气时间</span>
+                <div class="input-div-context-short-60">123</div>
+              </span>
+              <span class="input-div mgl5">
+                <span>签名</span>
+                <div class="input-div-context-short-60">123</div>
+              </span>
+            </div>
+            <div class="box-row">
+              <span class="input-div mgl5">
+                <span>放气时间</span>
+                <div class="input-div-context-short-60">123</div>
+              </span>
+              <span class="input-div mgl5">
+                <span>签名</span>
+                <div class="input-div-context-short-60">123</div>
+              </span>
+            </div>
+          </div>
+          <div class="context2-box mgl5">
+            <div class="box-row">
+              <span class="input-div mgl5">
+                <span>部位</span>
+                <div class="input-div-context-short">123</div>
+              </span>
+              <span class="input-div mgl5">
+                <span style="marginLeft:8px">压力</span>
+                <div class="input-div-context-short-60">123</div>
+              </span>
+            </div>
+            <div class="box-row">
+              <span class="input-div mgl5">
+                <span>充气时间</span>
+                <div class="input-div-context-short-60">123</div>
+              </span>
+              <span class="input-div mgl5">
+                <span>签名</span>
+                <div class="input-div-context-short-60">123</div>
+              </span>
+            </div>
+            <div class="box-row">
+              <span class="input-div mgl5">
+                <span>放气时间</span>
+                <div class="input-div-context-short-60">123</div>
+              </span>
+              <span class="input-div mgl5">
+                <span>签名</span>
+                <div class="input-div-context-short-60">123</div>
+              </span>
+            </div>
+          </div>
+          <div class="context2-box mgl5">
+            <div class="box-row">
+              <span class="input-div mgl5">
+                <span>部位</span>
+                <div class="input-div-context-short">123</div>
+              </span>
+              <span class="input-div mgl5">
+                <span style="marginLeft:8px">压力</span>
+                <div class="input-div-context-short-60">123</div>
+              </span>
+            </div>
+            <div class="box-row">
+              <span class="input-div mgl5">
+                <span>充气时间</span>
+                <div class="input-div-context-short-60">123</div>
+              </span>
+              <span class="input-div mgl5">
+                <span>签名</span>
+                <div class="input-div-context-short-60">123</div>
+              </span>
+            </div>
+            <div class="box-row">
+              <span class="input-div mgl5">
+                <span>放气时间</span>
+                <div class="input-div-context-short-60">123</div>
+              </span>
+              <span class="input-div mgl5">
+                <span>签名</span>
+                <div class="input-div-context-short-60">123</div>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="context1">
+          <span>10、手术冲洗：</span>
+          <span style="marginLeft:6px">
+            <span>0.9%氯化钠溶液</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span style="marginLeft:6px">
+            <span>灭菌注射用水</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span class="input-div mgl5">
+            <span style="marginLeft:8px">药液</span>
+            <span style="marginLeft:8px">1、</span>
+            <div class="input-div-context-short-60">123</div>
+            <span style="marginLeft:8px">2、</span>
+            <div class="input-div-context-short-60">123</div>
+            <span style="marginLeft:8px">3、</span>
+            <div class="input-div-context-short-60">123</div>
+            <span style="marginLeft:8px">4、</span>
+            <div class="input-div-context-short-60">123</div>
+          </span>
+        </div>
+        <div class="context1 mgt20">
+          <span>11、腰穿留置：</span>
+          <span style="marginLeft:6px">
+            <span>无</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span style="marginLeft:6px">
+            <span>有</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span class="input-div mgl5">
+            <span style="marginLeft:8px">操作者</span>
+            <div class="input-div-context-short-60">123</div>
+            <span style="marginLeft:8px">拔针芯时间</span>
+            <div class="input-div-context-short-60">123</div>
+            <span style="marginLeft:8px">签名</span>
+            <div class="input-div-context-short-60">123</div>
+            <span style="marginLeft:8px">拔针时间</span>
+            <div class="input-div-context-short-60">123</div>
+            <span style="marginLeft:8px">签名</span>
+            <div class="input-div-context-short-60">123</div>
+          </span>
+        </div>
+        <div class="context1 mgt20">
+          <span>12、术中特殊交班：</span>
+          <span style="marginLeft:6px">
+            <span>无</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span style="marginLeft:6px">
+            <span>有</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span class="input-div mgl5">
+            <div class="input-div-context-long">123</div>
+          </span>
+        </div>
+        <div
+          class="context1"
+          style="marginTop:15px"
+        >
+          <span>13、术中冰冻：</span>
+          <span style="marginLeft:6px">
+            <span>无</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span style="marginLeft:6px">
+            <span>有</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span class="input-div mgl5">
+            <span style="marginLeft:8px">送检者1、</span>
+            <div class="input-div-context-short-60">123</div>
+            <span style="marginLeft:8px">报告接收者</span>
+            <div class="input-div-context-short-60">123</div>
+            <span style="marginLeft:8px">送检者2、</span>
+            <div class="input-div-context-short-60">123</div>
+            <span style="marginLeft:8px">报告接收者</span>
+            <div class="input-div-context-short-60">123</div>
+          </span>
+        </div>
+        <div
+          class="context1"
+          style="marginTop:15px"
+        >
+          <span
+            class="input-div"
+            style="marginLeft:182px"
+          >
+            <span style="marginLeft:8px">送检者1、</span>
+            <div class="input-div-context-short-60">123</div>
+            <span style="marginLeft:8px">报告接收者</span>
+            <div class="input-div-context-short-60">123</div>
+            <span style="marginLeft:8px">送检者2、</span>
+            <div class="input-div-context-short-60">123</div>
+            <span style="marginLeft:8px">报告接收者</span>
+            <div class="input-div-context-short-60">123</div>
+          </span>
+        </div>
+        <div
+          class="context1"
+          style="marginTop:15px"
+        >
+          <span style="marginLeft:60px">
+            <span>病理：</span>
+            <span>无</span>
+            <isSelect prop-select="true" />
+            <span>有</span>
+            <isSelect prop-select="true" />
+            <span>数量：</span>
+            <span>10</span>
+          </span>
+          <span class="input-div mgl5">
+            <span style="marginLeft:8px">送检医生</span>
+            <div class="input-div-context-short">123</div>
+          </span>
+        </div>
+        <div class="context1">
+          <span>14、植入体：</span>
+          <span style="marginLeft:6px">
+            <span>无</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span style="marginLeft:6px">
+            <span>有</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span class="input-div mgl5">
+            详见植入物使用登记单
+          </span>
+        </div>
+        <div class="context1 mgt10">
+          <span>18、巡回护士签名：</span>
+          <span
+            class="input-div"
+          >
+            <div class="input-div-context-short">123</div>
+          </span>
+        </div>
+        <div class="context1">
+          <span>19、术中交接班：</span>
+        </div>
+        <div
+          class="context1"
+          style="marginLeft:80px"
+        >
+          <span style="marginLeft:6px">
+            <span>无</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span style="marginLeft:6px">
+            <span>有</span>
+            <isSelect prop-select="true" />
+          </span>
+          <span class="input-div mgl5">
+            <span style="marginLeft:8px">时间</span>
+            <div class="input-div-context-noborder">123</div>
+          </span>
+          <span class="input-div mgl5">
+            <span style="marginLeft:8px">签名</span>
+            <div class="input-div-context-noborder">123</div>
+          </span>
+          <span class="input-div mgl5">
+            <span style="marginLeft:8px">时间</span>
+            <div class="input-div-context-noborder">123</div>
+          </span>
+          <span class="input-div mgl5">
+            <span style="marginLeft:8px">签名</span>
+            <div class="input-div-context-noborder">123</div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
+import isSelect from './components/isSelect'
 export default {
-  name: 'TransitTransfer'
+  name: 'TransitTransfer',
+  data () {
+    return {
+      form: {}
+    }
+  },
+  components: {
+    isSelect
+  }
 }
 </script>
 
-<style>
-
+<style scoped lang="scss">
+@import './../../../styles/wenshu.scss';
+.transit-container {
+  width: 824px;
+  height: 920px;
+  min-width: 824px;
+  min-height: 920px;
+  background-color: #fff;
+  padding: 10px;
+  .container-title {
+    display: flex;
+    border-bottom: 1px solid #000;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    margin: 0 70px;
+    .title-right {
+      font-size: 18px;
+      margin-left: 10px;
+    }
+  }
+  .wenben-content-info {
+      display: flex;
+      flex-direction: column;
+      .info-content-title {
+        text-align: center;
+        letter-spacing: 5px;
+        font-weight: 600;
+        text-indent: 5px;
+        font-size: 16px;
+      }
+      .info-content-form {
+        padding-left: 15px;
+      }
+  }
+  .info-content-container {
+    padding-left: 20px;
+    font-size: 14px;
+    .context1 {
+      display: flex;
+      table {
+        tr {
+          th {
+            width: 85px;
+            height: 70px;
+            .table-th-time {
+                  width: 40px;
+                  position: relative;
+                  left: 40px;
+            }
+            .table-th-xiangmu {
+              width: 40px;
+            }
+          }
+          td {
+            width: 85px;
+            height: 70px;
+            padding-left: 3px;
+          }
+        }
+      }
+    }
+    .context2 {
+      display: flex;
+      justify-content: center;
+      .context2-box {
+        width: 230px;
+        display: flex;
+        flex-wrap: wrap;
+        border: 1px solid #000;
+        padding: 5px;
+        .box-row {
+          display: flex;
+        }
+      }
+    }
+  }
+}
+.input-div {
+  display: flex;
+  .input-div-context {
+    padding: 0 5px;
+    width: 100px;
+    border-bottom: 1px solid #000;
+  }
+  .input-div-context-noborder {
+    padding: 0 5px;
+    width: 100px;
+  }
+  .input-div-context-short {
+    padding: 0 5px;
+    width: 80px;
+    border-bottom: 1px solid #000;
+  }
+  .input-div-context-short-60 {
+    padding: 0 5px;
+    width: 60px;
+    border-bottom: 1px solid #000;
+  }
+  .input-div-context-long {
+    padding: 0 5px;
+    width: 380px;
+    border-bottom: 1px solid #000;
+  }
+}
+.mgt10 {
+  margin-top: 10px;
+}
+.mgt20 {
+  margin-top: 10px;
+}
+.mgl50 {
+  margin-left: 50px;
+}
+.mgl5 {
+  margin-left: 5px;
+}
+.line {
+  width: 84px;
+  height: 1px;
+  background-color: #000;
+  transform:  rotate(-140deg);
+  // width: 110px;
+}
 </style>

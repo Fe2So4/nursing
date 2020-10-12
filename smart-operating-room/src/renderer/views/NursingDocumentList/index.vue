@@ -44,6 +44,7 @@ export default {
   width:100%
 }
 .nursing-document-list {
+  min-width: 1200px;
   width: 100%;
   height: 100%;
   display: flex;
