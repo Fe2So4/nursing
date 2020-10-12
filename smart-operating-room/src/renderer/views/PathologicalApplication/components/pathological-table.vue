@@ -114,6 +114,9 @@ export default {
     }
   },
   methods: {
+    handleClose () {
+
+    },
     // 获取高亮行
     getCurrentEvent () {
       this.$XModal.alert(JSON.stringify(this.$refs.xTable.getCurrentRecord()))
