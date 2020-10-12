@@ -22,11 +22,104 @@
     </div>
     <div class="list">
       <van-cell-group>
-        <van-cell title="手术方式确认" value="内容" v-for="item in 20" :key="item">
+        <van-cell title="患者姓名、住院号、性别、年龄正确：" value="内容" value-class="first-cell">
           <template #right-icon>
-            <van-switch v-model="checked" />
+            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
+        <van-cell title="手术方式确认" value="内容">
+          <template #right-icon>
+            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+          </template>
+        </van-cell>
+        <van-cell title="手术部位与标识正确：" value="内容">
+          <template #right-icon>
+            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+          </template>
+        </van-cell>
+        <van-cell title="手术知情同意书：" value="内容">
+          <template #right-icon>
+            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+          </template>
+        </van-cell>
+        <van-cell title="麻醉知情同意书：" value="内容">
+          <template #right-icon>
+            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+          </template>
+        </van-cell>
+        <van-cell title="麻醉设备安全检查完成：" value="内容">
+          <template #right-icon>
+            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+          </template>
+        </van-cell>
+        <van-cell title="皮肤是否完整：" value="内容">
+          <template #right-icon>
+            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8" @change="handleChange"/>
+          </template>
+        </van-cell>
+        <van-cell-group v-show="showFullSkin">
+          <van-cell title="部位：" title-class="left-title" value-class="right-value">
+            <template #right-icon>
+              <van-field v-model="input" label="" placeholder="请输入部位：" label-align="right" input-align="right"/>
+            </template>
+          </van-cell>
+          <van-cell title="程度：" title-class="left-title" value-class="right-value">
+            <template #right-icon>
+              <van-field v-model="input" label="" placeholder="请输入程度：" label-align="right" input-align="right"/>
+            </template>
+          </van-cell>
+        </van-cell-group>
+        <van-cell title="术野皮肤准备正确：" value="内容">
+          <template #right-icon>
+            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+          </template>
+        </van-cell>
+        <van-cell title="静脉通道建立完成：" value="内容">
+          <template #right-icon>
+            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+          </template>
+        </van-cell>
+        <van-cell title="患者是否有过敏史：" value="内容">
+          <template #right-icon>
+            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+          </template>
+        </van-cell>
+        <van-cell title="抗菌药物皮试结果：" value="内容">
+          <template #right-icon>
+            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+          </template>
+        </van-cell>
+        <van-cell title="术前备血：" value="内容">
+          <template #right-icon>
+            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+          </template>
+        </van-cell>
+        <van-cell title="影像学资料：" value="内容">
+          <template #right-icon>
+            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+          </template>
+        </van-cell>
+        <van-cell title="假体：" value="内容">
+          <template #right-icon>
+            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+          </template>
+        </van-cell>
+        <van-cell title="体内植入物：" value="内容">
+          <template #right-icon>
+            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+          </template>
+        </van-cell>
+        <van-cell title="其它：" value="内容" title-class="left-title" value-class="right-value">
+          <template #right-icon>
+            <van-field v-model="input" label="" placeholder="请输入其它：" />
+          </template>
+        </van-cell>
+      </van-cell-group>
+      <van-cell-group>
+        <van-cell title="核查时间" value="2020-10-12 09:48"></van-cell>
+        <van-cell title="麻醉医师签名" title-class="sign-title"></van-cell>
+        <van-cell title="手术医师签名" title-class="sign-title"></van-cell>
+        <van-cell title="手术护士签名" title-class="sign-title"></van-cell>
       </van-cell-group>
     </div>
   </div>
@@ -36,7 +129,9 @@
 export default {
   data () {
     return {
-      checked: true
+      checked: true,
+      input: '',
+      showFullSkin: false
     }
   },
   methods: {
@@ -45,6 +140,9 @@ export default {
     },
     onClickRight () {
 
+    },
+    handleChange () {
+      this.showFullSkin = !this.showFullSkin
     }
   }
 }
@@ -127,6 +225,32 @@ export default {
       font-size: 30px;
       &::after{
         border-color: #E2E2E2;
+      }
+      .first-cell{
+        flex: unset;
+      }
+      .left-title{
+        flex: unset;
+      }
+      .right-value{
+        .van-field{
+          padding-top: 0;
+          padding-bottom: 0;
+        }
+      }
+    }
+    .van-cell-group{
+      &:last-child{
+        margin-top: 15px;
+        margin-bottom: 15px;
+        .van-cell{
+          .van-cell__value{
+            color: #7F7F7F;
+          }
+          .sign-title{
+            color: #32db64;
+          }
+        }
       }
     }
   }

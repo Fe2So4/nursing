@@ -5,7 +5,7 @@ import Login from '@/views/Login/index'
 import SignIn from '@/views/SignIn/index'
 import SignOut from '@/views/SignOut/index'
 import TimeOut from '@/views/TimeOut/index'
-import Record from '@/views/Record/index'
+import Record2 from '@/views/Record2/index'
 // import Home from '@/views/Login/index'
 Vue.use(Router)
 
@@ -31,9 +31,9 @@ export default new Router({
       component: SignOut
     },
     {
-      path: '/record',
-      name: 'Record',
-      component: Record
+      path: '/record2',
+      name: 'Record2',
+      component: Record2
     },
     {
       path: '/time-out',

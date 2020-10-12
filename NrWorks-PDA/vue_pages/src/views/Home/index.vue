@@ -6,7 +6,7 @@
       @click-right="onClickRight"
     >
       <van-icon name="wap-nav" slot="left" size="34" color="#ffffff"/>
-      <van-icon name="setting-o" slot="right" size="34" color="#ffffff"/>
+      <van-icon name="exchange" slot="right" size="34" color="#ffffff"/>
     </van-nav-bar>
     <div class="list">
       <ul>
