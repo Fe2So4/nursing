@@ -28,3 +28,9 @@
   background-color: #3377FF;
   color: #fff;
 }
+
+#app /deep/ .vxe-input--inner[disabled] {
+  background-color: unset;
+  cursor: unset;
+  color: unset;
+}

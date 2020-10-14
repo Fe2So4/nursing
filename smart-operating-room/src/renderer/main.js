@@ -12,6 +12,8 @@ import 'xe-utils'
 import VXETable from 'vxe-table'
 import 'vxe-table/lib/style.css'
 import * as voicePromptFun from './utils/voicePrompt'
+import IsEmpty from './utils/isEmpty'
+Vue.prototype.IsEmpty = IsEmpty
 Vue.prototype.voicePrompt = voicePromptFun.voicePrompt // 语音提醒
 
 Vue.use(ElementUI)

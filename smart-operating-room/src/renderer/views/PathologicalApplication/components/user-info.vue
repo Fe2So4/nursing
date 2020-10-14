@@ -9,19 +9,18 @@
       title-width="80"
       :data="formData1"
       size="mini"
-      @reset="resetEvent"
     >
       <div class="content-left">
         <div class="left-top">
           <vxe-form-item
             title="姓名"
-            field="name"
+            field="patientName"
           >
             <template v-slot>
               <vxe-input
                 style="width:150px"
-                v-model="formData1.name"
-                clearable
+                v-model="formData1.patientName"
+                readonly
               />
             </template>
           </vxe-form-item>
@@ -29,14 +28,14 @@
             span="1"
             title="性别"
             title-width="40"
-            field="sex"
+            field="patientGender"
             width="56"
           >
             <template v-slot>
               <vxe-select
+                disabled
                 style="width:50px"
-                v-model="formData1.sex"
-                clearable
+                v-model="formData1.patientGender"
               >
                 <vxe-option
                   value="1"
@@ -53,13 +52,13 @@
             span="1"
             title="年龄"
             title-width="40"
-            field="age"
+            field="patientAge"
           >
             <template v-slot>
               <vxe-input
+                readonly
                 style="width:50px"
-                v-model="formData1.age"
-                clearable
+                v-model="formData1.patientAge"
               />
             </template>
           </vxe-form-item>
@@ -67,26 +66,26 @@
             span="3"
             title="床位号"
             title-width="60"
-            field="bandNum"
+            field="beaNo"
           >
             <template v-slot>
               <vxe-input
+                readonly
                 style="width:120px"
-                v-model="formData1.bandNum"
-                clearable
+                v-model="formData1.beaNo"
               />
             </template>
           </vxe-form-item>
           <vxe-form-item
             span="3"
-            title="病理检查号"
-            field="pathologicalNum"
+            title="病理检验号"
+            field="pathologyId"
           >
             <template v-slot>
               <vxe-input
+                readonly
                 style="width:150px"
-                v-model="formData1.pathologicalNum"
-                clearable
+                v-model="formData1.pathologyId"
               />
             </template>
           </vxe-form-item>
@@ -94,12 +93,14 @@
         <div class="left-bottom">
           <vxe-form-item
             title="住院号"
-            field="hospitalNum"
+            field="hospitalNo"
           >
             <template v-slot>
               <vxe-input
+                @keyup.enter.native="searchUserInfo"
                 style="width:150px"
-                v-model="formData1.hospitalNum"
+                placeholder="输入住院号带出信息"
+                v-model="formData1.hospitalNo"
                 clearable
               />
             </template>
@@ -108,14 +109,14 @@
             span="1"
             title="科别"
             title-width="40"
-            field="division"
+            field="categpry"
             width="56"
           >
             <template v-slot>
               <vxe-select
+                disabled
                 style="width:155px"
-                v-model="formData1.division"
-                clearable
+                v-model="formData1.categpry"
               >
                 <vxe-option
                   value="1"
@@ -132,13 +133,13 @@
             span="3"
             title="房间号"
             title-width="60"
-            field="roomNum"
+            field="roomNo"
           >
             <template v-slot>
               <vxe-input
+                readonly
                 style="width:120px"
-                v-model="formData1.roomNum"
-                clearable
+                v-model="formData1.roomNo"
               />
             </template>
           </vxe-form-item>
@@ -151,10 +152,11 @@
           span="24"
         >
           <vxe-textarea
+            readonly
             :autosize="{ minRows: 3, maxRows: 3 }"
             outline="none"
             resize="none"
-            v-model="textareaValue"
+            v-model="formData1.historyDetails"
             placeholder="病史摘要及临床检查所见(包括主要化验结果，特殊治疗)"
           />
         </vxe-form-item>
@@ -164,9 +166,10 @@
         >
           <template v-slot>
             <vxe-button
-              style="width:90px;backgroundColor:#E9EDF7"
-              type="reset"
+              class="btn"
+              size="mini"
               status="my-purple"
+              @click="resetEvent"
             >
               文本清空
             </vxe-button>
@@ -178,20 +181,99 @@
 </template>
 
 <script>
+// import { mapActions } from 'vuex'
 export default {
   name: 'UserName',
   data () {
     return {
       formData1: {
-
-      },
-      value1: '',
-      textareaValue: ''
+        hospitalNo: '', // 住院号
+        patientName: '', // 患者名称,
+        patientGender: '', // 性别
+        patientAge: '', // 年龄
+        beaNo: '', // 床位号
+        categpry: '', // 科别
+        roomNo: '', // 房间号
+        historyDetails: '', // 历史摘要及临床检查所见
+        opsName: '', // 手术名称及手术所见
+        clinicalDiagnosis: '', // 临床诊断
+        pathologyId: '',
+        pathologys: [] // table列表:
+      }
     }
   },
   methods: {
+    // 根据住院号获取数据
+    searchUserInfo () {
+      if (!this.IsEmpty(this.formData1.hospitalNo)) {
+        let obj = {
+          hospitalNo: this.formData1.hospitalNo
+        }
+        this.$store.dispatch('ReqUserInfo', obj).then(res => {
+          this.$store.commit('CLEAR_SELECTTABLEITEM')
+          this.$store.commit('SAVE_SELECTTABLEITEM', [])
+          if (res.status === 200) {
+            if (this.IsEmpty(res.data.data)) {
+              this.openToast('warning', '暂无更多数据')
+              this.formData1 = {
+                hospitalNo: '', // 住院号
+                patientName: '', // 患者名称,
+                patientGender: '', // 性别
+                patientAge: '', // 年龄
+                beaNo: '', // 床位号
+                categpry: '', // 科别
+                roomNo: '', // 房间号
+                historyDetails: '', // 历史摘要及临床检查所见
+                opsName: '', // 手术名称及手术所见
+                clinicalDiagnosis: '', // 临床诊断
+                pathologyId: '',
+                pathologys: [] // table列表:
+              }
+            } else {
+              let userInfoData = res.data.data
+              this.formData1.patientName = userInfoData.patientName
+              this.formData1.patientGender = userInfoData.patientGender
+              this.formData1.patientAge = userInfoData.patientAge
+              this.formData1.beaNo = userInfoData.beaNo
+              this.formData1.categpry = userInfoData.categpry
+              this.formData1.historyDetails = userInfoData.historyDetails
+              this.formData1.roomNo = userInfoData.roomNo
+              this.formData1.opsName = userInfoData.opsName
+              this.formData1.clinicalDiagnosis = userInfoData.clinicalDiagnosis
+              this.formData1.pathologys = userInfoData.pathologys
+            }
+          } else {
+            this.openToast('error', this.res.statusText)
+          }
+        })
+      } else {
+        this.openToast('warning', '请输入正确的住院号')
+      }
+    },
     resetEvent () {
-      this.$XModal.message({ message: '重置事件', status: 'info' })
+
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type
+      })
+    }
+  },
+  computed: {
+    ListeningPathologyId () {
+      return this.$store.state['pathological-table'].selectTableData
+    }
+  },
+  watch: {
+    ListeningPathologyId: function (newd) {
+      if (newd.length > 0) {
+        this.formData1.pathologyId = newd[0].pathologyId
+      } else {
+        this.formData1.pathologyId = ''
+      }
     }
   }
 }
@@ -221,4 +303,10 @@ export default {
             }
         }
     }
+.btn {
+    border: none;
+    color: #303133;
+    width: 90px;
+    background-color:#E9EDF7
+}
 </style>

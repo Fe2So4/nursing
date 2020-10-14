@@ -15,31 +15,31 @@
           width="80"
         />
         <vxe-table-column
-          field="name"
+          field="pathologyId"
           title="病理号"
         />
         <vxe-table-column
-          field="sex"
+          field="hospitalNo"
           title="住院号"
         />
         <vxe-table-column
-          field="age"
+          field="patientName"
           title="病人名称"
         />
         <vxe-table-column
-          field="age"
+          field="hologyType"
           title="病理类别"
         />
         <vxe-table-column
-          field="age"
+          field="opsName"
           title="手术名称及所见"
         />
         <vxe-table-column
-          field="age"
+          field="createTime"
           title="申请时间"
         />
         <vxe-table-column
-          field="address"
+          field="checkName"
           title="送检医师"
           show-overflow
         />
@@ -100,14 +100,16 @@ export default {
   data () {
     return {
       tableData: [
-        { id: 10001, name: 'Test1', role: 'Develop', sex: 'Man', age: 28, address: 'vxe-table 从入门到放弃' },
-        { id: 10002, name: 'Test2', role: 'Test', sex: 'Women', age: 22, address: 'Guangzhou' },
-        { id: 10003, name: 'Test3', role: 'PM', sex: 'Man', age: 32, address: 'Shanghai' },
-        { id: 10004, name: 'Test4', role: 'Designer', sex: 'Women ', age: 24, address: 'Shanghai' },
-        { id: 10001, name: 'Test1', role: 'Develop', sex: 'Man', age: 28, address: 'vxe-table 从入门到放弃' },
-        { id: 10002, name: 'Test2', role: 'Test', sex: 'Women', age: 22, address: 'Guangzhou' },
-        { id: 10003, name: 'Test3', role: 'PM', sex: 'Man', age: 32, address: 'Shanghai' },
-        { id: 10004, name: 'Test4', role: 'Designer', sex: 'Women ', age: 24, address: 'Shanghai' }
+        // {
+        //   pathologyId: '', // 病理号
+        //   hospitalNo: '', // 住院号
+        //   patientName: '', // 病人名称
+        //   hologyType: '', // 病理类别
+        //   opsName: '', // 手术名称及所见
+        //   createTime: '', // 申请时间
+        //   checkName: '', // 送检医师工号
+        //   fixed: ''// 固定液
+        // }
       ],
       selectData: [],
       exitdialogVisible: false
@@ -124,10 +126,22 @@ export default {
     currentChangeEvent ({ row }) {
       this.selectData = []
       this.selectData.push(row)
+      this.$store.commit('SAVE_SELECTTABLEITEM', this.selectData)
     },
     // 撤销派单
     exitOrder () {
       this.exitdialogVisible = true
+    }
+  },
+  // 获取表格数据
+  computed: {
+    ListeningTableData () {
+      return this.$store.state['pathological-table'].userInfo
+    }
+  },
+  watch: {
+    ListeningTableData: function (newd) {
+      this.tableData = newd.pathologys
     }
   }
 }
