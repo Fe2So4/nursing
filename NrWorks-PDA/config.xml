@@ -22,7 +22,7 @@
         </config-file>
         <access origin="http://47.103.105.200/PDA/pda.apk" />
         <access origin="*" />
-        <preference name="AndroidPersistentFileLocation" value="Compatibility"/>
+        <preference name="AndroidPersistentFileLocation" value="Compatibility" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />

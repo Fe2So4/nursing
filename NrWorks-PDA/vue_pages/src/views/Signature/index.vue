@@ -105,6 +105,13 @@ export default {
         display: flex;
         .van-button{
           flex: 1;
+          // line-height: 60px !important;
+          line-height: 60px;
+          font-size: 30px;
+          height: 60px;
+          /deep/ .van-button__icon{
+            font-size: 26px;
+          }
           &:nth-child(2){
             margin:0 20px;
           }

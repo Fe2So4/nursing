@@ -1,13 +1,13 @@
 const state = {
-  main: 0
+  base: 0
 }
 
 const mutations = {
   DECREMENT_MAIN_COUNTER (state) {
-    state.main--
+    state.base--
   },
   INCREMENT_MAIN_COUNTER (state) {
-    state.main++
+    state.base++
   }
 }
 

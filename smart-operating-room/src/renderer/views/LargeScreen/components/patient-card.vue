@@ -63,6 +63,7 @@
 
 <script>
 import ChangeRoom from './change-room'
+import { mapActions } from 'vuex'
 export default {
   name: 'PatientCard',
   data () {
@@ -75,8 +76,10 @@ export default {
     ChangeRoom
   },
   methods: {
+    ...mapActions('Base', ['someAsyncTask']),
     handleChangeRoom () {
-      this.roomVisible = true
+      // this.roomVisible = true
+      this.someAsyncTask()
     },
     handleClose () {
       this.roomVisible = false

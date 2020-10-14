@@ -7,7 +7,7 @@ import SignOut from '@/views/SignOut/index'
 import TimeOut from '@/views/TimeOut/index'
 import Record2 from '@/views/Record2/index'
 import Record3 from '@/views/Record3/index'
-import Signature from '@/views/Signature/index'
+import TransferHandover from '@/views/TransferHandover/index'
 // import Home from '@/views/Login/index'
 Vue.use(Router)
 
@@ -53,9 +53,9 @@ export default new Router({
       component: Login
     },
     {
-      path: '/signature',
-      name: 'Signature',
-      component: Signature
+      path: '/transfer-handover',
+      name: 'TransferHandover',
+      component: TransferHandover
     }
   ]
 })
