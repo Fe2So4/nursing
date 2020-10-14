@@ -1,12 +1,7 @@
 <template>
-  <div class="nursing-teshu-container">
+  <div class="nursing-teshu-container-bottom">
     <div class="container-title">
       复旦大学附属华山医院
-    </div>
-    <div class="wenben-content-info">
-      <div class="info-content-title">
-        手术病人护理记录单(三)
-      </div>
     </div>
     <div class="wenben-content-info mgt10">
       <div class="info-content-container">
@@ -30,12 +25,12 @@
         </div>
         <div class="context1 mgt20">
           <span class="input-div ">
-            <span>术前诊断</span>
+            <span>手术诊断</span>
             <div class="input-div-context-long">123</div>
           </span>
         </div>
         <div class="context1">
-          <span>特殊器械清点记录</span>
+          <span>特殊器材清点记录</span>
         </div>
         <div class="context1">
           <table
@@ -49,7 +44,7 @@
                 </div>
                 <div class="row-line" />
                 <div style="textAlign:left">
-                  评估
+                  品名
                 </div>
               </th>
               <th>
@@ -92,6 +87,105 @@
               </th>
             </tr>
             <tr>
+              <td>
+                羊式拉钩
+              </td>
+              <td class="td-text-center">
+                1
+              </td>
+              <td>
+                <div>
+                  <td class="td-text-center">
+                    1
+                  </td>
+                  <td class="td-text-center">
+                    1
+                  </td>
+                  <td class="td-text-center">
+                    1
+                  </td>
+                  <td class="td-text-center">
+                    1
+                  </td>
+                </div>
+              </td>
+              <td class="td-text-center">
+                1
+              </td>
+              <td class="td-text-center">
+                1
+              </td>
+              <td class="td-text-center">
+                1
+              </td>
+            </tr>
+            <tr>
+              <td>
+                圆牌
+              </td>
+              <td class="td-text-center">
+                1
+              </td>
+              <td>
+                <div>
+                  <td class="td-text-center">
+                    1
+                  </td>
+                  <td class="td-text-center">
+                    1
+                  </td>
+                  <td class="td-text-center">
+                    1
+                  </td>
+                  <td class="td-text-center">
+                    1
+                  </td>
+                </div>
+              </td>
+              <td class="td-text-center">
+                1
+              </td>
+              <td class="td-text-center">
+                1
+              </td>
+              <td class="td-text-center">
+                1
+              </td>
+            </tr>
+            <tr>
+              <td>
+                长弯血管钳
+              </td>
+              <td class="td-text-center">
+                1
+              </td>
+              <td>
+                <div>
+                  <td class="td-text-center">
+                    1
+                  </td>
+                  <td class="td-text-center">
+                    1
+                  </td>
+                  <td class="td-text-center">
+                    1
+                  </td>
+                  <td class="td-text-center">
+                    1
+                  </td>
+                </div>
+              </td>
+              <td class="td-text-center">
+                1
+              </td>
+              <td class="td-text-center">
+                1
+              </td>
+              <td class="td-text-center">
+                1
+              </td>
+            </tr>
+            <tr>
               <td
                 colspan="3"
                 class="td-colspan"
@@ -137,24 +231,42 @@
               </td>
             </tr>
             <tr>
-              <td
-                colspan="3"
-                class="td-colspan"
-              >
-                6F光线源(33)
+              <td>
+                洗手护士签名
               </td>
-              <td colspan="3">
-                <img
-                  src="./../../../assets/isFalse.png"
-                  alt=""
-                >
+              <td class="td-text-center">
+                1
+              </td>
+              <td>
+                <div>
+                  <td class="td-text-center">
+                    1
+                  </td>
+                  <td class="td-text-center">
+                    1
+                  </td>
+                  <td class="td-text-center">
+                    1
+                  </td>
+                  <td class="td-text-center">
+                    1
+                  </td>
+                </div>
+              </td>
+              <td class="td-text-center">
+                1
+              </td>
+              <td class="td-text-center">
+                1
+              </td>
+              <td class="td-text-center">
+                1
               </td>
             </tr>
-            <tr
-              v-for="(item, index) in 19"
-              :key="index"
-            >
-              <td />
+            <tr>
+              <td>
+                巡回护士签名
+              </td>
               <td class="td-text-center">
                 1
               </td>
@@ -188,21 +300,14 @@
         </div>
       </div>
     </div>
-    <div class="container-bottom">
-      <NursingBottom />
-    </div>
   </div>
 </template>
 
 <script>
-import NursingBottom from './nursing-document-teshu-bottom'
 export default {
   name: 'NursingDocumentTeshu',
   data () {
     return {}
-  },
-  components: {
-    NursingBottom
   }
 }
 </script>
@@ -210,7 +315,7 @@ export default {
 <style scoped lang="scss">
 
 @import './../../../styles/wenshu.scss';
-.nursing-teshu-container {
+.nursing-teshu-container-bottom {
   width: 824px;
   height: 920px;
   min-width: 824px;
@@ -354,8 +459,5 @@ export default {
   line-height: 50px;
   background-color: #ccc;
   font-weight: 600;
-}
-.container-bottom {
-  margin-top: 50px;
 }
 </style>
