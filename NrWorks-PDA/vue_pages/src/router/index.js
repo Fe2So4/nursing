@@ -6,6 +6,8 @@ import SignIn from '@/views/SignIn/index'
 import SignOut from '@/views/SignOut/index'
 import TimeOut from '@/views/TimeOut/index'
 import Record2 from '@/views/Record2/index'
+import Record3 from '@/views/Record3/index'
+import Signature from '@/views/Signature/index'
 // import Home from '@/views/Login/index'
 Vue.use(Router)
 
@@ -36,6 +38,11 @@ export default new Router({
       component: Record2
     },
     {
+      path: '/record3',
+      name: 'Record3',
+      component: Record3
+    },
+    {
       path: '/time-out',
       name: 'TimeOut',
       component: TimeOut
@@ -44,6 +51,11 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/signature',
+      name: 'Signature',
+      component: Signature
     }
   ]
 })

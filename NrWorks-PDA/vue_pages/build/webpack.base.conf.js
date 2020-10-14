@@ -8,16 +8,16 @@ function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-const createLintingRule = () => ({
-  test: /\.(js|vue)$/,
-  loader: 'eslint-loader',
-  enforce: 'pre',
-  include: [resolve('src'), resolve('test')],
-  options: {
-    formatter: require('eslint-friendly-formatter'),
-    emitWarning: !config.dev.showEslintErrorsInOverlay
-  }
-})
+// const createLintingRule = () => ({
+//   test: /\.(js|vue)$/,
+//   loader: 'eslint-loader',
+//   enforce: 'pre',
+//   include: [resolve('src'), resolve('test')],
+//   options: {
+//     formatter: require('eslint-friendly-formatter'),
+//     emitWarning: !config.dev.showEslintErrorsInOverlay
+//   }
+// })
 
 module.exports = {
   context: path.resolve(__dirname, '../'),
@@ -35,7 +35,7 @@ module.exports = {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      '@': resolve('src'),
+      '@': resolve('src')
     }
   },
   module: {
@@ -77,8 +77,16 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loaders: ["style", "css", "sass"]
+        loaders: ['style', 'css', 'sass']
+      },
+      {
+        test: /\.less$/,
+        loaders: ['style', 'css', 'less']
       }
+      // {
+      //   test: /\.less$/,
+      //   loader: 'style-loader!css-loader!less-loader'
+      // }
     ]
   },
   node: {

@@ -117,22 +117,30 @@
       </van-cell-group>
       <van-cell-group>
         <van-cell title="核查时间" value="2020-10-12 09:48"></van-cell>
-        <van-cell title="麻醉医师签名" title-class="sign-title"></van-cell>
+        <van-cell title="麻醉医师签名" title-class="sign-title" @click="handleShowSignature"></van-cell>
         <van-cell title="手术医师签名" title-class="sign-title"></van-cell>
         <van-cell title="手术护士签名" title-class="sign-title"></van-cell>
       </van-cell-group>
     </div>
+    <transition name="van-slide-up">
+      <signature :visible="visible" v-if="visible" @handleClose="handleCloseSignature"/>
+    </transition>
   </div>
 </template>
 
 <script>
+import Signature from '../Signature/index'
 export default {
   data () {
     return {
       checked: true,
       input: '',
-      showFullSkin: false
+      showFullSkin: false,
+      visible: false
     }
+  },
+  components: {
+    Signature
   },
   methods: {
     onClickLeft () {
@@ -143,6 +151,12 @@ export default {
     },
     handleChange () {
       this.showFullSkin = !this.showFullSkin
+    },
+    handleShowSignature () {
+      this.visible = true
+    },
+    handleCloseSignature () {
+      this.visible = false
     }
   }
 }
