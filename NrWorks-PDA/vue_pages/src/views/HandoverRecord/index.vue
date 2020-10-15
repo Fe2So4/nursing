@@ -1,11 +1,11 @@
 <template>
-  <div class="record2">
+  <div class="handover-record">
     <van-nav-bar
-      title="护理记录单(二)"
+      title="转运交接单"
       @click-left="onClickLeft"
       @click-right="onClickRight"
       left-arrow
-      right-text="保存"
+      right-text="运送"
     >
     </van-nav-bar>
     <div class="patient-card">
@@ -22,220 +22,186 @@
     </div>
     <div class="list">
       <van-cell-group>
-        <van-cell title="手术科室：" value="内容" title-class="left-title" value-class="right-value">
+        <van-cell v-show="transferType === 1" title="手术环节交接" :label="transferTitle" value="" title-class="first-cell" style="background:#e2e2e2;">
+        </van-cell>
+        <van-cell v-show="transferType === 0" title="病房交接" value="" title-class="first-cell" style="background:#e2e2e2;">
+        </van-cell>
+        <van-cell v-show="transferType === 0" title="转运起始时间：" :value="time" @click="timeVisible = true"></van-cell>
+        <van-cell title="评估时间：" v-show="transferType === 1" :value="time" @click="timeVisible = true">
+        </van-cell>
+        <van-cell v-show="transferType === 0" title="住院/转院区：" value="内容">
           <template #right-icon>
-            <van-field v-model="input"/>
+            <van-dropdown-menu active-color="#3478FF">
+              <van-dropdown-item v-model="value1" :options="option" />
+            </van-dropdown-menu>
           </template>
         </van-cell>
-        <van-cell title="手术方式：" value="内容" title-class="left-title" value-class="right-value">
+        <van-cell v-show="transferType === 0" title="手术/监护室/透析室：" value="内容">
           <template #right-icon>
-            <van-field v-model="input"/>
+            <van-dropdown-menu active-color="#3478FF">
+              <van-dropdown-item v-model="value1" :options="option" />
+            </van-dropdown-menu>
+          </template>
+        </van-cell>
+        <van-cell title="意识：" value="内容">
+          <template #right-icon>
+            <van-dropdown-menu active-color="#3478FF">
+              <van-dropdown-item v-model="value1" :options="option" />
+            </van-dropdown-menu>
+          </template>
+        </van-cell>
+        <van-cell title="其它：" value="内容" title-class="left-title" value-class="right-value">
+          <template #right-icon>
+            <van-field v-model="input" label="" placeholder="" />
+          </template>
+        </van-cell>
+        <van-cell v-show="transferType === 0" title="疼痛：" value="内容">
+          <template #right-icon>
+            <van-dropdown-menu active-color="#3478FF">
+              <van-dropdown-item v-model="value1" :options="option" />
+            </van-dropdown-menu>
+          </template>
+        </van-cell>
+        <van-cell v-show="transferType === 0" title="强度：" value="内容" title-class="left-title" value-class="right-value">
+          <template #right-icon>
+            <van-field v-model="input" label="" placeholder="" />
+          </template>
+        </van-cell>
+        <van-cell v-show="transferType === 0" title="部位：" value="内容" title-class="left-title" value-class="right-value">
+          <template #right-icon>
+            <van-field v-model="input" label="" placeholder="" />
+          </template>
+        </van-cell>
+        <van-cell v-show="transferType === 0" title="性质：" value="内容">
+          <template #right-icon>
+            <van-dropdown-menu active-color="#3478FF">
+              <van-dropdown-item v-model="value1" :options="option" />
+            </van-dropdown-menu>
+          </template>
+        </van-cell>
+        <van-cell v-show="transferType === 0" title="体温：" value="内容" title-class="left-title" value-class="right-value">
+          <template #right-icon>
+            <van-field v-model="input" label="" placeholder="" />
+          </template>
+        </van-cell>
+        <van-cell title="脉搏：" value="内容" title-class="left-title" value-class="right-value">
+          <template #right-icon>
+            <van-field v-model="input" label="" placeholder="" />
+          </template>
+        </van-cell>
+        <van-cell title="呼吸：" value="内容" title-class="left-title" value-class="right-value">
+          <template #right-icon>
+            <van-field v-model="input" label="" placeholder="" />
+          </template>
+        </van-cell>
+        <van-cell title="血压：" value="内容" title-class="left-title" value-class="right-value">
+          <template #right-icon>
+            <van-field v-model="input" label="" placeholder="" />
+          </template>
+        </van-cell>
+        <van-cell v-show="transferType === 0" title="氧饱和度：" value="内容" title-class="left-title" value-class="right-value">
+          <template #right-icon>
+            <van-field v-model="input" label="" placeholder="" />
+          </template>
+        </van-cell>
+        <van-cell title="皮肤：" value="内容">
+          <template #right-icon>
+            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8" @change="handleChange"/>
+          </template>
+        </van-cell>
+        <van-cell-group v-show="showFullSkin">
+          <van-cell title="部位：" title-class="left-title" value-class="right-value">
+            <template #right-icon>
+              <van-field v-model="input" label="" placeholder="请输入部位：" label-align="right" input-align="right"/>
+            </template>
+          </van-cell>
+          <van-cell title="程度：" title-class="left-title" value-class="right-value">
+            <template #right-icon>
+              <van-field v-model="input" label="" placeholder="请输入程度：" label-align="right" input-align="right"/>
+            </template>
+          </van-cell>
+          <van-cell title="大小：" title-class="left-title" value-class="right-value">
+            <template #right-icon>
+              <van-field v-model="input" label="" placeholder="请输入大小：" label-align="right" input-align="right"/>
+            </template>
+          </van-cell>
+        </van-cell-group>
+        <van-cell v-show="transferType === 0" title="导管：" value="内容" @click="handleShowDialog">
+          <template #right-icon>
+            <van-icon name="play"/>
+          </template>
+        </van-cell>
+        <van-cell v-show="transferType === 1" title="留置导管固定畅通：" value="内容" @click="handleShowDialog">
+          <template #right-icon>
+            <van-icon name="play"/>
+          </template>
+        </van-cell>
+        <van-cell v-show="transferType === 0" title="物品：" value="内容">
+          <template #right-icon>
+            <van-dropdown-menu active-color="#3478FF">
+              <van-dropdown-item v-model="value1" :options="option" />
+            </van-dropdown-menu>
+          </template>
+        </van-cell>
+         <van-cell v-show="transferType === 0" title="备注：" value="内容" title-class="left-title" value-class="right-value">
+          <template #right-icon>
+            <van-field v-model="input" label="" placeholder="" />
+          </template>
+        </van-cell>
+         <van-cell v-show="transferType === 0" title="建议：" value="内容" title-class="left-title" value-class="right-value">
+          <template #right-icon>
+            <van-field v-model="input" label="" placeholder="" />
           </template>
         </van-cell>
       </van-cell-group>
       <van-cell-group style="margin-top:15px;">
-        <van-cell title="手术类型：" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="术前意识评估：" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="术前皮肤评估：" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="麻醉方式：" value="内容" @click="handleShowDialog">
-          <template #right-icon>
-            <van-icon name="play"/>
-          </template>
-        </van-cell>
-        <van-cell title="手术体位：" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="体位装置：" value="内容" @click="handleShowDialog">
-          <template #right-icon>
-            <van-icon name="play"/>
-          </template>
-        </van-cell>
-        <van-cell title="约束带：" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="导尿管：" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="电刀：" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="电极板位置：" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="气囊止血机：" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="术中冲洗：" value="内容" @click="handleShowDialog">
-          <template #right-icon>
-            <van-icon name="play"/>
-          </template>
-        </van-cell>
-        <van-cell title="腰穿留置：" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="术中特殊交班：" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="术中冰冻：" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="病理：" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="植入物：" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="术中可观察的受压部位皮肤：" style="background:#E8E8E8;">
-        </van-cell>
-        <van-cell title="2小时" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="4小时" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="6小时" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="8小时" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="10小时" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="12小时" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="14小时" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="16小时" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-      </van-cell-group>
-      <van-cell-group class="sign-area">
-        <van-cell title="巡回护士签名" title-class="sign-title"></van-cell>
-        <van-cell title="术中交接班">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF" direction="up">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
+        <van-cell title="运送电子签名" title-class="sign-title" @click="handleShowSignature"></van-cell>
       </van-cell-group>
       <van-dialog width="80%" v-model="showDialog" title="术中冲洗" show-cancel-button>
         <van-checkbox-group v-model="result">
           <van-checkbox name="a" shape="square">复选框 a</van-checkbox>
           <van-checkbox name="b" shape="square">复选框 b</van-checkbox>
+          <van-checkbox name="b" shape="square">复选框 b</van-checkbox>
+          <van-checkbox name="b" shape="square">复选框 b</van-checkbox>
+          <van-checkbox name="b" shape="square">复选框 b</van-checkbox>
         </van-checkbox-group>
       </van-dialog>
     </div>
+    <van-action-sheet v-model="timeVisible">
+      <!-- <div class="content">内容</div> -->
+      <template slot="default">
+        <van-datetime-picker
+            v-if="timeVisible"
+            v-model="currentDate"
+            @cancel="handleCancel"
+            @confirm="handleConfirm"
+            @change="handleTimeChange"
+            type="datetime"
+            title="选择完整时间"
+        />
+      </template>
+    </van-action-sheet>
+    <transition name="van-slide-up">
+      <signature :visible="visible" v-if="visible" @handleClose="handleCloseSignature"/>
+    </transition>
   </div>
 </template>
 
 <script>
+import Signature from '../Signature/index'
+import moment from 'moment'
 export default {
-  name: 'Record2',
   data () {
     return {
       checked: true,
+      visible: false,
       input: '',
-      showDialog: false,
       showFullSkin: false,
+      currentDate: moment(new Date()).format('YYYY-MM-DD HH:mm'),
+      timeVisible: false,
       value1: '',
+      transferType: 0,
+      transferTitle: '',
       option: [
         { text: 'PACU', value: 0 },
         { text: '病房', value: 1 },
@@ -243,8 +209,19 @@ export default {
         { text: '急诊', value: 3 },
         { text: '离院', value: 4 }
       ],
+      showDialog: false,
       result: []
     }
+  },
+  components: {
+    Signature
+  },
+  computed: {
+    time () {
+      return moment(this.currentDate).format('YYYY-MM-DD HH:mm')
+    }
+  },
+  watch: {
   },
   methods: {
     onClickLeft () {
@@ -253,19 +230,48 @@ export default {
     onClickRight () {
 
     },
+    handleCancel () {
+      this.timeVisible = false
+    },
+    handleTimeChange (picker) {
+      console.log(picker)
+      // this.currentDate = moment(value).format('YYYY-MM-DD HH:mm')
+    },
+    handleConfirm (value) {
+      console.log(value)
+      this.currentDate = moment(value).format('YYYY-MM-DD HH:mm')
+      this.timeVisible = false
+    },
+    // handleChange () {
+    //   this.showFullSkin = !this.showFullSkin
+    // },
+    // handleChange (index) {
+    //   this.active = index
+    // },
+    handleShowSignature () {
+      this.visible = true
+    },
+    handleCloseSignature () {
+      this.visible = false
+    },
     handleChange () {
       this.showFullSkin = !this.showFullSkin
     },
     handleShowDialog () {
       this.showDialog = true
     }
+  },
+  created () {
+    this.transferType = parseInt(this.$route.query.type)
+    this.transferTitle = this.$route.query.title
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  .record2{
+  .handover-record{
     height: 100%;
+    position: relative;
     .van-nav-bar{
       height: 100px;
       background: linear-gradient(90deg, #666666, #303030);
@@ -378,15 +384,19 @@ export default {
           line-height: 60px;
         }
       }
+      .van-cell__label{
+        font-size: 26px;
+        line-height: 30px;
+      }
       /deep/ .van-icon-play{
         transform: rotate(90deg);
         font-size: 20px;
       }
     }
     .van-cell-group{
-      &.sign-area{
-        margin-top: 15px;
-        margin-bottom: 15px;
+      // &:last-child{
+        // margin-top: 15px;
+        // margin-bottom: 15px;
         .van-cell{
           .van-cell__value{
             color: #7F7F7F;
@@ -395,7 +405,7 @@ export default {
             color: #32db64;
           }
         }
-      }
+      // }
     }
     .van-dialog{
       font-size: 30px;
@@ -430,7 +440,27 @@ export default {
         }
       }
     }
-    .van-overlay{
+    /deep/ .van-picker__toolbar{
+      height: 60px;
+    }
+    /deep/ .van-picker__cancel{
+      font-size: 30px;
+    }
+    /deep/ .van-picker__confirm{
+      font-size: 30px;
+    }
+    /deep/ .van-picker__title{
+      font-size: 30px;
+      line-height: 60px;
+    }
+    /deep/ .van-picker__columns{
+      // height: 400px !important;
+      .van-picker-column{
+        font-size: 26px;
+        line-height: 60px;
+      }
+    }
+    /deep/ .van-overlay{
       background-color: rgba(0,0,0,0.5);
     }
   }

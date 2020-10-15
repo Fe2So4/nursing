@@ -10,16 +10,7 @@
     </van-nav-bar>
     <div class="list">
       <ul>
-        <li>
-          <div class="li-left">
-            <van-image width="80" height="80" src="https://img.yzcdn.cn/vant/cat.jpeg" />
-          </div>
-          <div class="li-right">
-            <p>成蕙祯</p>
-            <p>手术室-复旦大学附属华山医院</p>
-          </div>
-        </li>
-        <li v-for="item in 20" :key="item">
+        <li @click="handleJump">
           <div class="li-left">
             <van-image width="80" height="80" src="https://img.yzcdn.cn/vant/cat.jpeg" />
           </div>
@@ -41,10 +32,13 @@ export default {
   },
   methods: {
     onClickLeft () {
-
+      this.$router.go(-1)
     },
     onClickRight () {
 
+    },
+    handleJump () {
+      this.$router.push('/patient-home')
     }
   }
 }

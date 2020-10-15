@@ -20,25 +20,25 @@
       <van-cell-group>
         <van-cell title="接患者" class="cell-title">
         </van-cell>
-        <van-cell title="病房交接">
+        <van-cell title="病房交接" @click="handleJump(0,'病房交接')">
           <template #right-icon>
             <van-icon name="checked" color="#30C76C"></van-icon>
           </template>
         </van-cell>
-        <van-cell title="进手术室">
+        <van-cell title="进手术室" @click="handleJump(1,'进手术室')">
           <template #right-icon>
             <van-icon name="checked" color="#30C76C"></van-icon>
           </template>
         </van-cell>
         <van-cell title="送患者" class="cell-title">
         </van-cell>
-        <van-cell title="出手术室">
+        <van-cell title="出手术室" value="[转运交接单]" @click="handleJump(1,'出手术室')">
         </van-cell>
-        <van-cell title="进PACU" value="[转运交接单]">
+        <van-cell title="进PACU" value="[转运交接单]" @click="handleJump(1,'进PACU')">
         </van-cell>
-        <van-cell title="出PACU" value="[转运交接单]">
+        <van-cell title="出PACU" value="[转运交接单]" @click="handleJump(1,'出PACU')">
         </van-cell>
-        <van-cell title="病房收治" value="[转运交接单]">
+        <van-cell title="病房收治" value="[转运交接单]" @click="handleJump(1,'病房收治')">
         </van-cell>
       </van-cell-group>
     </div>
@@ -58,10 +58,13 @@ export default {
   },
   methods: {
     onClickLeft () {
-
+      this.$router.go(-1)
     },
     onClickRight () {
 
+    },
+    handleJump (type, title) {
+      this.$router.push({path: '/handover-record', query: {type, title}})
     },
     handleChange () {
       this.showFullSkin = !this.showFullSkin

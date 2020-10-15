@@ -8,14 +8,17 @@ import TimeOut from '@/views/TimeOut/index'
 import Record2 from '@/views/Record2/index'
 import Record3 from '@/views/Record3/index'
 import TransferHandover from '@/views/TransferHandover/index'
-// import Home from '@/views/Login/index'
+import HandoverRecord from '@/views/HandoverRecord/index'
+import DeviceList from '@/views/DeviceList/index'
+import Transfer from '@/views/Transfer/index'
+import PatinetHome from '@/views/PatientHome/index'
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/sign-in'
+      redirect: '/login'
     },
     {
       path: '/home',
@@ -56,6 +59,26 @@ export default new Router({
       path: '/transfer-handover',
       name: 'TransferHandover',
       component: TransferHandover
+    },
+    {
+      path: '/device-list',
+      name: 'DeviceList',
+      component: DeviceList
+    },
+    {
+      path: '/handover-record',
+      name: 'HandoverRecord',
+      component: HandoverRecord
+    },
+    {
+      path: '/transfer',
+      name: 'Transfer',
+      component: Transfer
+    },
+    {
+      path: '/patient-home',
+      name: 'PatinetHome',
+      component: PatinetHome
     }
   ]
 })
