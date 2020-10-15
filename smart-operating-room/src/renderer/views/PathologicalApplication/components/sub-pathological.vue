@@ -5,7 +5,6 @@
       title-align="right"
       :data="formData"
       size="mini"
-      @reset="resetEvent"
     >
       <div class="subP-container-top">
         <span>类别</span>
@@ -17,8 +16,8 @@
             <vxe-radio
               name="n1"
               class="red radio"
-              v-model="value1"
-              label="3"
+              v-model="formData.hologyType"
+              label="0"
               content="术中冰冻"
             />
           </template>
@@ -31,9 +30,23 @@
             <vxe-radio
               name="n1"
               class="radio"
-              v-model="value1"
-              label="3"
+              v-model="formData.hologyType"
+              label="1"
               content="术后病理"
+            />
+          </template>
+        </vxe-form-item>
+        <vxe-form-item
+          v-if="formData.hologyType === '1'"
+          class="mgl30"
+          title="固定液"
+          field="fixed"
+        >
+          <template v-slot>
+            <vxe-input
+              style="width:150px"
+              v-model="formData.fixed"
+              clearable
             />
           </template>
         </vxe-form-item>
@@ -120,12 +133,13 @@
             <div class="list-item-left">
               <vxe-form-item
                 title="标本"
-                field="specimen"
+                field="sampleName"
               >
                 <template v-slot>
                   <vxe-input
+                    size="mini"
                     style="width:280px"
-                    v-model="item.specimen"
+                    v-model="item.sampleName"
                     clearable
                   />
                 </template>
@@ -133,12 +147,13 @@
               <vxe-form-item
                 style="marginLeft:20px"
                 title="部位"
-                field="parts"
+                field="takePartName"
               >
                 <template v-slot>
                   <vxe-input
+                    size="mini"
                     style="width:280px"
-                    v-model="item.parts"
+                    v-model="item.takePartName"
                     clearable
                   />
                 </template>
@@ -146,8 +161,9 @@
               <vxe-form-item>
                 <template v-slot>
                   <vxe-input
+                    size="mini"
                     style="width:60px"
-                    v-model="item.num"
+                    v-model="item.number"
                     placeholder="整数类型"
                     type="integer"
                   />
@@ -157,13 +173,14 @@
             <div class="list-item-right">
               <vxe-form-item
                 class="note"
+                size="mini"
                 title="备注"
-                field="name"
+                field="remark"
               >
                 <template v-slot>
                   <vxe-input
                     style="width:100%"
-                    v-model="item.note"
+                    v-model="item.remark"
                     clearable
                   />
                 </template>
@@ -258,30 +275,41 @@ export default {
     return {
       form: {},
       formData: {
+        hologyType: '0',
         specimenList: [
-          {id: 1, num: 0}
+
         ] // 标本列表
       },
-      value1: '',
+      totalId: 0,
       dialogVisible: false
     }
   },
   methods: {
-    resetEvent () {
-      this.$XModal.message({ message: '重置事件', status: 'info' })
+    // 查询标本数据
+    searchBiaobenData (obj) {
+      console.log(obj)
+      this.$store.dispatch('ReqBiaobenInfo', obj).then(res => {
+        let selectItem = this.$store.state['pathological-table'].selectTableData[0]
+        this.formData.fixed = selectItem.fixed
+        this.formData.hologyType = selectItem.hologyType
+      })
     },
     // 点击删除标本
     deleteSpecimen (item) {
-      console.log(item)
+      console.log(item.id)
       this.formData.specimenList.forEach((list, index) => {
         if (list.id === item.id) {
           this.formData.specimenList.splice(index, 1)
+          return false
         }
       })
     },
     // 点击新增标本
     addSpecimen () {
+      console.log(this.$store.state['pathological-table'].selectPathologyId)
+      this.totalId = this.formData.specimenList.length + 1
       this.formData.specimenList.push({
+        id: this.totalId,
         specimen: '',
         parts: '',
         num: 0,
@@ -294,15 +322,41 @@ export default {
     },
     handleClose (done) {
       done()
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type
+      })
+    }
+  },
+
+  computed: {
+    // 获取病理号
+    ListeningSelectPathologyId () {
+      return this.$store.state['pathological-table'].selectPathologyId
+    }
+  },
+  watch: {
+    ListeningSelectPathologyId: function (newd) {
+      if (this.IsEmpty(newd)) {
+        this.formData.hologyType = '0'
+        this.formData.specimenList = []
+        return false
+      }
+      let obj = {
+        pathologyId: newd
+      }
+      this.searchBiaobenData(obj)
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-/deep/ .el-scrollbar__wrap {
-  overflow-x: hidden !important;
-}
+
 .btn {
     border: none;
     color: #303133;

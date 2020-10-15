@@ -35,11 +35,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.el-scrollbar__wrap{
-  overflow-x: hidden;
-}
+@import './../../styles/scrollrow.scss';
 .paContainer {
     display: flex;
+    width: 100%;
     min-width: 1200px;
     flex-direction: column;
     .user-info {

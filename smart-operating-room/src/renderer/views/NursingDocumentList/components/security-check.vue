@@ -12,7 +12,7 @@
           <el-form
             size="mini"
             ref="form"
-            :model="form"
+            :model="formData"
             label-width="90px"
           >
             <el-row>
@@ -20,7 +20,7 @@
                 <el-form-item label="科 别：">
                   <el-input
                     disabled
-                    v-model="form.name"
+                    v-model="formData.deptName"
                   />
                 </el-form-item>
               </el-col>
@@ -28,7 +28,7 @@
                 <el-form-item label="患者姓名:">
                   <el-input
                     disabled
-                    v-model="form.name"
+                    v-model="formData.name"
                   />
                 </el-form-item>
               </el-col>
@@ -36,7 +36,7 @@
                 <el-form-item label="性 别：">
                   <el-input
                     disabled
-                    v-model="form.name"
+                    v-model="formData.name"
                   />
                 </el-form-item>
               </el-col>
@@ -46,7 +46,7 @@
                 <el-form-item label="住院号：">
                   <el-input
                     disabled
-                    v-model="form.name"
+                    v-model="formData.name"
                   />
                 </el-form-item>
               </el-col>
@@ -54,7 +54,7 @@
                 <el-form-item label="麻醉方式:">
                   <el-input
                     disabled
-                    v-model="form.name"
+                    v-model="formData.name"
                   />
                 </el-form-item>
               </el-col>
@@ -62,7 +62,7 @@
                 <el-form-item label="年 龄：">
                   <el-input
                     disabled
-                    v-model="form.name"
+                    v-model="formData.name"
                   />
                 </el-form-item>
               </el-col>
@@ -72,7 +72,7 @@
                 <el-form-item label="手术日期：">
                   <el-input
                     disabled
-                    v-model="form.name"
+                    v-model="formData.name"
                   />
                 </el-form-item>
               </el-col>
@@ -80,7 +80,7 @@
                 <el-form-item label="主 刀:">
                   <el-input
                     disabled
-                    v-model="form.name"
+                    v-model="formData.name"
                   />
                 </el-form-item>
               </el-col>
@@ -90,7 +90,7 @@
                 <el-form-item label="手术方式：">
                   <el-input
                     disabled
-                    v-model="form.name"
+                    v-model="formData.name"
                   />
                 </el-form-item>
               </el-col>
@@ -511,13 +511,32 @@
 </template>
 
 <script>
+import {reqSecurityCheck} from '@/api/NursingDocumentApi/security-check.js'
 import InfoList from './components/info-list'
 export default {
   name: 'SecurityCheck',
   data () {
     return {
-      form: {name: '芜湖市'}
+      formData: {
+        deptName: ''
+      }
     }
+  },
+  mounted () {
+    let obj = {
+      cureNo: 16447102,
+      hospitalNo: 91131393
+    }
+    reqSecurityCheck(obj).then(res => {
+      if (res.status === 200 && res.data.code === 200) {
+        let wenshuData = res.data.data
+        console.log(wenshuData.deptName)
+        this.formData.deptName = wenshuData.deptName
+        this.formData.name = '555'
+      }
+    })
+  },
+  methods: {
   },
   components: {
     InfoList

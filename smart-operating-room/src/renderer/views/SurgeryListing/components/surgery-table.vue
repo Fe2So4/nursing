@@ -232,34 +232,4 @@ export default {
 /deep/ .col--group {
   padding-bottom: 0 !important;
 }
-/deep/ .vxe-header--column.col_33 {
-  padding-top: 0 !important;
-}
-/deep/ .vxe-header--column.col_35 {
-  padding-top: 0 !important;
-}
-/deep/ .vxe-header--column.col_37 {
-  padding-top: 0 !important;
-}
-/deep/ .vxe-header--column.col_34 .vxe-cell {
-  text-indent: 5px;
-}
-/deep/ .vxe-header--column.col_36 .vxe-cell {
-  text-indent: 5px;
-}
-/deep/ .vxe-header--column.col_105 {
-  padding-top: 0 !important;
-}
-/deep/ .vxe-header--column.col_107 {
-  padding-top: 0 !important;
-}
-/deep/ .vxe-header--column.col_109 {
-  padding-top: 0 !important;
-}
-/deep/ .vxe-header--column.col_106 {
-  text-indent: 5px;
-}
-/deep/ .vxe-header--column.col_108 {
-  text-indent: 5px;
-}
 </style>
