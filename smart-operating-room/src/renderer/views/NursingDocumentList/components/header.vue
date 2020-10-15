@@ -2,10 +2,10 @@
   <div class="header">
     <div class="title">
       <div class="name">
-        许佳康
+        {{ ListeningName }}
       </div>
       <div class="num">
-        住院号:91184463
+        住院号:{{ ListeningNo }}
       </div>
     </div>
     <div class="btnList">
@@ -13,6 +13,7 @@
         class="btn"
         size="mini"
         status="my-purple"
+        @click="shuaxin"
       >
         刷新
       </vxe-button>
@@ -35,8 +36,33 @@
 </template>
 
 <script>
+import Bus from '@/utils/bus.js'
 export default {
-  name: 'NursingHeader'
+  name: 'NursingHeader',
+  data () {
+    return {
+      UserName: '',
+      num: ''
+    }
+  },
+  methods: {
+    shuaxin () {
+      console.log(this.$route.path)
+      if (this.$route.path.includes('security-check')) {
+        Bus.$emit('clickShuaXin', '123')
+      }
+    }
+  },
+  computed: {
+    // 获取用户姓名
+    ListeningName () {
+      return this.$store.state['nursing-document-list'].patientName
+    },
+    // 获取用住院号
+    ListeningNo () {
+      return this.$store.state['nursing-document-list'].hospitalNo
+    }
+  }
 }
 </script>
 

@@ -1,44 +1,36 @@
 <template>
   <div class="nursing-table">
-    <div class="table-conten">
+    <div
+      class="table-conten"
+    >
       <vxe-table
         highlight-current-row
         ref="xTable"
-        class="mytable-scrollbar"
         height="100%"
+        class="mytable-scrollbar"
         border="none"
         :data="tableData"
         @cell-dblclick="dbSelected"
         @current-change="currentChangeEvent"
+        v-infinite-scroll="loadMore"
+        infinite-scroll-disabled="busy"
+        infinite-scroll-distance="10"
       >
         <vxe-table-column
           type="seq"
           width="80"
         />
         <vxe-table-column
-          field="name"
+          field="hospitalNo"
           title="住院号"
         />
         <vxe-table-column
-          field="sex"
+          field="patientName"
           title="病人姓名"
         />
         <vxe-table-column
-          field="age"
-          title="单据名称"
-        />
-        <vxe-table-column
-          field="age"
-          title="单据类别"
-        />
-        <vxe-table-column
-          field="age"
+          field="createTime"
           title="创建时间"
-        />
-        <vxe-table-column
-          field="address"
-          title="创建人"
-          show-overflow
         />
       </vxe-table>
     </div>
@@ -46,40 +38,41 @@
 </template>
 
 <script>
+import Bus from '@/utils/bus.js'
 export default {
   name: 'NursingTable',
   data () {
     return {
       tableData: [
-        { id: 10001, name: 'Test1', role: 'Develop', sex: 'Man', age: 28, address: 'vxe-table 从入门到放弃' },
-        { id: 10002, name: 'Test2', role: 'Test', sex: 'Women', age: 22, address: 'Guangzhou' },
-        { id: 10003, name: 'Test3', role: 'PM', sex: 'Man', age: 32, address: 'Shanghai' },
-        { id: 10004, name: 'Test4', role: 'Designer', sex: 'Women ', age: 24, address: 'Shanghai' },
-        { id: 10001, name: 'Test1', role: 'Develop', sex: 'Man', age: 28, address: 'vxe-table 从入门到放弃' },
-        { id: 10002, name: 'Test2', role: 'Test', sex: 'Women', age: 22, address: 'Guangzhou' },
-        { id: 10003, name: 'Test3', role: 'PM', sex: 'Man', age: 32, address: 'Shanghai' },
-        { id: 10004, name: 'Test4', role: 'Designer', sex: 'Women ', age: 24, address: 'Shanghai' },
-        { id: 10001, name: 'Test1', role: 'Develop', sex: 'Man', age: 28, address: 'vxe-table 从入门到放弃' },
-        { id: 10002, name: 'Test2', role: 'Test', sex: 'Women', age: 22, address: 'Guangzhou' },
-        { id: 10003, name: 'Test3', role: 'PM', sex: 'Man', age: 32, address: 'Shanghai' },
-        { id: 10004, name: 'Test4', role: 'Designer', sex: 'Women ', age: 24, address: 'Shanghai' },
-        { id: 10001, name: 'Test1', role: 'Develop', sex: 'Man', age: 28, address: 'vxe-table 从入门到放弃' },
-        { id: 10002, name: 'Test2', role: 'Test', sex: 'Women', age: 22, address: 'Guangzhou' },
-        { id: 10003, name: 'Test3', role: 'PM', sex: 'Man', age: 32, address: 'Shanghai' },
-        { id: 10004, name: 'Test4', role: 'Designer', sex: 'Women ', age: 24, address: 'Shanghai' },
-        { id: 10001, name: 'Test1', role: 'Develop', sex: 'Man', age: 28, address: 'vxe-table 从入门到放弃' },
-        { id: 10002, name: 'Test2', role: 'Test', sex: 'Women', age: 22, address: 'Guangzhou' },
-        { id: 10003, name: 'Test3', role: 'PM', sex: 'Man', age: 32, address: 'Shanghai' },
-        { id: 10004, name: 'Test4', role: 'Designer', sex: 'Women ', age: 24, address: 'Shanghai' },
-        { id: 10001, name: 'Test1', role: 'Develop', sex: 'Man', age: 28, address: 'vxe-table 从入门到放弃' },
-        { id: 10002, name: 'Test2', role: 'Test', sex: 'Women', age: 22, address: 'Guangzhou' },
-        { id: 10003, name: 'Test3', role: 'PM', sex: 'Man', age: 32, address: 'Shanghai' },
-        { id: 10004, name: 'Test4', role: 'Designer', sex: 'Women ', age: 24, address: 'Shanghai' }
 
-      ]
+      ],
+      pageItem: {},
+      busy: true
     }
   },
+  mounted () {
+    Bus.$on('searchNursing-document-table', res => {
+      this.pageItem = res
+      this.tableData = []
+      // this.getTableData(this.pageItem)
+      this.loadMore()
+    })
+  },
   methods: {
+    loadMore () {
+      console.log(132)
+      this.getTableData(this.pageItem)
+    },
+    // 获取数据
+    getTableData (res) {
+      this.$store.dispatch('ReqNursingDocumentTable', res).then(result => {
+        console.log(result)
+        this.tableData = this.tableData.concat(result.data.data.list)
+        this.pageItem.pageIndex++
+        this.busy = false
+      })
+    },
+
     // 获取高亮行
     getCurrentEvent () {
       this.$XModal.alert(JSON.stringify(this.$refs.xTable.getCurrentRecord()))

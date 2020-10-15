@@ -13,6 +13,8 @@ import VXETable from 'vxe-table'
 import 'vxe-table/lib/style.css'
 import * as voicePromptFun from './utils/voicePrompt'
 import IsEmpty from './utils/isEmpty'
+
+import vueiInfinite from 'vue-infinite-scroll'
 Vue.prototype.IsEmpty = IsEmpty
 Vue.prototype.voicePrompt = voicePromptFun.voicePrompt // 语音提醒
 
@@ -22,6 +24,31 @@ if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
+Vue.use(vueiInfinite)
+Vue.directive('loadmore', {
+  bind (el, binding) {
+    var p = 0
+    var t = 0
+    var down = true
+    var selectWrap = el.querySelector('.vxe-table--body-wrapper')
+    selectWrap.addEventListener('scroll', function () {
+      // 判断是否向下滚动
+      p = this.scrollTop
+      if (t < p) {
+        down = true
+      } else {
+        down = false
+      }
+      t = p
+      // 判断是否到底
+      const sign = 10
+      const scrollDistance = this.scrollHeight - this.scrollTop - this.clientHeight
+      if (scrollDistance <= sign && down) {
+        binding.value()
+      }
+    })
+  }
+})
 /* eslint-disable no-new */
 new Vue({
   components: { App },

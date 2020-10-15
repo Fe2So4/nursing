@@ -3,9 +3,9 @@
     <span class="info-left">{{ title }}</span>
     <span class="info-right">
       <span>是</span>
-      <IsSelect prop-select="false" />
+      <IsSelect :myselect="myselect" />
       <span>否</span>
-      <IsSelect prop-select="false" />
+      <IsSelect :myselect="!myselect" />
     </span>
   </div>
 </template>
@@ -14,7 +14,7 @@
 import IsSelect from './isSelect'
 export default {
   name: 'InfoList',
-  props: ['title'],
+  props: ['title', 'myselect'],
   data () {
     return {
 

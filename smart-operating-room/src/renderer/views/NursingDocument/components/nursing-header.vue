@@ -8,44 +8,28 @@
     >
       <vxe-form-item
         title="开始"
-        field="name"
+        field="startTime"
       >
         <vxe-input
-          v-model="formData.name"
+          v-model="formData.startTime"
           placeholder="日期选择"
           type="date"
         />
       </vxe-form-item>
       <vxe-form-item
         title="结束"
-        field="name"
+        field="endTime"
       >
         <vxe-input
-          v-model="formData.name"
+          v-model="formData.endTime"
           placeholder="日期选择"
           type="date"
         />
       </vxe-form-item>
-      <vxe-form-item
-        title="单据类型"
-        field="name"
-      >
-        <vxe-select
-          v-model="formData.name"
-          placeholder="默认尺寸"
-        >
-          <vxe-option
-            v-for="num in 15"
-            :key="num"
-            :value="num"
-            :label="`选项${num}`"
-          />
-        </vxe-select>
-      </vxe-form-item>
       <vxe-form-item title="姓名/住院号">
         <vxe-input
-          v-model="formData.name"
-          placeholder="默认尺寸"
+          v-model="formData.hospitalNoOrName"
+          placeholder="请输入姓名/住院号"
         />
       </vxe-form-item>
       <vxe-form-item>
@@ -53,6 +37,7 @@
           class="btnBlue"
           size="mini"
           status="my-purple"
+          @click="searchTable"
         >
           查 询
         </vxe-button>
@@ -62,11 +47,26 @@
 </template>
 
 <script>
+import Bus from '@/utils/bus.js'
 export default {
   name: 'NursingHeader',
   data () {
     return {
-      formData: {}
+      formData: {},
+      pageIndex: 0,
+      pageSize: 20
+    }
+  },
+  methods: {
+    searchTable () {
+      let obj = {
+        startTime: this.formData.startTime || '2019-09-22',
+        endTime: this.formData.endTime || '2019-12-23',
+        hospitalNoOrName: this.formData.hospitalNoOrName || '',
+        pageIndex: 1,
+        pageSize: 10
+      }
+      Bus.$emit('searchNursing-document-table', obj)
     }
   }
 }
