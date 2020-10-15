@@ -118,8 +118,8 @@
       <van-cell-group>
         <van-cell title="核查时间" value="2020-10-12 09:48"></van-cell>
         <van-cell title="麻醉医师签名" title-class="sign-title" @click="handleShowSignature"></van-cell>
-        <van-cell title="手术医师签名" title-class="sign-title"></van-cell>
-        <van-cell title="手术护士签名" title-class="sign-title"></van-cell>
+        <van-cell title="手术医师签名" title-class="sign-title" @click="handleShowSignature"></van-cell>
+        <van-cell title="手术护士签名" title-class="sign-title" @click="handleShowSignature"></van-cell>
       </van-cell-group>
     </div>
     <transition name="van-slide-up">
@@ -144,7 +144,7 @@ export default {
   },
   methods: {
     onClickLeft () {
-
+      this.$router.go(-1)
     },
     onClickRight () {
 

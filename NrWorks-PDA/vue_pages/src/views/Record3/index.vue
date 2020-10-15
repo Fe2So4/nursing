@@ -23,7 +23,7 @@
     <div class="list">
       <h3>手术病人护理记录单(三)</h3>
       <ul>
-        <li>
+        <li @click="handleJump">
           <div class="li-left">
             <van-icon name="todo-list-o"/>
           </div>
@@ -32,7 +32,7 @@
             <p>体腔关闭后</p>
           </div>
         </li>
-        <li>
+        <li @click="handleJump">
           <div class="li-left">
             <van-icon name="edit"/>
           </div>
@@ -68,10 +68,13 @@ export default {
   },
   methods: {
     onClickLeft () {
-
+      this.$router.go(-1)
     },
     onClickRight () {
 
+    },
+    handleJump () {
+      this.$router.push('/device-list')
     },
     handleChange () {
       this.showFullSkin = !this.showFullSkin
