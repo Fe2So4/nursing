@@ -74,7 +74,6 @@ export default {
   },
   methods: {
     onClickLeft () {
-      console.log('kleft')
       this.$router.go(-1)
     },
     onClickRight () {
