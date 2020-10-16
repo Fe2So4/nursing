@@ -28,7 +28,7 @@
                 <el-form-item label="患者姓名:">
                   <el-input
                     disabled
-                    v-model="formData.name"
+                    v-model="formData.patientName"
                   />
                 </el-form-item>
               </el-col>
@@ -36,7 +36,7 @@
                 <el-form-item label="性 别：">
                   <el-input
                     disabled
-                    v-model="formData.name"
+                    v-model="formData.gender"
                   />
                 </el-form-item>
               </el-col>
@@ -46,7 +46,7 @@
                 <el-form-item label="住院号：">
                   <el-input
                     disabled
-                    v-model="formData.name"
+                    v-model="formData.hospitalNo"
                   />
                 </el-form-item>
               </el-col>
@@ -54,7 +54,7 @@
                 <el-form-item label="麻醉方式:">
                   <el-input
                     disabled
-                    v-model="formData.name"
+                    v-model="formData.operationMethodName"
                   />
                 </el-form-item>
               </el-col>
@@ -62,7 +62,7 @@
                 <el-form-item label="年 龄：">
                   <el-input
                     disabled
-                    v-model="formData.name"
+                    v-model="formData.patientAge"
                   />
                 </el-form-item>
               </el-col>
@@ -72,7 +72,7 @@
                 <el-form-item label="手术日期：">
                   <el-input
                     disabled
-                    v-model="formData.name"
+                    v-model="formData.operationDate"
                   />
                 </el-form-item>
               </el-col>
@@ -80,7 +80,7 @@
                 <el-form-item label="主 刀:">
                   <el-input
                     disabled
-                    v-model="formData.name"
+                    v-model="formData.operatorName"
                   />
                 </el-form-item>
               </el-col>
@@ -90,7 +90,7 @@
                 <el-form-item label="手术方式：">
                   <el-input
                     disabled
-                    v-model="formData.name"
+                    v-model="formData.operationName"
                   />
                 </el-form-item>
               </el-col>
@@ -108,74 +108,119 @@
               <span class="info-left padl5">患者姓名,性别,年龄正确：</span>
               <span class="info-right-one">
                 <span>是</span>
-                <img
-                  src="./../../../assets/isFalse.png"
-                  alt=""
-                >
+                <IsSelect :myselect="anesBeforeCheck.isSelect0" />
                 <span>否</span>
-                <img
-                  src="./../../../assets/isFalse.png"
-                  alt=""
-                >
+                <IsSelect :myselect="!anesBeforeCheck.isSelect0" />
               </span>
             </div>
-            <InfoList title="手术方式确认：" />
-            <InfoList title="手术部位与标识正确：" />
-            <InfoList title="手术知情同意书：" />
-            <InfoList title="麻醉知情同意书：" />
-            <InfoList title="麻醉设备安全检查完成：" />
-            <InfoList title="皮肤是否完整：" />
+            <InfoList
+              :myselect="anesBeforeCheck.isSelect1"
+              title="手术方式确认："
+            />
+            <InfoList
+              :myselect="anesBeforeCheck.isSelect2"
+              title="手术部位与标识正确："
+            />
+            <InfoList
+              :myselect="anesBeforeCheck.isSelect3"
+              title="手术知情同意书："
+            />
+            <InfoList
+              :myselect="anesBeforeCheck.isSelect4"
+              title="麻醉知情同意书："
+            />
+            <InfoList
+              :myselect="anesBeforeCheck.isSelect5"
+              title="麻醉设备安全检查完成："
+            />
+            <InfoList
+              :myselect="anesBeforeCheck.isSelect6"
+              title="皮肤是否完整："
+            />
             <div class="info-pifu">
               <div class="pifu-buwei">
                 <span>部位</span>
                 <div class="text">
-                  123
+                  {{ anesBeforeCheck.pifu_buwei }}
                 </div>
               </div>
               <div class="pifu-chengdu">
                 <span>程度</span>
                 <div class="text">
-                  123
+                  {{ anesBeforeCheck.pifu_chengdu }}
                 </div>
               </div>
             </div>
-            <InfoList title="术野皮肤准备正确：" />
-            <InfoList title="静脉通道建立完成:" />
-            <InfoList title="患者是否有过敏史：" />
-            <InfoList title="抗菌药物皮试结果：" />
-            <InfoList title="术前准备：" />
-            <InfoList title="影像学资料：" />
-            <InfoList title="假体：" />
-            <InfoList title="体内植入物：" />
+            <InfoList
+              :myselect="anesBeforeCheck.isSelect7"
+              title="术野皮肤准备正确："
+            />
+            <InfoList
+              :myselect="anesBeforeCheck.isSelect8"
+              title="静脉通道建立完成:"
+            />
+            <InfoList
+              :myselect="anesBeforeCheck.isSelect9"
+              title="患者是否有过敏史："
+            />
+            <InfoList
+              :myselect="anesBeforeCheck.isSelect10"
+              title="抗菌药物皮试结果："
+            />
+            <InfoList
+              :myselect="anesBeforeCheck.isSelect11"
+              title="术前准备："
+            />
+            <InfoList
+              :myselect="anesBeforeCheck.isSelect12"
+              title="影像学资料："
+            />
+            <InfoList
+              :myselect="anesBeforeCheck.isSelect13"
+              title="假体："
+            />
+            <InfoList
+              :myselect="anesBeforeCheck.isSelect14"
+              title="体内植入物："
+            />
           </div>
           <div class="qita">
             <span>其他：</span>
             <div class="text">
-              123
+              {{ anesBeforeCheck.qita }}
             </div>
           </div>
           <div class="qianming">
             <div class="qianming-list">
               <span>麻醉医师签名：</span>
-              <div class="text">
-                123
+              <div class="text imgbox">
+                <img
+                  :src="anesBeforeCheck.anesBeforeAnesDoc"
+                  alt=""
+                >
               </div>
             </div>
             <div class="qianming-list">
               <span>手术医师签名：</span>
-              <div class="text">
-                123
+              <div class="text imgbox">
+                <img
+                  :src="anesBeforeCheck.anesBeforeOperDoc"
+                  alt=""
+                >
               </div>
             </div>
             <div class="qianming-list">
               <span>手术护士签名：</span>
-              <div class="text">
-                123
+              <div class="text imgbox">
+                <img
+                  :src="anesBeforeCheck.anesBeforeNurse"
+                  alt=""
+                >
               </div>
             </div>
-            <div>
+            <div class="mgt5">
               <span>麻醉前核对时间：</span>
-              <div>123</div>
+              <div>{{ anesBeforeCheck.anesBeforeChkTime }}</div>
             </div>
           </div>
         </div>
@@ -188,19 +233,19 @@
               <span class="info-left padl5">患者姓名,性别,年龄正确：</span>
               <span class="info-right-one">
                 <span>是</span>
-                <img
-                  src="./../../../assets/isFalse.png"
-                  alt=""
-                >
+                <IsSelect :myselect="opeeBeforeCheck.isSelect0" />
                 <span>否</span>
-                <img
-                  src="./../../../assets/isFalse.png"
-                  alt=""
-                >
+                <IsSelect :myselect="!opeeBeforeCheck.isSelect0" />
               </span>
             </div>
-            <InfoList title="手术方式确认：" />
-            <InfoList title="手术部位与标识正确：" />
+            <InfoList
+              :myselect="opeeBeforeCheck.isSelect1"
+              title="手术方式确认："
+            />
+            <InfoList
+              :myselect="opeeBeforeCheck.isSelect2"
+              title="手术部位与标识正确："
+            />
             <div class="info-one">
               <span class="info-left padl3">手术,麻醉风险预警：</span>
               <span class="info-right-one" />
@@ -209,111 +254,95 @@
               <span class="info-left padl3">手术医师陈述：</span>
               <span class="info-right-one">
                 <span class="info-left padl3">预计手术时间</span>
-                <img
-                  src="./../../../assets/isFalse.png"
-                  alt=""
-                >
+                <IsSelect :myselect="opeeBeforeCheck.isSelect3_1" />
               </span>
               <span class="info-right-one">
                 <span class="info-left padl3">预计失血量</span>
-                <img
-                  src="./../../../assets/isFalse.png"
-                  alt=""
-                >
+                <IsSelect :myselect="opeeBeforeCheck.isSelect3_2" />
               </span>
               <span class="info-right-one">
                 <span class="info-left padl3">手术关注点</span>
-                <img
-                  src="./../../../assets/isFalse.png"
-                  alt=""
-                >
+                <IsSelect :myselect="opeeBeforeCheck.isSelect3_3" />
               </span>
               <span class="info-right-one">
-                <span class="info-left padl3">其他</span>
-                <img
-                  src="./../../../assets/isFalse.png"
-                  alt=""
-                >
+                <span class="info-left padl3">其它</span>
+                <IsSelect :myselect="opeeBeforeCheck.isSelect3_4" />
               </span>
             </div>
             <div class="info-one">
               <span class="info-left padl3">麻醉医师陈述：</span>
               <span class="info-right-one">
                 <span class="info-left padl3">麻醉关注点</span>
-                <img
-                  src="./../../../assets/isFalse.png"
-                  alt=""
-                >
+                <IsSelect :myselect="opeeBeforeCheck.isSelect4_1" />
               </span>
               <span class="info-right-one">
-                <span class="info-left padl3">其他</span>
-                <img
-                  src="./../../../assets/isFalse.png"
-                  alt=""
-                >
+                <span class="info-left padl3">其它</span>
+                <IsSelect :myselect="opeeBeforeCheck.isSelect4_2" />
               </span>
             </div>
             <div class="info-one padb10">
               <span class="info-left padl3">手术护士陈述：</span>
               <span class="info-right-one">
                 <span class="info-left padl3">物品灭菌合格</span>
-                <img
-                  src="./../../../assets/isFalse.png"
-                  alt=""
-                >
+                <IsSelect :myselect="opeeBeforeCheck.isSelect5_1" />
               </span>
               <span class="info-right-one">
                 <span class="info-left padl3">仪器设备、植入物</span>
-                <img
-                  src="./../../../assets/isFalse.png"
-                  alt=""
-                >
+                <IsSelect :myselect="opeeBeforeCheck.isSelect5_2" />
               </span>
               <span class="info-right-one">
                 <span class="info-left padl3">术前术中特殊用药情况</span>
-                <img
-                  src="./../../../assets/isFalse.png"
-                  alt=""
-                >
+                <IsSelect :myselect="opeeBeforeCheck.isSelect5_3" />
               </span>
               <span class="info-right-one">
                 <span class="info-left padl3">其他</span>
-                <img
-                  src="./../../../assets/isFalse.png"
-                  alt=""
-                >
+                <IsSelect :myselect="opeeBeforeCheck.isSelect5_4" />
               </span>
             </div>
-            <InfoList title="是否需要相关影像资料：" />
+            <InfoList
+              :myselect="opeeBeforeCheck.isSelect6"
+              title="是否需要相关影像资料："
+            />
           </div>
           <div class="qita">
             <span>其他：</span>
             <div class="text">
-              123
+              {{ opeeBeforeCheck.qita }}
             </div>
           </div>
           <div class="qianming">
             <div class="qianming-list">
               <span>麻醉医师签名：</span>
-              <div class="text">
-                123
+              <div class="text imgbox">
+                <img
+                  :src="opeeBeforeCheck.beforeOperAnesDoctorTwo"
+                  alt=""
+                >
               </div>
             </div>
             <div class="qianming-list">
               <span>手术医师签名：</span>
-              <div class="text">
-                123
+              <div class="text imgbox">
+                <img
+                  :src="opeeBeforeCheck.beforeOperDocTwo"
+                  alt=""
+                >
               </div>
             </div>
             <div class="qianming-list">
               <span>手术护士签名：</span>
-              <div class="text">
-                123
+              <div class="text imgbox">
+                <img
+                  :src="opeeBeforeCheck.beforeOperNurse"
+                  alt=""
+                >
               </div>
             </div>
-            <div>
+            <div class="mgt5">
               <span>手术开始前时间：</span>
-              <div>123</div>
+              <div>
+                {{ opeeBeforeCheck.beforeOperChkTime }}
+              </div>
             </div>
           </div>
         </div>
@@ -326,48 +355,51 @@
               <span class="info-left padl5">患者姓名,性别,年龄正确：</span>
               <span class="info-right-one">
                 <span>是</span>
-                <img
-                  src="./../../../assets/isFalse.png"
-                  alt=""
-                >
+                <IsSelect :myselect="beforeLeaveRoomCheck.isSelect0" />
                 <span>否</span>
-                <img
-                  src="./../../../assets/isFalse.png"
-                  alt=""
-                >
+                <IsSelect :myselect="!beforeLeaveRoomCheck.isSelect0" />
               </span>
             </div>
-            <InfoList title="实际手术方式确认：" />
+            <InfoList
+              :myselect="beforeLeaveRoomCheck.isSelect1"
+              title="实际手术方式确认："
+            />
             <div class="info-one">
               <span class="info-left padl5">手术用药,输血,冰冻报告的检查正确：</span>
               <span class="info-right-one">
                 <span>是</span>
-                <img
-                  src="./../../../assets/isFalse.png"
-                  alt=""
-                >
+                <IsSelect :myselect="beforeLeaveRoomCheck.isSelect2" />
                 <span>否</span>
-                <img
-                  src="./../../../assets/isFalse.png"
-                  alt=""
-                >
+                <IsSelect :myselect="!beforeLeaveRoomCheck.isSelect2" />
               </span>
             </div>
-            <InfoList title="病理标本：" />
-            <InfoList title="病理标本号核对正确：" />
-            <InfoList title="手术用物清点正确：" />
-            <InfoList title="皮肤是否完整：" />
+            <InfoList
+              :myselect="beforeLeaveRoomCheck.isSelect3"
+              title="病理标本："
+            />
+            <InfoList
+              :myselect="beforeLeaveRoomCheck.isSelect4"
+              title="病理标本号核对正确："
+            />
+            <InfoList
+              :myselect="beforeLeaveRoomCheck.isSelect5"
+              title="手术用物清点正确："
+            />
+            <InfoList
+              :myselect="beforeLeaveRoomCheck.isSelect6"
+              title="皮肤是否完整："
+            />
             <div class="info-pifu">
               <div class="pifu-buwei">
                 <span>部位</span>
                 <div class="text">
-                  123
+                  {{ beforeLeaveRoomCheck.pifu_buwei }}
                 </div>
               </div>
               <div class="pifu-chengdu">
                 <span>程度</span>
                 <div class="text">
-                  123
+                  {{ beforeLeaveRoomCheck.pifu_chengdu }}
                 </div>
               </div>
             </div>
@@ -375,49 +407,31 @@
               <span class="info-left padl3 ziti">各种管路：</span>
               <span class="info-right-one">
                 <span class="info-left padl3">静脉通路</span>
-                <img
-                  src="./../../../assets/isFalse.png"
-                  alt=""
-                >
+                <IsSelect :myselect="beforeLeaveRoomCheck.isSelect7_1" />
               </span>
               <span class="info-right-one">
                 <span class="info-left padl3">动脉通路</span>
-                <img
-                  src="./../../../assets/isFalse.png"
-                  alt=""
-                >
+                <IsSelect :myselect="beforeLeaveRoomCheck.isSelect7_2" />
               </span>
               <span class="info-right-one">
                 <span class="info-left padl3">气管插管</span>
-                <img
-                  src="./../../../assets/isFalse.png"
-                  alt=""
-                >
+                <IsSelect :myselect="beforeLeaveRoomCheck.isSelect7_3" />
               </span>
               <span class="info-right-one">
                 <span class="info-left padl3">伤口引流</span>
-                <img
-                  src="./../../../assets/isFalse.png"
-                  alt=""
-                >
+                <IsSelect :myselect="beforeLeaveRoomCheck.isSelect7_4" />
               </span>
               <span class="info-right-one">
                 <span class="info-left padl3">胃管</span>
-                <img
-                  src="./../../../assets/isFalse.png"
-                  alt=""
-                >
+                <IsSelect :myselect="beforeLeaveRoomCheck.isSelect7_5" />
               </span>
               <span class="info-right-one">
                 <span class="info-left padl3">尿管</span>
-                <img
-                  src="./../../../assets/isFalse.png"
-                  alt=""
-                >
+                <IsSelect :myselect="beforeLeaveRoomCheck.isSelect7_6" />
               </span>
               <span class="info-right-one guanluqita">
                 <div class="info-left padl3">其他：</div>
-                <span class="zidingyi">123</span>
+                <span class="zidingyi" />
                 <div>
                   <img
                     src="./../../../assets/isFalse.png"
@@ -435,40 +449,25 @@
                 <div class="padb10">
                   <span class="info-right-one">
                     <span class="info-left padl3 mgl10">PACU</span>
-                    <img
-                      src="./../../../assets/isFalse.png"
-                      alt=""
-                    >
+                    <IsSelect :myselect="beforeLeaveRoomCheck.isSelect8_1" />
                   </span>
                   <span class="info-right-one">
                     <span class="info-left padl3 mgl10">病房</span>
-                    <img
-                      src="./../../../assets/isFalse.png"
-                      alt=""
-                    >
+                    <IsSelect :myselect="beforeLeaveRoomCheck.isSelect8_2" />
                   </span>
                 </div>
                 <div>
                   <span class="info-right-one">
                     <span class="info-left padl3 mgl10">ICU病房</span>
-                    <img
-                      src="./../../../assets/isFalse.png"
-                      alt=""
-                    >
+                    <IsSelect :myselect="beforeLeaveRoomCheck.isSelect8_3" />
                   </span>
                   <span class="info-right-one">
                     <span class="info-left padl3 mgl10">急诊</span>
-                    <img
-                      src="./../../../assets/isFalse.png"
-                      alt=""
-                    >
+                    <IsSelect :myselect="beforeLeaveRoomCheck.isSelect8_4" />
                   </span>
                   <span class="info-right-one">
                     <span class="info-left padl3 mgl10">离院</span>
-                    <img
-                      src="./../../../assets/isFalse.png"
-                      alt=""
-                    >
+                    <IsSelect :myselect="beforeLeaveRoomCheck.isSelect8_5" />
                   </span>
                 </div>
               </div>
@@ -477,31 +476,40 @@
           <div class="qita">
             <span>其他：</span>
             <div class="text">
-              123
+              {{ beforeLeaveRoomCheck.qita }}
             </div>
           </div>
           <div class="qianming">
             <div class="qianming-list">
               <span>麻醉医师签名：</span>
-              <div class="text">
-                123
+              <div class="text imgbox">
+                <img
+                  :src="beforeLeaveRoomCheck.leaveBeforeAnesDoc"
+                  alt=""
+                >
               </div>
             </div>
             <div class="qianming-list">
               <span>手术医师签名：</span>
-              <div class="text">
-                123
+              <div class="text imgbox">
+                <img
+                  :src="beforeLeaveRoomCheck.leaveBeforeOperDoc"
+                  alt=""
+                >
               </div>
             </div>
             <div class="qianming-list">
               <span>手术护士签名：</span>
-              <div class="text">
-                123
+              <div class="text imgbox">
+                <img
+                  :src="beforeLeaveRoomCheck.leaveBeforeOperNurse"
+                  alt=""
+                >
               </div>
             </div>
-            <div>
+            <div class="mgt5">
               <span>离开手术室前时间：</span>
-              <div>123</div>
+              <div>{{ beforeLeaveRoomCheck.leaveBeforeChkTime }}</div>
             </div>
           </div>
         </div>
@@ -511,35 +519,319 @@
 </template>
 
 <script>
-import {reqSecurityCheck} from '@/api/NursingDocumentApi/security-check.js'
+// import {reqSecurityCheck} from '@/api/NursingDocumentApi/security-check.js'
+import Bus from '@/utils/bus.js'
 import InfoList from './components/info-list'
+import IsSelect from './components/isSelect'
 export default {
   name: 'SecurityCheck',
   data () {
     return {
       formData: {
-        deptName: ''
+        deptName: '',
+        patientName: '',
+        gender: '',
+        hospitalNo: '',
+        operationMethodName: ''
+      },
+      anesBeforeCheckTable: [],
+      anesBeforeCheck: {
+        isSelect0: false,
+        isSelect1: false,
+        isSelect2: false,
+        isSelect3: false,
+        isSelect4: false,
+        isSelect5: false,
+        isSelect6: false,
+        pifu_buwei: '',
+        pifu_chengdu: '',
+        isSelect7: false,
+        isSelect8: false,
+        isSelect9: false,
+        isSelect10: false,
+        isSelect11: false,
+        isSelect12: false,
+        isSelect13: false,
+        isSelect14: false,
+        qita: '',
+        anesBeforeAnesDoc: '', // 麻醉实施前 麻醉医师签名
+        anesBeforeNurse: '', // 麻醉实施前 手术护士签名
+        anesBeforeOperDoc: '', // 麻醉实施前 手术医师签名
+        anesBeforeChkTime: '' // 麻醉实施前 时间
+      },
+      opeeBeforeCheckTable: [], // 手术开始前
+      opeeBeforeCheck: {
+        beforeOperAnesDoctorTwo: '',
+        beforeOperDocTwo: '',
+        beforeOperChkTime: '',
+        beforeOperNurse: '',
+        isSelect0: false,
+        isSelect1: false,
+        isSelect2: false,
+        isSelect3_1: false,
+        isSelect3_2: false,
+        isSelect3_3: false,
+        isSelect3_4: false,
+        isSelect4_1: false,
+        isSelect4_2: false,
+        isSelect5_1: false,
+        isSelect5_2: false,
+        isSelect5_3: false,
+        isSelect5_4: false,
+        isSelect6: false,
+        qita: ''
+      },
+      beforeLeaveRoomCheckTable: [], // 患者离开后
+      beforeLeaveRoomCheck: {
+        leaveBeforeAnesDoc: '',
+        leaveBeforeOperDoc: '',
+        leaveBeforeOperNurse: '',
+        leaveBeforeChkTime: '',
+        isSelect0: false,
+        isSelect1: false,
+        isSelect2: false,
+        isSelect3: false,
+        isSelect4: false,
+        isSelect5: false,
+        isSelect6: false,
+        pifu_buwei: '',
+        pifu_chengdu: '',
+        isSelect7_1: false,
+        isSelect7_2: false,
+        isSelect7_3: false,
+        isSelect7_4: false,
+        isSelect7_5: false,
+        isSelect7_6: false,
+        qita: ''
       }
     }
   },
   mounted () {
-    let obj = {
-      cureNo: 16447102,
-      hospitalNo: 91131393
-    }
-    reqSecurityCheck(obj).then(res => {
-      if (res.status === 200 && res.data.code === 200) {
-        let wenshuData = res.data.data
-        console.log(wenshuData.deptName)
-        this.formData.deptName = wenshuData.deptName
-        this.formData.name = '555'
-      }
+    this.searchData()
+    Bus.$on('clickShuaXin', res => {
+      this.searchData()
     })
   },
   methods: {
+    searchData () {
+      let obj = {
+        cureNo: 16447102,
+        hospitalNo: 91131393
+      }
+      this.$store.dispatch('reqSecurityCheckTable', obj).then(res => {
+        if (res.status === 200 && res.data.code === 200) {
+          let wenshuData = res.data.data
+          console.log(wenshuData)
+          // 顶部form表单
+          this.formData.deptName = wenshuData.deptName
+          this.formData.patientName = wenshuData.patientName
+          this.formData.gender = wenshuData.gender
+          this.formData.hospitalNo = wenshuData.hospitalNo
+          this.formData.operationMethodName = wenshuData.operationMethodName
+          this.formData.patientAge = wenshuData.patientAge
+          this.formData.operationDate = wenshuData.operationDate
+          this.formData.operatorName = wenshuData.operatorName
+          this.formData.operationName = wenshuData.operationName
+          this.$store.commit('SAVE_HOSNO', this.formData.hospitalNo)
+          this.$store.commit('SAVE_PATLENTNAME', this.formData.patientName)
+          // 麻醉实施前json
+          this.anesBeforeCheck.anesBeforeAnesDoc = wenshuData.anesBeforeAnesDoc
+          this.anesBeforeCheck.anesBeforeNurse = wenshuData.anesBeforeNurse
+          this.anesBeforeCheck.anesBeforeOperDoc = wenshuData.anesBeforeOperDoc
+          this.anesBeforeCheck.anesBeforeChkTime = wenshuData.anesBeforeChkTime
+          this.anesBeforeCheckTable = wenshuData.anesBeforeCheck
+          this.anesBeforeCheck.isSelect0 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[0].value)
+          this.anesBeforeCheck.isSelect1 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[1].value)
+          this.anesBeforeCheck.isSelect2 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[2].value)
+          this.anesBeforeCheck.isSelect3 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[3].value)
+          this.anesBeforeCheck.isSelect4 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[4].value)
+          this.anesBeforeCheck.isSelect5 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[5].value)
+          this.anesBeforeCheck.isSelect6 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[6].value)
+          this.anesBeforeCheck.pifu_buwei = this.anesBeforeCheckTable[6].items[0].value
+          this.anesBeforeCheck.pifu_chengdu = this.anesBeforeCheckTable[6].items[1].value
+          this.anesBeforeCheck.isSelect7 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[7].value)
+          this.anesBeforeCheck.isSelect8 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[8].value)
+          this.anesBeforeCheck.isSelect9 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[9].value)
+          this.anesBeforeCheck.isSelect10 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[10].value)
+          this.anesBeforeCheck.isSelect11 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[11].value)
+          this.anesBeforeCheck.isSelect12 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[12].value)
+          this.anesBeforeCheck.isSelect13 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[13].value)
+          this.anesBeforeCheck.isSelect14 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[14].value)
+          this.anesBeforeCheck.qita = this.anesBeforeCheckTable[15].value
+
+          // 手术开始前检查
+          this.opeeBeforeCheck.beforeOperAnesDoctorTwo = wenshuData.beforeOperAnesDoctorTwo
+          this.opeeBeforeCheck.beforeOperDocTwo = wenshuData.beforeOperDocTwo
+          this.opeeBeforeCheck.beforeOperNurse = wenshuData.beforeOperNurse
+          this.opeeBeforeCheck.beforeOperChkTime = wenshuData.beforeOperChkTime
+          this.opeeBeforeCheckTable = wenshuData.opeeBeforeCheck
+          this.opeeBeforeCheck.isSelect0 = this.changeIsTrueOrFalse(this.opeeBeforeCheckTable[0].value)
+          this.opeeBeforeCheck.isSelect1 = this.changeIsTrueOrFalse(this.opeeBeforeCheckTable[1].value)
+          this.opeeBeforeCheck.isSelect2 = this.changeIsTrueOrFalse(this.opeeBeforeCheckTable[2].value)
+
+          if (this.opeeBeforeCheckTable[3].value.includes('|')) {
+            let select3Arr = this.opeeBeforeCheckTable[3].value.split('|')
+            select3Arr.forEach(item => {
+              if (item === '预计手术时间') {
+                this.opeeBeforeCheck.isSelect3_1 = true
+              } else if (item === '预计失血量') {
+                this.opeeBeforeCheck.isSelect3_2 = true
+              } else if (item === '手术关注点') {
+                this.opeeBeforeCheck.isSelect3_3 = true
+              } else if (item === '其它') {
+                this.opeeBeforeCheck.isSelect3_4 = true
+              }
+            })
+          } else if (!this.IsEmpty(this.opeeBeforeCheckTable[3].value)) {
+            let str = this.opeeBeforeCheckTable[3].value
+            if (str === '预计手术时间') {
+              this.opeeBeforeCheck.isSelect3_1 = true
+            } else if (str === '预计失血量') {
+              this.opeeBeforeCheck.isSelect3_2 = true
+            } else if (str === '手术关注点') {
+              this.opeeBeforeCheck.isSelect3_3 = true
+            } else if (str === '其它') {
+              this.opeeBeforeCheck.isSelect3_4 = true
+            }
+          }
+          if (this.opeeBeforeCheckTable[4].value.includes('|')) {
+            let select4Arr = this.opeeBeforeCheckTable[4].value.split('|')
+            select4Arr.forEach(item => {
+              if (item === '麻醉关注点') {
+                this.opeeBeforeCheck.isSelect4_1 = true
+              } else if (item === '其它') {
+                this.opeeBeforeCheck.isSelect4_2 = true
+              }
+            })
+          } else if (!this.IsEmpty(this.opeeBeforeCheckTable[4].value)) {
+            let str = this.opeeBeforeCheckTable[4].value
+            if (str === '麻醉关注点') {
+              this.opeeBeforeCheck.isSelect4_1 = true
+            } else if (str === '其它') {
+              this.opeeBeforeCheck.isSelect4_2 = true
+            }
+          }
+          if (this.opeeBeforeCheckTable[5].value.includes('|')) {
+            let select5Arr = this.opeeBeforeCheckTable[5].value.split('|')
+            select5Arr.forEach(item => {
+              if (item === '物品灭菌合格') {
+                this.opeeBeforeCheck.isSelect5_1 = true
+              } else if (item === '仪器设备、植入物') {
+                this.opeeBeforeCheck.isSelect5_2 = true
+              } else if (item === '术前术中特殊用药情况') {
+                this.opeeBeforeCheck.isSelect5_3 = true
+              } else if (item === '其它') {
+                this.opeeBeforeCheck.isSelect5_4 = true
+              }
+            })
+          } else if (!this.IsEmpty(this.opeeBeforeCheckTable[5].value)) {
+            let str = this.opeeBeforeCheckTable[5].value
+            if (str === '物品灭菌合格') {
+              this.opeeBeforeCheck.isSelect5_1 = true
+            } else if (str === '仪器设备、植入物') {
+              this.opeeBeforeCheck.isSelect5_2 = true
+            } else if (str === '术前术中特殊用药情况') {
+              this.opeeBeforeCheck.isSelect5_3 = true
+            } else if (str === '其它') {
+              this.opeeBeforeCheck.isSelect5_4 = true
+            }
+          }
+          this.opeeBeforeCheck.isSelect6 = this.changeIsTrueOrFalse(this.opeeBeforeCheckTable[6].value)
+          this.opeeBeforeCheck.qita = this.opeeBeforeCheckTable[7].value
+
+          // 患者离开前
+          this.beforeLeaveRoomCheck.leaveBeforeAnesDoc = wenshuData.leaveBeforeAnesDoc
+          this.beforeLeaveRoomCheck.leaveBeforeOperDoc = wenshuData.leaveBeforeOperDoc
+          this.beforeLeaveRoomCheck.leaveBeforeOperNurse = wenshuData.leaveBeforeOperNurse
+          this.beforeLeaveRoomCheck.leaveBeforeChkTime = wenshuData.leaveBeforeChkTime
+          this.beforeLeaveRoomCheckTable = wenshuData.beforeLeaveRoomCheck
+          this.beforeLeaveRoomCheck.isSelect0 = this.changeIsTrueOrFalse(this.beforeLeaveRoomCheckTable[0].value)
+          this.beforeLeaveRoomCheck.isSelect1 = this.changeIsTrueOrFalse(this.beforeLeaveRoomCheckTable[1].value)
+          this.beforeLeaveRoomCheck.isSelect2 = this.changeIsTrueOrFalse(this.beforeLeaveRoomCheckTable[2].value)
+          this.beforeLeaveRoomCheck.isSelect3 = this.changeIsTrueOrFalse(this.beforeLeaveRoomCheckTable[3].value)
+          this.beforeLeaveRoomCheck.isSelect4 = this.changeIsTrueOrFalse(this.beforeLeaveRoomCheckTable[4].value)
+          this.beforeLeaveRoomCheck.isSelect5 = this.changeIsTrueOrFalse(this.beforeLeaveRoomCheckTable[5].value)
+          this.beforeLeaveRoomCheck.isSelect6 = this.changeIsTrueOrFalse(this.beforeLeaveRoomCheckTable[6].value)
+          if (this.beforeLeaveRoomCheckTable[7].value.includes('|')) {
+            let select7Arr = this.beforeLeaveRoomCheckTable[7].value.split('|')
+            select7Arr.forEach(item => {
+              if (item === '静脉通路') {
+                this.beforeLeaveRoomCheck.isSelect7_1 = true
+              } else if (item === '动脉通路') {
+                this.beforeLeaveRoomCheck.isSelect7_2 = true
+              } else if (item === '气管插管') {
+                this.beforeLeaveRoomCheck.isSelect7_3 = true
+              } else if (item === '伤口引流') {
+                this.beforeLeaveRoomCheck.isSelect7_4 = true
+              } else if (item === '胃管') {
+                this.beforeLeaveRoomCheck.isSelect7_5 = true
+              } else if (item === '尿管') {
+                this.beforeLeaveRoomCheck.isSelect7_6 = true
+              }
+            })
+          } else if (!this.IsEmpty(this.beforeLeaveRoomCheckTable[7].value)) {
+            let str = this.beforeLeaveRoomCheckTable[7].value
+            if (str === '静脉通路') {
+              this.beforeLeaveRoomCheck.isSelect7_1 = true
+            } else if (str === '动脉通路') {
+              this.beforeLeaveRoomCheck.isSelect7_2 = true
+            } else if (str === '气管插管') {
+              this.beforeLeaveRoomCheck.isSelect7_3 = true
+            } else if (str === '伤口引流') {
+              this.beforeLeaveRoomCheck.isSelect7_4 = true
+            } else if (str === '胃管') {
+              this.beforeLeaveRoomCheck.isSelect7_5 = true
+            } else if (str === '尿管') {
+              this.beforeLeaveRoomCheck.isSelect7_6 = true
+            }
+          }
+          if (this.beforeLeaveRoomCheckTable[8].value.includes('|')) {
+            let select8Arr = this.beforeLeaveRoomCheckTable[8].value.split('|')
+            select8Arr.forEach(item => {
+              if (item === '恢复室') {
+                this.beforeLeaveRoomCheck.isSelect8_1 = true
+              } else if (item === '病房') {
+                this.beforeLeaveRoomCheck.isSelect8_2 = true
+              } else if (item === 'ICU病房') {
+                this.beforeLeaveRoomCheck.isSelect8_3 = true
+              } else if (item === '急诊') {
+                this.beforeLeaveRoomCheck.isSelect8_4 = true
+              } else if (item === '离院') {
+                this.beforeLeaveRoomCheck.isSelect8_5 = true
+              }
+            })
+          } else if (!this.IsEmpty(this.beforeLeaveRoomCheckTable[8].value)) {
+            let str = this.beforeLeaveRoomCheckTable[8].value
+            if (str === '恢复室') {
+              this.beforeLeaveRoomCheck.isSelect8_1 = true
+            } else if (str === '病房') {
+              this.beforeLeaveRoomCheck.isSelect8_2 = true
+            } else if (str === 'ICU病房') {
+              this.beforeLeaveRoomCheck.isSelect8_3 = true
+            } else if (str === '急诊') {
+              this.beforeLeaveRoomCheck.isSelect8_4 = true
+            } else if (str === '离院') {
+              this.beforeLeaveRoomCheck.isSelect8_5 = true
+            }
+          }
+          this.beforeLeaveRoomCheck.pifu_buwei = this.beforeLeaveRoomCheckTable[6].items[0].value
+          this.beforeLeaveRoomCheck.pifu_chengdu = this.beforeLeaveRoomCheckTable[6].items[1].value
+          this.beforeLeaveRoomCheck.qita = this.beforeLeaveRoomCheckTable[9].value
+        }
+      })
+    },
+    // 对汉字是否进行转换
+    changeIsTrueOrFalse (str) {
+      if (str === '是' || str === '有') {
+        return true
+      } else {
+        return false
+      }
+    }
   },
   components: {
-    InfoList
+    InfoList,
+    IsSelect
   }
 }
 </script>
@@ -552,7 +844,7 @@ export default {
   min-width: 824px;
   min-height: 920px;
   background-color: #fff;
-  padding: 10px 80px 0 80px;
+  padding: 10px 60px 0 60px;
   .wenben-content {
     width: 100%;
     display: flex;
@@ -610,6 +902,7 @@ export default {
               display: flex;
               flex: 1;
               .text {
+                height: 100%;
                 padding-left: 5px;
                 border-bottom: 1px solid #000;
                 flex: 1;
@@ -756,6 +1049,17 @@ export default {
     border-bottom: 1px solid #000;
     flex: 1;
   }
+}
+.imgbox {
+  width: 100%;
+  height: 100%;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+.mgt5 {
+  margin-top: 5px;
 }
 .qianming {
   border-top: 1px solid #000;

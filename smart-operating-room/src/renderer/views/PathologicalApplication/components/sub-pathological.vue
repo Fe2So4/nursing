@@ -78,12 +78,12 @@
         <div class="body-left">
           <vxe-form-item
             title="备注"
-            field="name"
+            field="remarks"
           >
             <template v-slot>
               <vxe-input
                 style="width:280px"
-                v-model="formData.name"
+                v-model="formData.remarks"
                 clearable
               />
             </template>
@@ -289,9 +289,16 @@ export default {
     searchBiaobenData (obj) {
       console.log(obj)
       this.$store.dispatch('ReqBiaobenInfo', obj).then(res => {
-        let selectItem = this.$store.state['pathological-table'].selectTableData[0]
-        this.formData.fixed = selectItem.fixed
-        this.formData.hologyType = selectItem.hologyType
+        console.log(res)
+        if (res.data.code === 200) {
+          let selectItem = this.$store.state['pathological-table'].selectTableData[0]
+          this.formData.fixed = selectItem.fixed
+          this.formData.hologyType = selectItem.hologyType
+          this.formData.remarks = selectItem.remarks
+          this.formData.specimenList = res.data.data
+        } else {
+          this.openToast('error', res.data.msg)
+        }
       })
     },
     // 点击删除标本

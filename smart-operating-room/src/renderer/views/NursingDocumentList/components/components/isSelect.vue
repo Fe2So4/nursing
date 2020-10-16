@@ -1,13 +1,13 @@
 <template>
   <span>
     <img
-      v-if="propSelect"
-      src="./../../../../assets/isFalse.png"
+      v-if="myselect"
+      src="./../../../../assets/isTrue.png"
       alt=""
     >
     <img
       v-else
-      src="./../../../../assets/isTrue.png"
+      src="./../../../../assets/isFalse.png"
       alt=""
     >
   </span>
@@ -16,9 +16,8 @@
 <script>
 export default {
   name: 'IsSelect',
-  props: ['propSelect'],
+  props: ['myselect'],
   mounted () {
-    console.log()
   },
   data () {
     return {
