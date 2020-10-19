@@ -12,7 +12,7 @@
       >
         <vxe-table-column
           type="seq"
-          width="80"
+          width="50"
         />
         <vxe-table-column
           field="name"
@@ -90,25 +90,43 @@ export default {
         { id: 10003, name: 'Test3', role: 'PM', sex: 'Man', age: 32, address: 'Shanghai' },
         { id: 10004, name: 'Test4', role: 'Designer', sex: 'Women ', age: 24, address: 'Shanghai' }
 
-      ]
+      ],
+      pageItem: {},
+      busy: true,
+      currentRow: {}
     }
   },
   methods: {
-    // 获取高亮行
-    getCurrentEvent () {
-      this.$XModal.alert(JSON.stringify(this.$refs.xTable.getCurrentRecord()))
+    load () {
+      console.log(132)
+      this.getTableData(this.pageItem)
     },
-    currentChangeEvent ({ row }) {
-      console.log('行选中事件')
+    // 获取数据
+    getTableData (res) {
+      this.$store.dispatch('ReqNursingDocumentTable', res).then(result => {
+        console.log(result)
+        this.tableData.push(...result.data.data.list)
+        this.pageItem.pageIndex++
+        this.busy = false
+      })
+    },
+    handleCurrentChange (val) {
+      this.currentRow = val
+    },
+
+    dbSelected ({row}) {
+      this.$router.push({
+        path: '/home/nursing-document-list/security-check',
+        query: {
+          row
+        }
+      })
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-/deep/ .table-conten .vxe-table .vxe-body--row.row--current {
-    background-color:#D6DCE8 !important;
-}
 
 .statistical-table {
     height: 100%;
@@ -118,5 +136,15 @@ export default {
     .table-conten {
       height: 100%;
     }
+}
+/deep/ .table-conten .vxe-table .vxe-body--row.row--current {
+    background-color:#D6DCE8 !important;
+}
+/deep/ .el-table__header-wrapper {
+    position: fixed;
+    z-index: 1;
+}
+/deep/ .el-table__body-wrapper {
+  margin-top: 50px;
 }
 </style>

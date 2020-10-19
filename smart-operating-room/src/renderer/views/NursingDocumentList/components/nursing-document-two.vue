@@ -630,6 +630,20 @@ export default {
       form: {}
     }
   },
+  mounted () {
+    this.getWenShuData()
+  },
+  methods: {
+    getWenShuData () {
+      let obj = {
+        hospitalNo: 91150384,
+        cureNo: 17257233
+      }
+      this.$store.dispatch('ReqNursingDocumentTwo', obj).then(res => {
+        console.log(res)
+      })
+    }
+  },
   components: {
     isSelect
   }

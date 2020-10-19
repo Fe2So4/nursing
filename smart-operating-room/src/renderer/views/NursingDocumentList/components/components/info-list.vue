@@ -2,16 +2,18 @@
   <div class="info-list">
     <span class="info-left">{{ title }}</span>
     <span class="info-right">
-      <span>是</span>
       <IsSelect :myselect="myselect" />
+      <!-- <span>是</span>
+        <IsSelect :myselect="myselect" />
       <span>否</span>
-      <IsSelect :myselect="!myselect" />
+      <IsSelect :myselect="!myselect" /> -->
     </span>
   </div>
 </template>
 
 <script>
-import IsSelect from './isSelect'
+// import IsSelect from './isSelect'
+import IsSelect from './testItem'
 export default {
   name: 'InfoList',
   props: ['title', 'myselect'],
