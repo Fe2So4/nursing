@@ -50,7 +50,7 @@
             <div class="input-div-context">123</div>
           </span>
           <span style="marginLeft:34px">
-            <isSelect prop-select="true" />
+            <!-- <IsSelect :myselect="beforeLeaveRoomCheck.isSelect8_5" /> -->
             <span>住院/</span>
             <isSelect prop-select="true" />
             <span>转病区</span>
@@ -1016,7 +1016,23 @@ export default {
   name: 'TransitTransfer',
   data () {
     return {
-      form: {}
+      selectArr1: {
+
+      }
+    }
+  },
+  mounted () {
+    this.getWenShuData()
+  },
+  methods: {
+
+    getWenShuData () {
+      let obj = {
+        admitNo: 91119858
+      }
+      this.$store.dispatch('ReqTransitTransfer', obj).then(res => {
+        console.log(res)
+      })
     }
   },
   components: {

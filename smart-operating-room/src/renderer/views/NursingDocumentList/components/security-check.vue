@@ -107,10 +107,14 @@
             <div class="info-one">
               <span class="info-left padl5">患者姓名,性别,年龄正确：</span>
               <span class="info-right-one">
-                <span>是</span>
+                <InfoList
+                  :myselect="anesBeforeCheck.isSelect0"
+                  title=""
+                />
+                <!-- <span>是</span>
                 <IsSelect :myselect="anesBeforeCheck.isSelect0" />
                 <span>否</span>
-                <IsSelect :myselect="!anesBeforeCheck.isSelect0" />
+                <IsSelect :myselect="!anesBeforeCheck.isSelect0" /> -->
               </span>
             </div>
             <InfoList
@@ -232,10 +236,15 @@
             <div class="info-one">
               <span class="info-left padl5">患者姓名,性别,年龄正确：</span>
               <span class="info-right-one">
-                <span>是</span>
+                <InfoList
+                  :myselect="opeeBeforeCheck.isSelect0"
+                  title=""
+                />
+                <!-- <span>是</span>
                 <IsSelect :myselect="opeeBeforeCheck.isSelect0" />
                 <span>否</span>
                 <IsSelect :myselect="!opeeBeforeCheck.isSelect0" />
+              </span> -->
               </span>
             </div>
             <InfoList
@@ -354,10 +363,15 @@
             <div class="info-one">
               <span class="info-left padl5">患者姓名,性别,年龄正确：</span>
               <span class="info-right-one">
-                <span>是</span>
+                <InfoList
+                  :myselect="beforeLeaveRoomCheck.isSelect0"
+                  title=""
+                />
+                <!-- <span>是</span>
                 <IsSelect :myselect="beforeLeaveRoomCheck.isSelect0" />
                 <span>否</span>
                 <IsSelect :myselect="!beforeLeaveRoomCheck.isSelect0" />
+              </span> -->
               </span>
             </div>
             <InfoList
@@ -367,10 +381,14 @@
             <div class="info-one">
               <span class="info-left padl5">手术用药,输血,冰冻报告的检查正确：</span>
               <span class="info-right-one">
-                <span>是</span>
+                <InfoList
+                  :myselect="beforeLeaveRoomCheck.isSelect2"
+                  title=""
+                />
+                <!-- <span>是</span>
                 <IsSelect :myselect="beforeLeaveRoomCheck.isSelect2" />
                 <span>否</span>
-                <IsSelect :myselect="!beforeLeaveRoomCheck.isSelect2" />
+                <IsSelect :myselect="!beforeLeaveRoomCheck.isSelect2" /> -->
               </span>
             </div>
             <InfoList
@@ -536,23 +554,23 @@ export default {
       },
       anesBeforeCheckTable: [],
       anesBeforeCheck: {
-        isSelect0: false,
-        isSelect1: false,
-        isSelect2: false,
-        isSelect3: false,
-        isSelect4: false,
-        isSelect5: false,
-        isSelect6: false,
+        isSelect0: '3',
+        isSelect1: '3',
+        isSelect2: '3',
+        isSelect3: '3',
+        isSelect4: '3',
+        isSelect5: '3',
+        isSelect6: '3',
         pifu_buwei: '',
         pifu_chengdu: '',
-        isSelect7: false,
-        isSelect8: false,
-        isSelect9: false,
-        isSelect10: false,
-        isSelect11: false,
-        isSelect12: false,
-        isSelect13: false,
-        isSelect14: false,
+        isSelect7: '3',
+        isSelect8: '3',
+        isSelect9: '3',
+        isSelect10: '3',
+        isSelect11: '3',
+        isSelect12: '3',
+        isSelect13: '3',
+        isSelect14: '3',
         qita: '',
         anesBeforeAnesDoc: '', // 麻醉实施前 麻醉医师签名
         anesBeforeNurse: '', // 麻醉实施前 手术护士签名
@@ -565,9 +583,9 @@ export default {
         beforeOperDocTwo: '',
         beforeOperChkTime: '',
         beforeOperNurse: '',
-        isSelect0: false,
-        isSelect1: false,
-        isSelect2: false,
+        isSelect0: '3',
+        isSelect1: '3',
+        isSelect2: '3',
         isSelect3_1: false,
         isSelect3_2: false,
         isSelect3_3: false,
@@ -578,7 +596,7 @@ export default {
         isSelect5_2: false,
         isSelect5_3: false,
         isSelect5_4: false,
-        isSelect6: false,
+        isSelect6: '3',
         qita: ''
       },
       beforeLeaveRoomCheckTable: [], // 患者离开后
@@ -587,13 +605,13 @@ export default {
         leaveBeforeOperDoc: '',
         leaveBeforeOperNurse: '',
         leaveBeforeChkTime: '',
-        isSelect0: false,
-        isSelect1: false,
-        isSelect2: false,
-        isSelect3: false,
-        isSelect4: false,
-        isSelect5: false,
-        isSelect6: false,
+        isSelect0: '3',
+        isSelect1: '3',
+        isSelect2: '3',
+        isSelect3: '3',
+        isSelect4: '3',
+        isSelect5: '3',
+        isSelect6: '3',
         pifu_buwei: '',
         pifu_chengdu: '',
         isSelect7_1: false,
@@ -641,6 +659,7 @@ export default {
           this.anesBeforeCheck.anesBeforeChkTime = wenshuData.anesBeforeChkTime
           this.anesBeforeCheckTable = wenshuData.anesBeforeCheck
           this.anesBeforeCheck.isSelect0 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[0].value)
+
           this.anesBeforeCheck.isSelect1 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[1].value)
           this.anesBeforeCheck.isSelect2 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[2].value)
           this.anesBeforeCheck.isSelect3 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[3].value)
@@ -823,9 +842,11 @@ export default {
     // 对汉字是否进行转换
     changeIsTrueOrFalse (str) {
       if (str === '是' || str === '有') {
-        return true
+        return '1'
+      } else if (str === '否' || str === '无') {
+        return '2'
       } else {
-        return false
+        return '3'
       }
     }
   },

@@ -359,7 +359,13 @@ export default {
       exitdialogVisible: false, // 退单
       isSelectItem: [],
       isSelectIndex: 0,
-      selectDialogVisible: false // 修改
+      selectDialogVisible: false, // 修改
+
+      searchCardParams: {
+        selectFloor: '',
+        getNewDate: ''
+
+      }
     }
   },
   mounted () {
@@ -376,6 +382,14 @@ export default {
 
   },
   methods: {
+    // 初始化查询参数
+    initSearchCardParams () {
+
+    },
+    // 获取内容列表
+    getCardList () {
+      this.$store.dispatch('ReqOperationOrders', this.searchCardParams)
+    },
     // 显示修改弹窗
     changeDialogShow () {
       this.selectDialogVisible = true

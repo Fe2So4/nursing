@@ -13,9 +13,11 @@ import VXETable from 'vxe-table'
 import 'vxe-table/lib/style.css'
 import * as voicePromptFun from './utils/voicePrompt'
 import IsEmpty from './utils/isEmpty'
+import utilsGetNewDate from './utils/utilsTime'
 
 import vueiInfinite from 'vue-infinite-scroll'
 Vue.prototype.IsEmpty = IsEmpty
+Vue.prototype.utilsGetNewDate = utilsGetNewDate
 Vue.prototype.voicePrompt = voicePromptFun.voicePrompt // 语音提醒
 
 Vue.use(ElementUI)
@@ -30,7 +32,7 @@ Vue.directive('loadmore', {
     var p = 0
     var t = 0
     var down = true
-    var selectWrap = el.querySelector('.vxe-table--body-wrapper')
+    var selectWrap = el.querySelector('.el-table__body-wrapper')
     selectWrap.addEventListener('scroll', function () {
       // 判断是否向下滚动
       p = this.scrollTop

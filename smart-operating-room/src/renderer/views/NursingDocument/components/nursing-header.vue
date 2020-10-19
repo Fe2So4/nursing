@@ -64,7 +64,7 @@ export default {
         endTime: this.formData.endTime || '2019-12-23',
         hospitalNoOrName: this.formData.hospitalNoOrName || '',
         pageIndex: 1,
-        pageSize: 10
+        pageSize: 20
       }
       Bus.$emit('searchNursing-document-table', obj)
     }

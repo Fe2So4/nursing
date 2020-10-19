@@ -200,7 +200,33 @@ export default {
       value12: []
     }
   },
+  mounted () {
+    this.addScrollHandle()
+  },
+
   methods: {
+    addScrollHandle () {
+      this.dom = this.$refs.xTable.elemStore['main-body-wrapper']
+      this.dom.addEventListener('scroll', () => {
+      // 滚动距离
+        let scrollTop = this.dom.scrollTop
+        // 变量windowHeight是可视区的高度
+        let windowHeight = this.dom.clientHeight || this.dom.clientHeight
+        // 变量scrollHeight是滚动条的总高度
+        let scrollHeight = this.dom.scrollHeight || this.dom.scrollHeight
+        if (scrollTop + windowHeight === scrollHeight) {
+          // 获取到的不是全部数据 当滚动到底部 继续获取新的数据
+          if (!this.allData) this.getMoreLog()
+        }
+      })
+    },
+    getMoreLog () {
+      this.load()
+    },
+    load () {
+      console.log(123)
+      // this.tableData = this.tableData.concat(this.tableData)
+    },
     // 获取高亮行
     getCurrentEvent () {
       this.$XModal.alert(JSON.stringify(this.$refs.xTable.getCurrentRecord()))

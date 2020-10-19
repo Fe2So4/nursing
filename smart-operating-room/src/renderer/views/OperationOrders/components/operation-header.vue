@@ -14,6 +14,7 @@
         <vxe-form-item field="startDate">
           <template v-slot>
             <vxe-input
+              placeholder="请选择日期"
               v-model="formData1.startDate"
               type="date"
               clearable
@@ -121,10 +122,23 @@ export default {
         selectFloor: '',
         isSend: '1'
       },
-      floorList: []
+      floorList: [
+
+      ]
     }
   },
+  mounted () {
+    this.formData1.startDate = this.utilsGetNewDate()
+    console.log(this.formData1.startDate)
+    this.getFloorList()
+  },
   methods: {
+    // 获取楼层列表
+    getFloorList () {
+      this.$store.dispatch('ReqgetFloor').then(res => {
+        console.log(res)
+      })
+    },
     resetEvent () {
       this.$XModal.message({ message: '重置事件', status: 'info' })
     },

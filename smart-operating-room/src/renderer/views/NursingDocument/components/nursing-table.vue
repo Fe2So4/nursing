@@ -6,19 +6,19 @@
       <vxe-table
         highlight-current-row
         ref="xTable"
-        height="100%"
         class="mytable-scrollbar"
+        height="100%"
         border="none"
         :data="tableData"
-        @cell-dblclick="dbSelected"
         @current-change="currentChangeEvent"
-        v-infinite-scroll="loadMore"
-        infinite-scroll-disabled="busy"
-        infinite-scroll-distance="10"
+        @cell-dblclick="dbSelected"
       >
+        <!-- infinite-scroll-disabled="busy" -->
+        <!-- infinite-scroll-immediate="false" -->
+        <!-- v-infinite-scroll="load" -->
         <vxe-table-column
           type="seq"
-          width="80"
+          width="100"
         />
         <vxe-table-column
           field="hospitalNo"
@@ -47,7 +47,8 @@ export default {
 
       ],
       pageItem: {},
-      busy: true
+      busy: true,
+      currentRow: {}
     }
   },
   mounted () {
@@ -55,11 +56,31 @@ export default {
       this.pageItem = res
       this.tableData = []
       // this.getTableData(this.pageItem)
-      this.loadMore()
+      this.load()
     })
+    this.addScrollHandle()
   },
   methods: {
-    loadMore () {
+    // 添加滚动事件
+    addScrollHandle () {
+      this.dom = this.$refs.xTable.elemStore['main-body-wrapper']
+      this.dom.addEventListener('scroll', () => {
+      // 滚动距离
+        let scrollTop = this.dom.scrollTop
+        // 变量windowHeight是可视区的高度
+        let windowHeight = this.dom.clientHeight || this.dom.clientHeight
+        // 变量scrollHeight是滚动条的总高度
+        let scrollHeight = this.dom.scrollHeight || this.dom.scrollHeight
+        if (scrollTop + windowHeight === scrollHeight) {
+          // 获取到的不是全部数据 当滚动到底部 继续获取新的数据
+          if (!this.allData) this.getMoreLog()
+        }
+      })
+    },
+    getMoreLog () {
+      this.load()
+    },
+    load () {
       console.log(132)
       this.getTableData(this.pageItem)
     },
@@ -67,19 +88,15 @@ export default {
     getTableData (res) {
       this.$store.dispatch('ReqNursingDocumentTable', res).then(result => {
         console.log(result)
-        this.tableData = this.tableData.concat(result.data.data.list)
+        this.tableData.push(...result.data.data.list)
         this.pageItem.pageIndex++
         this.busy = false
       })
     },
+    currentChangeEvent (val) {
+      this.currentRow = val
+    },
 
-    // 获取高亮行
-    getCurrentEvent () {
-      this.$XModal.alert(JSON.stringify(this.$refs.xTable.getCurrentRecord()))
-    },
-    currentChangeEvent ({ row }) {
-      console.log('行选中事件')
-    },
     dbSelected ({row}) {
       this.$router.push({
         path: '/home/nursing-document-list/security-check',
