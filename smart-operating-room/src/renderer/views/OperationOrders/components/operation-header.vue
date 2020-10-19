@@ -9,7 +9,6 @@
         class="mgl10 form"
         :data="formData1"
         size="mini"
-        @reset="resetEvent"
       >
         <vxe-form-item field="startDate">
           <template v-slot>
@@ -48,7 +47,7 @@
         <vxe-button
           status="my-purple"
           size="mini"
-          v-if="formData2.isSend === '1'"
+          v-if="formData2.isSend === '0'"
           class="btn"
           content="退单"
           @click="changeItem(1)"
@@ -68,14 +67,13 @@
       <vxe-form
         class="mgl10 form"
         :data="formData2"
-        @reset="resetEvent"
       >
         <vxe-form-item field="startDate">
           <template v-slot>
             <vxe-radio
               name="n1"
               v-model="formData2.isSend"
-              label="1"
+              label="0"
               content="未派单"
             />
           </template>
@@ -85,22 +83,23 @@
             <vxe-radio
               name="n1"
               v-model="formData2.isSend"
-              label="2"
+              label="1"
               content="已派单"
             />
           </template>
         </vxe-form-item>
         <vxe-form-item title="楼层">
           <vxe-select
+            clearable
             style="width:120px"
             v-model="formData2.selectFloor"
-            placeholder="默认尺寸"
+            placeholder="默认全部楼层"
           >
             <vxe-option
-              v-for="num in floorList"
-              :key="num"
-              :value="num"
-              :label="`选项${num}`"
+              v-for="item in floorList"
+              :key="item.id"
+              :value="item.floorNo"
+              :label="item.floorName"
             />
           </vxe-select>
         </vxe-form-item>
@@ -110,6 +109,7 @@
 </template>
 
 <script>
+import Bus from '@/utils/bus.js'
 export default {
   name: 'OpeartionHeader',
   data () {
@@ -120,7 +120,7 @@ export default {
       },
       formData2: {
         selectFloor: '',
-        isSend: '1'
+        isSend: '0'
       },
       floorList: [
 
@@ -136,29 +136,30 @@ export default {
     // 获取楼层列表
     getFloorList () {
       this.$store.dispatch('ReqgetFloor').then(res => {
-        console.log(res)
+        if (res.data.code === 200) {
+          this.$store.commit('SAVE_FLOOR', res.data.data)
+          this.floorList = res.data.data
+        }
       })
-    },
-    resetEvent () {
-      this.$XModal.message({ message: '重置事件', status: 'info' })
     },
     changeItem (type) {
       this.$emit('changeItem', type)
     },
     searchCardList () {
       let data = {
-        startTime: this.formData1.startDate,
-        nickname: this.formData1.nickname,
-        isSend: this.formData2.isSend,
-        selectFloor: this.formData2.selectFloor
+        date: this.formData1.startDate,
+        condition: this.formData1.nickname,
+        isOrder: this.formData2.isSend,
+        floorNo: this.formData2.selectFloor
       }
-      console.log(data)
+      Bus.$emit('operation-header-searchCard', data)
     }
   },
   watch: {
     'formData2.isSend' (newVal, oldVal) {
       if (newVal !== oldVal) {
-        this.$emit('changeRadio')
+        this.$emit('changeRadio', newVal)
+        this.$store.commit('CHANGE_ISSHEND', newVal)
       }
     }
   }

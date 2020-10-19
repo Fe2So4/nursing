@@ -67,18 +67,8 @@ export default {
         },
         {
           icon: 'el-icon-s-claim',
-          title: '统计查询报表单',
-          path: '/home/statistical-query-running'
-        },
-        {
-          icon: 'el-icon-s-claim',
           title: '连台手术',
           path: '/home/continuous-surgery'
-        },
-        {
-          icon: 'el-icon-s-claim',
-          title: '连台手术清单',
-          path: '/home/surgery-listing'
         }
       ]
     }

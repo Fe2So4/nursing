@@ -633,8 +633,8 @@ export default {
   methods: {
     searchData () {
       let obj = {
-        cureNo: 16447102,
-        hospitalNo: 91131393
+        cureNo: this.$store.state['nursing-document-list'].cureNo,
+        hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
       }
       this.$store.dispatch('reqSecurityCheckTable', obj).then(res => {
         if (res.status === 200 && res.data.code === 200) {
@@ -650,8 +650,7 @@ export default {
           this.formData.operationDate = wenshuData.operationDate
           this.formData.operatorName = wenshuData.operatorName
           this.formData.operationName = wenshuData.operationName
-          this.$store.commit('SAVE_HOSNO', this.formData.hospitalNo)
-          this.$store.commit('SAVE_PATLENTNAME', this.formData.patientName)
+
           // 麻醉实施前json
           this.anesBeforeCheck.anesBeforeAnesDoc = wenshuData.anesBeforeAnesDoc
           this.anesBeforeCheck.anesBeforeNurse = wenshuData.anesBeforeNurse

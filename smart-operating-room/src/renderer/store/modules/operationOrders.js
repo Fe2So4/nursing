@@ -1,14 +1,20 @@
-import {reqOperationOrders, reqgetFloor, reqgetRoomByFloor} from '@/api/operation-orders/operation-orders.js'
+import {reqOperationOrders, reqgetFloor, reqgetRoomByFloor, reqgetNurseDict, reqchangeOperScheduleInfo, reqcancelOrderAction, reqsendOrderAction} from '@/api/operation-orders/operation-orders.js'
 
 const state = {
-
+  floor: [],
+  isSend: '0'
 }
 
 const mutations = {
   // SAVE_USERINFO (state, data) {
   //   state.userInfo = data.data || {}
   // }
-
+  SAVE_FLOOR (state, data) {
+    state.floor = data
+  },
+  CHANGE_ISSHEND (state, data) {
+    state.isSend = data
+  }
 }
 
 const actions = {
@@ -25,6 +31,26 @@ const actions = {
   // 获取内容列表
   async ReqOperationOrders ({ commit }, query) {
     let res = await reqOperationOrders(query)
+    return res
+  },
+  // 获取护士列表
+  async ReqgetNurseDict ({commit}) {
+    let res = await reqgetNurseDict()
+    return res
+  },
+  // 修改派单信息内容
+  async ReqchangeOperScheduleInfo ({commit}) {
+    let res = await reqchangeOperScheduleInfo()
+    return res
+  },
+  // 退单操作
+  async ReqcancelOrderAction ({commit}) {
+    let res = await reqcancelOrderAction()
+    return res
+  },
+  // 派单操作
+  async ReqsendOrderAction ({commit}) {
+    let res = await reqsendOrderAction()
     return res
   }
 }

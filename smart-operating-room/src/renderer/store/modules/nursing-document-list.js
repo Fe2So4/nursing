@@ -3,7 +3,8 @@ import {reqTransitTransfer} from '@/api/NursingDocumentApi/transit-transfer.js'
 import {reqNursingDocumentTwo} from '@/api/NursingDocumentApi/nursing-document-two.js'
 const state = {
   hospitalNo: '',
-  patientName: ''
+  patientName: '',
+  cureNo: ''
 }
 
 const mutations = {
@@ -12,6 +13,9 @@ const mutations = {
   },
   SAVE_PATLENTNAME (state, data) {
     state.patientName = data
+  },
+  SAVE_CURENO (state, data) {
+    state.cureNo = data
   }
 }
 
