@@ -22,37 +22,37 @@
     </div>
     <div class="list">
       <van-cell-group>
-        <van-cell title="患者姓名、住院号、性别、年龄正确：" value="内容" value-class="first-cell van-cell-center">
+        <van-cell title="患者姓名、住院号、性别、年龄正确：" value="内容" value-class="first-cell">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="实际手术方式确认" value="内容" value-class="van-cell-center">
+        <van-cell title="实际手术方式确认" value="内容">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="手术用药、输血、冰冻报告的核查正确：" value="内容" title-class="first-cell" value-class="van-cell-center">
+        <van-cell title="手术用药、输血、冰冻报告的核查正确：" value="内容" title-class="first-cell">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="病理标本：" value="内容" value-class="van-cell-center">
+        <van-cell title="病理标本：" value="内容">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="病理标本号核对正确：" value="内容" value-class="van-cell-center">
+        <van-cell title="病理标本号核对正确：" value="内容">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="手术用物清点正确：" value="内容" value-class="van-cell-center">
+        <van-cell title="手术用物清点正确：" value="内容">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="皮肤是否完整：" value="内容" value-class="van-cell-center">
+        <van-cell title="皮肤是否完整：" value="内容">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8" @change="handleChange"/>
           </template>
@@ -83,32 +83,32 @@
             </van-dropdown-menu>
           </template>
         </van-cell>
-        <van-cell title="各种管路：" value="内容" value-class="van-cell-center">
+        <van-cell title="各种管路：" value="内容">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="静脉通路：" value="内容" value-class="van-cell-center">
+        <van-cell title="静脉通路：" value="内容">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="气管插管：" value="内容" value-class="van-cell-center">
+        <van-cell title="气管插管：" value="内容">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="伤口引流：" value="内容" value-class="van-cell-center">
+        <van-cell title="伤口引流：" value="内容">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="胃管：" value="内容" value-class="van-cell-center">
+        <van-cell title="胃管：" value="内容">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="尿管：" value="内容" value-class="van-cell-center">
+        <van-cell title="尿管：" value="内容">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8" @change="handleChange"/>
           </template>
@@ -121,14 +121,14 @@
         <van-cell title="手术护士签名" title-class="sign-title" @click="handleShowSignature"></van-cell>
       </van-cell-group>
     </div>
-    <!-- <transition name="van-slide-up">
+    <transition name="van-slide-up">
       <signature :visible="visible" v-if="visible" @handleClose="handleCloseSignature"/>
-    </transition> -->
+    </transition>
   </div>
 </template>
 
 <script>
-// import Signature from '../Signature/index'
+import Signature from '../Signature/index'
 export default {
   data () {
     return {
@@ -147,7 +147,7 @@ export default {
     }
   },
   components: {
-    // Signature
+    Signature
   },
   methods: {
     onClickLeft () {

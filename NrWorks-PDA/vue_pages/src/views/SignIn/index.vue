@@ -21,90 +21,90 @@
       </div>
     </div>
     <div class="list">
-      <van-cell-group>
-        <van-cell title="患者姓名、住院号、性别、年龄正确：" value="内容" value-class="first-cell">
+      <van-cell-group :border="false">
+        <van-cell title="患者姓名、住院号、性别、年龄正确：" value="内容" value-class="first-cell van-cell-center">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="手术方式确认" value="内容">
+        <van-cell title="手术方式确认" value="内容" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="手术部位与标识正确：" value="内容">
+        <van-cell title="手术部位与标识正确：" value="内容" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="手术知情同意书：" value="内容">
+        <van-cell title="手术知情同意书：" value="内容" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="麻醉知情同意书：" value="内容">
+        <van-cell title="麻醉知情同意书：" value="内容" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="麻醉设备安全检查完成：" value="内容">
+        <van-cell title="麻醉设备安全检查完成：" value="内容" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="皮肤是否完整：" value="内容">
+        <van-cell title="皮肤是否完整：" value="内容" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8" @change="handleChange"/>
           </template>
         </van-cell>
         <van-cell-group v-show="showFullSkin">
-          <van-cell title="部位：" title-class="left-title" value-class="right-value">
+          <van-cell v-show="showFullSkin" title="部位：" title-class="left-title" value-class="right-value">
             <template #right-icon>
               <van-field v-model="input" label="" placeholder="请输入部位：" label-align="right" input-align="right"/>
             </template>
           </van-cell>
-          <van-cell title="程度：" title-class="left-title" value-class="right-value">
+          <van-cell v-show="showFullSkin" title="程度：" title-class="left-title" value-class="right-value">
             <template #right-icon>
               <van-field v-model="input" label="" placeholder="请输入程度：" label-align="right" input-align="right"/>
             </template>
           </van-cell>
         </van-cell-group>
-        <van-cell title="术野皮肤准备正确：" value="内容">
+        <van-cell title="术野皮肤准备正确：" value="内容" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="静脉通道建立完成：" value="内容">
+        <van-cell title="静脉通道建立完成：" value="内容" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="患者是否有过敏史：" value="内容">
+        <van-cell title="患者是否有过敏史：" value="内容" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="抗菌药物皮试结果：" value="内容">
+        <van-cell title="抗菌药物皮试结果：" value="内容" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="术前备血：" value="内容">
+        <van-cell title="术前备血：" value="内容" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="影像学资料：" value="内容">
+        <van-cell title="影像学资料：" value="内容" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="假体：" value="内容">
+        <van-cell title="假体：" value="内容" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="体内植入物：" value="内容">
+        <van-cell title="体内植入物：" value="内容" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
@@ -115,7 +115,7 @@
           </template>
         </van-cell>
       </van-cell-group>
-      <van-cell-group>
+      <van-cell-group :border="false">
         <van-cell title="核查时间" value="2020-10-12 09:48"></van-cell>
         <van-cell title="麻醉医师签名" title-class="sign-title" @click="handleShowSignature"></van-cell>
         <van-cell title="手术医师签名" title-class="sign-title" @click="handleShowSignature"></van-cell>
@@ -129,7 +129,7 @@
 </template>
 
 <script>
-import Signature from '../Signature/index'
+import Signature from '@/components/Signature'
 export default {
   data () {
     return {
@@ -237,9 +237,6 @@ export default {
       line-height: 94px;
       color: #2E2E2E;
       font-size: 30px;
-      &::after{
-        border-color: #E2E2E2;
-      }
       .first-cell{
         flex: unset;
       }

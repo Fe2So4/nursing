@@ -1,6 +1,6 @@
-export const getVersion = async ()=>{
+export const getVersion = async () => {
   // if (platform == 'Android') {
-    let version = await cordova.getAppVersion.getVersionNumber()
-    return version
+  let version = await cordova.getAppVersion.getVersionNumber()
+  return version
   // }
 }

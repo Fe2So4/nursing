@@ -41,22 +41,22 @@
       </div>
     </div>
     <div class="list">
-      <h3>安全核查</h3>
+      <h3 style="margin-top:40px;">安全核查</h3>
       <div class="options">
         <van-button @click="handleJump(1)">SIGN IN</van-button>
-        <van-button @click="handleJump(2)">TIME OUT</van-button>
+        <van-button style="margin:0 35px;" @click="handleJump(2)">TIME OUT</van-button>
         <van-button @click="handleJump(3)">SIGN OUT</van-button>
       </div>
-      <h3>护理记录单</h3>
+      <h3 style="margin-top:60px;">护理记录单</h3>
       <div class="options">
         <van-button @click="handleJump(4)">转运交接</van-button>
-        <van-button @click="handleJump(5)">记录单二</van-button>
+        <van-button style="margin:0 35px;" @click="handleJump(5)">记录单二</van-button>
         <van-button @click="handleJump(6)">记录单三</van-button>
       </div>
     </div>
-    <!-- <transition name="van-slide-up">
+    <transition name="van-slide-up">
       <signature :visible="visible" v-if="visible" @handleClose="handleCloseSignature"/>
-    </transition> -->
+    </transition>
   </div>
 </template>
 
@@ -221,10 +221,6 @@ export default {
         font-size: 30px;
         font-weight: lighter;
         margin-bottom: 20px;
-        margin-top: 60px;
-        &:nth-child(1){
-          margin-top: 40px;
-        }
       }
       .options{
         display: flex;
@@ -238,9 +234,6 @@ export default {
           padding: 0;
           box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.3);
           border-radius: 5px;
-          &:nth-child(2){
-            margin:0 35px;
-          }
         }
       }
     }

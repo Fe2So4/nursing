@@ -1,7 +1,7 @@
 <template>
-  <div class="sign-out">
+  <div class="time-out">
     <van-nav-bar
-      title="患者离开手术室前实施核查"
+      title="手术开始前核查"
       @click-left="onClickLeft"
       @click-right="onClickRight"
       left-arrow
@@ -22,95 +22,93 @@
     </div>
     <div class="list">
       <van-cell-group>
-        <van-cell title="患者姓名、住院号、性别、年龄正确：" value="内容" value-class="first-cell van-cell-center">
+        <van-cell title="患者姓名、住院号、性别、年龄正确：" value="内容" value-class="first-cell">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="实际手术方式确认" value="内容" value-class="van-cell-center">
+        <van-cell title="手术方式确认" value="内容">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="手术用药、输血、冰冻报告的核查正确：" value="内容" title-class="first-cell" value-class="van-cell-center">
+        <van-cell title="手术部位、标识、体位正确：" value="内容" title-class="first-cell">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="病理标本：" value="内容" value-class="van-cell-center">
+        <van-cell title="是否需要相关影像资料：" value="内容">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="病理标本号核对正确：" value="内容" value-class="van-cell-center">
-          <template #right-icon>
-            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
-          </template>
-        </van-cell>
-        <van-cell title="手术用物清点正确：" value="内容" value-class="van-cell-center">
-          <template #right-icon>
-            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
-          </template>
-        </van-cell>
-        <van-cell title="皮肤是否完整：" value="内容" value-class="van-cell-center">
-          <template #right-icon>
-            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8" @change="handleChange"/>
-          </template>
-        </van-cell>
-        <van-cell-group v-show="showFullSkin">
-          <van-cell title="部位：" title-class="left-title" value-class="right-value">
-            <template #right-icon>
-              <van-field v-model="input" label="" placeholder="请输入部位：" label-align="right" input-align="right"/>
-            </template>
-          </van-cell>
-          <van-cell title="程度：" title-class="left-title" value-class="right-value">
-            <template #right-icon>
-              <van-field v-model="input" label="" placeholder="请输入程度：" label-align="right" input-align="right"/>
-            </template>
-          </van-cell>
-        </van-cell-group>
         <van-cell title="其它：" value="内容" title-class="left-title" value-class="right-value">
           <template #right-icon>
             <van-field v-model="input" label="" placeholder="请输入其它：" />
           </template>
         </van-cell>
-      </van-cell-group>
-      <van-cell-group style="margin-top:15px;">
-        <van-cell title="患者去向：" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
+        <van-cell style="background:#E8E8E8;">
+          <template #title>
+            手术、麻醉风险预警
+            <van-icon name="warn-o"></van-icon>
           </template>
         </van-cell>
-        <van-cell title="各种管路：" value="内容" value-class="van-cell-center">
-          <template #right-icon>
+        <van-cell title="手术医师陈述："></van-cell>
+        <van-cell title="预计手术时间：">
+           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="静脉通路：" value="内容" value-class="van-cell-center">
-          <template #right-icon>
+        <van-cell title="预计失血量：">
+           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="气管插管：" value="内容" value-class="van-cell-center">
-          <template #right-icon>
+        <van-cell title="手术关注点：">
+           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="伤口引流：" value="内容" value-class="van-cell-center">
+        <van-cell title="其它：" title-class="left-title" value-class="right-value">
           <template #right-icon>
+            <van-field v-model="input" label="" placeholder="请输入其它：" />
+          </template>
+        </van-cell>
+        <van-cell title="麻醉医师陈述：">
+           <!-- <template #right-icon>
+            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+          </template> -->
+        </van-cell>
+        <van-cell title="麻醉关注点：">
+           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="胃管：" value="内容" value-class="van-cell-center">
-          <template #right-icon>
+        <van-cell title="其它：" title-class="left-title" value-class="right-value">
+           <template #right-icon>
+            <van-field v-model="input" label="" placeholder="请输入其它：" />
+          </template>
+        </van-cell>
+        <van-cell title="手术护士陈述：">
+        </van-cell>
+        <van-cell title="物品灭菌合格：">
+           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="尿管：" value="内容" value-class="van-cell-center">
-          <template #right-icon>
-            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8" @change="handleChange"/>
+        <van-cell title="仪器设备、植入物：">
+           <template #right-icon>
+            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+          </template>
+        </van-cell>
+        <van-cell title="术前术中特殊用药情况：">
+           <template #right-icon>
+            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+          </template>
+        </van-cell>
+        <van-cell title="其它：" title-class="left-title" value-class="right-value">
+           <template #right-icon>
+            <van-field v-model="input" label="" placeholder="请输入其它：" />
           </template>
         </van-cell>
       </van-cell-group>
@@ -121,33 +119,24 @@
         <van-cell title="手术护士签名" title-class="sign-title" @click="handleShowSignature"></van-cell>
       </van-cell-group>
     </div>
-    <!-- <transition name="van-slide-up">
+    <transition name="van-slide-up">
       <signature :visible="visible" v-if="visible" @handleClose="handleCloseSignature"/>
-    </transition> -->
+    </transition>
   </div>
 </template>
 
 <script>
-// import Signature from '../Signature/index'
+import Signature from '../Signature/index'
 export default {
   data () {
     return {
       checked: true,
       input: '',
-      showFullSkin: false,
-      value1: '',
-      visible: false,
-      option: [
-        { text: 'PACU', value: 0 },
-        { text: '病房', value: 1 },
-        { text: 'ICU病房', value: 2 },
-        { text: '急诊', value: 3 },
-        { text: '离院', value: 4 }
-      ]
+      visible: false
     }
   },
   components: {
-    // Signature
+    Signature
   },
   methods: {
     onClickLeft () {
@@ -155,9 +144,6 @@ export default {
     },
     onClickRight () {
 
-    },
-    handleChange () {
-      this.showFullSkin = !this.showFullSkin
     },
     handleShowSignature () {
       this.visible = true
@@ -170,7 +156,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .sign-out{
+  .time-out{
     height: 100%;
     .van-nav-bar{
       height: 100px;
@@ -259,7 +245,7 @@ export default {
           padding-bottom: 0;
         }
       }
-      /deep/ .van-dropdown-menu{
+      .van-dropdown-menu{
         height: 100%;
         .van-dropdown-menu__bar{
           height: 100%;
@@ -283,6 +269,10 @@ export default {
           font-size: 30px;
           line-height: 60px;
         }
+      }
+      .van-icon{
+        vertical-align: middle;
+        color: #FF4B4B;
       }
     }
     .van-cell-group{

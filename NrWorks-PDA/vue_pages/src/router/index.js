@@ -12,6 +12,7 @@ import HandoverRecord from '@/views/HandoverRecord/index'
 import DeviceList from '@/views/DeviceList/index'
 import Transfer from '@/views/Transfer/index'
 import PatinetHome from '@/views/PatientHome/index'
+import Signature from '@/components/Signature'
 Vue.use(Router)
 
 export default new Router({
@@ -19,6 +20,11 @@ export default new Router({
     {
       path: '/',
       redirect: '/login'
+    },
+    {
+      path: '/signature',
+      name: 'Signature',
+      component: Signature
     },
     {
       path: '/home',
