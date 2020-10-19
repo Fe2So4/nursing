@@ -12,7 +12,7 @@
       <ul>
         <li @click="handleJump">
           <div class="li-left">
-            <van-image src="https://img.yzcdn.cn/vant/cat.jpeg" />
+            <van-image width="80" height="80" src="https://img.yzcdn.cn/vant/cat.jpeg" />
           </div>
           <div class="li-right">
             <p>成蕙祯</p>

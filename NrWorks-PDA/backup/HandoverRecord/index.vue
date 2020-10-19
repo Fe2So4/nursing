@@ -181,14 +181,14 @@
         />
       </template>
     </van-action-sheet>
-    <!-- <transition name="van-slide-up">
+    <transition name="van-slide-up">
       <signature :visible="visible" v-if="visible" @handleClose="handleCloseSignature"/>
-    </transition> -->
+    </transition>
   </div>
 </template>
 
 <script>
-// import Signature from '../Signature/index'
+import Signature from '../Signature/index'
 import moment from 'moment'
 export default {
   data () {
@@ -214,7 +214,7 @@ export default {
     }
   },
   components: {
-    // Signature
+    Signature
   },
   computed: {
     time () {

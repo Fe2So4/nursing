@@ -13,10 +13,12 @@
   "dependencies": {
     "amfe-flexible": "^2.2.1",
     "moment": "^2.29.1",
+    "signature_pad": "^3.0.0-beta.4",
     "vant": "^2.10.8",
     "vue": "^2.5.22",
+    "vue-esign": "^1.0.5",
     "vue-router": "^3.0.1",
-    "vue-signature-pad": "^2.0.2"
+    "vue-signature-pad": "^1.1.18"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

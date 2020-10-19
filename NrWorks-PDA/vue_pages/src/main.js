@@ -10,7 +10,9 @@ import 'vant/lib/icon/local.css'
 import './styles/index.css'
 import './utils/rem'
 import { DatetimePicker, Step, Steps, Stepper, TreeSelect, ActionSheet, Checkbox, CheckboxGroup, Popup, DropdownMenu, DropdownItem, Switch, Cell, CellGroup, Image, Button, Dialog, Grid, GridItem, Field, Form, Notify, NavBar, Icon } from 'vant'
-import VueSignaturePad from 'vue-signature-pad'
+// import VueSignaturePad from 'vue-signature-pad'
+import vueEsign from 'vue-esign'
+Vue.use(vueEsign)
 Vue.use(Dialog)
 Vue.use(DatetimePicker)
 Vue.use(Step)
@@ -35,7 +37,7 @@ Vue.use(Checkbox)
 Vue.use(CheckboxGroup)
 Vue.use(ActionSheet)
 Vue.use(Stepper)
-Vue.use(VueSignaturePad)
+// Vue.use(VueSignaturePad)
 
 Vue.config.productionTip = false
 

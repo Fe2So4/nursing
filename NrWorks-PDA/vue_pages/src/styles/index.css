@@ -6,7 +6,40 @@ html,body{
   height: 100vh;
   width: 100vw;
 }
+
 #app{
   height: 100%;
   width: 100%;
+}
+
+#app /deep/ .van-cell::after{
+  border-bottom: 1PX solid #E2E2E2 !important;
+  transform: unset;
+}
+
+#app .van-cell-center{
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+}
+
+#app /deep/ .van-switch{
+  width: 80px;
+  height: 40px;
+}
+
+#app /deep/ .van-switch__node{
+  width: 40px;
+  height: 40px;
+}
+
+#app /deep/ .van-switch--on .van-switch__node{
+  transform: translateX(40px)
+}
+
+#app /deep/ .van-checkbox__icon i{
+  height: 30px;
+  width: 30px;
+  line-height: 30px;
+  border:1PX solid #8396B6
 }

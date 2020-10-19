@@ -27,93 +27,49 @@
         <van-cell title="手术医师签名" title-class="sign-title"></van-cell>
         <van-cell title="手术护士签名" title-class="sign-title"></van-cell>
       </van-cell-group> -->
-      <van-tree-select height="100%" :items="items" :main-active-index.sync="active" @click-nav="handleChange">
+      <!-- <van-tree-select height="100%" :items="items" :main-active-index.sync="active" @click-nav="handleChange">
         <template slot="content">
           <div v-for="item in items" :key="item.active" class="list-item" v-show="item.active===active">
             <p v-if="active===item.active">
               <van-cell-group>
                 <van-cell title="手术敷料、基本器械、物品清点" value="已清点" title-class="first-cell" value-class="value-cell">
-                  <!-- <template #right-icon>
-                    <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8" @change="handleChange"/>
-                  </template> -->
                 </van-cell>
               </van-cell-group>
               <van-cell-group>
-                <van-cell title="腔脑室外引流管" value="已清点" title-class="first-cell">
+                <van-cell title="腔脑室外引流管" value="已清点" title-class="first-cell" v-for="item in 20" :key="'step' + item">
                   <template #right-icon>
-                    <!-- <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8" @change="handleChange"/> -->
-                    <!-- <van-stepper v-model="stepper" theme="round" button-size="50px" input-width="90px" disable-input /> -->
-                    <van-stepper v-model="stepper" theme="round" button-size="50px" input-width="90px" />
-                  </template>
-                </van-cell>
-                <van-cell title="腔脑室外引流管" value="已清点" title-class="first-cell">
-                  <template #right-icon>
-                    <!-- <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8" @change="handleChange"/> -->
-                    <!-- <van-stepper v-model="stepper" theme="round" button-size="50px" input-width="90px" disable-input /> -->
-                    <van-stepper v-model="stepper" theme="round" button-size="50px" input-width="90px" />
-                  </template>
-                </van-cell>
-                <van-cell title="腔脑室外引流管" value="已清点" title-class="first-cell">
-                  <template #right-icon>
-                    <!-- <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8" @change="handleChange"/> -->
-                    <!-- <van-stepper v-model="stepper" theme="round" button-size="50px" input-width="90px" disable-input /> -->
-                    <van-stepper v-model="stepper" theme="round" button-size="50px" input-width="90px" />
-                  </template>
-                </van-cell>
-                <van-cell title="腔脑室外引流管" value="已清点" title-class="first-cell">
-                  <template #right-icon>
-                    <!-- <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8" @change="handleChange"/> -->
-                    <!-- <van-stepper v-model="stepper" theme="round" button-size="50px" input-width="90px" disable-input /> -->
-                    <van-stepper v-model="stepper" theme="round" button-size="50px" input-width="90px" />
-                  </template>
-                </van-cell>
-                <van-cell title="腔脑室外引流管" value="已清点" title-class="first-cell">
-                  <template #right-icon>
-                    <!-- <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8" @change="handleChange"/> -->
-                    <!-- <van-stepper v-model="stepper" theme="round" button-size="50px" input-width="90px" disable-input /> -->
-                    <van-stepper v-model="stepper" theme="round" button-size="50px" input-width="90px" />
-                  </template>
-                </van-cell>
-                <van-cell title="腔脑室外引流管" value="已清点" title-class="first-cell">
-                  <template #right-icon>
-                    <!-- <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8" @change="handleChange"/> -->
-                    <!-- <van-stepper v-model="stepper" theme="round" button-size="50px" input-width="90px" disable-input /> -->
-                    <van-stepper v-model="stepper" theme="round" button-size="50px" input-width="90px" />
-                  </template>
-                </van-cell>
-                <van-cell title="腔脑室外引流管" value="已清点" title-class="first-cell">
-                  <template #right-icon>
-                    <!-- <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8" @change="handleChange"/> -->
-                    <!-- <van-stepper v-model="stepper" theme="round" button-size="50px" input-width="90px" disable-input /> -->
-                    <van-stepper v-model="stepper" theme="round" button-size="50px" input-width="90px" />
-                  </template>
-                </van-cell>
-                <van-cell title="腔脑室外引流管" value="已清点" title-class="first-cell">
-                  <template #right-icon>
-                    <!-- <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8" @change="handleChange"/> -->
-                    <!-- <van-stepper v-model="stepper" theme="round" button-size="50px" input-width="90px" disable-input /> -->
-                    <van-stepper v-model="stepper" theme="round" button-size="50px" input-width="90px" />
-                  </template>
-                </van-cell>
-                <van-cell title="腔脑室外引流管" value="已清点" title-class="first-cell">
-                  <template #right-icon>
-                    <!-- <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8" @change="handleChange"/> -->
-                    <!-- <van-stepper v-model="stepper" theme="round" button-size="50px" input-width="90px" disable-input /> -->
-                    <van-stepper v-model="stepper" theme="round" button-size="50px" input-width="90px" />
-                  </template>
-                </van-cell>
-                <van-cell title="腔脑室外引流管" value="已清点" title-class="first-cell">
-                  <template #right-icon>
-                    <!-- <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8" @change="handleChange"/> -->
-                    <!-- <van-stepper v-model="stepper" theme="round" button-size="50px" input-width="90px" disable-input /> -->
-                    <van-stepper v-model="stepper" theme="round" button-size="50px" input-width="90px" />
+                    <van-stepper v-model="stepper" theme="round" />
                   </template>
                 </van-cell>
               </van-cell-group>
             </p>
           </div>
         </template>
-      </van-tree-select>
+      </van-tree-select> -->
+      <div class="tree">
+        <div class="tree-left">
+          <ul>
+            <li v-for="item in items" :key="item.active" :class="{'active':active===item.active}" @click="handleChange(item.active)">{{item.text}}</li>
+          </ul>
+        </div>
+        <div class="tree-right">
+          <div class="title">
+            <div class="title-left">
+              手术敷料、基本器械、物品清点
+            </div>
+            <div class="title-right">已清点</div>
+          </div>
+          <ul>
+            <li v-for="item in 20" :key="'step' + item">
+              <van-cell title="腔脑室外引流管" value="已清点" title-class="first-cell" border>
+                <template #right-icon>
+                  <van-stepper v-model="stepper" theme="round" />
+                </template>
+              </van-cell>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -226,7 +182,49 @@ export default {
     }
     .list{
       height:calc(100% - 324px);
-      overflow-y: auto;
+      // overflow-y: auto;
+      .tree{
+        display: flex;
+        height: 100%;
+        .tree-left{
+          width: 200px;
+          ul{
+            display: flex;
+            flex-direction: column;
+            li{
+              color: #2E2E2E;
+              padding: 10px 0 10px 16px;
+              font-size: 34px;
+              border:1PX solid #E2E2E2;
+              &.active{
+                color: #FFFFFF;
+                background: #3377FF;
+              }
+            }
+          }
+        }
+        .tree-right{
+          flex: 1;
+          height: 100%;
+          font-size: 34px;
+          .title{
+            display: flex;
+            justify-content: space-between;
+            line-height: 104px;
+            font-size: 24px;
+            .title-left{
+
+            }
+            .title-right{
+              color: #10C15B;
+            }
+          }
+          ul{
+            height: calc(100% - 104px);
+            overflow-y: auto;
+          }
+        }
+      }
     }
     .van-cell{
       line-height: 94px;
@@ -255,64 +253,23 @@ export default {
       &:last-child{
         height: calc(100% - 114px);
         overflow-y: auto;
-        // margin-top: 15px;
-        // margin-bottom: 15px;
-        // .van-cell{
-        //   .van-cell__value{
-        //     color: #7F7F7F;
-        //   }
-        //   .sign-title{
-        //     color: #32db64;
-        //   }
-        // }
       }
     }
-    .van-tree-select{
-      .van-sidebar{
-        width: 160px;
-      }
-      .van-sidebar-item{
-        line-height: unset;
-        display: flex;
-        flex-direction: column;
-        // align-items: center;
-        justify-content: center;
-      }
-      .van-tree-select__nav{
-        flex: unset;
-        background: #F2F2F2;
-        display: flex;
-        // line-height: unset;
-        flex-direction: column;
-        .van-tree-select__nav-item{
-          // line-height: 104px;
-          font-size: 34px;
-          color: #2E2E2E;
-          // padding: 0;
-          padding: 12px 0 12px 16px;
-          // padding-left: 16px;
-          // flex: 1;
-        }
-      }
-      .van-sidebar-item--select{
-        background: #3377FF;
-        color: #ffffff;
-        &::before{
-          width: 0;
-        }
-      }
-      .van-tree-select__content{
-        flex: 1;
-        overflow-y: unset;
-      }
-      .list-item{
+    .list-item{
+      height: 100%;
+      p{
         height: 100%;
-        p{
-          height: 100%;
-        }
       }
     }
-    .van-stepper{
+    /deep/ .van-stepper{
+      button{
+        height: 50px;
+        width: 50px;
+      }
+      input{
+        width: 90px;
+        height: 50px;
+      }
       /deep/ .van-stepper__input{
         font-size: 30px;
       }

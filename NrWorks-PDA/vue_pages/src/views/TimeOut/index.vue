@@ -22,22 +22,22 @@
     </div>
     <div class="list">
       <van-cell-group>
-        <van-cell title="患者姓名、住院号、性别、年龄正确：" value="内容" value-class="first-cell">
+        <van-cell title="患者姓名、住院号、性别、年龄正确：" value="内容" value-class="first-cell van-cell-center">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="手术方式确认" value="内容">
+        <van-cell title="手术方式确认" value="内容" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="手术部位、标识、体位正确：" value="内容" title-class="first-cell">
+        <van-cell title="手术部位、标识、体位正确：" value="内容" title-class="first-cell" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="是否需要相关影像资料：" value="内容">
+        <van-cell title="是否需要相关影像资料：" value="内容" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
@@ -54,17 +54,17 @@
           </template>
         </van-cell>
         <van-cell title="手术医师陈述："></van-cell>
-        <van-cell title="预计手术时间：">
+        <van-cell title="预计手术时间：" value-class="van-cell-center">
            <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="预计失血量：">
+        <van-cell title="预计失血量：" value-class="van-cell-center">
            <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="手术关注点：">
+        <van-cell title="手术关注点：" value-class="van-cell-center">
            <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
@@ -79,7 +79,7 @@
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template> -->
         </van-cell>
-        <van-cell title="麻醉关注点：">
+        <van-cell title="麻醉关注点：" value-class="van-cell-center">
            <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
@@ -91,17 +91,17 @@
         </van-cell>
         <van-cell title="手术护士陈述：">
         </van-cell>
-        <van-cell title="物品灭菌合格：">
+        <van-cell title="物品灭菌合格：" value-class="van-cell-center">
            <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="仪器设备、植入物：">
+        <van-cell title="仪器设备、植入物：" value-class="van-cell-center">
            <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="术前术中特殊用药情况：">
+        <van-cell title="术前术中特殊用药情况：" value-class="van-cell-center">
            <template #right-icon>
             <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
@@ -119,14 +119,14 @@
         <van-cell title="手术护士签名" title-class="sign-title" @click="handleShowSignature"></van-cell>
       </van-cell-group>
     </div>
-    <transition name="van-slide-up">
+    <!-- <transition name="van-slide-up">
       <signature :visible="visible" v-if="visible" @handleClose="handleCloseSignature"/>
-    </transition>
+    </transition> -->
   </div>
 </template>
 
 <script>
-import Signature from '../Signature/index'
+// import Signature from '../Signature/index'
 export default {
   data () {
     return {
@@ -136,7 +136,7 @@ export default {
     }
   },
   components: {
-    Signature
+    // Signature
   },
   methods: {
     onClickLeft () {

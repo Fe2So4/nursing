@@ -20,23 +20,22 @@
             v-model="username"
             name="用户名"
             label=""
-            style="border: 1px solid #8496B6;"
             left-icon="user-o"
             placeholder="请输入用户名"
           />
             <!-- :rules="[{ required: true, message: '请填写用户名' }]" -->
           <van-field
             v-model="password"
+            style="margin-top:36px;"
             type="password"
             name="密码"
             left-icon="user-o"
-            style="border: 1px solid #8496B6;"
             label=""
             placeholder="请输入密码"
           />
             <!-- :rules="[{ required: true, message: '请填写密码' }]" -->
-          <van-checkbox v-model="checked" shape="square">记住我</van-checkbox>
-          <div class="login-submit">
+          <van-checkbox v-model="checked" shape="square" style="margin-top:20px;">记住密码</van-checkbox>
+          <div style="margin: 40px 0 70px 0;">
             <van-button block type="info" native-type="submit">
               登  录
             </van-button>
@@ -72,7 +71,6 @@ export default {
   methods: {
     onSubmit (values) {
       this.$router.push('/home')
-      // this.$router.push('/signature')
     }
     // openFile () {
     //   var url = '/sdcard/tencent/MicroMsg/Download/pda.apk'
@@ -170,20 +168,17 @@ export default {
 <style lang="scss" scoped>
   .login{
     height: 100%;
-    width: 100%;
     display: flex;
     position: relative;
-    box-sizing: border-box;
     // justify-content: center;
     flex-direction: column;
     padding: 0 65px;
     position: relative;
-    background: url('../../assets/login-bg.png') no-repeat center;
-    background-size: 100% 100%;
+    background: url('../../assets/login-bg.png') repeat center;
     .login-content{
       background: #FFFFFF;
       overflow: hidden;
-      margin-top: 218px;
+      margin-top: 120px;
       box-shadow: 15px 15px 19px 2px rgba(0, 0, 0, 0.5);
       border-radius: 10px;
       padding: 0 46px;
@@ -193,8 +188,6 @@ export default {
         .title-left{
           margin-left: 35px;
           margin-right: 25px;
-          width: 58px;
-          height: 86px;
         }
         .title-right{
           flex: 1;
@@ -231,28 +224,21 @@ export default {
         margin-top: 20px;
         .van-field{
           line-height: 70px;
+          border: 1px solid #8496B6;
           padding-top: 0 ;
           padding-bottom: 0 ;
-          &:nth-child(2){
-            margin-top: 36px;
-          }
         }
         .van-checkbox{
-          margin-top: 20px;
           /deep/ .van-checkbox__icon{
             height: 30px;
             line-height: 30px;
             i{
               height: 30px;
               width: 30px;
-              line-height: 30px;
-              // border:1PX solid #8396B6 /*no*/
-              border:1PX solid #8396B6
             }
           }
           /deep/ .van-checkbox__label{
             line-height: 30px;
-            font-size: 24px;
           }
         }
         /deep/ .van-field__left-icon{
@@ -266,12 +252,8 @@ export default {
           font-size: 30px;
           color: #9DA6B1;
         }
-        .login-submit{
-          margin: 40px 0 70px 0;
-        }
         .van-button{
           // margin-top: 20px;
-          width: 100%;
           line-height: 80px;
           height: 80px;
           font-size: 40px;
