@@ -157,6 +157,10 @@ export default {
   created () {
   },
   mounted () {
+    document.addEventListener('deviceready', onDeviceReady, false)
+    function onDeviceReady () {
+      console.log('console.log works well')
+    }
     // document.addEventListener('deviceready', onDeviceReady, false)
     // var me = this
     // function onDeviceReady () {

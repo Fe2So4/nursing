@@ -13,13 +13,25 @@ import DeviceList from '@/views/DeviceList/index'
 import Transfer from '@/views/Transfer/index'
 import PatinetHome from '@/views/PatientHome/index'
 import Signature from '@/components/Signature'
+import Hello from '@/components/Signature2'
+import Demo from '@/views/Demo'
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/login'
+      redirect: '/demo'
+    },
+    {
+      path: '/hello',
+      name: 'Hello',
+      component: Hello
+    },
+    {
+      path: '/demo',
+      name: 'Demo',
+      component: Demo
     },
     {
       path: '/signature',
