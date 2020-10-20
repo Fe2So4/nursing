@@ -48,8 +48,15 @@ export default {
   methods: {
     shuaxin () {
       console.log(this.$route.path)
-      if (this.$route.path.includes('security-check')) {
-        Bus.$emit('clickShuaXin', '123')
+      let path = this.$route.path
+      if (path.includes('security-check')) {
+        Bus.$emit('clickShuaXinSecurity', '123')
+      } else if (path.includes('nursing-two')) {
+        Bus.$emit('clickShuaXinTwo', '123')
+      } else if (path.includes('nursing-jichu')) {
+        Bus.$emit('clickShuaXinJiChu', '123')
+      } else if (path.includes('nursing-teshu')) {
+        Bus.$emit('clickShuaXinTeShu', '123')
       }
     }
   },

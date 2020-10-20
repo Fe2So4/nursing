@@ -39,18 +39,18 @@ const actions = {
     return res
   },
   // 修改派单信息内容
-  async ReqchangeOperScheduleInfo ({commit}) {
-    let res = await reqchangeOperScheduleInfo()
+  async ReqchangeOperScheduleInfo ({commit}, query) {
+    let res = await reqchangeOperScheduleInfo(query)
     return res
   },
   // 退单操作
-  async ReqcancelOrderAction ({commit}) {
-    let res = await reqcancelOrderAction()
+  async ReqcancelOrderAction ({commit}, query) {
+    let res = await reqcancelOrderAction(query)
     return res
   },
   // 派单操作
-  async ReqsendOrderAction ({commit}) {
-    let res = await reqsendOrderAction()
+  async ReqsendOrderAction ({commit}, query) {
+    let res = await reqsendOrderAction(query)
     return res
   }
 }

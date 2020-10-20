@@ -191,9 +191,6 @@ export default {
       this.formData.startTime = '00:00:00'
       this.formData.endTime = '23:59:59'
     },
-    queryTableData () {
-
-    },
     search () {
       this.$parent.isShow = 0
       this.$parent.getStatisticalTable(this.formData)

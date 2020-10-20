@@ -1,16 +1,16 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
-import { getUserToken } from '../utils/storage'
+// import { getUserToken } from './storage'
 
 const request = axios.create()
 // 添加一个请求拦截器
 request.interceptors.request.use(function (config) {
   // 在发送请求之前做些什么
-  const token = getUserToken()
-  console.log(token)
-  if (token) {
-    config.headers.Authorization = token // 将token放到请求头发送给服务器
-  }
+  // const token = getUserToken()
+  // console.log(token)
+  // if (token) {
+  //   config.headers.Authorization = token // 将token放到请求头发送给服务器
+  // }
   return config
 }, function (error) {
   // 对请求错误做些什么

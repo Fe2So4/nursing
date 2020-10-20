@@ -8,8 +8,9 @@
         class="mytable-scrollbar"
         border="none"
         :data="tableData"
-        @current-change="currentChangeEvent"
+        @cell-dblclick="dbClickTable"
       >
+        <!-- @current-change="currentChangeEvent" -->
         <vxe-table-column
           type="seq"
           width="80"
@@ -123,7 +124,10 @@ export default {
     getCurrentEvent () {
       this.$XModal.alert(JSON.stringify(this.$refs.xTable.getCurrentRecord()))
     },
-    currentChangeEvent ({ row }) {
+    // currentChangeEvent ({ row }) {
+
+    // },
+    dbClickTable ({row}) {
       this.selectData = []
       this.selectData.push(row)
       this.$store.commit('SAVE_SELECTTABLEITEM', this.selectData)

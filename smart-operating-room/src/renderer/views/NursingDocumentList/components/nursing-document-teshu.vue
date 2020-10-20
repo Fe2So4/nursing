@@ -195,6 +195,7 @@
 </template>
 
 <script>
+
 import NursingBottom from './nursing-document-teshu-bottom'
 export default {
   name: 'NursingDocumentTeshu',

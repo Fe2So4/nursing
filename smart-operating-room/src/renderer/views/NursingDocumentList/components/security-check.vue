@@ -626,7 +626,7 @@ export default {
   },
   mounted () {
     this.searchData()
-    Bus.$on('clickShuaXin', res => {
+    Bus.$on('clickShuaXinSecurity', res => {
       this.searchData()
     })
   },

@@ -622,6 +622,7 @@
 </template>
 
 <script>
+import Bus from '@/utils/bus.js'
 import IsSelect from './components/isSelect'
 export default {
   name: 'NursingDocumentTwo',
@@ -641,6 +642,9 @@ export default {
   },
   mounted () {
     this.getWenShuData()
+    Bus.$on('clickShuaXinTwo', res => {
+      this.getWenShuData()
+    })
   },
   methods: {
     getWenShuData () {

@@ -5,6 +5,7 @@
         highlight-current-row
         ref="xTable"
         class="mytable-scrollbar"
+        :loading="loading"
         height="100%"
         border="none"
         :data="tableList"
@@ -78,7 +79,7 @@
 <script>
 export default {
   name: 'StatisticalTable',
-  props: ['tableList'],
+  props: ['tableList', 'loading'],
   data () {
     return {
       tableData: [
@@ -117,11 +118,13 @@ export default {
     },
     // 获取数据
     getTableData (res) {
+      this.loading = true
       this.$store.dispatch('ReqNursingDocumentTable', res).then(result => {
         console.log(result)
         this.tableData.push(...result.data.data.list)
         this.pageItem.pageIndex++
         this.busy = false
+        this.loading = false
       })
     },
     currentChangeEvent (val) {

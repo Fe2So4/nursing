@@ -12,13 +12,19 @@
       class="statistical-container-body"
       v-if="isShow === 0"
     >
-      <statistical-table :table-list="tableList" />
+      <statistical-table
+        :table-list="tableList"
+        :loading="loading"
+      />
     </div>
     <div
       class="statistical-container-body"
       v-else
     >
-      <StatisticalRunningTable :running-table-list="runningTableList" />
+      <StatisticalRunningTable
+        :running-table-list="runningTableList"
+        :loading="loading"
+      />
     </div>
   </div>
 </template>
@@ -33,7 +39,8 @@ export default {
     return {
       isShow: 0,
       tableList: [],
-      runningTableList: []
+      runningTableList: [],
+      loading: false
     }
   },
   components: {
@@ -43,7 +50,9 @@ export default {
   },
   methods: {
     getStatisticalTable (params) {
+      this.loading = true
       this.$store.dispatch('ReqstatisticalQueryr', params).then(res => {
+        this.loading = false
         if (res.data.code === 200) {
           this.tableList = res.data.data
           this.runningTableList = res.data.data
