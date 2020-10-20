@@ -3,8 +3,9 @@
     <div class="signature-body">
       <h3>巡回护士签名</h3>
       <h3>电子签名板</h3>
-      <div class="signature-content" ref="canvasHW">
-          <vue-esign ref="esign" :isCrop="isCrop" :height="680" :lineWidth="lineWidth" :lineColor="lineColor" :bgColor.sync="bgColor" />
+      <div class="signature-content" ref="canvasBox">
+        <canvas ref="canvasF" @touchstart="touchStart" @touchmove="touchMove"
+        @touchend="touchEnd"></canvas>
       </div>
       <h4>请在此处签名</h4>
       <div class="option">
@@ -23,60 +24,116 @@ export default {
     return {
       show: true,
       signature: null,
-      lineWidth: 4,
-      lineColor: 'blue',
-      bgColor: '',
-      resultImg: '',
-      isCrop: false
+      moving: true,
+      stageInfo: '',
+      imgUrl: '',
+      imgUrlList: [],
+      client: {},
+      points: [],
+      canvasTxt: null,
+      startX: 0,
+      startY: 0,
+      moveY: 0,
+      moveX: 0,
+      endY: 0,
+      endX: 0,
+      w: null,
+      h: null,
+      isDown: false
     }
   },
   props: {
-    // visible: {
-    //   type: Boolean,
-    //   required: true
-    // }
+
+  },
+  watch: {
   },
   methods: {
-    onSelect (item) {
-      // 默认情况下点击选项时不会自动收起
-      // 可以通过 close-on-click-action 属性开启自动收起
-      this.show = false
-      // Toast(item.name)
-    },
     init () {
-      var canvas = document.querySelector('canvas')
-      console.log(canvas)
+      var canvas = this.$refs.canvasF
+      canvas.width = this.$refs.canvasBox.offsetWidth - 0 // 设置画布宽
+      canvas.height = this.$refs.canvasBox.offsetHeight - 0 // 设置画布高
+      this.canvasTxt = canvas.getContext('2d')
+      this.canvasTxt.strokeStyle = 'blue'
+      this.canvasTxt.lineWidth = 4
+      this.stageInfo = canvas.getBoundingClientRect()
+    },
+    touchStart (ev) {
+      ev = ev || event
+      ev.preventDefault()
+      if (ev.touches.length === 1) {
+        let obj = {
+          x: ev.targetTouches[0].clienX,
+          y: ev.targetTouches[0].clientY
+        }
+        this.startX = obj.x
+        this.startY = obj.y
+        this.canvasTxt.beginPath()
+        this.canvasTxt.moveTo(this.startX, this.startY)
+        this.canvasTxt.lineTo(obj.x, obj.y)
+        this.canvasTxt.stroke()
+        this.canvasTxt.closePath()
+        this.points.push(obj)
+      }
+    },
+    touchMove (ev) {
+      ev = ev || event
+      ev.preventDefault()
+      if (ev.touches.length === 1) {
+        let obj = {
+          x: ev.targetTouches[0].clientX - this.stageInfo.left,
+          y: ev.targetTouches[0].clientY - this.stageInfo.top
+        }
+        this.moveY = obj.y
+        this.moveX = obj.x
+        this.canvasTxt.beginPath()
+        this.canvasTxt.moveTo(this.startX, this.startY)
+        this.canvasTxt.lineTo(obj.x, obj.y)
+        this.canvasTxt.stroke()
+        this.canvasTxt.closePath()
+        this.startY = obj.y
+        this.startX = obj.x
+        this.points.push(obj)
+      }
+    },
+    touchEnd (ev) {
+      ev = ev || event
+      ev.preventDefault()
+      if (ev.touches.length === 1) {
+        let obj = {
+          x: ev.targetTouches[0].clientX - this.stageInfo.left,
+          y: ev.targetTouches[0].clientY - this.stageInfo.top
+        }
+        this.canvasTxt.beginPath()
+        this.canvasTxt.moveTo(this.startX, this.startY)
+        this.canvasTxt.lineTo(obj.x, obj.y)
+        this.canvasTxt.stroke()
+        this.canvasTxt.closePath()
+        this.points.push(obj)
+      }
     },
     handleClose () {
       this.$emit('handleClose')
     },
-    undo () {
-      // this.$refs.signaturePad.undoSignature()
-    },
-    save () {
-      // const { isEmpty, data } = this.$refs.signaturePad.saveSignature()
-      // console.log(isEmpty)
-      // console.log(data)
-    },
     handleRefresh () {
-      this.handleReset()
+      var c = this.$refs.canvasF
+      var cxt = c.getContext('2d')
+      cxt.clearRect(0, 0, c.width, c.height)
     },
     handleSaveImg () {
-      this.commit()
+      let img = this.$refs.canvasF.toDataURL('image/png')
+      setTimeout(function () {
+        /* html2canvas 1.0.5 版本 */
+        console.log(img)
+      }, 500)
     },
     handleReset () {
-      this.$refs.esign.reset()
-    },
-    handleGenerate () {
-      this.$refs.esign.generate().then(res => {
-        this.resultImg = res
-      }).catch(err => {
-        alert(err) // 画布没有签字时会执行这里 'Not Signned'
-      })
+      var c = this.$refs.canvasF
+      var cxt = c.getContext('2d')
+      cxt.clearRect(0, 0, c.width, c.height)
     }
   },
   mounted () {
-
+    this.init()
   }
 }
 </script>
@@ -90,14 +147,15 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    // height: 100%;
+    height: 100%;
     padding: 20px 15px;
-    z-index: 99999;
+    z-index: 999;
     box-sizing: border-box;
     .signature-body{
       background: #ffffff;
       height: 100%;
       overflow: hidden;
+      position: relative;
       padding: 0 20px;
       box-sizing: border-box;
       h3{
@@ -126,22 +184,16 @@ export default {
         box-sizing: border-box;
         background: #EBEBEB;
         border: 1px solid #A9A9A9;
-        // canvas{
-        //   // height: 100% !important;
-        //   height: 680px !important;
-        //   width: 100% !important;
-        // }
       }
       .option{
         display: flex;
         .van-button{
           flex: 1;
-          // line-height: 60px !important;
-          line-height: 60px;
+          line-height: 80px;
           font-size: 30px;
-          height: 60px;
+          height: 80px;
           /deep/ .van-button__icon{
-            font-size: 26px;
+            font-size: 28px;
           }
           &:nth-child(2){
             margin:0 20px;

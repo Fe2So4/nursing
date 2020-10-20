@@ -122,9 +122,9 @@
         <van-cell title="手术护士签名" title-class="sign-title" @click="handleShowSignature"></van-cell>
       </van-cell-group>
     </div>
-    <transition name="van-slide-up">
+    <!-- <transition name="van-slide-up"> -->
       <signature :visible="visible" v-if="visible" @handleClose="handleCloseSignature"/>
-    </transition>
+    <!-- </transition> -->
   </div>
 </template>
 
