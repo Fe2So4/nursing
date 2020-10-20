@@ -37,7 +37,7 @@ export default {
       height: 85px;
     }
     .surgery-container-body {
-      height: calc(100% - 105px);
+      height: calc(100% - 125px);
       margin-top: 20px;
     }
 }

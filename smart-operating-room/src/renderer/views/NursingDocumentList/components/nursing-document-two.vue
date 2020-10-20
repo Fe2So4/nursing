@@ -19,7 +19,7 @@
               <el-form-item label="病人信息：">
                 <el-input
                   disabled
-                  v-model="form.name"
+                  v-model="form.patient"
                 />
               </el-form-item>
             </el-col>
@@ -27,7 +27,7 @@
               <el-form-item label="手术日期:">
                 <el-input
                   disabled
-                  v-model="form.name"
+                  v-model="form.opsDate"
                 />
               </el-form-item>
             </el-col>
@@ -35,7 +35,7 @@
               <el-form-item label="手术房间：">
                 <el-input
                   disabled
-                  v-model="form.name"
+                  v-model="form.opsRoom"
                 />
               </el-form-item>
             </el-col>
@@ -45,7 +45,7 @@
               <el-form-item label="术前诊断：">
                 <el-input
                   disabled
-                  v-model="form.name"
+                  v-model="form.diagnosis"
                 />
               </el-form-item>
             </el-col>
@@ -53,7 +53,7 @@
               <el-form-item label="手术方式:">
                 <el-input
                   disabled
-                  v-model="form.name"
+                  v-model="form.opsName"
                 />
               </el-form-item>
             </el-col>
@@ -65,30 +65,30 @@
           <span>1、手术类型：</span>
           <span style="marginLeft:105px">
             <span>择期</span>
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="form.opsType === 'lxzq'?true:false" />
           </span>
           <span class="mgl50">
             <span>非择期</span>
-            <isSelect prop-select="false" />
+            <IsSelect :myselect="form.opsType === 'lxfzq'?true:false" />
           </span>
           <span class="mgl50">
             <span>急诊</span>
-            <isSelect prop-select="false" />
+            <IsSelect :myselect="form.opsType === 'lxjz'?true:false" />
           </span>
         </div>
         <div class="context1">
           <span>2、术前意识评估：</span>
           <span style="marginLeft:77px">
             <span>清醒</span>
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="form.consciousness === 'ysqx'?true:false" />
           </span>
           <span style="marginLeft:65px">
             <span>烦躁</span>
-            <isSelect prop-select="false" />
+            <IsSelect :myselect="form.consciousness === 'ysfz'?true:false" />
           </span>
           <span class="mgl50">
             <span>昏迷</span>
-            <isSelect prop-select="false" />
+            <IsSelect :myselect="form.consciousness === 'yshm'?true:false" />
           </span>
         </div>
         <div class="context1">
@@ -622,12 +622,21 @@
 </template>
 
 <script>
-import isSelect from './components/isSelect'
+import IsSelect from './components/isSelect'
 export default {
   name: 'NursingDocumentTwo',
   data () {
     return {
-      form: {}
+      form: {
+        patient: '',
+        opsDate: '',
+        opsRoom: '',
+        diagnosis: '',
+        opsName: '',
+        opsType: '',
+        consciousness: ''
+      },
+      wenshuData: {}
     }
   },
   mounted () {
@@ -640,12 +649,23 @@ export default {
         cureNo: 17257233
       }
       this.$store.dispatch('ReqNursingDocumentTwo', obj).then(res => {
-        console.log(res)
+        if (res.status === 200 && res.data.code === 200) {
+          this.wenshuData = res.data.data
+          console.log(this.wenshuData)
+          this.form.patient = this.wenshuData.patient
+          this.form.opsDate = this.wenshuData.opsDate
+          this.form.opsRoom = this.wenshuData.opsRoom
+          this.form.diagnosis = this.wenshuData.diagnosis
+          this.form.opsName = this.wenshuData.opsName
+          this.form.opsType = this.wenshuData.opsType
+          this.form.consciousness = this.wenshuData.consciousness
+          this.form.skin = this.wenshuData.skin
+        }
       })
     }
   },
   components: {
-    isSelect
+    IsSelect
   }
 }
 </script>

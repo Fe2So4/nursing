@@ -35,14 +35,14 @@
         >
           <vxe-select
             style="width:96px"
-            v-model="formData.name"
-            placeholder="默认尺寸"
+            v-model="formData.employeeType"
+            placeholder="类型"
           >
             <vxe-option
-              v-for="num in 15"
-              :key="num"
-              :value="num"
-              :label="`选项${num}`"
+              v-for="item in typeList"
+              :key="item.id"
+              :value="item.value"
+              :label="item.label"
             />
           </vxe-select>
         </vxe-form-item>
@@ -111,8 +111,31 @@ export default {
   data () {
     return {
       formData: {
+        employeeType: 1,
         value404: ''
-      }
+      },
+      typeList: [
+        {
+          id: 1,
+          value: 1,
+          label: '主刀医师'
+        },
+        {
+          id: 2,
+          value: 2,
+          label: '麻醉医师'
+        },
+        {
+          id: 3,
+          value: 3,
+          label: '洗手护士'
+        },
+        {
+          id: 4,
+          value: 4,
+          label: '巡回护士'
+        }
+      ]
     }
   }
 }

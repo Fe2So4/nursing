@@ -9,47 +9,62 @@
       <div class="form-left">
         <vxe-form-item
           title="开始"
-          field="name"
+          field="startDate"
         >
           <vxe-input
             style="width:154px"
-            v-model="formData.name"
-            placeholder="日期选择"
+            v-model="formData.startDate"
+            placeholder="开始时间"
             type="date"
           />
         </vxe-form-item>
         <vxe-form-item
           title="结束"
-          field="name"
+          field="endDate"
         >
           <vxe-input
             style="width:154px"
-            v-model="formData.name"
-            placeholder="日期选择"
+            v-model="formData.endDate"
+            placeholder="结束时间"
             type="date"
           />
         </vxe-form-item>
       </div>
       <div class="form-right">
         <vxe-form-item>
-          <vxe-input v-model="formData.name" />
+          <vxe-input
+            v-model="formData.nameOrNum"
+            placeholder="房间号/病人姓名"
+          />
         </vxe-form-item>
         <vxe-form-item>
           <vxe-button
             class="btn"
             size="mini"
             status="my-purple"
+            @click="search"
           >
             查 询
           </vxe-button>
         </vxe-form-item>
-        <vxe-form-item>
+        <vxe-form-item v-if="isShow === 0">
           <vxe-button
             class="btn"
             size="mini"
             status="my-purple"
+            @click="yulan"
           >
             预 览
+          </vxe-button>
+        </vxe-form-item>
+        <vxe-form-item v-else>
+          <vxe-button
+            class="btn"
+            size="mini"
+            status="my-purple"
+            @click="dayin"
+          >
+            打 印
           </vxe-button>
         </vxe-form-item>
       </div>
@@ -60,12 +75,34 @@
 <script>
 export default {
   name: 'ContinuousHeader',
+  props: ['isShow'],
   data () {
     return {
       formData: {
-        value404: ''
+        startDate: '',
+        endDate: '',
+        nameOrNum: ''
       }
     }
+  },
+  mounted () {
+    this.initParams()
+    console.log(this.isShow)
+  },
+  methods: {
+    initParams () {
+      this.formData.startDate = this.utilsGetNewDate()
+      this.formData.endDate = this.utilsGetNewDate()
+    },
+    search () {
+      this.$parent.isShow = 0
+      this.$parent.getContinuousTable(this.formData)
+    },
+    yulan () {
+      this.$parent.isShow = 1
+    },
+    dayin () {}
+
   }
 }
 </script>

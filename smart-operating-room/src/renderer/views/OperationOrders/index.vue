@@ -11,6 +11,7 @@
     <div class="container">
       <div class="header">
         <OperationHeader
+          ref="OperationHeader"
           @changeRadio="changeRadio"
           @changeItem="changeItem"
         />
@@ -71,7 +72,8 @@ export default {
     changeItem (type) {
       this.$nextTick(() => {
         let selectItem = this.$refs.OperationContent.isSelectItem
-        if (selectItem.length === 0) {
+        console.log(selectItem)
+        if (selectItem[0].floor === '') {
           this.$message.warning('请先选中一条数据')
           return false
         }
@@ -84,8 +86,8 @@ export default {
       })
     },
     // 修改派单状态radio
-    changeRadio () {
-      this.$refs.OperationContent.clearSelect()
+    changeRadio (val) {
+      this.$refs.OperationContent.clearSelect(val)
     }
   }
 }

@@ -1,10 +1,24 @@
 <template>
   <div class="statistical-query">
-    <div class="statistical-container-header">
-      <statistical-header />
+    <div
+      class="statistical-container-header"
+    >
+      <statistical-header
+        :is-show="isShow"
+        ref="statisticalHeader"
+      />
     </div>
-    <div class="statistical-container-body">
-      <statistical-table />
+    <div
+      class="statistical-container-body"
+      v-if="isShow === 0"
+    >
+      <statistical-table :table-list="tableList" />
+    </div>
+    <div
+      class="statistical-container-body"
+      v-else
+    >
+      <StatisticalRunningTable :running-table-list="runningTableList" />
     </div>
   </div>
 </template>
@@ -12,19 +26,30 @@
 <script>
 import StatisticalHeader from './components/statistical-header'
 import StatisticalTable from './components/statistical-table'
+import StatisticalRunningTable from './../StatisticalQueryRunning/components/statistical-running-table'
 export default {
   name: 'StatisticalQuery',
   data () {
     return {
-
+      isShow: 0,
+      tableList: [],
+      runningTableList: []
     }
   },
   components: {
     StatisticalHeader,
-    StatisticalTable
+    StatisticalTable,
+    StatisticalRunningTable
   },
   methods: {
-
+    getStatisticalTable (params) {
+      this.$store.dispatch('ReqstatisticalQueryr', params).then(res => {
+        if (res.data.code === 200) {
+          this.tableList = res.data.data
+          this.runningTableList = res.data.data
+        }
+      })
+    }
   }
 }
 </script>
@@ -38,7 +63,7 @@ export default {
       height: 85px;
     }
     .statistical-container-body {
-      height: calc(100% - 105px);
+      height: calc(100% - 125px);
       margin-top: 20px;
     }
 }

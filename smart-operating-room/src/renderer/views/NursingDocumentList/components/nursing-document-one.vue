@@ -13,31 +13,31 @@
         <div class="context1">
           <span class="input-div">
             <span>姓名</span>
-            <div class="input-div-context-short-60">123</div>
+            <div class="input-div-context-short-60" />
           </span>
           <span class="input-div">
             <span>住院号</span>
-            <div class="input-div-context-short-60">123</div>
+            <div class="input-div-context-short-60" />
           </span>
           <span class="input-div">
             <span>病室</span>
-            <div class="input-div-context-short-50">123</div>
+            <div class="input-div-context-short-50" />
           </span>
           <span class="input-div">
             <span>床号</span>
-            <div class="input-div-context-short-50">123</div>
+            <div class="input-div-context-short-50" />
           </span>
           <span class="input-div">
             <span>年龄(岁)</span>
-            <div class="input-div-context-short-50">123</div>
+            <div class="input-div-context-short-50" />
           </span>
           <span class="input-div">
             <span>术前诊断</span>
-            <div class="input-div-context">123</div>
+            <div class="input-div-context" />
           </span>
           <span class="input-div">
             <span>手术日期</span>
-            <div class="input-div-context">123</div>
+            <div class="input-div-context" />
           </span>
         </div>
 
@@ -95,18 +95,10 @@
               <td>
                 术前宣教
               </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
               <td
                 rowspan="4"
                 class="td-text-center"
@@ -127,256 +119,134 @@
                   <span>4. 假牙</span>
                 </div>
               </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
             </tr>
             <tr>
               <td>
                 备皮
               </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
 
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
             </tr>
             <tr>
               <td>
                 <div class="context1">
                   <span class="input-div">
                     <span>过敏: a.药物</span>
-                    <div class="input-div-context-noborder">123</div>
+                    <div class="input-div-context-noborder" />
                   </span>
                 </div>
                 <div class="context1">
                   <span class="input-div">
                     <span>b.胶布(</span>
-                    <div class="input-div-context-noborder">123</div>
+                    <div class="input-div-context-noborder" />
                     <span>)</span>
                   </span>
                   <span class="input-div mgl5">
                     <span>c.其他</span>
-                    <div class="input-div-context-noborder">123</div>
+                    <div class="input-div-context-noborder" />
                   </span>
                 </div>
               </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
 
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
             </tr>
             <tr>
               <td>
                 术前检查：血型
               </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
 
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
             </tr>
             <tr>
               <td>
                 术前检查：HBsAg、HIV、RPR
               </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
 
               <td class="td-text-center">
                 手术部位标记
               </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
             </tr>
             <tr>
               <td>
                 术前特殊用药
               </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
 
               <td class="td-text-center">
                 肠道准备
               </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
             </tr>
             <tr>
               <td>
                 禁食
               </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
 
               <td class="td-text-center">
                 更衣,术前排尿
               </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
             </tr>
             <tr>
               <td>
                 签名
               </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
 
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
-              <td class="td-text-center">
-                1
-              </td>
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
+              <td class="td-text-center" />
             </tr>
           </table>
         </div>

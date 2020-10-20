@@ -13,8 +13,8 @@
         >
           <vxe-input
             style="width:154px"
-            v-model="formData.name"
-            placeholder="日期选择"
+            v-model="formData.startDate"
+            placeholder="开始日期"
             type="date"
           />
         </vxe-form-item>
@@ -24,80 +24,97 @@
         >
           <vxe-input
             style="width:154px"
-            v-model="formData.name"
-            placeholder="日期选择"
+            v-model="formData.endDate"
+            placeholder="结束日期"
             type="date"
           />
         </vxe-form-item>
         <vxe-form-item
           title="查询类型"
-          field="name"
+          field="employeeType"
         >
           <vxe-select
             style="width:96px"
-            v-model="formData.name"
-            placeholder="默认尺寸"
+            v-model="formData.employeeType"
+            placeholder=""
+            clearable
           >
             <vxe-option
-              v-for="num in 15"
-              :key="num"
-              :value="num"
-              :label="`选项${num}`"
+              v-for="item in typeList"
+              :key="item.id"
+              :value="item.value"
+              :label="item.label"
             />
           </vxe-select>
         </vxe-form-item>
-        <vxe-form-item field="name">
+        <vxe-form-item field="timeType">
           <vxe-select
             style="width:96px"
-            v-model="formData.name"
-            placeholder="默认尺寸"
+            v-model="formData.timeType"
+            placeholder=""
           >
             <vxe-option
-              v-for="num in 15"
-              :key="num"
-              :value="num"
-              :label="`选项${num}`"
+              v-for="item in timeTypeList"
+              :key="item.id"
+              :value="item.value"
+              :label="item.label"
             />
           </vxe-select>
         </vxe-form-item>
         <vxe-form-item
           title="开始"
-          field="name"
+          field="startTime"
         >
           <vxe-input
+            placeholder="开始时间"
             style="width:104px"
-            v-model="formData.value404"
+            v-model="formData.startTime"
             type="time"
           />
         </vxe-form-item>
-        <vxe-form-item field="name">
+        <vxe-form-item field="endTime">
           <vxe-input
+            placeholder="结束时间"
             style="width:104px"
-            v-model="formData.value404"
+            v-model="formData.endTime"
             type="time"
           />
         </vxe-form-item>
       </div>
       <div class="form-right">
         <vxe-form-item>
-          <vxe-input v-model="formData.name" />
+          <vxe-input
+            placeholder="姓名"
+            v-model="formData.name"
+          />
         </vxe-form-item>
         <vxe-form-item>
           <vxe-button
             class="btn"
             size="mini"
             status="my-purple"
+            @click="search"
           >
             查 询
           </vxe-button>
         </vxe-form-item>
-        <vxe-form-item>
+        <vxe-form-item v-if="isShow === 0">
+          <vxe-button
+            class="btn"
+            size="mini"
+            status="my-purple"
+            @click="yulan"
+          >
+            预 览
+          </vxe-button>
+        </vxe-form-item>
+        <vxe-form-item v-else>
           <vxe-button
             class="btn"
             size="mini"
             status="my-purple"
           >
-            预 览
+            打 印
           </vxe-button>
         </vxe-form-item>
       </div>
@@ -108,11 +125,82 @@
 <script>
 export default {
   name: 'StatisticalHeader',
+  props: ['isShow'],
   data () {
     return {
       formData: {
-        value404: ''
-      }
+        employeeType: 1,
+        timeType: 0,
+        startDate: '',
+        endDate: '',
+        startTime: '',
+        endTime: '',
+        name: ''
+      },
+      typeList: [
+        {
+          id: 1,
+          value: 1,
+          label: '主刀医师'
+        },
+        {
+          id: 2,
+          value: 2,
+          label: '麻醉医师'
+        },
+        {
+          id: 3,
+          value: 3,
+          label: '洗手护士'
+        },
+        {
+          id: 4,
+          value: 4,
+          label: '巡回护士'
+        }
+      ],
+      timeTypeList: [
+        {
+          id: 1,
+          value: 0,
+          label: '全部'
+        },
+        {
+          id: 2,
+          value: 1,
+          label: '安全核查时间'
+        },
+        {
+          id: 3,
+          value: 2,
+          label: '进出手术室时间'
+        }
+      ],
+      queryParams: {}
+    }
+  },
+  mounted () {
+    console.log(this.isShow)
+    this.initQueryParams()
+  },
+  methods: {
+    // 初始化参数
+    initQueryParams () {
+      this.formData.startDate = this.utilsGetNewDate()
+      this.formData.endDate = this.utilsGetNewDate()
+      this.formData.startTime = '00:00:00'
+      this.formData.endTime = '23:59:59'
+    },
+    queryTableData () {
+
+    },
+    search () {
+      this.$parent.isShow = 0
+      this.$parent.getStatisticalTable(this.formData)
+    },
+    // 预览
+    yulan () {
+      this.$parent.isShow = 1
     }
   }
 }

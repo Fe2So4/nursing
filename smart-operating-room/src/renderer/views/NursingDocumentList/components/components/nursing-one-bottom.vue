@@ -46,21 +46,11 @@
             <span>衣裤( ).</span>
             <span>病例( )</span>
           </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
         </tr>
         <tr>
           <td colspan="2">
@@ -69,22 +59,12 @@
             <span>MRI( ).</span>
             <span>其他：</span>
           </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
 
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
         </tr>
         <tr>
           <td colspan="2">
@@ -93,22 +73,12 @@
             <span>血小板单( ).</span>
             <span>其他：</span>
           </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
 
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
         </tr>
         <tr>
           <td colspan="2">
@@ -119,44 +89,24 @@
             <span>导尿管( ).</span>
             <span>其他：</span>
           </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
 
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
         </tr>
         <tr>
           <td colspan="2">
             <span>胸腔引流瓶( ).</span>
             <span>胸腔引流装置带针( )/不带针( )</span>
           </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
 
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
         </tr>
         <tr>
           <td colspan="2">
@@ -168,22 +118,12 @@
             <span>膝托( ).</span>
             <span>其他.</span>
           </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
 
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
         </tr>
         <tr>
           <td
@@ -198,136 +138,66 @@
             </div>
           </td>
           <td class="td-text-center" />
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
 
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
+          <td class="td-text-center" />
         </tr>
         <tr>
           <td />
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
 
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
         </tr>
         <tr>
           <td />
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
 
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
         </tr>
         <tr>
           <td />
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
 
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
         </tr>
         <tr>
           <td />
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
 
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
         </tr>
         <tr>
           <td />
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
 
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
         </tr>
         <tr>
           <td />
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
 
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
         </tr>
         <tr>
           <td
@@ -337,22 +207,12 @@
             签名
           </td>
           <td class="td-text-center" />
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
+          <td class="td-text-center" />
+          <td class="td-text-center" />
 
-          <td class="td-text-center">
-            1
-          </td>
-          <td class="td-text-center">
-            1
-          </td>
+          <td class="td-text-center" />
+          <td class="td-text-center" />
         </tr>
       </table>
     </div>
@@ -422,6 +282,7 @@ export default {
   }
 }
 .td-text-center {
+  height: 25px;
   text-align: center;
 }
 .td-center {

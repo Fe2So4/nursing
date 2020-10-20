@@ -98,11 +98,12 @@ export default {
     },
 
     dbSelected ({row}) {
+      console.log(row)
+      this.$store.commit('SAVE_HOSNO', row.hospitalNo)
+      this.$store.commit('SAVE_PATLENTNAME', row.patientName)
+      this.$store.commit('SAVE_CURENO', row.cureNo)
       this.$router.push({
-        path: '/home/nursing-document-list/security-check',
-        query: {
-          row
-        }
+        path: '/home/nursing-document-list/security-check'
       })
     }
   }

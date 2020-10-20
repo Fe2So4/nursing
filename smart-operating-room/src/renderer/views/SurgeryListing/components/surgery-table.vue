@@ -1,5 +1,8 @@
 <template>
   <div class="continuous-table">
+    <div class="baobiaodan">
+      手术患者转运交接报表单
+    </div>
     <div class="table-conten">
       <vxe-table
         highlight-current-row
@@ -7,7 +10,7 @@
         class="mytable-scrollbar"
         height="100%"
         border="none"
-        :data="tableData"
+        :data="surgeryTableList"
         @current-change="currentChangeEvent"
       >
         <vxe-table-column
@@ -15,22 +18,22 @@
           width="60"
         />
         <vxe-table-column
-          field="name"
+          field="operateDate"
           title="日期"
           width="120"
         />
         <vxe-table-column
-          field="role"
+          field="roomNo"
           title="房间号"
           width="80"
         />
         <vxe-table-column
-          field="sex"
+          field="sequenceNo"
           title="手术序号"
           width="90"
         />
         <vxe-table-column
-          field="age"
+          field="patient"
           title="病人信息"
           width="130"
         />
@@ -151,12 +154,12 @@
         </vxe-table-colgroup>
 
         <vxe-table-column
-          field="age"
+          field="pointInRoomTime"
           width="120"
           title="进手术室时间"
         />
         <vxe-table-column
-          field="age"
+          field="pointOutRoomTime"
           width="120"
           title="出手术室时间"
         />
@@ -168,6 +171,7 @@
 <script>
 export default {
   name: 'SurgeryTable',
+  props: ['surgeryTableList'],
   data () {
     return {
       tableData: [
@@ -246,16 +250,26 @@ export default {
 .continuous-table {
     height: 100%;
     padding-left: 20px;
+    padding-top: 20px;
     background-color: #fff;
     width: 100%;
     .table-conten {
       height: 100%;
     }
 }
+.baobiaodan {
+  color: #333333;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 400;
+}
 /deep/ .vxe-checkbox {
   margin-left: 10px;
 }
 /deep/ .col--group {
   padding-bottom: 0 !important;
+}
+/deep/ .vxe-header--row th {
+  padding: 0 !important;
 }
 </style>

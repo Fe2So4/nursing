@@ -335,7 +335,8 @@ export default {
       this.$message({
         showClose: true,
         message: mesg,
-        type: type
+        type: type,
+        duration: 3000
       })
     }
   },

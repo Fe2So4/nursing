@@ -1,10 +1,21 @@
 <template>
   <div class="continuous-query">
     <div class="continuous-header">
-      <continuous-header />
+      <continuous-header :is-show="isShow" />
     </div>
-    <div class="continuous-body">
-      <continuous-table />
+    <div
+      class="continuous-body"
+      v-if="isShow === 0"
+    >
+      <continuous-table
+        :table-list="tableList"
+      />
+    </div>
+    <div
+      class="continuous-body"
+      v-else
+    >
+      <SurgeryTable :surgery-table-list="surgeryTableList" />
     </div>
   </div>
 </template>
@@ -12,19 +23,33 @@
 <script>
 import ContinuousHeader from './components/continuous-header'
 import ContinuousTable from './components/continuous-table'
+import SurgeryTable from './../SurgeryListing/components/surgery-table'
 export default {
   name: 'ContinuousHSurgery',
   data () {
     return {
-
+      isShow: 0,
+      tableList: [],
+      SurgeryTableList: []
     }
+  },
+  mounted () {
+    console.log(this.isShow)
   },
   components: {
     ContinuousHeader,
-    ContinuousTable
+    ContinuousTable,
+    SurgeryTable
   },
   methods: {
-
+    getContinuousTable (params) {
+      this.$store.dispatch('ReqcontinuousOperation', params).then(res => {
+        if (res.data.code === 200) {
+          this.tableList = res.data.data
+          this.surgeryTableList = res.data.data
+        }
+      })
+    }
   }
 }
 </script>
@@ -37,7 +62,7 @@ export default {
       height: 85px;
     }
     .continuous-body {
-      height: calc(100% - 105px);
+      height: calc(100% - 125px);
       margin-top: 20px;
     }
 }
