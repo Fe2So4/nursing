@@ -68,3 +68,14 @@ export const reqsendOrderAction = (obj) => {
     params: obj
   })
 }
+
+// 同步排班信息
+const reqsyncOperScheduleInfoUrl = `${config.default.api.baseURL}/ocis/sendOrder/syncOperScheduleInfo`
+export const reqsyncOperScheduleInfo = (obj) => {
+  console.log(obj)
+  return request({
+    url: reqsyncOperScheduleInfoUrl,
+    method: 'post',
+    params: obj
+  })
+}

@@ -13,7 +13,7 @@
         class="btn"
         size="mini"
         status="my-purple"
-        @click="shuaxin"
+        @click="headerHandle('1')"
       >
         刷新
       </vxe-button>
@@ -21,6 +21,7 @@
         class="btn"
         size="mini"
         status="my-purple"
+        @click="headerHandle('2')"
       >
         打印
       </vxe-button>
@@ -28,6 +29,7 @@
         class="btn"
         size="mini"
         status="my-purple"
+        @click.stop.prevent="headerHandle('3')"
       >
         Excle
       </vxe-button>
@@ -46,17 +48,45 @@ export default {
     }
   },
   methods: {
-    shuaxin () {
+    headerHandle (type) {
       console.log(this.$route.path)
       let path = this.$route.path
-      if (path.includes('security-check')) {
-        Bus.$emit('clickShuaXinSecurity', '123')
-      } else if (path.includes('nursing-two')) {
-        Bus.$emit('clickShuaXinTwo', '123')
-      } else if (path.includes('nursing-jichu')) {
-        Bus.$emit('clickShuaXinJiChu', '123')
-      } else if (path.includes('nursing-teshu')) {
-        Bus.$emit('clickShuaXinTeShu', '123')
+      if (type === '1') {
+        if (path.includes('security-check')) {
+          Bus.$emit('clickShuaXinSecurity', '1')
+        } else if (path.includes('nursing-two')) {
+          Bus.$emit('clickShuaXinTwo', '1')
+        } else if (path.includes('nursing-jichu')) {
+          Bus.$emit('clickShuaXinJiChu', '1')
+        } else if (path.includes('nursing-teshu')) {
+          Bus.$emit('clickShuaXinTeShu', '1')
+        } else if (path.includes('nursing-transit-transfer')) {
+          Bus.$emit('clickShuaXinTransit', '1')
+        }
+      } else if (type === '2') {
+        if (path.includes('security-check')) {
+          Bus.$emit('clickShuaXinSecurity', '2')
+        } else if (path.includes('nursing-two')) {
+          Bus.$emit('clickShuaXinTwo', '2')
+        } else if (path.includes('nursing-jichu')) {
+          Bus.$emit('clickShuaXinJiChu', '2')
+        } else if (path.includes('nursing-teshu')) {
+          Bus.$emit('clickShuaXinTeShu', '2')
+        } else if (path.includes('nursing-transit-transfer')) {
+          Bus.$emit('clickShuaXinTransit', '2')
+        }
+      } else {
+        if (path.includes('security-check')) {
+          Bus.$emit('clickShuaXinSecurity', '3')
+        } else if (path.includes('nursing-two')) {
+          Bus.$emit('clickShuaXinTwo', '3')
+        } else if (path.includes('nursing-jichu')) {
+          Bus.$emit('clickShuaXinJiChu', '3')
+        } else if (path.includes('nursing-teshu')) {
+          Bus.$emit('clickShuaXinTeShu', '3')
+        } else if (path.includes('nursing-transit-transfer')) {
+          Bus.$emit('clickShuaXinTransit', '3')
+        }
       }
     }
   },

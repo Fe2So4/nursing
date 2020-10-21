@@ -383,7 +383,16 @@ export default {
   mounted () {
     this.initSearchCardParams()
     this.getCardList()
+    // 监听查询按钮
     Bus.$on('operation-header-searchCard', res => {
+      this.searchCardParams.date = res.date
+      this.searchCardParams.isOrder = res.isOrder
+      this.searchCardParams.condition = res.condition
+      this.searchCardParams.floorNo = res.floorNo
+      this.getCardList()
+    })
+    // 监听同步按钮
+    Bus.$on('operation-header-synchronous', res => {
       this.searchCardParams.date = res.date
       this.searchCardParams.isOrder = res.isOrder
       this.searchCardParams.condition = res.condition
@@ -414,6 +423,17 @@ export default {
     // 获取内容列表
     getCardList () {
       this.$store.dispatch('ReqOperationOrders', this.searchCardParams).then(res => {
+        if (res.data.code === 200) {
+          console.log(res.data.data)
+          this.cardList = res.data.data
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 获取同步内容列表
+    getTongbuCardList () {
+      this.$store.dispatch('ReqsyncOperScheduleInfo', this.searchCardParams).then(res => {
         if (res.data.code === 200) {
           console.log(res.data.data)
           this.cardList = res.data.data

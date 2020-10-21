@@ -14,14 +14,17 @@ import 'vxe-table/lib/style.css'
 import * as voicePromptFun from './utils/voicePrompt'
 import IsEmpty from './utils/isEmpty'
 import utilsGetNewDate from './utils/utilsTime'
+import utilsDebounce from './utils/utilsDebounce'
 
 import vueiInfinite from 'vue-infinite-scroll'
 Vue.prototype.IsEmpty = IsEmpty
 Vue.prototype.utilsGetNewDate = utilsGetNewDate
+Vue.prototype.utilsDebounce = utilsDebounce
 Vue.prototype.voicePrompt = voicePromptFun.voicePrompt // 语音提醒
 
 Vue.use(ElementUI)
 Vue.use(VXETable)
+
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false

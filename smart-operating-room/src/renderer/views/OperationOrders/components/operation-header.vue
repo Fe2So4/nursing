@@ -43,6 +43,7 @@
           size="mini"
           class="btn"
           content="同步"
+          @click="synchronous"
         />
         <vxe-button
           status="my-purple"
@@ -141,6 +142,16 @@ export default {
           this.floorList = res.data.data
         }
       })
+    },
+    // 点击同步按钮
+    synchronous () {
+      let data = {
+        date: this.formData1.startDate,
+        condition: this.formData1.nickname,
+        isOrder: this.formData2.isSend,
+        floorNo: this.formData2.selectFloor
+      }
+      Bus.$emit('operation-header-synchronous', data)
     },
     changeItem (type) {
       this.$emit('changeItem', type)

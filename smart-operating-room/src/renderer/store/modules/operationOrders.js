@@ -1,4 +1,4 @@
-import {reqOperationOrders, reqgetFloor, reqgetRoomByFloor, reqgetNurseDict, reqchangeOperScheduleInfo, reqcancelOrderAction, reqsendOrderAction} from '@/api/operation-orders/operation-orders.js'
+import {reqOperationOrders, reqgetFloor, reqgetRoomByFloor, reqgetNurseDict, reqchangeOperScheduleInfo, reqcancelOrderAction, reqsendOrderAction, reqsyncOperScheduleInfo} from '@/api/operation-orders/operation-orders.js'
 
 const state = {
   floor: [],
@@ -52,7 +52,13 @@ const actions = {
   async ReqsendOrderAction ({commit}, query) {
     let res = await reqsendOrderAction(query)
     return res
+  },
+  // 同步操作
+  async ReqsyncOperScheduleInfo ({commit}, query) {
+    let res = await reqsyncOperScheduleInfo(query)
+    return res
   }
+
 }
 
 export default {
