@@ -3,6 +3,7 @@
     <div class="table-conten">
       <vxe-table
         highlight-current-row
+        :loading="loading"
         ref="xTable"
         class="mytable-scrollbar"
         height="100%"
@@ -46,7 +47,7 @@
 <script>
 export default {
   name: 'ContinuousTable',
-  props: ['tableList'],
+  props: ['tableList', 'loading'],
   data () {
     return {
 

@@ -9,6 +9,7 @@
     >
       <continuous-table
         :table-list="tableList"
+        :loading="loading"
       />
     </div>
     <div
@@ -30,7 +31,8 @@ export default {
     return {
       isShow: 0,
       tableList: [],
-      SurgeryTableList: []
+      SurgeryTableList: [],
+      loading: false
     }
   },
   mounted () {
@@ -43,7 +45,9 @@ export default {
   },
   methods: {
     getContinuousTable (params) {
+      this.loading = true
       this.$store.dispatch('ReqcontinuousOperation', params).then(res => {
+        this.loading = false
         if (res.data.code === 200) {
           this.tableList = res.data.data
           this.surgeryTableList = res.data.data

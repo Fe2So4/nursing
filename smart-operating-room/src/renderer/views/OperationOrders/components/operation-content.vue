@@ -383,7 +383,16 @@ export default {
   mounted () {
     this.initSearchCardParams()
     this.getCardList()
+    // 监听查询按钮
     Bus.$on('operation-header-searchCard', res => {
+      this.searchCardParams.date = res.date
+      this.searchCardParams.isOrder = res.isOrder
+      this.searchCardParams.condition = res.condition
+      this.searchCardParams.floorNo = res.floorNo
+      this.getCardList()
+    })
+    // 监听同步按钮
+    Bus.$on('operation-header-synchronous', res => {
       this.searchCardParams.date = res.date
       this.searchCardParams.isOrder = res.isOrder
       this.searchCardParams.condition = res.condition
@@ -414,6 +423,17 @@ export default {
     // 获取内容列表
     getCardList () {
       this.$store.dispatch('ReqOperationOrders', this.searchCardParams).then(res => {
+        if (res.data.code === 200) {
+          console.log(res.data.data)
+          this.cardList = res.data.data
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 获取同步内容列表
+    getTongbuCardList () {
+      this.$store.dispatch('ReqsyncOperScheduleInfo', this.searchCardParams).then(res => {
         if (res.data.code === 200) {
           console.log(res.data.data)
           this.cardList = res.data.data
@@ -461,16 +481,21 @@ export default {
     // 退单
     exitOrder () {
       let obj = {
-        operSchNo: this.isSelectItem[0].operSchNo
+        // operSchNo: this.isSelectItem[0].operSchNo
+        operSchNo: 'sdfjkadcnxjkzhuierhkjsdhcakhcisdh'
       }
       console.log(obj)
       this.$store.dispatch('ReqcancelOrderAction', obj).then(res => {
         console.log(res)
         if (res.data.code === 200) {
           this.openToast('success', '退单成功')
+          this.isSelectItem = [{floor: '', roomNo: '', runNurseName: '', washNurseCode: ''}]
+          this.isSelectIndex = 0
         } else {
           this.openToast('error', res.data.msg)
         }
+        this.exitdialogVisible = false
+        this.getCardList()
       })
     },
     handleClose (done) {
@@ -493,6 +518,15 @@ export default {
       console.log(obj)
       this.$store.dispatch('ReqsendOrderAction', obj).then(res => {
         console.log(res)
+        if (res.data.code === 200) {
+          this.openToast('success', '派单成功')
+          this.isSelectIndex = 0
+          this.isSelectItem = [{floor: '', roomNo: '', runNurseName: '', washNurseCode: ''}]
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+        this.dbdialogVisible = false
+        this.getCardList()
       })
     },
     // 点击选中一条记录
@@ -510,6 +544,11 @@ export default {
     },
     // 点击修改
     changeInfo () {
+      if (this.IsEmpty(this.selectRoom)) {
+        this.openToast('error', '请选择房间号')
+        console.log(123)
+        return false
+      }
       this.nurseList.forEach(item => {
         if (item.nurseCode === this.washNurseCode) {
           this.washNurseName = item.nurseName
@@ -532,7 +571,15 @@ export default {
       }
       console.log(this.selectRoom, this.selectFloor, this.isSelectItem[0].operSchNo, this.washNurseName, this.washNurseCode, this.runNurseCode, this.runNurseName)
       this.$store.dispatch('ReqchangeOperScheduleInfo', params).then(res => {
-        console.log(res)
+        if (res.data.code === 200) {
+          this.openToast('success', '修改成功')
+          this.isSelectIndex = 0
+          this.isSelectItem = [{floor: '', roomNo: '', runNurseName: '', washNurseCode: ''}]
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+        this.selectDialogVisible = false
+        this.getCardList()
       })
     },
     // 清空点击选中

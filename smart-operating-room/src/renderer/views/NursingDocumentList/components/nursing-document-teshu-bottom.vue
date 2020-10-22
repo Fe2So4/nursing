@@ -8,25 +8,25 @@
         <div class="context1">
           <span class="input-div ">
             <span>手术日期</span>
-            <div class="input-div-context-120">123</div>
+            <div class="input-div-context-120">{{ form.operateDate }}</div>
           </span>
           <span class="input-div">
             <span>姓名</span>
-            <div class="input-div-context-120">123</div>
+            <div class="input-div-context-120">{{ form.patientName }}</div>
           </span>
           <span class="input-div">
             <span>住院号</span>
-            <div class="input-div-context-120">123</div>
+            <div class="input-div-context-120">{{ form.hospitalNo }}</div>
           </span>
           <span class="input-div">
             <span>病床号</span>
-            <div class="input-div-context-120">123</div>
+            <div class="input-div-context-120">{{ form.bedNo }}</div>
           </span>
         </div>
         <div class="context1 mgt20">
           <span class="input-div ">
             <span>手术诊断</span>
-            <div class="input-div-context-long">123</div>
+            <div class="input-div-context-long">{{ form.diagnosis }}</div>
           </span>
         </div>
         <div class="context1">
@@ -306,6 +306,7 @@
 <script>
 export default {
   name: 'NursingDocumentTeshu',
+  props: ['form'],
   data () {
     return {}
   }

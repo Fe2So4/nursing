@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import request2 from '@/utils/request2'
 const config = require('@/config/url.js')
 
 // 根据住院号获取信息
@@ -17,5 +18,25 @@ export const reqBiaobenInfo = (pathologyId) => {
     url: reqUserBiaobenUrl,
     method: 'get',
     params: pathologyId
+  })
+}
+
+// 验证医师
+const reqPathLoginUrl = `${config.default.api.baseURL}/ocis/login/careLogin`
+export const pathologicalLogin = (obj) => {
+  return request2({
+    url: reqPathLoginUrl,
+    method: 'post',
+    data: obj
+  })
+}
+
+// 提交标本
+const reqsaveFastPathologicUrl = `${config.default.api.baseURL}/ocis/pathology/saveFastPathologic`
+export const reqsaveFastPathologic = (obj) => {
+  return request({
+    url: reqsaveFastPathologicUrl,
+    method: 'post',
+    data: obj
   })
 }

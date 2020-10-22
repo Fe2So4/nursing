@@ -1,6 +1,7 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
+const Path = require('path')
 // import '../renderer/store'
 /**
  * Set `__static` path to static files in production
@@ -78,3 +79,56 @@ app.on('ready', () => {
   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
 })
  */
+
+// 新建打印窗口
+const printPageURL = process.env.NODE_ENV === 'development'
+  ? `http://localhost:9080/static/print.html`
+  : Path.join(__dirname, '../../static/print.html')
+const printWindows = new Set()
+const createPrintWindow = () => {
+  let newPrintWindow = new BrowserWindow({
+    show: true,
+    webPreferences: {
+      webSecurity: false,
+      nodeIntegration: true
+    }
+  })
+
+  newPrintWindow.loadURL(printPageURL)
+  // loadURL(`file://${__dirname}/app/index.html`)
+  newPrintWindow.once('ready-to-show', () => {
+  // newPrintWindow.show()
+  })
+
+  newPrintWindow.on('closed', () => {
+    printWindows.delete(newPrintWindow)
+    newPrintWindow = null
+  })
+
+  printWindows.add(newPrintWindow)
+  return newPrintWindow
+}
+let printHtml = ''
+let cssFileName = ''
+let printWin = null
+let printOptions = null
+ipcMain.on('printChannel', (e, html, css, options) => {
+  printWin = createPrintWindow()
+  printHtml = html
+  cssFileName = css
+  printOptions = options
+})
+
+ipcMain.on('print-page-ready', (e) => {
+  e.reply('print-page-ready-reply', printHtml, cssFileName, printOptions)
+})
+
+ipcMain.on('print-content', (e, options) => {
+  console.log(e, options)
+  if (options) {
+    printWin.webContents.print(options)
+  } else {
+    printWin.webContents.print()
+  }
+// const options = { silent: true, landscape: true }
+})

@@ -1,7 +1,7 @@
 <template>
   <div class="continuous-table">
     <div class="baobiaodan">
-      手术患者转运交接报表单
+      连台手术清洁检查表
     </div>
     <div class="table-conten">
       <vxe-table

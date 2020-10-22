@@ -7,7 +7,12 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/home'
+      redirect: '/login'
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: () => import('@/views/Login/index')
     },
     {
       path: '*',
@@ -79,16 +84,16 @@ export default new Router({
             parent: 'Home'
           }
         },
-        {
-          path: 'statistical-query-running',
-          name: 'StatisticalQueryRunning',
-          component: () => import('@/views/StatisticalQueryRunning/index'),
-          meta: {
-            title: '统计查询报表',
-            noNavs: false,
-            parent: 'Home'
-          }
-        },
+        // {
+        //   path: 'statistical-query-running',
+        //   name: 'StatisticalQueryRunning',
+        //   component: () => import('@/views/StatisticalQueryRunning/index'),
+        //   meta: {
+        //     title: '统计查询报表',
+        //     noNavs: false,
+        //     parent: 'Home'
+        //   }
+        // },
         {
           path: 'continuous-surgery',
           name: 'ContinuousSurgery',
@@ -99,16 +104,16 @@ export default new Router({
             parent: 'Home'
           }
         },
-        {
-          path: 'surgery-listing',
-          name: 'SurgeryListing',
-          component: () => import('@/views/SurgeryListing/index'),
-          meta: {
-            title: '连台手术清单',
-            noNavs: false,
-            parent: 'Home'
-          }
-        },
+        // {
+        //   path: 'surgery-listing',
+        //   name: 'SurgeryListing',
+        //   component: () => import('@/views/SurgeryListing/index'),
+        //   meta: {
+        //     title: '连台手术清单',
+        //     noNavs: false,
+        //     parent: 'Home'
+        //   }
+        // },
         {
           path: 'nursing-document-list',
           name: 'NursingDocumentList',

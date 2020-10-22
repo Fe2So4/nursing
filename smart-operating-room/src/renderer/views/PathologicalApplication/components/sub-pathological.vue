@@ -57,9 +57,9 @@
         >
           <template v-slot>
             <vxe-input
+              readonly
               style="width:150px"
-              v-model="formData.name"
-              clearable
+              v-model="loginName"
             />
           </template>
         </vxe-form-item>
@@ -211,6 +211,7 @@
             class="btn"
             size="mini"
             status="my-purple"
+            @click="submitApplication"
           >
             提交申请
           </vxe-button>
@@ -229,18 +230,34 @@
         <el-form
           class="dialog-div-form"
           ref="form"
+          :rules="rules"
           size="mini"
           :model="form"
           label-width="60px"
+          hide-required-asterisk
         >
-          <el-form-item label="用户名">
-            <el-input v-model="form.name" />
+          <el-form-item
+            prop="username"
+            label="用户名"
+          >
+            <el-input
+              prefix-icon="el-icon-s-custom"
+              placeholder="请输入用户名"
+              v-model="form.username"
+            />
           </el-form-item>
           <el-form-item
+            prop="password"
             style="marginTop:20px"
             label="密码"
           >
-            <el-input v-model="form.name" />
+            <el-input
+              prefix-icon="el-icon-lock"
+              placeholder="请输入密码"
+              v-model="form.password"
+              @keydown.native="enter"
+              show-password
+            />
           </el-form-item>
         </el-form>
       </div>
@@ -253,7 +270,7 @@
             size="mini"
             status="my-purple"
             class="btn"
-            @click="dialogVisible = false"
+            @click="login"
           >验 证</el-button>
           <el-button
             size="mini"
@@ -269,11 +286,22 @@
 </template>
 
 <script>
+import {pathologicalLogin, reqsaveFastPathologic} from '@/api/client-api/pathological-application.js'
 export default {
   name: 'SubPathological',
   data () {
     return {
+      userInfo: {}, // 查询的用户信息
+      selectItem: {}, // 选中的表格
       form: {},
+      rules: {
+        username: [
+          { required: true, message: '请正确填写用户名', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请正确填写密码', trigger: 'blur' }
+        ]
+      },
       formData: {
         hologyType: '0',
         specimenList: [
@@ -281,7 +309,9 @@ export default {
         ] // 标本列表
       },
       totalId: 0,
-      dialogVisible: false
+      dialogVisible: false,
+      loginType: '0', // 验证标志
+      loginName: ''
     }
   },
   methods: {
@@ -291,10 +321,11 @@ export default {
       this.$store.dispatch('ReqBiaobenInfo', obj).then(res => {
         console.log(res)
         if (res.data.code === 200) {
-          let selectItem = this.$store.state['pathological-table'].selectTableData[0]
-          this.formData.fixed = selectItem.fixed
-          this.formData.hologyType = selectItem.hologyType
-          this.formData.remarks = selectItem.remarks
+          this.userInfo = this.$store.state['pathological-table'].userInfo
+          this.selectItem = this.$store.state['pathological-table'].selectTableData[0]
+          this.formData.fixed = this.selectItem.fixed
+          this.formData.hologyType = this.selectItem.hologyType
+          this.formData.remarks = this.selectItem.remarks
           this.formData.specimenList = res.data.data
         } else {
           this.openToast('error', res.data.msg)
@@ -328,7 +359,61 @@ export default {
       this.dialogVisible = true
     },
     handleClose (done) {
-      done()
+      // done()
+    },
+    enter (e) {
+      if (e.keyCode === 13) {
+        this.login()
+      }
+    },
+    login () {
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          let obj = {
+            loginName: this.form.username,
+            loginPwd: this.form.password
+          }
+          pathologicalLogin(obj).then(res => {
+            if (res.data.code === 200) {
+              console.log(res)
+              this.loginType = '1'
+              this.loginName = '王德发'
+            } else {
+              this.$message({ type: 'error', message: res.data.message })
+            }
+            this.dialogVisible = false
+          })
+        } else {
+          return false
+        }
+      })
+    },
+    // 提交申请
+    submitApplication () {
+      if (this.loginType !== '1') {
+        this.$alert('请先进行送验医师验证', '提示')
+        return false
+      }
+      if (this.IsEmpty(this.userInfo.patientName)) {
+        this.$alert('请先输入住院号获取病理信息', '提示')
+        return false
+      }
+      if (this.IsEmpty(this.selectItem.hospitalNo)) {
+        this.$alert('请先选择病理数据', '提示')
+        return false
+      }
+      let obj = {
+        admitNo: this.selectItem.hospitalNo,
+        checkCode: this.selectItem.checkCode,
+        checkName: this.selectItem.checkName,
+        checkOut: this.selectItem,
+        beaNo: this.userInfo.beaNo,
+        categpry: this.userInfo.categpry
+
+      }
+      reqsaveFastPathologic(obj).then(res => {
+        console.log(res)
+      })
     },
     // 提示方法
     openToast (type, mesg) {

@@ -152,7 +152,6 @@
           span="24"
         >
           <vxe-textarea
-            readonly
             :autosize="{ minRows: 3, maxRows: 3 }"
             outline="none"
             resize="none"
@@ -251,7 +250,7 @@ export default {
       }
     },
     resetEvent () {
-
+      this.formData1.historyDetails = ''
     },
     // 提示方法
     openToast (type, mesg) {

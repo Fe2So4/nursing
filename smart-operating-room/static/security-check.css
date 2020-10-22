@@ -1,0 +1,355 @@
+.content-wenben-container {
+  width: 824px;
+  height: 920px;
+  min-width: 824px;
+  min-height: 920px;
+  background-color: #fff;
+  padding: 10px 60px 0 60px;
+}
+
+.content-wenben-container .wenben-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-wenben-container .wenben-content .wenben-content-title {
+  text-align: center;
+  border-bottom: 1px solid #000;
+  font-weight: 600;
+}
+
+.content-wenben-container .wenben-content .wenben-content-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.content-wenben-container .wenben-content .wenben-content-info .info-content-title {
+  text-align: center;
+  letter-spacing: 14px;
+  font-weight: 600;
+  text-indent: 14px;
+  font-size: 16px;
+}
+
+.content-wenben-container .wenben-content .wenben-content-info .info-content-form {
+  padding-left: 15px;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context {
+  margin-top: 5px;
+  border: 1px solid #000;
+  display: flex;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-anesthesia {
+  border-right: 1px solid #000;
+  flex: 1;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-anesthesia .info-isTrue {
+  height: 480px;
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-anesthesia .info-isTrue .info-one {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-anesthesia .info-isTrue .info-list {
+  display: flex;
+  justify-content: space-between;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-anesthesia .info-isTrue .info-list .info-left {
+  flex: 1;
+  padding-left: 3px;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-anesthesia .info-isTrue .info-list .info-right {
+  padding: 1px;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-anesthesia .info-isTrue .info-pifu {
+  margin-top: 20px;
+  padding-left: 3px;
+  display: flex;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-anesthesia .info-isTrue .info-pifu .pifu-buwei {
+  display: flex;
+  flex: 1;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-anesthesia .info-isTrue .info-pifu .pifu-buwei .text {
+  height: 100%;
+  padding-left: 5px;
+  border-bottom: 1px solid #000;
+  flex: 1;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-anesthesia .info-isTrue .info-pifu .pifu-chengdu {
+  display: flex;
+  flex: 1;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-anesthesia .info-isTrue .info-pifu .pifu-chengdu .text {
+  padding-left: 5px;
+  border-bottom: 1px solid #000;
+  flex: 1;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-surgery {
+  border-right: 1px solid #000;
+  flex: 1;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-surgery .info-isTrue {
+  height: 480px;
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-surgery .info-isTrue .info-one {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-surgery .info-isTrue .info-list {
+  display: flex;
+  justify-content: space-between;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-surgery .info-isTrue .info-list .info-left {
+  flex: 1;
+  padding-left: 3px;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-surgery .info-isTrue .info-list .info-right {
+  padding: 1px;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-surgery .info-isTrue .info-pifu {
+  margin-top: 20px;
+  padding-left: 3px;
+  display: flex;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-surgery .info-isTrue .info-pifu .pifu-buwei {
+  display: flex;
+  flex: 1;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-surgery .info-isTrue .info-pifu .pifu-buwei .text {
+  padding-left: 5px;
+  border-bottom: 1px solid #000;
+  flex: 1;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-surgery .info-isTrue .info-pifu .pifu-chengdu {
+  display: flex;
+  flex: 1;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-surgery .info-isTrue .info-pifu .pifu-chengdu .text {
+  padding-left: 5px;
+  border-bottom: 1px solid #000;
+  flex: 1;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-leaveroom {
+  flex: 1;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-leaveroom .info-isTrue {
+  height: 480px;
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-leaveroom .info-isTrue .info-one {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-leaveroom .info-isTrue .info-list {
+  display: flex;
+  justify-content: space-between;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-leaveroom .info-isTrue .info-list .info-left {
+  flex: 1;
+  padding-left: 3px;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-leaveroom .info-isTrue .info-list .info-right {
+  padding: 1px;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-leaveroom .info-isTrue .info-pifu {
+  margin-top: 20px;
+  padding-left: 3px;
+  display: flex;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-leaveroom .info-isTrue .info-pifu .pifu-buwei {
+  display: flex;
+  flex: 1;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-leaveroom .info-isTrue .info-pifu .pifu-buwei .text {
+  padding-left: 5px;
+  border-bottom: 1px solid #000;
+  flex: 1;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-leaveroom .info-isTrue .info-pifu .pifu-chengdu {
+  display: flex;
+  flex: 1;
+}
+
+.content-wenben-container .wenben-content .wenben-content-context .before-leaveroom .info-isTrue .info-pifu .pifu-chengdu .text {
+  padding-left: 5px;
+  border-bottom: 1px solid #000;
+  flex: 1;
+}
+
+.info-right-one {
+  width: 100%;
+  text-align: right;
+  padding: 1px;
+}
+
+.padl5 {
+  padding-left: 5px;
+}
+
+.padl3 {
+  padding-left: 3px;
+}
+
+.padb10 {
+  padding-bottom: 10px;
+}
+
+.title {
+  text-align: center;
+  font-weight: 600;
+  border-bottom: 1px solid #000;
+}
+
+.mgl10 {
+  margin-left: 10px;
+}
+
+.qita {
+  margin-bottom: 10px;
+  display: flex;
+  font-size: 12px;
+}
+
+.qita .text {
+  padding-left: 5px;
+  border-bottom: 1px solid #000;
+  flex: 1;
+}
+
+.imgbox {
+  width: 100%;
+  height: 100%;
+}
+
+.imgbox img {
+  width: 100%;
+  height: 100%;
+}
+
+.mgt5 {
+  margin-top: 5px;
+}
+
+.qianming {
+  border-top: 1px solid #000;
+  padding-bottom: 20px;
+  padding-top: 10px;
+  font-size: 12px;
+}
+
+.qianming div {
+  display: flex;
+  align-items: center;
+}
+
+.qianming div .text {
+  padding-left: 5px;
+  border-bottom: 1px solid #000;
+  flex: 1;
+}
+
+.qianming .qianming-list {
+  padding: 0 5px;
+  height: 50px;
+}
+
+.guanluqita {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.zidingyi {
+  width: 120px;
+  border-bottom: 1px solid #000;
+  text-align: left;
+  padding: 0 5px;
+}
+
+.ziti {
+  font-size: 16px;
+  font-weight: 600;
+}
+.row {
+  width: 100%;
+  display: flex;
+  height: 28px;
+  padding-left: 10px;
+}
+.col {
+  display: flex;
+  font-size: 14px;
+  width: 30%;
+}
+.col-50 {
+  display: flex;
+  font-size: 14px;
+  width: 50%;
+}
+.col-70 {
+  display: flex;
+  font-size: 14px;
+  width: 70%;
+}
+.row-lable {
+  width: 150px;
+  line-height: 28px;
+  text-align: right;
+  vertical-align: middle;
+  float: left;
+  font-size: 14px;
+  color: #606266;
+  padding: 0 12px 0 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.row-text {
+  line-height: 28px;
+  width: 100%;
+  padding: 0 10px;
+  height: 25px;
+  text-align: center;
+  border-bottom: 1px solid;
+}

@@ -1,6 +1,8 @@
 import {reqSecurityCheck} from '@/api/NursingDocumentApi/security-check.js'
 import {reqTransitTransfer} from '@/api/NursingDocumentApi/transit-transfer.js'
 import {reqNursingDocumentTwo} from '@/api/NursingDocumentApi/nursing-document-two.js'
+import {reqNursingDocumentJiChu} from '@/api/NursingDocumentApi/nursing-document-jichu.js'
+import {reqNursingDocumentTeShu} from '@/api/NursingDocumentApi/nursing-document-teshu.js'
 const state = {
   hospitalNo: '',
   patientName: '',
@@ -32,6 +34,16 @@ const actions = {
     return res
   },
 
+  // 获取护理记录单(三)基础数据
+  async ReqNursingDocumentJiChu ({ commit }, query) {
+    let res = reqNursingDocumentJiChu(query)
+    return res
+  },
+  // 获取护理记录单(三)特殊数据
+  async ReqNursingDocumentTeShu ({ commit }, query) {
+    let res = reqNursingDocumentTeShu(query)
+    return res
+  },
   // 获取转运交接单数据
   async ReqTransitTransfer ({ commit }, query) {
     let res = reqTransitTransfer(query)

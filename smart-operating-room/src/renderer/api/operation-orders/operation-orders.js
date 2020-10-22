@@ -61,8 +61,20 @@ export const reqcancelOrderAction = (obj) => {
 // 派单操作
 const reqsendOrderActionUrl = `${config.default.api.baseURL}/ocis/sendOrder/sendOrderAction`
 export const reqsendOrderAction = (obj) => {
+  console.log(obj)
   return request({
     url: reqsendOrderActionUrl,
+    method: 'post',
+    params: obj
+  })
+}
+
+// 同步排班信息
+const reqsyncOperScheduleInfoUrl = `${config.default.api.baseURL}/ocis/sendOrder/syncOperScheduleInfo`
+export const reqsyncOperScheduleInfo = (obj) => {
+  console.log(obj)
+  return request({
+    url: reqsyncOperScheduleInfoUrl,
     method: 'post',
     params: obj
   })

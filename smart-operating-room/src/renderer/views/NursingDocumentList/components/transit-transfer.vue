@@ -289,7 +289,7 @@
             <isSelect prop-select="true" />
             <span>负压球(留置日期)</span>
           </span>
-          <span style="marginLeft:125pxpx">
+          <span style="marginLeft:125px">
             <isSelect prop-select="true" />
             <span>胸腔引流(留置日期)</span>
           </span>
@@ -1012,6 +1012,7 @@
 
 <script>
 import isSelect from './components/isSelect'
+import Bus from '@/utils/bus.js'
 export default {
   name: 'TransitTransfer',
   data () {
@@ -1022,13 +1023,18 @@ export default {
     }
   },
   mounted () {
+    Bus.$on('clickShuaXinTransit', res => {
+      if (res === '1') {
+        this.getWenShuData()
+      }
+    })
     this.getWenShuData()
   },
   methods: {
 
     getWenShuData () {
       let obj = {
-        admitNo: 91119858
+        admitNo: 91147869
       }
       this.$store.dispatch('ReqTransitTransfer', obj).then(res => {
         console.log(res)
