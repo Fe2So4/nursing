@@ -9,6 +9,7 @@ import 'vant/lib/index.css'
 import 'vant/lib/icon/local.css'
 import './styles/index.css'
 import './utils/rem'
+import store from './store'
 import { DatetimePicker, Step, Steps, Stepper, TreeSelect, ActionSheet, Checkbox, CheckboxGroup, Popup, DropdownMenu, DropdownItem, Switch, Cell, CellGroup, Image, Button, Dialog, Grid, GridItem, Field, Form, Notify, NavBar, Icon } from 'vant'
 // import VueSignaturePad from 'vue-signature-pad'
 import vueEsign from 'vue-esign'
@@ -45,6 +46,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

@@ -8,156 +8,253 @@
       right-text="保存"
     >
     </van-nav-bar>
-    <div class="patient-card">
-      <div class="content">
-          <div class="left">
-            <span>808</span>
-          </div>
-          <div class="right">
-            <p>魏鑫 12床 91166492</p>
-            <p>主刀 陈疾仵 麻醉 王海莲</p>
-            <p>巡回 —— 洗手 余琼</p>
-          </div>
-      </div>
-    </div>
+    <PatientCard></PatientCard>
     <div class="list">
       <van-cell-group :border="false">
         <van-cell title="患者姓名、住院号、性别、年龄正确：" value="内容" value-class="first-cell van-cell-center">
           <template #right-icon>
-            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+            <van-switch v-model="recordForm[0].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
         <van-cell title="手术方式确认" value="内容" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+            <van-switch v-model="recordForm[1].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
         <van-cell title="手术部位与标识正确：" value="内容" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+            <van-switch v-model="recordForm[2].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
         <van-cell title="手术知情同意书：" value="内容" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+            <van-switch v-model="recordForm[3].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
         <van-cell title="麻醉知情同意书：" value="内容" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+            <van-switch v-model="recordForm[4].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
         <van-cell title="麻醉设备安全检查完成：" value="内容" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+            <van-switch v-model="recordForm[5].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
         <van-cell title="皮肤是否完整：" value="内容" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8" @change="handleChange"/>
+            <van-switch v-model="recordForm[6].value" active-color="#3478FF" inactive-color="#E8E8E8" @change="handleChange"/>
           </template>
         </van-cell>
         <van-cell-group v-show="showFullSkin">
           <van-cell v-show="showFullSkin" title="部位：" title-class="left-title" value-class="right-value">
             <template #right-icon>
-              <van-field v-model="input" label="" placeholder="请输入部位：" label-align="right" input-align="right"/>
+              <van-field v-model="recordForm[6].items[0].value" label="" placeholder="请输入部位：" label-align="right" input-align="right"/>
             </template>
           </van-cell>
           <van-cell v-show="showFullSkin" title="程度：" title-class="left-title" value-class="right-value">
             <template #right-icon>
-              <van-field v-model="input" label="" placeholder="请输入程度：" label-align="right" input-align="right"/>
+              <van-field v-model="recordForm[6].items[1].value" label="" placeholder="请输入程度：" label-align="right" input-align="right"/>
             </template>
           </van-cell>
         </van-cell-group>
         <van-cell title="术野皮肤准备正确：" value="内容" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+            <van-switch v-model="recordForm[7].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
         <van-cell title="静脉通道建立完成：" value="内容" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+            <van-switch v-model="recordForm[8].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
         <van-cell title="患者是否有过敏史：" value="内容" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+            <van-switch v-model="recordForm[9].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
         <van-cell title="抗菌药物皮试结果：" value="内容" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+            <van-switch v-model="recordForm[10].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
         <van-cell title="术前备血：" value="内容" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+            <van-switch v-model="recordForm[11].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
         <van-cell title="影像学资料：" value="内容" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+            <van-switch v-model="recordForm[12].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
         <van-cell title="假体：" value="内容" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+            <van-switch v-model="recordForm[13].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
         <van-cell title="体内植入物：" value="内容" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch v-model="checked" active-color="#3478FF" inactive-color="#E8E8E8"/>
+            <van-switch v-model="recordForm[14].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
         <van-cell title="其它：" value="内容" title-class="left-title" value-class="right-value">
           <template #right-icon>
-            <van-field v-model="input" label="" placeholder="请输入其它：" />
+            <van-field v-model="recordForm[15].value" label="" placeholder="请输入其它：" />
           </template>
         </van-cell>
       </van-cell-group>
       <van-cell-group :border="false">
         <van-cell title="核查时间" value="2020-10-12 09:48"></van-cell>
-        <van-cell title="麻醉医师签名" title-class="sign-title" @click="handleShowSignature"></van-cell>
-        <van-cell title="手术医师签名" title-class="sign-title" @click="handleShowSignature"></van-cell>
-        <van-cell title="手术护士签名" title-class="sign-title" @click="handleShowSignature"></van-cell>
+        <van-cell title="麻醉医师签名" title-class="sign-title" @click="handleShowSignature(1)"></van-cell>
+        <div v-if="anesBeforeAnesDoc!==''" style="text-align:center;">
+          <img :src="anesBeforeAnesDoc" alt="" class="signatureImage">
+        </div>
+        <van-cell title="手术医师签名" title-class="sign-title" @click="handleShowSignature(2)"></van-cell>
+        <div v-if="anesBeforeOperDoc!==''" style="text-align:center;">
+          <img :src="anesBeforeOperDoc" alt="" class="signatureImage">
+        </div>
+        <van-cell title="手术护士签名" title-class="sign-title" @click="handleShowSignature(3)"></van-cell>
+        <div v-if="anesBeforeNurse!==''" style="text-align:center;">
+          <img :src="anesBeforeNurse" alt="" class="signatureImage">
+        </div>
       </van-cell-group>
     </div>
     <!-- <transition name="van-slide-up"> -->
-      <signature :visible="visible" v-if="visible" @handleClose="handleCloseSignature"/>
+      <signature :visible="visible" v-if="visible" @handleClose="handleCloseSignature" @handleSubmit='handleSubmitImage'/>
     <!-- </transition> -->
   </div>
 </template>
 
 <script>
 import Signature from '@/components/Signature'
+import PatientCard from '@/components/PatientCard'
+import {submitSignIn, getSignIn} from '@/api/check'
+import request from '@/utils/request'
+import {mapState} from 'vuex'
 export default {
   data () {
     return {
       checked: true,
-      input: '',
-      showFullSkin: false,
-      visible: false
+      currentSign: null,
+      showFullSkin: true,
+      visible: false,
+      anesBeforeAnesDoc: '',
+      anesBeforeOperDoc: '',
+      anesBeforeNurse: '',
+      anesBeforeState: '',
+      recordForm: [
+        {key: '患者姓名，性别，年龄正确', value: false},
+        {key: '手术方式确认', value: false},
+        {key: '手术部位与标识正确', value: false},
+        {key: '手术知情同意书', value: false},
+        {key: '麻醉知情同意书', value: false},
+        {key: '麻醉设备安全检查完成', value: false},
+        {
+          key: '皮肤是否完整',
+          value: false,
+          items: [
+            {key: '部位', value: ''},
+            {key: '程度', value: ''}
+          ]},
+        {key: '术野皮肤准备正确', value: false},
+        {key: '静脉通道建立完成', value: false},
+        {key: '患者是否有过敏史', value: false},
+        {key: '抗菌药物皮试结果', value: false},
+        {key: '术前备血', value: false},
+        {key: '影像学资料', value: false},
+        {key: '假体', value: false},
+        {key: '体内植入物', value: false},
+        {key: '其它', value: ''}
+      ]
     }
   },
   components: {
-    Signature
+    Signature, PatientCard
+  },
+  computed: {
+    ...mapState('Patient', ['patientInfo'])
   },
   methods: {
     onClickLeft () {
       this.$router.go(-1)
     },
-    onClickRight () {
-
+    handleSubmitImage (image) {
+      switch (this.currentSign) {
+        case 1:
+          this.anesBeforeAnesDoc = image
+          break
+        case 2:
+          this.anesBeforeOperDoc = image
+          break
+        case 3:
+          this.anesBeforeNurse = image
+      }
     },
+    onClickRight () {
+      let arr = JSON.parse(JSON.stringify(this.recordForm))
+      arr.forEach(item => {
+        if (item.key !== '其它') {
+          if (item.value === true) {
+            item.value = '是'
+          } else {
+            item.value = '否'
+          }
+        }
+      })
+      console.log(this.recordForm)
+      request({
+        method: 'post',
+        url: submitSignIn,
+        data: {
+          anesBeforeAnesDoc: this.anesBeforeAnesDoc,
+          anesBeforeCheckJson: arr,
+          anesBeforeNurse: this.anesBeforeNurse,
+          anesBeforeOperDoc: this.anesBeforeOperDoc,
+          anesBeforeState: this.anesBeforeState,
+          cureNo: this.patientInfo.cureNo
+        }
+      }).then(res => {
+
+      })
+    },
+
     handleChange () {
       this.showFullSkin = !this.showFullSkin
     },
-    handleShowSignature () {
+    handleShowSignature (param) {
+      this.currentSign = param
       this.visible = true
+    },
+    getData () {
+      request({
+        method: 'get',
+        url: getSignIn + '/' + this.patientInfo.hospitalNo + '/' + this.patientInfo.cureNo
+      }).then(res => {
+        if (res.data.code === 200) {
+          let data = res.data.data
+          this.anesBeforeAnesDoc = data.anesBeforeAnesDoc
+          this.anesBeforeOperDoc = data.anesBeforeOperDoc
+          this.anesBeforeNurse = data.anesBeforeNurse
+          data.anesBeforeCheck.forEach(item => {
+            if (item.key !== '其它') {
+              if (item.value === '是') {
+                item.value = true
+              } else {
+                item.value = false
+              }
+            }
+          })
+          this.recordForm = data.anesBeforeCheck
+        }
+      })
     },
     handleCloseSignature () {
       this.visible = false
     }
+  },
+  mounted () {
+    this.getData()
   }
 }
 </script>
@@ -249,6 +346,10 @@ export default {
           padding-bottom: 0;
         }
       }
+    }
+    .signatureImage{
+      height: 300px;
+      margin: 0 auto;
     }
     .van-cell-group{
       &:last-child{
