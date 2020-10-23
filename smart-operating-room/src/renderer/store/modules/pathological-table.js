@@ -1,9 +1,10 @@
-import {reqUserInfo, reqBiaobenInfo} from '@/api/client-api/pathological-application.js'
+import {reqUserInfo, reqBiaobenInfo, reqdeleteFastPathologic, reqsendPathologicOrder} from '@/api/client-api/pathological-application.js'
 
 const state = {
   userInfo: {},
   selectTableData: [],
-  selectPathologyId: ''
+  selectPathologyId: '',
+  historyDetails: ''
 }
 
 const mutations = {
@@ -16,8 +17,14 @@ const mutations = {
       state.selectPathologyId = data[0].pathologyId
     }
   },
+  SAVE_USERINFOHISTORYDETAILS (state, data) {
+    state.historyDetails = data
+  },
   CLEAR_SELECTTABLEITEM (state) {
     state.selectPathologyId = ''
+  },
+  CLEAR_USERINFO (state) {
+    state.userInfo = {}
   }
 }
 
@@ -35,7 +42,22 @@ const actions = {
     //   commit('SAVE_USERINFO', res.data)
     // }
     return res
+  },
+  async ReqdeleteFastPathologic ({ commit }, query) {
+    let res = await reqdeleteFastPathologic(query)
+    // if (res.status === 200) {
+    //   commit('SAVE_USERINFO', res.data)
+    // }
+    return res
+  },
+  async ReqsendPathologicOrder ({ commit }, query) {
+    let res = await reqsendPathologicOrder(query)
+    // if (res.status === 200) {
+    //   commit('SAVE_USERINFO', res.data)
+    // }
+    return res
   }
+
 }
 
 export default {

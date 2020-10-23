@@ -9,8 +9,6 @@
         height="100%"
         border="none"
         :data="tableList"
-        :footer-method="footerMethod"
-        show-overflow="tooltip"
         @current-change="currentChangeEvent"
       >
         <vxe-table-column
@@ -69,7 +67,6 @@
         <vxe-table-column
           field="pointOutRoomTime"
           title="出手术室时间"
-          show-overflow
         />
       </vxe-table>
     </div>
@@ -90,7 +87,7 @@ export default {
     }
   },
   mounted () {
-    this.addScrollHandle()
+    // this.addScrollHandle()
     console.log(this.tableData)
   },
   methods: {
@@ -129,32 +126,6 @@ export default {
     },
     currentChangeEvent (val) {
       this.currentRow = val
-    },
-
-    dbSelected ({row}) {
-      this.$router.push({
-        path: '/home/nursing-document-list/security-check',
-        query: {
-          row
-        }
-      })
-    },
-    footerMethod ({ columns }) {
-      const footerData = [
-        columns.map((column, columnIndex) => {
-          if (columnIndex === 0) {
-            return '合计'
-          }
-          if (['date'].includes(column.property)) {
-            return '说明 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-          }
-          if (['rate'].includes(column.property)) {
-            return '不想换行不想换行不想换行不想换行不想换行不想换行不想换行不想换行'
-          }
-          return null
-        })
-      ]
-      return footerData
     }
   }
 }

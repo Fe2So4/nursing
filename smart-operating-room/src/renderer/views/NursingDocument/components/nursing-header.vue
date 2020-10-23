@@ -74,6 +74,7 @@ export default {
 
 <style scoped lang="scss">
 .btnBlue {
+    background-color:#EAEEF7;
     width: 90px;
     // background-color:#3377FF;
     // color: #fff;

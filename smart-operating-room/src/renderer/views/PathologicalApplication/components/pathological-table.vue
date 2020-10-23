@@ -30,6 +30,7 @@
         <vxe-table-column
           field="hologyType"
           title="病理类别"
+          :formatter="changeHologyType"
         />
         <vxe-table-column
           field="opsName"
@@ -42,7 +43,6 @@
         <vxe-table-column
           field="checkName"
           title="送检医师"
-          show-overflow
         />
       </vxe-table>
     </div>
@@ -56,6 +56,8 @@
         撤销申请单
       </vxe-button>
       <vxe-button
+        @click="sendOrder"
+        v-show="hologyType === '0'"
         class="btn"
         size="mini"
         status="my-purple"
@@ -82,7 +84,7 @@
           <el-button
             size="mini"
             class="btn"
-            @click="exitdialogVisible = false"
+            @click="exitPathological"
           >是(Y)</el-button>
           <el-button
             size="mini"
@@ -92,14 +94,45 @@
         </div>
       </span>
     </el-dialog>
+    <el-dialog
+      title="提示"
+      :visible.sync="senddialogVisible"
+      top="30vh"
+      width="520px"
+      :before-close="handleClose"
+    >
+      <div class="dialog-body-span">
+        <i class="el-icon-warning icon-gantanghao" />
+        <span>是否发起派单？</span>
+      </div>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <div class="dialog-footer-div">
+          <el-button
+            size="mini"
+            class="btn"
+            @click="sendPathological"
+          >是(Y)</el-button>
+          <el-button
+            size="mini"
+            class="btn mgl40"
+            @click="senddialogVisible = false"
+          >否(N)</el-button>
+        </div>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import Bus from '@/utils/bus.js'
 export default {
   name: 'PathologicalTable',
   data () {
     return {
+      hologyType: '0',
       tableData: [
         // {
         //   pathologyId: '', // 病理号
@@ -112,11 +145,37 @@ export default {
         //   fixed: ''// 固定液
         // }
       ],
+      hologyTypeList: [
+        {
+          label: '术中冰冻',
+          value: '0'
+        },
+        {
+          label: '术后病理',
+          value: '1'
+        }
+      ],
       selectData: [],
-      exitdialogVisible: false
+      exitdialogVisible: false,
+      senddialogVisible: false
     }
   },
+  mounted () {
+    Bus.$on('sub-pathological-hologyType', res => {
+      this.hologyType = res
+    })
+    Bus.$on('user-info-initData', res => {
+      this.selectData = []
+    })
+    Bus.$on('user-info-getData', res => {
+      this.selectData = []
+    })
+  },
   methods: {
+    changeHologyType ({ cellValue }) {
+      let item = this.hologyTypeList.find(item => item.value === cellValue)
+      return item ? item.label : ''
+    },
     handleClose () {
 
     },
@@ -130,11 +189,73 @@ export default {
     dbClickTable ({row}) {
       this.selectData = []
       this.selectData.push(row)
+      Bus.$emit('pathological-table', row)
       this.$store.commit('SAVE_SELECTTABLEITEM', this.selectData)
     },
     // 撤销派单
     exitOrder () {
+      console.log(this.selectData)
+      if (this.selectData.length === 0) {
+        this.$alert('请先双击选中一条数据')
+        return false
+      }
+      console.log(this.selectData)
       this.exitdialogVisible = true
+    },
+    // 撤销之后
+    exitPathological () {
+      let obj = {
+        pathologyId: this.selectData[0].pathologyId,
+        // checkCode: this.selectData[0].checkCode
+        checkCode: '9797'
+      }
+      console.log(this.selectData[0], obj)
+      this.$store.dispatch('ReqdeleteFastPathologic', obj).then(res => {
+        this.exitdialogVisible = false
+        if (res.data.code === 200) {
+          this.openToast('success', res.data.msg)
+          Bus.$emit('sub-pathological-success', '1')
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 点击派单
+    sendOrder () {
+      if (this.selectData.length === 0) {
+        this.$alert('请先双击选中一条数据')
+        return false
+      }
+      if (this.selectData[0].sendOrderStatus === 1) {
+        this.$alert('该病理已派单,请勿重复提交')
+        return false
+      }
+      this.senddialogVisible = true
+    },
+    sendPathological () {
+      let obj = {
+        orderId: this.selectData[0].pathologyId,
+        roomCode: this.$store.state['pathological-table'].userInfo.roomNo
+      }
+
+      this.$store.dispatch('ReqsendPathologicOrder', obj).then(res => {
+        this.senddialogVisible = false
+        if (res.data.code === 200) {
+          this.openToast('success', res.data.msg)
+          Bus.$emit('sub-pathological-success', '1')
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
   },
   // 获取表格数据
@@ -146,6 +267,9 @@ export default {
   watch: {
     ListeningTableData: function (newd) {
       this.tableData = newd.pathologys
+      if (this.IsEmpty(this.tableData)) {
+        this.selectData = []
+      }
     }
   }
 }

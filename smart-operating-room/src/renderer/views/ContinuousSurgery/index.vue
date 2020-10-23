@@ -31,7 +31,7 @@ export default {
     return {
       isShow: 0,
       tableList: [],
-      SurgeryTableList: [],
+      surgeryTableList: [],
       loading: false
     }
   },

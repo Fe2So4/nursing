@@ -181,6 +181,7 @@
 
 <script>
 // import { mapActions } from 'vuex'
+import Bus from '@/utils/bus.js'
 export default {
   name: 'UserName',
   data () {
@@ -201,9 +202,15 @@ export default {
       }
     }
   },
+  mounted () {
+    Bus.$on('sub-pathological-success', res => {
+      this.searchUserInfo()
+    })
+  },
   methods: {
     // 根据住院号获取数据
     searchUserInfo () {
+      Bus.$emit('user-info-initData', '1')
       if (!this.IsEmpty(this.formData1.hospitalNo)) {
         let obj = {
           hospitalNo: this.formData1.hospitalNo
@@ -228,7 +235,9 @@ export default {
                 pathologyId: '',
                 pathologys: [] // table列表:
               }
+              this.$store.commit('SAVE_USERINFOHISTORYDETAILS', '')
             } else {
+              Bus.$emit('user-info-getData', '1')
               let userInfoData = res.data.data
               this.formData1.patientName = userInfoData.patientName
               this.formData1.patientGender = userInfoData.patientGender
@@ -236,6 +245,7 @@ export default {
               this.formData1.beaNo = userInfoData.beaNo
               this.formData1.categpry = userInfoData.categpry
               this.formData1.historyDetails = userInfoData.historyDetails
+              this.$store.commit('SAVE_USERINFOHISTORYDETAILS', userInfoData.historyDetails || '')
               this.formData1.roomNo = userInfoData.roomNo
               this.formData1.opsName = userInfoData.opsName
               this.formData1.clinicalDiagnosis = userInfoData.clinicalDiagnosis
@@ -265,7 +275,14 @@ export default {
   computed: {
     ListeningPathologyId () {
       return this.$store.state['pathological-table'].selectTableData
+    },
+    ListeningHistoryDetails () {
+      return this.formData1.historyDetails
+    },
+    ListeningHospitalNo () {
+      return this.formData1.hospitalNo
     }
+
   },
   watch: {
     ListeningPathologyId: function (newd) {
@@ -273,6 +290,29 @@ export default {
         this.formData1.pathologyId = newd[0].pathologyId
       } else {
         this.formData1.pathologyId = ''
+      }
+    },
+    ListeningHistoryDetails: function (newd) {
+      this.$store.commit('SAVE_USERINFOHISTORYDETAILS', newd)
+    },
+    ListeningHospitalNo: function (newd) {
+      if (newd === '') {
+        Bus.$emit('user-info-getData', '0')
+        this.$store.commit('CLEAR_USERINFO')
+        this.formData1 = {
+          hospitalNo: '', // 住院号
+          patientName: '', // 患者名称,
+          patientGender: '', // 性别
+          patientAge: '', // 年龄
+          beaNo: '', // 床位号
+          categpry: '', // 科别
+          roomNo: '', // 房间号
+          historyDetails: '', // 历史摘要及临床检查所见
+          opsName: '', // 手术名称及手术所见
+          clinicalDiagnosis: '', // 临床诊断
+          pathologyId: '',
+          pathologys: [] // table列表:
+        }
       }
     }
   }
