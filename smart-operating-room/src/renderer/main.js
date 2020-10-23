@@ -14,11 +14,13 @@ import 'vxe-table/lib/style.css'
 import * as voicePromptFun from './utils/voicePrompt'
 import IsEmpty from './utils/isEmpty'
 import utilsGetNewDate from './utils/utilsTime'
+import utilsNewTime from './utils/utilsNewTime'
 import utilsDebounce from './utils/utilsDebounce'
 
 import vueiInfinite from 'vue-infinite-scroll'
 Vue.prototype.IsEmpty = IsEmpty
 Vue.prototype.utilsGetNewDate = utilsGetNewDate
+Vue.prototype.utilsNewTime = utilsNewTime
 Vue.prototype.utilsDebounce = utilsDebounce
 Vue.prototype.voicePrompt = voicePromptFun.voicePrompt // 语音提醒
 

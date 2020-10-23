@@ -113,6 +113,7 @@
             class="btn"
             size="mini"
             status="my-purple"
+            @click="dayin"
           >
             打 印
           </vxe-button>
@@ -123,6 +124,7 @@
 </template>
 
 <script>
+import Bus from '@/utils/bus.js'
 export default {
   name: 'StatisticalHeader',
   props: ['isShow'],
@@ -198,6 +200,10 @@ export default {
     // 预览
     yulan () {
       this.$parent.isShow = 1
+    },
+    // 打印
+    dayin () {
+      Bus.$emit('statistical', '1')
     }
   }
 }
@@ -206,6 +212,7 @@ export default {
 <style scoped lang="scss">
 .btn {
     width: 90px;
+    background-color:#EAEEF7;
     // background-color:#fff;
     // color: #fff;
     // margin-left: 20px;

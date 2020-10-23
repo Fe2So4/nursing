@@ -73,6 +73,7 @@
 </template>
 
 <script>
+import Bus from '@/utils/bus.js'
 export default {
   name: 'ContinuousHeader',
   props: ['isShow'],
@@ -101,7 +102,9 @@ export default {
     yulan () {
       this.$parent.isShow = 1
     },
-    dayin () {}
+    dayin () {
+      Bus.$emit('continuous', '1')
+    }
 
   }
 }

@@ -40,3 +40,22 @@ export const reqsaveFastPathologic = (obj) => {
     data: obj
   })
 }
+
+// 快速撤单
+const reqdeleteFastPathologicUrl = `${config.default.api.baseURL}/ocis/pathology/deleteFastPathologic`
+export const reqdeleteFastPathologic = (obj) => {
+  return request({
+    url: reqdeleteFastPathologicUrl + `/${obj.pathologyId}` + `/${obj.checkCode}`,
+    method: 'get'
+  })
+}
+
+// 病理派单
+const reqsendPathologicOrderUrl = `${config.default.api.baseURL}/ocis/pathology/sendPathologicOrder`
+export const reqsendPathologicOrder = (obj) => {
+  return request({
+    url: reqsendPathologicOrderUrl,
+    method: 'post',
+    data: obj
+  })
+}

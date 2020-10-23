@@ -1,0 +1,72 @@
+
+
+.surgery-table {
+  height: 100%;
+  padding-left: 20px;
+  padding-top: 20px;
+  background-color: #fff;
+  width: 100%;
+}
+
+.surgery-table .table-conten {
+  height: 100%;
+}
+
+.baobiaodan {
+  color: #333333;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 400;
+}
+
+.vxe-checkbox {
+  margin-left: 10px;
+}
+
+.col--group {
+  padding-bottom: 0 !important;
+}
+
+ .vxe-header--row th {
+  padding: 0 !important;
+}
+
+ .vxe-checkbox.is--disabled > input + .vxe-checkbox--icon {
+  border-color: none;
+  background-color: unset;
+}
+ .vxe-checkbox.is--disabled > input + .vxe-checkbox--icon + .vxe-checkbox--label {
+  color: unset;
+  font-weight: 500;
+}
+
+table thead {
+  font-size: 12px;
+}
+
+table tbody {
+  font-size: 12px;
+  color: #000;
+  display: table;
+  /* display: block; */
+  height: 100%;
+  /* overflow-y: scroll; */
+  /* -webkit-overflow-scrolling: touch; */
+}
+
+table tbody::-webkit-scrollbar {
+  display: none;
+}
+
+table thead th, table tbody tr {
+  display: table;
+  table-layout: fixed;
+}
+
+.header-tr {
+  display: flex;
+}
+
+td {
+  text-align: center;
+}

@@ -44,6 +44,7 @@
         >
           <template v-slot>
             <vxe-input
+              @input="changeInput($event)"
               style="width:150px"
               v-model="formData.fixed"
               clearable
@@ -85,10 +86,12 @@
                 style="width:280px"
                 v-model="formData.remarks"
                 clearable
+                @input="changeInput($event)"
               />
             </template>
           </vxe-form-item>
         </div>
+
         <div class="body-right">
           <vxe-form-item>
             <vxe-button
@@ -128,7 +131,7 @@
           <div
             class="list-item"
             v-for="item in formData.specimenList"
-            :key="item.id"
+            :key="item.totalId"
           >
             <div class="list-item-left">
               <vxe-form-item
@@ -163,7 +166,8 @@
                   <vxe-input
                     size="mini"
                     style="width:60px"
-                    v-model="item.number"
+                    min="0"
+                    v-model="item.sampleNum"
                     placeholder="整数类型"
                     type="integer"
                   />
@@ -286,6 +290,7 @@
 </template>
 
 <script>
+import Bus from '@/utils/bus.js'
 import {pathologicalLogin, reqsaveFastPathologic} from '@/api/client-api/pathological-application.js'
 export default {
   name: 'SubPathological',
@@ -305,24 +310,73 @@ export default {
       formData: {
         hologyType: '0',
         specimenList: [
-
+          {
+            totalId: '0',
+            pathologyId: '',
+            id: '',
+            sampleName: '',
+            remark: '',
+            sampleNum: 0,
+            takePartName: ''
+          }
         ] // 标本列表
       },
       totalId: 0,
       dialogVisible: false,
       loginType: '0', // 验证标志
-      loginName: ''
+      loginName: '',
+      userInfoGetType: '0'
     }
   },
+  mounted () {
+    Bus.$on('pathological-table', res => {
+      console.log(res, 'res')
+      this.selectItem = res
+      let obj = {
+        pathologyId: res.pathologyId
+      }
+      this.searchBiaobenData(obj)
+    })
+
+    Bus.$on('user-info-getData', res => {
+      this.initialValue()
+      this.userInfoGetType = res
+    })
+    Bus.$on('user-info-initData', res => {
+      this.initialValue()
+    })
+  },
   methods: {
+    changeInput (e) {
+      this.$forceUpdate()
+    },
+    initialValue () {
+      this.loginType = '0'
+      this.loginName = ''
+      this.userInfoGetType = ''
+      this.formData.remarks = ''
+      this.formData.specimenList = [
+        {
+          totalId: '0',
+          pathologyId: '',
+          id: '',
+          sampleName: '',
+          remark: '',
+          sampleNum: 0,
+          takePartName: ''
+        }
+      ]
+      this.hologyType = '0'
+      this.userInfo = {}
+      this.selectItem = {}
+    },
     // 查询标本数据
     searchBiaobenData (obj) {
       console.log(obj)
       this.$store.dispatch('ReqBiaobenInfo', obj).then(res => {
         console.log(res)
         if (res.data.code === 200) {
-          this.userInfo = this.$store.state['pathological-table'].userInfo
-          this.selectItem = this.$store.state['pathological-table'].selectTableData[0]
+          // this.selectItem = this.$store.state['pathological-table'].selectTableData[0]
           this.formData.fixed = this.selectItem.fixed
           this.formData.hologyType = this.selectItem.hologyType
           this.formData.remarks = this.selectItem.remarks
@@ -336,22 +390,30 @@ export default {
     deleteSpecimen (item) {
       console.log(item.id)
       this.formData.specimenList.forEach((list, index) => {
-        if (list.id === item.id) {
+        if (list.totalId === item.totalId) {
           this.formData.specimenList.splice(index, 1)
           return false
         }
       })
+      if (this.formData.specimenList.length === 0) {
+        this.addSpecimen()
+      }
     },
     // 点击新增标本
     addSpecimen () {
-      console.log(this.$store.state['pathological-table'].selectPathologyId)
-      this.totalId = this.formData.specimenList.length + 1
+      if (this.userInfoGetType === '0') {
+        this.$alert('请先输入住院号', '提示')
+        return false
+      }
+      this.totalId = new Date().getTime()
       this.formData.specimenList.push({
-        id: this.totalId,
-        specimen: '',
-        parts: '',
-        num: 0,
-        note: ''
+        totalId: this.totalId,
+        pathologyId: this.selectItem.pathologyId || '',
+        id: '',
+        sampleName: '',
+        takePartName: '',
+        sampleNum: 0,
+        remark: ''
       })
     },
     // 点击验证校验身份
@@ -394,27 +456,72 @@ export default {
         this.$alert('请先进行送验医师验证', '提示')
         return false
       }
-      if (this.IsEmpty(this.userInfo.patientName)) {
-        this.$alert('请先输入住院号获取病理信息', '提示')
+      if (this.userInfoGetType === '0') {
+        this.$alert('请先输入住院号', '提示')
         return false
       }
-      if (this.IsEmpty(this.selectItem.hospitalNo)) {
-        this.$alert('请先选择病理数据', '提示')
-        return false
-      }
-      let obj = {
-        admitNo: this.selectItem.hospitalNo,
-        checkCode: this.selectItem.checkCode,
-        checkName: this.selectItem.checkName,
-        checkOut: this.selectItem,
-        beaNo: this.userInfo.beaNo,
-        categpry: this.userInfo.categpry
 
+      if (this.selectItem.sendOrderStatus === 1) {
+        this.$alert('该病理已派单，无法修改标本信息', '提示')
+        return false
       }
+      // this.formData.specimenList.forEach(item => {
+      //   if (this.IsEmpty(item.sampleName)) {
+      //     this.$alert('标本名不能为空')
+      //     this.type = false
+      //     return false
+      //   }
+      //   if (this.IsEmpty(item.takePartName)) {
+      //     this.$alert('标本部位不能为空')
+      //     this.type = false
+      //     return false
+      //   }
+      //   if (item.sampleNum <= 0) {
+      //     this.$alert('数量错误')
+      //     this.type = false
+      //     return false
+      //   }
+      // })
+      // if (!this.type) {
+      //   return false
+      // }
+
+      this.userInfo = this.$store.state['pathological-table'].userInfo
+      let time = this.utilsNewTime()
+      let historyDetails = this.$store.state['pathological-table'].historyDetails || ''
+      let obj = {
+        admitNo: this.userInfo.hospitalNo,
+        checkCode: '',
+        checkName: '',
+        id: this.selectItem.id || '',
+        pathologyId: this.selectItem.pathologyId || '',
+        createTime: time,
+        fixed: this.formData.fixed || '',
+
+        beaNo: this.userInfo.beaNo,
+        categpry: this.userInfo.categpry,
+        clinicalDiagnosis: this.userInfo.clinicalDiagnosis,
+        cureNo: this.userInfo.cureNo,
+        opsName: this.userInfo.opsName,
+        patAge: this.userInfo.patientAge,
+        patName: this.userInfo.patientName,
+        patSex: this.userInfo.patientGender,
+        historyDetails: historyDetails,
+        hologyType: this.formData.hologyType,
+        pathologySpecimen: this.formData.specimenList,
+        recAddress: this.userInfo.recAddress,
+        remarks: this.formData.remarks,
+        roomNo: this.userInfo.roomNo
+      }
+      console.log(obj)
       reqsaveFastPathologic(obj).then(res => {
-        console.log(res)
+        if (res.data.code === 200) {
+          this.openToast('success', res.data.msg)
+          Bus.$emit('sub-pathological-success', '1')
+        }
       })
     },
+
     // 提示方法
     openToast (type, mesg) {
       this.$message({
@@ -428,22 +535,25 @@ export default {
 
   computed: {
     // 获取病理号
-    ListeningSelectPathologyId () {
-      return this.$store.state['pathological-table'].selectPathologyId
-    }
+    // ListeningSelectPathologyId () {
+    //   return this.$store.state['pathological-table'].selectPathologyId
+    // }
   },
   watch: {
-    ListeningSelectPathologyId: function (newd) {
-      if (this.IsEmpty(newd)) {
-        this.formData.hologyType = '0'
-        this.formData.specimenList = []
-        return false
-      }
-      let obj = {
-        pathologyId: newd
-      }
-      this.searchBiaobenData(obj)
+    'formData.hologyType' (newVal) {
+      Bus.$emit('sub-pathological-hologyType', newVal)
     }
+    // ListeningSelectPathologyId: function (newd) {
+    //   if (this.IsEmpty(newd)) {
+    //     this.formData.hologyType = '0'
+    //     this.formData.specimenList = []
+    //     return false
+    //   }
+    //   let obj = {
+    //     pathologyId: newd
+    //   }
+    //   this.searchBiaobenData(obj)
+    // }
   }
 }
 </script>
