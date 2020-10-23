@@ -8,28 +8,17 @@
       right-text="保存"
     >
     </van-nav-bar>
-    <div class="patient-card">
-      <div class="content">
-          <div class="left">
-            <span>808</span>
-          </div>
-          <div class="right">
-            <p>魏鑫 12床 91166492</p>
-            <p>主刀 陈疾仵 麻醉 王海莲</p>
-            <p>巡回 —— 洗手 余琼</p>
-          </div>
-      </div>
-    </div>
+    <PatientCard></PatientCard>
     <div class="list">
       <van-cell-group>
         <van-cell title="手术科室：" value="内容" title-class="left-title" value-class="right-value">
           <template #right-icon>
-            <van-field v-model="input"/>
+            <van-field v-model="recordForm.department"/>
           </template>
         </van-cell>
         <van-cell title="手术方式：" value="内容" title-class="left-title" value-class="right-value">
           <template #right-icon>
-            <van-field v-model="input"/>
+            <van-field v-model="recordForm.opsName"/>
           </template>
         </van-cell>
       </van-cell-group>
@@ -37,22 +26,32 @@
         <van-cell title="手术类型：" value="内容">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
+              <van-dropdown-item v-model="recordForm.opsType" :options="typeOptions" />
             </van-dropdown-menu>
           </template>
         </van-cell>
         <van-cell title="术前意识评估：" value="内容">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
+              <van-dropdown-item v-model="recordForm.consciousness" :options="consciousnessOptions" />
             </van-dropdown-menu>
           </template>
         </van-cell>
         <van-cell title="术前皮肤评估：" value="内容">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
+              <van-dropdown-item v-model="recordForm.skin" :options="skinOptions" />
             </van-dropdown-menu>
+          </template>
+        </van-cell>
+        <van-cell title="部位：" value="内容" v-show="recordForm.skin === '2'">
+          <template #right-icon>
+            <van-field v-model="recordForm.locate"/>
+          </template>
+        </van-cell>
+        <van-cell title="程度：" value="内容" v-show="recordForm.skin === '2'">
+          <template #right-icon>
+            <van-field v-model="recordForm.degree"/>
           </template>
         </van-cell>
         <van-cell title="麻醉方式：" value="内容" @click="handleShowDialog">
@@ -156,6 +155,9 @@
             </van-dropdown-menu>
           </template>
         </van-cell>
+        <van-cell title="皮损情况">
+
+        </van-cell>
         <van-cell title="4小时" value="内容">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
@@ -208,6 +210,9 @@
       </van-cell-group>
       <van-cell-group class="sign-area">
         <van-cell title="巡回护士签名" title-class="sign-title"></van-cell>
+        <div v-if="recordForm.runNurse!==''" style="text-align:center;">
+          <img :src="recordForm.runNurse" alt="" class="signatureImage">
+        </div>
         <van-cell title="术中交接班">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF" direction="up">
@@ -223,35 +228,127 @@
         </van-checkbox-group>
       </van-dialog>
     </div>
+    <signature :visible="visible" v-if="visible" @handleClose="handleCloseSignature" @handleSubmit="handleSubmitImage"/>
   </div>
 </template>
 
 <script>
+import Signature from '@/components/Signature'
+import PatientCard from '@/components/PatientCard'
+import request from '@/utils/request'
+import {mapState} from 'vuex'
 export default {
   name: 'Record2',
   data () {
     return {
       checked: true,
+      visible: false,
       input: '',
       showDialog: false,
       showFullSkin: false,
       value1: '',
       option: [
-        { text: 'PACU', value: 0 },
-        { text: '病房', value: 1 },
-        { text: 'ICU病房', value: 2 },
-        { text: '急诊', value: 3 },
-        { text: '离院', value: 4 }
+        { text: 'PACU', value: '0' },
+        { text: '病房', value: '1' },
+        { text: 'ICU病房', value: '2' },
+        { text: '急诊', value: '3' },
+        { text: '离院', value: '4' }
       ],
-      result: []
+      result: [],
+      bodyOptions: [{text: '仰卧位', value: '1'},
+        {text: '俯卧位', value: '2'},
+        {text: '左侧卧位', value: '3'},
+        {text: '右侧卧位', value: '4'},
+        {text: '左侧俯卧位', value: '5'},
+        {text: '右侧俯卧位', value: '6'},
+        {text: '坐位', value: '7'},
+        {text: '俯卧位', value: '8'}
+      ],
+      deviceOptions: [
+        {text: '肩垫', value: '1'},
+        {text: '腋垫', value: '2'},
+        {text: '胸垫', value: '3'},
+        {text: '背垫', value: '4'},
+        {text: '腰垫', value: '5'},
+        {text: '肘垫', value: '6'},
+        {text: '两脚间垫', value: '7'},
+        {text: '膝垫', value: '8'},
+        {text: '后跟垫', value: '9'},
+        {text: '其他', value: '10'},
+        {text: '无', value: '11'}
+      ],
+      anesMethodOptions: [{text: '全麻', value: '1'}, {text: '臂丛麻醉', value: '2'}, {text: '硬膜外麻醉', value: '3'},
+        {text: '丛麻醉', value: '4'}, {text: '跟阻麻醉', value: '5'}, {text: '静脉麻醉', value: '6'}, {text: '腰麻', value: '7'},
+        {text: '颈从麻醉', value: '8'}, {text: '局麻监护', value: '9'}, {text: '局麻', value: '10'}, {text: '唤醒麻醉', value: '11'}],
+      typeOptions: [
+        {
+          text: '择期',
+          value: '1'
+        },
+        {
+          text: '非择期',
+          value: '2'
+        },
+        {
+          text: '急诊',
+          value: '3'
+        }
+      ],
+      skinOptions: [{text: '完整', value: '1'}, {text: '不完整', value: '2'}],
+      consciousnessOptions: [{type: '清醒', value: '1'}, {type: '烦躁', value: '2'}, {type: '昏迷', value: '3'}],
+      recordForm: {
+        admitNo: '',
+        runNurse: '',
+        anesthesiaMode: '',
+        catheter: {},
+        compressedSkin: {},
+        consciousness: '',
+        constraint: '',
+        cureNo: '',
+        department: '',
+        device: '',
+        diagnosis: '',
+        equipment: {},
+        fileCode: '',
+        fileName: '',
+        fileTime: '',
+        frozen: {},
+        handOver: {},
+        id: 0,
+        implants: '',
+        isDeleted: 0,
+        isFile: 0,
+        nursesSignature: {},
+        opsChange: {},
+        opsDate: '',
+        opsMode: '',
+        opsName: '',
+        opsRoom: '',
+        opsType: '',
+        pathology: {},
+        patientInfo: '',
+        patientName: '',
+        position: '',
+        rinse: {},
+        skin: '',
+        waistPuncture: {},
+        locate: '',
+        degree: ''
+      }
     }
+  },
+  computed: {
+    ...mapState('Patient', ['patientInfo'])
+  },
+  components: {
+    Signature, PatientCard
   },
   methods: {
     onClickLeft () {
       this.$router.go(-1)
     },
     onClickRight () {
-
+      request()
     },
     handleChange () {
       this.showFullSkin = !this.showFullSkin
