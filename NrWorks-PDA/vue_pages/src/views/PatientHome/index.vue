@@ -8,38 +8,7 @@
       right-text="大屏同步"
     >
     </van-nav-bar>
-    <div class="patient-card">
-      <div class="content">
-          <div class="left">
-            <span>808</span>
-          </div>
-          <div class="right">
-            <p>魏鑫 12床 91166492</p>
-            <p>主刀 陈疾仵 麻醉 王海莲</p>
-            <p>巡回 —— 洗手 余琼</p>
-          </div>
-      </div>
-      <div class="operation-info">
-        <p>
-          <span>
-            <span class="label">手术室</span>
-            <span class="value">808室</span>
-          </span>
-          <span>
-            <span class="label">台次</span>
-            <span class="value">第二台</span>
-          </span>
-        </p>
-        <p>
-          <span class="label">诊断</span>
-          <span class="value">右侧-肩关节镜检-</span>
-        </p>
-        <p>
-          <span class="label">麻醉方式</span>
-          <span class="value">全麻</span>
-        </p>
-      </div>
-    </div>
+    <PatiendCard/>
     <div class="list">
       <h3>安全核查</h3>
       <div class="options">
@@ -61,6 +30,7 @@
 </template>
 
 <script>
+import PatiendCard from '@/components/PatientCard.vue'
 export default {
   data () {
     return {
@@ -71,6 +41,7 @@ export default {
     }
   },
   components: {
+    PatiendCard
   },
   methods: {
     onClickLeft () {

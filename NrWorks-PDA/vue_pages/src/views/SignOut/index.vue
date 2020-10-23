@@ -8,18 +8,7 @@
       right-text="保存"
     >
     </van-nav-bar>
-    <div class="patient-card">
-      <div class="content">
-          <div class="left">
-            <span>808</span>
-          </div>
-          <div class="right">
-            <p>魏鑫 12床 91166492</p>
-            <p>主刀 陈疾仵 麻醉 王海莲</p>
-            <p>巡回 —— 洗手 余琼</p>
-          </div>
-      </div>
-    </div>
+    <PatientCard></PatientCard>
     <div class="list">
       <van-cell-group>
         <van-cell title="患者姓名、住院号、性别、年龄正确：" value="内容" value-class="first-cell van-cell-center">
@@ -117,18 +106,32 @@
       <van-cell-group>
         <van-cell title="核查时间" value="2020-10-12 09:48"></van-cell>
         <van-cell title="麻醉医师签名" title-class="sign-title" @click="handleShowSignature"></van-cell>
+        <div v-if="anesBeforeAnesDoc!==''" style="text-align:center;">
+          <img :src="anesBeforeAnesDoc" alt="" class="signatureImage">
+        </div>
         <van-cell title="手术医师签名" title-class="sign-title" @click="handleShowSignature"></van-cell>
+        <div v-if="anesBeforeOperDoc!==''" style="text-align:center;">
+          <img :src="anesBeforeOperDoc" alt="" class="signatureImage">
+        </div>
         <van-cell title="手术护士签名" title-class="sign-title" @click="handleShowSignature"></van-cell>
+        <div v-if="anesBeforeNurse!==''" style="text-align:center;">
+          <img :src="anesBeforeNurse" alt="" class="signatureImage">
+        </div>
       </van-cell-group>
     </div>
     <!-- <transition name="van-slide-up">
-      <signature :visible="visible" v-if="visible" @handleClose="handleCloseSignature"/>
     </transition> -->
+      <signature :visible="visible" v-if="visible" @handleClose="handleCloseSignature"/>
   </div>
 </template>
 
 <script>
 // import Signature from '../Signature/index'
+import Signature from '@/components/Signature'
+import PatientCard from '@/components/PatientCard'
+import {submitSignOut, getSignOut} from '@/api/check'
+import request from '@/utils/request'
+import {mapState} from 'vuex'
 export default {
   data () {
     return {
@@ -137,34 +140,121 @@ export default {
       showFullSkin: false,
       value1: '',
       visible: false,
+      anesBeforeAnesDoc: '',
+      anesBeforeOperDoc: '',
+      anesBeforeNurse: '',
+      anesBeforeState: '',
       option: [
         { text: 'PACU', value: 0 },
         { text: '病房', value: 1 },
         { text: 'ICU病房', value: 2 },
         { text: '急诊', value: 3 },
         { text: '离院', value: 4 }
+      ],
+      recordForm: [
+        {key: '患者姓名，住院号，性别，年龄正确', value: false},
+        {key: '实际手术方式确认', value: false},
+        {key: '手术部位、体位、标识正确', value: false},
+        {key: '是否需要相关影像资料', value: false},
+        {key: '其它', value: ''},
+        {key: '预计手术时间', value: false},
+        {key: '预计失血量', value: false},
+        {key: '手术关注点', value: false},
+        {key: '其它', value: ''},
+        {key: '麻醉关注点', value: false},
+        {key: '其它', value: ''},
+        {key: '物品灭菌合格', value: false},
+        {key: '仪器设备、植入物', value: false},
+        {key: '术前术中特殊用药情况', value: false},
+        {key: '其它', value: ''}
       ]
     }
   },
   components: {
-    // Signature
+    Signature, PatientCard
+  },
+  computed: {
+    ...mapState('Patient', ['patientInfo'])
   },
   methods: {
     onClickLeft () {
       this.$router.go(-1)
     },
     onClickRight () {
+      let arr = JSON.parse(JSON.stringify(this.recordForm))
+      arr.forEach(item => {
+        if (item.key !== '其它') {
+          if (item.value === true) {
+            item.value = '是'
+          } else {
+            item.value = '否'
+          }
+        }
+      })
+      console.log(this.recordForm)
+      request({
+        method: 'post',
+        url: submitSignOut,
+        data: {
+          leaveBeforeAnesDoc: this.anesBeforeAnesDoc,
+          leaveBeforeCheckJson: arr,
+          leaveBeforeNurse: this.anesBeforeNurse,
+          leaveBeforeOperDoc: this.anesBeforeOperDoc,
+          leaveBeforeState: '0',
+          cureNo: this.patientInfo.cureNo
+        }
+      }).then(res => {
 
+      })
     },
     handleChange () {
       this.showFullSkin = !this.showFullSkin
     },
-    handleShowSignature () {
+    handleSubmitImage (image) {
+      switch (this.currentSign) {
+        case 1:
+          this.anesBeforeAnesDoc = image
+          break
+        case 2:
+          this.anesBeforeOperDoc = image
+          break
+        case 3:
+          this.anesBeforeNurse = image
+      }
+    },
+    getData () {
+      request({
+        method: 'get',
+        url: getSignOut + '/' + this.patientInfo.hospitalNo + '/' + this.patientInfo.cureNo
+      }).then(res => {
+        if (res.data.code === 200) {
+          let data = res.data.data
+          this.anesBeforeAnesDoc = data.beforeOperAnesDoctorTwo
+          this.anesBeforeOperDoc = data.beforeOperDocTwo
+          this.anesBeforeNurse = data.beforeOperNurse
+          data.opeeBeforeCheck.forEach(item => {
+            if (item.key !== '其它') {
+              if (item.value === '是') {
+                item.value = true
+              } else {
+                item.value = false
+              }
+            }
+          })
+          this.recordForm = data.opeeBeforeCheck
+        }
+      })
+    },
+    handleShowSignature (param) {
       this.visible = true
+      this.currentSign = param
     },
     handleCloseSignature () {
       this.visible = false
     }
+  },
+  mounted () {
+    this.getData()
   }
 }
 </script>

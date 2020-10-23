@@ -38,7 +38,7 @@
         </van-cell>
         <van-cell title="出PACU" value="[转运交接单]" @click="handleJump(1,'出PACU')">
         </van-cell>
-        <van-cell title="病房收治" value="[转运交接单]" @click="handleJump(1,'病房收治')">
+        <van-cell title="病房收治" value="[转运交接单]" @click="handleJump(2,'病房收治')">
         </van-cell>
       </van-cell-group>
     </div>

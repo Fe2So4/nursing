@@ -121,10 +121,12 @@ export default {
     },
     handleSaveImg () {
       let img = this.$refs.canvasF.toDataURL('image/png')
-      setTimeout(function () {
-        /* html2canvas 1.0.5 版本 */
-        console.log(img)
-      }, 500)
+      // setTimeout(function () {
+      //   /* html2canvas 1.0.5 版本 */
+      // console.log(img)
+      // }, 500)
+      this.$emit('handleSubmit', img)
+      this.$emit('handleClose')
     },
     handleReset () {
       var c = this.$refs.canvasF

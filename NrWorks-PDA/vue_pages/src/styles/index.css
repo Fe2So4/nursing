@@ -10,6 +10,7 @@ html,body{
 #app{
   height: 100%;
   width: 100%;
+  font-size: 26px;
 }
 
 #app /deep/ .van-cell::after{
@@ -42,4 +43,9 @@ html,body{
   width: 30px;
   line-height: 30px;
   border:1PX solid #8396B6
+}
+
+body /deep/ .van-notify{
+  height: 80px;
+  font-size: 30px;
 }

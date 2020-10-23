@@ -52,7 +52,10 @@
 </template>
 
 <script>
+import {login} from '@/api/login'
+import request from '@/utils/request'
 import logo from '@/assets/login-logo.png'
+import {setUserToken} from '../../utils/storage'
 export default {
   name: 'Login',
   data () {
@@ -71,7 +74,31 @@ export default {
   },
   methods: {
     onSubmit (values) {
-      this.$router.push('/home')
+      if (this.username === '') {
+        this.$notify('用户名不能为空')
+        return
+      }
+      if (this.password === '') {
+        this.$notify('密码不能为空')
+        return
+      }
+      request(
+        {
+          url: login,
+          method: 'post',
+          data: {
+            loginName: this.username,
+            loginPwd: this.password
+          }
+        }
+      ).then(res => {
+        if (res.data.code === 200) {
+          setUserToken(res.data.data)
+          if (res.data.data) {
+            this.$router.push('/home')
+          }
+        }
+      })
       // this.$router.push('/signature')
     }
     // openFile () {

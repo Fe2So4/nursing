@@ -10,23 +10,24 @@
     </van-nav-bar>
     <div class="patient-card">
       <div class="content">
-          <div class="left">
-            <span>808</span>
-          </div>
-          <div class="right">
-            <p>魏鑫 12床 91166492</p>
-            <p>主刀 陈疾仵 麻醉 王海莲</p>
-            <p>巡回 —— 洗手 余琼</p>
-          </div>
+        <div class="left">
+          <span>808</span>
+        </div>
+        <div class="right">
+          <p>魏鑫 12床 91166492</p>
+          <p>主刀 陈疾仵 麻醉 王海莲</p>
+          <p>巡回 —— 洗手 余琼</p>
+        </div>
       </div>
     </div>
     <div class="list">
       <van-cell-group>
-        <van-cell v-show="transferType === 1" title="手术环节交接" :label="transferTitle" value="" title-class="first-cell" style="background:#e2e2e2;">
+        <van-cell v-show="transferType === 1 || transferType === 2" title="手术环节交接" :label="transferTitle" value="" title-class="first-cell" style="background:#e2e2e2;">
         </van-cell>
         <van-cell v-show="transferType === 0" title="病房交接" value="" title-class="first-cell" style="background:#e2e2e2;">
         </van-cell>
         <van-cell v-show="transferType === 0" title="转运起始时间：" :value="time" @click="hanldeShowTime('startTime')"></van-cell>
+        <van-cell v-show="transferType === 2" title="术后到达病区(监护室)时间：" title-class="first-cell" :value="time" @click="hanldeShowTime('startTime')"></van-cell>
         <van-cell title="评估时间：" v-show="transferType === 1" :value="time" @click="hanldeShowTime('startTime')">
         </van-cell>
         <van-cell v-show="transferType === 0" title="住院/转院区：" value="内容">
@@ -43,14 +44,14 @@
             </van-dropdown-menu>
           </template>
         </van-cell>
-        <van-cell title="意识：" value="内容">
+        <van-cell title="意识：" value="内容" v-show="transferType !== 2">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
               <van-dropdown-item v-model="recordForm.consciousness" :options="ysOptions" />
             </van-dropdown-menu>
           </template>
         </van-cell>
-        <van-cell title="其它：" value="内容" title-class="left-title" value-class="right-value">
+        <van-cell title="其它：" value="内容" title-class="left-title" value-class="right-value" v-show="transferType !== 2">
           <template #right-icon>
             <van-field v-model="recordForm.consciousnessOther" label="" placeholder="" />
           </template>
@@ -84,17 +85,17 @@
             <van-field v-model="recordForm.temp" label="" placeholder="" />
           </template>
         </van-cell>
-        <van-cell title="脉搏：" value="内容" title-class="left-title" value-class="right-value">
+        <van-cell title="脉搏：" value="内容" title-class="left-title" value-class="right-value" v-show="transferType !== 2">
           <template #right-icon>
             <van-field v-model="recordForm.pulse" label="" placeholder="" />
           </template>
         </van-cell>
-        <van-cell title="呼吸：" value="内容" title-class="left-title" value-class="right-value">
+        <van-cell title="呼吸：" value="内容" title-class="left-title" value-class="right-value" v-show="transferType !== 2">
           <template #right-icon>
             <van-field v-model="recordForm.breathe" label="" placeholder="" />
           </template>
         </van-cell>
-        <van-cell title="血压：" value="内容" title-class="left-title" value-class="right-value">
+        <van-cell title="血压：" value="内容" title-class="left-title" value-class="right-value" v-show="transferType !== 2">
           <template #right-icon>
             <van-field v-model="recordForm.bp" label="" placeholder="" />
           </template>
@@ -104,10 +105,10 @@
             <van-field v-model="recordForm.o2" label="" placeholder="" />
           </template>
         </van-cell>
-        <van-cell title="皮肤：" value="内容">
+        <van-cell title="皮肤：" value="内容" v-show="transferType !== 2">
           <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="recordForm.skinName" :options="pfOptions" />
+            <van-dropdown-menu active-color="#3478FF" >
+              <van-dropdown-item v-model="recordForm.skinName" :options="pfOptions" @change="handleDrowDownChange"/>
             </van-dropdown-menu>
           </template>
         </van-cell>
@@ -161,8 +162,12 @@
           </template>
         </van-cell>
       </van-cell-group>
-      <van-cell-group style="margin-top:15px;">
-        <van-cell title="运送电子签名" title-class="sign-title" @click="handleShowSignature"></van-cell>
+      <van-cell-group>
+        <van-cell v-show="transferType === 2" title="接收电子签名" title-class="sign-title" @click="handleShowSignature"></van-cell>
+        <van-cell v-show="transferType === 0 || transferType === 1" title="运送电子签名" title-class="sign-title" @click="handleShowSignature"></van-cell>
+        <div v-if="recordForm.signatureImage2!==''" style="text-align:center;">
+          <img :src="recordForm.signatureImage2" alt="" class="signatureImage">
+        </div>
       </van-cell-group>
       <van-dialog width="80%" v-model="showDialog"
       :title="dialogTitle" show-cancel-button :before-close="handleCloseDialog" @confirm="handleDialogConfirm">
@@ -186,14 +191,14 @@
         />
       </template>
     </van-action-sheet>
+    <signature :visible="visible" v-if="visible" @handleClose="handleCloseSignature" @handleSubmit="handleSubmitImage"/>
     <!-- <transition name="van-slide-up">
-      <signature :visible="visible" v-if="visible" @handleClose="handleCloseSignature"/>
     </transition> -->
   </div>
 </template>
 
 <script>
-// import Signature from '../Signature/index'
+import Signature from '@/components/Signature'
 import moment from 'moment'
 import {submitRecord} from '@/api/handover-record'
 import request from '@/utils/request'
@@ -246,7 +251,6 @@ export default {
         conduit: ['4', '5', '6', '8'], // 留置导管固定畅通
         nature: '', // 性质
         signatureImage2: '' // 签名
-
       },
       zyOptions: [{text: '住院', value: '1'}, {text: '转病区', value: '2'}], // 住院/转病区
       bfOptions: [{text: '手术', value: '1'}, {text: '监护室', value: '2'}, {text: '透析室', value: '3'}], // 手术室/监护室/透析室
@@ -273,7 +277,7 @@ export default {
     }
   },
   components: {
-    // Signature
+    Signature
   },
   computed: {
     time () {
@@ -285,6 +289,19 @@ export default {
   methods: {
     onClickLeft () {
       this.$router.go(-1)
+    },
+    handleSubmitImage (image) {
+      this.recordForm.signatureImage2 = image
+    },
+    handleDrowDownChange (value) {
+      if (value === '2') {
+        this.showFullSkin = true
+      } else {
+        this.showFullSkin = false
+        this.recordForm.skinSize = ''
+        this.recordForm.skinPart = ''
+        this.recordForm.skinDegree = ''
+      }
     },
     onClickRight () {
       console.log('运送')
@@ -319,40 +336,95 @@ export default {
     },
     handleSubmit () {
       let obj = {
-        admitNo: '',
-        age: '',
-        appraiseJson: '',
-        arrivalTime: '',
-        bedNo: '',
-        cardNo: '',
-        carrier: '',
-        catheterJson: '',
-        cureNo: '',
+        admitNo: '91147869',
+        appraiseJson: JSON.stringify({consciousness: this.recordForm.consciousness,
+          consciousnessOther: this.recordForm.consciousnessOther}), // 评估
+        arrivalTime: null,
+        // cardNo: '17150749',
+        carrier: '卢敏慧111',
+        catheterJson: JSON.stringify({
+          conduitTime: this.recordForm.conduitTime,
+          catheter: this.recordForm.catheter
+        }), // 导管
+        cureNo: '17150749',
         department: this.recordForm.department,
-        diagnosis: '',
-        endTime: '',
-        fileCode: '',
-        fileName: '',
-        fileTime: '',
         goodsJson: this.recordForm.goodsJson,
         id: 0,
         inpatientWard: this.recordForm.inpatientWard,
         isDeleted: 0,
         isFile: 0,
-        outPacu: '', // 出pacu
-        patientName: '',
-        pointOutRoom: '', // 出手术间
-        pointOutRoomTime: '', // 出手术间时间
-        pointPacu: '', // 进pacu
-        pointinRoom: '', // 进手术间
-        pointinRoomTime: '', // 进手术间时间
-        recipient: '',
-        recipientEnd: '',
-        sex: '',
+        pointOutRoomTime: '2020-03-04 12:02:03', // 出手术间时间
+        pointinRoomTime: '2020-03-04 08:49:38', // 进手术间时间
+        recipient: null,
+        recipientEnd: null,
+        // sex: '',
         starTime: this.recordForm.starTime,
-        suggest: this.recordForm.suggest,
-        ward: ''
+        suggest: this.recordForm.suggest
+        // ward: ''
       }
+      console.log(this.dialogTitle)
+      switch (this.transferTitle) {
+        // case '病房交接':
+        //   break
+        case '进手术室':
+          obj.pointinRoom = JSON.stringify({pulse: this.recordForm.pulse,
+            breathe: this.recordForm.breathe,
+            bp: this.recordForm.bp,
+            skinName: this.recordForm.skinName,
+            skinPart: this.recordForm.skinPart,
+            skinDegree: this.recordForm.skinDegree,
+            skinSize: this.recordForm.skinSize,
+            signatureImage2: this.recordForm.signatureImage2
+          })
+          obj.pointOutRoom = ''
+          obj.pointPacu = ''
+          obj.outPacu = ''
+          break
+        case '出手术室':
+          obj.pointOutRoom = JSON.stringify({pulse: this.recordForm.pulse,
+            breathe: this.recordForm.breathe,
+            bp: this.recordForm.bp,
+            skinName: this.recordForm.skinName,
+            skinPart: this.recordForm.skinPart,
+            skinDegree: this.recordForm.skinDegree,
+            skinSize: this.recordForm.skinSize,
+            signatureImage2: this.recordForm.signatureImage2
+          })
+          obj.pointinRoom = ''
+          obj.pointPacu = ''
+          obj.outPacu = ''
+          break
+        case '进PACU':
+          obj.pointPacu = JSON.stringify({pulse: this.recordForm.pulse,
+            breathe: this.recordForm.breathe,
+            bp: this.recordForm.bp,
+            skinName: this.recordForm.skinName,
+            skinPart: this.recordForm.skinPart,
+            skinDegree: this.recordForm.skinDegree,
+            skinSize: this.recordForm.skinSize,
+            signatureImage2: this.recordForm.signatureImage2
+          })
+          obj.pointinRoom = ''
+          obj.pointOutRoom = ''
+          obj.outPacu = ''
+          break
+        case '出PACU':
+          obj.outPacu = JSON.stringify({pulse: this.recordForm.pulse,
+            breathe: this.recordForm.breathe,
+            bp: this.recordForm.bp,
+            skinName: this.recordForm.skinName,
+            skinPart: this.recordForm.skinPart,
+            skinDegree: this.recordForm.skinDegree,
+            skinSize: this.recordForm.skinSize,
+            signatureImage2: this.recordForm.signatureImage2
+          })
+          obj.pointinRoom = ''
+          obj.pointPacu = ''
+          obj.pointOutRoom = ''
+          break
+        // case '病房收治':
+      }
+      console.log(obj)
       request({
         method: 'post',
         url: submitRecord,
@@ -468,6 +540,10 @@ export default {
       height:calc(100% - 324px);
       overflow-y: auto;
     }
+    .signatureImage{
+      height: 300px;
+      margin: 0 auto;
+    }
     .van-cell{
       line-height: 94px;
       color: #2E2E2E;
@@ -534,6 +610,9 @@ export default {
           }
         }
       // }
+      &:last-child{
+        margin-top: 15px;
+      }
     }
     .van-dialog{
       font-size: 30px;

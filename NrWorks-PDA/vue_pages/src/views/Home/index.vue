@@ -25,21 +25,44 @@
 </template>
 
 <script>
+import request from '../../utils/request'
+import {getPatientInfo} from '@/api/patient-info'
+import {mapActions} from 'vuex'
 export default {
   data () {
     return {
+      cureNo: '1010'
     }
   },
   methods: {
+    ...mapActions('Patient', ['getPatient']),
     onClickLeft () {
       this.$router.go(-1)
     },
     onClickRight () {
 
     },
+    getPatientData () {
+      request({
+        url: getPatientInfo + '/' + this.cureNo,
+        method: 'get'
+      }).then(res => {
+        if (res.data.code === 200) {
+          // document.onkeydown = (e) => {
+          //   if (e.key === 13) {
+          //     this.$router.push('/patient-home')
+          //   }
+          // }
+          this.getPatient(res.data.data)
+        }
+      })
+    },
     handleJump () {
       this.$router.push('/patient-home')
     }
+  },
+  mounted () {
+    this.getPatientData()
   }
 }
 </script>

@@ -19,7 +19,8 @@
     "vue": "^2.5.22",
     "vue-esign": "^1.0.5",
     "vue-router": "^3.0.1",
-    "vue-signature-pad": "^1.1.18"
+    "vue-signature-pad": "^1.1.18",
+    "vuex": "^3.5.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
