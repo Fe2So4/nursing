@@ -1,56 +1,86 @@
 <template>
   <div class="transit-container">
-    <div class="container-title">
-      <span>复旦大学附属华山医院</span>
-      <span class="title-right">患者转运交接单</span>
-    </div>
     <div class="wenben-content-info mgt10">
       <div class="info-content-container">
-        <div class="context1">
-          <span class="input-div ">
-            <span>姓名</span>
-            <div class="input-div-context">123</div>
-          </span>
-          <span class="input-div">
-            <span>住院号/卡号</span>
-            <div class="input-div-context">123</div>
-          </span>
-          <span class="input-div">
-            <span>病区</span>
-            <div class="input-div-context">123</div>
-          </span>
-          <span class="input-div">
-            <span>床号</span>
-            <div class="input-div-context">123</div>
-          </span>
-          <span class="input-div">
-            <span>性别</span>
-            <div class="input-div-context-short-60">123</div>
-          </span>
-          <span class="input-div">
-            <span>年龄</span>
-            <div class="input-div-context-short-60">123</div>
-          </span>
-        </div>
+        <table>
+          <thead style="display: table-header-group;">
+            <tr>
+              <div class="container-title">
+                <span>复旦大学附属华山医院</span>
+                <span class="title-right">患者转运交接单</span>
+              </div>
+              <div class="context1 mgt10">
+                <span class="input-div ">
+                  <span>姓名</span>
+                  <div
+                    class="input-div-context"
+                    style="textAlign:center"
+                  >{{ userInfo.patientName }}</div>
+                </span>
+                <span class="input-div">
+                  <span>住院号/卡号</span>
+                  <div
+                    class="input-div-context"
+                    style="textAlign:center"
+                  >{{ userInfo.admitNo }}</div>
+                </span>
+                <span class="input-div">
+                  <span>病区</span>
+                  <div
+                    class="input-div-context"
+                    style="textAlign:center"
+                  >{{ userInfo.ward }}</div>
+                </span>
+                <span class="input-div">
+                  <span>床号</span>
+                  <div
+                    class="input-div-context"
+                    style="textAlign:center"
+                  >{{ userInfo.bedNo }}</div>
+                </span>
+                <span class="input-div">
+                  <span>性别</span>
+                  <div
+                    class="input-div-context-short-60"
+                    style="textAlign:center"
+                  >{{ userInfo.sex }}</div>
+                </span>
+                <span class="input-div">
+                  <span>年龄</span>
+                  <div
+                    class="input-div-context-short-60"
+                    style="textAlign:center"
+                  >{{ userInfo.age }}</div>
+                </span>
+              </div>
+            </tr>
+          </thead>
+        </table>
         <div class="context1 mgt20">
           <span class="input-div ">
             <span>转运起始时间：</span>
-            <div class="input-div-context-long">123</div>
+            <div
+              class="input-div-context-long"
+              style="textAlign:center"
+            >{{ wenshuData.startTime }}</div>
           </span>
           <span
             class="input-div"
           >
             <span>运送</span>
-            <div class="input-div-context">123</div>
+            <div
+              class="input-div-context"
+              style="textAlign:center"
+            >{{ wenshuData.carrier }}</div>
           </span>
         </div>
         <div class="context1 mgt20">
           <span class="input-div ">
             <span>当前诊断：</span>
-            <div class="input-div-context">123</div>
+            <div class="input-div-context">{{ wenshuData.diagnosis }}</div>
           </span>
           <span style="marginLeft:34px">
-            <!-- <IsSelect :myselect="beforeLeaveRoomCheck.isSelect8_5" /> -->
+            <IsSelect :myselect="beforeLeaveRoomCheck.isSelect8_5" />
             <span>住院/</span>
             <isSelect prop-select="true" />
             <span>转病区</span>
@@ -1011,15 +1041,27 @@
 </template>
 
 <script>
-import isSelect from './components/isSelect'
+import IsSelect from './components/isSelect'
 import Bus from '@/utils/bus.js'
 export default {
   name: 'TransitTransfer',
   data () {
     return {
-      selectArr1: {
-
+      wenshuData: {
+        startTime: '',
+        carrier: '',
+        diagnosis: '',
+        inpatientWard: ''
+      },
+      userInfo: {
+        patientName: '',
+        admitNo: '',
+        ward: '',
+        bedNo: '',
+        sex: '',
+        age: ''
       }
+
     }
   },
   mounted () {
@@ -1034,15 +1076,23 @@ export default {
 
     getWenShuData () {
       let obj = {
-        admitNo: 91147869
+        admitNo: 1010
       }
       this.$store.dispatch('ReqTransitTransfer', obj).then(res => {
-        console.log(res)
+        if (res.data.code === 200 && res.data.msg !== '暂无承载数据') {
+          this.wenshuData = res.data.data
+          this.userInfo.patientName = this.wenshuData.patientName || ''
+          this.userInfo.admitNo = this.wenshuData.admitNo || ''
+          this.userInfo.ward = this.wenshuData.ward || ''
+          this.userInfo.bedNo = this.wenshuData.bedNo || ''
+          this.userInfo.sex = this.wenshuData.sex || ''
+          this.userInfo.age = this.wenshuData.age || ''
+        }
       })
     }
   },
   components: {
-    isSelect
+    IsSelect
   }
 }
 </script>
