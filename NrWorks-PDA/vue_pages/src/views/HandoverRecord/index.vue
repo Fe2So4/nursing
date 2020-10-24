@@ -8,18 +8,7 @@
       right-text="运送"
     >
     </van-nav-bar>
-    <div class="patient-card">
-      <div class="content">
-        <div class="left">
-          <span>808</span>
-        </div>
-        <div class="right">
-          <p>魏鑫 12床 91166492</p>
-          <p>主刀 陈疾仵 麻醉 王海莲</p>
-          <p>巡回 —— 洗手 余琼</p>
-        </div>
-      </div>
-    </div>
+    <PatientCard></PatientCard>
     <div class="list">
       <van-cell-group>
         <van-cell v-show="transferType === 1 || transferType === 2" title="手术环节交接" :label="transferTitle" value="" title-class="first-cell" style="background:#e2e2e2;">
@@ -200,8 +189,10 @@
 <script>
 import Signature from '@/components/Signature'
 import moment from 'moment'
-import {submitRecord} from '@/api/handover-record'
+import PatientCard from '@/components/PatientCard'
+import {submitRecord, getRecord} from '@/api/handover-record'
 import request from '@/utils/request'
+import {mapState} from 'vuex'
 export default {
   data () {
     return {
@@ -280,6 +271,7 @@ export default {
     Signature
   },
   computed: {
+    ...mapState('Patient', ['patientInfo']),
     time () {
       return moment(this.currentDate).format('YYYY-MM-DD HH:mm')
     }
@@ -289,6 +281,15 @@ export default {
   methods: {
     onClickLeft () {
       this.$router.go(-1)
+    },
+    getData () {
+      request({
+        method: 'get',
+        url: getRecord,
+        params: {
+          admitNo: this.p
+        }
+      })
     },
     handleSubmitImage (image) {
       this.recordForm.signatureImage2 = image
