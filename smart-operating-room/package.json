@@ -59,6 +59,7 @@
     "axios": "^0.18.0",
     "el-table-infinite-scroll": "^1.0.10",
     "element-ui": "^2.13.2",
+    "jsbarcode": "^3.11.3",
     "moment": "^2.29.0",
     "qrcodejs2": "0.0.2",
     "socket.io": "^2.3.0",
