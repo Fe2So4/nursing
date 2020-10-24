@@ -49,3 +49,22 @@ body /deep/ .van-notify{
   height: 80px;
   font-size: 30px;
 }
+
+#app /deep/ .dialog-checkbox{
+  overflow-y: auto;
+  max-height: 60vh;
+}
+#app /deep/ .van-dialog{
+  font-size: 30px;
+  top: 50%;
+} 
+#app /deep/ .signatureImage{
+  height: 300px;
+  margin: 0 auto;
+}
+#app /deep/ .signatureImage-content{
+  padding: 0 16px;
+  border-bottom: 1PX solid #E2E2E2;
+  text-align: center;
+  box-sizing: border-box;
+}

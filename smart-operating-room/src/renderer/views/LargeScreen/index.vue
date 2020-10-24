@@ -19,11 +19,13 @@
 import PatientCard from './components/patient-card'
 import PatientStep from './components/patient-step'
 import PatientInfo from './components/patient-info'
+import io from 'socket.io-client'
 export default {
   name: 'LargeScreen',
   data () {
     return {
-      stepVisible: true
+      stepVisible: true,
+      socket: null
     }
   },
   components: {PatientCard, PatientStep, PatientInfo},
@@ -33,8 +35,36 @@ export default {
     }
   },
   mounted () {
-
+    // create (loginUserNum) {
+    this.socket = io('http://192.168.1.106:5099', {
+      query: 'sendName=' + '608'
+    })
+    this.socket.on('connect', () => {
+      console.log('socket.io connected')
+    })
+    this.socket.on('reconnect_error', e => {
+      console.error(e)
+    })
+    this.socket.on('disconnect', () => {
+      console.log('socket.io disconnect')
+    })
+    this.socket.on('push_event', (data) => {
+      console.log(data)
+      if (data) {
+        let arr = []
+        arr.push(data)
+        this.socket.emit('text', arr)
+      }
+    })
   }
+  // getInstance () {
+  //   return this.instance
+  // },
+  // close () {
+  //   this.instance.close()
+  //   this.instance = null
+  // }
+  // }
 }
 </script>
 

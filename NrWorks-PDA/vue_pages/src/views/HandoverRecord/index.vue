@@ -268,7 +268,7 @@ export default {
     }
   },
   components: {
-    Signature
+    Signature, PatientCard
   },
   computed: {
     ...mapState('Patient', ['patientInfo']),
