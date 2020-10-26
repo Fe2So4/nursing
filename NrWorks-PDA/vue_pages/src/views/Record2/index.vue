@@ -44,7 +44,7 @@
             </van-dropdown-menu>
           </template>
         </van-cell>
-        <van-cell-group v-show="recordForm.skin.skinName === '2'">
+        <div v-show="recordForm.skin.skinName === '2'">
           <van-cell title="部位：" value="内容" title-class="left-title" value-class="right-value">
             <template #right-icon>
               <van-field v-model="recordForm.skin.skinLocate"/>
@@ -55,6 +55,7 @@
               <van-field v-model="recordForm.skin.skinDegree"/>
             </template>
           </van-cell>
+        </div>
         </van-cell-group>
         <van-cell title="麻醉方式：" value="内容" @click="handleShowDialog({list:'anesMethodOptions',model:'anesthesiaMode',title:'麻醉方式'})">
           <template #right-icon>
@@ -515,6 +516,12 @@ export default {
           break
         case '术中冲洗':
           this.recordForm.rinse.rinseList = this.result
+          break
+        case '手术体位':
+          this.recordForm.position = this.result
+          break
+        case '体位装置':
+          this.recordForm.device = this.result
           break
       }
     },
