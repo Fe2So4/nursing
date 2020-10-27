@@ -40,21 +40,22 @@
         <van-cell title="术前皮肤评估：" value="内容">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="recordForm.skin" :options="skinOptions" />
+              <van-dropdown-item v-model="recordForm.skin.skinName" :options="skinOptions" />
             </van-dropdown-menu>
           </template>
         </van-cell>
-        <van-cell-group v-show="recordForm.skin === '2'">
+        <div v-show="recordForm.skin.skinName === '2'">
           <van-cell title="部位：" value="内容" title-class="left-title" value-class="right-value">
             <template #right-icon>
-              <van-field v-model="recordForm.locate"/>
+              <van-field v-model="recordForm.skin.skinLocate"/>
             </template>
           </van-cell>
           <van-cell title="程度：" value="内容" title-class="left-title" value-class="right-value">
             <template #right-icon>
-              <van-field v-model="recordForm.degree"/>
+              <van-field v-model="recordForm.skin.skinDegree"/>
             </template>
           </van-cell>
+        </div>
         </van-cell-group>
         <van-cell title="麻醉方式：" value="内容" @click="handleShowDialog({list:'anesMethodOptions',model:'anesthesiaMode',title:'麻醉方式'})">
           <template #right-icon>
@@ -81,52 +82,81 @@
         <van-cell title="导尿管：" value="内容">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="recordForm.catheterName" :options="catheterOptions" />
+              <van-dropdown-item v-model="recordForm.catheter.catheterName" :options="catheterOptions" />
             </van-dropdown-menu>
           </template>
         </van-cell>
-        <van-cell v-show="recordForm.catheterName==='1' || recordForm.catheterName==='2'" title="插入者" title-class="sign-title" @click="handleShowSignature('catheterSign')"></van-cell>
+        <van-cell v-show="recordForm.catheter.catheterName==='1' || recordForm.catheter.catheterName==='2'" title="插入者" title-class="sign-title" @click="handleShowSignature('catheterSign')"></van-cell>
         <div style="padding:0 16px;">
-          <div class="signatureImage-content" v-if="recordForm.catheterSign!==''">
-            <img :src="recordForm.catheterSign" alt="" class="signatureImage">
+          <div class="signatureImage-content" v-if="recordForm.catheter.catheterSign!==''">
+            <img :src="recordForm.catheter.catheterSign" alt="" class="signatureImage">
           </div>
         </div>
         <van-cell title="电刀：" value="内容">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="recordForm.electrotome" :options="constraintOptions" />
+              <van-dropdown-item v-model="recordForm.electrotome.electrotomeName" :options="constraintOptions" />
             </van-dropdown-menu>
           </template>
         </van-cell>
-        <van-cell title="电切功率：" value="内容">
+        <van-cell title="电切功率：" value="内容" v-show="recordForm.electrotome==='2'">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="recordForm.electrotomeDQ" :options="wOptions" />
+              <van-dropdown-item v-model="recordForm.electrotome.electrotomeDQ" :options="wOptions" />
             </van-dropdown-menu>
           </template>
         </van-cell>
-        <van-cell title="电凝功率：" value="内容">
+        <van-cell title="电凝功率：" value="内容" v-show="recordForm.electrotome==='2'">
           <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="recordForm.electrotomeDN" :options="wOptions" />
+            <van-dropdown-menu active-color="#3478FF" >
+              <van-dropdown-item v-model="recordForm.electrotome.electrotomeDN" :options="wOptions" />
             </van-dropdown-menu>
           </template>
         </van-cell>
         <van-cell title="电极板位置：" value="内容">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
+              <van-dropdown-item v-model="value1" :options="djbOptions" />
             </van-dropdown-menu>
           </template>
         </van-cell>
         <van-cell title="气囊止血机：" value="内容">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
+              <van-dropdown-item v-model="recordForm.bhMachine.bhMachineName" :options="constraintOptions" />
             </van-dropdown-menu>
           </template>
         </van-cell>
-        <van-cell title="术中冲洗：" value="内容" @click="handleShowDialog">
+        <div v-show="recordForm.bhMachine.bhMachineName==='2'">
+          <template v-for="(item,index) in recordForm.bhMachine.bhMachineList">
+            <van-cell :title="'部位'+(index+1)" :key="'locate'+index" >
+              <template #right-icon>
+                <van-dropdown-menu active-color="#3478FF">
+                  <van-dropdown-item v-model="item.locateName" :options="locationOptions" />
+                </van-dropdown-menu>
+              </template>
+            </van-cell>
+          </template>
+          <template v-for="(item,index) in 3">
+            <van-cell :title="index+'('+'部位'+index+')'" :key="'locate'+index" style="background:#e2e2e2;">
+            </van-cell>
+            <van-cell title="充气时间" :key="'cq'+index">
+            </van-cell>
+            <van-cell title="签名" title-class="sign-title" :key="'cqsign'+index">
+            </van-cell>
+            <div :key="'cqsignImage'+index" v-if="item.cqSign!==''" style="text-align:center;">
+              <img :src="item.cqSign" alt="" class="signatureImage">
+            </div>
+            <van-cell title="放气时间" :key="'fq'+index">
+            </van-cell>
+            <van-cell title="签名" title-class="sign-title" :key="'fqsign'+index">
+            </van-cell>
+            <div :key="'fqsignImage'+index" v-if="item.fqSign!==''" style="text-align:center;">
+              <img :src="item.fqSign" alt="" class="signatureImage">
+            </div>
+          </template>
+        </div>
+        <van-cell title="术中冲洗：" value="内容" @click="handleShowDialog({list:'szcxOptions',model:'anesthesiaMode',title:'术中冲洗'})">
           <template #right-icon>
             <van-icon name="play"/>
           </template>
@@ -134,111 +164,117 @@
         <van-cell title="腰穿留置：" value="内容">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
+              <van-dropdown-item v-model="recordForm.waistPuncture.waistPunctureName" :options="constraintOptions" />
             </van-dropdown-menu>
           </template>
         </van-cell>
+        <div v-show="recordForm.waistPuncture.waistPunctureName==='2'">
+          <van-cell title="操作者" title-class="sign-title" @click="handleShowSignature('operationDoc')"></van-cell>
+          <div v-if="recordForm.waistPuncture.operationDoc!==''" style="text-align:center;">
+            <img :src="recordForm.waistPuncture.operationDoc" alt="" class="signatureImage">
+          </div>
+          <van-cell title="拔针心时间"></van-cell>
+          <van-cell title="签名" title-class="sign-title" @click="handleShowSignature('needleHeartSign')"></van-cell>
+          <div v-if="recordForm.waistPuncture.needleHeartSign!==''" style="text-align:center;">
+            <img :src="recordForm.waistPuncture.needleHeartSign" alt="" class="signatureImage">
+          </div>
+          <van-cell title="拔针时间"></van-cell>
+          <van-cell title="签名" title-class="sign-title" @click="handleShowSignature('needleSign')"></van-cell>
+          <div v-if="recordForm.waistPuncture.needleSign!==''" style="text-align:center;">
+            <img :src="recordForm.waistPuncture.needleSign" alt="" class="signatureImage">
+          </div>
+        </div>
         <van-cell title="术中特殊交班：" value="内容">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
+              <van-dropdown-item v-model="recordForm.handOver.handOverName" :options="constraintOptions" />
             </van-dropdown-menu>
+          </template>
+        </van-cell>
+        <van-cell title="特殊交班备注：" value="内容" v-show="recordForm.handOver.handOverName==='2'" >
+          <template #right-icon>
+            <van-field v-model="recordForm.handOver.handOverRemarks" />
           </template>
         </van-cell>
         <van-cell title="术中冰冻：" value="内容">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
+              <van-dropdown-item v-model="recordForm.frozen.frozenName" :options="constraintOptions" />
             </van-dropdown-menu>
           </template>
         </van-cell>
+        <div v-show="recordForm.frozen.frozenName==='2'">
+          <template v-for="(item,index) in recordForm.frozen.frozenList">
+            <van-cell :title="(index+1)+'.'" :key="item.sendDoc" style="background:#e2e2e2;"> </van-cell>
+            <van-cell title="送验者" :key="item.sendDoc" title-class="sign-title" @click="handleShowSignature('sendTestDoc'+index)"></van-cell>
+            <van-cell title="报告接收者" :key="item.receiveDoc" title-class="sign-title" @click="handleShowSignature('receiveDoc'+index)"></van-cell>
+          </template>
+        </div>
         <van-cell title="病理：" value="内容">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
+              <van-dropdown-item v-model="recordForm.pathologyName" :options="constraintOptions" />
             </van-dropdown-menu>
           </template>
         </van-cell>
+        <van-cell title="数量：" v-show="recordForm.pathologyName==='2'">
+            <template #right-icon>
+            <van-dropdown-menu active-color="#3478FF">
+              <van-dropdown-item v-model="recordForm.pathologyCount" :options="pathologyList" />
+            </van-dropdown-menu>
+          </template>
+        </van-cell>
+        <van-cell v-show="recordForm.pathologyName==='2'" title="送验医生签名" title-class="sign-title" @click="handleShowSignature('sendDoc')"></van-cell>
+        <div v-if="recordForm.pathologyName==='2'&&recordForm.pathology.sendDoc!==''" style="text-align:center;">
+          <img :src="recordForm.pathology.sendDoc" alt="" class="signatureImage">
+        </div>
         <van-cell title="植入物：" value="内容">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
+              <van-dropdown-item v-model="recordForm.implants" :options="constraintOptions" />
             </van-dropdown-menu>
           </template>
         </van-cell>
         <van-cell title="术中可观察的受压部位皮肤：" style="background:#E8E8E8;">
         </van-cell>
-        <van-cell title="2小时" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="皮损情况">
-        </van-cell>
-        <van-cell title="4小时" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="6小时" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="8小时" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="10小时" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="12小时" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="14小时" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
-        <van-cell title="16小时" value="内容">
-          <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="value1" :options="option" />
-            </van-dropdown-menu>
-          </template>
-        </van-cell>
+        <template v-for="(item,index) in recordForm.compressedSkin.compressedSkinList">
+          <van-cell :title="(1+index)+'小时'" value="内容" :key="'hour'+index">
+            <template #right-icon>
+              <van-dropdown-menu active-color="#3478FF">
+                <van-dropdown-item v-model="item.isFull" :options="skinOptions" />
+              </van-dropdown-menu>
+            </template>
+          </van-cell>
+          <van-cell v-show="item.isFull === '2'" title="皮损情况：" :key="'hour'+item" value="内容" title-class="left-title" value-class="right-value">
+            <template #right-icon>
+              <van-field v-model="item.skinStatus"/>
+            </template>
+          </van-cell>
+        </template>
       </van-cell-group>
       <van-cell-group class="sign-area">
-        <van-cell title="巡回护士签名" title-class="sign-title"></van-cell>
-        <div v-if="recordForm.runNurse!==''" style="text-align:center;">
-          <img :src="recordForm.runNurse" alt="" class="signatureImage">
+        <van-cell title="巡回护士签名" title-class="sign-title" @click="handleShowSignature('runNurse')"></van-cell>
+        <div v-if="recordForm.nursesSignature.runNurse!==''" style="text-align:center;">
+          <img :src="recordForm.nursesSignature.runNurse" alt="" class="signatureImage">
         </div>
         <van-cell title="术中交接班">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF" direction="up">
-              <van-dropdown-item v-model="value1" :options="option" />
+              <van-dropdown-item v-model="recordForm.opsChange.opsChangeName" :options="constraintOptions" />
             </van-dropdown-menu>
           </template>
         </van-cell>
+        <template v-for="(item,index) in recordForm.opsChange.opsChangeList">
+          <van-cell v-show="recordForm.opsChange.opsChangeName==='2'" title="时间" :key="'time'+index"></van-cell>
+          <van-cell v-show="recordForm.opsChange.opsChangeName==='2'" title="交班人签名" :key="'jiaobr'+index" title-class="sign-title" @click="handleShowSignature('jiaobrSign'+index)"></van-cell>
+          <div v-if="recordForm.opsChange.opsChangeName==='2'&&recordForm.opsChange.opsChangeList[index].jiaobrSign!==''" style="text-align:center;" :key="'jiebr'+index">
+            <img :src="recordForm.opsChange.opsChangeList[index].jiaobrSign" alt="" class="signatureImage">
+          </div>
+          <van-cell v-show="recordForm.opsChange.opsChangeName==='2'" title="接班人签名" :key="'jbr'+index" title-class="sign-title" @click="handleShowSignature('jiebrSign'+index)"></van-cell>
+          <div v-if="recordForm.opsChange.opsChangeName==='2'&&recordForm.opsChange.opsChangeList[index].jiebrSign" style="text-align:center;" :key="'jbr'+index">
+            <img :src="recordForm.opsChange.opsChangeList[index].jiebrSign" alt="" class="signatureImage">
+          </div>
+        </template>
       </van-cell-group>
       <van-dialog width="80%" v-model="showDialog" show-cancel-button
       :title="dialogTitle" :before-close="handleCloseDialog" @confirm="handleDialogConfirm">
@@ -257,6 +293,7 @@
 import Signature from '@/components/Signature'
 import PatientCard from '@/components/PatientCard'
 import request from '@/utils/request'
+import {submitRecord} from '@/api/nursing-record'
 import {mapState} from 'vuex'
 export default {
   name: 'Record2',
@@ -279,7 +316,13 @@ export default {
         { text: '离院', value: '5' }
       ],
       result: [],
-      wOptions: [20, 21, 22, 23, 24],
+      // 电极板
+      djbOptions: [{text: '大腿', value: '1'}, {text: '小腿', value: '2'}, {text: '臀部', value: '3'}, {text: '其它', value: '4'}, {text: '负极返回路垫', value: '5'}, {text: '无', value: '6'}],
+      wOptions: [],
+      // 术中冲洗
+      szcxOptions: [{text: '0.9%氯化钠溶液', value: '1'}, {text: '灭菌注射用水', value: '2'}],
+      // 病理数量
+      pathologyList: [{text: '1', value: '1'}, {text: '2', value: '2'}, {text: '3', value: '3'}, {text: '4', value: '4'}, {text: '5', value: '5'}, {text: '6', value: '6'}, {text: '7', value: '7'}, {text: '8', value: '8'}, {text: '9', value: '9'}, {text: '10', value: '10'}],
       catheterOptions: [{text: '无', value: '1'}, {text: '病房带入', value: '2'}, {text: '手术室插入', value: '3'}],
       constraintOptions: [{value: '1', text: '无'}, {value: '2', text: '有'}], // 约束带
       bodyOptions: [{text: '仰卧位', value: '1'},
@@ -322,52 +365,90 @@ export default {
         }
       ],
       skinOptions: [{text: '完整', value: '1'}, {text: '不完整', value: '2'}],
+      locationOptions: [{text: '左上肢', value: '1'}, {text: '左下肢', value: '2'}, {text: '左上肢', value: '3'}, {text: '右下肢', value: '4'}],
       consciousnessOptions: [{text: '清醒', value: '1'}, {text: '烦躁', value: '2'}, {text: '昏迷', value: '3'}],
       recordForm: {
         admitNo: '',
-        runNurse: '',
         anesthesiaMode: [],
-        catheter: {},
-        // 导管
-        catheterName: '', // 插管类型
-        catheterSign: '', // 插管人姓名
+        catheter: {
+          // 导管
+          catheterName: '', // 插管类型
+          catheterSign: '' // 插管人姓名
+        },
         // 电刀
-        electrotome: '', // 电刀名称
-        electrotomeDQ: '', // 电切功率
-        electrotomeDN: '', // 电凝功率
-        compressedSkin: {},
+        electrotome: {
+          electrotomeDQ: '', // 电切功率
+          electrotomeDN: '', // 电凝功率
+          electrotomeName: ''
+        }, // 电刀名称
+        // 电极板位置
+        electrotomeLocation: '',
+        bhMachine: {
+          bhMachineName: '',
+          bhMachineList: [{locateName: '', cqTime: '', cqSign: '', fqTime: '', fqSign: ''}, {locateName: '', cqTime: '', cqSign: '', fqTime: '', fqSign: ''}, {locateName: '', cqTime: '', cqSign: '', fqTime: '', fqSign: ''}]
+        },
+        compressedSkin: {
+          compressedSkinList: [] // 受压皮肤
+        },
         consciousness: '',
         constraint: '',
         cureNo: '',
         department: '',
-        device: [],
+        device: [], // 体位装置
         diagnosis: '',
         equipment: {},
-        fileCode: '',
-        fileName: '',
-        fileTime: '',
-        frozen: {},
-        handOver: {},
-        id: 0,
+        // fileCode: '',
+        // fileName: '',
+        // fileTime: '',
+        frozen: {
+          frozenName: '',
+          frozenList: [{sendDoc: '', receiveDoc: ''}, {sendDoc: '', receiveDoc: ''}, {sendDoc: '', receiveDoc: ''}, {sendDoc: '', receiveDoc: ''}, {sendDoc: '', receiveDoc: ''}]
+        },
+        handOver: {
+          handOverName: '',
+          handOverRemarks: ''
+        },
+        // id: 0,
         implants: '',
-        isDeleted: 0,
-        isFile: 0,
-        nursesSignature: {},
-        opsChange: {},
-        opsDate: '',
-        opsMode: '',
+        // isDeleted: 0,
+        // isFile: 0,
+        nursesSignature: {
+          runNurse: ''
+        },
+        opsChange: {
+          opsChangeName: '',
+          opsChangeList: [{time: '', jiaobrSign: '', jiebrSign: ''}, {time: '', jiaobrSign: '', jiebrSign: ''}]
+        },
+        // opsDate: '',
+        // opsMode: '',
         opsName: '',
         opsRoom: '',
         opsType: '',
-        pathology: {},
-        patientInfo: '',
+        pathology: {
+          pathologyName: '',
+          pathologyCount: '',
+          sendDoc: ''
+        },
+        // patientInfo: '',
         patientName: '',
         position: [],
-        rinse: {},
-        skin: '',
-        waistPuncture: {},
-        locate: '',
-        degree: ''
+        rinse: {
+          rinseName: '',
+          rinseList: []
+        },
+        skin: {
+          skinName: '',
+          skinLocate: '',
+          skinDegree: ''
+        },
+        waistPuncture: {
+          waistPunctureName: '',
+          operationDoc: '',
+          needleHeartTime: '',
+          needleTime: '',
+          needleSign: '',
+          needleHeartSign: ''
+        }
       }
     }
   },
@@ -377,11 +458,44 @@ export default {
   components: {
     Signature, PatientCard
   },
+  created () {
+    this.handleOpenConstraint()
+    for (let i = 1; i <= 14; i++) {
+      this.recordForm.compressedSkin.compressedSkinList.push({isFull: '', skinStatus: ''})
+    }
+  },
   methods: {
     onClickLeft () {
       this.$router.go(-1)
     },
+    onClickRight () {
+      // this.$router.go(-1)
+      this.recordForm.equipment.electrotome = this.recordForm.electrotome
+      this.recordForm.equipment.electrotomeLocation = this.recordForm.electrotomeLocation
+      this.recordForm.equipment.bhMachine = this.recordForm.bhMachine
+      this.recordForm.admitNo = this.patientInfo.admitNo
+      this.recordForm.cureNo = this.patientInfo.cureNo
+      this.recordForm.skin = JSON.stringify(this.recordForm.skin)
+      this.recordForm.device = "'" + this.recordForm.device + "'"
+      this.recordForm.position = "'" + this.recordForm.position + "'"
+      this.recordForm.anesthesiaMode = "'" + this.recordForm.anesthesiaMode + "'"
+      request({
+        method: 'post',
+        url: submitRecord,
+        data: this.recordForm
+      }).then(res => {
+        console.log(res.data.data)
+      })
+    },
+    handleOpenConstraint () {
+      let arr = []
+      for (var i = 20; i <= 160; i++) {
+        arr.push({text: i, value: i})
+      }
+      this.wOptions = arr
+    },
     handleShowSignature (param) {
+      console.log(param)
       this.currenSign = param
       this.visible = true
     },
@@ -400,20 +514,55 @@ export default {
         case '留置导管固定畅通':
           this.recordForm.conduit = this.result
           break
+        case '术中冲洗':
+          this.recordForm.rinse.rinseList = this.result
+          break
+        case '手术体位':
+          this.recordForm.position = this.result
+          break
+        case '体位装置':
+          this.recordForm.device = this.result
+          break
       }
     },
     handleSubmitImage (image) {
-      this.recordForm[this.currenSign] = image
+      if (this.currenSign.indexOf('jiebrSign') !== -1 || this.currenSign.indexOf('jiaobrSign') !== -1) {
+        let index = parseInt(this.currenSign.substr(this.currenSign.length - 1, 1))
+        if (this.currenSign.indexOf('jiebrSign') !== -1) {
+          this.recordForm.opsChange.opsChangeList[index].jiebrSign = image
+        } else {
+          this.recordForm.opsChange.opsChangeList[index].jiaobrSign = image
+        }
+      } else if (this.currenSign === 'operationDoc') {
+        this.recordForm.waistPuncture.operationDoc = image
+      } else if (this.currenSign === 'needleHeartSign') {
+        this.recordForm.waistPuncture.needleHeartSign = image
+      } else if (this.currenSign === 'needleSign') {
+        this.recordForm.waistPuncture.needleSign = image
+      } else if (this.currenSign === 'sendDoc') {
+        let index = parseInt(this.currenSign.substr(this.currenSign.length - 1, 1))
+        if (this.currenSign.indexOf('receiveDoc') !== -1) {
+          this.recordForm.frozen.frozenList[index].receiveDoc = image
+        } else {
+          this.recordForm.frozen.frozenList[index].sendDoc = image
+        }
+      } else if (this.currenSign.indexOf('receiveDoc') !== -1 || this.currenSign.indexOf('sendTestDoc') !== -1) {
+        this.pathology.sendDoc = image
+      } else {
+        this.recordForm[this.currenSign] = image
+      }
     },
-    onClickRight () {
-      request()
-    },
+
     handleChange () {
       this.showFullSkin = !this.showFullSkin
     },
     handleShowDialog (obj) {
       this.dialogTitle = obj.title
-      this.result = this.recordForm[obj.model]
+      if (obj.title === '术中冲洗') {
+        this.result = this.recordForm.rinse.rinseList
+      } else {
+        this.result = this.recordForm[obj.model]
+      }
       this.checkBoxList = this[obj.list]
       this.showDialog = true
     }
