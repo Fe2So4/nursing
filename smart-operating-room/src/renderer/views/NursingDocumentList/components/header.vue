@@ -29,9 +29,9 @@
         class="btn"
         size="mini"
         status="my-purple"
-        @click.stop.prevent="headerHandle('3')"
+        @click="headerHandle('3')"
       >
-        Excle
+        PDF
       </vxe-button>
     </div>
   </div>

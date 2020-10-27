@@ -279,6 +279,9 @@ export default {
     ListeningHistoryDetails () {
       return this.formData1.historyDetails
     },
+    ListeningStoreHistoryDetails () {
+      return this.$store.state['pathological-table'].historyDetails
+    },
     ListeningHospitalNo () {
       return this.formData1.hospitalNo
     }
@@ -294,6 +297,9 @@ export default {
     },
     ListeningHistoryDetails: function (newd) {
       this.$store.commit('SAVE_USERINFOHISTORYDETAILS', newd)
+    },
+    ListeningStoreHistoryDetails: function (newd) {
+      this.formData1.historyDetails = newd
     },
     ListeningHospitalNo: function (newd) {
       if (newd === '') {

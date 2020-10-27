@@ -1,65 +1,55 @@
 <template>
-  <div class="hulijilv-two-container">
-    <div class="container-title">
-      复旦大学附属华山医院
-    </div>
+  <div
+    class="hulijilv-two-container"
+    id="nursing-document-two"
+  >
     <div class="wenben-content-info">
-      <div class="info-content-title">
-        手术病人护理记录单(二)
-      </div>
-      <div class="info-content-form">
-        <el-form
-          size="mini"
-          ref="form"
-          :model="form"
-          label-width="90px"
-        >
-          <el-row>
-            <el-col :span="8">
-              <el-form-item label="病人信息：">
-                <el-input
-                  disabled
-                  v-model="form.patient"
-                />
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="手术日期:">
-                <el-input
-                  disabled
-                  v-model="form.opsDate"
-                />
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="手术房间：">
-                <el-input
-                  disabled
-                  v-model="form.opsRoom"
-                />
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="术前诊断：">
-                <el-input
-                  disabled
-                  v-model="form.diagnosis"
-                />
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="手术方式:">
-                <el-input
-                  disabled
-                  v-model="form.opsName"
-                />
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
+      <table>
+        <thead style="display: table-header-group;">
+          <div class="container-title">
+            复旦大学附属华山医院
+          </div>
+          <div class="info-content-title">
+            手术病人护理记录单(二)
+          </div>
+          <div class="wenben-content-userinfo">
+            <div class="row">
+              <div class="col">
+                <span class="row-lable">病人信息：</span>
+                <div class="row-text">
+                  {{ form.patient }}
+                </div>
+              </div>
+              <div class="col">
+                <span class="row-lable">手术日期：</span>
+                <div class="row-text">
+                  {{ form.opsDate }}
+                </div>
+              </div>
+              <div class="col">
+                <span class="row-lable">手术房间：</span>
+                <div class="row-text">
+                  {{ form.opsRoom }}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <span class="row-lable">术前诊断：</span>
+                <div class="row-text">
+                  {{ form.diagnosis }}
+                </div>
+              </div>
+              <div class="col">
+                <span class="row-lable">手术方式：</span>
+                <div class="row-text">
+                  {{ form.opsName }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </thead>
+      </table>
       <div class="info-content-container">
         <div class="context1">
           <span>1、手术类型：</span>
@@ -624,10 +614,12 @@
 <script>
 import Bus from '@/utils/bus.js'
 import IsSelect from './components/isSelect'
+import {ipcRenderer} from 'electron'
 export default {
   name: 'NursingDocumentTwo',
   data () {
     return {
+      htmlTitle: '护理记录单(二)',
       form: {
         patient: '',
         opsDate: '',
@@ -643,14 +635,35 @@ export default {
   mounted () {
     this.getWenShuData()
     Bus.$on('clickShuaXinTwo', res => {
-      this.getWenShuData()
+      if (res === '1') {
+        this.getWenShuData()
+      } else if (res === '2') {
+        this.dayin()
+      } else if (res === '3') {
+        this.utilsDebounce(() => { this.getPdf('nursing-document-two') }, 1000)
+      }
     })
   },
   methods: {
+    dayin () {
+      this.utilsDebounce(() => { this.printCurrent() }, 1000)
+    },
+    // 打印
+    printCurrent () {
+      const printHtml = document.getElementById('nursing-document-two').outerHTML
+      const options = { silent: false }
+      // options = JSON.stringify(options)
+      ipcRenderer.send('printChannel', printHtml, 'nursing-document-two.css', options)
+    },
     getWenShuData () {
       let obj = {
-        hospitalNo: 91150384,
-        cureNo: 17257233
+        cureNo: this.$store.state['nursing-document-list'].cureNo,
+        hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
+        // hospitalNo: 91150384,
+
+        // cureNo: 17257233
+        // hospitalNo: 666,
+        // cureNo: 1010
       }
       this.$store.dispatch('ReqNursingDocumentTwo', obj).then(res => {
         if (res.status === 200 && res.data.code === 200) {
@@ -791,5 +804,58 @@ export default {
   background-color: #000;
   transform:  rotate(-140deg);
   // width: 110px;
+}
+.row {
+  width: 100%;
+  display: flex;
+  height: 28px;
+  padding-left: 10px;
+}
+.col {
+  display: flex;
+  font-size: 14px;
+  width: 30%;
+}
+.col-50 {
+  display: flex;
+  font-size: 14px;
+  width: 50%;
+}
+.col-70 {
+  display: flex;
+  font-size: 14px;
+  width: 70%;
+}
+.row-lable {
+  width: 150px;
+  line-height: 28px;
+  text-align: right;
+  vertical-align: middle;
+  float: left;
+  font-size: 14px;
+  color: #606266;
+  padding: 0 12px 0 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.row-lable {
+  width: 150px;
+  line-height: 28px;
+  text-align: right;
+  vertical-align: middle;
+  float: left;
+  font-size: 14px;
+  color: #606266;
+  padding: 0 12px 0 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.row-text {
+  line-height: 28px;
+  width: 100%;
+  padding: 0 10px;
+  height: 25px;
+  text-align: center;
+  border-bottom: 1px solid;
 }
 </style>

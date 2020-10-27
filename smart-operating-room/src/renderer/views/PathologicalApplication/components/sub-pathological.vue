@@ -81,14 +81,12 @@
             title="备注"
             field="remarks"
           >
-            <template v-slot>
-              <vxe-input
-                style="width:280px"
-                v-model="formData.remarks"
-                clearable
-                @input="changeInput($event)"
-              />
-            </template>
+            <vxe-input
+              style="width:280px"
+              v-model="formData.remarks"
+              clearable
+              @input="changeInput($event)"
+            />
           </vxe-form-item>
         </div>
 
@@ -114,6 +112,7 @@
           </vxe-form-item>
           <vxe-form-item>
             <vxe-button
+              @click="dayinPingTie"
               class="btn"
               size="mini"
               status="my-purple"
@@ -521,7 +520,21 @@ export default {
         }
       })
     },
-
+    // 打印瓶贴
+    dayinPingTie () {
+      if (this.IsEmpty(this.selectItem.pathologyId)) {
+        this.$alert('请先输入住院号,双击选择标本信息', '提示')
+        return false
+      }
+      this.$store.dispatch('ReqprintBottleToStick').then(res => {
+        if (res.data.code === 200) {
+          let url = `${res.data.data.url}?pid=${this.selectItem.pathologyId}&opcode=${res.data.data.userCode}`
+          this.$electron.shell.openExternal(url)
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
     // 提示方法
     openToast (type, mesg) {
       this.$message({

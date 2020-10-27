@@ -3,58 +3,72 @@
     class="nursing-jichu-container"
     id="nursing-document-jichu"
   >
-    <div class="container-title">
-      复旦大学附属华山医院
-    </div>
-    <div class="wenben-content-info">
-      <div class="info-content-title">
-        手术病人护理记录单(三)
-      </div>
-    </div>
     <div class="wenben-content-info mgt10">
       <div class="info-content-container">
-        <div class="context1">
-          <span class="input-div ">
-            <span>手术日期</span>
-            <div class="input-div-context-120">{{ form.operateDate }}</div>
-          </span>
-          <span class="input-div">
-            <span>姓名</span>
-            <div class="input-div-context-120">{{ form.patientName }}</div>
-          </span>
-          <span class="input-div">
-            <span>住院号</span>
-            <div class="input-div-context-120">{{ form.hospitalNo }}</div>
-          </span>
-          <span class="input-div">
-            <span>病床号</span>
-            <div class="input-div-context-120">{{ form.bedNo }}</div>
-          </span>
-        </div>
-        <div class="context1 mgt20">
-          <span class="input-div ">
-            <span>术前诊断</span>
-            <div
-              class="input-div-context-long"
-              style="textAlign:center"
-            >{{ form.diagnosis }}</div>
-          </span>
-        </div>
-        <div
-          class="context1"
-          style="marginTop:5px"
-        >
-          <span>手术敷科、基本器械清单</span>
-        </div>
         <div
           class="context1"
           style="marginTop:5px"
         >
           <table
-            border="1"
+            border="0"
             style="border-collapse:collapse;"
           >
             <thead>
+              <tr>
+                <th
+                  colspan="9"
+                  style="border: none"
+                >
+                  <div class="container-title">
+                    复旦大学附属华山医院
+                  </div>
+                  <div class="wenben-content-info">
+                    <div class="info-content-title">
+                      手术病人护理记录单(三)
+                    </div>
+                  </div>
+                </th>
+              </tr>
+              <tr>
+                <th
+                  colspan="9"
+                  style="border: none"
+                >
+                  <div class="context1">
+                    <span class="input-div ">
+                      <span>手术日期</span>
+                      <div class="input-div-context-120">{{ form.operateDate }}</div>
+                    </span>
+                    <span class="input-div">
+                      <span>姓名</span>
+                      <div class="input-div-context-120">{{ form.patientName }}</div>
+                    </span>
+                    <span class="input-div">
+                      <span>住院号</span>
+                      <div class="input-div-context-120">{{ form.hospitalNo }}</div>
+                    </span>
+                    <span class="input-div">
+                      <span>病床号</span>
+                      <div class="input-div-context-120">{{ form.bedNo }}</div>
+                    </span>
+                  </div>
+                  <div class="context1 mgt20">
+                    <span class="input-div ">
+                      <span>术前诊断</span>
+                      <div
+                        class="input-div-context-long"
+                        style="textAlign:center"
+                      >{{ form.diagnosis }}</div>
+                    </span>
+                  </div>
+                  <div
+                    class="context1"
+                    style="marginTop:5px"
+                  >
+                    <span>手术敷科、基本器械清单</span>
+                  </div>
+                </th>
+              </tr>
               <tr>
                 <th rowspan="2">
                   <div style="textAlign:right">
@@ -72,7 +86,6 @@
                 </th>
                 <th
                   colspan="4"
-                  style="border:none"
                 >
                   术中添加数
                 </th>
@@ -200,116 +213,132 @@
                   <td class="td-text-center" />
                 </tr>
               </template>
+              <tr>
+                <td>
+                  洗手护士签名
+                </td>
+                <td class="td-text-center">
+                  {{ qianmingList.xsSqQm }}
+                  <!-- <img
+                    :src="qianmingList.xsSqQm"
+                    alt=""
+                  > -->
+                </td>
+
+                <td class="td-text-center border-right1">
+                  {{ qianmingList.xsOneQm }}
+                  <!-- <img
+                    :src="qianmingList.xsOneQm"
+                    alt=""
+                  > -->
+                </td>
+                <td class="td-text-center border-right1">
+                  {{ qianmingList.xsTwoQm }}
+                  <!-- <img
+                    :src="qianmingList.xsTwoQm"
+                    alt=""
+                  > -->
+                </td>
+                <td class="td-text-center border-right1">
+                  {{ qianmingList.xsThreeQm }}
+                  <!-- <img
+                    :src="qianmingList.xsThreeQm"
+                    alt=""
+                  > -->
+                </td>
+                <td class="td-text-center">
+                  {{ qianmingList.xsFourQm }}
+                  <!-- <img
+                    :src="qianmingList.xsFourQm"
+                    alt=""
+                  > -->
+                </td>
+                <td class="td-text-center">
+                  {{ qianmingList.xsClossQm }}
+                  <!-- <img
+                    :src="qianmingList.xsClossQm"
+                    alt=""
+                  > -->
+                </td>
+                <td class="td-text-center">
+                  {{ qianmingList.xsAllClossQm }}
+                  <!-- <img
+                    :src="qianmingList.xsAllClossQm"
+                    alt=""
+                  > -->
+                </td>
+                <td class="td-text-center">
+                  {{ qianmingList.xsFhQm }}
+                  <!-- <img
+                    :src="qianmingList.xsFhQm"
+                    alt=""
+                  > -->
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  巡回护士签名
+                </td>
+                <td class="td-text-center">
+                  {{ qianmingList.xhSqQm }}
+                  <!-- <img
+                    :src="qianmingList.xhSqQm"
+                    alt=""
+                  > -->
+                </td>
+
+                <td class="td-text-center border-right1">
+                  {{ qianmingList.xhOneQm }}
+                  <!-- <img
+                    :src="qianmingList.xhOneQm"
+                    alt=""
+                  > -->
+                </td>
+                <td class="td-text-center border-right1">
+                  {{ qianmingList.xhTwoQm }}
+                  <!-- <img
+                    :src="qianmingList.xhTwoQm"
+                    alt=""
+                  > -->
+                </td>
+                <td class="td-text-center border-right1">
+                  {{ qianmingList.xhThreeQm }}
+                  <!-- <img
+                    :src="qianmingList.xhThreeQm"
+                    alt=""
+                  > -->
+                </td>
+                <td class="td-text-center">
+                  {{ qianmingList.xhFourQm }}
+                  <!-- <img
+                    :src="qianmingList.xhFourQm"
+                    alt=""
+                  > -->
+                </td>
+
+                <td class="td-text-center">
+                  {{ qianmingList.xhClossQm }}
+                  <!-- <img
+                    :src="qianmingList.xhClossQm"
+                    alt=""
+                  > -->
+                </td>
+                <td class="td-text-center">
+                  {{ qianmingList.xhAllClossQm }}
+                  <!-- <img
+                    :src="qianmingList.xhAllClossQm"
+                    alt=""
+                  > -->
+                </td>
+                <td class="td-text-center">
+                  {{ qianmingList.xhFhQm }}
+                  <!-- <img
+                    :src="qianmingList.xhFhQm"
+                    alt=""
+                  > -->
+                </td>
+              </tr>
             </tbody>
-            <tr>
-              <td>
-                洗手护士签名
-              </td>
-              <td class="td-text-center">
-                <img
-                  :src="qianmingList.xsSqQm"
-                  alt=""
-                >
-              </td>
-
-              <td class="td-text-center border-right1">
-                <img
-                  :src="qianmingList.xsOneQm"
-                  alt=""
-                >
-              </td>
-              <td class="td-text-center border-right1">
-                <img
-                  :src="qianmingList.xsTwoQm"
-                  alt=""
-                >
-              </td>
-              <td class="td-text-center border-right1">
-                <img
-                  :src="qianmingList.xsThreeQm"
-                  alt=""
-                >
-              </td>
-              <td class="td-text-center">
-                <img
-                  :src="qianmingList.xsFourQm"
-                  alt=""
-                >
-              </td>
-              <td class="td-text-center">
-                <img
-                  :src="qianmingList.xsClossQm"
-                  alt=""
-                >
-              </td>
-              <td class="td-text-center">
-                <img
-                  :src="qianmingList.xsAllClossQm"
-                  alt=""
-                >
-              </td>
-              <td class="td-text-center">
-                <img
-                  :src="qianmingList.xsFhQm"
-                  alt=""
-                >
-              </td>
-            </tr>
-            <tr>
-              <td>
-                巡回护士签名
-              </td>
-              <td class="td-text-center">
-                <img
-                  :src="qianmingList.xhSqQm"
-                  alt=""
-                >
-              </td>
-
-              <td class="td-text-center border-right1">
-                <img
-                  :src="qianmingList.xhOneQm"
-                  alt=""
-                >
-              </td>
-              <td class="td-text-center border-right1">
-                <img
-                  :src="qianmingList.xhTwoQm"
-                  alt=""
-                >
-              </td>
-              <td class="td-text-center border-right1">
-                <img
-                  :src="qianmingList.xhThreeQm"
-                  alt=""
-                >
-              </td>
-              <td class="td-text-center">
-                <img
-                  :src="qianmingList.xhFourQm"
-                  alt=""
-                >
-              </td>
-
-              <td class="td-text-center">
-                <img
-                  :src="qianmingList.xhClossQm"
-                  alt=""
-                >
-              </td>
-              <td class="td-text-center">
-                <img
-                  :src="qianmingList.xhAllClossQm"
-                  alt=""
-                >
-              </td>
-              <td class="td-text-center">
-                <img
-                  :src="qianmingList.xhFhQm"
-                  alt=""
-                >
-              </td>
-            </tr>
           </table>
         </div>
       </div>
@@ -325,6 +354,7 @@ export default {
   name: 'NursingDocumentJiChu',
   data () {
     return {
+      htmlTitle: '护理记录单单据(基础)',
       form: {
         operateDate: '',
         patientName: '',
@@ -358,9 +388,11 @@ export default {
     this.search()
     Bus.$on('clickShuaXinJiChu', res => {
       if (res === '1') {
-        this.search()
+        this.utilsDebounce(() => { this.search() }, 1000)
       } else if (res === '2') {
         this.dayin()
+      } else if (res === '3') {
+        this.utilsDebounce(() => { this.getPdf('nursing-document-jichu') }, 1000)
       }
     })
   },
@@ -378,10 +410,10 @@ export default {
     // 查询数据
     search () {
       let obj = {
-        cureNo: '17654873',
-        // cureNo: this.$store.state['nursing-document-list'].cureNo,
-        hospitalNo: '91160490'
-        // hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
+        // cureNo: '17654873',
+        cureNo: this.$store.state['nursing-document-list'].cureNo,
+        // hospitalNo: '91160490'
+        hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
       }
       this.$store.dispatch('ReqNursingDocumentJiChu', obj).then(res => {
         console.log(res)
@@ -590,5 +622,10 @@ img {
 }
 .border-right1 {
   border-right: 1px solid grey
+}
+
+table thead tr th,
+table tbody tr td {
+  border: 1px solid #000;
 }
 </style>

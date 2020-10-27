@@ -1,4 +1,4 @@
-import {reqUserInfo, reqBiaobenInfo, reqdeleteFastPathologic, reqsendPathologicOrder} from '@/api/client-api/pathological-application.js'
+import {reqUserInfo, reqBiaobenInfo, reqdeleteFastPathologic, reqsendPathologicOrder, reqprintBottleToStick} from '@/api/client-api/pathological-application.js'
 
 const state = {
   userInfo: {},
@@ -25,6 +25,9 @@ const mutations = {
   },
   CLEAR_USERINFO (state) {
     state.userInfo = {}
+  },
+  CLEAR_USERINFOHISTORYDETAILS (state) {
+    state.historyDetails = ''
   }
 }
 
@@ -56,8 +59,14 @@ const actions = {
     //   commit('SAVE_USERINFO', res.data)
     // }
     return res
+  },
+  async ReqprintBottleToStick ({ commit }) {
+    let res = await reqprintBottleToStick()
+    // if (res.status === 200) {
+    //   commit('SAVE_USERINFO', res.data)
+    // }
+    return res
   }
-
 }
 
 export default {

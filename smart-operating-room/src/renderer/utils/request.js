@@ -7,7 +7,7 @@ const request = axios.create()
 request.interceptors.request.use(function (config) {
   // 在发送请求之前做些什么
   const token = getUserToken()
-  console.log(token)
+
   if (token) {
     config.headers.Authorization = token // 将token放到请求头发送给服务器
   }
