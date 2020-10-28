@@ -9,7 +9,8 @@ import Record2 from '@/views/Record2/index'
 import Record3 from '@/views/Record3/index'
 import TransferHandover from '@/views/TransferHandover/index'
 import HandoverRecord from '@/views/HandoverRecord/index'
-import DeviceList from '@/views/DeviceList/index'
+import DeviceBasicList from '@/views/DeviceBasicList/index'
+import DeviceSpecialList from '@/views/DeviceSpecialList/index'
 import Transfer from '@/views/Transfer/index'
 import PatinetHome from '@/views/PatientHome/index'
 import Signature from '@/components/Signature'
@@ -79,9 +80,14 @@ export default new Router({
       component: TransferHandover
     },
     {
-      path: '/device-list',
-      name: 'DeviceList',
-      component: DeviceList
+      path: '/device-basic',
+      name: 'DeviceBasicList',
+      component: DeviceBasicList
+    },
+    {
+      path: '/device-special',
+      name: 'DeviceSpecialList',
+      component: DeviceSpecialList
     },
     {
       path: '/handover-record',

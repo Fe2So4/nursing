@@ -17,6 +17,13 @@ module.exports = {
           '^/': ''
         }
       }
+      // '/': {
+      //   target: 'http://192.168.1.106',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/': ''
+      //   }
+      // }
     },
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

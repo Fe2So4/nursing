@@ -15,9 +15,9 @@
         </van-cell>
         <van-cell v-show="transferType === 0" title="病房交接" value="" title-class="first-cell" style="background:#e2e2e2;">
         </van-cell>
-        <van-cell v-show="transferType === 0" title="转运起始时间：" :value="time" @click="hanldeShowTime('startTime')"></van-cell>
-        <van-cell v-show="transferType === 2" title="术后到达病区(监护室)时间：" title-class="first-cell" :value="time" @click="hanldeShowTime('startTime')"></van-cell>
-        <van-cell title="评估时间：" v-show="transferType === 1" :value="time" @click="hanldeShowTime('startTime')">
+        <van-cell v-show="transferType === 0" title="转运起始时间：" :value="recordForm.startTime" @click="hanldeShowTime('startTime')"></van-cell>
+        <van-cell v-show="transferType === 2" title="术后到达病区(监护室)时间：" title-class="first-cell" :value="recordForm.startTime" @click="hanldeShowTime('startTime')"></van-cell>
+        <van-cell title="评估时间：" v-show="transferType === 1" :value="recordForm.startTime" @click="hanldeShowTime('startTime')">
         </van-cell>
         <van-cell v-show="transferType === 0" title="住院/转院区：" value="内容">
           <template #right-icon>
@@ -26,7 +26,12 @@
             </van-dropdown-menu>
           </template>
         </van-cell>
-        <van-cell v-show="transferType === 0" title="手术/监护室/透析室：" value="内容">
+        <van-cell v-show="transferType === 0 && recordForm.inpatientWard==='2'" title-class="left-title" value-class="right-value" title="待转院区：" value="内容">
+          <template #right-icon>
+            <van-field v-model="recordForm.forwardingWard" label="" placeholder="" />
+          </template>
+        </van-cell>
+        <van-cell v-show="transferType === 0" title="手术/监护室/透析室：" value="内容" >
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
               <van-dropdown-item v-model="recordForm.department" :options="bfOptions" />
@@ -40,7 +45,7 @@
             </van-dropdown-menu>
           </template>
         </van-cell>
-        <van-cell title="其它：" value="内容" title-class="left-title" value-class="right-value" v-show="transferType !== 2">
+        <van-cell title="其它：" value="内容" title-class="left-title" value-class="right-value" v-show="transferType !== 2 && recordForm.consciousness === '5'">
           <template #right-icon>
             <van-field v-model="recordForm.consciousnessOther" label="" placeholder="" />
           </template>
@@ -101,7 +106,7 @@
             </van-dropdown-menu>
           </template>
         </van-cell>
-        <van-cell-group v-show="showFullSkin">
+        <div v-show="recordForm.skinName === '2'">
           <van-cell title="部位：" title-class="left-title" value-class="right-value">
             <template #right-icon>
               <van-field v-model="recordForm.skinPart" label="" placeholder="请输入部位：" label-align="right" input-align="right"/>
@@ -117,20 +122,17 @@
               <van-field v-model="recordForm.skinSize" label="" placeholder="请输入大小：" label-align="right" input-align="right"/>
             </template>
           </van-cell>
-        </van-cell-group>
+        </div>
         <van-cell v-show="transferType === 0" title="导管：" value="内容" @click="handleShowDialog({list:'dgOptions',model:'catheter',title:'导管'})">
           <template #right-icon>
             <van-icon name="play"/>
           </template>
         </van-cell>
+        <van-cell v-show="transferType === 0 && recordForm.catheter.length>0" title="留置时间：" :value="this.recordForm.conduitTime" @click="hanldeShowTime('conduitTime')">
+        </van-cell>
         <van-cell v-show="transferType === 1" title="留置导管固定畅通：" value="内容" @click="handleShowDialog({list:'lzdgOptions',model:'conduit',title:'留置导管固定畅通'})">
           <template #right-icon>
             <van-icon name="play"/>
-          </template>
-        </van-cell>
-        <van-cell v-show="transferType === 0" title="留置时间：" value="内容" @click="handleShowDialog({list:'lzdgOptions',model:'conduit',title:'留置导管固定畅通'})">
-          <template #right-icon>
-            <van-icon name="play" />
           </template>
         </van-cell>
         <van-cell v-show="transferType === 0" title="物品：" value="内容">
@@ -174,7 +176,6 @@
             v-model="currentDate"
             @cancel="handleCancel"
             @confirm="handleConfirm"
-            @change="handleTimeChange"
             type="datetime"
             title="选择完整时间"
         />
@@ -190,7 +191,7 @@
 import Signature from '@/components/Signature'
 import moment from 'moment'
 import PatientCard from '@/components/PatientCard'
-import {submitRecord, getRecord} from '@/api/handover-record'
+import {getRecord, submitRoom, submitInOpeRoom, submitInPacu, submitOutOpeRoom, submitOutPacu, submitPatRoom} from '@/api/handover-record'
 import request from '@/utils/request'
 import {mapState} from 'vuex'
 export default {
@@ -210,12 +211,12 @@ export default {
       checkBoxList: null,
       dialogTitle: '',
       recordForm: {
-        startTime: '', // 转运起始时间
+        startTime: '2020-10-27 14:56', // 转运起始时间
         suggest: '', // 建议
         department: '', // 手术/监护室/透析室
         inpatientWard: '', // 住院/转病区
         // 导管
-        catheter: ['1', '2', '3'],
+        catheter: [],
         conduitTime: '', // 留置时间
         // 物品
         goodsJson: '',
@@ -236,10 +237,7 @@ export default {
         ache: '', // 疼痛
         strength: '', // 强度
         achePart: '', // 疼痛部位
-        Conduit: {
-
-        },
-        conduit: ['4', '5', '6', '8'], // 留置导管固定畅通
+        conduit: [], // 留置导管固定畅通
         nature: '', // 性质
         signatureImage2: '' // 签名
       },
@@ -250,20 +248,20 @@ export default {
       xzOptions: [{text: '刀割样痛', value: '1'}, {text: '绞痛', value: '2'}, {text: '灼烧样痛', value: '3'}, {text: '刺痛', value: '4'},
         {text: '压痛', value: '5'}, {text: '胀痛', value: '6'}, {text: '钝痛', value: '7'}],
       pfOptions: [{text: '完整', value: '1'}, {text: '破损', value: '2'}],
-      dgOptions: [{text: '氧气', value: '1'}, {text: '浅静脉留置', value: '2'},
-        {text: '深静脉留置', value: '3'}, {text: 'PICC', value: '4'}, {text: '动脉留置', value: '5'},
-        {text: '胃肠减压', value: '6'}, {text: '鼻饲', value: '7'}, {text: '留置导管', value: '8'}, {text: '气质导管', value: '9'},
-        {text: '负压球', value: '10'}, {text: '胸腔引流', value: '11'}, {text: 'T管', value: '12'}, {text: '其他', value: '13'}, {text: '无', value: '14'}],
-      lzdgOptions: [{text: '静脉', value: '1'},
-        {text: '动脉', value: '2'},
-        {text: '胃管', value: '3'},
-        {text: '导尿', value: '4'},
-        {text: '气管导管', value: '5'},
-        {text: '负压球', value: '6'},
-        {text: '胸腔引流', value: '7'},
-        {text: 'PICC', value: '8'},
-        {text: '其他', value: '13'},
-        {text: '无', value: '14'}],
+      dgOptions: [{text: '氧气', value: 'o2'}, {text: '浅静脉留置', value: 'qjm'},
+        {text: '深静脉留置', value: 'sjm'}, {text: 'PICC', value: 'picc'}, {text: '动脉留置', value: 'dml'},
+        {text: '胃肠减压', value: 'cwj'}, {text: '鼻饲', value: 'bc'}, {text: '留置导尿', value: 'lzd'}, {text: '气质导管', value: 'qgd'},
+        {text: '负压球', value: 'fyq'}, {text: '胸腔引流', value: 'xqy'}, {text: 'T管', value: 'tg'}, {text: '其他', value: 'qita'}, {text: '无', value: 'wu'}],
+      lzdgOptions: [{text: '静脉', value: 'jm'},
+        {text: '动脉', value: 'dm'},
+        {text: '胃管', value: 'wg'},
+        {text: '导尿', value: 'dn'},
+        {text: '气管导管', value: 'qgdg'},
+        {text: '负压球', value: 'fyq'},
+        {text: '胸腔引流', value: 'xqyl'},
+        {text: 'PICC', value: 'picc'},
+        {text: '其他', value: 'qita'},
+        {text: '无', value: 'wu'}],
       wpOptions: [{text: '输液', value: '1'}, {text: 'X片', value: '2'}, {text: 'CT片', value: '3'}, {text: '磁共振片', value: '4'}, {text: '其它', value: '5'}]
     }
   },
@@ -285,9 +283,93 @@ export default {
     getData () {
       request({
         method: 'get',
-        url: getRecord,
-        params: {
-          admitNo: this.p
+        url: getRecord + '/' + this.patientInfo.hospitalNo + '/' + this.patientInfo.cureNo
+      }).then(res => {
+        if (res.data.code === 200) {
+          let data = res.data.data
+          switch (this.transferTitle) {
+            case '病房交接':
+              this.recordForm.goodsJson = data.goodsJson[0].goods
+              this.recordForm.number = data.goodsJson[0].number
+              this.recordForm.inpatientWard = data.inpatientWard
+              this.recordForm.startTime = data.startTime
+              this.recordForm.signatureImage2 = data.carrier
+              this.recordForm.suggest = data.suggest
+              this.recordForm.department = data.department
+              this.recordForm.forwardingWard = data.forwardingWard// 转运去向病区
+              this.recordForm.conduitTime = data.catheterJson[0].conduitTime
+              this.recordForm.catheter = data.catheterJson[0].catheter // 导管
+              this.recordForm.ache = data.appraiseJson[0].ache.acheName
+              this.recordForm.strength = data.appraiseJson[0].ache.acheStrength
+              this.recordForm.part = data.appraiseJson[0].vitalSigns.achePart
+              this.recordForm.nature = data.appraiseJson[0].nature
+              this.recordForm.pulse = data.appraiseJson[0].vitalSigns.pulse
+              this.recordForm.breathe = data.appraiseJson[0].vitalSigns.breathe
+              this.recordForm.bp = data.appraiseJson[0].vitalSigns.bp
+              this.recordForm.temp = data.appraiseJson[0].vitalSigns.temp
+              this.recordForm.o2 = data.appraiseJson[0].vitalSigns.o2
+              this.recordForm.skinName = data.appraiseJson[0].skin.skinName
+              this.recordForm.skinPart = data.appraiseJson[0].skin.skinPart
+              this.recordForm.skinDegree = data.appraiseJson[0].skin.skinDegree
+              this.recordForm.consciousness = data.appraiseJson[0].consciousness.consciousnessName // 意识
+              this.recordForm.consciousnessOther = data.appraiseJson[0].consciousness.consciousnessOther
+              break
+            case '进手术室':
+              this.recordForm.startTime = data.pointInRoomTime // 进手术间时间
+              this.recordForm.pulse = data.pointInRoom[0].pulse
+              this.recordForm.breathe = data.pointInRoom[0].breathe
+              this.recordForm.bp = data.pointInRoom[0].bp
+              this.recordForm.consciousness = data.pointInRoom[0].consciousness
+              this.recordForm.conduit = data.pointInRoom[0].conduit
+              this.recordForm.skinName = data.pointInRoom[0].skinName
+              this.recordForm.skinPart = data.pointInRoom[0].skinPart
+              this.recordForm.skinDegree = data.pointInRoom[0].skinDegree
+              this.recordForm.skinSize = data.pointInRoom[0].skinSize
+              this.recordForm.signatureImage2 = data.pointInRoom[0].signatureImage2
+              break
+            case '出手术室':
+              this.recordForm.pulse = data.pointOutRoom[0].pulse
+              this.recordForm.breathe = data.pointOutRoom[0].breathe
+              this.recordForm.bp = data.pointOutRoom[0].bp
+              this.recordForm.consciousness = data.pointOutRoom[0].consciousness
+              this.recordForm.conduit = data.pointOutRoom[0].conduit
+              this.recordForm.skinName = data.pointOutRoom[0].skinName
+              this.recordForm.skinPart = data.pointOutRoom[0].skinPart
+              this.recordForm.skinDegree = data.pointOutRoom[0].skinDegree
+              this.recordForm.skinSize = data.pointOutRoom[0].skinSize
+              this.recordForm.signatureImage2 = data.pointOutRoom[0].signatureImage2
+              this.recordForm.startTime = data.pointOutRoomTime
+              break
+            case '进PACU':
+              this.recordForm.pulse = data.pointPacu[0].pulse
+              this.recordForm.breathe = data.pointPacu[0].breathe
+              this.recordForm.bp = data.pointPacu[0].bp
+              this.recordForm.consciousness = data.pointPacu[0].consciousness
+              this.recordForm.conduit = data.pointPacu[0].conduit
+              this.recordForm.skinName = data.pointPacu[0].skinName
+              this.recordForm.skinPart = data.pointPacu[0].skinPart
+              this.recordForm.skinDegree = data.pointPacu[0].skinDegree
+              this.recordForm.skinSize = data.pointPacu[0].skinSize
+              this.recordForm.signatureImage2 = data.pointPacu[0].signatureImage2
+              this.recordForm.startTime = data.pointPacuTime
+              break
+            case '出PACU':
+              this.recordForm.pulse = data.outPacu[0].pulse
+              this.recordForm.consciousness = data.outPacu[0].consciousness
+              this.recordForm.conduit = data.outPacu[0].conduit
+              this.recordForm.breathe = data.outPacu[0].breathe
+              this.recordForm.bp = data.outPacu[0].bp
+              this.recordForm.skinName = data.outPacu[0].skinName
+              this.recordForm.skinPart = data.outPacu[0].skinPart
+              this.recordForm.skinDegree = data.outPacu[0].skinDegree
+              this.recordForm.skinSize = data.outPacu[0].skinSize
+              this.recordForm.signatureImage2 = data.outPacu[0].signatureImage2
+              this.recordForm.startTime = data.outPacuTime
+              break
+            case '病房收治':
+              this.recordForm.startTime = data.arrivalTime
+              this.recordForm.signatureImage2 = data.recipient
+          }
         }
       })
     },
@@ -305,7 +387,6 @@ export default {
       }
     },
     onClickRight () {
-      console.log('运送')
       // this.$dialog.confirm({
       //   title: '提示',
       //   message: '弹窗内容'
@@ -333,102 +414,131 @@ export default {
       }
     },
     hanldeShowTime (param) {
-      this[param] = this.currentDate
+      this.currentDate = this.recordForm[param]
+      this.timeVisible = true
     },
     handleSubmit () {
       let obj = {
-        admitNo: '91147869',
-        appraiseJson: JSON.stringify({consciousness: this.recordForm.consciousness,
-          consciousnessOther: this.recordForm.consciousnessOther}), // 评估
-        arrivalTime: null,
-        // cardNo: '17150749',
-        carrier: '卢敏慧111',
-        catheterJson: JSON.stringify({
-          conduitTime: this.recordForm.conduitTime,
-          catheter: this.recordForm.catheter
-        }), // 导管
-        cureNo: '17150749',
-        department: this.recordForm.department,
-        goodsJson: this.recordForm.goodsJson,
-        id: 0,
-        inpatientWard: this.recordForm.inpatientWard,
-        isDeleted: 0,
-        isFile: 0,
-        pointOutRoomTime: '2020-03-04 12:02:03', // 出手术间时间
-        pointinRoomTime: '2020-03-04 08:49:38', // 进手术间时间
-        recipient: null,
-        recipientEnd: null,
-        // sex: '',
-        starTime: this.recordForm.starTime,
-        suggest: this.recordForm.suggest
-        // ward: ''
+        cureNo: this.patientInfo.cureNo,
+        hospitalNo: this.patientInfo.hospitalNo
+        // pointOutRoomTime: '2020-03-04 12:02:03', // 出手术间时间
       }
-      console.log(this.dialogTitle)
+      let submitUrl = ''
       switch (this.transferTitle) {
-        // case '病房交接':
-        //   break
+        case '病房交接':
+          submitUrl = submitRoom
+          obj.goodsJson = [{goods: this.recordForm.goodsJson, number: this.recordForm.number}]
+          obj.inpatientWard = this.recordForm.inpatientWard
+          obj.startTime = this.recordForm.startTime
+          obj.patForwardingRoomState = this.recordForm.signatureImage2 !== '' ? '1' : '0'
+          obj.carrier = this.recordForm.signatureImage2
+          obj.suggest = this.recordForm.suggest
+          obj.department = this.recordForm.department
+          obj.forwardingWard = this.recordForm.forwardingWard // 转运去向病区
+          obj.catheterJson = [{
+            conduitTime: this.recordForm.conduitTime,
+            catheter: this.recordForm.catheter
+          }]// 导管
+          obj.appraiseJson = [{
+            consciousness: {
+              consciousnessName: this.recordForm.consciousness,
+              consciousnessOther: this.recordForm.consciousnessOther
+            },
+            ache: {
+              acheName: this.recordForm.ache, // 疼痛
+              acheStrength: this.recordForm.strength, // 强度
+              achePart: this.recordForm.achePart // 疼痛部位
+            },
+            nature: this.recordForm.nature,
+            vitalSigns: {
+              pulse: this.recordForm.pulse,
+              breathe: this.recordForm.breathe,
+              bp: this.recordForm.bp,
+              temp: this.recordForm.temp,
+              o2: this.recordForm.o2 // 氧饱和度
+            },
+            skin: {
+              skinName: this.recordForm.skinName,
+              skinPart: this.recordForm.skinPart,
+              skinDegree: this.recordForm.skinDegree,
+              skinSize: this.recordForm.skinSize
+            }
+          }] // 评估
+          break
         case '进手术室':
-          obj.pointinRoom = JSON.stringify({pulse: this.recordForm.pulse,
-            breathe: this.recordForm.breathe,
+          submitUrl = submitInOpeRoom
+          obj.pointInRoomTime = '2020-03-04 08:49:38' // 进手术间时间
+          obj.pointInRoom = [{
+            pulse: this.recordForm.pulse,
             bp: this.recordForm.bp,
+            breathe: this.recordForm.breathe,
+            consciousness: this.recordForm.consciousness,
+            conduit: this.recordForm.conduit,
             skinName: this.recordForm.skinName,
             skinPart: this.recordForm.skinPart,
             skinDegree: this.recordForm.skinDegree,
             skinSize: this.recordForm.skinSize,
             signatureImage2: this.recordForm.signatureImage2
-          })
-          obj.pointOutRoom = ''
-          obj.pointPacu = ''
-          obj.outPacu = ''
+          }]
+          obj.pointInRoomState = this.recordForm.signatureImage2 !== '' ? '1' : '0'
           break
         case '出手术室':
-          obj.pointOutRoom = JSON.stringify({pulse: this.recordForm.pulse,
+          obj.pointOutRoom = [{pulse: this.recordForm.pulse,
             breathe: this.recordForm.breathe,
             bp: this.recordForm.bp,
+            consciousness: this.recordForm.consciousness,
+            conduit: this.recordForm.conduit,
             skinName: this.recordForm.skinName,
             skinPart: this.recordForm.skinPart,
             skinDegree: this.recordForm.skinDegree,
             skinSize: this.recordForm.skinSize,
             signatureImage2: this.recordForm.signatureImage2
-          })
-          obj.pointinRoom = ''
-          obj.pointPacu = ''
-          obj.outPacu = ''
+          }]
+          obj.pointOutRoomState = this.recordForm.signatureImage2 !== '' ? '1' : '0'
+          obj.pointOutRoomTime = '2020-03-04 08:49:38'
+          submitUrl = submitOutOpeRoom
           break
         case '进PACU':
-          obj.pointPacu = JSON.stringify({pulse: this.recordForm.pulse,
+          obj.pointPacu = [{pulse: this.recordForm.pulse,
             breathe: this.recordForm.breathe,
             bp: this.recordForm.bp,
+            consciousness: this.recordForm.consciousness,
+            conduit: this.recordForm.conduit,
             skinName: this.recordForm.skinName,
             skinPart: this.recordForm.skinPart,
             skinDegree: this.recordForm.skinDegree,
             skinSize: this.recordForm.skinSize,
             signatureImage2: this.recordForm.signatureImage2
-          })
-          obj.pointinRoom = ''
-          obj.pointOutRoom = ''
-          obj.outPacu = ''
+          }]
+          obj.pointPacuState = this.recordForm.signatureImage2 !== '' ? '1' : '0'
+          obj.pointPacuTime = '2020-03-04 08:49:38'
+          submitUrl = submitInPacu
           break
         case '出PACU':
-          obj.outPacu = JSON.stringify({pulse: this.recordForm.pulse,
+          obj.outPacu = [{pulse: this.recordForm.pulse,
             breathe: this.recordForm.breathe,
             bp: this.recordForm.bp,
+            consciousness: this.recordForm.consciousness,
+            conduit: this.recordForm.conduit,
             skinName: this.recordForm.skinName,
             skinPart: this.recordForm.skinPart,
             skinDegree: this.recordForm.skinDegree,
             skinSize: this.recordForm.skinSize,
             signatureImage2: this.recordForm.signatureImage2
-          })
-          obj.pointinRoom = ''
-          obj.pointPacu = ''
-          obj.pointOutRoom = ''
+          }]
+          obj.outPacuState = this.recordForm.signatureImage2 !== '' ? '1' : '0'
+          obj.outPacuTime = '2020-10-27 13:52'
+          submitUrl = submitOutPacu
           break
-        // case '病房收治':
+        case '病房收治':
+          submitUrl = submitPatRoom
+          obj.arrivalTime = this.recordForm.startTime
+          obj.patRoomState = this.recordForm.signatureImage2 !== '' ? '1' : '0'
+          obj.recipient = this.recordForm.signatureImage2
       }
-      console.log(obj)
       request({
         method: 'post',
-        url: submitRecord,
+        url: submitUrl,
         data: obj
       }).then(res => {
 
@@ -437,12 +547,11 @@ export default {
     handleCancel () {
       this.timeVisible = false
     },
-    handleTimeChange (picker) {
-      console.log(picker)
-      // this.currentDate = moment(value).format('YYYY-MM-DD HH:mm')
-    },
+    // handleTimeChange (picker) {
+    //   console.log(picker)
+    //   // this.currentDate = moment(value).format('YYYY-MM-DD HH:mm')
+    // },
     handleConfirm (value) {
-      console.log(value)
       this.currentDate = moment(value).format('YYYY-MM-DD HH:mm')
       this.timeVisible = false
     },
@@ -465,6 +574,7 @@ export default {
   created () {
     this.transferType = parseInt(this.$route.query.type)
     this.transferTitle = this.$route.query.title
+    this.getData()
   }
 }
 </script>

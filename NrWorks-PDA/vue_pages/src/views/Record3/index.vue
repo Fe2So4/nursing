@@ -8,22 +8,11 @@
       right-text="提交"
     >
     </van-nav-bar>
-    <div class="patient-card">
-      <div class="content">
-          <div class="left">
-            <span>808</span>
-          </div>
-          <div class="right">
-            <p>魏鑫 12床 91166492</p>
-            <p>主刀 陈疾仵 麻醉 王海莲</p>
-            <p>巡回 —— 洗手 余琼</p>
-          </div>
-      </div>
-    </div>
+    <PatientCard></PatientCard>
     <div class="list">
       <h3>手术病人护理记录单(三)</h3>
       <ul>
-        <li @click="handleJump">
+        <li @click="handleJump('basic')">
           <div class="li-left">
             <van-icon name="todo-list-o"/>
           </div>
@@ -32,7 +21,7 @@
             <p>体腔关闭后</p>
           </div>
         </li>
-        <li @click="handleJump">
+        <li @click="handleJump('special')">
           <div class="li-left">
             <van-icon name="edit"/>
           </div>
@@ -47,6 +36,11 @@
 </template>
 
 <script>
+import PatientCard from '@/components/PatientCard'
+// savePackageData
+import {getPackage, getPackageData} from '@/api/device-package'
+import request from '@/utils/request'
+import {mapState} from 'vuex'
 export default {
   name: 'Record2',
   data () {
@@ -66,15 +60,42 @@ export default {
       result: []
     }
   },
+  components: {
+    PatientCard
+  },
+  computed: {
+    ...mapState('Patient', ['patientInfo'])
+  },
   methods: {
     onClickLeft () {
       this.$router.go(-1)
     },
+    getData () {
+      let deviceId = '123456'
+      request({
+        method: 'get',
+        url: getPackage + '/' + deviceId
+      }).then(res => {
+        console.log(res.data.data)
+      })
+    },
+    getPackageList () {
+      request({
+        method: 'get',
+        url: getPackageData + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`
+      }).then(res => {
+        console.log(res.data.data)
+      })
+    },
     onClickRight () {
 
     },
-    handleJump () {
-      this.$router.push('/device-list')
+    handleJump (param) {
+      if (param === 'basic') {
+        this.$router.push({path: '/device-basic'})
+      } else {
+        this.$router.push({path: '/device-special'})
+      }
     },
     handleChange () {
       this.showFullSkin = !this.showFullSkin
@@ -82,6 +103,9 @@ export default {
     handleShowDialog () {
       this.showDialog = true
     }
+  },
+  mounted () {
+    // this.getData()
   }
 }
 </script>

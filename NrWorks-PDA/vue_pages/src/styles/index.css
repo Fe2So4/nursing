@@ -7,6 +7,31 @@ html,body{
   width: 100vw;
 }
 
+
+body .van-dialog{
+  font-size: 30px;
+  width: 60%;
+}
+body .van-dialog__header{
+  line-height: 40px;
+}
+body .van-dialog__content{
+  font-size: 28px;
+}
+body .van-dialog__message{
+  font-size: 26px;
+  line-height: 80px;
+  /* min-height: 60px; */
+}
+body .van-dialog__footer{
+  
+}
+body .van-dialog__footer .van-button{
+  height: 60px;
+  line-height: 60px;
+  font-size: 28px;
+  border-top: 1PX solid #E2E2E2;
+}
 #app{
   height: 100%;
   width: 100%;

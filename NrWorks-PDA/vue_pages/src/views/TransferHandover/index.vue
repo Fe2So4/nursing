@@ -10,10 +10,10 @@
     </van-nav-bar>
     <div class="patient-card">
       <div class="content">
-        <span>魏鑫</span>
-        <span>12病区</span>
-        <span>运动医学</span>
-        <span>91166492</span>
+        <span>{{patientInfo.patientName}}</span>
+        <span>{{patientInfo.wardName}}病区</span>
+        <span>{{patientInfo.deptName}}</span>
+        <span>{{patientInfo.cureNo}}</span>
       </div>
     </div>
     <div class="list">
@@ -46,6 +46,9 @@
 </template>
 
 <script>
+// import request from '@/utils/request'
+// import {submitRecord} from '@/api/nursing-record'
+import {mapState} from 'vuex'
 export default {
   name: 'TransferHandover',
   data () {
@@ -55,6 +58,11 @@ export default {
       showFullSkin: false,
       visible: false
     }
+  },
+  computed: {
+    ...mapState('Patient', ['patientInfo'])
+  },
+  components: {
   },
   methods: {
     onClickLeft () {
