@@ -3,7 +3,9 @@
     class="content-wenben-container"
     id="security-check"
   >
-    <div class="wenben-content">
+    <div
+      class="wenben-content"
+    >
       <div class="wenben-content-title">
         <span>复旦大学附属华山医院</span>
       </div>
@@ -619,6 +621,7 @@ export default {
   name: 'SecurityCheck',
   data () {
     return {
+      htmlTitle: '安全核查记录单',
       formData: {
         deptName: '',
         patientName: '',
@@ -705,6 +708,8 @@ export default {
         this.searchData()
       } else if (res === '2') {
         this.dayin()
+      } else if (res === '3') {
+        this.utilsDebounce(() => { this.getPdf('security-check') }, 1000)
       }
     })
   },
@@ -727,6 +732,10 @@ export default {
       }
       this.$store.dispatch('reqSecurityCheckTable', obj).then(res => {
         if (res.status === 200 && res.data.code === 200) {
+          if (res.data.msg === '暂无承载数据') {
+            this.openToast('warning', '暂无数据')
+            return false
+          }
           let wenshuData = res.data.data
           console.log(wenshuData)
           // 顶部form表单
@@ -942,6 +951,15 @@ export default {
       } else {
         return '3'
       }
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
   },
   components: {

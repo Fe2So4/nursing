@@ -93,13 +93,13 @@
                   </th>
                 </tr>
                 <tr>
-                  <td style="height:20px;borderRight:1px solid #000">
+                  <td style="height:20px;borderRight:1px solid #000;textAlign:center">
                     第一次
                   </td>
-                  <td style="height:20px;borderRight:1px solid #000">
+                  <td style="height:20px;borderRight:1px solid #000;textAlign:center">
                     第二次
                   </td>
-                  <td style="height:20px;borderRight:1px solid #000">
+                  <td style="height:20px;borderRight:1px solid #000;textAlign:center">
                     第三次
                   </td>
                   <td style="height:20px">
@@ -293,6 +293,7 @@ export default {
   name: 'NursingDocumentTeshu',
   data () {
     return {
+      htmlTitle: '护理记录单单据(特殊)',
       basicequipment: [],
       form: {
         bedNo: '',
@@ -329,6 +330,8 @@ export default {
         this.EquipmentChange()
       } else if (res === '2') {
         this.dayin()
+      } else if (res === '3') {
+        this.utilsDebounce(() => { this.getPdf('nursing-document-teshu') }, 1000)
       }
     })
     this.EquipmentChange()
@@ -345,7 +348,36 @@ export default {
       ipcRenderer.send('printChannel', printHtml, 'nursing-document-teshu.css', options)
     },
     // 查询数据
-    getWenShuData () {
+    // getWenShuData () {
+    //   let obj = {
+    //     // cureNo: '18724478',
+    //     cureNo: this.$store.state['nursing-document-list'].cureNo,
+    //     // hospitalNo: '91186585'
+    //     hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
+    //   }
+    //   console.log(obj)
+    //   this.$store.dispatch('ReqNursingDocumentTeShu', obj).then(res => {
+    //     console.log(res)
+    //     if (res.data.code === 200) {
+    //       if (res.data.msg === '暂无承载数据') {
+    //         this.openToast('warning', '暂无数据')
+    //         return false
+    //       }
+    //       let wenshuData = res.data.data
+
+    //       this.form.operateDate = wenshuData.operateDate
+    //       this.form.patientName = wenshuData.patientName
+    //       this.form.hospitalNo = wenshuData.hospitalNo
+    //       this.form.bedNo = wenshuData.bedNo
+    //       this.form.diagnosis = wenshuData.diagnosis
+
+    //     } else {
+    //       this.openToast('error', res.data.msg)
+    //     }
+    //   })
+    // },
+    EquipmentChange () {
+      this.basicequipment = []
       let obj = {
         cureNo: '18724478',
         // cureNo: this.$store.state['nursing-document-list'].cureNo,
@@ -353,7 +385,7 @@ export default {
         // hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
       }
       this.$store.dispatch('ReqNursingDocumentTeShu', obj).then(res => {
-        console.log(res)
+        // && res.data.data.specialEquipment.scheduleName === '已清点'
         if (res.data.code === 200) {
           if (res.data.msg === '暂无承载数据') {
             this.openToast('warning', '暂无数据')
@@ -385,29 +417,6 @@ export default {
           this.qianmingList.xhClossQm = wenshuData.xhClossQm
           this.qianmingList.xhAllClossQm = wenshuData.xhAllClossQm
           this.qianmingList.xhFhQm = wenshuData.xhFhQm
-        } else {
-          this.openToast('error', res.data.msg)
-        }
-      })
-    },
-    EquipmentChange () {
-      this.basicequipment = []
-      let obj = {
-        cureNo: '18724478',
-        // cureNo: this.$store.state['nursing-document-list'].cureNo,
-        hospitalNo: '91186585'
-        // hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
-      }
-      this.$store.dispatch('ReqNursingDocumentTeShu', obj).then(res => {
-        // && res.data.data.specialEquipment.scheduleName === '已清点'
-        if (res.data.code === 200) {
-          let wenshuData = res.data.data
-
-          this.form.operateDate = wenshuData.operateDate
-          this.form.patientName = wenshuData.patientName
-          this.form.hospitalNo = wenshuData.hospitalNo
-          this.form.bedNo = wenshuData.bedNo
-          this.form.diagnosis = wenshuData.diagnosis
           const packages = []
           this.basicEquipmentStr = wenshuData.specialEquipment.items
           this.scheduleAnomaly = wenshuData.specialEquipment.scheduleAnomaly

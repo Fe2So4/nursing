@@ -1,5 +1,8 @@
 <template>
-  <div class="transit-container">
+  <div
+    class="transit-container"
+    id="transit-transfer"
+  >
     <div class="wenben-content-info mgt10">
       <div class="info-content-container">
         <table>
@@ -22,7 +25,7 @@
                   <div
                     class="input-div-context"
                     style="textAlign:center"
-                  >{{ userInfo.admitNo }}</div>
+                  >{{ userInfo.hospitalNo }}</div>
                 </span>
                 <span class="input-div">
                   <span>病区</span>
@@ -58,98 +61,112 @@
         </table>
         <div class="context1 mgt20">
           <span class="input-div ">
-            <span>转运起始时间：</span>
+            <span style="lineHeight:30px">转运起始时间：</span>
             <div
               class="input-div-context-long"
-              style="textAlign:center"
-            >{{ wenshuData.startTime }}</div>
+              style="textAlign:center;lineHeight:30px"
+            >{{ userInfo.startTime }}</div>
           </span>
           <span
             class="input-div"
           >
-            <span>运送</span>
+            <span style="lineHeight:30px">运送</span>
             <div
               class="input-div-context"
-              style="textAlign:center"
-            >{{ wenshuData.carrier }}</div>
+              style="textAlign:center;height:30px"
+            ><img
+              style="height:100%"
+              :src="userInfo.carrier"
+              alt=""
+            ></div>
           </span>
         </div>
         <div class="context1 mgt20">
           <span class="input-div ">
             <span>当前诊断：</span>
-            <div class="input-div-context">{{ wenshuData.diagnosis }}</div>
+            <div
+              style="width:180px"
+              class="input-div-context"
+            >{{ userInfo.diagnosis }}</div>
           </span>
           <span style="marginLeft:34px">
-            <IsSelect :myselect="beforeLeaveRoomCheck.isSelect8_5" />
+            <IsSelect :myselect="userInfo.inpatientWard === '1' ? true : false" />
             <span>住院/</span>
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="userInfo.inpatientWard === '2' ? true : false" />
             <span>转病区</span>
           </span>
           <span
             class="input-div"
           >
             <span>：病区</span>
-            <div class="input-div-context">123</div>
+            <div
+              class="input-div-context"
+              style="textAlign:center"
+            >{{ userInfo.forwardingWard }}</div>
           </span>
           <span style="marginLeft:20px">
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="userInfo.department === '1' ? true : false" />
             <span>手术</span>
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="userInfo.department === '2' ? true : false" />
             <span>监护室</span>
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="userInfo.department === '3' ? true : false" />
             <span>透析室</span>
           </span>
         </div>
         <div class="context1">
           <span>评估：</span>
           <span style="marginLeft:20px">意识</span>
+
           <span style="marginLeft:20px">
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="appraiseJson.consciousness.consciousnessName === '1' ? true : false" />
             <span>清楚</span>
           </span>
           <span style="marginLeft:48px">
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="appraiseJson.consciousness.consciousnessName === '2' ? true : false" />
             <span>烦躁</span>
 
           </span>
           <span style="marginLeft:37px">
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="appraiseJson.consciousness.consciousnessName === '3' ? true : false" />
             <span>嗜睡</span>
 
           </span>
           <span style="marginLeft:39px">
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="appraiseJson.consciousness.consciousnessName === '4' ? true : false" />
             <span>昏迷</span>
 
           </span>
           <span style="marginLeft:20px">
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="appraiseJson.consciousness.consciousnessName === '5' ? true : false" />
             <span>其他</span>
 
           </span>
           <span class="input-div mgl5">
-            <div class="input-div-context-short">123</div>
+            <div
+              class="input-div-context-short"
+              style="textAlign:center"
+            >{{ appraiseJson.consciousness.consciousnessOther }}</div>
           </span>
         </div>
         <div class="context1">
           <span style="marginLeft:63px">疼痛</span>
           <span style="marginLeft:20px">
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="appraiseJson.ache.acheName === '1' ? true : false" />
             <span>NRS</span>
 
           </span>
           <span style="marginLeft:47px">
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="appraiseJson.ache.acheName === '2' ? true : false" />
             <span>FLACC</span>
 
           </span>
           <span style="marginLeft:20px">
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="appraiseJson.ache.acheName === '3' ? true : false" />
             <span>CCPOT</span>
 
           </span>
           <span style="marginLeft:20px">
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="appraiseJson.ache.acheName === '4' ? true : false" />
             <span>VONG-BAKER</span>
 
           </span>
@@ -158,55 +175,61 @@
             class="input-div"
           >
             <span>强度</span>
-            <div class="input-div-context-short">123</div>
+            <div
+              class="input-div-context-short"
+              style="textAlign:center"
+            >{{ appraiseJson.ache.acheStrength || '' }}</div>
           </span>
           <span class="input-div">
             <span>部位</span>
-            <div class="input-div-context-short">123</div>
+            <div
+              class="input-div-context-short"
+              style="textAlign:center"
+            >{{ appraiseJson.ache.achePart || '' }}</div>
           </span>
         </div>
         <div class="context1">
           <span style="marginLeft:63px">性质</span>
           <span style="marginLeft:20px">
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="appraiseJson.nature === '1' ? true : false" />
             <span>刀割样痛</span>
 
           </span>
           <span style="marginLeft:20px">
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="appraiseJson.nature === '2' ? true : false" />
             <span>绞痛</span>
 
           </span>
           <span style="marginLeft:36px">
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="appraiseJson.nature === '3' ? true : false" />
             <span>灼烧样痛</span>
 
           </span>
           <span style="marginLeft:11px">
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="appraiseJson.nature === '4' ? true : false" />
             <span>刺痛</span>
           </span>
           <span style="marginLeft:20px">
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="appraiseJson.nature === '5' ? true : false" />
             <span>压痛</span>
           </span>
           <span style="marginLeft:20px">
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="appraiseJson.nature === '6' ? true : false" />
             <span>胀痛</span>
           </span>
           <span style="marginLeft:20px">
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="appraiseJson.nature === '7' ? true : false" />
             <span>钝痛</span>
           </span>
         </div>
         <div class="context1">
           <span style="marginLeft:63px">皮肤</span>
           <span style="marginLeft:20px">
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="appraiseJson.skin.skinName === '1' ? true : false" />
             <span>完整</span>
           </span>
           <span style="marginLeft:48px">
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="appraiseJson.skin.skinName === '2' ? true : false" />
             <span>破损</span>
           </span>
           <span
@@ -214,15 +237,24 @@
             class="input-div"
           >
             <span>部位</span>
-            <div class="input-div-context">123</div>
+            <div
+              class="input-div-context"
+              style="textAlign:center"
+            >{{ appraiseJson.skin.skinPart || '' }}</div>
           </span>
           <span class="input-div">
             <span>程度</span>
-            <div class="input-div-context">123</div>
+            <div
+              class="input-div-context"
+              style="textAlign:center"
+            >{{ appraiseJson.skin.skinDegree || '' }}</div>
           </span>
           <span class="input-div">
-            <span>完整</span>
-            <div class="input-div-context">123</div>
+            <span>大小</span>
+            <div
+              class="input-div-context"
+              style="textAlign:center"
+            >{{ appraiseJson.skin.skinSize || '' }}</div>
           </span>
         </div>
         <div class="context1">
@@ -231,7 +263,10 @@
             style="marginLeft:15px"
             class="input-div"
           >
-            <div class="input-div-context-noborder-short-40">123</div>
+            <div
+              class="input-div-context-noborder-short-40"
+              style="textAlign:center"
+            >{{ appraiseJson.vitalSigns.temp || '' }}</div>
             <span>℃</span>
           </span>
           <span
@@ -239,7 +274,10 @@
             style="marginLeft:15px"
           >
             <span>脉搏</span>
-            <div class="input-div-context-noborder-40">123</div>
+            <div
+              class="input-div-context-noborder-40"
+              style="textAlign:center"
+            >{{ appraiseJson.vitalSigns.pulse || '' }}</div>
             <span>分/次</span>
           </span>
           <span
@@ -247,7 +285,10 @@
             style="marginLeft:15px"
           >
             <span>呼吸</span>
-            <div class="input-div-context-noborder-40">123</div>
+            <div
+              class="input-div-context-noborder-40"
+              style="textAlign:center"
+            >{{ appraiseJson.vitalSigns.breathe || '' }}</div>
             <span>分/次</span>
           </span>
           <span
@@ -255,9 +296,10 @@
             style="marginLeft:15px"
           >
             <span>血压</span>
-            <div class="input-div-context-noborder-40">123</div>
-            <span>/</span>
-            <div class="input-div-context-noborder-40">123</div>
+            <div
+              class="input-div-context-noborder-40"
+              style="textAlign:center"
+            >{{ appraiseJson.vitalSigns.bp || '' }}</div>
             <span>mmHg</span>
           </span>
           <span
@@ -265,7 +307,10 @@
             style="marginLeft:15px"
           >
             <span>氧饱和度</span>
-            <div class="input-div-context-noborder-40">123</div>
+            <div
+              class="input-div-context-noborder-40"
+              style="textAlign:center"
+            >{{ appraiseJson.vitalSigns.o2 || '' }}</div>
             <span>%</span>
           </span>
         </div>
@@ -274,114 +319,120 @@
         </div>
         <div class="context1">
           <span style="marginLeft:42px">
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="catheter.includes('o2') ? true : false" />
             <span>氧气</span>
           </span>
           <span style="marginLeft:160px">
-            <isSelect prop-select="true" />
-            <span>浅静脉留置(留置日期)</span>
+            <IsSelect :myselect="catheter.includes('qjm') ? true : false" />
+            <span>浅静脉留置({{ conduitTime ||'留置日期' }})</span>
           </span>
           <span style="marginLeft:100px">
-            <isSelect prop-select="true" />
-            <span>深静脉留置(留置日期)</span>
+            <IsSelect :myselect="catheter.includes('sjm') ? true : false" />
+            <span>深静脉留置({{ conduitTime ||'留置日期' }})</span>
           </span>
         </div>
         <div class="context1">
           <span style="marginLeft:42px">
-            <isSelect prop-select="true" />
-            <span>PICC(留置日期)</span>
+            <IsSelect :myselect="catheter.includes('picc') ? true : false" />
+            <span>PICC({{ conduitTime ||'留置日期' }})</span>
           </span>
           <span style="marginLeft:135px">
-            <isSelect prop-select="true" />
-            <span>动脉留置(留置日期)</span>
+            <IsSelect :myselect="catheter.includes('dml') ? true : false" />
+            <span>动脉留置({{ conduitTime ||'留置日期' }})</span>
           </span>
           <span style="marginLeft:100px">
-            <isSelect prop-select="true" />
-            <span>肠胃减压(留置日期)</span>
+            <IsSelect :myselect="catheter.includes('cwj') ? true : false" />
+            <span>肠胃减压({{ conduitTime ||'留置日期' }})</span>
           </span>
         </div>
         <div class="context1">
           <span style="marginLeft:42px">
-            <isSelect prop-select="true" />
-            <span>鼻饲(留置日期)</span>
+            <IsSelect :myselect="catheter.includes('bs') ? true : false" />
+            <span>鼻饲({{ conduitTime ||'留置日期' }})</span>
           </span>
           <span style="marginLeft:138px">
-            <isSelect prop-select="true" />
-            <span>留置导尿(留置日期)</span>
+            <IsSelect :myselect="catheter.includes('lzd') ? true : false" />
+            <span>留置导尿({{ conduitTime ||'留置日期' }})</span>
           </span>
           <span style="marginLeft:100px">
-            <isSelect prop-select="true" />
-            <span>气管导管(留置日期)</span>
+            <IsSelect :myselect="catheter.includes('qgd') ? true : false" />
+            <span>气管导管({{ conduitTime ||'留置日期' }})</span>
           </span>
         </div>
         <div class="context1">
           <span style="marginLeft:42px">
-            <isSelect prop-select="true" />
-            <span>负压球(留置日期)</span>
+            <IsSelect :myselect="catheter.includes('fyq') ? true : false" />
+            <span>负压球({{ conduitTime ||'留置日期' }})</span>
           </span>
           <span style="marginLeft:125px">
-            <isSelect prop-select="true" />
-            <span>胸腔引流(留置日期)</span>
+            <IsSelect :myselect="catheter.includes('xqy') ? true : false" />
+            <span>胸腔引流({{ conduitTime ||'留置日期' }})</span>
           </span>
           <span style="marginLeft:100px">
-            <isSelect prop-select="true" />
-            <span>I管(留置日期)</span>
+            <IsSelect :myselect="catheter.includes('tg') ? true : false" />
+            <span>T管({{ conduitTime ||'留置日期' }})</span>
           </span>
         </div>
         <div class="context1">
           <span style="marginLeft:42px">
-            <isSelect prop-select="true" />
-            <span>其他</span>
+            <IsSelect :myselect="catheter.includes('qita') ? true : false" />
+            <span>其他({{ conduitTime ||'留置日期' }})</span>
+          </span>
+          <span style="marginLeft:140px">
+            <IsSelect :myselect="catheter.includes('wu') ? true : false" />
+            <span>无</span>
           </span>
         </div>
+
         <div class="context1">
           <span>物品：</span>
           <span>
-            <isSelect prop-select="true" />
+
+            <IsSelect :myselect="goodsJson.goods === '1' ? true : false" />
             <span>输液</span>
           </span>
           <span
             class="input-div"
             style="marginLeft:15px"
           >
-            <div class="input-div-context-noborder-40">123</div>
+            <div class="input-div-context-noborder-40">{{ goodsJson.goods === '1'?goodsJson.number:'' }}</div>
             <span>瓶/袋</span>
           </span>
           <span style="marginLeft:20px">
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="goodsJson.goods === '2' ? true : false" />
             <span>X片</span>
           </span>
           <span
             class="input-div"
             style="marginLeft:15px"
           >
-            <div class="input-div-context-noborder-40">123</div>
+            <div class="input-div-context-noborder-40">{{ goodsJson.goods === '2'?goodsJson.number:'' }}</div>
             <span>张</span>
           </span>
           <span style="marginLeft:20px">
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="goodsJson.goods === '3' ? true : false" />
             <span>CT片</span>
           </span>
           <span
             class="input-div"
             style="marginLeft:15px"
           >
-            <div class="input-div-context-noborder-40">123</div>
+            <div class="input-div-context-noborder-40">{{ goodsJson.goods === '3'?goodsJson.number:'' }}</div>
             <span>张</span>
           </span>
           <span style="marginLeft:20px">
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="goodsJson.goods === '4' ? true : false" />
             <span>磁共振片</span>
           </span>
           <span
             class="input-div"
             style="marginLeft:15px"
           >
-            <div class="input-div-context-noborder-40">123</div>
+            <div class="input-div-context-noborder-40">{{ goodsJson.goods === '4'?goodsJson.number:'' }}</div>
             <span>张</span>
           </span>
           <span style="marginLeft:20px">
-            <isSelect prop-select="true" />
+            <IsSelect :myselect="goodsJson.goods === '5' ? true : false" />
             <span>其他</span>
           </span>
         </div>
@@ -390,21 +441,33 @@
           <span
             class="input-div"
           >
-            <div class="input-div-context-long">123</div>
+            <div class="input-div-context-long">{{ userInfo.suggest }}</div>
           </span>
         </div>
         <div class="context1">
-          <span>转运结束时间：</span>
+          <span style="lineHeight:30px">转运结束时间：</span>
           <span
             class="input-div"
           >
-            <div class="input-div-context-long">123</div>
+            <div
+              class="input-div-context-long"
+              style="lineHeight:30px"
+            >{{ userInfo.endTime }}</div>
           </span>
           <span
             class="input-div"
           >
-            <div class="input-div-context-noborder-40">123</div>
-            <span>接收</span>
+            <span style="lineHeight:30px">接收</span>
+            <div
+              class="input-div-context-noborder-40"
+              style="height:30px;width:160px;borderBottom:1px solid #000;paddingLeft:15px;lineHeight:30px"
+            >
+              <img
+                style="height:100%"
+                :src="userInfo.recipientent"
+                alt=""
+              >
+            </div>
           </span>
         </div>
         <div class="context1">
@@ -428,52 +491,28 @@
                 <div>进手术间</div>
                 <div class="line" />
                 <div>
-                  <span>1</span>
-                  <span>日</span>
-                  <span>1</span>
-                  <span>时</span>
-                  <span>1</span>
-                  <span>分</span>
-                  <span>1</span>
+                  {{ pointInRoomtime || '日 时 分' }}
                 </div>
               </th>
               <th>
                 <div>出手术间</div>
                 <div class="line" />
                 <div>
-                  <span>1</span>
-                  <span>日</span>
-                  <span>1</span>
-                  <span>时</span>
-                  <span>1</span>
-                  <span>分</span>
-                  <span>1</span>
+                  {{ pointOutRoomTime || '日 时 分' }}
                 </div>
               </th>
               <th>
                 <div>进PACU</div>
                 <div class="line" />
                 <div>
-                  <span>1</span>
-                  <span>日</span>
-                  <span>1</span>
-                  <span>时</span>
-                  <span>1</span>
-                  <span>分</span>
-                  <span>1</span>
+                  {{ pointPacuTime || '日 时 分' }}
                 </div>
               </th>
               <th>
                 <div>出PACU</div>
                 <div class="line" />
                 <div>
-                  <span>1</span>
-                  <span>日</span>
-                  <span>1</span>
-                  <span>时</span>
-                  <span>1</span>
-                  <span>分</span>
-                  <span>1</span>
+                  {{ outPacuTime || '日 时 分' }}
                 </div>
               </th>
             </tr>
@@ -483,65 +522,65 @@
               </td>
               <td>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointInRoom.consciousness === '1' ? true : false" />
                   <span>清醒</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointInRoom.consciousness === '2' ? true : false" />
                   <span>烦躁</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointInRoom.consciousness === '3' ? true : false" />
                   <span>嗜睡</span>
                 </div>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointInRoom.consciousness === '4' ? true : false" />
                   <span>昏迷</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointInRoom.consciousness === '5' ? true : false" />
                   <span>其他</span>
                 </div>
               </td>
               <td>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointOutRoom.consciousness === '1' ? true : false" />
                   <span>清醒</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointOutRoom.consciousness === '2' ? true : false" />
                   <span>烦躁</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointOutRoom.consciousness === '3' ? true : false" />
                   <span>嗜睡</span>
                 </div>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointOutRoom.consciousness === '4' ? true : false" />
                   <span>昏迷</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointOutRoom.consciousness === '5' ? true : false" />
                   <span>其他</span>
                 </div>
               </td>
               <td>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointPacu.consciousness === '1' ? true : false" />
                   <span>清醒</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointPacu.consciousness === '2' ? true : false" />
                   <span>烦躁</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointPacu.consciousness === '3' ? true : false" />
                   <span>嗜睡</span>
                 </div>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointPacu.consciousness === '4' ? true : false" />
                   <span>昏迷</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointPacu.consciousness === '5' ? true : false" />
                   <span>其他</span>
                 </div>
               </td>
               <td>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="outPacu.consciousness === '1' ? true : false" />
                   <span>清醒</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="outPacu.consciousness === '2' ? true : false" />
                   <span>烦躁</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="outPacu.consciousness === '3' ? true : false" />
                   <span>嗜睡</span>
                 </div>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="outPacu.consciousness === '4' ? true : false" />
                   <span>昏迷</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="outPacu.consciousness === '5' ? true : false" />
                   <span>其他</span>
                 </div>
               </td>
@@ -556,7 +595,7 @@
                   <span
                     class="input-div"
                   >
-                    <div class="input-div-context-noborder-40">123</div>
+                    <div class="input-div-context-noborder-40">{{ pointInRoom.pulse || 0 }}</div>
                     <span>次/分</span>
                   </span>
                 </div>
@@ -565,7 +604,7 @@
                   <span
                     class="input-div"
                   >
-                    <div class="input-div-context-noborder-40">123</div>
+                    <div class="input-div-context-noborder-40">{{ pointInRoom.breathe || 0 }}</div>
                     <span>次/分</span>
                   </span>
                 </div>
@@ -574,13 +613,9 @@
                   <span
                     class="input-div"
                   >
-                    <div class="input-div-context-noborder-33">123</div>
-                  </span>
-                  <span>/</span>
-                  <span
-                    class="input-div"
-                  >
-                    <div class="input-div-context-noborder-33">123</div>
+                    <div
+                      class="input-div-context-noborder-33"
+                    >{{ pointInRoom.bp || 0 }}</div>
                   </span>
                   <span>mmHg</span>
                 </div>
@@ -591,7 +626,7 @@
                   <span
                     class="input-div"
                   >
-                    <div class="input-div-context-noborder-40">123</div>
+                    <div class="input-div-context-noborder-40">{{ pointOutRoom.pulse || 0 }}</div>
                     <span>次/分</span>
                   </span>
                 </div>
@@ -600,7 +635,7 @@
                   <span
                     class="input-div"
                   >
-                    <div class="input-div-context-noborder-40">123</div>
+                    <div class="input-div-context-noborder-40">{{ pointOutRoom.breathe || 0 }}</div>
                     <span>次/分</span>
                   </span>
                 </div>
@@ -609,13 +644,9 @@
                   <span
                     class="input-div"
                   >
-                    <div class="input-div-context-noborder-33">123</div>
-                  </span>
-                  <span>/</span>
-                  <span
-                    class="input-div"
-                  >
-                    <div class="input-div-context-noborder-33">123</div>
+                    <div
+                      class="input-div-context-noborder-33"
+                    >{{ pointOutRoom.bp || 0 }}</div>
                   </span>
                   <span>mmHg</span>
                 </div>
@@ -626,7 +657,7 @@
                   <span
                     class="input-div"
                   >
-                    <div class="input-div-context-noborder-40">123</div>
+                    <div class="input-div-context-noborder-40">{{ pointPacu.pulse || 0 }}</div>
                     <span>次/分</span>
                   </span>
                 </div>
@@ -635,7 +666,7 @@
                   <span
                     class="input-div"
                   >
-                    <div class="input-div-context-noborder-40">123</div>
+                    <div class="input-div-context-noborder-40">{{ pointPacu.breathe || 0 }}</div>
                     <span>次/分</span>
                   </span>
                 </div>
@@ -644,13 +675,9 @@
                   <span
                     class="input-div"
                   >
-                    <div class="input-div-context-noborder-33">123</div>
-                  </span>
-                  <span>/</span>
-                  <span
-                    class="input-div"
-                  >
-                    <div class="input-div-context-noborder-33">123</div>
+                    <div
+                      class="input-div-context-noborder-33"
+                    >{{ pointPacu.bp || 0 }}</div>
                   </span>
                   <span>mmHg</span>
                 </div>
@@ -661,7 +688,7 @@
                   <span
                     class="input-div"
                   >
-                    <div class="input-div-context-noborder-40">123</div>
+                    <div class="input-div-context-noborder-40">{{ outPacu.pulse || 0 }}</div>
                     <span>次/分</span>
                   </span>
                 </div>
@@ -670,7 +697,7 @@
                   <span
                     class="input-div"
                   >
-                    <div class="input-div-context-noborder-40">123</div>
+                    <div class="input-div-context-noborder-40">{{ outPacu.breathe || 0 }}</div>
                     <span>次/分</span>
                   </span>
                 </div>
@@ -679,14 +706,11 @@
                   <span
                     class="input-div"
                   >
-                    <div class="input-div-context-noborder-33">123</div>
+                    <div
+                      class="input-div-context-noborder-33"
+                    >{{ outPacu.bp || 0 }}</div>
                   </span>
-                  <span>/</span>
-                  <span
-                    class="input-div"
-                  >
-                    <div class="input-div-context-noborder-33">123</div>
-                  </span>
+
                   <span>mmHg</span>
                 </div>
               </td>
@@ -697,17 +721,17 @@
               </td>
               <td>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointInRoom.skinName === '0' ? true : false" />
                   <span>完整</span>
                 </div>
                 <div class="td-div">
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointInRoom.skinName === '1' ? true : false" />
                   <span>破损</span>
                   <span
                     class="input-div mgl5"
                   >
                     <span>部位：</span>
-                    <div class="input-div-context-noborder-33">123</div>
+                    <div class="input-div-context-noborder-33">{{ pointInRoom.skinPart }}</div>
                   </span>
                 </div>
                 <div>
@@ -715,7 +739,7 @@
                     class="input-div mgl48"
                   >
                     <span>程度：</span>
-                    <div class="input-div-context-noborder-33">123</div>
+                    <div class="input-div-context-noborder-33">{{ pointInRoom.skinDegree }}</div>
                   </span>
                 </div>
                 <div>
@@ -723,23 +747,23 @@
                     class="input-div mgl48"
                   >
                     <span>大小：</span>
-                    <div class="input-div-context-noborder-33">123</div>
+                    <div class="input-div-context-noborder-33">{{ pointInRoom.skinSize }}</div>
                   </span>
                 </div>
               </td>
               <td>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointOutRoom.skinName === '0' ? true : false" />
                   <span>完整</span>
                 </div>
                 <div class="td-div">
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointOutRoom.skinName === '1' ? true : false" />
                   <span>破损</span>
                   <span
                     class="input-div mgl5"
                   >
                     <span>部位：</span>
-                    <div class="input-div-context-noborder-33">123</div>
+                    <div class="input-div-context-noborder-33">{{ pointOutRoom.skinPart }}</div>
                   </span>
                 </div>
                 <div>
@@ -747,7 +771,7 @@
                     class="input-div mgl48"
                   >
                     <span>程度：</span>
-                    <div class="input-div-context-noborder-33">123</div>
+                    <div class="input-div-context-noborder-33">{{ pointOutRoom.skinDegree }}</div>
                   </span>
                 </div>
                 <div>
@@ -755,23 +779,23 @@
                     class="input-div mgl48"
                   >
                     <span>大小：</span>
-                    <div class="input-div-context-noborder-33">123</div>
+                    <div class="input-div-context-noborder-33">{{ pointOutRoom.skinSize }}</div>
                   </span>
                 </div>
               </td>
               <td>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointPacu.skinName === '0' ? true : false" />
                   <span>完整</span>
                 </div>
                 <div class="td-div">
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointPacu.skinName === '1' ? true : false" />
                   <span>破损</span>
                   <span
                     class="input-div mgl5"
                   >
                     <span>部位：</span>
-                    <div class="input-div-context-noborder-33">123</div>
+                    <div class="input-div-context-noborder-33">{{ pointPacu.skinPart }}</div>
                   </span>
                 </div>
                 <div>
@@ -779,7 +803,7 @@
                     class="input-div mgl48"
                   >
                     <span>程度：</span>
-                    <div class="input-div-context-noborder-33">123</div>
+                    <div class="input-div-context-noborder-33">{{ pointPacu.skinDegree }}</div>
                   </span>
                 </div>
                 <div>
@@ -787,23 +811,23 @@
                     class="input-div mgl48"
                   >
                     <span>大小：</span>
-                    <div class="input-div-context-noborder-33">123</div>
+                    <div class="input-div-context-noborder-33">{{ pointPacu.skinSize }}</div>
                   </span>
                 </div>
               </td>
               <td>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="outPacu.skinName === '0' ? true : false" />
                   <span>完整</span>
                 </div>
                 <div class="td-div">
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="outPacu.skinName === '1' ? true : false" />
                   <span>破损</span>
                   <span
                     class="input-div mgl5"
                   >
                     <span>部位：</span>
-                    <div class="input-div-context-noborder-33">123</div>
+                    <div class="input-div-context-noborder-33">{{ outPacu.skinPart }}</div>
                   </span>
                 </div>
                 <div>
@@ -811,7 +835,7 @@
                     class="input-div mgl48"
                   >
                     <span>程度：</span>
-                    <div class="input-div-context-noborder-33">123</div>
+                    <div class="input-div-context-noborder-33">{{ outPacu.skinDegree }}</div>
                   </span>
                 </div>
                 <div>
@@ -819,7 +843,7 @@
                     class="input-div mgl48"
                   >
                     <span>大小：</span>
-                    <div class="input-div-context-noborder-33">123</div>
+                    <div class="input-div-context-noborder-33">{{ outPacu.skinSize }}</div>
                   </span>
                 </div>
               </td>
@@ -831,121 +855,121 @@
               </td>
               <td>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointInRoom.conduit.includes('jm') ? true : false" />
                   <span>静脉</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointInRoom.conduit.includes('dm') ? true : false" />
                   <span>动脉</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointInRoom.conduit.includes('wg') ? true : false" />
                   <span>胃管</span>
                 </div>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointInRoom.conduit.includes('dn') ? true : false" />
                   <span>导尿</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointInRoom.conduit.includes('qgdg') ? true : false" />
                   <span>气管导管</span>
                 </div>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointInRoom.conduit.includes('fyq') ? true : false" />
                   <span>负压球</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointInRoom.conduit.includes('xqyl') ? true : false" />
                   <span>胸腔引流</span>
                 </div>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointInRoom.conduit.includes('qita') ? true : false" />
                   <span>其他</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointInRoom.conduit.includes('picc') ? true : false" />
                   <span>PICC</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointInRoom.conduit.includes('wu') ? true : false" />
                   <span>无</span>
                 </div>
               </td>
               <td>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointOutRoom.conduit.includes('jm') ? true : false" />
                   <span>静脉</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointOutRoom.conduit.includes('dm') ? true : false" />
                   <span>动脉</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointOutRoom.conduit.includes('wg') ? true : false" />
                   <span>胃管</span>
                 </div>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointOutRoom.conduit.includes('dn') ? true : false" />
                   <span>导尿</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointOutRoom.conduit.includes('qgdg') ? true : false" />
                   <span>气管导管</span>
                 </div>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointOutRoom.conduit.includes('fyq') ? true : false" />
                   <span>负压球</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointOutRoom.conduit.includes('xqyl') ? true : false" />
                   <span>胸腔引流</span>
                 </div>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointOutRoom.conduit.includes('qita') ? true : false" />
                   <span>其他</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointOutRoom.conduit.includes('picc') ? true : false" />
                   <span>PICC</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointOutRoom.conduit.includes('wu') ? true : false" />
                   <span>无</span>
                 </div>
               </td>
               <td>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointPacu.conduit.includes('jm') ? true : false" />
                   <span>静脉</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointPacu.conduit.includes('dm') ? true : false" />
                   <span>动脉</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointPacu.conduit.includes('wg') ? true : false" />
                   <span>胃管</span>
                 </div>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointPacu.conduit.includes('dn') ? true : false" />
                   <span>导尿</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointPacu.conduit.includes('qgdg') ? true : false" />
                   <span>气管导管</span>
                 </div>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointPacu.conduit.includes('fyq') ? true : false" />
                   <span>负压球</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointPacu.conduit.includes('xqyl') ? true : false" />
                   <span>胸腔引流</span>
                 </div>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointPacu.conduit.includes('qita') ? true : false" />
                   <span>其他</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointPacu.conduit.includes('picc') ? true : false" />
                   <span>PICC</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointPacu.conduit.includes('wu') ? true : false" />
                   <span>无</span>
                 </div>
               </td>
               <td>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="outPacu.conduit.includes('jm') ? true : false" />
                   <span>静脉</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="outPacu.conduit.includes('dm') ? true : false" />
                   <span>动脉</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="outPacu.conduit.includes('wg') ? true : false" />
                   <span>胃管</span>
                 </div>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="outPacu.conduit.includes('dn') ? true : false" />
                   <span>导尿</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="outPacu.conduit.includes('qgdg') ? true : false" />
                   <span>气管导管</span>
                 </div>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="outPacu.conduit.includes('fyq') ? true : false" />
                   <span>负压球</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="outPacu.conduit.includes('xqyl') ? true : false" />
                   <span>胸腔引流</span>
                 </div>
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="outPacu.conduit.includes('qita') ? true : false" />
                   <span>其他</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="outPacu.conduit.includes('picc') ? true : false" />
                   <span>PICC</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="outPacu.conduit.includes('wu') ? true : false" />
                   <span>无</span>
                 </div>
               </td>
@@ -956,33 +980,33 @@
               </td>
               <td style="textAlign:center;height:30px">
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointInRoomState === '1' ? true : false" />
                   <span>是</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointInRoomState === '0' ? true : false" />
                   <span>否</span>
                 </div>
               </td>
               <td style="textAlign:center;height:30px">
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointOutRoomState === '1' ? true : false" />
                   <span>是</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointOutRoomState === '0' ? true : false" />
                   <span>否</span>
                 </div>
               </td>
               <td style="textAlign:center;height:30px">
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointPacuState === '1' ? true : false" />
                   <span>是</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="pointPacuState === '0' ? true : false" />
                   <span>否</span>
                 </div>
               </td>
               <td style="textAlign:center;height:30px">
                 <div>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="outPacuState === '1' ? true : false" />
                   <span>是</span>
-                  <isSelect prop-select="true" />
+                  <IsSelect :myselect="outPacuState === '0' ? true : false" />
                   <span>否</span>
                 </div>
               </td>
@@ -993,25 +1017,29 @@
               </td>
               <td style="textAlign:center;height:60px">
                 <img
-                  src="./../../../assets/isFalse.png"
+                  style="height:100%"
+                  :src="pointInRoom.signatureImage2"
                   alt=""
                 >
               </td>
               <td style="textAlign:center;height:60px">
                 <img
-                  src="./../../../assets/isFalse.png"
+                  style="height:100%"
+                  :src="pointOutRoom.signatureImage2"
                   alt=""
                 >
               </td>
               <td style="textAlign:center;height:60px">
                 <img
-                  src="./../../../assets/isFalse.png"
+                  style="height:100%"
+                  :src="pointPacu.signatureImage2"
                   alt=""
                 >
               </td>
               <td style="textAlign:center;height:60px">
                 <img
-                  src="./../../../assets/isFalse.png"
+                  style="height:100%"
+                  :src="outPacu.signatureImage2"
                   alt=""
                 >
               </td>
@@ -1023,16 +1051,26 @@
           <span
             class="input-div"
           >
-            <div class="input-div-context-long">123</div>
+            <div class="input-div-context-long">{{ userInfo.arrivalTime }}</div>
           </span>
         </div>
         <div class="context1">
           <span>物品及药物：详见《手术病人护理记录单(一)》</span>
           <span
+            style="marginLeft:250px"
             class="input-div"
           >
-            <div class="input-div-context-noborder">123</div>
             <span>接收</span>
+            <div
+              class="input-div-context-noborder"
+              style="width:160px;paddingLeft:15px;borderBottom:1px solid #000;height:30px"
+            >
+              <img
+                style="height:100%"
+                :src="userInfo.recipient"
+                alt=""
+              >
+            </div>
           </span>
         </div>
       </div>
@@ -1042,16 +1080,15 @@
 
 <script>
 import IsSelect from './components/isSelect'
+import {ipcRenderer} from 'electron'
 import Bus from '@/utils/bus.js'
 export default {
   name: 'TransitTransfer',
   data () {
     return {
+      htmlTitle: '转运交接单',
       wenshuData: {
-        startTime: '',
-        carrier: '',
-        diagnosis: '',
-        inpatientWard: ''
+
       },
       userInfo: {
         patientName: '',
@@ -1059,38 +1096,255 @@ export default {
         ward: '',
         bedNo: '',
         sex: '',
-        age: ''
-      }
+        age: '',
+        startTime: '',
+        carrier: '',
+        diagnosis: '',
+        inpatientWard: '',
+        endTime: '',
+        suggest: '',
+        recipient: '',
+        recipientent: '',
+        changeWard: '',
+        department: '',
+        arrivalTime: '',
+        forwardingWard: ''
+      },
+      appraiseJson: {
+        ache: { // 疼痛
+          acheName: '',
+          acheStrength: '',
+          achePart: ''
+        },
+        consciousness: {
+          consciousnessName: '', // 意识
+          consciousnessOther: ''
+        },
 
+        nature: '', // 性质
+        skin: {
+          skinDegree: '', // 皮肤
+          skinName: '',
+          skinPart: ''
+        },
+
+        vitalSigns: {
+          bp: '',
+          breathe: '',
+          o2: '',
+          pulse: '',
+          temp: ''
+        }
+
+      }, // 评估json
+      catheter: '', // 拼接后的导管选择
+      conduitTime: '', // 留置时间
+      goodsJson: {
+        goods: '',
+        number: ''
+      }, // 拼接后的物品
+      pointInRoomtime: '', // 进手术室时间
+      pointOutRoomTime: '', // 出手术室时间
+      pointPacuTime: '', // 进pacu时间
+      outPacuTime: '', // 出pacu时间
+
+      pointInRoomState: '0',
+      pointOutRoomState: '0',
+      pointPacuState: '0',
+      outPacuState: '0',
+      pointInRoom: {
+        conduit: '',
+        bp: '',
+        breathe: '',
+        pulse: '',
+        signatureImage2: '',
+        skinDegree: '',
+        skinName: '',
+        skinPart: '',
+        skinSize: ''
+      },
+      pointOutRoom: {
+        conduit: '',
+        bp: '',
+        breathe: '',
+        pulse: '',
+        signatureImage2: '',
+        skinDegree: '',
+        skinName: '',
+        skinPart: '',
+        skinSize: ''
+      },
+      pointPacu: {
+        conduit: '',
+        bp: '',
+        breathe: '',
+        pulse: '',
+        signatureImage2: '',
+        skinDegree: '',
+        skinName: '',
+        skinPart: '',
+        skinSize: ''
+      },
+      outPacu: {
+        conduit: '',
+        bp: '',
+        breathe: '',
+        pulse: '',
+        signatureImage2: '',
+        skinDegree: '',
+        skinName: '',
+        skinPart: '',
+        skinSize: ''
+      }
     }
   },
   mounted () {
     Bus.$on('clickShuaXinTransit', res => {
       if (res === '1') {
         this.getWenShuData()
+      } else if (res === '2') {
+        this.dayin()
+      } else if (res === '3') {
+        this.utilsDebounce(() => { this.getPdf('transit-transfer') }, 1000)
       }
     })
     this.getWenShuData()
   },
   methods: {
-
+    dayin () {
+      this.utilsDebounce(() => { this.printCurrent() }, 1000)
+    },
+    // 打印
+    printCurrent () {
+      const printHtml = document.getElementById('transit-transfer').outerHTML
+      const options = { silent: false }
+      // options = JSON.stringify(options)
+      ipcRenderer.send('printChannel', printHtml, 'transit-transfer.css', options)
+    },
     getWenShuData () {
       let obj = {
-        admitNo: 1010
+        hospitalNo: 666,
+        cureNo: 1010
+        // cureNo: this.$store.state['nursing-document-list'].cureNo,
+
+        // hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
       }
+
       this.$store.dispatch('ReqTransitTransfer', obj).then(res => {
-        if (res.data.code === 200 && res.data.msg !== '暂无承载数据') {
+        if (res.data.code === 200) {
           this.wenshuData = res.data.data
+          if (this.IsEmpty(this.wenshuData.patientName)) {
+            this.openToast('warning', '暂无数据')
+            return false
+          }
           this.userInfo.patientName = this.wenshuData.patientName || ''
-          this.userInfo.admitNo = this.wenshuData.admitNo || ''
+          this.userInfo.hospitalNo = this.wenshuData.hospitalNo || ''
           this.userInfo.ward = this.wenshuData.ward || ''
           this.userInfo.bedNo = this.wenshuData.bedNo || ''
           this.userInfo.sex = this.wenshuData.sex || ''
           this.userInfo.age = this.wenshuData.age || ''
+          this.userInfo.endTime = this.wenshuData.endTime || ''
+          this.userInfo.startTime = this.wenshuData.startTime || ''
+          this.userInfo.suggest = this.wenshuData.suggest || ''
+          this.userInfo.recipientent = this.wenshuData.recipientent || '' // 结束接收
+          this.userInfo.inpatientWard = this.wenshuData.inpatientWard || ''
+          this.userInfo.diagnosis = this.wenshuData.diagnosis || ''
+          this.userInfo.forwardingWard = this.wenshuData.forwardingWard || ''
+          this.userInfo.department = this.wenshuData.department || ''
+          this.userInfo.arrivalTime = this.wenshuData.arrivalTime || ''
+          this.userInfo.carrier = this.wenshuData.carrier || ''
+          this.userInfo.recipient = this.wenshuData.recipient || '' // 到达接收
+
+          this.pointInRoomState = this.wenshuData.pointInRoomState || '0'
+          this.pointOutRoomState = this.wenshuData.pointOutRoomState || '0'
+          this.pointPacuState = this.wenshuData.pointPacuState || '0'
+          this.outPacuState = this.wenshuData.outPacuState || '0'
+
+          if (this.wenshuData.appraiseJson.length > 0) {
+            this.appraiseJson = this.wenshuData.appraiseJson[0]
+          }
+          if (this.wenshuData.catheterJson.length > 0) {
+            this.catheter = this.wenshuData.catheterJson[0].catheter.join('-')
+            this.conduitTime = this.wenshuData.catheterJson[0].conduitTime
+          }
+          if (this.wenshuData.goodsJson.length > 0) {
+            this.goodsJson = this.wenshuData.goodsJson[0]
+          }
+          if (!this.IsEmpty(this.wenshuData.pointInRoomtime)) {
+            this.pointInRoomtime = this.Moment(this.wenshuData.pointInRoomtime).format('DD日HH时mm分')
+          }
+          if (!this.IsEmpty(this.wenshuData.pointOutRoomTime)) {
+            this.pointOutRoomTime = this.Moment(this.wenshuData.pointOutRoomTime).format('DD日HH时mm分')
+          }
+          if (!this.IsEmpty(this.wenshuData.pointPacuTime)) {
+            this.pointPacuTime = this.Moment(this.wenshuData.pointPacuTime).format('DD日HH时mm分')
+          }
+          if (!this.IsEmpty(this.wenshuData.outPacuTime)) {
+            this.outPacuTime = this.Moment(this.wenshuData.outPacuTime).format('DD日HH时mm分')
+          }
+
+          if (this.wenshuData.pointInRoom.length > 0) {
+            this.pointInRoom.bp = this.wenshuData.pointInRoom[0].bp
+            this.pointInRoom.breathe = this.wenshuData.pointInRoom[0].breathe
+            this.pointInRoom.conduit = this.wenshuData.pointInRoom[0].conduit.join('-')
+            this.pointInRoom.consciousness = this.wenshuData.pointInRoom[0].consciousness
+            this.pointInRoom.pulse = this.wenshuData.pointInRoom[0].pulse
+            this.pointInRoom.signatureImage2 = this.wenshuData.pointInRoom[0].signatureImage2
+            this.pointInRoom.skinDegree = this.wenshuData.pointInRoom[0].skinDegree
+            this.pointInRoom.skinName = this.wenshuData.pointInRoom[0].skinName
+            this.pointInRoom.skinPart = this.wenshuData.pointInRoom[0].skinPart
+            this.pointInRoom.skinSize = this.wenshuData.pointInRoom[0].skinSize
+          }
+          if (this.wenshuData.pointOutRoom.length > 0) {
+            this.pointOutRoom.bp = this.wenshuData.pointOutRoom[0].bp
+            this.pointOutRoom.breathe = this.wenshuData.pointOutRoom[0].breathe
+            this.pointOutRoom.conduit = this.wenshuData.pointOutRoom[0].conduit.join('-')
+            this.pointOutRoom.consciousness = this.wenshuData.pointOutRoom[0].consciousness
+            this.pointOutRoom.pulse = this.wenshuData.pointOutRoom[0].pulse
+            this.pointOutRoom.signatureImage2 = this.wenshuData.pointOutRoom[0].signatureImage2
+            this.pointOutRoom.skinDegree = this.wenshuData.pointOutRoom[0].skinDegree
+            this.pointOutRoom.skinName = this.wenshuData.pointOutRoom[0].skinName
+            this.pointOutRoom.skinPart = this.wenshuData.pointOutRoom[0].skinPart
+            this.pointOutRoom.skinSize = this.wenshuData.pointOutRoom[0].skinSize
+          }
+          if (this.wenshuData.pointPacu.length > 0) {
+            this.pointPacu.bp = this.wenshuData.pointPacu[0].bp
+            this.pointPacu.breathe = this.wenshuData.pointPacu[0].breathe
+            this.pointPacu.conduit = this.wenshuData.pointPacu[0].conduit.join('-')
+            this.pointPacu.consciousness = this.wenshuData.pointPacu[0].consciousness
+            this.pointPacu.pulse = this.wenshuData.pointPacu[0].pulse
+            this.pointPacu.signatureImage2 = this.wenshuData.pointPacu[0].signatureImage2
+            this.pointPacu.skinDegree = this.wenshuData.pointPacu[0].skinDegree
+            this.pointPacu.skinName = this.wenshuData.pointPacu[0].skinName
+            this.pointPacu.skinPart = this.wenshuData.pointPacu[0].skinPart
+            this.pointPacu.skinSize = this.wenshuData.pointPacu[0].skinSize
+          }
+          if (this.wenshuData.outPacu.length > 0) {
+            this.outPacu.bp = this.wenshuData.outPacu[0].bp
+            this.outPacu.breathe = this.wenshuData.outPacu[0].breathe
+            this.outPacu.conduit = this.wenshuData.outPacu[0].conduit.join('-')
+            this.outPacu.consciousness = this.wenshuData.outPacu[0].consciousness
+            this.outPacu.pulse = this.wenshuData.outPacu[0].pulse
+            this.outPacu.signatureImage2 = this.wenshuData.outPacu[0].signatureImage2
+            this.outPacu.skinDegree = this.wenshuData.outPacu[0].skinDegree
+            this.outPacu.skinName = this.wenshuData.outPacu[0].skinName
+            this.outPacu.skinPart = this.wenshuData.outPacu[0].skinPart
+            this.outPacu.skinSize = this.wenshuData.outPacu[0].skinSize
+          }
         }
+      })
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
       })
     }
   },
+
   components: {
     IsSelect
   }
@@ -1184,11 +1438,12 @@ export default {
   }
   .input-div-context-noborder-40 {
     padding: 0 5px;
-    width: 40px;
+    width: 50px;
   }
   .input-div-context-noborder-33 {
     padding: 0 5px;
-    width: 33px;
+    width: 60px;
+    text-align: center;
   }
   .input-div-context-short {
     padding: 0 5px;

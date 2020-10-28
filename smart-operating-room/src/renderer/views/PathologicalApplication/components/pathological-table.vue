@@ -191,6 +191,7 @@ export default {
       this.selectData.push(row)
       Bus.$emit('pathological-table', row)
       this.$store.commit('SAVE_SELECTTABLEITEM', this.selectData)
+      this.$store.commit('CLEAR_USERINFOHISTORYDETAILS')
     },
     // 撤销派单
     exitOrder () {
