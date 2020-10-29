@@ -8,19 +8,19 @@
         <span>
           <i
             class="el-icon-female"
-            :class="{'female':ptData.gender==='女','male':ptData.gender==='男'}"
+            :class="{'female':ptData.patientGender==='女','male':ptData.patientGender==='男'}"
           />
-          <span class="pt-info">{{ ptData.name }}</span>
-          <span class="pt-info">{{ ptData.area }}</span>
-          <span class="pt-info">{{ ptData.dept }}</span>
-          <span class="pt-info">{{ ptData.bed }}</span>
-          <span class="pt-info">{{ ptData.id }}</span>
+          <span class="pt-info">{{ ptData.patientName }}</span>
+          <span class="pt-info">{{ ptData.wardName }}</span>
+          <span class="pt-info">{{ ptData.deptName }}</span>
+          <span class="pt-info">{{ ptData.bedNo }}</span>
+          <span class="pt-info">{{ ptData.hospitalNo }}</span>
         </span>
-        <span style="color:#444444;font-weight:bold;">{{ ptData.room }}</span>
+        <span style="color:#444444;font-weight:bold;">{{ ptData.roomNo }}</span>
       </p>
-      <p>{{ ptData.opeName }}</p>
-      <p>手术医生：<span style="color:#08B147;">{{ ptData.opeDoc }}</span></p>
-      <p>巡回/洗手：<span style="color:#FF7623;">{{ ptData.nurse }}</span></p>
+      <p>{{ ptData.operationName }}</p>
+      <p>手术医生：<span style="color:#08B147;">{{ ptData.surgeon }}</span></p>
+      <p>巡回/洗手：<span style="color:#FF7623;">{{ ptData.washNurseName }}/{{ ptData.runNurseName }}</span></p>
     </div>
   </div>
 </template>

@@ -1,15 +1,21 @@
 <template>
   <div class="detail-drawer">
     <el-drawer
-      title="术中冰冻详情-未接单"
+      :title="type"
       :visible.sync="detailVisible"
       :with-header="false"
       :direction="direction"
       :size="size"
       :before-close="handleClose"
     >
-      <detail-pathology v-if="detailStatus===2" />
-      <detail-patient v-else />
+      <detail-pathology
+        :select-row="selectRow"
+        v-if="detailStatus===1"
+      />
+      <detail-patient
+        :select-row="selectRow"
+        v-else
+      />
     </el-drawer>
   </div>
 </template>
@@ -22,7 +28,8 @@ export default {
     return {
       direction: 'rtl',
       // detailStatus: '0',
-      size: null
+      size: null,
+      type: ''
     }
   },
   watch: {
@@ -46,11 +53,23 @@ export default {
     detailStatus: {
       type: Number,
       required: true
+    },
+    selectRow: {
+      type: Object,
+      required: true
     }
   },
   methods: {
     handleClose () {
       this.$emit('handleClose')
+    }
+  },
+  mounted () {
+    console.log(this.selectRow)
+    if (this.selectRow.orderState === '0') {
+      this.type = '手术冰冻详情-未接单'
+    } else {
+      this.type = '手术冰冻详情-进行中'
     }
   }
 }

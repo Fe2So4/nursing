@@ -462,11 +462,12 @@
               class="input-div-context-noborder-40"
               style="height:30px;width:160px;borderBottom:1px solid #000;paddingLeft:15px;lineHeight:30px"
             >
-              <img
+              <span>{{ userInfo.recipientEnd }}</span>
+              <!-- <img
                 style="height:100%"
-                :src="userInfo.recipientent"
+                :src="userInfo.recipientEnd"
                 alt=""
-              >
+              > -->
             </div>
           </span>
         </div>
@@ -1108,7 +1109,8 @@ export default {
         changeWard: '',
         department: '',
         arrivalTime: '',
-        forwardingWard: ''
+        forwardingWard: '',
+        recipientEnd: ''
       },
       appraiseJson: {
         ache: { // 疼痛
@@ -1246,7 +1248,7 @@ export default {
           this.userInfo.endTime = this.wenshuData.endTime || ''
           this.userInfo.startTime = this.wenshuData.startTime || ''
           this.userInfo.suggest = this.wenshuData.suggest || ''
-          this.userInfo.recipientent = this.wenshuData.recipientent || '' // 结束接收
+          this.userInfo.recipientEnd = this.wenshuData.recipientEnd || '' // 结束接收
           this.userInfo.inpatientWard = this.wenshuData.inpatientWard || ''
           this.userInfo.diagnosis = this.wenshuData.diagnosis || ''
           this.userInfo.forwardingWard = this.wenshuData.forwardingWard || ''

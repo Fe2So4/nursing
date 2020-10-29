@@ -26,7 +26,8 @@ request.interceptors.response.use(function (response) {
   if (process.env.NODE_ENV === 'development') {
     Message({
       type: 'error',
-      message: JSON.stringify(error, '', 2)
+      message: JSON.stringify(error, '', 2),
+      showClose: true
     })
   }
   return Promise.reject(error)
