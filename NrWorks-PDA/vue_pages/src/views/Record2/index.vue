@@ -149,6 +149,20 @@
                 </van-dropdown-menu>
               </template>
             </van-cell>
+            <van-cell :key="'presure'+index">
+              <template #right-icon>
+                <van-dropdown-menu active-color="#3478FF">
+                  <van-dropdown-item v-model="item.presure" :options="presureOptions" />
+                </van-dropdown-menu>
+              </template>
+            </van-cell>
+            <van-cell :key="'presureValue'+index" :title="item.presure">
+              <template #right-icon>
+                <van-dropdown-menu active-color="#3478FF">
+                  <van-dropdown-item v-model="item.presureValue" :options="presureValueList" />
+                </van-dropdown-menu>
+              </template>
+            </van-cell>
           </template>
           <template v-for="(item,index) in recordForm.bhMachine.bhMachineList">
             <van-cell :title="(index+1)+'('+'部位'+(index+1)+')'" :key="'locate'+index" style="background:#e2e2e2;">
@@ -353,6 +367,8 @@ export default {
         {text: '坐位', value: '7'},
         {text: '俯卧位', value: '8'}
       ],
+      presureValueList: [],
+      presureOptions: [{text: 'kPa', value: 'kPa'}, {text: 'mmHg', value: 'mmHg'}],
       deviceOptions: [
         {text: '肩垫', value: '1'},
         {text: '腋垫', value: '2'},
@@ -405,7 +421,10 @@ export default {
         electrotomeLocation: '',
         bhMachine: {
           bhMachineName: '',
-          bhMachineList: [{locateName: '', cqTime: '', cqSign: '', fqTime: '', fqSign: ''}, {locateName: '', cqTime: '', cqSign: '', fqTime: '', fqSign: ''}, {locateName: '', cqTime: '', cqSign: '', fqTime: '', fqSign: ''}]
+          bhMachineList: [
+            {presure: '', presureValue: '', locateName: '', cqTime: '', cqSign: '', fqTime: '', fqSign: ''},
+            {presure: '', presureValue: '', locateName: '', cqTime: '', cqSign: '', fqTime: '', fqSign: ''},
+            {presure: '', presureValue: '', locateName: '', cqTime: '', cqSign: '', fqTime: '', fqSign: ''}]
         },
         compressedSkin: [], // 受压皮肤
         consciousness: '',
@@ -465,7 +484,7 @@ export default {
   },
   created () {
     this.handleOpenConstraint()
-    for (let i = 2; i <= 16; i++) {
+    for (let i = 1; i <= 8; i++) {
       this.recordForm.compressedSkin.push({isFull: '', skinStatus: ''})
     }
   },
@@ -502,6 +521,9 @@ export default {
       let arr = []
       for (var i = 20; i <= 160; i++) {
         arr.push({text: i, value: i})
+      }
+      for (var j = 200; j <= 300; j++) {
+        this.presureValueList.push({text: j, value: j})
       }
       this.wOptions = arr
     },

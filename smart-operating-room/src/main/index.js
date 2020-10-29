@@ -1,6 +1,7 @@
 'use strict'
 
-import { app, BrowserWindow, ipcMain, remote, fs } from 'electron'
+// import { app, BrowserWindow, ipcMain, remote, fs } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 
 const Path = require('path')
 // import '../renderer/store'

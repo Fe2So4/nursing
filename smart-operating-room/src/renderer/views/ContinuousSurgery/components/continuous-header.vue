@@ -76,7 +76,11 @@
 import Bus from '@/utils/bus.js'
 export default {
   name: 'ContinuousHeader',
-  props: ['isShow'],
+  props: {
+    isShow: {
+      type: Boolean,
+      required: true
+    }},
   data () {
     return {
       formData: {
