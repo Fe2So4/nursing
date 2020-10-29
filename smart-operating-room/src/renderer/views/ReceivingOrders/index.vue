@@ -41,7 +41,7 @@
             <el-option
               v-for="item in roomList"
               :key="item.roomCode"
-              :label="item.roomCode"
+              :label="item.label"
               :value="item.roomCode"
             />
           </el-select>
@@ -226,6 +226,11 @@ export default {
         }
       }).then(res => {
         this.roomList = res.data.data
+        this.roomList.forEach(item => {
+          item.label = item.roomCode
+        })
+
+        this.roomList.unshift({roomCode: '', label: '全部'})
         if (this.roomList.length > 0) {
           this.room = this.roomList[0].roomCode
           this.getReceiveOrders()
@@ -238,6 +243,7 @@ export default {
     // 获取表单
     getReceiveOrders () {
       let text = this.floor.replace(/楼/ig, '')
+
       request({
         url: receiveOrderList,
         method: 'post',
@@ -259,7 +265,6 @@ export default {
         } else {
           this.openToast('error', res.data.msg)
         }
-        console.log(res.data.data)
       })
     },
     handleSort () {
@@ -319,7 +324,7 @@ export default {
     }
   },
   watch: {
-    ListeningRoom: function (newd) {
+    ListeningRoom: function (newd, oldV) {
       if (!this.IsEmpty(newd)) {
         this.getReceiveOrders()
       }

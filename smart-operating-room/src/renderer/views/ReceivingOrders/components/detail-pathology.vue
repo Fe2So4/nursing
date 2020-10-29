@@ -31,6 +31,7 @@
     <p>
       <el-input
         ref="inputs"
+        readonly
         @keyup.enter.native="enterInput"
         v-model="codeInput"
         :placeholder="optas"
@@ -125,14 +126,26 @@ export default {
     },
     // 扫描二维码
     enterInput () {
+      this.workCode = ''
       if (this.selectRow.orderState === '0') {
+        if (this.IsEmpty(this.codeInput)) {
+          this.$alert('请先扫描工勤人员二维码')
+          return false
+        } else {
+          this.workCode = this.codeInput.split('=')[1]
+        }
         this.changePatient(0)
       } else {
         if (this.exitType !== '1') {
           this.$alert('请先点击取消接单')
           return false
         }
-        if (this.selectRow.orderId !== 'id') {
+        if (this.IsEmpty(this.codeInput)) {
+          this.$alert('请先扫描工勤人员二维码')
+          return false
+        }
+        this.workCode = this.codeInput.split('=')[1]
+        if (this.selectRow.workerCode !== this.workCode) {
           this.$alert('接单工勤人员与扫描人员工号不符,请确认后重试')
           return false
         }
@@ -145,7 +158,7 @@ export default {
         method: 'post',
         data: {
           name: '',
-          code: '',
+          code: this.workCode,
           orderId: this.selectRow.orderId,
           status: type
         }
@@ -163,11 +176,10 @@ export default {
   mounted () {
     this.changfouce()
     if (this.selectRow.orderState === '1') {
-      this.optas = '扫描工勤人员二维码，进行退单...'
+      this.optas = '点击取消接单后，扫描工勤人员二维码，进行退单...'
     } else {
       this.optas = '扫描工勤人员二维码，进行接单...'
     }
-    console.log(this.selectRow)
   }
 }
 </script>

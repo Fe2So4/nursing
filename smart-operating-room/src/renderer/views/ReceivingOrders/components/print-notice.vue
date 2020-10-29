@@ -370,7 +370,7 @@ export default {
       min-height: 800px;
       margin:0 auto;
       width: 960px;
-      box-shadow: 1px 20px 45px 5px rgba(0, 0, 0, 0.5);
+      // box-shadow: 1px 20px 45px 5px rgba(0, 0, 0, 0.5);
       border-radius: 5px 5px 0px 0px;
       color: #202020;
       h3{

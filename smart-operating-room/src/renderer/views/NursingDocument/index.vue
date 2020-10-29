@@ -30,7 +30,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import './../../styles/scrollrow.scss';
 .nursing-container {
+    position: relative;
     height: 100%;
     width: 100%;
     min-width: 1200px;
