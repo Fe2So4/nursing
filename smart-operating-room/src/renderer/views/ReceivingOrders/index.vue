@@ -6,12 +6,12 @@
       </div>
       <div class="option-right">
         <el-button
+          @click="shuaxin"
           size="mini"
         >
           刷新<i class="el-icon-refresh-right" />
         </el-button>
-        <span>数据更新时间: <span style="color:#388FF7;">下午3:29</span></span>
-        <span>版本号:0.20.0.2015</span>
+        <span>数据更新时间: <span style="color:#388FF7;">{{ time }}</span></span>
       </div>
     </div>
     <div class="order-list">
@@ -19,12 +19,15 @@
         <div class="lo-left">
           <span class="label">楼层</span>
           <el-radio-group
+            @change="changeFloor"
             v-model="floor"
             size="medium"
           >
-            <el-radio-button label="6楼" />
-            <el-radio-button label="7楼" />
-            <el-radio-button label="8楼" />
+            <el-radio-button
+              :label="item.floorName"
+              v-for="item in floorList"
+              :key="item.id"
+            />
           </el-radio-group>
           <span
             class="label"
@@ -37,16 +40,16 @@
           >
             <el-option
               v-for="item in roomList"
-              :key="item"
-              :label="item"
-              :value="item"
+              :key="item.roomCode"
+              :label="item.roomCode"
+              :value="item.roomCode"
             />
           </el-select>
         </div>
         <div class="lo-right">
-          <span style="color:#FF8B45;">未接单 <strong>6</strong></span>
-          <span style="color:#02CB4E;">进行中 <strong>19</strong></span>
-          <span style="color:#3478FF;">已完成 <strong>15</strong></span>
+          <span style="color:#FF8B45;">未接单 <strong>{{ receivedOrderCount || 0 }}</strong></span>
+          <span style="color:#02CB4E;">进行中 <strong>{{ haveInHandOrderCount || 0 }}</strong></span>
+          <span style="color:#3478FF;">已完成 <strong>{{ completeOrderCount || 0 }}</strong></span>
         </div>
       </div>
       <div class="list-content">
@@ -56,30 +59,33 @@
             style="color:#FF8B45;"
           >
             未接单<i />
-            <div class="room-filter">
-              <span>
+            <div
+              class="room-filter"
+              @click="handleSort"
+            >
+              <span style="cursor: pointer;">
                 房间
               </span>
               <span>
                 <em
                   class="el-icon-caret-top"
-                  @click="handleSort(1)"
+                  :class="{'blue': selectOrder === '1' ? true : false}"
                 />
                 <em
                   class="el-icon-caret-bottom"
-                  @click="handleSort(2)"
+                  :class="{'blue': selectOrder === '2' ? true : false}"
                 />
               </span>
             </div>
           </h3>
           <ul>
             <li
-              v-for="(item,index) in patientList"
+              v-for="(item,index) in receivedOrder"
               :key="index"
               @click="handleShowDetail(item)"
             >
               <patient-list
-                v-if="item.state===1"
+                v-if="item.orderType===0"
                 :pt-data="item"
               />
               <pathology-list
@@ -98,12 +104,12 @@
           </h3>
           <ul>
             <li
-              v-for="(item,index) in processList"
+              v-for="(item,index) in haveInHandOrder"
               :key="index"
               @click="handleShowDetail(item)"
             >
               <patient-list
-                v-if="item.state===1"
+                v-if="item.orderType===0"
                 :pt-data="item"
               />
               <pathology-list
@@ -122,11 +128,11 @@
           </h3>
           <ul>
             <li
-              v-for="(item,index) in finishList"
+              v-for="(item,index) in completeOrder"
               :key="index "
             >
               <patient-list
-                v-if="item.state===1"
+                v-if="item.orderType===0"
                 :pt-data="item"
               />
               <pathology-list
@@ -143,12 +149,14 @@
       :detail-visible="detailVisible"
       @handleClose="handleClose"
       :detail-status="detailStatus"
+      :select-row="selectRow"
     />
   </div>
 </template>
 
 <script>
 import PatientList from './components/patient-list'
+import Bus from '@/utils/bus.js'
 import PathologyList from './components/pathology-list'
 import DetailDrawer from './components/detail-drawer'
 import {receiveOrderList, floorList, roomList} from '@/api/receiving-orders'
@@ -157,77 +165,165 @@ export default {
   name: 'ReceivingOrders',
   data () {
     return {
+      time: '',
+      selectOrder: '1',
       roomList: [],
       floorList: [],
       room: '',
-      floor: '6楼',
-      patientList: [
-        {gender: '男', nurse: '张汉立', id: '911755436', room: '607', state: 1, name: '福田有', area: '3病区', dept: '泌尿科', opeDoc: '方祖军 郑洁', opeName: '右-输尿管镜下取石术-(软镜备球囊扩张)；输尿管镜下激；输尿管镜下激；输尿管镜下激'},
-        {gender: '女', nurse: '李丽', id: '911755533', room: '606', state: 1, name: '王君如', area: '3病区', dept: '妇科', opeDoc: '张琪', opeName: '左子宫切除术'},
-        {state: 2, name: '袁潇梅', gender: '女', bed: '12床', id: '91175539', room: '601', locate: '6号楼手术室607', opeDoc: '王能祥', time1: '2020-9-25 08:54', time2: '2020-9-25 09:00'}
+      floor: '',
+      receivedOrder: [
+
       ],
-      finishList: [
-        {gender: '女', nurse: '王芳', id: '911755452', room: '602', state: 1, name: '刘晓茹', area: '2病区', dept: '泌尿科', opeDoc: '郑洁', opeName: '输尿管镜下激'},
-        {state: 2, name: '曹芳', gender: '女', bed: '13床', id: '91175755', room: '601', locate: '6号楼手术室608', opeDoc: '郝军', time1: '2020-9-24 09:26', time2: '2020-9-25 10:00'}
+      receivedOrderCount: 0,
+
+      haveInHandOrder: [
+
       ],
-      processList: [
-        {gender: '男', nurse: '汪琴', id: '911755439', room: '608', state: 1, name: '章强', area: '3病区', dept: '泌尿科', opeDoc: '方祖军 郑洁', opeName: '软镜备球囊扩张'},
-        {state: 2, name: '李平', gender: '女', bed: '13床', id: '91175539', room: '601', locate: '6号楼手术室607', opeDoc: '王能祥', time1: '2020-9-25 08:54', time2: '2020-9-25 09:00'}
+      haveInHandOrderCount: 0,
+      completeOrder: [
+
       ],
+      completeOrderCount: 0,
       detailVisible: false,
-      detailStatus: null
+      detailStatus: null,
+      selectRow: {}
     }
   },
   components: {
     PatientList, PathologyList, DetailDrawer
   },
   methods: {
+    // 获取楼层列表
     getFloorList () {
+      this.floor = ''
       request({
         url: floorList,
         method: 'get'
       }).then(res => {
         this.floorList = res.data.data
+        if (this.floorList.length > 0) {
+          this.floor = this.floorList[0].floorName
+          this.getRoomList()
+        } else {
+          this.openToast('warning', '暂无楼层信息')
+        }
       })
     },
+
+    // 点击切换楼层列表
+    changeFloor () {
+      this.getRoomList()
+    },
+    // 获取房间列表
     getRoomList () {
+      this.room = ''
+      let text = this.floor.replace(/楼/ig, '')
       request({
         url: roomList,
         method: 'get',
         params: {
-          floorNo: this.floor
+          floorNo: text
         }
       }).then(res => {
         this.roomList = res.data.data
+        if (this.roomList.length > 0) {
+          this.room = this.roomList[0].roomCode
+          this.getReceiveOrders()
+        } else {
+          this.openToast('warning', '暂无房间信息')
+        }
       })
     },
+
+    // 获取表单
     getReceiveOrders () {
+      let text = this.floor.replace(/楼/ig, '')
       request({
         url: receiveOrderList,
         method: 'post',
         data: {
-          floor: this.floor,
-          roomNo: this.room
+          floor: text,
+          roomNo: this.room,
+          sort: this.selectOrder
         }
       }).then(res => {
+        if (res.data.code === 200) {
+          let arrList = res.data.data
+          this.receivedOrderCount = arrList.receivedOrderCount
+          this.haveInHandOrderCount = arrList.haveInHandOrderCount
+          this.completeOrderCount = arrList.completeOrderCount
 
+          this.receivedOrder = arrList.receivedOrder
+          this.haveInHandOrder = arrList.haveInHandOrder
+          this.completeOrder = arrList.completeOrder
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+        console.log(res.data.data)
       })
     },
-    handleSort (param) {
-      console.log(param)
+    handleSort () {
+      if (this.selectOrder === '1') {
+        this.selectOrder = '2'
+      } else {
+        this.selectOrder = '1'
+      }
+      this.getReceiveOrders()
     },
     handleShowDetail (item) {
       this.detailVisible = true
-      this.detailStatus = item.state
+      this.detailStatus = item.orderType
+      this.selectRow = item
     },
     handleClose () {
       this.detailVisible = false
+    },
+    // 点击刷新
+    shuaxin () {
+      this.getReceiveOrders()
+      this.getNewTime()
+    },
+    // 获取当前时间
+    getNewTime () {
+      this.time = this.Moment().format('a h:mm:ss')
+      console.log(this.time)
+      if (this.time.includes('am')) {
+        this.time = this.time.replace(/am/ig, '上午')
+      }
+      if (this.time.includes('pm')) {
+        this.time = this.time.replace(/pm/ig, '下午')
+      }
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
   },
   mounted () {
-    // this.getRoomList()
+    this.getNewTime()
     this.getFloorList()
-    // this.getReceiveOrders()
+    Bus.$on('shuaxinPatient', res => {
+      this.detailVisible = false
+      this.utilsDebounce(() => { this.getReceiveOrders() }, 1000)
+    })
+  },
+  computed: {
+    // 监听房间切换
+    ListeningRoom () {
+      return this.room
+    }
+  },
+  watch: {
+    ListeningRoom: function (newd) {
+      if (!this.IsEmpty(newd)) {
+        this.getReceiveOrders()
+      }
+    }
   }
 }
 </script>
@@ -378,4 +474,7 @@ export default {
       }
     }
   }
+.blue{
+  color: #3478FF !important;
+}
 </style>>

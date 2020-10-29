@@ -8,17 +8,17 @@
         <span>
           <i
             class="el-icon-female"
-            :class="{'female':ptData.gender==='女','male':ptData.gender==='男'}"
+            :class="{'female':ptData.patientGender==='女','male':ptData.patientGender==='男'}"
           />
-          <span class="pt-info">{{ ptData.name }}</span>
-          <span class="pt-info">{{ ptData.gender }}</span>
-          <span class="pt-info">{{ ptData.bed }}</span>
+          <span class="pt-info">{{ ptData.patientName }}</span>
+          <span class="pt-info">{{ ptData.patientGender }}</span>
+          <span class="pt-info">{{ ptData.bedNo }}</span>
         </span>
-        <span style="color:#444444;font-weight:bold;">{{ ptData.room }}</span>
+        <span style="color:#444444;font-weight:bold;">{{ ptData.roomNo }}</span>
       </p>
-      <p><span class="pt-info">{{ ptData.locate }}</span><span>{{ ptData.opeDoc }}</span></p>
-      <p>接单时间：{{ ptData.time1 }}</p>
-      <p>到达时间：{{ ptData.time2 }}</p>
+      <p><span class="pt-info">{{ ptData.floor }}号楼手术室{{ ptData.roomNo }}</span><span>{{ ptData.surgeon }}</span></p>
+      <p>接单时间：{{ ptData.updateTime }}</p>
+      <p>到达时间：{{ ptData.endTime }}</p>
     </div>
   </div>
 </template>
