@@ -10,12 +10,12 @@
     </van-nav-bar>
     <div class="list">
       <ul>
-        <li @click="handleJump">
+        <li @keyup.enter.native="handleJump">
           <div class="li-left">
-            <van-image src="https://img.yzcdn.cn/vant/cat.jpeg" />
+            <van-image :src="avater" />
           </div>
           <div class="li-right">
-            <p>成蕙祯</p>
+            <p>{{opePeopleInfo.userName}}</p>
             <p>手术室-复旦大学附属华山医院</p>
           </div>
         </li>
@@ -26,13 +26,19 @@
 
 <script>
 import request from '../../utils/request'
-import {getPatientInfo} from '@/api/patient-info'
-import {mapActions} from 'vuex'
+import {getPatientInfo, bindingPatPushScreen} from '@/api/patient-info'
+// import {getOpePeople} from '@/api/device-package'
+import def from '@/assets/def.png'
+import {mapActions, mapState} from 'vuex'
 export default {
   data () {
     return {
-      cureNo: '1010'
+      cureNo: '1010',
+      avater: def
     }
+  },
+  computed: {
+    ...mapState('Patient', ['opePeopleInfo'])
   },
   methods: {
     ...mapActions('Patient', ['getPatient']),
@@ -42,23 +48,49 @@ export default {
     onClickRight () {
 
     },
+    // 绑定患者
+    bindingPatPushScreen () {
+      request({
+        url: bindingPatPushScreen,
+        method: 'post',
+        params: {
+          cureNo: this.cureNo
+        }
+      }).then(res => {
+        // if (res.data.code === 200) {
+        //   // document.onkeydown = (e) => {
+        //   //   if (e.key === 13) {
+        //   //     this.$router.push('/patient-home')
+        //   //   }
+        //   // }
+        //   this.getPatient(res.data.data)
+        // }
+      })
+    },
     getPatientData () {
       request({
         url: getPatientInfo + '/' + this.cureNo,
         method: 'get'
       }).then(res => {
         if (res.data.code === 200) {
-          // document.onkeydown = (e) => {
-          //   if (e.key === 13) {
-          //     this.$router.push('/patient-home')
-          //   }
-          // }
           this.getPatient(res.data.data)
         }
       })
     },
     handleJump () {
-      this.$router.push('/patient-home')
+      if (this.cureNo) {
+        this.$router.push('/patient-home')
+        this.bindingPatPushScreen()
+      }
+    }
+  },
+  created () {
+    document.onkeydown = (e) => {
+      var key = window.event.keyCode
+      if (key === 13) {
+        // lett.enterSearchMember()
+        this.handleJump()
+      }
     }
   },
   mounted () {

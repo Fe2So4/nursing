@@ -1,51 +1,15 @@
 <template>
   <div class="device-list">
     <van-nav-bar
-      title="转运交接单"
+      title="手术物品清点与核对"
       @click-left="onClickLeft"
       @click-right="onClickRight"
       left-arrow
       right-text="运送"
     >
     </van-nav-bar>
-    <div class="patient-card">
-      <div class="content">
-          <div class="left">
-            <span>808</span>
-          </div>
-          <div class="right">
-            <p>魏鑫 12床 91166492</p>
-            <p>主刀 陈疾仵 麻醉 王海莲</p>
-            <p>巡回 —— 洗手 余琼</p>
-          </div>
-      </div>
-    </div>
+    <PatientCard></PatientCard>
     <div class="list">
-      <!-- <van-cell-group>
-        <van-cell title="核查时间" value="2020-10-12 09:48"></van-cell>
-        <van-cell title="麻醉医师签名" title-class="sign-title"></van-cell>
-        <van-cell title="手术医师签名" title-class="sign-title"></van-cell>
-        <van-cell title="手术护士签名" title-class="sign-title"></van-cell>
-      </van-cell-group> -->
-      <!-- <van-tree-select height="100%" :items="items" :main-active-index.sync="active" @click-nav="handleChange">
-        <template slot="content">
-          <div v-for="item in items" :key="item.active" class="list-item" v-show="item.active===active">
-            <p v-if="active===item.active">
-              <van-cell-group>
-                <van-cell title="手术敷料、基本器械、物品清点" value="已清点" title-class="first-cell" value-class="value-cell">
-                </van-cell>
-              </van-cell-group>
-              <van-cell-group>
-                <van-cell title="腔脑室外引流管" value="已清点" title-class="first-cell" v-for="item in 20" :key="'step' + item">
-                  <template #right-icon>
-                    <van-stepper v-model="stepper" theme="round" />
-                  </template>
-                </van-cell>
-              </van-cell-group>
-            </p>
-          </div>
-        </template>
-      </van-tree-select> -->
       <div class="tree">
         <div class="tree-left">
           <ul>
@@ -55,17 +19,25 @@
         <div class="tree-right">
           <div class="title">
             <div class="title-left">
-              手术敷料、基本器械、物品清点
+              特殊手术器械清点
             </div>
             <div class="title-right">已清点</div>
           </div>
           <ul>
-            <li v-for="item in 20" :key="'step' + item">
-              <van-cell title="腔脑室外引流管" value="已清点" title-class="first-cell" border>
+            <li v-for="item in packageList" :key="item.insIndex">
+              <van-cell :title="item.insName" value="已清点" title-class="first-cell" border>
                 <template #right-icon>
-                  <van-stepper v-model="stepper" theme="round" />
+                  <van-stepper v-model="item.insCount" theme="round" />
                 </template>
               </van-cell>
+            </li>
+            <li style="border:1px solid #e2e2e2;">
+              <span class="sign-class">洗手护士签名</span>
+              <span class="sign-value">{{sign1}}</span>
+            </li>
+            <li>
+              <span class="sign-class">巡回护士签名</span>
+              <span class="sign-value">{{sign2}}</span>
             </li>
           </ul>
         </div>
@@ -75,12 +47,18 @@
 </template>
 
 <script>
+import PatientCard from '@/components/PatientCard'
+import {getPackage} from '@/api/device-package'
+import request from '@/utils/request'
 export default {
+  name: 'DeviceList',
   data () {
     return {
       checked: true,
       input: '',
       showFullSkin: false,
+      sign1: '递归',
+      sign2: '闭包',
       value1: '',
       option: [
         { text: 'PACU', value: 0 },
@@ -93,22 +71,37 @@ export default {
       stepper: '',
       items: [{ text: '术前', active: 0 }, { text: '术中(一)', active: 1 },
         { text: '术中(二)', active: 2 }, { text: '术中(三)', active: 3 }, { text: '术中(四)', active: 4 },
-        { text: '体腔关闭前', active: 5 }, { text: '体腔关闭后', active: 6 }, { text: '皮肤缝合后', active: 7 }]
+        { text: '体腔关闭前', active: 5 }, { text: '体腔关闭后', active: 6 }, { text: '皮肤缝合后', active: 7 }],
+      packageList: []
     }
+  },
+  components: {
+    PatientCard
   },
   methods: {
     onClickLeft () {
       this.$router.go(-1)
     },
+    getData () {
+      let deviceId = '123456'
+      request({
+        method: 'get',
+        url: getPackage + '/' + deviceId
+      }).then(res => {
+        console.log(res.data.data)
+        this.packageList = res.data.data.packageDetail
+      })
+    },
     onClickRight () {
 
     },
-    // handleChange () {
-    //   this.showFullSkin = !this.showFullSkin
-    // },
     handleChange (index) {
       this.active = index
+      console.log(index)
     }
+  },
+  mounted () {
+    this.getData()
   }
 }
 </script>
@@ -133,56 +126,8 @@ export default {
         font-size: 36px;
       }
     }
-    .patient-card{
-      padding: 15px 20px;
-      .content{
-        background: #ffffff;
-        display: flex;
-        height: 194px;
-        box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
-        border-radius: 10px;
-        box-sizing: border-box;
-        overflow: hidden;
-        .left{
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          span{
-            width: 140px;
-            height: 80px;
-            background: #3478FF;
-            box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.15);
-            border-radius: 0px 40px 40px 0px;
-            line-height: 80px;
-            text-align: center;
-            font-size: 42px;
-            font-weight: bold;
-            color: #ffffff;
-          }
-        }
-        .right{
-          flex: 1;
-          margin-left: 30px;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          p{
-            font-size: 26px;
-            color: #7F7F7F;
-            &:nth-child(1){
-              font-size: 30px;
-              color: #2E2E2E;
-            }
-            &:nth-child(2){
-              margin:30px 0;
-            }
-          }
-        }
-      }
-    }
     .list{
       height:calc(100% - 324px);
-      // overflow-y: auto;
       .tree{
         display: flex;
         height: 100%;
@@ -194,7 +139,7 @@ export default {
             li{
               color: #2E2E2E;
               padding: 10px 0 10px 16px;
-              font-size: 34px;
+              font-size: 30px;
               border:1PX solid #E2E2E2;
               &.active{
                 color: #FFFFFF;
@@ -206,12 +151,13 @@ export default {
         .tree-right{
           flex: 1;
           height: 100%;
-          font-size: 34px;
+          font-size: 30px;
           .title{
             display: flex;
             justify-content: space-between;
             line-height: 104px;
-            font-size: 24px;
+            font-size: 30px;
+            padding: 10px 15px;
             .title-left{
 
             }
@@ -220,8 +166,16 @@ export default {
             }
           }
           ul{
-            height: calc(100% - 104px);
+            height: calc(100% - 124px);
             overflow-y: auto;
+            .sign-class{
+              color: #10C15B;
+              line-height: 90px;
+            }
+            .sign-value{
+              line-height: 90px;
+              color: #0000ff;
+            }
           }
         }
       }

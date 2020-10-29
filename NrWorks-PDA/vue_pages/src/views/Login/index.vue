@@ -35,13 +35,13 @@
             placeholder="请输入密码"
           />
             <!-- :rules="[{ required: true, message: '请填写密码' }]" -->
-          <van-checkbox v-model="checked" shape="square">记住我</van-checkbox>
+          <van-checkbox v-model="isRemember" shape="square">记住我</van-checkbox>
           <div class="login-submit">
             <van-button block type="info" native-type="submit">
               登  录
             </van-button>
           </div>
-        </van-form>
+      </van-form>
     </div>
     <div class="copyright">
       <p>复旦大学附属华山医院</p>
@@ -55,7 +55,9 @@
 import {login} from '@/api/login'
 import request from '@/utils/request'
 import logo from '@/assets/login-logo.png'
-import {setUserToken} from '../../utils/storage'
+import {getOpePeople} from '@/api/device-package'
+import {mapActions} from 'vuex'
+import {setUserToken, setCurrentAccount, getCurrentAccount, clearCurrentAccount} from '../../utils/storage'
 export default {
   name: 'Login',
   data () {
@@ -69,10 +71,35 @@ export default {
       path: '',
       progress: 0,
       imgUrl: logo,
-      checked: false
+      isRemember: false
     }
   },
   methods: {
+    ...mapActions('Patient', ['setOpePeopleInfo']),
+    getOpePeople () {
+      request({
+        method: 'get',
+        url: getOpePeople
+      }).then(res => {
+        console.log(res.data.data)
+        this.setOpePeopleInfo(res.data.data)
+      })
+    },
+    // 获取当前用户名和密码
+    getAccount () {
+      let res = getCurrentAccount()
+      if (res) {
+        let obj = JSON.parse(res)
+        this.username = obj.username
+        this.password = obj.password
+        this.isRemember = obj.isRemember
+      }
+    },
+    // 存储用户名和密码
+    storageAccount () {
+      let obj = JSON.stringify({username: this.username, password: this.password, isRemember: this.isRemember})
+      setCurrentAccount(obj)
+    },
     onSubmit (values) {
       if (this.username === '') {
         this.$notify('用户名不能为空')
@@ -92,9 +119,15 @@ export default {
           }
         }
       ).then(res => {
-        if (res.data.code === 200) {
+        if (res.data.code === '0') {
           setUserToken(res.data.data)
+          if (this.isRemember) {
+            this.storageAccount()
+          } else {
+            clearCurrentAccount()
+          }
           if (res.data.data) {
+            this.getOpePeople()
             this.$router.push('/home')
           }
         }
@@ -182,6 +215,7 @@ export default {
     // }
   },
   created () {
+    this.getAccount()
   },
   mounted () {
     document.addEventListener('deviceready', onDeviceReady, false)

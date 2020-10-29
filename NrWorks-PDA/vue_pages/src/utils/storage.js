@@ -34,6 +34,10 @@ export function setCurrentAccount (val) {
   return localStorage.setItem(account, val)
 }
 
-export function getCurrentAccount (val) {
-  return localStorage.getItem(account, val)
+export function getCurrentAccount () {
+  return localStorage.getItem(account)
+}
+
+export function clearCurrentAccount () {
+  localStorage.removeItem(account)
 }

@@ -6,7 +6,7 @@
           </div>
           <div class="right">
             <p><span>{{patientInfo.patientName}}</span><span>{{patientInfo.bedNo}}床</span><span>{{patientInfo.cureNo}}</span></p>
-            <p>主刀<span class="patient-value">{{patientInfo.surgeon}}</span>麻醉<span class="patient-value">{{patientInfo.anesDoc}}</span></p>
+            <p>主刀/麻醉<span class="patient-value">{{patientInfo.surgeon}}/{{patientInfo.anesDoc}}</span></p>
             <p>巡回/洗手<span class="patient-value">{{patientInfo.runNurseName===''?'-':patientInfo.runNurseName}}/{{patientInfo.washNurseName===''?'-':patientInfo.washNurseName}}</span></p>
           </div>
       </div>
