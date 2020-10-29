@@ -21,12 +21,14 @@
         </li>
       </ul>
     </div>
+    <Loading v-show="showLoading"/>
   </div>
 </template>
 
 <script>
 import request from '../../utils/request'
 import {getPatientInfo, bindingPatPushScreen} from '@/api/patient-info'
+import Loading from '@/components/Loading'
 // import {getOpePeople} from '@/api/device-package'
 import def from '@/assets/def.png'
 import {mapActions, mapState} from 'vuex'
@@ -34,11 +36,15 @@ export default {
   data () {
     return {
       cureNo: '1010',
-      avater: def
+      avater: def,
+      showLoading: false
     }
   },
   computed: {
     ...mapState('Patient', ['opePeopleInfo'])
+  },
+  components: {
+    Loading
   },
   methods: {
     ...mapActions('Patient', ['getPatient']),
@@ -89,7 +95,11 @@ export default {
       var key = window.event.keyCode
       if (key === 13) {
         // lett.enterSearchMember()
-        this.handleJump()
+        this.showLoading = true
+        setTimeout(() => {
+          this.handleJump()
+          this.showLoading = false
+        }, 2000)
       }
     }
   },
