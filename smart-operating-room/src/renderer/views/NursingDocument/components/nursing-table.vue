@@ -9,6 +9,7 @@
         class="mytable-scrollbar"
         height="100%"
         border="none"
+        :loading="loading"
         :data="tableData"
         @current-change="currentChangeEvent"
         @cell-dblclick="dbSelected"
@@ -43,6 +44,7 @@ export default {
   name: 'NursingTable',
   data () {
     return {
+      loading: false,
       tableData: [
 
       ],
@@ -86,7 +88,9 @@ export default {
     },
     // 获取数据
     getTableData (res) {
+      this.loading = true
       this.$store.dispatch('ReqNursingDocumentTable', res).then(result => {
+        this.loading = false
         console.log(result)
         this.tableData.push(...result.data.data.list)
         this.pageItem.pageIndex++

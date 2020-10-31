@@ -112,7 +112,7 @@
 
                   v-for="item in basicequipment"
                 >
-                  <template v-if="item.items.length === 0">
+                  <template v-if="item.pkg.length === 0">
                     <tr :key="item.pId * 2 + 1">
                       <td
                         colspan="6"
@@ -174,10 +174,10 @@
                         </td>
                       </tr>
                     </template>
-                    <template v-for="v in item.items">
+                    <template v-for="v in item.pkg">
                       <tr :key="v.pId">
                         <td class="td-text-center">
-                          {{ v.name }}
+                          {{ v.insName }}
                         </td>
                         <td class="td-text-center">
                           {{ v.before }}
@@ -327,9 +327,9 @@ export default {
   mounted () {
     Bus.$on('clickShuaXinTeShu', res => {
       if (res === '1') {
-        this.EquipmentChange()
+        this.utilsDebounce(() => { this.EquipmentChange() }, 1000)
       } else if (res === '2') {
-        this.dayin()
+        this.utilsDebounce(() => { this.dayin() }, 1000)
       } else if (res === '3') {
         this.utilsDebounce(() => { this.getPdf('nursing-document-teshu') }, 1000)
       }
@@ -347,47 +347,19 @@ export default {
       // options = JSON.stringify(options)
       ipcRenderer.send('printChannel', printHtml, 'nursing-document-teshu.css', options)
     },
-    // 查询数据
-    // getWenShuData () {
-    //   let obj = {
-    //     // cureNo: '18724478',
-    //     cureNo: this.$store.state['nursing-document-list'].cureNo,
-    //     // hospitalNo: '91186585'
-    //     hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
-    //   }
-    //   console.log(obj)
-    //   this.$store.dispatch('ReqNursingDocumentTeShu', obj).then(res => {
-    //     console.log(res)
-    //     if (res.data.code === 200) {
-    //       if (res.data.msg === '暂无承载数据') {
-    //         this.openToast('warning', '暂无数据')
-    //         return false
-    //       }
-    //       let wenshuData = res.data.data
-
-    //       this.form.operateDate = wenshuData.operateDate
-    //       this.form.patientName = wenshuData.patientName
-    //       this.form.hospitalNo = wenshuData.hospitalNo
-    //       this.form.bedNo = wenshuData.bedNo
-    //       this.form.diagnosis = wenshuData.diagnosis
-
-    //     } else {
-    //       this.openToast('error', res.data.msg)
-    //     }
-    //   })
-    // },
     EquipmentChange () {
       this.basicequipment = []
       let obj = {
-        cureNo: '18724478',
+        cureNo: 1010,
         // cureNo: this.$store.state['nursing-document-list'].cureNo,
-        hospitalNo: '91186585'
+        hospitalNo: 666
+
         // hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
       }
       this.$store.dispatch('ReqNursingDocumentTeShu', obj).then(res => {
         // && res.data.data.specialEquipment.scheduleName === '已清点'
         if (res.data.code === 200) {
-          if (res.data.msg === '暂无承载数据') {
+          if (res.data.msg === '未查询到信息') {
             this.openToast('warning', '暂无数据')
             return false
           }
@@ -417,55 +389,76 @@ export default {
           this.qianmingList.xhClossQm = wenshuData.xhClossQm
           this.qianmingList.xhAllClossQm = wenshuData.xhAllClossQm
           this.qianmingList.xhFhQm = wenshuData.xhFhQm
-          const packages = []
-          this.basicEquipmentStr = wenshuData.specialEquipment.items
-          this.scheduleAnomaly = wenshuData.specialEquipment.scheduleAnomaly
-          const props = ['before', 'adding', 'adding1', 'adding2', 'adding3', 'before2', 'after', 'after2']
-          props.forEach(prop => {
-            const propValueStr = this.scheduleAnomaly[prop].value
-            if (propValueStr) {
-              const propValObj = typeof propValueStr === 'string' ? JSON.parse(propValueStr).items : propValueStr
-              propValObj.forEach(pkg => {
-                const alreadyPkg = packages.find(f => f.pId === pkg.pId)
-                if (!alreadyPkg) {
-                  const entry = { ...pkg }
-                  entry[prop] = { ...pkg }
-                  packages.push(entry)
-                } else {
-                  alreadyPkg[prop] = { ...pkg }
-                }
-              })
-            }
-          })
 
-          this.basicequipment = packages.map(pkg => {
-            const target = {
-              pName: pkg.pName,
-              pId: pkg.pId,
-              pCode: pkg.pCode,
-              items: pkg.ritems.map(f => ({ name: f.name, before: 0, adding: 0, before2: 0, after: 0, after2: 0 }))
-            }
-            props.forEach(prop => {
-              if (pkg[prop]) {
-                const propItems = pkg[prop].ritems
-                target.items.forEach(tar => {
-                  if (['adding', 'adding1', 'adding2', 'adding3'].includes(prop)) {
-                    const num = tar.adding || 0
-                    tar.adding = num + propItems.find(f => f.name === tar.name).value
-                  } else {
-                    tar[prop] = propItems.find(f => f.name === tar.name).value
+          this.basicEquipmentStr = wenshuData.specialEquipment
+
+          let arr = []
+          this.basicEquipmentStr.forEach(item => {
+            let packName = []
+
+            let pId = item.pId
+            let pName = item.pName
+
+            if (item.items.adding.length > 0) {
+              item.items.adding.forEach((pkn, index) => {
+                let obj = {
+                  insName: pkn.insName
+                }
+                item.items.before.forEach(bItem => {
+                  if (bItem.insName === pkn.insName) {
+                    obj.before = bItem.number
+                    return false
                   }
                 })
-              }
-            })
-
-            target.items.forEach(item => {
-              const refVal = (parseInt(item.before) || 0) + (parseInt(item.adding) || 0)
-              // const refVal = (parseInt(item.before) || 0) + (parseInt(item.adding) || 0) + (parseInt(item.adding1) || 0) + (parseInt(item.adding2) || 0) + (parseInt(item.adding3) || 0)
-              item.matched = (refVal === item.before2 && refVal === item.after && refVal === item.after2)
-            })
-            return target
+                item.items.adding.forEach(bItem => {
+                  if (bItem.insName === pkn.insName) {
+                    obj.adding = bItem.number
+                    return false
+                  }
+                })
+                item.items.adding1.forEach(bItem => {
+                  if (bItem.insName === pkn.insName) {
+                    obj.adding1 = bItem.number
+                    return false
+                  }
+                })
+                item.items.adding2.forEach(bItem => {
+                  if (bItem.insName === pkn.insName) {
+                    obj.adding2 = bItem.number
+                    return false
+                  }
+                })
+                item.items.adding3.forEach(bItem => {
+                  if (bItem.insName === pkn.insName) {
+                    obj.adding3 = bItem.number
+                    return false
+                  }
+                })
+                item.items.before2.forEach(bItem => {
+                  if (bItem.insName === pkn.insName) {
+                    obj.before2 = bItem.number
+                    return false
+                  }
+                })
+                item.items.after.forEach(bItem => {
+                  if (bItem.insName === pkn.insName) {
+                    obj.after = bItem.number
+                    return false
+                  }
+                })
+                item.items.after2.forEach(bItem => {
+                  if (bItem.insName === pkn.insName) {
+                    obj.after2 = bItem.number
+                    return false
+                  }
+                })
+                packName.push(obj)
+              })
+            }
+            arr.push({pId, pName, pkg: packName})
           })
+          this.basicequipment = arr
+          console.log('特殊器械清单列表', this.basicequipment)
         }
         this.$nextTick(() => {
           this.basicequipment.forEach(item => {
@@ -475,7 +468,6 @@ export default {
             })
           })
         })
-        console.log('特殊楼层的器械的值为:', this.basicequipment)
       })
     },
     // 提示方法

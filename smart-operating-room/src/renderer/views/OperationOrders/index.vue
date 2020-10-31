@@ -7,20 +7,19 @@
     <el-button @click="handleResume">继续</el-button>
     <el-button @click="handleCancel">停止</el-button>
   </div> -->
-  <el-scrollbar style="height:100%;width:100%">
-    <div class="container">
-      <div class="header">
-        <OperationHeader
-          ref="OperationHeader"
-          @changeRadio="changeRadio"
-          @changeItem="changeItem"
-        />
-      </div>
-      <div class="content">
-        <OperationContent ref="OperationContent" />
-      </div>
+
+  <div class="container">
+    <div class="header">
+      <OperationHeader
+        ref="OperationHeader"
+        @changeRadio="changeRadio"
+        @changeItem="changeItem"
+      />
     </div>
-  </el-scrollbar>
+    <div class="content">
+      <OperationContent ref="OperationContent" />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -94,6 +93,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import './../../styles/scrollrow.scss';
 .container {
   width: 100%;
   min-width: 1080px;
@@ -103,4 +103,5 @@ export default {
   height: calc(100% - 100px);
   margin-top: 20px;
 }
+
 </style>

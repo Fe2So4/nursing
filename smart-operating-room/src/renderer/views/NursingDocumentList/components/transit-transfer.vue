@@ -1203,9 +1203,9 @@ export default {
   mounted () {
     Bus.$on('clickShuaXinTransit', res => {
       if (res === '1') {
-        this.getWenShuData()
+        this.utilsDebounce(() => { this.getWenShuData() }, 1000)
       } else if (res === '2') {
-        this.dayin()
+        this.utilsDebounce(() => { this.dayin() }, 1000)
       } else if (res === '3') {
         this.utilsDebounce(() => { this.getPdf('transit-transfer') }, 1000)
       }
@@ -1225,11 +1225,11 @@ export default {
     },
     getWenShuData () {
       let obj = {
-        hospitalNo: 666,
-        cureNo: 1010
-        // cureNo: this.$store.state['nursing-document-list'].cureNo,
+        // hospitalNo: 666,
+        // cureNo: 1010
+        cureNo: this.$store.state['nursing-document-list'].cureNo,
 
-        // hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
+        hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
       }
 
       this.$store.dispatch('ReqTransitTransfer', obj).then(res => {
@@ -1265,10 +1265,12 @@ export default {
           if (this.wenshuData.appraiseJson.length > 0) {
             this.appraiseJson = this.wenshuData.appraiseJson[0]
           }
+
           if (this.wenshuData.catheterJson.length > 0) {
             this.catheter = this.wenshuData.catheterJson[0].catheter.join('-')
             this.conduitTime = this.wenshuData.catheterJson[0].conduitTime
           }
+
           if (this.wenshuData.goodsJson.length > 0) {
             this.goodsJson = this.wenshuData.goodsJson[0]
           }

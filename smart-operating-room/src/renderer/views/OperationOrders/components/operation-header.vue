@@ -94,7 +94,7 @@
             clearable
             style="width:120px"
             v-model="formData2.selectFloor"
-            placeholder="默认全部楼层"
+            placeholder="选择楼层"
           >
             <vxe-option
               v-for="item in floorList"
@@ -146,10 +146,10 @@ export default {
     // 点击同步按钮
     synchronous () {
       let data = {
-        date: this.formData1.startDate,
+        date: this.formData1.startDate || this.utilsGetNewDate(),
         condition: this.formData1.nickname,
         isOrder: this.formData2.isSend,
-        floorNo: this.formData2.selectFloor
+        floorNo: this.formData2.selectFloor || ''
       }
       Bus.$emit('operation-header-synchronous', data)
     },
@@ -158,12 +158,21 @@ export default {
     },
     searchCardList () {
       let data = {
-        date: this.formData1.startDate,
+        date: this.formData1.startDate || this.utilsGetNewDate(),
         condition: this.formData1.nickname,
         isOrder: this.formData2.isSend,
-        floorNo: this.formData2.selectFloor
+        floorNo: this.formData2.selectFloor || ''
       }
       Bus.$emit('operation-header-searchCard', data)
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
   },
   watch: {
@@ -225,5 +234,8 @@ export default {
             display: flex;
         }
     }
+}
+.el-scrollbar__wrap {
+  margin-bottom: 0px !important;
 }
 </style>

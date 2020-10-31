@@ -78,7 +78,7 @@ export default {
   name: 'ContinuousHeader',
   props: {
     isShow: {
-      type: Boolean,
+      type: Number,
       required: true
     }},
   data () {
