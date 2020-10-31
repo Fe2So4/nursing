@@ -397,7 +397,7 @@ export default {
       this.searchCardParams.isOrder = res.isOrder
       this.searchCardParams.condition = res.condition
       this.searchCardParams.floorNo = res.floorNo
-      this.getCardList()
+      this.getTongbuCardList()
     })
     // 获取护士列表
     this.getNurseList()
@@ -424,7 +424,9 @@ export default {
     getCardList () {
       this.$store.dispatch('ReqOperationOrders', this.searchCardParams).then(res => {
         if (res.data.code === 200) {
-          console.log(res.data.data)
+          if (res.data.data.length === 0) {
+            this.openToast('warning', '暂无数据')
+          }
           this.cardList = res.data.data
         } else {
           this.openToast('error', res.data.msg)
@@ -433,10 +435,15 @@ export default {
     },
     // 获取同步内容列表
     getTongbuCardList () {
-      this.$store.dispatch('ReqsyncOperScheduleInfo', this.searchCardParams).then(res => {
+      let endTime = this.utilsGetNewDate()
+      let obj = {
+        startTime: this.searchCardParams.date,
+        endTime
+      }
+      this.$store.dispatch('ReqsyncOperScheduleInfo', obj).then(res => {
         if (res.data.code === 200) {
-          console.log(res.data.data)
-          this.cardList = res.data.data
+          this.openToast('success', res.data.data)
+          this.getCardList()
         } else {
           this.openToast('error', res.data.msg)
         }
@@ -770,6 +777,7 @@ export default {
     font-size: 30px;
     color: #ccc;
     margin-top: 15%;
+    margin-bottom: 20px
 }
 .text-one-row {
   overflow: hidden;

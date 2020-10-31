@@ -387,13 +387,18 @@ export default {
     },
     // 点击删除标本
     deleteSpecimen (item) {
-      console.log(item.id)
+      if (this.userInfoGetType === '0') {
+        this.$alert('请先输入住院号', '提示')
+        return false
+      }
+
       this.formData.specimenList.forEach((list, index) => {
         if (list.totalId === item.totalId) {
           this.formData.specimenList.splice(index, 1)
           return false
         }
       })
+      console.log(this.formData.specimenList.length)
       if (this.formData.specimenList.length === 0) {
         this.addSpecimen()
       }
@@ -417,6 +422,11 @@ export default {
     },
     // 点击验证校验身份
     yanzhen () {
+      if (this.userInfoGetType === '0') {
+        this.$alert('请先输入住院号', '提示')
+        return false
+      }
+
       this.dialogVisible = true
     },
     handleClose (done) {
@@ -435,7 +445,7 @@ export default {
             loginPwd: this.form.password
           }
           pathologicalLogin(obj).then(res => {
-            if (res.data.code === 200) {
+            if (res.data.code === 0) {
               console.log(res)
               this.loginType = '1'
               this.loginName = '王德发'

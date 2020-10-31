@@ -51,12 +51,12 @@ export default {
           path: '/home/operation-orders'
         },
         {
-          icon: 'el-icon-s-order',
+          icon: 'el-icon-menu',
           title: '病理申请',
           path: '/home/pathological-application'
         },
         {
-          icon: 'el-icon-s-order',
+          icon: 'el-icon-tickets',
           title: '护理列表',
           path: '/home/nursing-document'
         },
@@ -66,7 +66,7 @@ export default {
           path: '/home/statistical-query'
         },
         {
-          icon: 'el-icon-s-claim',
+          icon: 'el-icon-s-operation',
           title: '连台手术',
           path: '/home/continuous-surgery'
         }

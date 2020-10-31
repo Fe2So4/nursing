@@ -705,9 +705,9 @@ export default {
     this.searchData()
     Bus.$on('clickShuaXinSecurity', res => {
       if (res === '1') {
-        this.searchData()
+        this.utilsDebounce(() => { this.searchData() }, 1000)
       } else if (res === '2') {
-        this.dayin()
+        this.utilsDebounce(() => { this.dayin() }, 1000)
       } else if (res === '3') {
         this.utilsDebounce(() => { this.getPdf('security-check') }, 1000)
       }

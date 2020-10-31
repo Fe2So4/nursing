@@ -197,20 +197,20 @@
             <span>电刀：</span>
             <span>1. 电切</span>
             <span>无</span>
-            <IsSelect :myselect="equipment.electrotomeName === '1'?true:false" />
+            <IsSelect :myselect="equipment.electrotome.electrotomeName === '1'?true:false" />
           </span>
           <span style="marginLeft:6px">
             <span>有</span>
-            <IsSelect :myselect="equipment.electrotomeName === '2'?true:false" />
+            <IsSelect :myselect="equipment.electrotome.electrotomeName === '2'?true:false" />
           </span>
           <span class="input-div mgl5">
             <span>功率</span>
-            <div class="input-div-context-short">{{ equipment.electrotomeDQ||'' }}</div>
+            <div class="input-div-context-short">{{ equipment.electrotome.electrotomeDQ||'' }}</div>
           </span>
           <span>电凝</span>
           <span class="input-div mgl5">
             <span>功率</span>
-            <div class="input-div-context-short">{{ equipment.electrotomeDN||'' }}</div>
+            <div class="input-div-context-short">{{ equipment.electrotome.electrotomeDN||'' }}</div>
           </span>
         </div>
         <div class="context1">
@@ -255,7 +255,7 @@
           <div
             style="marginLeft:10px"
             class="context2-box"
-            v-for="item in equipment.bhMachine.bhMachineList"
+            v-for="item in equipment.bhMachine.bhMachineList || []"
             :key="item.fqTime"
           >
             <div class="box-row">
@@ -530,7 +530,7 @@
                   <IsSelect :myselect="compressedSkin[item-1].isFull === '2'?true:false" />
                   <span>皮损情况</span>
                 </div>
-                <div>
+                <div style="width:75px;word-break:break-all">
                   {{ compressedSkin[item-1].skinStatus }}
                 </div>
               </td>
@@ -643,7 +643,7 @@ export default {
         opsType: '',
         consciousness: '',
 
-        skin: {
+        skin: { // 皮肤评估
           skinDegree: '',
           skinLocate: '',
           skinName: ''
@@ -659,7 +659,9 @@ export default {
       },
       equipment: { // 设备使用
         electrotome: {}, // 电刀
-        bhMachine: {}, // 血泵机器
+        bhMachine: {
+          bhMachineList: []
+        }, // 血泵机器
         electrotomeLocation: '' // 电极板
       },
       rinse: { // 手术冲洗
@@ -684,7 +686,7 @@ export default {
 
         ]
       },
-      compressedSkin: [
+      compressedSkin: [ // 受压皮肤
         {
           isFull: '', skinStatus: ''
         },
@@ -747,9 +749,9 @@ export default {
     this.getWenShuData()
     Bus.$on('clickShuaXinTwo', res => {
       if (res === '1') {
-        this.getWenShuData()
+        this.utilsDebounce(() => { this.getWenShuData() }, 1000)
       } else if (res === '2') {
-        this.dayin()
+        this.utilsDebounce(() => { this.dayin() }, 1000)
       } else if (res === '3') {
         this.utilsDebounce(() => { this.getPdf('nursing-document-two') }, 1000)
       }
@@ -768,11 +770,11 @@ export default {
     },
     getWenShuData () {
       let obj = {
-        // cureNo: this.$store.state['nursing-document-list'].cureNo,
-        // hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
+        cureNo: this.$store.state['nursing-document-list'].cureNo,
+        hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
 
-        hospitalNo: 666,
-        cureNo: 1010
+        // hospitalNo: 666,
+        // cureNo: 1010
       }
       this.$store.dispatch('ReqNursingDocumentTwo', obj).then(res => {
         if (res.status === 200 && res.data.code === 200) {
@@ -789,6 +791,15 @@ export default {
           this.form.constraints = this.wenshuData.constraints
           this.catheter = this.wenshuData.catheter
           this.equipment = this.wenshuData.equipment
+          if (this.IsEmpty(this.equipment)) {
+            this.equipment = { // 设备使用
+              electrotome: {}, // 电刀
+              bhMachine: {
+                bhMachineList: []
+              }, // 血泵机器
+              electrotomeLocation: '' // 电极板
+            }
+          }
           this.rinse = this.wenshuData.rinse
           this.waistPuncture = this.wenshuData.waistPuncture
           this.opsChange = this.wenshuData.opsChange
@@ -798,6 +809,20 @@ export default {
           this.implants = this.wenshuData.implants
           this.nursesSignature = this.wenshuData.nursesSignature
           this.compressedSkin = this.wenshuData.compressedSkin
+          if (this.IsEmpty(this.compressedSkin)) {
+            this.compressedSkin = [ // 受压皮肤
+              {
+                isFull: '', skinStatus: ''
+              },
+              {isFull: '', skinStatus: ''},
+              {isFull: '', skinStatus: ''},
+              {isFull: '', skinStatus: ''},
+              {isFull: '', skinStatus: ''},
+              {isFull: '', skinStatus: ''},
+              {isFull: '', skinStatus: ''},
+              {isFull: '', skinStatus: ''}
+            ]
+          }
           // 判断麻醉方式数组
           if (!this.IsEmpty(this.wenshuData.anesthesiaMode)) {
             this.selectAne = []
