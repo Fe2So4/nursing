@@ -1,114 +1,18 @@
 <template>
   <div class="check-detail">
     <ul>
-      <li class="clearfix">
+      <li
+        class="clearfix"
+        v-for="item in list"
+        :key="item.text"
+      >
         <div class="li-left">
-          手术知情同意书：
+          {{ item.text }}
         </div>
         <div
           class="li-right"
         >
-          <i class="el-icon-check" />
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="li-left">
-          术野皮肤准备正确：
-        </div>
-        <div
-          class="li-right"
-        >
-          <i class="el-icon-close red" />
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="li-left">
-          术野皮肤准备正确：
-        </div>
-        <div
-          class="li-right"
-        >
-          <i class="el-icon-close red" />
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="li-left">
-          术野皮肤准备正确：
-        </div>
-        <div
-          class="li-right"
-        >
-          <i class="el-icon-close red" />
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="li-left">
-          术野皮肤准备正确：
-        </div>
-        <div
-          class="li-right"
-        >
-          <i class="el-icon-close red" />
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="li-left">
-          术野皮肤准备正确：
-        </div>
-        <div
-          class="li-right"
-        >
-          <i class="el-icon-close red" />
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="li-left">
-          术野皮肤准备正确：
-        </div>
-        <div
-          class="li-right"
-        >
-          <i class="el-icon-close red" />
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="li-left">
-          术野皮肤准备正确：
-        </div>
-        <div
-          class="li-right"
-        >
-          <i class="el-icon-close red" />
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="li-left">
-          术野皮肤准备正确：
-        </div>
-        <div
-          class="li-right"
-        >
-          <i class="el-icon-close red" />
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="li-left">
-          术野皮肤准备正确：
-        </div>
-        <div
-          class="li-right"
-        >
-          <i class="el-icon-close red" />
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="li-left">
-          术野皮肤准备正确：
-        </div>
-        <div
-          class="li-right"
-        >
-          <i class="el-icon-close red" />
+          <i :class="item.value==='是' ? 'el-icon-check' : 'el-icon-close red'" />
         </div>
       </li>
     </ul>
@@ -121,6 +25,12 @@ export default {
   data () {
     return {
 
+    }
+  },
+  props: {
+    list: {
+      type: Array,
+      required: true
     }
   }
 }

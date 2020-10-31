@@ -11,3 +11,5 @@ export const getPackageDataSpecial = `${config.api.baseURL}/ocis/nursingRecord/g
 export const savePackageDataSpecial = `${config.api.baseURL}/ocis/nursingRecord/saveNuringRecordThreeSpecial`
 // 获取操作人
 export const getOpePeople = `${config.api.baseURL}/ocis/pdaScann/getUserCodeAndName`
+// 获取器械清点进度
+export const getDeviceStep = `${config.api.baseURL}/ocis/nursingRecord/getNuringRecordThreeProgres`

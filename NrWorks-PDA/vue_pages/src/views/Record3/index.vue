@@ -18,7 +18,7 @@
           </div>
           <div class="li-right">
             <p>手术敷料、基本器械、物品清点</p>
-            <p>体腔关闭后</p>
+            <p>{{stepList.ordinaryProgres}}</p>
           </div>
         </li>
         <li @click="handleJump('special')">
@@ -27,7 +27,7 @@
           </div>
           <div class="li-right">
             <p>器械包清点</p>
-            <p>术前</p>
+            <p>{{stepList.specialProgres}}</p>
           </div>
         </li>
       </ul>
@@ -38,11 +38,11 @@
 <script>
 import PatientCard from '@/components/PatientCard'
 // savePackageData
-import {getPackage, getPackageData} from '@/api/device-package'
+import {getPackage, getPackageData, getDeviceStep} from '@/api/device-package'
 import request from '@/utils/request'
 import {mapState} from 'vuex'
 export default {
-  name: 'Record2',
+  name: 'Record3',
   data () {
     return {
       checked: true,
@@ -57,7 +57,11 @@ export default {
         { text: '急诊', value: 3 },
         { text: '离院', value: 4 }
       ],
-      result: []
+      result: [],
+      stepList: {
+        ordinaryProgres: '未清点',
+        specialProgres: '未清点'
+      }
     }
   },
   components: {
@@ -69,6 +73,14 @@ export default {
   methods: {
     onClickLeft () {
       this.$router.go(-1)
+    },
+    getStep () {
+      request({
+        method: 'get',
+        url: getDeviceStep + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`
+      }).then(res => {
+        this.stepList = res.data.data
+      })
     },
     getData () {
       let deviceId = '123456'
@@ -106,6 +118,7 @@ export default {
   },
   mounted () {
     // this.getData()
+    this.getStep()
   }
 }
 </script>

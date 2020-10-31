@@ -122,7 +122,7 @@ export default {
           }
           login(obj).then(res => {
             console.log(res)
-            if (res.data.code === 200) {
+            if (res.data.code === '0') {
               setUserToken(res.data.data)
               setCurrentAccount(this.form.username)
               this.$router.push('/home')

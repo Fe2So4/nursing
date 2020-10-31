@@ -1,7 +1,7 @@
 <template>
   <div class="invalid-medical-order">
-    <p>(JG)注射用头孢呋辛钠</p>
-    <p>qd\3克\静滴</p>
+    <p>{{ item.outDrugItemName }}</p>
+    <p>{{ item.interType }}\{{ item.dosagePerTime }}{{ item.minunit }}\{{ item.usage }}</p>
   </div>
 </template>
 
@@ -11,6 +11,12 @@ export default {
   data () {
     return {
 
+    }
+  },
+  props: {
+    item: {
+      type: Object,
+      required: true
     }
   }
 }

@@ -142,21 +142,21 @@ export default {
       anesBeforeNurse: '',
       anesBeforeState: '',
       recordForm: [
-        {key: '患者姓名，住院号，性别，年龄正确', value: false},
-        {key: '手术方式确认', value: false},
-        {key: '手术部位、体位、标识正确', value: false},
-        {key: '是否需要相关影像资料', value: false},
-        {key: '其它', value: ''},
-        {key: '预计手术时间', value: false},
-        {key: '预计失血量', value: false},
-        {key: '手术关注点', value: false},
-        {key: '其它', value: ''},
-        {key: '麻醉关注点', value: false},
-        {key: '其它', value: ''},
-        {key: '物品灭菌合格', value: false},
-        {key: '仪器设备、植入物', value: false},
-        {key: '术前术中特殊用药情况', value: false},
-        {key: '其它', value: ''}
+        {key: '患者姓名，住院号，性别，年龄正确', value: false, sort: '1'},
+        {key: '手术方式确认', value: false, sort: '2'},
+        {key: '手术部位、体位、标识正确', value: false, sort: '3'},
+        {key: '是否需要相关影像资料', value: false, sort: '4'},
+        {key: '其它', value: '', sort: '12'},
+        {key: '预计手术时间', value: false, sort: '5'},
+        {key: '预计失血量', value: false, sort: '6'},
+        {key: '手术关注点', value: false, sort: '7'},
+        {key: '其它', value: '', sort: '13'},
+        {key: '麻醉关注点', value: false, sort: '8'},
+        {key: '其它', value: '', sort: '14'},
+        {key: '物品灭菌合格', value: false, sort: '9'},
+        {key: '仪器设备、植入物', value: false, sort: '10'},
+        {key: '术前术中特殊用药情况', value: false, sort: '11'},
+        {key: '其它', value: '', sort: '15'}
       ]
     }
   },
@@ -193,6 +193,15 @@ export default {
           }
         }
       })
+      let state = ''
+      for (var i = 0; i < arr.length; i++) {
+        if (!arr[i].value) {
+          state = '1'
+          break
+        } else {
+          state = '2'
+        }
+      }
       console.log(this.recordForm)
       request({
         method: 'post',
@@ -202,7 +211,7 @@ export default {
           operBeforeCheckJson: arr,
           operBeforeNurse: this.anesBeforeNurse,
           operBeforeOperDoc: this.anesBeforeOperDoc,
-          operBeforeState: '0',
+          operBeforeState: state,
           cureNo: this.patientInfo.cureNo
         }
       }).then(res => {
@@ -220,19 +229,27 @@ export default {
       }).then(res => {
         if (res.data.code === 200) {
           let data = res.data.data
-          this.anesBeforeAnesDoc = data.beforeOperAnesDoctorTwo
-          this.anesBeforeOperDoc = data.beforeOperDocTwo
-          this.anesBeforeNurse = data.beforeOperNurse
-          data.opeeBeforeCheck.forEach(item => {
-            if (item.key !== '其它') {
-              if (item.value === '是') {
-                item.value = true
-              } else {
-                item.value = false
+          if (data.beforeOperAnesDoctorTwo) {
+            this.anesBeforeAnesDoc = data.beforeOperAnesDoctorTwo
+          }
+          if (data.beforeOperDocTwo) {
+            this.anesBeforeOperDoc = data.beforeOperDocTwo
+          }
+          if (data.beforeOperNurse) {
+            this.anesBeforeNurse = data.beforeOperNurse
+          }
+          if (data.opeeBeforeCheck.length > 0) {
+            data.opeeBeforeCheck.forEach(item => {
+              if (item.key !== '其它') {
+                if (item.value === '是') {
+                  item.value = true
+                } else {
+                  item.value = false
+                }
               }
-            }
-          })
-          this.recordForm = data.opeeBeforeCheck
+            })
+            this.recordForm = data.opeeBeforeCheck
+          }
         }
       })
     },

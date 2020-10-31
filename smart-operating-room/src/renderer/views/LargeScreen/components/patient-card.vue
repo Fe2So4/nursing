@@ -5,20 +5,23 @@
         class="card"
         @click="handleChangeRoom"
       >
-        706
+        608
         <i />
       </div>
     </div>
-    <div class="right">
+    <div
+      class="right"
+      v-if="patientInfo.cureNo"
+    >
       <el-row>
         <el-col :span="6">
-          患者信息：<span class="value">陈爱云 80岁 16病区/19床 91161317</span>
+          患者信息：<span class="value">{{ patientBasicInfo.patientName }} {{ patientBasicInfo.patientAge }}岁 {{ patientBasicInfo.wardName }}病区/{{ patientBasicInfo.bedNo }}床 {{ patientBasicInfo.hospitalNo }}</span>
         </el-col>
         <el-col :span="6">
-          主刀医师：<span class="value">父的量</span>
+          主刀医师：<span class="value">{{ patientBasicInfo.surgeon }}</span>
         </el-col>
         <el-col :span="6">
-          麻醉医师：<span class="value">固化话</span>
+          麻醉医师：<span class="value">{{ patientBasicInfo.anes_doc }}</span>
         </el-col>
         <el-col
           :span="6"
@@ -26,25 +29,26 @@
         >
           语音开关：<span class="value">
             <el-switch
-              v-model="voice"
+              v-model="voiceSwitch"
               active-color="#13ce66"
               inactive-color="#ff4949"
+              @change="handleChangeSwitch"
             />
           </span>
         </el-col>
       </el-row>
       <el-row style="margin-top:20px;">
-        <el-col :span="6">
-          手术信息：<span class="value">胰尾癌根治术 全麻</span>
+        <el-col :span="10">
+          手术信息：<span class="value">{{ patientBasicInfo.operationName }} {{ patientInfo.anesMethodName }}</span>
         </el-col>
-        <el-col :span="6">
-          第一助手：<span class="value">蒋永剑</span>
+        <el-col :span="4">
+          第一助手：<span class="value">{{ patientBasicInfo.opa_ssis_name1 }}</span>
         </el-col>
-        <el-col :span="6">
-          巡回护士：<span class="value">黄申慧</span>
+        <el-col :span="4">
+          巡回护士：<span class="value">{{ patientBasicInfo.run_nurse_name1 }}</span>
         </el-col>
-        <el-col :span="6">
-          洗手护士：<span class="value">黄申慧</span>
+        <el-col :span="4">
+          洗手护士：<span class="value">{{ patientBasicInfo.wash_nurse_name1 }}</span>
         </el-col>
       </el-row>
       <div
@@ -63,29 +67,58 @@
 
 <script>
 import ChangeRoom from './change-room'
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
+import request from '@/utils/request'
+import {getPatientInfo} from '@/api/large-screen'
+import $bus from '@/utils/busScreen'
 export default {
   name: 'PatientCard',
   data () {
     return {
       roomVisible: false,
-      voice: true
+      voice: true,
+      patientBasicInfo: {}
     }
   },
   components: {
     ChangeRoom
   },
+  computed: {
+    ...mapState('LargeScreen', ['voiceSwitch', 'patientInfo'])
+  },
+  mounted () {
+    this.getPatientInfo()
+    $bus.$on('getPatientInfo', this.getPatientInfo)
+  },
+  beforeDestroy () {
+    $bus.$off('getPatientInfo')
+  },
   methods: {
-    ...mapActions('Base', ['someAsyncTask']),
+    ...mapActions('LargeScreen', ['setVoiceSwitch']),
     handleChangeRoom () {
-      // this.roomVisible = true
-      this.someAsyncTask()
+      this.roomVisible = true
+    },
+    getPatientInfo () {
+      if (this.patientInfo.cureNo) {
+        request({
+          url: getPatientInfo,
+          method: 'post',
+          params: {
+            cureNo: this.patientInfo.cureNo
+          }
+        }).then(res => {
+          this.patientBasicInfo = res.data.data
+        })
+      }
     },
     handleClose () {
       this.roomVisible = false
     },
     handleShowStep () {
       this.$emit('handleShowStep')
+    },
+    handleChangeSwitch () {
+      this.setVoiceSwitch()
     }
   }
 }

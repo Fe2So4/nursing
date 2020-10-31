@@ -53,13 +53,31 @@ export default {
     handleJump (param) {
       switch (param) {
         case 1:
-          this.$router.push('/sign-in')
+          this.$dialog.confirm({
+            title: '安全核查',
+            message: '确定要进行安全核查吗？'
+          }).then(() => {
+            this.$router.push('/sign-in')
+          }
+          )
           break
         case 2:
-          this.$router.push('/time-out')
+          this.$dialog.confirm({
+            title: '安全核查',
+            message: '确定要进行安全核查吗？'
+          }).then(() => {
+            this.$router.push('/time-out')
+          }
+          )
           break
         case 3:
-          this.$router.push('/sign-out')
+          this.$dialog.confirm({
+            title: '安全核查',
+            message: '确定要进行安全核查吗？'
+          }).then(() => {
+            this.$router.push('/sign-out')
+          }
+          )
           break
         case 4:
           this.$router.push('/transfer-handover')

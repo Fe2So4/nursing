@@ -6,39 +6,15 @@
     </div>
     <div class="nav">
       <ul>
-        <li>
-          <div class="li-left">
-            手术方式
-          </div>
-          <div class="li-right">
-            1
-          </div>
-        </li>
-        <li>
-          <div class="li-left">
-            手术方式
-          </div>
-          <div class="li-right">
-            1
-          </div>
-        </li>
-        <li>
-          <div class="li-left">
-            手术方式
-          </div>
-          <div class="li-right">
-            1
-          </div>
-        </li>
         <li
-          v-for="item in 10"
-          :key="item"
+          v-for="item in recordList"
+          :key="item.sort"
         >
           <div class="li-left">
-            手术方式
+            {{ item.text }}
           </div>
           <div class="li-right">
-            1
+            {{ item.value === '' ? '暂无' : item.value }}
           </div>
         </li>
       </ul>
@@ -46,11 +22,36 @@
   </div>
 </template>
 <script>
+import {getRecord2Data} from '@/api/large-screen'
+import request from '@/utils/request'
+import {mapState} from 'vuex'
+import $bus from '@/utils/busScreen'
 export default {
   name: 'NursingRecord',
   data () {
     return {
-      // itemStatus:1,
+      recordList: [{text: '手术科室', value: '', sort: '1'},
+        {text: '手术方式', value: '', sort: '2'},
+        {text: '手术类型', value: '', sort: '3'},
+        {text: '术前意识评估', value: '', sort: '4'},
+        {text: '术前皮肤评估', value: '', sort: '5'},
+        {text: '部位', value: '', sort: '6'},
+        {text: '程度', value: '', sort: '7'},
+        {text: '麻醉方式', value: '', sort: '8'},
+        {text: '手术体位', value: '', sort: '9'},
+        {text: '体位装置', value: '', sort: '10'},
+        {text: '约束带', value: '', sort: '11'},
+        {text: '导尿管', value: '', sort: '12'},
+        {text: '型号', value: '', sort: '13'},
+        {text: '尿液性质', value: '', sort: '14'},
+        {text: '电刀', value: '', sort: '15'},
+        {text: '电极板位置', value: '', sort: '16'},
+        {text: '腰穿留置', value: '', sort: '17'},
+        {text: '术中特殊交班', value: '', sort: '18'},
+        {text: '术中冰冻', value: '', sort: '19'},
+        {text: '病理', value: '', sort: '20'},
+        {text: '植入物', value: '', sort: '21'}
+      ]
     }
   },
   components: {
@@ -58,10 +59,25 @@ export default {
   props: {
 
   },
+  computed: {
+    ...mapState('LargeScreen', ['patientInfo'])
+  },
   methods: {
     handleChange () {
 
+    },
+    getData () {
+      request({
+        url: getRecord2Data + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`,
+        method: 'get'
+      }).then(res => {
+        console.log(res.data.data)
+      })
     }
+  },
+  mounted () {
+    $bus.$on('getRecord2', this.getData)
+    this.getData()
   }
 }
 </script>
@@ -108,6 +124,7 @@ export default {
         li{
           display: flex;
           justify-content: space-between;
+          flex-direction: column;
           background: #F4F7FD;
           padding: 10px;
           border-radius: 5px;
@@ -117,7 +134,7 @@ export default {
             color: #919398;
           }
           .li-right{
-            color: #444444;
+            color: #3377ff;
           }
           &:last-child{
             margin-bottom: unset;

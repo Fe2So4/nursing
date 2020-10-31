@@ -20,25 +20,37 @@
       <van-cell-group>
         <van-cell title="接患者" class="cell-title">
         </van-cell>
-        <van-cell title="病房交接" @click="handleJump(0,'病房交接')">
-          <template #right-icon>
+        <van-cell title="病房交接" :value="step.pointPacuState==='0' ? '[转运交接单]' : ''" @click="handleJump(0,'病房交接')">
+          <template #right-icon v-if="step.pointPacuState==='1'">
             <van-icon name="checked" color="#30C76C"></van-icon>
           </template>
         </van-cell>
-        <van-cell title="进手术室" @click="handleJump(1,'进手术室')">
-          <template #right-icon>
+        <van-cell title="进手术室" :value="step.pointPacuState==='0' ? '[转运交接单]' : ''" @click="handleJump(1,'进手术室')">
+          <template #right-icon v-if="step.pointPacuState==='1'">
             <van-icon name="checked" color="#30C76C"></van-icon>
           </template>
         </van-cell>
         <van-cell title="送患者" class="cell-title">
         </van-cell>
-        <van-cell title="出手术室" value="[转运交接单]" @click="handleJump(1,'出手术室')">
+        <van-cell title="出手术室" :value="step.pointPacuState==='0' ? '[转运交接单]' : ''" @click="handleJump(1,'出手术室')">
+          <template #right-icon v-if="step.pointPacuState==='1'">
+            <van-icon name="checked" color="#30C76C"></van-icon>
+          </template>
         </van-cell>
-        <van-cell title="进PACU" value="[转运交接单]" @click="handleJump(1,'进PACU')">
+        <van-cell title="进PACU" :value="step.pointPacuState==='0' ? '[转运交接单]' : ''" @click="handleJump(1,'进PACU')">
+          <template #right-icon v-if="step.pointPacuState==='1'">
+            <van-icon name="checked" color="#30C76C"></van-icon>
+          </template>
         </van-cell>
-        <van-cell title="出PACU" value="[转运交接单]" @click="handleJump(1,'出PACU')">
+        <van-cell title="出PACU" :value="step.pointPacuState==='0' ? '[转运交接单]' : ''" @click="handleJump(1,'出PACU')">
+          <template #right-icon v-if="step.pointPacuState==='1'">
+            <van-icon name="checked" color="#30C76C"></van-icon>
+          </template>
         </van-cell>
-        <van-cell title="病房收治" value="[转运交接单]" @click="handleJump(2,'病房收治')">
+        <van-cell title="病房收治" :value="step.pointPacuState==='0' ? '[转运交接单]' : ''" @click="handleJump(2,'病房收治')">
+          <template #right-icon v-if="step.pointPacuState==='1'">
+            <van-icon name="checked" color="#30C76C"></van-icon>
+          </template>
         </van-cell>
       </van-cell-group>
     </div>
@@ -46,8 +58,8 @@
 </template>
 
 <script>
-// import request from '@/utils/request'
-// import {submitRecord} from '@/api/nursing-record'
+import request from '@/utils/request'
+import {handoverStep} from '@/api/handover-record'
 import {mapState} from 'vuex'
 export default {
   name: 'TransferHandover',
@@ -56,7 +68,15 @@ export default {
       checked: true,
       input: '',
       showFullSkin: false,
-      visible: false
+      visible: false,
+      step: {
+        outPacuState: '0',
+        patForwardingRoomState: '0',
+        patRoomState: '0',
+        pointInRoomState: '0',
+        pointOutRoomState: '0',
+        pointPacuState: '0'
+      }
     }
   },
   computed: {
@@ -64,9 +84,20 @@ export default {
   },
   components: {
   },
+  mounted () {
+    this.getStep()
+  },
   methods: {
     onClickLeft () {
       this.$router.go(-1)
+    },
+    getStep () {
+      request({
+        url: handoverStep + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`,
+        method: 'get'
+      }).then(res => {
+        this.step = res.data.data
+      })
     },
     onClickRight () {
 

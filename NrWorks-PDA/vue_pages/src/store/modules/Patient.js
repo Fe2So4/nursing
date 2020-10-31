@@ -16,8 +16,11 @@ const mutations = {
 
 const actions = {
   getPatient ({commit}, payload) {
-    payload.runNurseName = payload.runNurseName1 + ',' + payload.runNurseName2
-    payload.washNurseName = payload.washNurseName1 + ',' + payload.washNurseName2
+    // var str="a,b,c,d,"
+    var reg = /,$/gi
+    // str=str.replace(reg,"");
+    payload.runNurseName = (payload.runNurseName1 + ',' + payload.runNurseName2).replace(reg, '')
+    payload.washNurseName = (payload.washNurseName1 + ',' + payload.washNurseName2).replace(reg, '')
     commit('GET_PATIENT', payload)
   },
   setOpePeopleInfo ({commit}, payload) {

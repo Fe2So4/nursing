@@ -15,7 +15,7 @@ if (process.env.NODE_ENV !== 'development') {
 
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
-  ? `http://localhost:9080`
+  ? `http://localhost:9088`
   : `file://${__dirname}/index.html`
 
 function createWindow () {
@@ -84,7 +84,7 @@ app.on('ready', () => {
 
 // 新建打印窗口
 const printPageURL = process.env.NODE_ENV === 'development'
-  ? `http://localhost:9080/static/print.html`
+  ? `http://localhost:9088/static/print.html`
   : Path.join(__dirname, '../../static/print.html')
 const printWindows = new Set()
 const createPrintWindow = () => {

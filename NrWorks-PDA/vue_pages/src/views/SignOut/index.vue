@@ -153,21 +153,21 @@ export default {
         { text: '离院', value: 4 }
       ],
       recordForm: [
-        {key: '患者姓名，住院号，性别，年龄正确', value: false},
-        {key: '实际手术方式确认', value: false},
-        {key: '手术部位、体位、标识正确', value: false},
-        {key: '手术用药、输血、冰冻报告的核查正确', value: false},
-        {key: '病理标本', value: false},
-        {key: '手术用物清点正确', value: false},
-        {key: '皮肤是否完整', value: false, items: [{key: '部位', value: ''}, {key: '程度', value: ''}]},
-        {key: '其它', value: ''},
-        {key: '患者去向', value: ''},
-        {key: '各种管路', value: false},
-        {key: '静脉通路', value: ''},
-        {key: '气管插管', value: false},
-        {key: '伤口引流', value: false},
-        {key: '胃管', value: false},
-        {key: '尿管', value: ''}
+        {key: '患者姓名，住院号，性别，年龄正确', value: false, sort: '1'},
+        {key: '实际手术方式确认', value: false, sort: '2'},
+        {key: '手术部位、体位、标识正确', value: false, sort: '3'},
+        {key: '手术用药、输血、冰冻报告的核查正确', value: false, sort: '4'},
+        {key: '病理标本', value: false, sort: '5'},
+        {key: '手术用物清点正确', value: false, sort: '6'},
+        {key: '皮肤是否完整', value: false, sort: '7', items: [{key: '部位', value: ''}, {key: '程度', value: ''}]},
+        {key: '其它', value: '', sort: '15'},
+        {key: '患者去向', value: '', sort: '8'},
+        {key: '各种管路', value: false, sort: '9'},
+        {key: '静脉通路', value: '', sort: '10'},
+        {key: '气管插管', value: false, sort: '11'},
+        {key: '伤口引流', value: false, sort: '12'},
+        {key: '胃管', value: false, sort: '13'},
+        {key: '尿管', value: '', sort: '14'}
       ]
     }
   },
@@ -192,7 +192,15 @@ export default {
           }
         }
       })
-      console.log(this.recordForm)
+      let state = ''
+      for (var i = 0; i < arr.length; i++) {
+        if (!arr[i].value) {
+          state = '1'
+          break
+        } else {
+          state = '2'
+        }
+      }
       request({
         method: 'post',
         url: submitSignOut,
@@ -201,7 +209,7 @@ export default {
           leaveBeforeCheckJson: arr,
           leaveBeforeNurse: this.anesBeforeNurse,
           leaveBeforeOperDoc: this.anesBeforeOperDoc,
-          leaveBeforeState: '0',
+          leaveBeforeState: state,
           cureNo: this.patientInfo.cureNo
         }
       }).then(res => {
@@ -230,19 +238,27 @@ export default {
       }).then(res => {
         if (res.data.code === 200) {
           let data = res.data.data
-          this.anesBeforeAnesDoc = data.leaveBeforeAnesDoc
-          this.anesBeforeOperDoc = data.leaveBeforeOperDoc
-          this.anesBeforeNurse = data.leaveBeforeNurse
-          data.leaveBeforeCheckJson.forEach(item => {
-            if (item.key !== '其它' || item.key !== '患者去向' || item.key !== '静脉通路' || item.key !== '尿管') {
-              if (item.value === '是') {
-                item.value = true
-              } else {
-                item.value = false
+          if (data.leaveBeforeAnesDoc) {
+            this.anesBeforeAnesDoc = data.leaveBeforeAnesDoc
+          }
+          if (data.leaveBeforeOperDoc) {
+            this.anesBeforeOperDoc = data.leaveBeforeOperDoc
+          }
+          if (data.leaveBeforeNurse) {
+            this.anesBeforeNurse = data.leaveBeforeNurse
+          }
+          if (data.beforeLeaveRoomCheck.length > 0) {
+            data.beforeLeaveRoomCheck.forEach(item => {
+              if (item.key !== '其它' || item.key !== '患者去向' || item.key !== '静脉通路' || item.key !== '尿管') {
+                if (item.value === '是') {
+                  item.value = true
+                } else {
+                  item.value = false
+                }
               }
-            }
-          })
-          this.recordForm = data
+            })
+            this.recordForm = data.beforeLeaveRoomCheck
+          }
         }
       })
     },
