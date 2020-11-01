@@ -69,7 +69,7 @@ export default {
         { text: '体腔关闭前', active: 5 }, { text: '体腔关闭后', active: 6 }, { text: '皮肤缝合后', active: 7 }],
       packageList: [],
       recordForm: {
-        specialEquipment: {
+        specialEquipment: [{
           items: {
             before: [], // 术前
             adding: [], // 术中一
@@ -82,7 +82,7 @@ export default {
           },
           pId: '',
           pName: ''
-        },
+        }],
         modifier: '',
         modifierCode: '',
         tsXhAllClossQm: '',
