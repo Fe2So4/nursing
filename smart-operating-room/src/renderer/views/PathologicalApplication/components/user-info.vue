@@ -204,7 +204,9 @@ export default {
   },
   mounted () {
     Bus.$on('sub-pathological-success', res => {
-      this.searchUserInfo()
+      this.utilsDebounce(() => {
+        this.searchUserInfo()
+      }, 1000)
     })
   },
   methods: {

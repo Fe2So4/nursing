@@ -329,12 +329,13 @@ export default {
   },
   mounted () {
     Bus.$on('pathological-table', res => {
-      console.log(res, 'res')
-      this.selectItem = res
-      let obj = {
-        pathologyId: res.pathologyId
-      }
-      this.searchBiaobenData(obj)
+      this.utilsDebounce(() => {
+        this.selectItem = res
+        let obj = {
+          pathologyId: res.pathologyId
+        }
+        this.searchBiaobenData(obj)
+      }, 300)
     })
 
     Bus.$on('user-info-getData', res => {
@@ -426,7 +427,8 @@ export default {
         this.$alert('请先输入住院号', '提示')
         return false
       }
-
+      this.form.username = ''
+      this.form.password = ''
       this.dialogVisible = true
     },
     handleClose (done) {
@@ -445,7 +447,7 @@ export default {
             loginPwd: this.form.password
           }
           pathologicalLogin(obj).then(res => {
-            if (res.data.code === 0) {
+            if (res.data.code === '0') {
               console.log(res)
               this.loginType = '1'
               this.loginName = '王德发'

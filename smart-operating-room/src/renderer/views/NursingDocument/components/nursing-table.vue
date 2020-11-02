@@ -58,7 +58,7 @@ export default {
       this.pageItem = res
       this.tableData = []
       // this.getTableData(this.pageItem)
-      this.load()
+      this.utilsDebounce(() => { this.load() }, 1000)
     })
     this.addScrollHandle()
   },
@@ -107,7 +107,7 @@ export default {
       this.$store.commit('SAVE_PATLENTNAME', row.patientName)
       this.$store.commit('SAVE_CURENO', row.cureNo)
       this.$router.push({
-        path: '/home/nursing-document-list/security-check'
+        path: '/home/client-nursing-document-list/client-security-check'
       })
     }
   }

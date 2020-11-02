@@ -14,26 +14,26 @@
         @close="handleClose"
         :default-openeds="defaultArray"
       >
-        <el-menu-item index="/home/nursing-document-list/security-check">
+        <el-menu-item index="/home/client-nursing-document-list/client-security-check">
           安全检查
         </el-menu-item>
         <el-submenu index="2">
           <template slot="title">
             <span>护理记录</span>
           </template>
-          <el-menu-item index="/home/nursing-document-list/nursing-one">
+          <el-menu-item index="/home/client-nursing-document-list/client-nursing-one">
             护理记录(一)
           </el-menu-item>
-          <el-menu-item index="/home/nursing-document-list/nursing-two">
+          <el-menu-item index="/home/client-nursing-document-list/client-nursing-two">
             护理记录(二)
           </el-menu-item>
-          <el-menu-item index="/home/nursing-document-list/nursing-jichu">
+          <el-menu-item index="/home/client-nursing-document-list/client-nursing-jichu">
             护理记录基础
           </el-menu-item>
-          <el-menu-item index="/home/nursing-document-list/nursing-teshu">
+          <el-menu-item index="/home/client-nursing-document-list/client-nursing-teshu">
             护理记录特殊
           </el-menu-item>
-          <el-menu-item index="/home/nursing-document-list/nursing-transit-transfer">
+          <el-menu-item index="/home/client-nursing-document-list/client-nursing-transit-transfer">
             患者转运交接
           </el-menu-item>
         </el-submenu>
@@ -48,12 +48,12 @@ export default {
   data () {
     return {
       defaultArray: [2],
-      defaultRouter: '/home/nursing-document-list/security-check',
+      defaultRouter: '/home/client-nursing-document-list/client-security-check',
       menuList: [
         {
           icon: 'el-icon-s-order',
           title: '安全检查',
-          path: '/home/nursing-document-list/security-check'
+          path: '/home/client-nursing-document-list/client-security-check'
         },
         {
           icon: 'el-icon-s-order',
@@ -62,27 +62,27 @@ export default {
             {
               icon: 'el-icon-s-order',
               title: '护理记录一',
-              path: '/home/nursing-document-list/nursing-one'
+              path: '/home/client-nursing-document-list/client-nursing-one'
             },
             {
               icon: 'el-icon-s-order',
               title: '护理记录二',
-              path: '/home/nursing-document-list/nursing-two'
+              path: '/home/client-nursing-document-list/client-nursing-two'
             },
             {
               icon: 'el-icon-s-order',
               title: '护理记录基础',
-              path: '/home/nursing-document-list/nursing-jichu'
+              path: '/home/client-nursing-document-list/client-nursing-jichu'
             },
             {
               icon: 'el-icon-s-order',
               title: '护理记录特殊',
-              path: '/home/nursing-document-list/nursing-teshu'
+              path: '/home/client-nursing-document-list/client-nursing-teshu'
             },
             {
               icon: 'el-icon-s-order',
               title: '患者转运交接',
-              path: '/home/nursing-document-list/nursing-transit-transfer'
+              path: '/home/client-nursing-document-list/client-nursing-transit-transfer'
             }
           ]
         }

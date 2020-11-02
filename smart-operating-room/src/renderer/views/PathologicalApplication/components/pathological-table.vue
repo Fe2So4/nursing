@@ -162,13 +162,13 @@ export default {
   },
   mounted () {
     Bus.$on('sub-pathological-hologyType', res => {
-      this.hologyType = res
+      this.utilsDebounce(() => { this.hologyType = res }, 300)
     })
     Bus.$on('user-info-initData', res => {
-      this.selectData = []
+      this.utilsDebounce(() => { this.selectData = [] }, 300)
     })
     Bus.$on('user-info-getData', res => {
-      this.selectData = []
+      this.utilsDebounce(() => { this.selectData = [] }, 300)
     })
   },
   methods: {

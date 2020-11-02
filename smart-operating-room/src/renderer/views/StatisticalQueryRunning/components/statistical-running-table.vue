@@ -266,7 +266,9 @@ export default {
   },
   mounted () {
     Bus.$on('statistical', res => {
-      this.dayin()
+      this.utilsDebounce(() => {
+        this.dayin()
+      }, 1000)
     })
   },
   methods: {
