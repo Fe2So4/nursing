@@ -187,7 +187,7 @@ export default {
   },
   methods: {
     dayin () {
-      Bus.$emit('detail-patient', '3')
+      Bus.$emit('detail-patient', this.selectRow)
       // this.utilsDebounce(() => { this.printCurrent() }, 1000)
     },
 

@@ -318,6 +318,8 @@
 <script>
 import QRCode from 'qrcodejs2'
 import Bus from '@/utils/bus.js'
+import {getOperatingNoticeTime} from '@/api/receiving-orders'
+import request from '@/utils/request'
 import {ipcRenderer} from 'electron'
 export default {
   data () {
@@ -332,6 +334,26 @@ export default {
     }
   },
   methods: {
+    // 打印手术通知单时间
+    getOperatingTime () {
+      request({
+        url: getOperatingNoticeTime,
+        method: 'post',
+        data: {
+          cureNo: this.selectRow.cureNo,
+          hospitalNo: this.selectRow.hospitalNo
+        }
+
+      }
+
+      ).then(res => {
+        if (res.data.code === 200) {
+
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
     // 打印
     printCurrent () {
       const printHtml = document.getElementById('detail-patient').outerHTML
@@ -357,7 +379,10 @@ export default {
       this.bindQRCode()
     })
     Bus.$on('detail-patient', res => {
-      this.utilsDebounce(() => { this.printCurrent() }, 1000)
+      this.utilsDebounce(() => {
+        this.printCurrent()
+        this.getOperatingTime()
+      }, 1000)
     })
   }
 }

@@ -60,7 +60,7 @@ export default {
   },
   mounted () {
     this.socket = io('http://192.168.1.106:5099', {
-      query: 'sendName=' + '608'
+      query: 'sendName=' + '602'
     })
     this.socket.on('connect', () => {
       console.log('socket.io connected')
