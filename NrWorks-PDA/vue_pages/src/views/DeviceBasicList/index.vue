@@ -20,18 +20,19 @@
           <div class="title">
             <div class="title-left">
               手术敷料、基本器械、物品清点
+              <!-- <p style="line-height:30px;">请扫描器械包</p> -->
             </div>
-            <div class="title-right">已清点</div>
+            <div class="title-right">{{state === 0 ? '未清点' : '已清点'}}</div>
           </div>
-          <ul>
+          <ul v-if="packageList.length>0">
             <li v-for="item in packageList" :key="item.insIndex">
               <van-cell :title="item.insName" value="已清点" title-class="first-cell" border>
                 <template #right-icon>
-                  <van-stepper v-model="item.insCount" theme="round" />
+                  <van-stepper v-model="item.number" theme="round" min='0'/>
                 </template>
               </van-cell>
             </li>
-            <li style="border:1px solid #e2e2e2;" @click="handleSign1">
+            <li @click="handleSign1">
               <span class="sign-class">洗手护士签名</span>
               <span class="sign-value">{{sign1}}</span>
             </li>
@@ -40,6 +41,9 @@
               <span class="sign-value">{{sign2}}</span>
             </li>
           </ul>
+          <div v-else style="text-indent:15px;">
+            请扫描器械包
+          </div>
         </div>
       </div>
     </div>
@@ -57,17 +61,11 @@ export default {
     return {
       checked: true,
       input: '',
+      state: 0, // 清点状态
       showFullSkin: false,
       sign1: '',
       sign2: '',
       value1: '',
-      option: [
-        { text: 'PACU', value: 0 },
-        { text: '病房', value: 1 },
-        { text: 'ICU病房', value: 2 },
-        { text: '急诊', value: 3 },
-        { text: '离院', value: 4 }
-      ],
       active: 0,
       stepper: '',
       items: [{ text: '术前', active: 0 }, { text: '术中(一)', active: 1 },
@@ -77,14 +75,16 @@ export default {
       packageData: [],
       recordForm: {
         basicEquipment: {
-          before: [], // 术前
-          adding: [], // 术中一
-          adding1: [], // 术中二
-          adding2: [], // 术中三
-          adding3: [], // 术中四
-          before2: [], // 体腔关闭前
-          after: [], // 体腔关闭后
-          after2: [] // 缝合后
+          items: {
+            before: [], // 术前
+            adding: [], // 术中一
+            adding1: [], // 术中二
+            adding2: [], // 术中三
+            adding3: [], // 术中四
+            before2: [], // 体腔关闭前
+            after: [], // 体腔关闭后
+            after2: [] // 缝合后
+          }
         },
         modifier: '',
         modifierCode: '',
@@ -190,40 +190,50 @@ export default {
       })
     },
     getPackageList () {
-      request({
-        method: 'get',
-        // url: getPackageData + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`
-        url: getPackageData + `/91160537/17655867`
-      }).then(res => {
-        this.recordForm = res.data.data
-        // this.recordForm.basicEquipment = JSON.parse(this.recordForm.basicEquipment)
-        switch (this.active) {
-          case 0:
-            this.packageList = this.recordForm.basicEquipment.before
-            break
-          case 1:
-            this.packageList = this.recordForm.basicEquipment.adding
-            break
-          case 2:
-            this.packageList = this.recordForm.basicEquipment.adding1
-            break
-          case 3:
-            this.packageList = this.recordForm.basicEquipment.adding2
-            break
-          case 4:
-            this.packageList = this.recordForm.basicEquipment.adding3
-            break
-          case 5:
-            this.packageList = this.recordForm.basicEquipment.before2
-            break
-          case 6:
-            this.packageList = this.recordForm.basicEquipment.after
-            break
-          case 7:
-            this.packageList = this.recordForm.basicEquipment.after2
-            break
-        }
-      })
+      if (this.packageList.length > 0) {
+        request({
+          method: 'get',
+          url: getPackageData + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`
+          // url: getPackageData + `/91160537/17655867`
+        }).then(res => {
+          this.recordForm = res.data.data
+          // this.recordForm.basicEquipment = JSON.parse(this.recordForm.basicEquipment)
+          switch (this.active) {
+            case 0:
+              this.packageList = this.recordForm.basicEquipment.items.before
+              this.state = this.recordForm.beforeStatus
+              break
+            case 1:
+              this.packageList = this.recordForm.basicEquipment.items.adding
+              this.state = this.recordForm.addingOne
+              break
+            case 2:
+              this.packageList = this.recordForm.basicEquipment.items.adding1
+              this.state = this.recordForm.addingTwo
+              break
+            case 3:
+              this.packageList = this.recordForm.basicEquipment.items.adding2
+              this.state = this.recordForm.addingThree
+              break
+            case 4:
+              this.packageList = this.recordForm.basicEquipment.items.adding3
+              this.state = this.recordForm.addingFour
+              break
+            case 5:
+              this.packageList = this.recordForm.basicEquipment.items.before2
+              this.state = this.recordForm.clossBefore
+              break
+            case 6:
+              this.packageList = this.recordForm.basicEquipment.items.after
+              this.state = this.recordForm.clossAfter
+              break
+            case 7:
+              this.packageList = this.recordForm.basicEquipment.items.after2
+              this.state = this.recordForm.sutureAfter
+              break
+          }
+        })
+      }
     },
     getData () {
       let deviceId = '123456'
@@ -231,83 +241,101 @@ export default {
         method: 'get',
         url: getPackage + '/' + deviceId
       }).then(res => {
-        console.log(res.data.data)
-        this.packageList = res.data.data.packageDetail
-        this.packageData = res.data.data.packageDetail
+        let data = res.data.data.packageDetail
+        data.forEach(item => {
+          item.number = 0
+        })
+        this.packageList = JSON.parse(JSON.stringify(data))
+        this.recordForm.basicEquipment.pName = res.data.data.name
+        this.recordForm.basicEquipment.pId = res.data.data.id
+        this.recordForm.basicEquipment.items.before = JSON.parse(JSON.stringify(data)) // 术前
+        this.recordForm.basicEquipment.items.adding = JSON.parse(JSON.stringify(data)) // 术中一
+        this.recordForm.basicEquipment.items.adding1 = JSON.parse(JSON.stringify(data)) // 术中二
+        this.recordForm.basicEquipment.items.adding2 = JSON.parse(JSON.stringify(data)) // 术中三
+        this.recordForm.basicEquipment.items.adding3 = JSON.parse(JSON.stringify(data)) // 术中四
+        this.recordForm.basicEquipment.items.before2 = JSON.parse(JSON.stringify(data)) // 体腔关闭前
+        this.recordForm.basicEquipment.items.after = JSON.parse(JSON.stringify(data)) // 体腔关闭后
+        this.recordForm.basicEquipment.items.after2 = JSON.parse(JSON.stringify(data)) // 缝合后
       })
     },
     onClickRight () {
       let obj = this.recordForm
+      let state = 0
+      for (let i = 0; i < this.packageList.length; i++) {
+        if (this.packageList[i].number === 0) {
+          state = 0
+          break
+        } else {
+          state = 1
+        }
+      }
       switch (this.active) {
         case 0:
-          obj.basicEquipment.before = this.packageList
+          obj.basicEquipment.items.before = this.packageList
+          obj.beforeStatus = state
           break
         case 1:
-          obj.basicEquipment.adding = this.packageList
+          obj.basicEquipment.items.adding = this.packageList
+          obj.addingOne = state
           break
         case 2:
-          obj.basicEquipment.adding1 = this.packageList
+          obj.basicEquipment.items.adding1 = this.packageList
+          obj.addingTwo = state
           break
         case 3:
-          obj.basicEquipment.adding2 = this.packageList
+          obj.basicEquipment.items.adding2 = this.packageList
+          obj.addingThree = state
           break
         case 4:
-          obj.basicEquipment.adding3 = this.packageList
+          obj.basicEquipment.items.adding3 = this.packageList
+          obj.addingFour = state
           break
         case 5:
-          obj.basicEquipment.before2 = this.packageList
+          obj.basicEquipment.items.before2 = this.packageList
+          obj.clossBefore = state
           break
         case 6:
-          obj.basicEquipment.after = this.packageList
+          obj.basicEquipment.items.after = this.packageList
+          obj.clossAfter = state
           break
         case 7:
           obj.basicEquipment.after2 = this.packageList
+          obj.sutureAfter = state
       }
       obj.basicEquipment = JSON.stringify(obj.basicEquipment)
-      // obj.cureNo = this.patientInfo.cureNo
-      // obj.hospitalNo = this.patientInfo.hospitalNo
-      obj.cureNo = '17655867'
-      obj.hospitalNo = '91160537'
-      // obj.basicEquipment = JSON.stringify(obj.basicEquipment)
+      obj.hospitalNo = this.patientInfo.hospitalNo
+      obj.modifier = this.opePeopleInfo.userName
+      obj.modifierCode = this.opePeopleInfo.userCode
+      obj.cureNo = this.patientInfo.cureNo
+      // obj.cureNo = '17655867'
+      // obj.hospitalNo = '91160537'
       request({
         url: savePackageData,
         method: 'post',
         data: obj
-      })
-    },
-    handleChange (index) {
-      this.active = index
-      switch (this.active) {
-        case 0:
-          this.packageList = this.recordForm.basicEquipment.before
-          break
-        case 1:
-          this.packageList = this.recordForm.basicEquipment.adding
-          break
-        case 2:
-          this.packageList = this.recordForm.basicEquipment.adding1
-          break
-        case 3:
-          this.packageList = this.recordForm.basicEquipment.adding2
-          break
-        case 4:
-          this.packageList = this.recordForm.basicEquipment.adding3
-          break
-        case 5:
-          this.packageList = this.recordForm.basicEquipment.before2
-          break
-        case 6:
-          this.packageList = this.recordForm.basicEquipment.after
-          break
-        case 7:
-          this.packageList = this.recordForm.basicEquipment.after2
-          break
+      }).then(res => {
+        this.getPackageList()
       }
+      )
+    },
+    async handleChange (index) {
+      this.active = index
+      this.getPackageList()
     }
   },
-  mounted () {
-    this.getData()
+  async mounted () {
+    // await this.getData()
     this.getPackageList()
+  },
+  created () {
+    document.onkeydown = (e) => {
+      var key = window.event.keyCode
+      if (key === 13) {
+        setTimeout(() => {
+          this.getData()
+        }, 2000)
+      }
+    }
   }
 }
 </script>
@@ -374,6 +402,10 @@ export default {
           ul{
             height: calc(100% - 124px);
             overflow-y: auto;
+            li{
+              background: #ffffff;
+              border-bottom:1PX solid #e2e2e2;
+            }
             .sign-class{
               color: #10C15B;
               line-height: 90px;

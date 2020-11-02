@@ -9,10 +9,12 @@ import 'vant/lib/index.css'
 import 'vant/lib/icon/local.css'
 import './styles/index.css'
 import './utils/rem'
+import IsEmpty from './utils/isEmpty'
 import store from './store'
 import { Loading, DatetimePicker, Step, Steps, Stepper, TreeSelect, ActionSheet, Checkbox, CheckboxGroup, Popup, DropdownMenu, DropdownItem, Switch, Cell, CellGroup, Image, Button, Dialog, Grid, GridItem, Field, Form, Notify, NavBar, Icon } from 'vant'
 // import VueSignaturePad from 'vue-signature-pad'
 import vueEsign from 'vue-esign'
+Vue.prototype.IsEmpty = IsEmpty
 Vue.use(vueEsign)
 Vue.use(Dialog)
 Vue.use(Loading)

@@ -16,7 +16,7 @@
             <van-switch v-model="recordForm[0].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="手术方式确认" value="内容" value-class="van-cell-center">
+        <van-cell title="手术方式确认：" value="内容" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="recordForm[1].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
@@ -144,28 +144,29 @@ export default {
       anesBeforeNurse: '',
       anesBeforeState: '',
       recordForm: [
-        {key: '患者姓名，性别，年龄正确', value: false},
-        {key: '手术方式确认', value: false},
-        {key: '手术部位与标识正确', value: false},
-        {key: '手术知情同意书', value: false},
-        {key: '麻醉知情同意书', value: false},
-        {key: '麻醉设备安全检查完成', value: false},
+        {key: '患者姓名，性别，年龄正确', value: false, sort: '1'},
+        {key: '手术方式确认', value: false, sort: '2'},
+        {key: '手术部位与标识正确', value: false, sort: '3'},
+        {key: '手术知情同意书', value: false, sort: '4'},
+        {key: '麻醉知情同意书', value: false, sort: '5'},
+        {key: '麻醉设备安全检查完成', value: false, sort: '6'},
         {
           key: '皮肤是否完整',
           value: false,
+          sort: '7',
           items: [
             {key: '部位', value: ''},
             {key: '程度', value: ''}
           ]},
-        {key: '术野皮肤准备正确', value: false},
-        {key: '静脉通道建立完成', value: false},
-        {key: '患者是否有过敏史', value: false},
-        {key: '抗菌药物皮试结果', value: false},
-        {key: '术前备血', value: false},
-        {key: '影像学资料', value: false},
-        {key: '假体', value: false},
-        {key: '体内植入物', value: false},
-        {key: '其它', value: ''}
+        {key: '术野皮肤准备正确', value: false, sort: '8'},
+        {key: '静脉通道建立完成', value: false, sort: '9'},
+        {key: '患者是否有过敏史', value: false, sort: '10'},
+        {key: '抗菌药物皮试结果', value: false, sort: '11'},
+        {key: '术前备血', value: false, sort: '12'},
+        {key: '影像学资料', value: false, sort: '13'},
+        {key: '假体', value: false, sort: '14'},
+        {key: '体内植入物', value: false, sort: '15'},
+        {key: '其它', value: '', sort: '16'}
       ]
     }
   },
@@ -193,6 +194,7 @@ export default {
     },
     onClickRight () {
       let arr = JSON.parse(JSON.stringify(this.recordForm))
+      let state = ''
       arr.forEach(item => {
         if (item.key !== '其它：') {
           if (item.value === true) {
@@ -202,7 +204,14 @@ export default {
           }
         }
       })
-      console.log(this.recordForm)
+      for (var i = 0; i < arr.length; i++) {
+        if (!arr[i].value) {
+          state = '1'
+          break
+        } else {
+          state = '2'
+        }
+      }
       request({
         method: 'post',
         url: submitSignIn,
@@ -211,7 +220,7 @@ export default {
           anesBeforeCheckJson: arr,
           anesBeforeNurse: this.anesBeforeNurse,
           anesBeforeOperDoc: this.anesBeforeOperDoc,
-          anesBeforeState: this.anesBeforeState,
+          anesBeforeState: state,
           cureNo: this.patientInfo.cureNo
         }
       }).then(res => {
@@ -233,19 +242,27 @@ export default {
       }).then(res => {
         if (res.data.code === 200) {
           let data = res.data.data
-          this.anesBeforeAnesDoc = data.anesBeforeAnesDoc
-          this.anesBeforeOperDoc = data.anesBeforeOperDoc
-          this.anesBeforeNurse = data.anesBeforeNurse
-          data.anesBeforeCheck.forEach(item => {
-            if (item.key !== '其它') {
-              if (item.value === '是') {
-                item.value = true
-              } else {
-                item.value = false
+          if (data.anesBeforeAnesDoc) {
+            this.anesBeforeAnesDoc = data.anesBeforeAnesDoc
+          }
+          if (data.anesBeforeAnesDoc) {
+            this.anesBeforeOperDoc = data.anesBeforeOperDoc
+          }
+          if (data.anesBeforeNurse) {
+            this.anesBeforeNurse = data.anesBeforeNurse
+          }
+          if (data.anesBeforeCheck.length > 0) {
+            data.anesBeforeCheck.forEach(item => {
+              if (item.key !== '其它') {
+                if (item.value === '是') {
+                  item.value = true
+                } else {
+                  item.value = false
+                }
               }
-            }
-          })
-          this.recordForm = data.anesBeforeCheck
+            })
+            this.recordForm = data.anesBeforeCheck
+          }
         }
       })
     },

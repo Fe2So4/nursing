@@ -12,7 +12,7 @@
             v-for="item in list"
             :key="item.value"
           >
-            <medical-order />
+            <medical-order :item="item" />
           </li>
         </ul>
         <el-collapse

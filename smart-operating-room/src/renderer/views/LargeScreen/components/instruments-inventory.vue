@@ -24,16 +24,20 @@
 import CheckDetail from './check-detail'
 import CheckOverview from './check-overview'
 import InventoryTable from './inventory-table'
+import request from '@/utils/request'
+import {mapState} from 'vuex'
+import {getOrdinaryData, getSpecialData} from '@/api/large-screen'
 export default {
   name: 'SecurityCheck',
   data () {
     return {
       // itemStatus:1,
-      activeName: 'second',
+      activeName: 'first',
       navList: [
         {label: '手术敷料、基本器械、物品', name: 'first', component: 'InventoryTable'},
         {label: '楼层特殊手术器械清点', name: 'second', component: 'InventoryTable'}
-      ]
+      ],
+      list: []
     }
   },
   components: {
@@ -44,10 +48,32 @@ export default {
   props: {
 
   },
+  computed: {
+    ...mapState('LargeScreen', ['patientInfo'])
+  },
   methods: {
     handleChange () {
 
+    },
+    getOrdinaryData () {
+      request({
+        url: getOrdinaryData + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`,
+        method: 'get'
+      }).then(res => {
+        this.list = res.data.data
+      })
+    },
+    getSpecialData () {
+      request({
+        url: getSpecialData + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`,
+        method: 'get'
+      }).then(res => {
+
+      })
     }
+  },
+  mounted () {
+    this.getOrdinaryData()
   }
 }
 </script>

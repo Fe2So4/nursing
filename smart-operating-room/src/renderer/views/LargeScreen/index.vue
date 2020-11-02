@@ -4,13 +4,21 @@
       <patient-card @handleShowStep="handleShowStep" />
     </div>
     <div
-      class="pt-step"
-      v-show="stepVisible"
+      v-if="patientInfo.cureNo"
+      class="ls-content"
     >
-      <patient-step />
+      <div
+        class="pt-step"
+        v-show="stepVisible"
+      >
+        <patient-step />
+      </div>
+      <div class="pt-info">
+        <patient-info />
+      </div>
     </div>
-    <div class="pt-info">
-      <patient-info />
+    <div v-else>
+      请在pda上绑定患者
     </div>
   </div>
 </template>
@@ -20,6 +28,8 @@ import PatientCard from './components/patient-card'
 import PatientStep from './components/patient-step'
 import PatientInfo from './components/patient-info'
 import io from 'socket.io-client'
+import {mapActions, mapState} from 'vuex'
+import $bus from '@/utils/busScreen'
 export default {
   name: 'LargeScreen',
   data () {
@@ -28,14 +38,31 @@ export default {
       socket: null
     }
   },
+  computed: {
+    ...mapState('LargeScreen', ['patientInfo'])
+  },
+  watch: {
+    patientInfo: {
+      handler (newValue, old) {
+        return newValue
+      },
+      deep: true
+    }
+  },
   components: {PatientCard, PatientStep, PatientInfo},
   methods: {
+    ...mapActions('LargeScreen', ['setPatientInfo']),
     handleShowStep () {
       this.stepVisible = !this.stepVisible
+    },
+    print () {
+      $bus.$emit('print')
+    },
+    setCureNo (obj) {
+      this.setPatientInfo(obj)
     }
   },
   mounted () {
-    // create (loginUserNum) {
     this.socket = io('http://192.168.1.106:5099', {
       query: 'sendName=' + '608'
     })
@@ -52,19 +79,12 @@ export default {
       console.log(data)
       if (data) {
         let arr = []
+        this.setCureNo({cureNo: data.cureNo, hospitalNo: data.hospitalNo})
         arr.push(data)
         this.socket.emit('text', arr)
       }
     })
   }
-  // getInstance () {
-  //   return this.instance
-  // },
-  // close () {
-  //   this.instance.close()
-  //   this.instance = null
-  // }
-  // }
 }
 </script>
 
@@ -77,14 +97,20 @@ export default {
     .pt-card{
       height: 110px;
     }
-    .pt-step{
-      margin-top:20px;
-      height: 125px;
-    }
-    .pt-info{
-      margin-top:20px;
-      height: calc(100% - 275px);
-      flex:1;
+    .ls-content{
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      .pt-step{
+        margin-top:20px;
+        height: 125px;
+      }
+      .pt-info{
+        margin-top:20px;
+        height: calc(100% - 275px);
+        flex:1;
+      }
     }
   }
 </style>
