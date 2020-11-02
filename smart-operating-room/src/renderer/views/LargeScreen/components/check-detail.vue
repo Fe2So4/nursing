@@ -1,6 +1,6 @@
 <template>
   <div class="check-detail">
-    <ul>
+    <ul v-if="state!=='0'">
       <li
         class="clearfix"
         v-for="item in list"
@@ -16,6 +16,18 @@
         </div>
       </li>
     </ul>
+    <div
+      v-else
+      class="data-empty"
+    >
+      <div>
+        <img
+          src="@/assets/list-empty.png"
+          alt=""
+        >
+        <p>暂无数据</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -30,6 +42,10 @@ export default {
   props: {
     list: {
       type: Array,
+      required: true
+    },
+    state: {
+      type: String,
       required: true
     }
   }
@@ -78,6 +94,17 @@ export default {
         &:last-child{
           margin-bottom: unset;
         }
+      }
+    }
+    .data-empty{
+      text-align: center;
+      height: calc(100% - 58px);
+      color: #91949A;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img{
+        transform: translateX(10px);
       }
     }
   }

@@ -22,7 +22,9 @@
         >
           <component
             :is="item.component"
+            :state="state"
             :list="list"
+            :state-list="item.component === 'CheckOverview' ? stateList : {}"
           />
         </el-tab-pane>
       </el-tabs>
@@ -42,6 +44,7 @@ export default {
     return {
       // itemStatus:1,
       activeName: 'first',
+      stateList: {signIn: '0', timeOut: '1', signOut: '0'},
       list: [],
       navList: [
         {label: '概览', name: 'first', component: 'CheckOverview'},
@@ -49,6 +52,7 @@ export default {
         {label: 'Time Out', name: 'third', component: 'CheckDetail'},
         {label: 'Sign Out', name: 'fourth', component: 'CheckDetail'}
       ],
+      state: '',
       signInList: [
         {text: '患者姓名、住院号、性别、年龄正确：', value: '1', sort: '1'},
         {text: '手术方式确认：', value: '0', sort: '2'},
@@ -128,6 +132,8 @@ export default {
         method: 'get'
       }).then(res => {
         let data = res.data.data.anesBeforeCheck
+        this.state = res.data.data.anesBeforeCheckState
+        this.stateList.signIn = res.data.data.anesBeforeCheckState
         this.signInList.forEach(_item => {
           data.forEach(item => {
             if (_item.sort === item.sort) {
@@ -144,6 +150,8 @@ export default {
         method: 'get'
       }).then(res => {
         let data = res.data.data.opeeBeforeCheck
+        this.state = res.data.data.operBeforeCheckState
+        this.stateList.timeOut = res.data.data.operBeforeCheckState
         this.timeOutList.forEach(_item => {
           data.forEach(item => {
             if (_item.sort === item.sort) {
@@ -159,6 +167,8 @@ export default {
         method: 'get'
       }).then(res => {
         let data = res.data.data.beforeLeaveRoomCheck
+        this.state = res.data.data.operLeaveBeforeCheckState
+        this.stateList.signOut = res.data.data.operLeaveBeforeCheckState
         this.signOutList.forEach(_item => {
           data.forEach(item => {
             if (_item.sort === item.sort) {
@@ -172,6 +182,9 @@ export default {
       console.log(tab.name)
       switch (tab.name) {
         case 'first':
+          this.getSignInInfo()
+          this.getTimeOutInfo()
+          this.getSignOutInfo()
           break
         case 'second':
           this.getSignInInfo()

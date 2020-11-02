@@ -25,7 +25,16 @@
 
 <script>
 export default {
-  name: 'Overview'
+  name: 'Overview',
+  props: {
+    stateList: {
+      type: Object,
+      required: true
+    }
+  },
+  method: {
+
+  }
 }
 </script>
 

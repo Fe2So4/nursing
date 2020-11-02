@@ -29,7 +29,6 @@ import PatientStep from './components/patient-step'
 import PatientInfo from './components/patient-info'
 import io from 'socket.io-client'
 import {mapActions, mapState} from 'vuex'
-import $bus from '@/utils/busScreen'
 export default {
   name: 'LargeScreen',
   data () {
@@ -54,9 +53,6 @@ export default {
     ...mapActions('LargeScreen', ['setPatientInfo']),
     handleShowStep () {
       this.stepVisible = !this.stepVisible
-    },
-    print () {
-      $bus.$emit('print')
     },
     setCureNo (obj) {
       this.setPatientInfo(obj)

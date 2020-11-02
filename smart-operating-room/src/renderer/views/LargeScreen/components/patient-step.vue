@@ -20,6 +20,10 @@
 </template>
 
 <script>
+import {getPatientStep} from '@/api/large-screen'
+import request from '@/utils/request'
+import {mapState} from 'vuex'
+import $bus from '@/utils/busScreen'
 export default {
   name: 'PatientStep',
   data () {
@@ -82,8 +86,23 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapState('LargeScreen', ['patientInfo'])
+  },
   methods: {
-
+    getStepList () {
+      request({
+        method: 'get',
+        url: getPatientStep + `/${this.patientInfo.cureNo}/${this.patientInfo.hospitalNo}`
+      })
+    }
+  },
+  mounted () {
+    this.getStepList()
+    $bus.$on('getStepList', this.getStepList)
+  },
+  beforeDestroy () {
+    $bus.$off('getStepList')
   }
 }
 </script>

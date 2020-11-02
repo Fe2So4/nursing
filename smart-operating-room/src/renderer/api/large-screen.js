@@ -17,3 +17,5 @@ export const getRecord2Data = `${config.default.api.baseURL}/ocis/nursingRecord/
 export const getMedicalAdvice = `${config.default.api.baseURL}/ocis/operationScreen/GetEffectiveConstituent`
 // 获取病史摘要
 export const getMedicalHistory = `${config.default.api.baseURL}/ocis/operationScreen/getPatientGuide`
+// 获取当前患者手术状态
+export const getPatientStep = `${config.default.api.baseURL}/ocis/operationScreen/getScreenOperState`
