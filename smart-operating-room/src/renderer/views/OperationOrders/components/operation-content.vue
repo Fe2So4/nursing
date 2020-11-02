@@ -389,7 +389,7 @@ export default {
       this.searchCardParams.isOrder = res.isOrder
       this.searchCardParams.condition = res.condition
       this.searchCardParams.floorNo = res.floorNo
-      this.getCardList()
+      this.utilsDebounce(() => { this.getCardList() }, 1000)
     })
     // 监听同步按钮
     Bus.$on('operation-header-synchronous', res => {
@@ -397,7 +397,7 @@ export default {
       this.searchCardParams.isOrder = res.isOrder
       this.searchCardParams.condition = res.condition
       this.searchCardParams.floorNo = res.floorNo
-      this.getTongbuCardList()
+      this.utilsDebounce(() => { this.getTongbuCardList() }, 1000)
     })
     // 获取护士列表
     this.getNurseList()

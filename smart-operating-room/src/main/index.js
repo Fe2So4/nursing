@@ -46,6 +46,10 @@ function createWindow () {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
+
+  // ipcMain.on('login-window', () => {
+  //   mainWindow.maximize()
+  // })
 }
 
 app.on('ready', createWindow)

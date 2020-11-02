@@ -45,7 +45,7 @@ export default new Router({
           }
         },
         {
-          path: 'operation-orders',
+          path: 'client-operation-orders',
           name: 'OperationOrders',
           component: () => import('@/views/OperationOrders/index'),
           meta: {
@@ -55,7 +55,7 @@ export default new Router({
           }
         },
         {
-          path: 'pathological-application',
+          path: 'client-pathological-application',
           name: 'PathologicalApplication',
           component: () => import('@/views/PathologicalApplication/index'),
           meta: {
@@ -65,7 +65,7 @@ export default new Router({
           }
         },
         {
-          path: 'nursing-document',
+          path: 'client-nursing-document',
           name: 'PathologicalApplication',
           component: () => import('@/views/NursingDocument/index'),
           meta: {
@@ -75,7 +75,7 @@ export default new Router({
           }
         },
         {
-          path: 'statistical-query',
+          path: 'client-statistical-query',
           name: 'StatisticalQuery',
           component: () => import('@/views/StatisticalQuery/index'),
           meta: {
@@ -95,7 +95,7 @@ export default new Router({
         //   }
         // },
         {
-          path: 'continuous-surgery',
+          path: 'client-continuous-surgery',
           name: 'ContinuousSurgery',
           component: () => import('@/views/ContinuousSurgery/index'),
           meta: {
@@ -115,7 +115,7 @@ export default new Router({
         //   }
         // },
         {
-          path: 'nursing-document-list',
+          path: 'client-nursing-document-list',
           name: 'NursingDocumentList',
           component: () => import('@/views/NursingDocumentList/index'),
           meta: {
@@ -123,10 +123,10 @@ export default new Router({
             noNavs: false,
             parent: 'Home'
           },
-          redirect: '/home/nursing-document-list/security-check',
+          redirect: '/home/client-nursing-document-list/client-security-check',
           children: [
             {
-              path: 'security-check',
+              path: 'client-security-check',
               name: 'SecurityCheck',
               component: () => import('@/views/NursingDocumentList/components/security-check'),
               meta: {
@@ -136,7 +136,7 @@ export default new Router({
               }
             },
             {
-              path: 'nursing-one',
+              path: 'client-nursing-one',
               name: 'NursingDocumentOne',
               component: () => import('@/views/NursingDocumentList/components/nursing-document-one'),
               meta: {
@@ -146,7 +146,7 @@ export default new Router({
               }
             },
             {
-              path: 'nursing-two',
+              path: 'client-nursing-two',
               name: 'NursingDocumentTwo',
               component: () => import('@/views/NursingDocumentList/components/nursing-document-two'),
               meta: {
@@ -156,7 +156,7 @@ export default new Router({
               }
             },
             {
-              path: 'nursing-jichu',
+              path: 'client-nursing-jichu',
               name: 'NursingDocumentJiChu',
               component: () => import('@/views/NursingDocumentList/components/nursing-document-jichu'),
               meta: {
@@ -166,7 +166,7 @@ export default new Router({
               }
             },
             {
-              path: 'nursing-teshu',
+              path: 'client-nursing-teshu',
               name: 'NursingDocumentTeshu',
               component: () => import('@/views/NursingDocumentList/components/nursing-document-teshu'),
               meta: {
@@ -176,7 +176,7 @@ export default new Router({
               }
             },
             {
-              path: 'nursing-transit-transfer',
+              path: 'client-nursing-transit-transfer',
               name: 'TransitTransfer',
               component: () => import('@/views/NursingDocumentList/components/transit-transfer'),
               meta: {

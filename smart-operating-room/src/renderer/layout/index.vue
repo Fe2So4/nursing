@@ -1,7 +1,8 @@
 <template>
   <el-container>
     <el-header height="60px">
-      <Header />
+      <Header v-if="!$route.path.includes('client')" />
+      <WinHeader v-else />
     </el-header>
     <el-container>
       <el-aside v-show="hasNavs">
@@ -19,6 +20,7 @@
 
 <script>
 import Header from './header'
+import WinHeader from './win-header'
 import Nav from './nav'
 import moment from 'moment'
 export default {
@@ -41,7 +43,7 @@ export default {
       immediate: true
     }
   },
-  components: {Header, Nav}
+  components: {Header, Nav, WinHeader}
 }
 </script>
 

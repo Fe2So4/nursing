@@ -1,5 +1,7 @@
 <template>
-  <div class="layout-header">
+  <div
+    class="layout-header"
+  >
     <div class="left">
       <img
         src="../assets/logo-tq.png"
@@ -17,22 +19,35 @@
         </el-radio-group>
       </span>
     </div>
+
     <div class="right">
-      {{ time }}
+      <div class="userInfo">
+        <span>
+          <i class="el-icon-user-solid" />
+          {{ '万富贵' }}
+        </span>
+      </div>
+      <div class="caozuo">
+        <Operation />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Operation from '@/components/win-operation'
+
 export default {
   data () {
     return {
       time: '',
       interval: null,
       radio: 1
+
     }
   },
   methods: {
+
     updateTime () {
       var cd = new Date()
       this.time = this.zeroPadding(cd.getHours(), 2) + ':' + this.zeroPadding(cd.getMinutes(), 2) + ':' + this.zeroPadding(cd.getSeconds(), 2)
@@ -56,6 +71,9 @@ export default {
           this.$router.push('/home/client-operation-orders')
       }
     }
+  },
+  components: {
+    Operation
   },
   mounted () {
     this.updateTime()
@@ -95,8 +113,18 @@ export default {
       }
     }
     .right{
-      font-size: 24px;
+      position: relative;
+      display: flex;
+      font-size: 16px;
       margin-right: 21px;
+      .userInfo {
+        margin-right: 150px;
+      }
+      .caozuo {
+        position: absolute;
+        // top: -15px;
+        right: 0;
+      }
     }
   }
 </style>>

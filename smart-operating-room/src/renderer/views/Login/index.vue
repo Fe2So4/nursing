@@ -82,8 +82,10 @@
 
 <script>
 import { login } from '@/api/login'
+
 // import request from '@/utils/request'
 import { setUserToken, setCurrentAccount } from '../../utils/storage'
+// import {ipcRenderer} from 'electron'
 
 const { BrowserWindow } = require('electron').remote
 
@@ -125,6 +127,10 @@ export default {
             if (res.data.code === '0') {
               setUserToken(res.data.data)
               setCurrentAccount(this.form.username)
+              // ipcRenderer.send('login-window')
+              const win = BrowserWindow.getFocusedWindow()
+              win.maximize()
+              // win.close()
               this.$router.push('/home')
             } else {
               this.$message({ type: 'error', message: res.data.message })

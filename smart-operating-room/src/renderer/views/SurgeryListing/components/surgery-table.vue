@@ -402,7 +402,9 @@ export default {
   mounted () {
     // this.addScrollHandle()
     Bus.$on('continuous', res => {
-      this.dayin()
+      this.utilsDebounce(() => {
+        this.dayin()
+      }, 1000)
     })
   },
 

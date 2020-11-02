@@ -38,7 +38,7 @@ export default {
     return {
       isCollapse: false,
       fold: 'el-icon-s-fold',
-      activeIndex: '/home/operation-orders',
+      activeIndex: '/home/client-operation-orders',
       menuList: [
         // {
         //   icon:'el-icon-data-line',
@@ -48,27 +48,27 @@ export default {
         {
           icon: 'el-icon-s-order',
           title: '手术派单',
-          path: '/home/operation-orders'
+          path: '/home/client-operation-orders'
         },
         {
           icon: 'el-icon-menu',
           title: '病理申请',
-          path: '/home/pathological-application'
+          path: '/home/client-pathological-application'
         },
         {
           icon: 'el-icon-tickets',
           title: '护理列表',
-          path: '/home/nursing-document'
+          path: '/home/client-nursing-document'
         },
         {
           icon: 'el-icon-s-claim',
           title: '统计查询',
-          path: '/home/statistical-query'
+          path: '/home/client-statistical-query'
         },
         {
           icon: 'el-icon-s-operation',
           title: '连台手术',
-          path: '/home/continuous-surgery'
+          path: '/home/client-continuous-surgery'
         }
       ]
     }
