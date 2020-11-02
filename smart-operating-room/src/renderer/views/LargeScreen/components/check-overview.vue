@@ -2,17 +2,17 @@
   <div class="overview">
     <div class="triangle">
       <div class="state1">
-        <span>
+        <span :class="{'active':stateList.signIn === '2'}">
           <i>Sign In</i>
         </span>
       </div>
       <div class="state2">
-        <span>
+        <span :class="{'active':stateList.timeOut === '2'}">
           <i>Time Out</i>
         </span>
       </div>
       <div class="state3">
-        <span>
+        <span :class="{'active':stateList.signOut === '2'}">
           <i>Sign Out</i>
         </span>
       </div>
@@ -72,7 +72,7 @@ export default {
         overflow: hidden;
         span{
           display: block;
-          background: red;
+          // background: red;
           box-sizing: border-box;
           position: absolute;
           width: 100%;
@@ -114,6 +114,16 @@ export default {
             height: 100%;
             transform: rotate(135deg);
             border: 10px solid red;
+          }
+          &.active{
+            background: green;
+            border-color: green;
+            &::after{
+              border-color: green;
+            }
+            &::before{
+              border-color: green;
+            }
           }
         }
       }
