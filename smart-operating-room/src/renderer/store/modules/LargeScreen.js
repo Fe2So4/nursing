@@ -1,3 +1,4 @@
+import {reqfloorList, reqGetRoomByFloor} from '@/api/large-screen.js'
 const state = {
   patientInfo: {
     cureNo: null,
@@ -35,7 +36,18 @@ const actions = {
   },
   setVoiceSwitch ({commit}) {
     commit('SET_VOICE_SWITCH')
+  },
+  // 楼层数据
+  async largefloorList ({ commit }) {
+    let res = await reqfloorList()
+    return res
+  },
+  // 房间数据
+  async laretRoomByFloor ({ commit }, qeury) {
+    let res = await reqGetRoomByFloor(qeury)
+    return res
   }
+
 }
 
 export default {

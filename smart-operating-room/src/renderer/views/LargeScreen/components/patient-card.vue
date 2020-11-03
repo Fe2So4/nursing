@@ -5,7 +5,7 @@
         class="card"
         @click="handleChangeRoom"
       >
-        608
+        {{ currentRoom }}
         <i />
       </div>
     </div>
@@ -84,7 +84,7 @@ export default {
     ChangeRoom
   },
   computed: {
-    ...mapState('LargeScreen', ['voiceSwitch', 'patientInfo'])
+    ...mapState('LargeScreen', ['voiceSwitch', 'patientInfo', 'currentRoom'])
   },
   mounted () {
     this.getPatientInfo()

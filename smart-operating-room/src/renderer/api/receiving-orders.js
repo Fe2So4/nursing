@@ -3,3 +3,4 @@ export const receiveOrderList = `${config.default.api.baseURL}/ocis/receivingord
 export const floorList = `${config.default.api.baseURL}/ocis/dict/getFloor`
 export const roomList = `${config.default.api.baseURL}/ocis/dict/getRoomByFloor`
 export const changeReceiveOrderList = `${config.default.api.baseURL}/ocis/receivingorders/updateOrderstatus`
+export const getOperatingNoticeTime = `${config.default.api.baseURL}/ocis/operationScreen/operatingNoticeTime`

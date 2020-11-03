@@ -1,4 +1,6 @@
+import request from '@/utils/request'
 const config = require('@/config/url.js')
+
 // 获取患者基本信息
 export const getPatientInfo = `${config.default.api.baseURL}/ocis/pdaScann/getUserInfoByCureNo`
 // 查询signin信息
@@ -25,3 +27,24 @@ export const getTestReport = `${config.default.api.baseURL}/ocis/basicInfo/getPa
 
 // 获取当前检查报告
 export const getInspectReport = `${config.default.api.baseURL}/ocis/basicInfo/getInspectionReport`
+// 获取楼层列表
+export const floorList = `${config.default.api.baseURL}/ocis/dict/getFloor`
+
+// 获取楼层列表
+const floorListUrl = `${config.default.api.baseURL}/ocis/dict/getFloor`
+export const reqfloorList = () => {
+  return request({
+    url: floorListUrl,
+    method: 'get'
+  })
+}
+
+// 获取房间列表
+const getRoomByFloorUrl = `${config.default.api.baseURL}/ocis/dict/getRoomByFloor`
+export const reqGetRoomByFloor = (data) => {
+  return request({
+    url: getRoomByFloorUrl,
+    method: 'get',
+    params: data
+  })
+}

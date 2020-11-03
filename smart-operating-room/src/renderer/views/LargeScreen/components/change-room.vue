@@ -10,35 +10,52 @@
         <h3>
           <span>楼层</span>
           <el-radio-group
+            @change="changeFloor"
             v-model="floor"
             size="medium"
           >
-            <el-radio-button label="6楼" />
-            <el-radio-button label="7楼" />
-            <el-radio-button label="8楼" />
+            <el-radio-button
+              :label="item.floorName"
+              v-for="item in floorList"
+              :key="item.floorName"
+            />
           </el-radio-group>
         </h3>
         <ul class="clearfix">
           <li
             v-for="item in roomList"
-            :key="item"
-            :class="{ active: activeIndex === item }"
+            :key="item.roomCode"
+            :class="{ active: activeIndex === item.roomCode }"
             @click="handleChangeRoom(item)"
           >
-            {{ item }}
+            {{ item.roomCode }}
           </li>
         </ul>
+      </div>
+      <div class="bottomBtn">
+        <span
+          slot="footer"
+          class="dialog-footer"
+        >
+          <el-button @click="handleClose">取 消</el-button>
+          <el-button
+            type="primary"
+            @click="saveChangeRoom"
+          >确 定</el-button>
+        </span>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 export default {
   name: 'ChangeRoom',
   data () {
     return {
-      floor: '6楼',
+      floorList: [],
+      floor: '',
       roomList: [
         '601',
         '602',
@@ -51,7 +68,10 @@ export default {
         '609',
         '6pacu'
       ],
-      activeIndex: '601'
+      activeIndex: '',
+      selectIndex: '',
+      selectfloor: '',
+      type: 0
     }
   },
   props: {
@@ -61,14 +81,100 @@ export default {
     }
   },
   methods: {
+    ...mapActions('LargeScreen', ['largefloorList', 'laretRoomByFloor', 'setCurrentRoom']),
+    // 获取楼层列表
+    getFloorList () {
+      this.largefloorList().then(res => {
+        if (res.data.code === 200) {
+          this.floorList = res.data.data
+          this.floor = this.floorList[0].floorName
+          this.selectfloor = this.floor
+          this.getFloorRoom()
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 点击切换楼层列表
+    changeFloor () {
+      this.getFloorRoom()
+    },
+    // 获取楼层对应的房间号
+    getFloorRoom () {
+      let text = this.floor.replace(/楼/ig, '')
+      let obj = {
+        floorNo: text
+      }
+      this.laretRoomByFloor(obj).then(res => {
+        if (res.data.code === 200) {
+          this.roomList = res.data.data
+          if (this.type === 0) {
+            this.setCurrentRoom(this.roomList[0].roomCode)
+          }
+          this.type += 1
+          if (!this.IsEmpty(this.selectIndex)) {
+            this.activeIndex = this.selectIndex
+          } else {
+            this.handleChangeRoom(this.roomList[0])
+          }
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
     handleClose () {
+      this.floor = this.selectfloor
+      if (!this.IsEmpty(this.selectIndex)) {
+        this.activeIndex = this.selectIndex
+      } else {
+        this.handleChangeRoom(this.roomList[0])
+      }
+
       this.$emit('handleClose')
     },
     handleChangeRoom (item) {
-      this.activeIndex = item
+      this.activeIndex = item.roomCode
+    },
+    saveChangeRoom () {
+      if (this.floor.split('')[0] !== this.activeIndex.split('')[0]) {
+        this.$alert('请先选择房间,房间号不能为空')
+        return false
+      }
+      if (this.IsEmpty(this.activeIndex)) {
+        this.$alert('请先选择房间,房间号不能为空')
+        return false
+      }
+      this.selectfloor = this.floor
+      this.selectIndex = this.activeIndex
+      this.setCurrentRoom(this.selectIndex)
+      this.handleClose()
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
   },
-  mounted () {}
+  mounted () {
+    this.getFloorList()
+  },
+  computed: {
+    // 监听房间切换
+    Listeningfloor () {
+      return this.floor
+    }
+  },
+  watch: {
+    Listeningfloor: function (newd, oldV) {
+      if (!this.IsEmpty(newd)) {
+        this.getFloorRoom()
+      }
+    }
+  }
 }
 </script>
 
@@ -114,5 +220,9 @@ export default {
   /deep/ .el-dialog__body {
     padding-top: unset;
   }
+}
+.bottomBtn {
+  display: flex;
+  justify-content: center;
 }
 </style>>

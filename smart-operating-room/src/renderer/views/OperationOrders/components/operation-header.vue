@@ -48,7 +48,7 @@
         <vxe-button
           status="my-purple"
           size="mini"
-          v-if="formData2.isSend === '0'"
+
           class="btn"
           content="退单"
           @click="changeItem(1)"
@@ -56,7 +56,7 @@
         <vxe-button
           status="my-purple"
           size="mini"
-          v-else
+          v-if="formData2.isSend === '1'"
           class="btn"
           content="修改"
           @click="changeItem(2)"
