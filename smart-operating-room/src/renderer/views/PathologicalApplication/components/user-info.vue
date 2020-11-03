@@ -329,6 +329,8 @@ export default {
 
 <style scoped lang="scss">
     .user-info-container {
+        box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+        border-radius: 5px;
         padding: 20px;
         width: 100%;
         // height: 132px;

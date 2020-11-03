@@ -42,15 +42,25 @@ export default {
     min-width: 1200px;
     flex-direction: column;
     .user-info {
+        box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+        border-radius: 5px;
         flex:1
     }
     .pathology-type {
+        box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+        border-radius: 5px;
         margin-top: 20px;
         flex:2
     }
     .pathology-list {
+        box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+        border-radius: 5px;
         margin-top: 20px;
         flex:4
     }
+}
+/deep/ .vxe-button.size--mini.type--button:hover {
+  background-color: #3377FF;
+  color: #FFFFFF;
 }
 </style>

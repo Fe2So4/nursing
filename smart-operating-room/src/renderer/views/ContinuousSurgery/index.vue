@@ -82,4 +82,8 @@ export default {
       margin-top: 20px;
     }
 }
+/deep/ .vxe-button.size--mini.type--button:hover {
+  background-color: #3377FF;
+  color: #FFFFFF;
+}
 </style>

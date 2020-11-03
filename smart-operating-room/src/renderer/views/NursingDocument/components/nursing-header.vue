@@ -52,7 +52,10 @@ export default {
   name: 'NursingHeader',
   data () {
     return {
-      formData: {},
+      formData: {
+        startTime: '',
+        endTime: ''
+      },
       pageIndex: 0,
       pageSize: 20
     }
@@ -60,8 +63,8 @@ export default {
   methods: {
     searchTable () {
       let obj = {
-        startTime: this.formData.startTime,
-        endTime: this.formData.endTime,
+        startTime: this.formData.startTime || '',
+        endTime: this.formData.endTime || '',
         hospitalNoOrName: this.formData.hospitalNoOrName || '',
         pageIndex: 1,
         pageSize: 20
@@ -82,11 +85,17 @@ export default {
 }
 
 .header-content {
+    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+    border-radius: 5px;
     background-color: #fff;
     padding: 20px;
     .header-content-form {
         display: flex;
         align-items: center;
     }
+}
+.vxe-button.size--mini.type--button:hover {
+  background-color: #3377FF;
+  color: #FFFFFF;
 }
 </style>

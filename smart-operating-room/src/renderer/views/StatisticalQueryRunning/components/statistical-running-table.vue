@@ -304,6 +304,8 @@ export default {
 <style scoped lang="scss">
 
 .statistical-table {
+    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+    border-radius: 5px;
     height: 100%;
     background-color: #fff;
     width: 100%;
@@ -368,10 +370,19 @@ table thead {
 }
 .noneData{
   text-align: center;
-    margin-top: 30px;
-    font-weight: 600;
-    font-size: 30px;
-    color: #ccc;
+    margin-top: 30%;
+    // font-weight: 600;
+    font-size: 14px;
+    // color: #ccc;
 }
-
+/deep/ th {
+  color: #333333;
+}
+/deep/ td {
+  color: #606266;
+  padding: 10px 0;
+}
+tbody tr:nth-child(2n) {
+  background: #f9fafc;
+}
 </style>

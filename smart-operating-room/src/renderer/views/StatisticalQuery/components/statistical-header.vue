@@ -218,6 +218,8 @@ export default {
 }
 
 .header-content {
+    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+    border-radius: 5px;
     background-color: #fff;
     padding: 20px;
     min-width: 1280px;

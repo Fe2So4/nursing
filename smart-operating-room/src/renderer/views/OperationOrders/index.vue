@@ -104,4 +104,11 @@ export default {
   margin-top: 20px;
 }
 
+/deep/ .vxe-button.size--mini.type--button:hover {
+  background-color: #3377FF;
+  color: #FFFFFF;
+}
+/deep/ .vxe-button--content, .vxe-button--icon, .vxe-button--loading-icon {
+  vertical-align: unset;
+}
 </style>

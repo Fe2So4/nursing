@@ -192,10 +192,10 @@
                 <vxe-button
                   class="btnRed"
                   size="mini"
-                  status="my-purple"
+
                   @click="deleteSpecimen(item)"
                 >
-                  删除
+                  删 除
                 </vxe-button>
               </vxe-form-item>
             </div>
@@ -222,6 +222,7 @@
       </vxe-form>
     </div>
     <el-dialog
+      append-to-body
       title="用户身份验证"
       :visible.sync="dialogVisible"
       width="520px"
@@ -244,6 +245,7 @@
             label="用户名"
           >
             <el-input
+
               prefix-icon="el-icon-s-custom"
               placeholder="请输入用户名"
               v-model="form.username"
@@ -255,6 +257,7 @@
             label="密码"
           >
             <el-input
+
               prefix-icon="el-icon-lock"
               placeholder="请输入密码"
               v-model="form.password"
@@ -269,19 +272,23 @@
         class="dialog-footer"
       >
         <div class="dialog-footer-btn">
-          <el-button
-            size="mini"
-            status="my-purple"
+
+          <vxe-button
             class="btn"
-            @click="login"
-          >验 证</el-button>
-          <el-button
             size="mini"
-            class="btn mgl30"
             status="my-purple"
-            type="primary"
+            @click="login"
+          >
+            验 证
+          </vxe-button>
+          <vxe-button
+            class="btn"
+            size="mini mgl30"
+            status="my-purple"
             @click="dialogVisible = false"
-          >取 消</el-button>
+          >
+            取 消
+          </vxe-button>
         </div>
       </span>
     </el-dialog>
@@ -294,16 +301,35 @@ import {pathologicalLogin, reqsaveFastPathologic} from '@/api/client-api/patholo
 export default {
   name: 'SubPathological',
   data () {
+    var changeUserName = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('用户名不能为空'))
+      }
+      setTimeout(() => {
+        callback()
+      }, 1000)
+    }
+    var changePassWord = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('密码不能为空'))
+      }
+      setTimeout(() => {
+        callback()
+      }, 1000)
+    }
     return {
       userInfo: {}, // 查询的用户信息
       selectItem: {}, // 选中的表格
-      form: {},
+      form: {
+        username: '',
+        password: ''
+      },
       rules: {
         username: [
-          { required: true, message: '请正确填写用户名', trigger: 'blur' }
+          { validator: changeUserName, trigger: 'blur' }
         ],
         password: [
-          { required: true, message: '请正确填写密码', trigger: 'blur' }
+          { validator: changePassWord, trigger: 'blur' }
         ]
       },
       formData: {
@@ -372,9 +398,7 @@ export default {
     },
     // 查询标本数据
     searchBiaobenData (obj) {
-      console.log(obj)
       this.$store.dispatch('ReqBiaobenInfo', obj).then(res => {
-        console.log(res)
         if (res.data.code === 200) {
           // this.selectItem = this.$store.state['pathological-table'].selectTableData[0]
           this.formData.fixed = this.selectItem.fixed
@@ -432,6 +456,7 @@ export default {
       this.dialogVisible = true
     },
     handleClose (done) {
+      this.dialogVisible = false
       // done()
     },
     enter (e) {
@@ -441,6 +466,7 @@ export default {
     },
     login () {
       this.$refs.form.validate((valid) => {
+        console.log(valid)
         if (valid) {
           let obj = {
             loginName: this.form.username,
@@ -463,6 +489,7 @@ export default {
     },
     // 提交申请
     submitApplication () {
+      this.type = true
       if (this.loginType !== '1') {
         this.$alert('请先进行送验医师验证', '提示')
         return false
@@ -476,26 +503,26 @@ export default {
         this.$alert('该病理已派单，无法修改标本信息', '提示')
         return false
       }
-      // this.formData.specimenList.forEach(item => {
-      //   if (this.IsEmpty(item.sampleName)) {
-      //     this.$alert('标本名不能为空')
-      //     this.type = false
-      //     return false
-      //   }
-      //   if (this.IsEmpty(item.takePartName)) {
-      //     this.$alert('标本部位不能为空')
-      //     this.type = false
-      //     return false
-      //   }
-      //   if (item.sampleNum <= 0) {
-      //     this.$alert('数量错误')
-      //     this.type = false
-      //     return false
-      //   }
-      // })
-      // if (!this.type) {
-      //   return false
-      // }
+      this.formData.specimenList.forEach(item => {
+        if (this.IsEmpty(item.sampleName)) {
+          this.$alert('标本名不能为空')
+          this.type = false
+          return false
+        }
+        if (this.IsEmpty(item.takePartName)) {
+          this.$alert('标本部位不能为空')
+          this.type = false
+          return false
+        }
+        if (item.sampleNum <= 0) {
+          this.$alert('数量错误')
+          this.type = false
+          return false
+        }
+      })
+      if (!this.type) {
+        return false
+      }
 
       this.userInfo = this.$store.state['pathological-table'].userInfo
       let time = this.utilsNewTime()
@@ -591,10 +618,18 @@ export default {
     width: 90px;
     background-color:#E9EDF7
 }
+.vxe-button.size--mini.type--button:hover {
+  background-color: #3377FF;
+  color: #FFFFFF;
+}
 .btnRed {
+    color: #fff;
     width: 90px;
     background-color:#FE5353;
-    color: #fff;
+
+}
+.btnRed:hover {
+  background-color:#FE5353 !important;
 }
 .mgl15 {
     margin-left: 15px;
@@ -609,16 +644,16 @@ export default {
 .red {
     color: #FF3232;
 }
-.btnFormDiv {
-    // margin-top: 20px;
-}
+
 .btnForm {
     text-align: right;
 }
 .subP-container {
+    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+    border-radius: 5px;
     height: 300px;
     background-color: #fff;
-    padding: 20px;
+    padding: 10px 20px;
     .container-content {
         .subP-container-body {
             display: flex;
@@ -644,9 +679,7 @@ export default {
                 }
             }
         }
-        .submitApply {
 
-        }
     }
 }
 .dialog-div {
@@ -668,5 +701,20 @@ export default {
     padding-bottom: 10px;
     display: flex;
     justify-content: center;
+}
+/deep/.red .vxe-radio--label {
+  color: #FF3232 !important
+}
+
+/deep/.el-dialog__header {
+  border-bottom: 1px solid #EBEBEB;
+  padding: 10px 20px 10px;
+}
+/deep/.el-dialog__title {
+  font-size: 16px;
+  font-weight: 600;
+}
+/deep/ .el-dialog__headerbtn {
+  top: 15px;
 }
 </style>

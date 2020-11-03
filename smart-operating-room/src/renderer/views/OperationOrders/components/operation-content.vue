@@ -116,11 +116,13 @@
       >
         <div class="dialog-footer-div">
           <el-button
+
             size="mini"
             class="btn"
             @click="sendOrder"
           >是(Y)</el-button>
           <el-button
+
             size="mini"
             class="btn mgl40"
             @click="dbdialogVisible = false"
@@ -337,12 +339,12 @@
             size="mini"
             class="btn"
             @click="changeInfo"
-          >修改</el-button>
+          >修 改</el-button>
           <el-button
             size="mini"
             class="btn mgl40"
             @click="quxiaoPaiban"
-          >取消</el-button>
+          >取 消</el-button>
         </div>
       </span>
     </el-dialog>
@@ -488,10 +490,10 @@ export default {
     // 退单
     exitOrder () {
       let obj = {
-        // operSchNo: this.isSelectItem[0].operSchNo
-        operSchNo: 'sdfjkadcnxjkzhuierhkjsdhcakhcisdh'
+        operSchNo: this.isSelectItem[0].operSchNo
+        // operSchNo: 'sdfjkadcnxjkzhuierhkjsdhcakhcisdh'
       }
-      console.log(obj)
+
       this.$store.dispatch('ReqcancelOrderAction', obj).then(res => {
         console.log(res)
         if (res.data.code === 200) {
@@ -525,9 +527,8 @@ export default {
       let obj = {
         operSchNo: this.isSelectItem[0].operSchNo
       }
-      console.log(obj)
+
       this.$store.dispatch('ReqsendOrderAction', obj).then(res => {
-        console.log(res)
         if (res.data.code === 200) {
           this.openToast('success', '派单成功')
           this.isSelectIndex = 0
@@ -556,7 +557,6 @@ export default {
     changeInfo () {
       if (this.IsEmpty(this.selectRoom)) {
         this.openToast('error', '请选择房间号')
-        console.log(123)
         return false
       }
       this.nurseList.forEach(item => {
@@ -663,6 +663,10 @@ export default {
   color: #303133;
   background-color: #E9EDF7;
 }
+.btn:hover {
+  color: #fff;
+  background-color: #3478FF;
+}
 .mgl5 {
     margin-left: 5px;
 }
@@ -685,6 +689,8 @@ export default {
   margin-bottom: 15px;
 }
 .operation-body-container {
+    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+    border-radius: 5px;
     // display: flex;
     // flex-wrap: wrap;
     display: grid;
@@ -777,8 +783,7 @@ export default {
   text-align: right;
 }
 .active {
-  border: 1px solid #366FE2;
-  box-shadow: 1px 1px #366FE2;
+  background-color: #E9EFF9 !important;
 }
 .noneDate {
     text-align: center;
@@ -805,5 +810,16 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     width: 100%;
+}
+/deep/.el-dialog__header {
+  border-bottom: 1px solid #EBEBEB;
+  padding: 10px 20px 10px;
+}
+/deep/.el-dialog__title {
+  font-size: 16px;
+  font-weight: 600;
+}
+/deep/ .el-dialog__headerbtn {
+  top: 15px;
 }
 </style>

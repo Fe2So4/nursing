@@ -35,14 +35,14 @@
           status="my-purple"
           size="mini"
           class="btn"
-          content="查询"
+          content="查 询"
           @click="searchCardList"
         />
         <vxe-button
           status="my-purple"
           size="mini"
           class="btn"
-          content="同步"
+          content="同 步"
           @click="synchronous"
         />
         <vxe-button
@@ -50,7 +50,7 @@
           size="mini"
 
           class="btn"
-          content="退单"
+          content="退 单"
           @click="changeItem(1)"
         />
         <vxe-button
@@ -58,7 +58,7 @@
           size="mini"
           v-if="formData2.isSend === '1'"
           class="btn"
-          content="修改"
+          content="修 改"
           @click="changeItem(2)"
         />
       </div>
@@ -72,6 +72,7 @@
         <vxe-form-item field="startDate">
           <template v-slot>
             <vxe-radio
+
               name="n1"
               v-model="formData2.isSend"
               label="0"
@@ -82,6 +83,7 @@
         <vxe-form-item field="nickname">
           <template v-slot>
             <vxe-radio
+
               name="n1"
               v-model="formData2.isSend"
               label="1"
@@ -91,6 +93,7 @@
         </vxe-form-item>
         <vxe-form-item title="楼层">
           <vxe-select
+            size="mini"
             clearable
             style="width:120px"
             v-model="formData2.selectFloor"
@@ -139,7 +142,8 @@ export default {
       this.$store.dispatch('ReqgetFloor').then(res => {
         if (res.data.code === 200) {
           this.$store.commit('SAVE_FLOOR', res.data.data)
-          this.floorList = res.data.data
+          this.floorList = JSON.parse(JSON.stringify(res.data.data))
+          this.floorList.unshift({floorNo: '', floorName: '全部'})
         }
       })
     },
@@ -190,6 +194,9 @@ export default {
 .el-scrollbar__wrap{
   overflow-y: hidden;
 }
+/deep/ .vxe-input.is--suffix .vxe-input--inner {
+  padding-right: 0;
+}
 .btn {
   width: 90px;
   // height: 30px;
@@ -206,6 +213,8 @@ export default {
     margin-left: 20px;
 }
 .header-container {
+    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+    border-radius: 5px;
     width: 100%;
     // padding-bottom: 20px;
     background-color: #fff;

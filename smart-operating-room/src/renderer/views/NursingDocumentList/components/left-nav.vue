@@ -112,6 +112,9 @@ export default {
 
 <style scoped lang="scss">
 .left-nav-container {
+  box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+  box-sizing: content-box;
+  border-radius: 5px;
   width: 100%;
   height: 100%;
   background-color: #fff;
