@@ -110,7 +110,7 @@ export default {
       this.load()
     },
     load () {
-      console.log(123)
+
       // this.tableData = this.tableData.concat(this.tableData)
     },
     // 获取数据

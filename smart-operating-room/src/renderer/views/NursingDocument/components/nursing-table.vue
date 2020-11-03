@@ -83,7 +83,6 @@ export default {
       this.load()
     },
     load () {
-      console.log(132)
       this.getTableData(this.pageItem)
     },
     // 获取数据
@@ -91,7 +90,9 @@ export default {
       this.loading = true
       this.$store.dispatch('ReqNursingDocumentTable', res).then(result => {
         this.loading = false
-        console.log(result)
+        if (result.data.data.list.length === 0) {
+          this.openToast('warning', '暂无更多数据')
+        }
         this.tableData.push(...result.data.data.list)
         this.pageItem.pageIndex++
         this.busy = false
@@ -108,6 +109,15 @@ export default {
       this.$store.commit('SAVE_CURENO', row.cureNo)
       this.$router.push({
         path: '/home/client-nursing-document-list/client-security-check'
+      })
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
       })
     }
   }

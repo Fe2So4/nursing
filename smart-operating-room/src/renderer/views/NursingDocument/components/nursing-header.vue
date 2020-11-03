@@ -60,8 +60,8 @@ export default {
   methods: {
     searchTable () {
       let obj = {
-        startTime: this.formData.startTime || '2019-09-22',
-        endTime: this.formData.endTime || '2019-12-23',
+        startTime: this.formData.startTime,
+        endTime: this.formData.endTime,
         hospitalNoOrName: this.formData.hospitalNoOrName || '',
         pageIndex: 1,
         pageSize: 20

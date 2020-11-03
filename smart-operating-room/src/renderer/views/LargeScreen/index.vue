@@ -50,7 +50,7 @@ export default {
   },
   components: {PatientCard, PatientStep, PatientInfo},
   methods: {
-    ...mapActions('LargeScreen', ['setPatientInfo']),
+    ...mapActions('LargeScreen', ['setPatientInfo', 'currentRoom']),
     handleShowStep () {
       this.stepVisible = !this.stepVisible
     },

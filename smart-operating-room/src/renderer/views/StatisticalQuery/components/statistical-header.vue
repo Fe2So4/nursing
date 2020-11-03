@@ -182,7 +182,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this.isShow)
     this.initQueryParams()
   },
   methods: {

@@ -49,9 +49,21 @@ export default {
       this.$store.dispatch('ReqcontinuousOperation', params).then(res => {
         this.loading = false
         if (res.data.code === 200) {
+          if (res.data.data.length === 0) {
+            this.openToast('warning', '暂无更多数据')
+          }
           this.tableList = res.data.data
           this.surgeryTableList = res.data.data
         }
+      })
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
       })
     }
   }

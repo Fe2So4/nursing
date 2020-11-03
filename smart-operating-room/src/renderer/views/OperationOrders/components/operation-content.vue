@@ -104,7 +104,7 @@
       :visible.sync="dbdialogVisible"
       top="30vh"
       width="520px"
-      :before-close="handleClose"
+      :before-close="handleCloseOperation"
     >
       <div class="dialog-body-span">
         <i class="el-icon-warning icon-gantanghao" />
@@ -162,7 +162,7 @@
       :visible.sync="selectDialogVisible"
       top="30vh"
       width="520px"
-      :before-close="handleClose"
+      :before-close="handleCloseRoomChange"
     >
       <div>
         <el-row class="row-width">
@@ -506,7 +506,10 @@ export default {
       })
     },
     handleClose (done) {
-
+      this.exitdialogVisible = false
+    },
+    handleCloseOperation () {
+      this.dbdialogVisible = false
     },
     // 显示派单弹窗
     operationCard (item) {
@@ -580,11 +583,11 @@ export default {
       this.$store.dispatch('ReqchangeOperScheduleInfo', params).then(res => {
         if (res.data.code === 200) {
           this.openToast('success', '修改成功')
-          this.isSelectIndex = 0
-          this.isSelectItem = [{floor: '', roomNo: '', runNurseName: '', washNurseCode: ''}]
         } else {
           this.openToast('error', res.data.msg)
         }
+        this.isSelectIndex = 0
+        this.isSelectItem = [{floor: '', roomNo: '', runNurseName: '', washNurseCode: ''}]
         this.selectDialogVisible = false
         this.getCardList()
       })
@@ -599,6 +602,11 @@ export default {
     },
     // 排班修改取消
     quxiaoPaiban () {
+      this.selectFloor = this.isSelectItem[0].floor
+      this.selectRoom = this.isSelectItem[0].roomNo
+      this.selectDialogVisible = false
+    },
+    handleCloseRoomChange () {
       this.selectFloor = this.isSelectItem[0].floor
       this.selectRoom = this.isSelectItem[0].roomNo
       this.selectDialogVisible = false

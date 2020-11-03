@@ -111,7 +111,7 @@
             </el-col>
           </el-row>
         </div>
-        <p>
+        <p v-if="selectRow.orderState === '1'">
           <el-button
             @click="dayin"
             class="el-icon-printer"
@@ -337,7 +337,7 @@ export default {
     .dp-info-notice{
       border: 1px solid #E0E0E0;
       border-radius: 5px;
-      padding-bottom: 40px;
+      // padding-bottom: 40px;
       margin:10px 0;
       background: #ffffff;
       .dp-title{
@@ -358,7 +358,7 @@ export default {
       .dp-content{
         padding-left: 20px;
         line-height: 36px;
-        // padding-bottom: 40px;
+        padding-bottom: 40px;
         .dp-content-left{
           float: left;
           margin-right: 60px;
