@@ -200,11 +200,54 @@ export default {
       }
     },
     handleSpeak () {
+      switch (this.activeName) {
+        case 'first':
+          this.handleSpeakSummary()
+          break
+        case 'second':
+          this.handleSpeakSignIn()
+          break
+        case 'third':
+          this.handleSpeakTimeOut()
+          break
+        case 'fourth':
+          this.handleSpeakSignOut()
+          break
+      }
+    },
+    handleSpeakSummary () {
       if (this.voiceSwitch) {
-        startSpeak('患者：李莲英，住院号：123456789，手术名称：右侧腕部伤口下见尺神经吻合术后，吻合口内见几枚缝线强回声，神经束位可，周围疤痕增生明显')
+        let text = `安全核查：概览`
+        if (this.stateList.signIn === '2') {
+          text += `Sign In 麻醉实施前核查 完成`
+        } else {
+          text += `Sign In 麻醉实施前核查 未完成`
+        }
+
+        if (this.stateList.timeOut === '2') {
+          text += `Time out 手术开始前核查 完成`
+        } else {
+          text += `Time out 手术开始前核查 未完成`
+        }
+
+        if (this.stateList.signOut === '2') {
+          text += `Sign Out 离开手术前核查 完成`
+        } else {
+          text += `Sign Out 离开手术前核查 未完成`
+        }
+        startSpeak(text)
       } else {
         startSpeak('请先打开语音播报按钮')
       }
+    },
+    handleSpeakSignIn () {
+
+    },
+    handleSpeakTimeOut () {
+
+    },
+    handleSpeakSignOut () {
+
     }
   },
   mounted () {
