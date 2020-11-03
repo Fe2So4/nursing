@@ -19,3 +19,9 @@ export const getMedicalAdvice = `${config.default.api.baseURL}/ocis/operationScr
 export const getMedicalHistory = `${config.default.api.baseURL}/ocis/operationScreen/getPatientGuide`
 // 获取当前患者手术状态
 export const getPatientStep = `${config.default.api.baseURL}/ocis/operationScreen/getScreenOperState`
+
+// 获取当前化验报告
+export const getTestReport = `${config.default.api.baseURL}/ocis/basicInfo/getPatfordingState`
+
+// 获取当前检查报告
+export const getInspectReport = `${config.default.api.baseURL}/ocis/basicInfo/getInspectionReport`

@@ -34,11 +34,15 @@
             </template>
             <template v-if="state==='test'">
               <test-report
-                v-for="_item in 6"
-                :key="'_item'+_item"
+                v-for="(_item,_index) in item.laboratoryReportDetails"
+                :key="_item.reportNo + _index"
+                :item="_item"
               />
             </template>
-            <inspect-report v-else />
+            <inspect-report
+              v-else
+              :item="item"
+            />
           </el-collapse-item>
         </el-collapse>
       </template>

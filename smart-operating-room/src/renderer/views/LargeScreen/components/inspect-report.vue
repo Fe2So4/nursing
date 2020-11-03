@@ -3,25 +3,28 @@
     <div>
       <h3>检查部位：</h3>
       <div style="color:#3890F7;">
-        超声波
+        {{ item.studySubClassName === '' ? '-' : item.studySubClassName }}
       </div>
     </div>
     <div>
       <h3>检查项目：</h3>
-      <div class="inspect-color">
-        -
+      <div
+        class="inspect-color"
+        style="color:#3890F7;"
+      >
+        {{ item.itemName === '' ? '-' : item.itemName }}
       </div>
     </div>
     <div>
       <h3>检查所见：</h3>
       <div class="inspect-color">
-        右侧腕部伤口下见尺神经吻 合术后，吻合口内见几枚缝 线强回声，神经束位可，周 围疤痕增生明显。
+        {{ item.imagingFindings === '' ? '-' : item.imagingFindings }}
       </div>
     </div>
     <div>
-      <h3>检查所见：</h3>
+      <h3>检查结论：</h3>
       <div class="inspect-color">
-        右侧腕部伤口下见尺神经吻 合术后，周围疤痕增生明显。
+        {{ item.studyConclusion === '' ? '-' : item.studyConclusion }}
       </div>
     </div>
   </div>
@@ -29,7 +32,21 @@
 
 <script>
 export default {
-  name: 'TestReport'
+  name: 'TestReport',
+  data () {
+    return {
+
+    }
+  },
+  props: {
+    item: {
+      type: Object,
+      required: true
+    }
+  },
+  methods: {
+
+  }
 }
 </script>
 
@@ -45,6 +62,7 @@ export default {
     }
     .inspect-color{
       color:#444444;
+      word-break:break-all;
     }
   }
 </style>

@@ -17,8 +17,11 @@
         <patient-info />
       </div>
     </div>
-    <div v-else>
-      请在pda上绑定患者
+    <div
+      v-else
+      class="ls-empty"
+    >
+      <empty-notice />
     </div>
   </div>
 </template>
@@ -28,6 +31,7 @@ import PatientCard from './components/patient-card'
 import PatientStep from './components/patient-step'
 import PatientInfo from './components/patient-info'
 import io from 'socket.io-client'
+import EmptyNotice from './components/empty-notice'
 import {mapActions, mapState} from 'vuex'
 export default {
   name: 'LargeScreen',
@@ -48,7 +52,7 @@ export default {
       deep: true
     }
   },
-  components: {PatientCard, PatientStep, PatientInfo},
+  components: {PatientCard, PatientStep, PatientInfo, EmptyNotice},
   methods: {
     ...mapActions('LargeScreen', ['setPatientInfo']),
     handleShowStep () {
@@ -60,7 +64,7 @@ export default {
   },
   mounted () {
     this.socket = io('http://192.168.1.106:5099', {
-      query: 'sendName=' + '608'
+      query: 'sendName=' + '602'
     })
     this.socket.on('connect', () => {
       console.log('socket.io connected')
@@ -107,6 +111,14 @@ export default {
         height: calc(100% - 275px);
         flex:1;
       }
+    }
+    .ls-empty{
+      flex: 1;
+      background: #ffffff;
+      margin-top: 20px;
+      box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+      border-radius: 5px;
+      padding: 20px 20px 0;
     }
   }
 </style>

@@ -94,6 +94,8 @@ export default {
       request({
         method: 'get',
         url: getPatientStep + `/${this.patientInfo.cureNo}/${this.patientInfo.hospitalNo}`
+      }).then(res => {
+        console.log(res.data.data)
       })
     }
   },

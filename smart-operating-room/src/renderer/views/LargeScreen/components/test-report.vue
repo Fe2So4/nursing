@@ -1,13 +1,27 @@
 <template>
   <div class="test-report">
-    <p><span>葡萄糖</span><span>GLU</span></p>
-    <p><span>4.8</span><span>3.9-5.8/mol/l</span></p>
+    <p><span>{{ item.observationNameCn }}</span><span>{{ item.observationNameEn }}</span></p>
+    <p><span>{{ item.observationOriginalValue }}</span><span>{{ item.referenceRangeType }}/{{ item.observationValueUnit }}</span></p>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'TestReport'
+  name: 'TestReport',
+  data () {
+    return {
+
+    }
+  },
+  props: {
+    item: {
+      type: Object,
+      required: true
+    }
+  },
+  methods: {
+
+  }
 }
 </script>
 

@@ -47,8 +47,8 @@ import PostoperativeInfo from './postoperative-info'
 export default {
   data () {
     return {
-      activeIndex: 2,
-      componentInfo: 'CheckInfo'
+      activeIndex: 1,
+      componentInfo: 'BasicInfo'
     }
   },
   components: {
