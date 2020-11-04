@@ -4,6 +4,7 @@
       <img
         src="../assets/logo-tq.png"
         alt=""
+        @click="()=>{$router.push('/login')}"
       >
       <span>Dandelion 智慧手术中心<i />临床护理</span>
       <span>

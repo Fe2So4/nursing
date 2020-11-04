@@ -110,7 +110,7 @@ export default {
   data () {
     return {
       optas: '',
-      codeInput: '',
+      codeInput: '22350201',
       hiddenVisible: false,
       exitType: '2'
     }

@@ -33,6 +33,10 @@
           />
         </li>
       </ul>
+      <div class="connect">
+        <span>服务器通信&nbsp;&nbsp;</span>
+        <span :class="{'active':connect}">{{ connect ? 'SUCCESS' : 'CLOSE' }}</span>
+      </div>
     </div>
     <div class="content">
       <component :is="componentInfo" />
@@ -44,12 +48,22 @@
 import BasicInfo from './basic-info'
 import CheckInfo from './check-info'
 import PostoperativeInfo from './postoperative-info'
+import {mapState} from 'vuex'
 export default {
   data () {
     return {
       activeIndex: 1,
       componentInfo: 'BasicInfo'
     }
+  },
+  props: {
+    connect: {
+      type: Boolean,
+      required: true
+    }
+  },
+  computed: {
+    ...mapState('LargeScreen', ['patientInfo'])
   },
   components: {
     BasicInfo,
@@ -79,8 +93,10 @@ export default {
   box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
   border-radius: 5px;
   .tab {
+    display: flex;
     ul {
       display: flex;
+      flex: 1;
       li {
         padding: 0 17px;
         line-height: 40px;
@@ -105,6 +121,22 @@ export default {
         &:hover {
           background: #3377ff;
           color: #ffffff;
+        }
+      }
+    }
+    .connect{
+      line-height: 40px;
+      span{
+        font-size: 18px;
+        &:first-child{
+          color: #919398;
+        }
+        &:last-child{
+          color:#FF5959;
+          font-weight: 600;
+        }
+        &.active{
+          color: #13ce66;
         }
       }
     }

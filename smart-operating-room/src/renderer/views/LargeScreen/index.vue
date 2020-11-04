@@ -14,7 +14,7 @@
         <patient-step />
       </div>
       <div class="pt-info">
-        <patient-info />
+        <patient-info :connect="connect" />
       </div>
     </div>
     <div
@@ -38,7 +38,8 @@ export default {
   data () {
     return {
       stepVisible: true,
-      socket: null
+      socket: null,
+      connect: false
     }
   },
   computed: {
@@ -68,12 +69,14 @@ export default {
     })
     this.socket.on('connect', () => {
       console.log('socket.io connected')
+      this.connect = true
     })
     this.socket.on('reconnect_error', e => {
       console.error(e)
     })
     this.socket.on('disconnect', () => {
       console.log('socket.io disconnect')
+      this.connect = false
     })
     this.socket.on('push_event', (data) => {
       console.log(data)

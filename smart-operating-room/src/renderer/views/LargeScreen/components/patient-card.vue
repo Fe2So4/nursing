@@ -14,7 +14,7 @@
       v-if="patientInfo.cureNo"
     >
       <el-row>
-        <el-col :span="6">
+        <el-col :span="8">
           患者信息：<span class="value">{{ patientBasicInfo.patientName }} {{ patientBasicInfo.patientAge }}岁 {{ patientBasicInfo.wardName }}病区/{{ patientBasicInfo.bedNo }}床 {{ patientBasicInfo.hospitalNo }}</span>
         </el-col>
         <el-col :span="6">
@@ -24,7 +24,7 @@
           麻醉医师：<span class="value">{{ patientBasicInfo.anes_doc }}</span>
         </el-col>
         <el-col
-          :span="6"
+          :span="4"
           style="text-align:right;padding-right:20px;"
         >
           语音开关：<span class="value">
@@ -38,10 +38,10 @@
         </el-col>
       </el-row>
       <el-row style="margin-top:20px;">
-        <el-col :span="10">
+        <el-col :span="8">
           手术信息：<span class="value">{{ patientBasicInfo.operationName }} {{ patientInfo.anesMethodName }}</span>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="6">
           第一助手：<span class="value">{{ patientBasicInfo.opa_ssis_name1 }}</span>
         </el-col>
         <el-col :span="4">

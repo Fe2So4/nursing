@@ -501,6 +501,7 @@ export default {
       this.recordForm.cureNo = this.patientInfo.cureNo
       this.recordForm.skin = this.recordForm.skin
       this.recordForm.hospitalNo = this.patientInfo.hospitalNo
+      this.recordForm.recordTwoState = '2'
       this.recordForm.device = this.recordForm.device.join(',')
       this.recordForm.position = this.recordForm.position.join(',')
       this.recordForm.anesthesiaMode = this.recordForm.anesthesiaMode.join(',')
@@ -514,7 +515,6 @@ export default {
           this.recordForm.position = this.recordForm.position.split(',')
           this.recordForm.anesthesiaMode = this.recordForm.anesthesiaMode.split(',')
         }
-        console.log(res.data.data)
       })
     },
     handleOpenConstraint () {

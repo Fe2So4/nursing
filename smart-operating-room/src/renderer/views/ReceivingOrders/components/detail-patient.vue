@@ -181,7 +181,7 @@ export default {
     return {
       optas: '',
       hiddenVisible: false,
-      codeInput: '',
+      codeInput: '22350201',
       exitType: '2'
     }
   },

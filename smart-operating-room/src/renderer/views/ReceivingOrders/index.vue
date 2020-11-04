@@ -171,22 +171,18 @@ export default {
       floorList: [],
       room: '',
       floor: '',
-      receivedOrder: [
-
-      ],
+      receivedOrder: [],
       receivedOrderCount: 0,
 
-      haveInHandOrder: [
-
-      ],
+      haveInHandOrder: [],
       haveInHandOrderCount: 0,
-      completeOrder: [
-
-      ],
+      completeOrder: [],
       completeOrderCount: 0,
       detailVisible: false,
       detailStatus: null,
-      selectRow: {}
+      selectRow: {
+
+      }
     }
   },
   components: {
@@ -243,7 +239,6 @@ export default {
     // 获取表单
     getReceiveOrders () {
       let text = this.floor.replace(/楼/ig, '')
-
       request({
         url: receiveOrderList,
         method: 'post',

@@ -5,7 +5,7 @@
       <i />
     </div>
     <div class="nav">
-      <ul>
+      <ul v-if="state==='2'">
         <li
           v-for="item in recordList"
           :key="item.sort"
@@ -16,8 +16,23 @@
           <div class="li-right">
             {{ item.value === '' ? '暂无' : item.value }}
           </div>
+          <div v-show="item.sort === '5'">
+            {{ item.skin.skinPart === '' ? '暂无' : item.skin.skinPart }}
+          </div>
         </li>
       </ul>
+      <div
+        v-else
+        class="data-empty"
+      >
+        <div>
+          <img
+            src="@/assets/list-empty.png"
+            alt=""
+          >
+          <p>暂无数据</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -30,13 +45,14 @@ export default {
   name: 'NursingRecord',
   data () {
     return {
-      recordList: [{text: '手术科室', value: '', sort: '1'},
+      recordList: [
+        {text: '手术科室', value: '', sort: '1'},
         {text: '手术方式', value: '', sort: '2'},
         {text: '手术类型', value: '', sort: '3'},
         {text: '术前意识评估', value: '', sort: '4'},
         {text: '术前皮肤评估', value: '', sort: '5'},
-        {text: '部位', value: '', sort: '6'},
-        {text: '程度', value: '', sort: '7'},
+        // {text: '部位', value: '', sort: '6'},
+        // {text: '程度', value: '', sort: '7'},
         {text: '麻醉方式', value: '', sort: '8'},
         {text: '手术体位', value: '', sort: '9'},
         {text: '体位装置', value: '', sort: '10'},
@@ -51,7 +67,8 @@ export default {
         {text: '术中冰冻', value: '', sort: '19'},
         {text: '病理', value: '', sort: '20'},
         {text: '植入物', value: '', sort: '21'}
-      ]
+      ],
+      state: '0'
     }
   },
   components: {
@@ -71,7 +88,14 @@ export default {
         url: getRecord2Data + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`,
         method: 'get'
       }).then(res => {
-        console.log(res.data.data)
+        let data = res.data.data
+        this.state = data.recordTwoState
+        this.recordList[0].value = data.deptName
+        this.recordList[1].value = data.opsName
+        this.recordList[2].value = data.opsType
+        this.recordList[3].value = data.consciousness
+        this.recordList[4].value = data.skin.skinName
+        this.recordList[4].skin = data.skin
       })
     }
   },
