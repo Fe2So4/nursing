@@ -89,7 +89,7 @@ app.on('ready', () => {
 // 新建打印窗口
 const printPageURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9088/static/print.html`
-  : Path.join(__dirname, '../../static/print.html')
+  : Path.join(__dirname, '/static/print.html')
 const printWindows = new Set()
 const createPrintWindow = () => {
   let newPrintWindow = new BrowserWindow({

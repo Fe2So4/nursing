@@ -7,6 +7,7 @@
     </div>
     <div class="table-conten">
       <vxe-table
+        stripe
         highlight-current-row
         ref="xTable2"
         class="mytable-scrollbar"
@@ -458,8 +459,11 @@ export default {
 }
 
 .surgery-table {
+    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+    border-radius: 5px;
     height: 100%;
     padding-left: 20px;
+    padding-right: 5px;
     padding-top: 20px;
     background-color: #fff;
     width: 100%;
@@ -516,5 +520,11 @@ table thead th, table tbody tr {
 }
 td {
   text-align: center;
+}
+/deep/ th {
+  color: #333333;
+}
+/deep/ .vxe-table .vxe-body--row.row--stripe {
+      background-color: #f9fafc;
 }
 </style>

@@ -2,6 +2,7 @@
   <div class="table-container">
     <div class="table-content">
       <vxe-table
+        stripe
         highlight-current-row
         ref="xTable"
         height="300"
@@ -297,12 +298,20 @@ export default {
     color: #fff;
 }
 .table-container {
+    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+    border-radius: 5px;
     // height: 100%;
     width: 100%;
     .table-content {
+        padding: 5px 0 0 0;
+        background-color: #fff;
+        box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+        border-radius: 5px;
         // padding-left: 20px;
     }
     .button-content {
+        box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+        border-radius: 5px;
         text-align: right;
         background-color: #fff;
         padding: 35px 15px 15px 15px;
@@ -321,5 +330,11 @@ export default {
 .dialog-footer-div {
   display: flex;
   justify-content: center;
+}
+/deep/ .vxe-table .vxe-body--row.row--stripe {
+      background-color: #f9fafc;
+}
+/deep/ th {
+  color: #333333;
 }
 </style>

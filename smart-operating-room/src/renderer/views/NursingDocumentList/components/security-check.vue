@@ -727,8 +727,10 @@ export default {
     // 查询数据
     searchData () {
       let obj = {
+        // cureNo: 1010,
         cureNo: this.$store.state['nursing-document-list'].cureNo,
         hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
+        // hospitalNo: 666
       }
       this.$store.dispatch('reqSecurityCheckTable', obj).then(res => {
         if (res.status === 200 && res.data.code === 200) {

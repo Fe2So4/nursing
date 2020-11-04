@@ -15,7 +15,7 @@
         status="my-purple"
         @click="headerHandle('1')"
       >
-        刷新
+        刷 新
       </vxe-button>
       <vxe-button
         class="btn"
@@ -23,7 +23,7 @@
         status="my-purple"
         @click="headerHandle('2')"
       >
-        打印
+        打 印
       </vxe-button>
       <vxe-button
         class="btn"
@@ -109,6 +109,8 @@ export default {
   background-color: #EAEEF7;
 }
 .header {
+  box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+  border-radius: 5px;
   width: 100%;
   height: 50px;
   display: flex;

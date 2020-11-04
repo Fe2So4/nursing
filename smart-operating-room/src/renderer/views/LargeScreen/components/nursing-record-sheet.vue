@@ -19,6 +19,9 @@
           <div v-show="item.sort === '5'">
             {{ item.skin.skinPart === '' ? '暂无' : item.skin.skinPart }}
           </div>
+          <div v-show="item.sort === '5'">
+            {{ item.skin.skinDegree === '' ? '暂无' : item.skin.skinDegree }}
+          </div>
         </li>
       </ul>
       <div
