@@ -16,11 +16,53 @@
           <div class="li-right">
             {{ item.value === '' ? '暂无' : item.value }}
           </div>
-          <div v-show="item.sort === '5'">
-            {{ item.skin.skinPart === '' ? '暂无' : item.skin.skinPart }}
+          <div
+            v-if="item.sort === '5'&&item.value==='不完整'"
+            class="li-right"
+          >
+            <span>部位：</span><span>{{ item.skin.skinLocate === '' ? '暂无' : item.skin.skinLocate }}</span>
           </div>
-          <div v-show="item.sort === '5'">
-            {{ item.skin.skinDegree === '' ? '暂无' : item.skin.skinDegree }}
+          <div
+            v-if="item.sort === '5'&&item.value==='不完整'"
+            class="li-right"
+          >
+            <span>程度：</span><span>{{ item.skin.skinDegree === '' ? '暂无' : item.skin.skinDegree }}</span>
+          </div>
+          <div
+            v-if="item.sort === '10'"
+            class="li-right"
+          >
+            <span>型号：</span><span>{{ item.catheter.catheterNature === '' ? '暂无' : item.catheter.catheterNature }}</span>
+          </div>
+          <div
+            v-if="item.sort === '10'"
+            class="li-right"
+          >
+            <span>类型：</span><span>{{ item.catheter.catheterType === '' ? '暂无' : item.catheter.catheterType }}</span>
+          </div>
+          <div
+            v-if="item.sort === '11'"
+            class="li-right"
+          >
+            <span>电凝功率：</span><span>{{ item.electrotome.electrotomeDN === '' ? '暂无' : item.electrotome.electrotomeDN }}</span>
+          </div>
+          <div
+            v-if="item.sort === '11'"
+            class="li-right"
+          >
+            <span>电切功率：</span><span>{{ item.electrotome.electrotomeDQ=== '' ? '暂无' : item.electrotome.electrotomeDQ }}</span>
+          </div>
+          <div
+            v-if="item.sort === '14'"
+            class="li-right"
+          >
+            <span>特殊交班备注：</span><span>{{ item.handOver.handOverRemarks=== '' ? '暂无' : item.handOver.handOverRemarks }}</span>
+          </div>
+          <div
+            v-if="item.sort === '16'"
+            class="li-right"
+          >
+            <span>病理数量：</span><span>{{ item.pathology.pathologyCount === '' ? '暂无' : item.pathology.pathologyCount }}</span>
           </div>
         </li>
       </ul>
@@ -53,23 +95,23 @@ export default {
         {text: '手术方式', value: '', sort: '2'},
         {text: '手术类型', value: '', sort: '3'},
         {text: '术前意识评估', value: '', sort: '4'},
-        {text: '术前皮肤评估', value: '', sort: '5'},
+        {text: '术前皮肤评估', value: '', sort: '5', skin: {skinName: '', skinLocate: '', skinDegree: ''}},
         // {text: '部位', value: '', sort: '6'},
         // {text: '程度', value: '', sort: '7'},
-        {text: '麻醉方式', value: '', sort: '8'},
-        {text: '手术体位', value: '', sort: '9'},
-        {text: '体位装置', value: '', sort: '10'},
-        {text: '约束带', value: '', sort: '11'},
-        {text: '导尿管', value: '', sort: '12'},
-        {text: '型号', value: '', sort: '13'},
-        {text: '尿液性质', value: '', sort: '14'},
-        {text: '电刀', value: '', sort: '15'},
-        {text: '电极板位置', value: '', sort: '16'},
-        {text: '腰穿留置', value: '', sort: '17'},
-        {text: '术中特殊交班', value: '', sort: '18'},
-        {text: '术中冰冻', value: '', sort: '19'},
-        {text: '病理', value: '', sort: '20'},
-        {text: '植入物', value: '', sort: '21'}
+        {text: '麻醉方式', value: '', sort: '6'},
+        {text: '手术体位', value: '', sort: '7'},
+        {text: '体位装置', value: '', sort: '8'},
+        {text: '约束带', value: '', sort: '9'},
+        {text: '导尿管', value: '', sort: '10', catheter: {}},
+        // {text: '型号', value: '', sort: '11'},
+        // {text: '尿液性质', value: '', sort: '12'},
+        {text: '电刀', value: '', sort: '11'},
+        {text: '电极板位置', value: '', sort: '12'},
+        {text: '腰穿留置', value: '', sort: '13'},
+        {text: '术中特殊交班', value: '', sort: '14'},
+        {text: '术中冰冻', value: '', sort: '15'},
+        {text: '病理', value: '', sort: '16'},
+        {text: '植入物', value: '', sort: '17'}
       ],
       state: '0'
     }
@@ -95,10 +137,26 @@ export default {
         this.state = data.recordTwoState
         this.recordList[0].value = data.deptName
         this.recordList[1].value = data.opsName
-        this.recordList[2].value = data.opsType
-        this.recordList[3].value = data.consciousness
-        this.recordList[4].value = data.skin.skinName
+        this.recordList[2].value = data.opsType === '1' ? '择期' : data.opsType === '2' ? '非择期' : '急诊'
+        this.recordList[3].value = data.consciousness === '1' ? '清醒' : data.consciousness === '2' ? '烦躁' : '昏迷'
+        this.recordList[4].value = data.skin.skinName === '1' ? '完整' : '不完整'
         this.recordList[4].skin = data.skin
+        this.recordList[5].skin = data.anesthesiaMode
+        this.recordList[6].position = data.position
+        this.recordList[7].device = data.device
+        this.recordList[8].constraints = data.constraints
+        this.recordList[9].value = data.catheter.catheterName === '1' ? '无' : data.catheter.catheterName === '2' ? '病房带入' : '手术室插入'
+        this.recordList[9].catheter = data.catheter
+        this.recordList[10].value = data.equipment.electrotome.electrotomeName === '1' ? '无' : '有'
+        this.recordList[10].electrotome = data.equipment.electrotome
+        this.recordList[11].value = data.equipment.electrotomeLocation
+        this.recordList[12].value = data.equipment.bhMachine.bhMachineName === '1' ? '无' : '有'
+        this.recordList[13].value = data.handOver.handOverName === '1' ? '无' : '有'
+        this.recordList[13].handOver = data.handOver
+        this.recordList[14].value = data.frozen.frozenName === '1' ? '无' : '有'
+        this.recordList[15].value = data.pathology.pathologyName === '1' ? '无' : '有'
+        this.recordList[15].pathology = data.pathology
+        this.recordList[16].value = data.implants === '1' ? '无' : '有'
       })
     }
   },

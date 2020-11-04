@@ -1,13 +1,13 @@
 <template>
-  <div class="invalid-medical-order">
-    <p>{{ item.label }}</p>
-    <p>{{ item.type }}\{{ item.perTime }}{{ item.unit }}\{{ item.usage }}</p>
+  <div class="intraoperative-medication">
+    <p>{{ item.outDrugItemName }}</p>
+    <p>{{ item.interType }}\{{ item.dosagePerTime }}{{ item.minunit }}\{{ item.usage }}</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'InvalidMedicalOrder',
+  name: 'IntraoperativeMedication',
   data () {
     return {
 
@@ -23,7 +23,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .invalid-medical-order{
+  .intraoperative-medication{
     p{
       color:#444444;
       &:last-child{

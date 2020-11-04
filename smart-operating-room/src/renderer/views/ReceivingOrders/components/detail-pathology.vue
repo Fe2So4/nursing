@@ -157,7 +157,6 @@ export default {
         url: changeReceiveOrderList,
         method: 'post',
         data: {
-          name: '',
           code: this.workCode,
           orderId: this.selectRow.orderId,
           status: type

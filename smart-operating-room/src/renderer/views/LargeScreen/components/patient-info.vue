@@ -53,7 +53,7 @@ export default {
   data () {
     return {
       activeIndex: 1,
-      componentInfo: 'BasicInfo'
+      componentInfo: 'CheckInfo'
     }
   },
   props: {
