@@ -2,13 +2,12 @@
 // 导出页面为PDF格式
 import html2Canvas from 'html2canvas'
 import JsPDF from 'jspdf'
-import { random } from 'xe-utils/methods'
 
 export default{
+
   install (Vue, options) {
     Vue.prototype.getPdf = function (data) {
       var title = this.htmlTitle
-
       html2Canvas(document.querySelector(`#${data}`), {
         allowTaint: true
       }).then(function (canvas) {
@@ -35,8 +34,11 @@ export default{
             }
           }
         }
-        PDF.save(title + random(1, 100) + '.pdf')
+
+        // PDF.output('dataurlstring')
+        PDF.save(title + '.pdf')
       })
     }
   }
+
 }

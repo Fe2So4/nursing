@@ -23,6 +23,7 @@
         <vxe-form-item field="nickname">
           <template v-slot>
             <vxe-input
+
               v-model="formData1.nickname"
               placeholder="病人姓名/手术名称/住院号"
               clearable
@@ -246,5 +247,8 @@ export default {
 }
 .el-scrollbar__wrap {
   margin-bottom: 0px !important;
+}
+/deep/ .vxe-radio .vxe-radio--label {
+    vertical-align: inherit;
 }
 </style>

@@ -349,6 +349,7 @@
 <script>
 // import isSelect from './components/isSelect'
 import {ipcRenderer} from 'electron'
+
 import Bus from '@/utils/bus.js'
 export default {
   name: 'NursingDocumentJiChu',
@@ -389,24 +390,40 @@ export default {
     this.search()
     Bus.$on('clickShuaXinJiChu', res => {
       if (res === '1') {
-        this.utilsDebounce(() => { this.search() }, 1000)
+        this.utilsDebounce(() => { this.search() }, 300)
       } else if (res === '2') {
-        this.utilsDebounce(() => { this.dayin() }, 1000)
+        this.utilsDebounce(() => { this.dayin() }, 300)
       } else if (res === '3') {
-        this.utilsDebounce(() => { this.getPdf('nursing-document-jichu') }, 1000)
+        this.htmlTitle = this.$store.state['nursing-document-list'].patientName + '护理记录单单据(基础)'
+        this.utilsDebounce(() => {
+          // this.getPdf('nursing-document-jichu')
+          // console.log(this.htmlTitle)
+          // shell.openExternal(this.htmlTitle)
+          // this.$electron.shell.openExternal('https://www.baidu.com/')
+
+          this.daochuPDF()
+        }, 1000)
       }
     })
   },
   methods: {
     dayin () {
-      this.utilsDebounce(() => { this.printCurrent() }, 1000)
+      this.printCurrent()
     },
     // 打印
     printCurrent () {
       const printHtml = document.getElementById('nursing-document-jichu').outerHTML
-      const options = { silent: false }
+      const options = { silent: true }
       // options = JSON.stringify(options)
       ipcRenderer.send('printChannel', printHtml, 'nursing-document-jichu.css', options)
+    },
+    daochuPDF () {
+      const printHtml = document.getElementById('nursing-document-jichu').outerHTML
+      const options = { silent: false }
+      // options = JSON.stringify(options)
+      this.utilsDebounce(() => {
+        ipcRenderer.send('printpdfChannel', printHtml, 'nursing-document-jichu.css', options)
+      }, 1000)
     },
     // 查询数据
     search () {

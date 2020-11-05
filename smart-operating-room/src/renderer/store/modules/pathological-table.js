@@ -60,8 +60,8 @@ const actions = {
     // }
     return res
   },
-  async ReqprintBottleToStick ({ commit }) {
-    let res = await reqprintBottleToStick()
+  async ReqprintBottleToStick ({ commit }, query) {
+    let res = await reqprintBottleToStick(query)
     // if (res.status === 200) {
     //   commit('SAVE_USERINFO', res.data)
     // }

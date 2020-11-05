@@ -359,4 +359,7 @@ export default {
     width: 90px;
     background-color:#E9EDF7
 }
+/deep/ .vxe-button--content, .vxe-button--icon, .vxe-button--loading-icon {
+  vertical-align: unset;
+}
 </style>

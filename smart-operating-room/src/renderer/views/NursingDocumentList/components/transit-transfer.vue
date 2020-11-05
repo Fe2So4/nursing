@@ -1207,14 +1207,18 @@ export default {
       } else if (res === '2') {
         this.utilsDebounce(() => { this.dayin() }, 1000)
       } else if (res === '3') {
-        this.utilsDebounce(() => { this.getPdf('transit-transfer') }, 1000)
+        this.htmlTitle = this.$store.state['nursing-document-list'].patientName + '转运交接单'
+        this.utilsDebounce(() => {
+          //  this.getPdf('transit-transfer')
+          this.daochuPDF()
+        }, 1000)
       }
     })
     this.getWenShuData()
   },
   methods: {
     dayin () {
-      this.utilsDebounce(() => { this.printCurrent() }, 1000)
+      this.printCurrent()
     },
     // 打印
     printCurrent () {
@@ -1222,6 +1226,14 @@ export default {
       const options = { silent: false }
       // options = JSON.stringify(options)
       ipcRenderer.send('printChannel', printHtml, 'transit-transfer.css', options)
+    },
+    daochuPDF () {
+      const printHtml = document.getElementById('transit-transfer').outerHTML
+      const options = { silent: false }
+      // options = JSON.stringify(options)
+      this.utilsDebounce(() => {
+        ipcRenderer.send('printpdfChannel', printHtml, 'transit-transfer.css', options)
+      }, 1000)
     },
     getWenShuData () {
       let obj = {
