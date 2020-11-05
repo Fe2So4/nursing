@@ -27,7 +27,7 @@
             {{ item.before }}
           </td>
           <td>
-            {{ item.adding }}
+            {{ item.adding + item.adding1 + item.adding2 + item.adding3 }}
           </td>
           <td>
             {{ item.before2 }}
@@ -99,8 +99,57 @@ export default {
         url: getOrdinaryData + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`,
         method: 'get'
       }).then(res => {
-        // let data = res.data.data
-        // data.basicEquipment
+        let data = res.data.data
+        data.basicEquipment.before.forEach(item => {
+          for (let i = 0; i < this.deviceList.length; i++) {
+            if (this.deviceList[i].name === item.insName) { this.deviceList[i].before = item.number }
+          }
+        })
+        data.basicEquipment.adding.forEach(item => {
+          for (let i = 0; i < this.deviceList.length; i++) {
+            if (this.deviceList[i].name === item.insName) { this.deviceList[i].adding = item.number }
+          }
+        })
+        data.basicEquipment.adding1.forEach(item => {
+          for (let i = 0; i < this.deviceList.length; i++) {
+            if (this.deviceList[i].name === item.insName) { this.deviceList[i].adding1 = item.number }
+          }
+        })
+        data.basicEquipment.adding2.forEach(item => {
+          for (let i = 0; i < this.deviceList.length; i++) {
+            if (this.deviceList[i].name === item.insName) {
+              this.deviceList[i].adding2 = item.number
+            }
+          }
+        })
+        data.basicEquipment.adding3.forEach(item => {
+          for (let i = 0; i < this.deviceList.length; i++) {
+            if (this.deviceList[i].name === item.insName) {
+              this.deviceList[i].adding3 = item.number
+            }
+          }
+        })
+        data.basicEquipment.before2.forEach(item => {
+          for (let i = 0; i < this.deviceList.length; i++) {
+            if (this.deviceList[i].name === item.insName) {
+              this.deviceList[i].before2 = item.number
+            }
+          }
+        })
+        data.basicEquipment.after.forEach(item => {
+          for (let i = 0; i < this.deviceList.length; i++) {
+            if (this.deviceList[i].name === item.insName) {
+              this.deviceList[i].after = item.number
+            }
+          }
+        })
+        data.basicEquipment.after2.forEach(item => {
+          for (let i = 0; i < this.deviceList.length; i++) {
+            if (this.deviceList[i].name === item.insName) {
+              this.deviceList[i].after2 = item.number
+            }
+          }
+        })
       })
     }
   },
