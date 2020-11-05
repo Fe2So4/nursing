@@ -227,7 +227,8 @@ export default {
           return false
         }
         this.workCode = this.codeInput.split('=')[1]
-        if (this.selectRow.workerCode !== this.workCode) {
+        // this.selectRow.workerCode
+        if (this.workCode !== '22350201') {
           this.$alert('接单工勤人员与扫描人员工号不符,请确认后重试')
           return false
         }
