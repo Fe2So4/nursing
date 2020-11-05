@@ -19,8 +19,8 @@
         <span style="color:#444444;font-weight:bold;">{{ ptData.roomNo }}</span>
       </p>
       <p>{{ ptData.operationName }}</p>
-      <p>手术医生：<span style="color:#08B147;">{{ ptData.surgeon }}</span></p>
-      <p>巡回/洗手：<span style="color:#FF7623;">{{ ptData.washNurseName }}/{{ ptData.runNurseName }}</span></p>
+      <p>手术医生：<span style="color:#08B147;font-weight:600;">{{ ptData.surgeon }}</span></p>
+      <p>巡回/洗手：<span style="color:#FF7623;font-weight:600;">{{ ptData.washNurseName }}/{{ ptData.runNurseName }}</span></p>
     </div>
   </div>
 </template>

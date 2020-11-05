@@ -23,7 +23,8 @@
 <script>
 import CheckDetail from './check-detail'
 import CheckOverview from './check-overview'
-import InventoryTable from './inventory-table'
+import InventoryBasic from './inventory-basic'
+import InventorySpecial from './inventory-special'
 import request from '@/utils/request'
 import {mapState} from 'vuex'
 import {getOrdinaryData, getSpecialData} from '@/api/large-screen'
@@ -34,8 +35,8 @@ export default {
       // itemStatus:1,
       activeName: 'first',
       navList: [
-        {label: '手术敷料、基本器械、物品', name: 'first', component: 'InventoryTable'},
-        {label: '楼层特殊手术器械清点', name: 'second', component: 'InventoryTable'}
+        {label: '手术敷料、基本器械、物品', name: 'first', component: 'InventoryBasic'},
+        {label: '楼层特殊手术器械清点', name: 'second', component: 'InventorySpecial'}
       ],
       list: []
     }
@@ -43,7 +44,8 @@ export default {
   components: {
     CheckDetail,
     CheckOverview,
-    InventoryTable
+    InventoryBasic,
+    InventorySpecial
   },
   props: {
 
@@ -73,7 +75,7 @@ export default {
     }
   },
   mounted () {
-    this.getOrdinaryData()
+    // this.getOrdinaryData()
   }
 }
 </script>

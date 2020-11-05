@@ -11,7 +11,7 @@
         >
           刷新<i class="el-icon-refresh-right" />
         </el-button>
-        <span>数据更新时间: <span style="color:#388FF7;">{{ time }}</span></span>
+        <span style="vertical-align:middle;margin-left:18px;">数据更新时间: <span style="color:#388FF7;font-weight:600;">{{ time }}</span></span>
       </div>
     </div>
     <div class="order-list">
@@ -32,7 +32,7 @@
           <span
             class="label"
             style="margin-left:34px;"
-          >手术间</span>
+          >手术房间</span>
           <el-select
             v-model="room"
             placeholder="请选择"
@@ -58,7 +58,7 @@
             class="title"
             style="color:#FF8B45;"
           >
-            未接单<i />
+            <span>未接单</span><i />
             <div
               class="room-filter"
               @click="handleSort"
@@ -100,7 +100,7 @@
             class="title"
             style="color:#01CB4D;"
           >
-            进行中<i />
+            <span>进行中</span><i />
           </h3>
           <ul>
             <li
@@ -124,7 +124,7 @@
             class="title"
             style="color:#3478FF;"
           >
-            已完成<i />
+            <span>已完成</span><i />
           </h3>
           <ul>
             <li
@@ -171,22 +171,18 @@ export default {
       floorList: [],
       room: '',
       floor: '',
-      receivedOrder: [
-
-      ],
+      receivedOrder: [],
       receivedOrderCount: 0,
 
-      haveInHandOrder: [
-
-      ],
+      haveInHandOrder: [],
       haveInHandOrderCount: 0,
-      completeOrder: [
-
-      ],
+      completeOrder: [],
       completeOrderCount: 0,
       detailVisible: false,
       detailStatus: null,
-      selectRow: {}
+      selectRow: {
+
+      }
     }
   },
   components: {
@@ -243,7 +239,6 @@ export default {
     // 获取表单
     getReceiveOrders () {
       let text = this.floor.replace(/楼/ig, '')
-
       request({
         url: receiveOrderList,
         method: 'post',
@@ -347,6 +342,7 @@ export default {
       border-radius: 5px;
       .option-left{
         color:#444444;
+        font-weight: 600;
       }
     }
     .order-list{
@@ -390,6 +386,7 @@ export default {
           flex: 1;
           .room-filter{
             position:absolute;
+            font-weight: lighter;
             text-indent: 9px;
             color: #444444;
             right: 20px;
@@ -444,9 +441,13 @@ export default {
             position: relative;
             font-size: 20px;
             border-bottom: 1px solid #E9ECF4;
-            font-weight: unset;
+            vertical-align: middle;
+            span{
+              vertical-align: center;
+            }
             i{
               position: absolute;
+              vertical-align: middle;
               width: 4px;
               height: 18px;
               background: #3478FF;
@@ -466,7 +467,6 @@ export default {
               display: none;
             }
             li{
-              // width: 512px;
               margin:0 auto;
               height: 110px;
               background: #F4F7FD;

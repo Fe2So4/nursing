@@ -110,7 +110,7 @@ export default {
   data () {
     return {
       optas: '',
-      codeInput: '',
+      codeInput: '22350201',
       hiddenVisible: false,
       exitType: '2'
     }
@@ -157,7 +157,6 @@ export default {
         url: changeReceiveOrderList,
         method: 'post',
         data: {
-          name: '',
           code: this.workCode,
           orderId: this.selectRow.orderId,
           status: type

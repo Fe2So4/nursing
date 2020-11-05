@@ -18,7 +18,7 @@
         <el-collapse
           v-model="activeNames"
           @change="handleChange"
-          v-if="itemStatus==='1'"
+          v-else-if="itemStatus==='1'"
         >
           <el-collapse-item
             v-for="(item,index) in list"
@@ -45,6 +45,19 @@
             />
           </el-collapse-item>
         </el-collapse>
+        <div
+          v-else-if="itemStatus==='2'"
+          class="summary"
+        >
+          <h3>主 诉</h3>
+          <p>{{ list[0].chiefComplaint }}</p>
+          <p>{{ list[0].sectionName }}</p>
+          <h3>病情摘要</h3>
+          <h3>现病史</h3>
+          <p>
+            {{ list[0].presentHistory }}
+          </p>
+        </div>
       </template>
       <div
         v-else
@@ -171,6 +184,21 @@ export default {
         &:last-child{
           margin-bottom: unset;
         }
+      }
+    }
+    .summary{
+      h3{
+        font-size: 18px;
+        font-weight: 400;
+        margin-top: 28px;
+        &:first-child{
+          margin-top: 0;
+        }
+      }
+      p{
+        color: #3890f7;
+        font-size: 16px;
+        line-height: 32px;
       }
     }
     .data-empty{

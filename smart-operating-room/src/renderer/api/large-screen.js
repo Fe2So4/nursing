@@ -27,6 +27,13 @@ export const getTestReport = `${config.default.api.baseURL}/ocis/basicInfo/getPa
 
 // 获取当前检查报告
 export const getInspectReport = `${config.default.api.baseURL}/ocis/basicInfo/getInspectionReport`
+
+// 获取术中带药
+export const getMedecial = `${config.default.api.baseURL}/ocis/basicInfo/getIntraoperativeMedication`
+
+// 获取抗生素用药
+export const getAntibiotic = `${config.default.api.baseURL}/ocis/basicInfo/getAntibiotic`
+
 // 获取楼层列表
 export const floorList = `${config.default.api.baseURL}/ocis/dict/getFloor`
 

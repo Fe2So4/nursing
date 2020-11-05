@@ -35,7 +35,7 @@ export default {
   watch: {
     detailStatus: {
       handler (newVal, old) {
-        if (newVal === 1) {
+        if (newVal === 0) {
           this.size = '73%'
         } else {
           this.size = '40%'

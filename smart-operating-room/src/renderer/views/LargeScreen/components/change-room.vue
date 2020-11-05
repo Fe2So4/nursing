@@ -37,9 +37,13 @@
           slot="footer"
           class="dialog-footer"
         >
-          <el-button @click="handleClose">取 消</el-button>
+          <el-button
+            @click="handleClose"
+            size="medium"
+          >取 消</el-button>
           <el-button
             type="primary"
+            size="medium"
             @click="saveChangeRoom"
           >确 定</el-button>
         </span>
@@ -224,5 +228,6 @@ export default {
 .bottomBtn {
   display: flex;
   justify-content: center;
+  margin-top: 15px;
 }
 </style>>

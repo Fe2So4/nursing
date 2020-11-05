@@ -1,7 +1,11 @@
 <template>
   <div class="pathology-list">
     <div class="pl-left">
-      <span>术中病理</span>
+      <span>术</span>
+      <span>中</span>
+      <span>病</span>
+      <span>理</span>
+      <i>(冰冻)</i>
     </div>
     <div class="pl-right">
       <p>
@@ -16,7 +20,7 @@
         </span>
         <span style="color:#444444;font-weight:bold;">{{ ptData.roomNo }}</span>
       </p>
-      <p><span class="pt-info">{{ ptData.floor }}号楼手术室{{ ptData.roomNo }}</span><span>{{ ptData.surgeon }}</span></p>
+      <p><span class="pt-info">{{ ptData.floor }}号楼手术室{{ ptData.roomNo }}</span><span style="font-weight:600;">{{ ptData.surgeon }}</span></p>
       <p>接单时间：{{ ptData.updateTime }}</p>
       <p>到达时间：{{ ptData.endTime }}</p>
     </div>
@@ -56,10 +60,22 @@ export default {
       border-radius: 5px 0px 0px 5px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-around;
       align-items: center;
+      padding:8px 0;
       span{
         width: 15px;
+        display: block;
+        line-height: 16px;
+        font-size: 16px;
+        font-weight: 600;
+      }
+      i{
+        font-size: 12px;
+        font-style: normal;
+        display: block;
+        line-height: 12px;
+        font-weight: 600;
       }
     }
     .pl-right{

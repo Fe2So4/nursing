@@ -3,8 +3,8 @@
     <info-list
       :list="historyList"
       title="病史摘要"
-      item-status="0"
-      state="inspect"
+      item-status="2"
+      state="summary"
     />
     <info-list
       :list="adviceList"
@@ -25,13 +25,13 @@
       state="inspect"
     />
     <info-list
-      :list="basicInfoList"
+      :list="medicineList"
       title="术中带药"
       item-status="0"
       state="inspect"
     />
     <info-list
-      :list="basicInfoList"
+      :list="antibioticList"
       title="抗生素用药"
       item-status="0"
       state="inspect"
@@ -45,17 +45,19 @@ import request from '@/utils/request'
 import {mapState} from 'vuex'
 import $bus from '@/utils/busScreen'
 import moment from 'moment'
-import {getMedicalAdvice, getMedicalHistory, getInspectReport, getTestReport} from '@/api/large-screen'
+import {getAntibiotic, getMedecial, getMedicalAdvice, getMedicalHistory, getInspectReport, getTestReport} from '@/api/large-screen'
 export default {
   name: 'BasicInfo',
   data () {
     return {
-      basicInfoList: [{time: '10:00', label: '血常规,全血'}, {time: '11:00', label: 'T.B.NK,全血'}],
+      basicInfoList: [],
       emptyList: [],
       adviceList: [], // 有效医嘱
       historyList: [], // 病史摘要
       inspectList: [], // 检查报告
-      testList: [] // 检验报告
+      testList: [], // 检验报告
+      medicineList: [], // 术中带药
+      antibioticList: [] // 抗生素带药
     }
   },
   components: {
@@ -70,7 +72,15 @@ export default {
         method: 'get',
         url: getMedicalAdvice + '/' + this.patientInfo.cureNo
       }).then(res => {
-        this.adviceList = res.data.data
+        let data = res.data.data
+        data.forEach(item => {
+          item.label = item.outDrugItemName
+          item.type = item.interType
+          item.perTime = item.dosagePerTime
+          item.unit = item.minunit
+          item.usage = item.usage
+        })
+        this.adviceList = data
       })
     },
     getMedicalHistory () {
@@ -94,6 +104,40 @@ export default {
         this.inspectList = data
       })
     },
+    // 获取术中带药
+    getMedecialData () {
+      request({
+        url: getMedecial + '/' + this.patientInfo.hospitalNo,
+        method: 'get'
+      }).then(res => {
+        let data = res.data.data
+        data.forEach(item => {
+          item.label = item.orderText
+          item.type = item.frequency
+          item.perTime = item.dosagePerTime
+          item.unit = item.dosageUnit
+          item.usage = item.administration
+        })
+        this.medicineList = data
+      })
+    },
+    // 获取抗生素用药
+    getAntibioticData () {
+      request({
+        url: getAntibiotic + '/' + this.patientInfo.hospitalNo,
+        method: 'get'
+      }).then(res => {
+        let data = res.data.data
+        data.forEach(item => {
+          item.label = item.orderText
+          item.type = item.frequency
+          item.perTime = item.dosagePerTime
+          item.unit = item.dosageUnit
+          item.usage = item.administration
+        })
+        this.antibioticList = data
+      })
+    },
     getTestReportData () {
       request({
         method: 'get',
@@ -103,8 +147,6 @@ export default {
         data.forEach(item => {
           item.label = item.observationTypeName
           item.time = moment(item.reportDateTime).format('YYYY-MM-DD')
-          // item.laboratoryReportDetails.forEach(_item => {
-          // })
         })
         this.testList = data
       })
@@ -115,16 +157,22 @@ export default {
     this.getMedicalHistory()
     this.getInspectReportData()
     this.getTestReportData()
+    this.getMedecialData()
+    this.getAntibioticData()
     $bus.$on('getMedicalAdvice', this.getMedicalAdvice)
     $bus.$on('getMedicalHistory', this.getMedicalHistory)
     $bus.$on('getInspectReport', this.getInspectReport)
     $bus.$on('getTestReport', this.getTestReport)
+    $bus.$on('getMedecial', this.getMedecialData)
+    $bus.$on('getAntibiotic', this.getTestReportData)
   },
   beforeDestroy () {
     $bus.$off('getMedicalAdvice')
     $bus.$off('getMedicalHistory')
     $bus.$off('getInspectReport')
     $bus.$off('getTestReport')
+    $bus.$off('getMedecial')
+    $bus.$off('getAntibiotic')
   }
 }
 </script>
