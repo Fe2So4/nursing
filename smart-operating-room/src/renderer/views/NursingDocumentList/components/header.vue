@@ -132,4 +132,7 @@ export default {
     align-items: center;
   }
 }
+/deep/ .vxe-button--content, .vxe-button--icon, .vxe-button--loading-icon {
+  vertical-align: unset;
+}
 </style>

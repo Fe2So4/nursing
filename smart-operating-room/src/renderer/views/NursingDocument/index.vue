@@ -44,4 +44,7 @@ export default {
         height: calc(100% - 105px);
     }
 }
+/deep/ .vxe-button--content, .vxe-button--icon, .vxe-button--loading-icon {
+  vertical-align: unset;
+}
 </style>

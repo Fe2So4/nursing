@@ -461,6 +461,7 @@ export default {
 .surgery-table {
     box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
     border-radius: 5px;
+    overflow: hidden;
     height: 100%;
     padding-left: 20px;
     padding-right: 5px;

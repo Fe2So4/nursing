@@ -84,6 +84,7 @@
       <div class="form-right">
         <vxe-form-item>
           <vxe-input
+            clearable
             placeholder="姓名"
             v-model="formData.name"
           />

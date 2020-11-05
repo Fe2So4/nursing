@@ -61,9 +61,10 @@ export const reqsendPathologicOrder = (obj) => {
 }
 // 打印瓶贴
 const reqprintBottleToStickUrl = `${config.default.api.baseURL}/ocis/pathology/printBottleToStick`
-export const reqprintBottleToStick = () => {
+export const reqprintBottleToStick = (obj) => {
   return request({
     url: reqprintBottleToStickUrl,
-    method: 'post'
+    method: 'post',
+    params: obj
   })
 }

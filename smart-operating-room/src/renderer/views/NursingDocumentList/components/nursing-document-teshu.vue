@@ -327,18 +327,22 @@ export default {
   mounted () {
     Bus.$on('clickShuaXinTeShu', res => {
       if (res === '1') {
-        this.utilsDebounce(() => { this.EquipmentChange() }, 1000)
+        this.utilsDebounce(() => { this.EquipmentChange() }, 300)
       } else if (res === '2') {
-        this.utilsDebounce(() => { this.dayin() }, 1000)
+        this.utilsDebounce(() => { this.dayin() }, 300)
       } else if (res === '3') {
-        this.utilsDebounce(() => { this.getPdf('nursing-document-teshu') }, 1000)
+        this.htmlTitle = this.$store.state['nursing-document-list'].patientName + this.htmlTitle
+        this.utilsDebounce(() => {
+          //  this.getPdf('nursing-document-teshu')
+          this.daochuPDF()
+        }, 300)
       }
     })
     this.EquipmentChange()
   },
   methods: {
     dayin () {
-      this.utilsDebounce(() => { this.printCurrent() }, 1000)
+      this.printCurrent()
     },
     // 打印
     printCurrent () {
@@ -346,6 +350,14 @@ export default {
       const options = { silent: false }
       // options = JSON.stringify(options)
       ipcRenderer.send('printChannel', printHtml, 'nursing-document-teshu.css', options)
+    },
+    daochuPDF () {
+      const printHtml = document.getElementById('nursing-document-teshu').outerHTML
+      const options = { silent: false }
+      // options = JSON.stringify(options)
+      this.utilsDebounce(() => {
+        ipcRenderer.send('printpdfChannel', printHtml, 'nursing-document-teshu.css', options)
+      }, 1000)
     },
     EquipmentChange () {
       this.basicequipment = []

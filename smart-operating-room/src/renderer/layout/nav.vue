@@ -46,27 +46,27 @@ export default {
         //   path:'/home/large-screen'
         // },
         {
-          icon: 'el-icon-s-order',
+          icon: 'iconfont icon-caidanxiangdao-',
           title: '手术派单',
           path: '/home/client-operation-orders'
         },
         {
-          icon: 'el-icon-menu',
+          icon: 'iconfont icon-guanli',
           title: '病理申请',
           path: '/home/client-pathological-application'
         },
         {
-          icon: 'el-icon-tickets',
+          icon: 'iconfont icon-wenjuan',
           title: '护理列表',
           path: '/home/client-nursing-document'
         },
         {
-          icon: 'el-icon-s-claim',
+          icon: 'iconfont icon-shuju',
           title: '统计查询',
           path: '/home/client-statistical-query'
         },
         {
-          icon: 'el-icon-s-operation',
+          icon: 'iconfont icon-gongneng',
           title: '连台手术',
           path: '/home/client-continuous-surgery'
         }
@@ -105,6 +105,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import './../assets/iconfont/iconfont.css';
   .layout-aside{
     height: 100%;
     // width: 100%;

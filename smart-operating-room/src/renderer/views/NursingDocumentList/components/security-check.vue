@@ -709,13 +709,17 @@ export default {
       } else if (res === '2') {
         this.utilsDebounce(() => { this.dayin() }, 1000)
       } else if (res === '3') {
-        this.utilsDebounce(() => { this.getPdf('security-check') }, 1000)
+        this.htmlTitle = this.$store.state['nursing-document-list'].patientName + '安全核查记录单'
+        this.utilsDebounce(() => {
+          // this.getPdf('security-check')
+          this.daochuPDF()
+        }, 1000)
       }
     })
   },
   methods: {
     dayin () {
-      this.utilsDebounce(() => { this.printCurrent() }, 1000)
+      this.printCurrent()
     },
     // 打印
     printCurrent () {
@@ -723,6 +727,14 @@ export default {
       const options = { silent: false }
       // options = JSON.stringify(options)
       ipcRenderer.send('printChannel', printHtml, 'security-check.css', options)
+    },
+    daochuPDF () {
+      const printHtml = document.getElementById('security-check').outerHTML
+      const options = { silent: false }
+      // options = JSON.stringify(options)
+      this.utilsDebounce(() => {
+        ipcRenderer.send('printpdfChannel', printHtml, 'security-check.css', options)
+      }, 1000)
     },
     // 查询数据
     searchData () {

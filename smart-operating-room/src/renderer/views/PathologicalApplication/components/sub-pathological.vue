@@ -565,7 +565,12 @@ export default {
         this.$alert('请先输入住院号,双击选择标本信息', '提示')
         return false
       }
-      this.$store.dispatch('ReqprintBottleToStick').then(res => {
+      console.log(this.selectItem)
+      let obj = {
+        pathologyId: this.selectItem.pathologyId,
+        printState: '1'
+      }
+      this.$store.dispatch('ReqprintBottleToStick', obj).then(res => {
         if (res.data.code === 200) {
           let url = `${res.data.data.url}?pid=${this.selectItem.pathologyId}&opcode=${res.data.data.userCode}`
           this.$electron.shell.openExternal(url)
@@ -716,5 +721,8 @@ export default {
 }
 /deep/ .el-dialog__headerbtn {
   top: 15px;
+}
+/deep/ .vxe-button--content, .vxe-button--icon, .vxe-button--loading-icon {
+  vertical-align: unset;
 }
 </style>

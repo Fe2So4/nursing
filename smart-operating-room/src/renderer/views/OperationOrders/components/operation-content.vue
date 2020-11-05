@@ -15,11 +15,28 @@
         >
           <div class="header">
             <div class="header-img" />
-            <div class="mgl10 fontCss">
-              {{ item.hospitalNo }}
+            <div
+              class="mgl10 fontCss"
+              style="overflow: unset;"
+            >
+              <el-tooltip
+                class="item"
+                effect="dark"
+                :content="item.hospitalNo"
+                placement="top-start"
+              >
+                <span class="mgl10 text-one-row">{{ item.hospitalNo }}</span>
+              </el-tooltip>
             </div>
             <div class="mgl15 fontCss">
-              {{ item.patientName }}
+              <el-tooltip
+                class="item"
+                effect="dark"
+                :content="item.patientName"
+                placement="top-start"
+              >
+                <span class="mgl10 text-one-row">{{ item.patientName }}</span>
+              </el-tooltip>
             </div>
           </div>
           <div class="body">
@@ -727,6 +744,9 @@ export default {
         }
         .fontCss {
           color: #fff;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
         }
       }
       .body {

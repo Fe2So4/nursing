@@ -753,13 +753,17 @@ export default {
       } else if (res === '2') {
         this.utilsDebounce(() => { this.dayin() }, 1000)
       } else if (res === '3') {
-        this.utilsDebounce(() => { this.getPdf('nursing-document-two') }, 1000)
+        this.htmlTitle = this.$store.state['nursing-document-list'].patientName + '护理记录单(二)'
+        this.utilsDebounce(() => {
+          //  this.getPdf('nursing-document-two')
+          this.daochuPDF()
+        }, 1000)
       }
     })
   },
   methods: {
     dayin () {
-      this.utilsDebounce(() => { this.printCurrent() }, 1000)
+      this.printCurrent()
     },
     // 打印
     printCurrent () {
@@ -767,6 +771,14 @@ export default {
       const options = { silent: false }
       // options = JSON.stringify(options)
       ipcRenderer.send('printChannel', printHtml, 'nursing-document-two.css', options)
+    },
+    daochuPDF () {
+      const printHtml = document.getElementById('nursing-document-two').outerHTML
+      const options = { silent: false }
+      // options = JSON.stringify(options)
+      this.utilsDebounce(() => {
+        ipcRenderer.send('printpdfChannel', printHtml, 'nursing-document-two.css', options)
+      }, 1000)
     },
     getWenShuData () {
       let obj = {

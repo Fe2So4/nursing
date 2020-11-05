@@ -337,4 +337,7 @@ export default {
 /deep/ th {
   color: #333333;
 }
+/deep/ .vxe-button--content, .vxe-button--icon, .vxe-button--loading-icon {
+  vertical-align: unset;
+}
 </style>

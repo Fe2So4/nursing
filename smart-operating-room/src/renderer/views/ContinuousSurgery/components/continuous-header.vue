@@ -33,6 +33,7 @@
       <div class="form-right">
         <vxe-form-item>
           <vxe-input
+            clearable
             v-model="formData.nameOrNum"
             placeholder="房间号/病人姓名"
           />

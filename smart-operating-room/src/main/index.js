@@ -1,9 +1,10 @@
 'use strict'
 
-// import { app, BrowserWindow, ipcMain, remote, fs } from 'electron'
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain, dialog } from 'electron'
 
 const Path = require('path')
+const fs = require('fs')
+
 // import '../renderer/store'
 /**
  * Set `__static` path to static files in production
@@ -76,11 +77,9 @@ app.on('activate', () => {
 
 /*
 import { autoUpdater } from 'electron-updater'
-
 autoUpdater.on('update-downloaded', () => {
   autoUpdater.quitAndInstall()
 })
-
 app.on('ready', () => {
   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
 })
@@ -136,5 +135,61 @@ ipcMain.on('print-content', (e, options) => {
   } else {
     printWin.webContents.print()
   }
+// const options = { silent: true, landscape: true }
+})
+
+// 新建导出窗口
+const printPagePDFURL = process.env.NODE_ENV === 'development'
+  ? `http://localhost:9088/static/printPDF.html`
+  : Path.join(__dirname, '/static/printPDF.html')
+const printPDFWindows = new Set()
+const createPrintPDFWindow = () => {
+  let newPrintPDFWindow = new BrowserWindow({
+    show: false,
+    webPreferences: {
+      webSecurity: false,
+      nodeIntegration: true
+    }
+  })
+
+  newPrintPDFWindow.loadURL(printPagePDFURL)
+  // loadURL(`file://${__dirname}/app/index.html`)
+  newPrintPDFWindow.once('ready-to-show', () => {
+  // newPrintWindow.show()
+  })
+
+  newPrintPDFWindow.on('closed', () => {
+    printPDFWindows.delete(newPrintPDFWindow)
+    newPrintPDFWindow = null
+  })
+
+  printPDFWindows.add(newPrintPDFWindow)
+  return newPrintPDFWindow
+}
+let printPDFHtml = ''
+let cssFilePDFName = ''
+let printPDFWin = null
+let printPDFOptions = null
+ipcMain.on('printpdfChannel', (e, html, css, options) => {
+  printPDFWin = createPrintPDFWindow()
+  printPDFHtml = html
+  cssFilePDFName = css
+  printPDFOptions = options
+})
+
+ipcMain.on('print-page-ready-test', (e) => {
+  e.reply('print-page-ready-reply-test', printPDFHtml, cssFilePDFName, printPDFOptions)
+})
+
+ipcMain.on('did-finish-load', (e, options, a) => {
+  console.log('A', a)
+  var filename = a + '.pdf'
+  var dir = dialog.showSaveDialogSync({ defaultPath: filename, showsTagField: false })
+
+  printPDFWin.webContents.printToPDF({}, (error, data) => {
+    if (error) throw error // 写文件
+    fs.writeFileSync(dir, data)
+  })
+
 // const options = { silent: true, landscape: true }
 })
