@@ -25,7 +25,7 @@
             <div class="title-right">{{state === 0 ? '未清点' : '已清点'}}</div>
           </div>
           <ul v-if="packageList.length>0">
-            <li v-for="item in packageList" :key="item.insIndex">
+            <li v-for="item in packageList" :key="item.insName">
               <van-cell :title="item.insName" value="已清点" title-class="first-cell" border>
                 <template #right-icon>
                   <van-stepper v-model="item.number" theme="round" min='0'/>
@@ -52,11 +52,11 @@
 
 <script>
 import PatientCard from '@/components/PatientCard'
-import {getPackage, getPackageData, savePackageData} from '@/api/device-package'
+import {getPackageData, savePackageData} from '@/api/device-package'
 import request from '@/utils/request'
 import {mapState} from 'vuex'
 export default {
-  name: 'DeviceList',
+  insName: 'DeviceList',
   data () {
     return {
       checked: true,
@@ -71,20 +71,41 @@ export default {
       items: [{ text: '术前', active: 0 }, { text: '术中(一)', active: 1 },
         { text: '术中(二)', active: 2 }, { text: '术中(三)', active: 3 }, { text: '术中(四)', active: 4 },
         { text: '体腔关闭前', active: 5 }, { text: '体腔关闭后', active: 6 }, { text: '皮肤缝合后', active: 7 }],
-      packageList: [],
-      packageData: [],
+      packageList: [
+        { insName: '腔脑室外引流管', number: 0 },
+        { insName: '小纱布', number: 0 },
+        { insName: '腔镜纱布', number: 0 },
+        { insName: '纱布', number: 0 },
+        { insName: '纱布垫', number: 0 },
+        { insName: '脑棉', number: 0 },
+        { insName: '纱条', number: 0 },
+        { insName: '缝针', number: 0 },
+        { insName: '刀片', number: 0 },
+        { insName: '切口保护器', number: 0 },
+        { insName: '长电刀头', number: 0 },
+        { insName: '红色尿管', number: 0 },
+        { insName: '皮片', number: 0 },
+        { insName: '彩带', number: 0 },
+        { insName: '临时阻断夹', number: 0 },
+        { insName: '花生米', number: 0 },
+        { insName: '穿刺针', number: 0 },
+        { insName: '纱带', number: 0 },
+        { insName: '线团', number: 0 },
+        { insName: '血管夹', number: 0 },
+        { insName: '长针头', number: 0 },
+        { insName: '清洁片', number: 0 },
+        { insName: '电刀头', number: 0 }
+      ],
       recordForm: {
         basicEquipment: {
-          items: {
-            before: [], // 术前
-            adding: [], // 术中一
-            adding1: [], // 术中二
-            adding2: [], // 术中三
-            adding3: [], // 术中四
-            before2: [], // 体腔关闭前
-            after: [], // 体腔关闭后
-            after2: [] // 缝合后
-          }
+          before: [], // 术前
+          adding: [], // 术中一
+          adding1: [], // 术中二
+          adding2: [], // 术中三
+          adding3: [], // 术中四
+          before2: [], // 体腔关闭前
+          after: [], // 体腔关闭后
+          after2: [] // 缝合后
         },
         modifier: '',
         modifierCode: '',
@@ -149,7 +170,7 @@ export default {
             sign = 'xsFhQm'
             break
         }
-        this.sign1 = this.opePeopleInfo.userName
+        this.sign1 = this.opePeopleInfo.userinsName
         this.recordForm[sign] = this.sign1
       })
     },
@@ -185,7 +206,7 @@ export default {
             sign = 'xhFhQm'
             break
         }
-        this.sign2 = this.opePeopleInfo.userName
+        this.sign2 = this.opePeopleInfo.userinsName
         this.recordForm[sign] = this.sign2
       })
     },
@@ -194,72 +215,90 @@ export default {
         request({
           method: 'get',
           url: getPackageData + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`
-          // url: getPackageData + `/91160537/17655867`
         }).then(res => {
-          this.recordForm = res.data.data
-          // this.recordForm.basicEquipment = JSON.parse(this.recordForm.basicEquipment)
-          switch (this.active) {
-            case 0:
-              this.packageList = this.recordForm.basicEquipment.items.before
-              this.state = this.recordForm.beforeStatus
-              break
-            case 1:
-              this.packageList = this.recordForm.basicEquipment.items.adding
-              this.state = this.recordForm.addingOne
-              break
-            case 2:
-              this.packageList = this.recordForm.basicEquipment.items.adding1
-              this.state = this.recordForm.addingTwo
-              break
-            case 3:
-              this.packageList = this.recordForm.basicEquipment.items.adding2
-              this.state = this.recordForm.addingThree
-              break
-            case 4:
-              this.packageList = this.recordForm.basicEquipment.items.adding3
-              this.state = this.recordForm.addingFour
-              break
-            case 5:
-              this.packageList = this.recordForm.basicEquipment.items.before2
-              this.state = this.recordForm.clossBefore
-              break
-            case 6:
-              this.packageList = this.recordForm.basicEquipment.items.after
-              this.state = this.recordForm.clossAfter
-              break
-            case 7:
-              this.packageList = this.recordForm.basicEquipment.items.after2
-              this.state = this.recordForm.sutureAfter
-              break
+          let data = res.data.data
+          data.basicEquipment = JSON.parse(JSON.stringify(data.basicEquipment))
+          this.recordForm.basicEquipment = data.basicEquipment
+          if (!this.IsEmpty(data.basicEquipment)) {
+            this.recordForm.xhAllClossQm = data.xhAllClossQm
+            this.recordForm.xhClossQm = data.xhClossQm
+            this.recordForm.xhFhQm = data.xhFhQm
+            this.recordForm.xhFourQm = data.xhFourQm
+            this.recordForm.xhOneQm = data.xhOneQm
+            this.recordForm.xhSqQm = data.xhSqQm
+            this.recordForm.xhThreeQm = data.xhThreeQm
+            this.recordForm.xhTwoQm = data.xhTwoQm
+            this.recordForm.xsAllClossQm = data.xsAllClossQm
+            this.recordForm.xsClossQm = data.xsClossQm
+            this.recordForm.xsFhQm = data.xsFhQm
+            this.recordForm.xsFourQm = data.xsFourQm
+            this.recordForm.xsOneQm = data.xsOneQm
+            this.recordForm.xsSqQm = data.xsSqQm
+            this.recordForm.xsThreeQm = data.xsThreeQm
+            this.recordForm.xsTwoQm = data.xsTwoQm
+            switch (this.active) {
+              case 0:
+                this.packageList = data.basicEquipment.before
+                this.state = data.beforeStatus
+                break
+              case 1:
+                this.packageList = data.basicEquipment.adding
+                this.state = data.addingOne
+                break
+              case 2:
+                this.packageList = data.basicEquipment.adding1
+                this.state = data.addingTwo
+                break
+              case 3:
+                this.packageList = data.basicEquipment.adding2
+                this.state = data.addingThree
+                break
+              case 4:
+                this.packageList = data.basicEquipment.adding3
+                this.state = data.addingFour
+                break
+              case 5:
+                this.packageList = data.basicEquipment.before2
+                this.state = data.clossBefore
+                break
+              case 6:
+                this.packageList = data.basicEquipment.after
+                this.state = data.clossAfter
+                break
+              case 7:
+                this.packageList = data.basicEquipment.after2
+                this.state = data.sutureAfter
+                break
+            }
           }
         })
       }
     },
-    getData () {
-      let deviceId = '123456'
-      request({
-        method: 'get',
-        url: getPackage + '/' + deviceId
-      }).then(res => {
-        let data = res.data.data.packageDetail
-        data.forEach(item => {
-          item.number = 0
-        })
-        this.packageList = JSON.parse(JSON.stringify(data))
-        this.recordForm.basicEquipment.pName = res.data.data.name
-        this.recordForm.basicEquipment.pId = res.data.data.id
-        this.recordForm.basicEquipment.items.before = JSON.parse(JSON.stringify(data)) // 术前
-        this.recordForm.basicEquipment.items.adding = JSON.parse(JSON.stringify(data)) // 术中一
-        this.recordForm.basicEquipment.items.adding1 = JSON.parse(JSON.stringify(data)) // 术中二
-        this.recordForm.basicEquipment.items.adding2 = JSON.parse(JSON.stringify(data)) // 术中三
-        this.recordForm.basicEquipment.items.adding3 = JSON.parse(JSON.stringify(data)) // 术中四
-        this.recordForm.basicEquipment.items.before2 = JSON.parse(JSON.stringify(data)) // 体腔关闭前
-        this.recordForm.basicEquipment.items.after = JSON.parse(JSON.stringify(data)) // 体腔关闭后
-        this.recordForm.basicEquipment.items.after2 = JSON.parse(JSON.stringify(data)) // 缝合后
-      })
-    },
+    // getData () {
+    //   let deviceId = '123456'
+    //   request({
+    //     method: 'get',
+    //     url: getPackage + '/' + deviceId
+    //   }).then(res => {
+    //     let data = res.data.data.packageDetail
+    //     data.forEach(item => {
+    //       item.number = 0
+    //     })
+    //     this.packageList = JSON.parse(JSON.stringify(data))
+    //     this.recordForm.basicEquipment.pinsName = res.data.data.insName
+    //     this.recordForm.basicEquipment.pId = res.data.data.id
+    //     this.recordForm.basicEquipment.items.before = JSON.parse(JSON.stringify(data)) // 术前
+    //     this.recordForm.basicEquipment.items.adding = JSON.parse(JSON.stringify(data)) // 术中一
+    //     this.recordForm.basicEquipment.items.adding1 = JSON.parse(JSON.stringify(data)) // 术中二
+    //     this.recordForm.basicEquipment.items.adding2 = JSON.parse(JSON.stringify(data)) // 术中三
+    //     this.recordForm.basicEquipment.items.adding3 = JSON.parse(JSON.stringify(data)) // 术中四
+    //     this.recordForm.basicEquipment.items.before2 = JSON.parse(JSON.stringify(data)) // 体腔关闭前
+    //     this.recordForm.basicEquipment.items.after = JSON.parse(JSON.stringify(data)) // 体腔关闭后
+    //     this.recordForm.basicEquipment.items.after2 = JSON.parse(JSON.stringify(data)) // 缝合后
+    //   })
+    // },
     onClickRight () {
-      let obj = this.recordForm
+      let obj = JSON.parse(JSON.stringify(this.recordForm))
       let state = 0
       for (let i = 0; i < this.packageList.length; i++) {
         if (this.packageList[i].number === 0) {
@@ -271,31 +310,31 @@ export default {
       }
       switch (this.active) {
         case 0:
-          obj.basicEquipment.items.before = this.packageList
+          obj.basicEquipment.before = this.packageList
           obj.beforeStatus = state
           break
         case 1:
-          obj.basicEquipment.items.adding = this.packageList
+          obj.basicEquipment.adding = this.packageList
           obj.addingOne = state
           break
         case 2:
-          obj.basicEquipment.items.adding1 = this.packageList
+          obj.basicEquipment.adding1 = this.packageList
           obj.addingTwo = state
           break
         case 3:
-          obj.basicEquipment.items.adding2 = this.packageList
+          obj.basicEquipment.adding2 = this.packageList
           obj.addingThree = state
           break
         case 4:
-          obj.basicEquipment.items.adding3 = this.packageList
+          obj.basicEquipment.adding3 = this.packageList
           obj.addingFour = state
           break
         case 5:
-          obj.basicEquipment.items.before2 = this.packageList
+          obj.basicEquipment.before2 = this.packageList
           obj.clossBefore = state
           break
         case 6:
-          obj.basicEquipment.items.after = this.packageList
+          obj.basicEquipment.after = this.packageList
           obj.clossAfter = state
           break
         case 7:
@@ -304,11 +343,9 @@ export default {
       }
       obj.basicEquipment = JSON.stringify(obj.basicEquipment)
       obj.hospitalNo = this.patientInfo.hospitalNo
-      obj.modifier = this.opePeopleInfo.userName
+      obj.modifier = this.opePeopleInfo.userinsName
       obj.modifierCode = this.opePeopleInfo.userCode
       obj.cureNo = this.patientInfo.cureNo
-      // obj.cureNo = '17655867'
-      // obj.hospitalNo = '91160537'
       request({
         url: savePackageData,
         method: 'post',
@@ -318,24 +355,27 @@ export default {
       }
       )
     },
-    async handleChange (index) {
+    handleChange (index) {
       this.active = index
       this.getPackageList()
+    },
+    initData () {
+      this.recordForm.basicEquipment.before = JSON.parse(JSON.stringify(this.packageList))
+      this.recordForm.basicEquipment.adding = JSON.parse(JSON.stringify(this.packageList))
+      this.recordForm.basicEquipment.adding1 = JSON.parse(JSON.stringify(this.packageList))
+      this.recordForm.basicEquipment.adding2 = JSON.parse(JSON.stringify(this.packageList))
+      this.recordForm.basicEquipment.adding3 = JSON.parse(JSON.stringify(this.packageList))
+      this.recordForm.basicEquipment.before2 = JSON.parse(JSON.stringify(this.packageList))
+      this.recordForm.basicEquipment.after = JSON.parse(JSON.stringify(this.packageList))
+      this.recordForm.basicEquipment.after2 = JSON.parse(JSON.stringify(this.packageList))
     }
+  },
+  created () {
+    this.initData()
   },
   async mounted () {
     // await this.getData()
     this.getPackageList()
-  },
-  created () {
-    document.onkeydown = (e) => {
-      var key = window.event.keyCode
-      if (key === 13) {
-        setTimeout(() => {
-          this.getData()
-        }, 2000)
-      }
-    }
   }
 }
 </script>
