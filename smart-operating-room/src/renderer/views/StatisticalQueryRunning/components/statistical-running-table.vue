@@ -74,7 +74,7 @@
       >
         <thead style="display:table-header-group">
           <tr>
-            <th style="display:flex;justifyContent: center">
+            <th style="display:flex;justifyContent: center;font-weight: 500;">
               手术患者转运交接报表单
             </th>
           </tr>
@@ -168,7 +168,7 @@
       >
         <thead style="display:table-header-group">
           <tr>
-            <th style="display:flex;justifyContent: center">
+            <th style="display:flex;justifyContent: center;font-weight: 500;">
               手术患者转运交接报表单
             </th>
           </tr>

@@ -725,4 +725,8 @@ export default {
 /deep/ .vxe-button--content, .vxe-button--icon, .vxe-button--loading-icon {
   vertical-align: unset;
 }
+/deep/ .vxe-button.btnRed.type--button:not(.is--disabled):focus {
+  border-color: #FF3232;
+  box-shadow: 0 0 0.25em 0 #FF3232;
+}
 </style>
