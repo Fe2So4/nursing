@@ -42,6 +42,23 @@ request.interceptors.response.use(function (response) {
       // 对请求错误做些什么
       return Promise.reject(error)
     }
+  } else {
+    if (error.message.includes('timeout')) { // 判断请求异常信息中是否含有超时timeout字符串
+      Message({
+        type: 'error',
+        message: '网络连接失败，请稍后再试',
+        showClose: true
+      })
+      return Promise.reject(error) // reject这个错误信息
+    } else {
+      Message({
+        type: 'error',
+        message: JSON.stringify(error, '', 2),
+        showClose: true
+      })
+      // 对请求错误做些什么
+      return Promise.reject(error)
+    }
   }
 })
 export default request
