@@ -6,29 +6,18 @@
     </div>
     <div class="content">
       <template>
-        <ul>
-          <li>
-            <span>心率</span>
-            <span>83</span>
-            <span>bpm</span>
-          </li>
-          <li>
-            <span>心率</span>
-            <span>83</span>
-            <span>bpm</span>
-          </li>
-          <li>
-            <span>心率</span>
-            <span>83</span>
-            <span>bpm</span>
-          </li>
-          <li>
-            <span>心率</span>
-            <span>83</span>
-            <span>bpm</span>
+        <ul v-if="list.length>0">
+          <li
+            v-for="(item,index) in list"
+            :key="index"
+          >
+            <span>{{ item.itemName }}</span>
+            <span>{{ item.itemValue }}</span>
+            <span>{{ item.itemUnit }}</span>
           </li>
         </ul>
-        <!-- <div
+        <div
+          v-else
           class="data-empty"
         >
           <div>
@@ -38,13 +27,16 @@
             >
             <p>暂无数据</p>
           </div>
-        </div> -->
+        </div>
       </template>
     </div>
   </div>
 </template>
 
 <script>
+import {getSign} from '@/api/large-screen'
+import request from '@/utils/request'
+import { mapState } from 'vuex'
 export default {
   name: 'PostoperativeList',
   data () {
@@ -60,10 +52,26 @@ export default {
   props: {
 
   },
+  computed: {
+    ...mapState('LargeScreen', ['patientInfo'])
+  },
   methods: {
     handleChange () {
 
+    },
+    getSignData () {
+      let obj = {cureNo: this.patientInfo.cureNo, hospitalNo: this.patientInfo.hospitalNo}
+      request({
+        url: getSign,
+        method: 'post',
+        params: obj
+      }).then(res => {
+        this.list = res.data.data
+      })
     }
+  },
+  mounted () {
+    this.getSignData()
   }
 }
 </script>

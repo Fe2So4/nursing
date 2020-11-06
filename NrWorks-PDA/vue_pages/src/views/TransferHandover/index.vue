@@ -103,7 +103,7 @@ export default {
 
     },
     handleJump (type, title) {
-      this.$router.push({path: '/handover-record', query: {type, title}})
+      this.$router.push({path: 'transfer', query: {type, title}})
     },
     handleChange () {
       this.showFullSkin = !this.showFullSkin

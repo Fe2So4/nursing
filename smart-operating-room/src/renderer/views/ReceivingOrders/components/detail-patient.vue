@@ -155,7 +155,6 @@
     </div>
     <div v-show="false">
       <PrintNotice
-
         :select-row="selectRow"
       />
     </div>
@@ -195,7 +194,8 @@ export default {
       this.hiddenVisible = !this.hiddenVisible
     },
     bindQRCode () {
-      let text = `OpsQRCode = ${this.selectRow.cureNo},OpsSchNo=${this.selectRow.operSchNo}`
+      let text = `OpsQRCode=${this.selectRow.cureNo},OpsSchNo=${this.selectRow.operSchNo}`
+      // let text = '1010'
       // eslint-disable-next-line no-new
       new QRCode(this.$refs.qrCodeDiv, {
         text: text,

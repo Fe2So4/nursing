@@ -9,6 +9,28 @@
     >
     </van-nav-bar>
     <PatiendCard/>
+    <div class="operation-content">
+      <div class="operation-info">
+          <p>
+            <span>
+              <span class="label">手术室</span>
+              <span class="value">{{patientInfo.operRoom}}室</span>
+            </span>
+            <span>
+              <span class="label">台次</span>
+              <span class="value">第{{patientInfo.sequenceNo}}台</span>
+            </span>
+          </p>
+          <p>
+            <span class="label">诊断</span>
+            <span class="value">{{patientInfo.diagnose}}</span>
+          </p>
+          <p>
+            <span class="label">麻醉方式</span>
+            <span class="value">{{patientInfo.anesMethod}}</span>
+          </p>
+        </div>
+    </div>
     <div class="list">
       <h3>安全核查</h3>
       <div class="options">
@@ -31,6 +53,7 @@
 
 <script>
 import PatiendCard from '@/components/PatientCard.vue'
+import {mapState} from 'vuex'
 export default {
   data () {
     return {
@@ -39,6 +62,9 @@ export default {
       showFullSkin: false,
       visible: false
     }
+  },
+  computed: {
+    ...mapState('Patient', ['patientInfo'])
   },
   components: {
     PatiendCard
@@ -168,6 +194,10 @@ export default {
           }
         }
       }
+    }
+    .operation-content{
+      padding: 0 20px;
+      margin-top: -15px;
       .operation-info{
         background: #ffffff;
         display: flex;
