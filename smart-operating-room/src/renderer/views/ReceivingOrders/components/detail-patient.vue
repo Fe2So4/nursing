@@ -180,8 +180,9 @@ export default {
     return {
       optas: '',
       hiddenVisible: false,
-      codeInput: '22350201',
-      exitType: '2'
+      codeInput: '',
+      exitType: '2',
+      workCode: ''
     }
   },
   methods: {
@@ -213,9 +214,9 @@ export default {
         if (this.IsEmpty(this.codeInput)) {
           this.$alert('请先扫描工勤人员二维码')
           return false
-        } else {
-          this.workCode = this.codeInput.split('=')[1]
         }
+        this.workCode = this.codeInput.split('=')[1]
+
         this.changePatient(1)
       } else {
         if (this.exitType !== '1') {
@@ -227,6 +228,9 @@ export default {
           return false
         }
         this.workCode = this.codeInput.split('=')[1]
+        // this.selectRow.workerCode
+        // this.workCode
+
         if (this.selectRow.workerCode !== this.workCode) {
           this.$alert('接单工勤人员与扫描人员工号不符,请确认后重试')
           return false
@@ -246,7 +250,7 @@ export default {
         }
       }).then(res => {
         if (res.data.code === 200) {
-
+          this.openToast('success', res.data.msg)
         } else {
           this.openToast('error', res.data.msg)
         }
