@@ -1,6 +1,6 @@
 <template>
   <div class="loading">
-    <van-loading type="spinner" />
+    <van-loading type="spinner" color="#1989fa"/>
   </div>
 </template>
 
@@ -26,13 +26,5 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    .van-loading{
-      height: 40px;
-      width: 40px;
-      .van-loading__spinner{
-        width: 100%;
-        height: 100%;
-      }
-    }
   }
 </style>

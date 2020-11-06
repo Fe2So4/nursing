@@ -1,5 +1,5 @@
 <template>
-  <div id="deviceready" class="demo blink">
+  <div class="demo">
     <h3>扫码</h3>
     <div>{{text}}</div>
     <div>{{keyCode}}</div>
@@ -18,20 +18,17 @@ export default {
   },
   mounted () {
     document.addEventListener('deviceready', onDeviceReady, false)
+    let that = this
     function onDeviceReady () {
-      // eslint-disable-next-line no-undef
       cordova.ScanCode.getCode('12', e => {
         if (e) {
-          this.text = e
+          that.text = e
         }
       })
     }
   },
   methods: {
     handleClick () {
-    // eslint-disable-next-line no-undef
-      console.log(cordova.ScanCode)
-      // eslint-disable-next-line no-undef
       cordova.ScanCode.getCode('12', e => {
         if (e) {
           this.text = e
@@ -41,19 +38,6 @@ export default {
       })
     }
   }
-  // mounted () {
-  //   document.addEventListener('deviceready', onDeviceReady, true)
-  //   function onDeviceReady () {
-  //     console.log('console.log works well')
-  //     cordova.ScanCode.getCode('扫码', e => {
-  //       if (e) {
-  //         this.text = e
-  //       } else {
-  //         alert('扫码失败')
-  //       }
-  //     })
-  //   }
-  // }
 }
 </script>
 

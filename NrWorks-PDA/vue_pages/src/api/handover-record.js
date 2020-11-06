@@ -12,3 +12,9 @@ export const submitOutPacu = `${config.api.baseURL}/ocis/forwardingReport/storag
 export const submitPatRoom = `${config.api.baseURL}/ocis/forwardingReport/storagePatRoomGet`
 // 转运记录单状态
 export const handoverStep = `${config.api.baseURL}/ocis/forwardingReport/getPatfordingState`
+
+// 获取转运交接扫码状态
+export const getHandoverCodeStatus = `${config.api.baseURL}/ocis/forwardingReport/getForwardingScan`
+
+// 转运交接扫码存储
+export const saveHandoverCodeStatus = `${config.api.baseURL}/ocis/forwardingReport/saveForwardingScan`

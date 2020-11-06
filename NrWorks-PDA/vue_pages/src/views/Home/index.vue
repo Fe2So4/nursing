@@ -21,7 +21,7 @@
         </li>
       </ul>
     </div>
-    <Loading v-show="showLoading"/>
+    <Loading v-if="showLoading"/>
   </div>
 </template>
 
@@ -35,7 +35,7 @@ import {mapActions, mapState} from 'vuex'
 export default {
   data () {
     return {
-      cureNo: '1010',
+      cureNo: '1010ssfsdf',
       avater: def,
       showLoading: false
     }
@@ -63,30 +63,65 @@ export default {
           cureNo: this.cureNo
         }
       }).then(res => {
-        // if (res.data.code === 200) {
-        //   // document.onkeydown = (e) => {
-        //   //   if (e.key === 13) {
-        //   //     this.$router.push('/patient-home')
-        //   //   }
-        //   // }
-        //   this.getPatient(res.data.data)
-        // }
+        if (res.data.code === 200) {
+          this.handleJump()
+        }
       })
     },
     getPatientData () {
+      this.showLoading = true
       request({
         url: getPatientInfo + '/' + this.cureNo,
         method: 'get'
       }).then(res => {
         if (res.data.code === 200) {
           this.getPatient(res.data.data)
+          setTimeout(() => {
+            this.bindingPatPushScreen()
+            this.showLoading = false
+          }, 2000)
         }
       })
     },
     handleJump () {
       if (this.cureNo) {
         this.$router.push('/patient-home')
-        this.bindingPatPushScreen()
+      }
+    },
+    handleScan (code) {
+      // 患者腕带条码
+      if (parseInt(code)) {
+        this.cureNo = code
+        this.getPatientData()
+        // this.subjectOfPatientWristband.next(code)
+      }
+      // 房间二维码
+      if (code.indexOf('RoomNum') !== -1) {
+        this.subjectOfPatientRoomNumber.next(code.replace('RoomNum=', ''))
+      }
+      // 手术通知单二维码
+      if (code.indexOf('OpsQRCode') !== -1) {
+        // var jsonStr
+        if (code.indexOf('OpsSchNo') !== -1) {
+          var codelist = code.split(',')
+          var OpsRQCode = codelist[0].replace('OpsQRCode=', '')
+          var OpsSchNo = codelist[1].replace('OpsSchNo=', '')
+          this.cureNo = OpsRQCode
+          this.operateNo = OpsSchNo
+          // jsonStr = JSON.stringify({ cureno: OpsRQCode, operateno: OpsSchNo })
+        } else {
+          this.cureNo = code.replace('OpsQRCode=', '')
+          // jsonStr = JSON.stringify({ cureno: code.replace('OpsQRCode=', '') })
+        }
+        this.getPatientData()
+        // this.subjectOfPatientNoticeForm.next(jsonStr)
+      }
+      if (code.indexOf('Worker') !== -1) {
+        // this.subjectOfPatientNurseWorker.next(code.replace('Worker=', ''))
+      }
+      // 器械包条码
+      if (code.indexOf('P-') !== -1) {
+        // this.subjectOfQiXiePackage.next(code.replace('P-', ''))
       }
     }
   },
@@ -94,17 +129,26 @@ export default {
     document.onkeydown = (e) => {
       var key = window.event.keyCode
       if (key === 13) {
-        // lett.enterSearchMember()
-        this.showLoading = true
-        setTimeout(() => {
-          this.handleJump()
-          this.showLoading = false
-        }, 2000)
+        // this.showLoading = true
+        // setTimeout(() => {
+        this.handleScan('1010')
+        //   this.showLoading = false
+        // }, 2000)
       }
     }
   },
   mounted () {
-    this.getPatientData()
+    // this.getPatientData()
+    document.addEventListener('deviceready', onDeviceReady, false)
+    let that = this
+    function onDeviceReady () {
+      // eslint-disable-next-line no-undef
+      cordova.ScanCode.getCode('12', e => {
+        if (e) {
+          that.handleScan(e)
+        }
+      })
+    }
   }
 }
 </script>

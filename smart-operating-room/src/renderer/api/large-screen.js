@@ -31,6 +31,9 @@ export const getInspectReport = `${config.default.api.baseURL}/ocis/basicInfo/ge
 // 获取术中带药
 export const getMedecial = `${config.default.api.baseURL}/ocis/basicInfo/getIntraoperativeMedication`
 
+// 获取生命体征
+export const getSign = `${config.default.api.baseURL}/ocis/operationScreen/getMonitorData`
+
 // 获取抗生素用药
 export const getAntibiotic = `${config.default.api.baseURL}/ocis/basicInfo/getAntibiotic`
 

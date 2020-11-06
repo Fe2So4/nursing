@@ -6,6 +6,12 @@
       width="65%"
       :before-close="handleClose"
     >
+      <div
+        slot="title"
+        class="title"
+      >
+        <i /><span>选择手术间</span>
+      </div>
       <div class="content">
         <h3>
           <span>楼层</span>
@@ -223,6 +229,27 @@ export default {
   }
   /deep/ .el-dialog__body {
     padding-top: unset;
+  }
+  /deep/ .el-dialog__header{
+    border-bottom:1px solid #e1e3ed;
+  }
+  .title{
+    i{
+      width: 4px;
+      height: 18px;
+      background: #3377FF;
+      border-radius: 2px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    span{
+      display: inline-block;
+      margin-left: 12px;
+      font-size: 20px;
+      font-weight: 600;
+      color: #303133;
+      vertical-align: middle;
+    }
   }
 }
 .bottomBtn {
