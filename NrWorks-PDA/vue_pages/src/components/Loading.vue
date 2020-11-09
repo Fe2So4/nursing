@@ -16,7 +16,7 @@ export default {
 
 <style lang="scss" scoped>
   .loading{
-    position: fixed;
+    position: absolute;
     left: 0;
     top: 0;
     bottom: 0;
@@ -26,5 +26,8 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    .van-loading{
+      z-index: 999999;
+    }
   }
 </style>

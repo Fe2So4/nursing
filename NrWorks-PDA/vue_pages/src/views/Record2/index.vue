@@ -58,18 +58,21 @@
         </div>
       </van-cell-group>
       <van-cell-group>
-        <van-cell title="麻醉方式：" value="内容" @click="handleShowDialog({list:'anesMethodOptions',model:'anesthesiaMode',title:'麻醉方式'})">
+        <van-cell title="麻醉方式：" title-class="left-title" value-class="right-value" value="内容" @click="handleShowDialog({list:'anesMethodOptions',model:'anesthesiaMode',title:'麻醉方式'})">
           <template #right-icon>
+            <span class="mul-ellipsis">{{handleFilterLabel({list:'anesMethodOptions',value:'anesthesiaMode'})}}</span>
             <van-icon name="play"/>
           </template>
         </van-cell>
-        <van-cell title="手术体位：" value="内容" @click="handleShowDialog({list:'bodyOptions',model:'position',title:'手术体位'})">
+        <van-cell title="手术体位：" title-class="left-title" value-class="right-value" value="内容" @click="handleShowDialog({list:'bodyOptions',model:'position',title:'手术体位'})">
           <template #right-icon>
+            <span class="mul-ellipsis">{{handleFilterLabel({list:'bodyOptions',value:'position'})}}</span>
             <van-icon name="play"/>
           </template>
         </van-cell>
-        <van-cell title="体位装置：" value="内容" @click="handleShowDialog({list:'deviceOptions',model:'device',title:'体位装置'})">
+        <van-cell title="体位装置：" title-class="left-title" value-class="right-value" value="内容" @click="handleShowDialog({list:'deviceOptions',model:'device',title:'体位装置'})">
           <template #right-icon>
+            <span class="mul-ellipsis">{{handleFilterLabel({list:'deviceOptions',value:'device'})}}</span>
             <van-icon name="play"/>
           </template>
         </van-cell>
@@ -149,14 +152,14 @@
                 </van-dropdown-menu>
               </template>
             </van-cell>
-            <van-cell :key="'presure'+index">
+            <van-cell style="height:104px;" :key="'presure'+index" title="" v-show="recordForm.bhMachine.bhMachineList[index].locateName!==''">
               <template #right-icon>
                 <van-dropdown-menu active-color="#3478FF">
                   <van-dropdown-item v-model="item.presure" :options="presureOptions" />
                 </van-dropdown-menu>
               </template>
             </van-cell>
-            <van-cell :key="'presureValue'+index" :title="item.presure">
+            <van-cell :key="'presureValue'+index" :title="item.presure" v-show="recordForm.bhMachine.bhMachineList[index].presure!==''">
               <template #right-icon>
                 <van-dropdown-menu active-color="#3478FF">
                   <van-dropdown-item v-model="item.presureValue" :options="presureValueList" />
@@ -167,14 +170,14 @@
           <template v-for="(item,index) in recordForm.bhMachine.bhMachineList">
             <van-cell :title="(index+1)+'('+'部位'+(index+1)+')'" :key="'locate'+index" style="background:#e2e2e2;">
             </van-cell>
-            <van-cell title="充气时间" :key="'cq'+index">
+            <van-cell title="充气时间" :key="'cq'+index" :value="recordForm.bhMachine.bhMachineList[index].cqTime" @click="handleShowTime('cqTime'+index)">
             </van-cell>
             <van-cell title="签名" title-class="sign-title" :key="'cqsign'+index" @click="handleShowSignature('cqSign'+index)">
             </van-cell>
             <div :key="'cqsignImage'+index" v-if="item.cqSign!==''" style="text-align:center;">
               <img :src="item.cqSign" alt="" class="signatureImage">
             </div>
-            <van-cell title="放气时间" :key="'fq'+index">
+            <van-cell title="放气时间" :key="'fq'+index" @click="handleShowTime('fqTime'+index)" :value="recordForm.bhMachine.bhMachineList[index].fqTime">
             </van-cell>
             <van-cell title="签名" title-class="sign-title" :key="'fqsign'+index" @click="handleShowSignature('fqSign'+index)">
             </van-cell>
@@ -183,8 +186,9 @@
             </div>
           </template>
         </div>
-        <van-cell title="术中冲洗：" value="内容" @click="handleShowDialog({list:'szcxOptions',model:'anesthesiaMode',title:'术中冲洗'})">
+        <van-cell title="术中冲洗：" title-class="left-title" value-class="right-value" value="内容" @click="handleShowDialog({list:'szcxOptions',model:'rinseList',title:'术中冲洗'})">
           <template #right-icon>
+            <span class="mul-ellipsis">{{handleFilterLabel({list:'szcxOptions',value:'rinseList'})}}</span>
             <van-icon name="play"/>
           </template>
         </van-cell>
@@ -200,12 +204,12 @@
           <div v-if="recordForm.waistPuncture.operationDoc!==''" style="text-align:center;">
             <img :src="recordForm.waistPuncture.operationDoc" alt="" class="signatureImage">
           </div>
-          <van-cell title="拔针心时间"></van-cell>
+          <van-cell title="拔针心时间" @click="handleShowTime('needleHeartTime')" :value="recordForm.waistPuncture.needleHeartTime"></van-cell>
           <van-cell title="签名" title-class="sign-title" @click="handleShowSignature('needleHeartSign')"></van-cell>
           <div v-if="recordForm.waistPuncture.needleHeartSign!==''" style="text-align:center;">
             <img :src="recordForm.waistPuncture.needleHeartSign" alt="" class="signatureImage">
           </div>
-          <van-cell title="拔针时间"></van-cell>
+          <van-cell title="拔针时间" @click="handleShowTime('needleTime')" :value="recordForm.waistPuncture.needleTime"></van-cell>
           <van-cell title="签名" title-class="sign-title" @click="handleShowSignature('needleSign')"></van-cell>
           <div v-if="recordForm.waistPuncture.needleSign!==''" style="text-align:center;">
             <img :src="recordForm.waistPuncture.needleSign" alt="" class="signatureImage">
@@ -286,7 +290,7 @@
         </template>
       </van-cell-group>
       <van-cell-group class="sign-area">
-        <van-cell title="巡回护士签名" title-class="sign-title" @click="handleShowSignature('runNurse')"></van-cell>
+        <van-cell title="巡回护士签名" title-class="sign-title" @click="handleShowSignature('nursesSignature')"></van-cell>
         <div v-if="recordForm.nursesSignature!==''" style="text-align:center;">
           <img :src="recordForm.nursesSignature" alt="" class="signatureImage">
         </div>
@@ -298,7 +302,7 @@
           </template>
         </van-cell>
         <template v-for="(item,index) in recordForm.opsChange.opsChangeList">
-          <van-cell v-show="recordForm.opsChange.opsChangeName==='2'" title="时间" :key="'time'+index"></van-cell>
+          <van-cell v-show="recordForm.opsChange.opsChangeName==='2'" title="时间" :key="'time'+index" :value="recordForm.opsChange.opsChangeList[index].time" @click="handleShowTime('opsChangeList'+index)"></van-cell>
           <van-cell v-show="recordForm.opsChange.opsChangeName==='2'" title="交班人签名" :key="'jiaobr'+index" title-class="sign-title" @click="handleShowSignature('jiaobrSign'+index)"></van-cell>
           <div v-if="recordForm.opsChange.opsChangeName==='2'&&recordForm.opsChange.opsChangeList[index].jiaobrSign!==''" style="text-align:center;" :key="'jiebr'+index">
             <img :src="recordForm.opsChange.opsChangeList[index].jiaobrSign" alt="" class="signatureImage">
@@ -318,6 +322,19 @@
         </div>
       </van-dialog>
     </div>
+    <van-action-sheet v-model="timeVisible">
+      <template slot="default">
+        <van-datetime-picker
+            v-if="timeVisible"
+            v-model="currentDate"
+            @cancel="handleCancel"
+            @confirm="handleConfirm"
+            item-height="60"
+            type="datetime"
+            title="选择完整时间"
+        />
+      </template>
+    </van-action-sheet>
     <signature :visible="visible" v-if="visible" @handleClose="handleCloseSignature" @handleSubmit="handleSubmitImage"/>
   </div>
 </template>
@@ -328,12 +345,16 @@ import PatientCard from '@/components/PatientCard'
 import request from '@/utils/request'
 import {submitRecord} from '@/api/nursing-record'
 import {mapState} from 'vuex'
+import moment from 'moment'
 export default {
   name: 'Record2',
   data () {
     return {
       checked: true,
+      currentTime: '',
+      currentDate: moment(new Date()).format('YYYY-MM-DD HH:mm'),
       visible: false,
+      timeVisible: false,
       input: '',
       checkBoxList: [],
       dialogTitle: '',
@@ -446,7 +467,7 @@ export default {
         nursesSignature: '',
         opsChange: {
           opsChangeName: '',
-          opsChangeList: [{time: '', jiaobrSign: '', jiebrSign: ''}, {time: '', jiaobrSign: '', jiebrSign: ''}]
+          opsChangeList: [{time: moment(new Date()).format('YYYY-MM-DD HH:mm'), jiaobrSign: '', jiebrSign: ''}, {time: moment(new Date()).format('YYYY-MM-DD HH:mm'), jiaobrSign: '', jiebrSign: ''}]
         },
         opsType: '',
         pathology: {
@@ -489,6 +510,65 @@ export default {
     }
   },
   methods: {
+    handleFilterLabel (obj) {
+      let str = ''
+      var reg = /,$/gi
+      if (this.recordForm[obj.value] !== '' && obj.value !== 'rinseList') {
+        this[obj.list].forEach(item => {
+          this.recordForm[obj.value].forEach(_item => {
+            if (item.value === _item) {
+              str = str + item.text + ','
+            }
+          })
+        })
+        return str.replace(reg, '')
+      } else if (this.recordForm.rinse[obj.value] !== '' && obj.value === 'rinseList') {
+        this[obj.list].forEach(item => {
+          this.recordForm.rinse[obj.value].forEach(_item => {
+            if (item.value === _item) {
+              str = str + item.text + ','
+            }
+          })
+        })
+        return str.replace(reg, '')
+      } else {
+        return ''
+      }
+    },
+    handleShowTime (param) {
+      if (param.indexOf('opsChangeList') !== -1) {
+        let index = parseInt(param.substr(param.length - 1, 1))
+        this.currentDate = this.recordForm.opsChange.opsChangeList[index].time
+      } else if (param.indexOf('cqTime') !== -1) {
+        let index = parseInt(param.substr(param.length - 1, 1))
+        this.currentDate = this.recordForm.bhMachine.bhMachineList[index].cqTime
+      } else if (param.indexOf('fqTime') !== -1) {
+        let index = parseInt(param.substr(param.length - 1, 1))
+        this.currentDate = this.recordForm.bhMachine.bhMachineList[index].fqTime
+      } else {
+        this.currentDate = this.recordForm.waistPuncture[param]
+      }
+      this.currentTime = param
+      this.timeVisible = true
+    },
+    handleConfirm (value) {
+      if (this.currentTime.indexOf('opsChangeList') !== -1) {
+        let index = parseInt(this.currentTime.substr(this.currentTime.length - 1, 1))
+        this.recordForm.opsChange.opsChangeList[index].time = moment(value).format('YYYY-MM-DD HH:mm')
+      } else if (this.currentTime.indexOf('cqTime') !== -1) {
+        let index = parseInt(this.currentTime.substr(this.currentTime.length - 1, 1))
+        this.recordForm.bhMachine.bhMachineList[index].cqTime = moment(value).format('YYYY-MM-DD HH:mm')
+      } else if (this.currentTime.indexOf('fqTime') !== -1) {
+        let index = parseInt(this.currentTime.substr(this.currentTime.length - 1, 1))
+        this.recordForm.bhMachine.bhMachineList[index].fqTime = moment(value).format('YYYY-MM-DD HH:mm')
+      } else {
+        this.recordForm.waistPuncture[this.currentTime] = moment(value).format('YYYY-MM-DD HH:mm')
+      }
+      this.timeVisible = false
+    },
+    handleCancel () {
+      this.timeVisible = false
+    },
     onClickLeft () {
       this.$router.go(-1)
     },
@@ -684,6 +764,7 @@ export default {
       /deep/ .van-icon-play{
         transform: rotate(90deg);
         font-size: 20px;
+        vertical-align: middle;
       }
     }
     .van-cell{

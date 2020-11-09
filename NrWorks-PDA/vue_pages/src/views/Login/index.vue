@@ -1,52 +1,54 @@
 <template>
-  <div class="login">
+  <div class="login" ref="login">
     <!-- <h3>上海仝佥信息有限公司</h3> -->
-    <div class="login-content">
-      <div class="title">
-        <div class="title-left">
-          <van-image :src="imgUrl"></van-image>
-        </div>
-        <div class="title-right">
-          <p>Dandelion 智慧手术中心</p>
-          <p>手术室移动工作平台</p>
-        </div>
-      </div>
-      <div class="notice">
-        账户密码登录
-      </div>
-      <div class="underline"></div>
-      <van-form @submit="onSubmit">
-          <van-field
-            v-model="username"
-            name="用户名"
-            label=""
-            style="border: 1px solid #8496B6;"
-            left-icon="user-o"
-            placeholder="请输入用户名"
-          />
-            <!-- :rules="[{ required: true, message: '请填写用户名' }]" -->
-          <van-field
-            v-model="password"
-            type="password"
-            name="密码"
-            left-icon="user-o"
-            style="border: 1px solid #8496B6;"
-            label=""
-            placeholder="请输入密码"
-          />
-            <!-- :rules="[{ required: true, message: '请填写密码' }]" -->
-          <van-checkbox v-model="isRemember" shape="square">记住我</van-checkbox>
-          <div class="login-submit">
-            <van-button block type="info" native-type="submit">
-              登  录
-            </van-button>
+    <div class="login-box">
+      <div class="login-content">
+        <div class="title">
+          <div class="title-left">
+            <van-image :src="imgUrl"></van-image>
           </div>
-      </van-form>
-    </div>
-    <div class="copyright">
-      <p>复旦大学附属华山医院</p>
-      <p>©2011-2020仝佥信息版权所有</p>
-      <p>Dandelion智慧手术中心临床护理信息系统 v1.0.0</p>
+          <div class="title-right">
+            <p>Dandelion 智慧手术中心</p>
+            <p>手术室移动工作平台</p>
+          </div>
+        </div>
+        <div class="notice">
+          账户密码登录
+        </div>
+        <div class="underline"></div>
+        <van-form @submit="onSubmit">
+            <van-field
+              v-model="username"
+              name="用户名"
+              label=""
+              style="border: 1px solid #8496B6;"
+              left-icon="user-o"
+              placeholder="请输入用户名"
+            />
+              <!-- :rules="[{ required: true, message: '请填写用户名' }]" -->
+            <van-field
+              v-model="password"
+              type="password"
+              name="密码"
+              left-icon="user-o"
+              style="border: 1px solid #8496B6;"
+              label=""
+              placeholder="请输入密码"
+            />
+              <!-- :rules="[{ required: true, message: '请填写密码' }]" -->
+            <van-checkbox v-model="isRemember" shape="square">记住我</van-checkbox>
+            <div class="login-submit">
+              <van-button block type="info" native-type="submit">
+                登  录
+              </van-button>
+            </div>
+        </van-form>
+      </div>
+      <div class="copyright">
+        <p>复旦大学附属华山医院</p>
+        <p>©2011-2020仝佥信息版权所有</p>
+        <p>Dandelion智慧手术中心临床护理信息系统 v1.0.0</p>
+      </div>
     </div>
   </div>
 </template>
@@ -218,10 +220,10 @@ export default {
     this.getAccount()
   },
   mounted () {
-    document.addEventListener('deviceready', onDeviceReady, false)
-    function onDeviceReady () {
-      console.log('console.log works well')
-    }
+    // document.addEventListener('deviceready', onDeviceReady, false)
+    // function onDeviceReady () {
+    //   console.log('console.log works well')
+    // }
     // document.addEventListener('deviceready', onDeviceReady, false)
     // var me = this
     // function onDeviceReady () {
@@ -234,21 +236,35 @@ export default {
 
 <style lang="scss" scoped>
   .login{
+    background: url('../../assets/login-bg.png') no-repeat center;
+    background-size: 100% 100%;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    // height: 1280px;
+    // min-height: 1280px;
+  }
+  .login-box{
+    padding: 0 65px;
     height: 100%;
-    width: 100%;
     display: flex;
+    width: 100%;
     position: relative;
     box-sizing: border-box;
     // justify-content: center;
-    flex-direction: column;
-    padding: 0 65px;
+    // flex-direction: column;
+    justify-content: center;
+    align-items: center;
     position: relative;
-    background: url('../../assets/login-bg.png') no-repeat center;
-    background-size: 100% 100%;
+    // z-index: 666;
     .login-content{
       background: #FFFFFF;
       overflow: hidden;
-      margin-top: 218px;
+      z-index: 999;
+      // margin-top: 218px;
       box-shadow: 15px 15px 19px 2px rgba(0, 0, 0, 0.5);
       border-radius: 10px;
       padding: 0 46px;

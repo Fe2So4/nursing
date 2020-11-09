@@ -6,14 +6,13 @@
       @click-right="onClickRight"
       left-arrow
     >
-      <!-- right-text="运送" -->
     </van-nav-bar>
     <div class="step">
       <div class="step-content">
         <div>
           <div class="title">患者身份核查</div>
-          <van-steps direction="vertical" :active="active" active-color="2E2E2E">
-            <van-step v-for="(item,index) in stepList" :key="'item'+index">
+          <van-steps v-if="stepList.length>0" direction="vertical" :active="active" active-color="2E2E2E">
+            <van-step v-for="(item,index) in stepList" :key="index">
               <h3>请扫描[{{item.label}}]</h3>
               <h3></h3>
               <p></p>
@@ -44,6 +43,7 @@
 import request from '@/utils/request'
 import {getHandoverCodeStatus, saveHandoverCodeStatus} from '@/api/handover-record'
 import {mapState} from 'vuex'
+import $bus from '@/utils/bus'
 export default {
   name: 'Transfer',
   data () {
@@ -70,7 +70,8 @@ export default {
         })
         this.active = active
       },
-      imediate: true
+      imediate: true,
+      deep: true
     }
   },
   computed: {
@@ -85,46 +86,40 @@ export default {
     },
     saveCodeStatus () {
       let mark = null
-      switch (this.$route.query.title) {
-        case '病房交接':
-          mark = 1
+      if (this.$route.query.title === '病房交接') {
+        mark = 1
+        this.stepList[0].value = true
+      } else if (this.$route.query.title === '进手术室') {
+        mark = 2
+        if (this.active === -1) {
           this.stepList[0].value = true
-          break
-        case '进手术室':
-          mark = 2
-          if (this.active === -1) {
-            this.stepList[0].value = true
-          } else if (this.active === 0) {
-            this.stepList[1].value = true
-          } else {
-            this.stepList[2].value = true
-          }
-          break
-        case '出手术室':
-          mark = 3
-          if (this.active === -1) {
-            this.stepList[0].value = true
-          } else if (this.active === 0) {
-            this.stepList[1].value = true
-          } else {
-            this.stepList[2].value = true
-          }
-          break
-        case '进PACU':
-          mark = 4
+        } else if (this.active === 0) {
+          this.stepList[1].value = true
+        } else {
+          this.stepList[2].value = true
+        }
+      } else if (this.$route.query.title === '出手术室') {
+        mark = 3
+        if (this.active === -1) {
           this.stepList[0].value = true
-          break
-        case '出PACU':
-          mark = 5
+        } else if (this.active === 0) {
+          this.stepList[1].value = true
+        } else {
+          this.stepList[2].value = true
+        }
+      } else if (this.$route.query.title === '进PACU') {
+        mark = 4
+        this.stepList[0].value = true
+      } else if (this.$route.query.title === '出PACU') {
+        mark = 5
+        this.stepList[0].value = true
+      } else if (this.$route.query.title === '病房收治') {
+        mark = 6
+        if (this.active === -1) {
           this.stepList[0].value = true
-          break
-        case '病房收治':
-          mark = 6
-          if (this.active === -1) {
-            this.stepList[0].value = true
-          } else {
-            this.stepList[1].value = true
-          }
+        } else {
+          this.stepList[1].value = true
+        }
       }
       request({
         url: saveHandoverCodeStatus,
@@ -147,37 +142,24 @@ export default {
         url: getHandoverCodeStatus + '/' + this.patientInfo.hospitalNo + '/' + this.patientInfo.cureNo,
         method: 'get'
       }).then(res => {
-        console.log(res.data.data)
         switch (this.$route.query.title) {
           case '病房交接':
-            if (res.data.data.outWardScan.length > 0) {
-              this.stepList = res.data.data.outWardScan
-            }
+            this.stepList = res.data.data.outWardScan
             break
           case '进手术室':
-            if (res.data.data.pointInRoomScan.length > 0) {
-              this.stepList = res.data.data.pointInRoomScan
-            }
+            this.stepList = res.data.data.pointInRoomScan
             break
           case '出手术室':
-            if (res.data.data.pointOutRoomScan.length > 0) {
-              this.stepList = res.data.data.pointOutRoomScan
-            }
+            this.stepList = res.data.data.pointOutRoomScan
             break
           case '进PACU':
-            if (res.data.data.pointPacuScan.length > 0) {
-              this.stepList = res.data.data.pointPacuScan
-            }
+            this.stepList = res.data.data.pointPacuScan
             break
           case '出PACU':
-            if (res.data.data.outPacuScan.length > 0) {
-              this.stepList = res.data.data.outPacuScan
-            }
+            this.stepList = res.data.data.outPacuScan
             break
           case '病房收治':
-            if (res.data.data.pointWardScan.length) {
-              this.stepList = res.data.data.pointWardScan
-            }
+            this.stepList = res.data.data.pointWardScan
         }
       })
     },
@@ -199,16 +181,11 @@ export default {
         if (code.indexOf('OpsSchNo') !== -1) {
           var codelist = code.split(',')
           var OpsRQCode = codelist[0].replace('OpsQRCode=', '')
-          // var OpsSchNo = codelist[1].replace('OpsSchNo=', '')
           this.code = OpsRQCode
-          // this.operateNo = OpsSchNo
-          // jsonStr = JSON.stringify({ cureno: OpsRQCode, operateno: OpsSchNo })
         } else {
           this.code = code.replace('OpsQRCode=', '')
-          // jsonStr = JSON.stringify({ cureno: code.replace('OpsQRCode=', '') })
         }
         this.saveCodeStatus()
-        // this.subjectOfPatientNoticeForm.next(jsonStr)
       }
       // 工勤的二维码
       if (code.indexOf('Worker') !== -1) {
@@ -251,24 +228,21 @@ export default {
       var key = window.event.keyCode
       if (key === 13) {
         setTimeout(() => {
-          this.saveCodeStatus()
+          this.handleCode('1010')
         }, 1000)
       }
     }
     this.currentStep()
-    // this.getCodeStatus()
   },
   mounted () {
-    document.addEventListener('deviceready', onDeviceReady, false)
-    let that = this
-    function onDeviceReady () {
-      // eslint-disable-next-line no-undef
-      cordova.ScanCode.getCode('12', e => {
-        if (e) {
-          that.handleCode(e)
-        }
-      })
-    }
+    $bus.$on('handleCode', this.handleCode)
+  },
+  beforeDestroy () {
+    $bus.$off('handleCode')
+    // this.active = -1
+    // this.stepList = []
+    // 移除 <div> 事件句柄
+    // document.removeEventListener('deviceready', this.onDeviceReady)
   }
 }
 </script>
@@ -303,6 +277,14 @@ export default {
       background: #ffffff;
       box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
       border-radius: 10px;
+      .van-button{
+        line-height: 60px;
+        height: 60px;
+        background: #3377FF;
+        width: 480px;
+        font-size: 30px;
+        color: #ffffff;
+      }
       .options{
         position: absolute;
         bottom: 60px;

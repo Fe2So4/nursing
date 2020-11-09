@@ -31,11 +31,12 @@ import {getPatientInfo, bindingPatPushScreen} from '@/api/patient-info'
 import Loading from '@/components/Loading'
 // import {getOpePeople} from '@/api/device-package'
 import def from '@/assets/def.png'
+import $bus from '@/utils/bus'
 import {mapActions, mapState} from 'vuex'
 export default {
   data () {
     return {
-      cureNo: '1010ssfsdf',
+      cureNo: '',
       avater: def,
       showLoading: false
     }
@@ -80,6 +81,10 @@ export default {
             this.bindingPatPushScreen()
             this.showLoading = false
           }, 2000)
+        } else {
+          setTimeout(() => {
+            this.showLoading = false
+          }, 2000)
         }
       })
     },
@@ -94,10 +99,6 @@ export default {
         this.cureNo = code
         this.getPatientData()
         // this.subjectOfPatientWristband.next(code)
-      }
-      // 房间二维码
-      if (code.indexOf('RoomNum') !== -1) {
-        this.subjectOfPatientRoomNumber.next(code.replace('RoomNum=', ''))
       }
       // 手术通知单二维码
       if (code.indexOf('OpsQRCode') !== -1) {
@@ -116,24 +117,13 @@ export default {
         this.getPatientData()
         // this.subjectOfPatientNoticeForm.next(jsonStr)
       }
-      if (code.indexOf('Worker') !== -1) {
-        // this.subjectOfPatientNurseWorker.next(code.replace('Worker=', ''))
-      }
-      // 器械包条码
-      if (code.indexOf('P-') !== -1) {
-        // this.subjectOfQiXiePackage.next(code.replace('P-', ''))
-      }
     }
   },
   created () {
     document.onkeydown = (e) => {
       var key = window.event.keyCode
       if (key === 13) {
-        // this.showLoading = true
-        // setTimeout(() => {
         this.handleScan('1010')
-        //   this.showLoading = false
-        // }, 2000)
       }
     }
   },
@@ -145,10 +135,23 @@ export default {
       // eslint-disable-next-line no-undef
       cordova.ScanCode.getCode('12', e => {
         if (e) {
-          that.handleScan(e)
+          if (that.$route.path === '/home') {
+            that.handleScan(e)
+          } else if (that.$route.path === '/transfer') {
+            alert('/transfer')
+            $bus.$emit('handleCode', e)
+          }
         }
       })
     }
+    $bus.$on('handleScan', this.handleScan)
+  },
+  beforeDetroy () {
+    // eslint-disable-next-line no-undef
+    // cordova.ScanCode.stopCode('12')
+    $bus.$off('handleScan')
+    // 移除 <div> 事件句柄
+    document.removeEventListener('deviceready')
   }
 }
 </script>

@@ -123,16 +123,20 @@
             </template>
           </van-cell>
         </div>
-        <van-cell v-show="transferType === 0" title="导管：" value="内容" @click="handleShowDialog({list:'dgOptions',model:'catheter',title:'导管'})">
+        <van-cell title-class="left-title" value-class="right-value" v-show="transferType === 0" title="导管：" value="内容" @click="handleShowDialog({list:'dgOptions',model:'catheter',title:'导管'})">
           <template #right-icon>
+            <span class="mul-ellipsis">{{handleFilterLabel({list:'dgOptions',value:'catheter'})}}</span>
             <van-icon name="play"/>
           </template>
         </van-cell>
         <van-cell v-show="transferType === 0 && recordForm.catheter.length>0" title="留置时间：" :value="this.recordForm.conduitTime" @click="hanldeShowTime('conduitTime')">
         </van-cell>
-        <van-cell v-show="transferType === 1" title="留置导管固定畅通：" value="内容" @click="handleShowDialog({list:'lzdgOptions',model:'conduit',title:'留置导管固定畅通'})">
+        <van-cell title-class="left-title" value-class="right-value" v-show="transferType === 1" title="留置导管固定畅通：" value="内容" @click="handleShowDialog({list:'lzdgOptions',model:'conduit',title:'留置导管固定畅通'})">
           <template #right-icon>
-            <van-icon name="play"/>
+            <div style="display:flex;">
+              <span class="mul-ellipsis">{{handleFilterLabel({list:'lzdgOptions',value:'conduit'})}}</span>
+              <van-icon name="play"/>
+            </div>
           </template>
         </van-cell>
         <van-cell v-show="transferType === 0" title="物品：" value="内容">
@@ -176,6 +180,7 @@
             v-model="currentDate"
             @cancel="handleCancel"
             @confirm="handleConfirm"
+            item-height="60"
             type="datetime"
             title="选择完整时间"
         />
@@ -200,6 +205,7 @@ export default {
       checked: true,
       visible: false,
       input: '',
+      currentTime: null,
       showFullSkin: false,
       currentDate: moment(new Date()).format('YYYY-MM-DD HH:mm'),
       timeVisible: false,
@@ -277,6 +283,22 @@ export default {
   watch: {
   },
   methods: {
+    handleFilterLabel (obj) {
+      let str = ''
+      var reg = /,$/gi
+      if (this.recordForm[obj.value] !== '') {
+        this[obj.list].forEach(item => {
+          this.recordForm[obj.value].forEach(_item => {
+            if (item.value === _item) {
+              str = str + item.text + ','
+            }
+          })
+        })
+        return str.replace(reg, '')
+      } else {
+        return ''
+      }
+    },
     onClickLeft () {
       this.$router.go(-1)
     },
@@ -415,6 +437,7 @@ export default {
     },
     hanldeShowTime (param) {
       this.currentDate = this.recordForm[param]
+      this.currentTime = param
       this.timeVisible = true
     },
     handleSubmit () {
@@ -553,6 +576,7 @@ export default {
     // },
     handleConfirm (value) {
       this.currentDate = moment(value).format('YYYY-MM-DD HH:mm')
+      this.recordForm[this.currentTime] = this.currentDate
       this.timeVisible = false
     },
     handleShowSignature () {
@@ -683,29 +707,30 @@ export default {
         /deep/ .van-dropdown-menu__item{
           justify-content: flex-end;
         }
-        /deep/ .van-dropdown-menu__title{
-          font-size: 30px;
-          line-height: unset;
-          padding-right: 30px;
-          &::after{
-            border-color: transparent transparent  #808080 #808080;
-            border-width: 6px;
-            // margin-top: -6px;
-            right: 5px;
-          }
-        }
+        // /deep/ .van-dropdown-menu__title{
+        //   font-size: 30px;
+        //   line-height: unset;
+        //   padding-right: 30px;
+        //   &::after{
+        //     border-color: transparent transparent  #808080 #808080;
+        //     border-width: 6px;
+        //     // margin-top: -6px;
+        //     right: 5px;
+        //   }
+        // }
         /deep/ .van-dropdown-item__option{
           font-size: 30px;
           line-height: 60px;
         }
       }
-      .van-cell__label{
-        font-size: 26px;
-        line-height: 30px;
-      }
       /deep/ .van-icon-play{
         transform: rotate(90deg);
         font-size: 20px;
+        vertical-align: middle;
+      }
+      .van-cell__label{
+        font-size: 26px;
+        line-height: 30px;
       }
     }
     .van-cell-group{
@@ -770,29 +795,6 @@ export default {
           font-size: 26px;
         }
       }
-    }
-    /deep/ .van-picker__toolbar{
-      height: 60px;
-    }
-    /deep/ .van-picker__cancel{
-      font-size: 30px;
-    }
-    /deep/ .van-picker__confirm{
-      font-size: 30px;
-    }
-    /deep/ .van-picker__title{
-      font-size: 30px;
-      line-height: 60px;
-    }
-    /deep/ .van-picker__columns{
-      // height: 400px !important;
-      .van-picker-column{
-        font-size: 26px;
-        line-height: 60px;
-      }
-    }
-    /deep/ .van-overlay{
-      background-color: rgba(0,0,0,0.5);
     }
   }
 </style>
