@@ -138,7 +138,7 @@ export default {
           if (that.$route.path === '/home') {
             that.handleScan(e)
           } else if (that.$route.path === '/transfer') {
-            alert('/transfer')
+            // alert('/transfer')
             $bus.$emit('handleCode', e)
           }
         }

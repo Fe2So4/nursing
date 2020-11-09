@@ -64,16 +64,21 @@
         </div>
       </div>
       <div class="copyright">
-        Copyright©2020仝佥信息版权所有
+        Copyright©{{ copyrightTime }}蓝想健康版权所有
       </div>
-      <div class="close">
+      <div
+        class="close"
+        style="-webkit-app-region: drag;"
+      >
         <i
           class="el-icon-minus"
           @click="mini"
+          style="-webkit-app-region: no-drag;"
         />
         <i
           class="el-icon-close"
           @click="close"
+          style="-webkit-app-region: no-drag;"
         />
       </div>
     </div>
@@ -82,11 +87,10 @@
 
 <script>
 import { login } from '@/api/login'
-
 // import request from '@/utils/request'
 import { setUserToken, setCurrentAccount } from '../../utils/storage'
+import moment from 'moment'
 // import {ipcRenderer} from 'electron'
-
 const { BrowserWindow } = require('electron').remote
 
 export default {
@@ -104,7 +108,8 @@ export default {
         password: [
           { required: true, message: '请正确填写密码', trigger: 'blur' }
         ]
-      }
+      },
+      copyrightTime: moment(new Date()).format('YYYY')
     }
   },
   created () {
@@ -218,6 +223,10 @@ export default {
           // box-shadow:0px 3px 4px 0px rgba(0, 0, 0, 0.6);
         }
       }
+      img{
+        width: 310px;
+        height: 220px;
+      }
     }
     .right {
       float: right;
@@ -287,8 +296,13 @@ export default {
     }
     .close {
       position: absolute;
-      top: 10px;
-      right: 10px;
+      top: 0;
+      right: 0;
+      z-index: 666;
+      padding-top: 10px;
+      padding-right: 10px;
+      left: 0;
+      text-align: right;
       i {
         font-size: 14px;
         display: inline-block;

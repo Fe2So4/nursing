@@ -2,7 +2,7 @@
   <div class="patient-card">
       <div class="content">
           <div class="left">
-            <span>{{patientInfo.operRoom}}</span>
+            <span>{{patientInfo.roomNo}}</span>
           </div>
           <div class="right">
             <p><span>{{patientInfo.patientName}}</span><span>{{patientInfo.bedNo}}床</span><span>{{patientInfo.cureNo}}</span></p>

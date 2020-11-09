@@ -14,41 +14,43 @@
             1
           </div>
         </li>
-        <li>
-          <div class="li-left">
-            手术方式
-          </div>
-          <div class="li-right">
-            1
-          </div>
-        </li>
-        <li>
-          <div class="li-left">
-            手术方式
-          </div>
-          <div class="li-right">
-            1
-          </div>
-        </li>
-        <li
-          v-for="item in 10"
-          :key="item"
-        >
-          <div class="li-left">
-            手术方式
-          </div>
-          <div class="li-right">
-            1
-          </div>
-        </li>
       </ul>
     </div>
   </div>
 </template>
 
 <script>
+import request from '@/utils/request'
+import {getPathology} from '@/api/large-screen'
+import {mapState} from 'vuex'
+import $bus from '@/utils/busScreen'
 export default {
-  name: 'IntraoperativePathology'
+  name: 'IntraoperativePathology',
+  data () {
+    return {
+
+    }
+  },
+  computed: {
+    ...mapState('LargeScreen', ['patientInfo'])
+  },
+  methods: {
+    getData () {
+      request({
+        url: getPathology + '/' + this.patientInfo.cureNo,
+        method: 'get'
+      }).then(res => {
+        this.list = res.data.data
+      })
+    }
+  },
+  mounted () {
+    this.getData()
+    $bus.$on('getPathology', this.getPathology)
+  },
+  beforeDestroy () {
+    $bus.$off('getPathology')
+  }
 }
 </script>
 

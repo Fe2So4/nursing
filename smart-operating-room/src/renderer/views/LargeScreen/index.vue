@@ -31,6 +31,7 @@ import PatientCard from './components/patient-card'
 import PatientStep from './components/patient-step'
 import PatientInfo from './components/patient-info'
 import io from 'socket.io-client'
+import $bus from '@/utils/busScreen'
 import EmptyNotice from './components/empty-notice'
 import {mapActions, mapState} from 'vuex'
 export default {
@@ -64,7 +65,7 @@ export default {
     }
   },
   mounted () {
-    this.socket = io('http://192.168.1.106:5099', {
+    this.socket = io('http://192.168.1.58:5099', {
       query: 'sendName=' + '602'
     })
     this.socket.on('connect', () => {
@@ -83,6 +84,7 @@ export default {
       if (data) {
         let arr = []
         this.setCureNo({cureNo: data.cureNo, hospitalNo: data.hospitalNo})
+        $bus.$emit('getPatientInfo')
         arr.push(data)
         this.socket.emit('text', arr)
       }
