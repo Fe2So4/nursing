@@ -1,0 +1,49 @@
+@charset "UTF-8";
+
+
+.vxe-table--header {
+  font-size: 14px;
+  /* height: calc(100% - 0px); */
+}
+
+.vxe-table--header thead {
+  display: table-header-group;
+}
+
+table tbody {
+  font-size: 14px;
+  color: #000;
+  display: table;
+  /* display: block; */
+  height: 100%;
+  /* overflow-y: scroll; */
+  /* -webkit-overflow-scrolling: touch; */
+}
+
+table tbody::-webkit-scrollbar {
+  display: none;
+}
+
+
+
+table tbody tr td {
+  text-align: left;
+}
+
+
+
+.header-tr {
+  display: flex;
+}
+
+.noneData {
+  text-align: center;
+  margin-top: 30px;
+  font-weight: 600;
+  font-size: 30px;
+  color: #ccc;
+  display: none;
+}
+td {
+  text-align: center;
+}

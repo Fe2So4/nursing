@@ -1,0 +1,154 @@
+.transit-container {
+  width: 824px;
+  height: 1080px;
+  min-width: 824px;
+  min-height: 920px;
+  background-color: #fff;
+  padding: 10px;
+}
+
+.transit-container .container-title {
+  display: flex;
+  border-bottom: 1px solid #000;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  margin: 0 70px;
+}
+
+.transit-container .container-title .title-right {
+  font-size: 18px;
+  margin-left: 10px;
+}
+
+.transit-container .wenben-content-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.transit-container .wenben-content-info .info-content-title {
+  text-align: center;
+  letter-spacing: 5px;
+  font-weight: 600;
+  text-indent: 5px;
+  font-size: 16px;
+}
+
+.transit-container .wenben-content-info .info-content-form {
+  padding-left: 15px;
+}
+
+.transit-container .info-content-container {
+  padding-left: 20px;
+  font-size: 14px;
+}
+
+.transit-container .info-content-container .context1 {
+  display: flex;
+}
+
+.transit-container .info-content-container .context1 table tr th {
+  width: 120px;
+  height: 40px;
+}
+
+.transit-container .info-content-container .context1 table tr td {
+  width: 85px;
+  height: 80px;
+  padding-left: 3px;
+}
+
+.transit-container .info-content-container .context2 {
+  display: flex;
+  justify-content: center;
+}
+
+.transit-container .info-content-container .context2 .context2-box {
+  width: 230px;
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid #000;
+  padding: 5px;
+}
+
+.transit-container .info-content-container .context2 .context2-box .box-row {
+  display: flex;
+}
+
+.input-div {
+  display: flex;
+}
+
+.input-div .input-div-context {
+  padding: 0 5px;
+  width: 100px;
+  border-bottom: 1px solid #000;
+}
+
+.input-div .input-div-context-noborder {
+  padding: 0 5px;
+  width: 100px;
+}
+
+.input-div .input-div-context-noborder-short {
+  padding: 0 5px;
+  width: 60px;
+}
+
+.input-div .input-div-context-noborder-40 {
+  padding: 0 5px;
+  width: 40px;
+}
+
+.input-div .input-div-context-noborder-33 {
+  padding: 0 5px;
+  width: 25px;
+}
+
+.input-div .input-div-context-short {
+  padding: 0 5px;
+  width: 80px;
+  border-bottom: 1px solid #000;
+}
+
+.input-div .input-div-context-short-60 {
+  padding: 0 5px;
+  width: 60px;
+  border-bottom: 1px solid #000;
+}
+
+.input-div .input-div-context-long {
+  padding: 0 5px;
+  width: 380px;
+  border-bottom: 1px solid #000;
+}
+
+.mgt10 {
+  margin-top: 10px;
+}
+
+.mgt20 {
+  margin-top: 10px;
+}
+
+.mgl50 {
+  margin-left: 50px;
+}
+
+.mgl5 {
+  margin-left: 5px;
+}
+
+.mgl48 {
+  margin-left: 48px;
+}
+
+.line {
+  width: 160px;
+  height: 1px;
+  background-color: #000;
+}
+
+.td-div {
+  display: flex;
+}

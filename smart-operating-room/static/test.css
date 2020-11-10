@@ -1,0 +1,88 @@
+.layout-aside {
+  height: 100%;
+  position: relative;
+  background: linear-gradient(180deg, #666666, #4A4A4A);
+}
+
+.layout-aside .el-menu {
+  background-color: unset;
+  border-right: unset;
+}
+
+.layout-aside .el-menu .my-el-menu-item {
+  color: #C6DEFF;
+  font-size: 18px;
+}
+
+.layout-aside .el-menu .my-el-menu-item i {
+  color: #C6DEFF;
+  font-size: 20px;
+}
+
+.layout-aside .el-menu .my-el-menu-item.is-active {
+  background: linear-gradient(90deg, #3269CE, #2E5287);
+  color: #fff;
+}
+
+.layout-aside .el-menu .my-el-menu-item.is-active i {
+  color: #fff;
+}
+
+.layout-aside .el-menu .my-el-menu-item:focus, .layout-aside .el-menu .my-el-menu-item:hover {
+  background: linear-gradient(90deg, #3269CE, #2E5287);
+  color: #fff;
+}
+
+.layout-aside .el-menu .my-el-menu-item:focus i, .layout-aside .el-menu .my-el-menu-item:hover i {
+  color: #fff;
+}
+
+.layout-aside .line {
+  width: 6px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 56px;
+  background: #6699FF;
+}
+
+.layout-aside .collapse-icon {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  font-size: 28px;
+  color: #C7DFFF;
+  cursor: pointer;
+}
+
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px;
+}
+
+/deep/.el-submenu__title {
+  font-size: 18px;
+  color: #C6DEFF;
+}
+
+/deep/.el-submenu__title i {
+  color: #C6DEFF;
+  font-size: 20px;
+}
+
+/deep/.el-submenu__title.is-active {
+  background: linear-gradient(90deg, #3269CE, #2E5287);
+  color: #fff;
+}
+
+/deep/.el-submenu__title.is-active i {
+  color: #fff;
+}
+
+/deep/.el-submenu__title:focus, .el-submenu__title:hover {
+  background: linear-gradient(90deg, #3269CE, #2E5287);
+  color: #fff;
+}
+
+/deep/.el-submenu__title:focus i, .el-submenu__title:hover i {
+  color: #fff;
+}

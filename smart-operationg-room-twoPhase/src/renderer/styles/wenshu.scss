@@ -1,0 +1,23 @@
+/deep/ label {
+  font-weight:normal
+}
+/deep/ .el-input__inner {
+  font-size: 14px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid #000;
+}
+/deep/ .el-input--mini .el-input__inner {
+  height:20px;
+  line-height: 20px;
+}
+/deep/ .el-input.is-disabled .el-input__inner {
+  background-color:unset;
+  border-color: unset;
+  cursor: auto;
+  color: unset;
+}
+/deep/ .el-form-item {
+  margin-bottom: 0;
+}
