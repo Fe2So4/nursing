@@ -77,7 +77,18 @@
 <script>
 export default {
   name: 'StatisticalTable',
-  props: ['tableList', 'loading'],
+  props: {
+    loading: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    tableList: {
+      type: Array,
+      required: false,
+      default: () => []
+    }
+  },
   data () {
     return {
       tableData: [

@@ -256,7 +256,13 @@ import Bus from '@/utils/bus.js'
 import {ipcRenderer} from 'electron'
 export default {
   name: 'StatisticalTable',
-  props: ['runningTableList'],
+  props: {
+    runningTableList: {
+      type: Array,
+      required: false,
+      default: () => []
+    }
+  },
   data () {
     return {
       pageItem: {},

@@ -394,7 +394,13 @@ import Bus from '@/utils/bus.js'
 import {ipcRenderer} from 'electron'
 export default {
   name: 'SurgeryTable',
-  props: ['surgeryTableList'],
+  props: {
+    surgeryTableList: {
+      type: Array,
+      required: false,
+      default: () => []
+    }
+  },
   data () {
     return {
       value12: []

@@ -128,7 +128,13 @@
 import Bus from '@/utils/bus.js'
 export default {
   name: 'StatisticalHeader',
-  props: ['isShow'],
+  props: {
+    isShow: {
+      type: Number,
+      required: false,
+      default: 0
+    }
+  },
   data () {
     return {
       formData: {

@@ -16,7 +16,13 @@
 <script>
 export default {
   name: 'IsSelect',
-  props: ['myselect'],
+  props: {
+    myselect: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  },
   mounted () {
   },
   data () {

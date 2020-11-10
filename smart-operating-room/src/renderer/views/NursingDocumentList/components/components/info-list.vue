@@ -16,7 +16,18 @@
 import IsSelect from './testItem'
 export default {
   name: 'InfoList',
-  props: ['title', 'myselect'],
+  props: {
+    title: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    myselect: {
+      type: String,
+      required: false,
+      default: '3'
+    }
+  },
   data () {
     return {
 

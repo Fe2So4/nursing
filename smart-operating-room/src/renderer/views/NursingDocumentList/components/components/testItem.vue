@@ -54,7 +54,13 @@
 <script>
 export default {
   name: 'IsSelect',
-  props: ['myselect'],
+  props: {
+    myselect: {
+      type: String,
+      required: false,
+      default: '3'
+    }
+  },
   mounted () {
   },
   data () {

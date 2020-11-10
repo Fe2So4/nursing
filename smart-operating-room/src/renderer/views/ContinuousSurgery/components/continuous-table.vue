@@ -48,7 +48,18 @@
 <script>
 export default {
   name: 'ContinuousTable',
-  props: ['tableList', 'loading'],
+  props: {
+    loading: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    tableList: {
+      type: Array,
+      required: false,
+      default: () => []
+    }
+  },
   data () {
     return {
 
