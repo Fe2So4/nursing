@@ -213,7 +213,9 @@ export default {
           cureNo: this.patientInfo.cureNo
         }
       }).then(res => {
-
+        if (res.data.code === 200) {
+          this.$notify({message: '保存成功', type: 'success'})
+        }
       })
     },
     handleChange () {

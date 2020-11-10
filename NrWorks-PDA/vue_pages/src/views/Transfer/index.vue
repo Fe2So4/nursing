@@ -21,14 +21,14 @@
         </div>
         <div v-if="$route.query.title==='进手术室' || $route.query.title==='出手术室'">
           <div class="title">手术间房间核查</div>
-          <van-steps direction="vertical" :active="1" active-color="2E2E2E">
-            <van-step>
+          <van-steps direction="vertical" :active="roomScanList[0].value===true ? 0 : -1" active-color="2E2E2E">
+            <van-step v-for="item in roomScanList" :key="item.active">
               <h3>请扫描[手术房间]</h3>
               <p>2016-07-10 09:30</p>
             </van-step>
           </van-steps>
         </div>
-        <div class="options" v-if="stepList[stepList.length - 1].value">
+        <div class="options" v-if="$route.query.title==='进手术室' || $route.query.title==='出手术室' ? roomScanList[roomScanList.length - 1].value : stepList[stepList.length - 1].value">
           <p class="option">扫完码之后请点击转运交接单按钮</p>
           <p class="option">
             <van-button round @click="jumpTransferRecord">转运交接单</van-button>
@@ -51,10 +51,11 @@ export default {
       active: -1,
       code: '',
       stepList: [],
+      roomScanList: [{label: '手术房间', value: false, active: 2}],
       outPacuScan: [{label: '患者腕带', value: false, active: 0}], // 出pacu
       outWardScan: [{label: '患者腕带', value: false, active: 0}], // 病房交接
-      pointInRoomScan: [{label: '患者腕带', value: false, active: 0}, {label: '手术通知单', value: false, active: 1}, {label: '手术房间', value: false, active: 2}], // 进手术室
-      pointOutRoomScan: [{label: '患者腕带', value: false, active: 0}, {label: '工勤人员二维码', value: false, active: 1}, {label: '手术房间', value: false, active: 2}], // 出手术室
+      pointInRoomScan: [{label: '患者腕带', value: false, active: 0}, {label: '手术通知单', value: false, active: 1}], // 进手术室
+      pointOutRoomScan: [{label: '患者腕带', value: false, active: 0}, {label: '工勤人员二维码', value: false, active: 1}], // 出手术室
       pointPacuScan: [{label: '患者腕带', value: false, active: 0}], // 进pacu
       pointWardScan: [{label: '患者腕带', value: false, active: 0}, {label: '工勤人员二维码', value: false, active: 1}] // 回病房---病房收治
     }
@@ -86,6 +87,7 @@ export default {
     },
     saveCodeStatus () {
       let mark = null
+      let arr = []
       if (this.$route.query.title === '病房交接') {
         if (parseInt(this.code)) {
           if (this.patientInfo.cureNo === this.code) {
@@ -95,6 +97,7 @@ export default {
             } else {
               mark = 1
               this.stepList[0].value = true
+              arr = JSON.parse(JSON.stringify(this.stepList))
             }
           } else {
             this.$notify({ message: '匹配失败', type: 'warning' })
@@ -105,22 +108,96 @@ export default {
           return
         }
       } else if (this.$route.query.title === '进手术室') {
-        mark = 2
-        if (this.active === -1) {
-          this.stepList[0].value = true
-        } else if (this.active === 0) {
-          this.stepList[1].value = true
+        if (this.stepList[0].value) {
+          if (!this.stepList[1].value) {
+            if (this.code.indexOf('OpsQRCode') !== -1) {
+              mark = 2
+              this.stepList[1].value = true
+              arr = [{stepList: this.stepList, roomScanList: this.roomScanList}]
+            } else {
+              this.$notify({message: '请扫描患者手术通知单', type: 'warning'})
+              return
+            }
+          } else {
+            if (!this.roomScanList[0].value) {
+              if (this.code.indexOf('RoomNum') !== -1) {
+                mark = 2
+                this.roomScanList[0].value = true
+                arr = [{stepList: this.stepList, roomScanList: this.roomScanList}]
+              } else {
+                this.$notify({message: '请扫描手术房间', type: 'warning'})
+                return
+              }
+            } else {
+              this.$notify({message: '请勿重复扫码', type: 'warning'})
+              return
+            }
+          }
         } else {
-          this.stepList[2].value = true
+          if (parseInt(this.code)) {
+            if (this.patientInfo.cureNo === this.code) {
+              if (this.stepList[0].value) {
+                this.$notify({ message: '当前患者已扫码,请勿重复扫码', type: 'warning' })
+                return
+              } else {
+                mark = 2
+                this.stepList[0].value = true
+                arr = [{stepList: this.stepList, roomScanList: this.roomScanList}]
+              }
+            } else {
+              this.$notify({ message: '患者匹配失败', type: 'warning' })
+              return
+            }
+          } else {
+            this.$notify({ message: '请扫描患者腕带', type: 'warning' })
+            return
+          }
         }
       } else if (this.$route.query.title === '出手术室') {
-        mark = 3
-        if (this.active === -1) {
-          this.stepList[0].value = true
-        } else if (this.active === 0) {
-          this.stepList[1].value = true
+        if (this.stepList[0].value) {
+          if (!this.stepList[1].value) {
+            if (this.code.indexOf('Worker') !== -1) {
+              mark = 3
+              this.stepList[1].value = true
+              arr = [{stepList: this.stepList, roomScanList: this.roomScanList}]
+            } else {
+              this.$notify({message: '请扫描工勤人员二维码', type: 'warning'})
+              return
+            }
+          } else {
+            if (!this.roomScanList[0].value) {
+              if (this.code.indexOf('RoomNum') !== -1) {
+                mark = 3
+                this.roomScanList[0].value = true
+                arr = [{stepList: this.stepList, roomScanList: this.roomScanList}]
+              } else {
+                this.$notify({message: '请扫描手术房间', type: 'warning'})
+                return
+              }
+            } else {
+              this.$notify({message: '请勿重复扫码', type: 'warning'})
+              return
+            }
+          }
         } else {
-          this.stepList[2].value = true
+          if (parseInt(this.code)) {
+            if (this.patientInfo.cureNo === this.code) {
+              if (this.stepList[0].value) {
+                this.$notify({ message: '当前患者已扫码,请勿重复扫码', type: 'warning' })
+                return
+              } else {
+                mark = 3
+                this.stepList[0].value = true
+                arr = [{stepList: this.stepList, roomScanList: this.roomScanList}]
+              }
+            } else {
+              this.$notify({ message: '患者匹配失败', type: 'warning' })
+              return
+            }
+          } else {
+            this.$notify({ message: '请扫描患者腕带', type: 'warning' })
+            return
+          }
         }
       } else if (this.$route.query.title === '进PACU') {
         if (parseInt(this.code)) {
@@ -131,6 +208,7 @@ export default {
             } else {
               mark = 4
               this.stepList[0].value = true
+              arr = JSON.parse(JSON.stringify(this.stepList))
             }
           } else {
             this.$notify({ message: '匹配失败', type: 'warning' })
@@ -149,9 +227,10 @@ export default {
             } else {
               mark = 5
               this.stepList[0].value = true
+              arr = JSON.parse(JSON.stringify(this.stepList))
             }
           } else {
-            this.$notify({ message: '匹配失败', type: 'warning' })
+            this.$notify({ message: '患者匹配失败', type: 'warning' })
             return
           }
         } else {
@@ -159,11 +238,39 @@ export default {
           return
         }
       } else if (this.$route.query.title === '病房收治') {
-        mark = 6
-        if (this.active === -1) {
-          this.stepList[0].value = true
+        if (this.stepList[0].value) {
+          if (!this.stepList[1].value) {
+            if (this.code.indexOf('Worker') !== -1) {
+              mark = 6
+              this.stepList[1].value = true
+              arr = JSON.parse(JSON.stringify(this.stepList))
+            } else {
+              this.$notify({message: '请扫描工勤人员二维码', type: 'warning'})
+              return
+            }
+          } else {
+            this.$notify({ message: '当前患者已扫码,请勿重复扫码', type: 'warning' })
+            return
+          }
         } else {
-          this.stepList[1].value = true
+          if (parseInt(this.code)) {
+            if (this.patientInfo.cureNo === this.code) {
+              if (this.stepList[0].value) {
+                this.$notify({ message: '当前患者已扫码,请勿重复扫码', type: 'warning' })
+                return
+              } else {
+                mark = 6
+                this.stepList[0].value = true
+                arr = JSON.parse(JSON.stringify(this.stepList))
+              }
+            } else {
+              this.$notify({ message: '患者匹配失败', type: 'warning' })
+              return
+            }
+          } else {
+            this.$notify({ message: '请扫描患者腕带', type: 'warning' })
+            return
+          }
         }
       }
       request({
@@ -174,7 +281,7 @@ export default {
           hospitalNo: this.patientInfo.hospitalNo,
           mark: mark,
           status: this.code,
-          statusList: this.stepList
+          statusList: arr
         }
       }).then(res => {
         if (res.data.code === 200) {
@@ -193,10 +300,14 @@ export default {
             this.stepList = res.data.data.outWardScan
             break
           case '进手术室':
-            this.stepList = res.data.data.pointInRoomScan
+            // 需要操作
+            this.stepList = res.data.data.pointInRoomScan[0].stepList
+            this.roomScanList = res.data.data.pointInRoomScan[0].roomScanList
             break
           case '出手术室':
-            this.stepList = res.data.data.pointOutRoomScan
+            // 需要操作
+            this.stepList = res.data.data.pointOutRoomScan[0].stepList
+            this.roomScanList = res.data.data.pointOutRoomScan[0].roomScanList
             break
           case '进PACU':
             this.stepList = res.data.data.pointPacuScan
@@ -218,7 +329,8 @@ export default {
       }
       // 房间二维码
       if (code.indexOf('RoomNum') !== -1) {
-        this.code = code.replace('RoomNum=', '')
+        // this.code = code.replace('RoomNum=', '')
+        this.code = code
         this.saveCodeStatus()
       }
       // 手术通知单二维码
@@ -237,7 +349,8 @@ export default {
       }
       // 工勤的二维码
       if (code.indexOf('Worker') !== -1) {
-        this.code = code.replace('Worker=', '')
+        // this.code = code.replace('Worker=', '')
+        this.code = code
         this.saveCodeStatus()
       }
       // 器械包条码
@@ -284,6 +397,7 @@ export default {
   },
   mounted () {
     $bus.$on('handleCode', this.handleCode)
+    this.getCodeStatus()
   },
   beforeDestroy () {
     $bus.$off('handleCode')

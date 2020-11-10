@@ -58,6 +58,7 @@
 import request from '@/utils/request'
 import {mapState} from 'vuex'
 import {getOrdinaryData} from '@/api/large-screen'
+import $bus from '@/utils/busScreen'
 export default {
   name: 'InventoryBasic',
   data () {
@@ -155,6 +156,10 @@ export default {
   },
   mounted () {
     this.getOrdinaryData()
+    $bus.$on('getOrdinaryData', this.getOrdinaryData)
+  },
+  beforeDestroy () {
+    $bus.$off('getOrdinaryData')
   }
 }
 </script>
