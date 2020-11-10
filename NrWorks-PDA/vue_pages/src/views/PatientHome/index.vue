@@ -14,7 +14,7 @@
           <p>
             <span>
               <span class="label">手术室</span>
-              <span class="value">{{patientInfo.operRoom}}室</span>
+              <span class="value">{{patientInfo.roomNo}}室</span>
             </span>
             <span>
               <span class="label">台次</span>

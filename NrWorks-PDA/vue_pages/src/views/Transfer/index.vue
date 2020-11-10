@@ -87,8 +87,23 @@ export default {
     saveCodeStatus () {
       let mark = null
       if (this.$route.query.title === '病房交接') {
-        mark = 1
-        this.stepList[0].value = true
+        if (parseInt(this.code)) {
+          if (this.patientInfo.cureNo === this.code) {
+            if (this.stepList[0].value) {
+              this.$notify({ message: '当前患者已扫码,请勿重复扫码', type: 'warning' })
+              return
+            } else {
+              mark = 1
+              this.stepList[0].value = true
+            }
+          } else {
+            this.$notify({ message: '匹配失败', type: 'warning' })
+            return
+          }
+        } else {
+          this.$notify({ message: '请扫描患者腕带', type: 'warning' })
+          return
+        }
       } else if (this.$route.query.title === '进手术室') {
         mark = 2
         if (this.active === -1) {
@@ -108,11 +123,41 @@ export default {
           this.stepList[2].value = true
         }
       } else if (this.$route.query.title === '进PACU') {
-        mark = 4
-        this.stepList[0].value = true
+        if (parseInt(this.code)) {
+          if (this.patientInfo.cureNo === this.code) {
+            if (this.stepList[0].value) {
+              this.$notify({ message: '当前患者已扫码,请勿重复扫码', type: 'warning' })
+              return
+            } else {
+              mark = 4
+              this.stepList[0].value = true
+            }
+          } else {
+            this.$notify({ message: '匹配失败', type: 'warning' })
+            return
+          }
+        } else {
+          this.$notify({ message: '请扫描患者腕带', type: 'warning' })
+          return
+        }
       } else if (this.$route.query.title === '出PACU') {
-        mark = 5
-        this.stepList[0].value = true
+        if (parseInt(this.code)) {
+          if (this.patientInfo.cureNo === this.code) {
+            if (this.stepList[0].value) {
+              this.$notify({ message: '当前患者已扫码,请勿重复扫码', type: 'warning' })
+              return
+            } else {
+              mark = 5
+              this.stepList[0].value = true
+            }
+          } else {
+            this.$notify({ message: '匹配失败', type: 'warning' })
+            return
+          }
+        } else {
+          this.$notify({ message: '请扫描患者腕带', type: 'warning' })
+          return
+        }
       } else if (this.$route.query.title === '病房收治') {
         mark = 6
         if (this.active === -1) {
@@ -133,6 +178,7 @@ export default {
         }
       }).then(res => {
         if (res.data.code === 200) {
+          this.$notify({message: '扫码成功', type: 'success'})
           this.getCodeStatus()
         }
       })
@@ -180,10 +226,12 @@ export default {
         // var jsonStr
         if (code.indexOf('OpsSchNo') !== -1) {
           var codelist = code.split(',')
-          var OpsRQCode = codelist[0].replace('OpsQRCode=', '')
+          // var OpsRQCode = codelist[0].replace('OpsQRCode=', '')
+          var OpsRQCode = codelist[0]
           this.code = OpsRQCode
         } else {
-          this.code = code.replace('OpsQRCode=', '')
+          // this.code = code.replace('OpsQRCode=', '')
+          this.code = code
         }
         this.saveCodeStatus()
       }

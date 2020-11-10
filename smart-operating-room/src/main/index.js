@@ -25,8 +25,9 @@ function createWindow () {
    */
   mainWindow = new BrowserWindow({
     height: 563,
-    useContentSize: true,
+    // useContentSize: true,
     width: 1000,
+    // movable: false,
     webPreferences: {
       // webSecurity: false, // 官方建议不要禁用
       nodeIntegration: true
@@ -93,6 +94,7 @@ const printWindows = new Set()
 const createPrintWindow = () => {
   let newPrintWindow = new BrowserWindow({
     show: true,
+    frame: false,
     webPreferences: {
       webSecurity: false,
       nodeIntegration: true

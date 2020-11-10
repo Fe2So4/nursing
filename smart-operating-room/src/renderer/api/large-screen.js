@@ -37,6 +37,9 @@ export const getSign = `${config.default.api.baseURL}/ocis/operationScreen/getMo
 // 获取抗生素用药
 export const getAntibiotic = `${config.default.api.baseURL}/ocis/basicInfo/getAntibiotic`
 
+// 获取术中病理
+export const getPathology = `${config.default.api.baseURL}/ocis/basicInfo/getIntraoperativeMedication`
+
 // 获取楼层列表
 export const floorList = `${config.default.api.baseURL}/ocis/dict/getFloor`
 

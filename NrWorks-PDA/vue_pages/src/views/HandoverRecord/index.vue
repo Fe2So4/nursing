@@ -409,20 +409,19 @@ export default {
       }
     },
     onClickRight () {
-      // this.$dialog.confirm({
-      //   title: '提示',
-      //   message: '弹窗内容'
-      // })
-      //   .then(() => {
-      //   // on confirm
-      //   })
-      //   .catch(() => {
-      //   // on cancel
-      //   })
-      this.handleSubmit()
+      this.$dialog.confirm({
+        title: '提示',
+        message: '确认提交'
+      })
+        .then(() => {
+        // on confirm
+          this.handleSubmit()
+        })
+        .catch(() => {
+        // on cancel
+        })
     },
     handleCloseDialog (action, done) {
-      console.log('关闭')
       done()
     },
     handleDialogConfirm () {
@@ -564,7 +563,9 @@ export default {
         url: submitUrl,
         data: obj
       }).then(res => {
-
+        if (res.data.code === 200) {
+          this.$router.push('/transfer-handover')
+        }
       })
     },
     handleCancel () {
