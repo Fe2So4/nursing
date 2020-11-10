@@ -285,7 +285,7 @@ export default {
   padding: 10px;
   .container-title {
     letter-spacing: 10px;
-    border-bottom: 1px solid #000;
+    // border-bottom: 1px solid #000;
     text-align: center;
     font-weight: 600;
     text-indent: 10px;

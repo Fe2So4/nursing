@@ -509,14 +509,16 @@ export default {
   // background-color: #fff;
   // padding: 10px;
   .container-title {
+    font-size: 16px;
     letter-spacing: 10px;
-    border-bottom: 1px solid #000;
+    // border-bottom: 1px solid #000;
     text-align: center;
     font-weight: 600;
     text-indent: 10px;
     margin: 0 70px;
   }
   .wenben-content-info {
+      font-size: 16px;
       display: flex;
       flex-direction: column;
       .info-content-title {

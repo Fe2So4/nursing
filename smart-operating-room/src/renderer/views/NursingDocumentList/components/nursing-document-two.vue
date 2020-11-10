@@ -20,7 +20,10 @@
                   {{ form.patient }}
                 </div>
               </div>
-              <div class="col">
+              <div
+                class="col-40"
+                style="width:33%"
+              >
                 <span class="row-lable">手术日期：</span>
                 <div class="row-text">
                   {{ form.opsDate }}
@@ -44,10 +47,13 @@
                 </div>
               </div>
               <div
-                class="col"
-                style="width:70%"
+                style="width:63%"
+                class="col-50"
               >
-                <span class="row-lable">手术方式：</span>
+                <span
+                  style="width: 118px"
+                  class="row-lable"
+                >手术方式：</span>
                 <div class="row-text">
                   {{ form.opsName }}
                 </div>
@@ -97,11 +103,17 @@
           </span>
           <span class="input-div mgl50">
             <span>部位</span>
-            <div class="input-div-context">{{ form.skin.skinLocate || '' }}</div>
+            <div
+              style="textAlign:center"
+              class="input-div-context"
+            >{{ form.skin.skinLocate || '' }}</div>
           </span>
           <span class="input-div">
             <span>程度</span>
-            <div class="input-div-context">{{ form.skin.skinDegree || '' }}</div>
+            <div
+              style="textAlign:center"
+              class="input-div-context"
+            >{{ form.skin.skinDegree || '' }}</div>
           </span>
         </div>
         <div class="context1">
@@ -205,12 +217,18 @@
           </span>
           <span class="input-div mgl5">
             <span>功率</span>
-            <div class="input-div-context-short">{{ equipment.electrotome.electrotomeDQ||'' }}</div>
+            <div
+              style="textAlign:center"
+              class="input-div-context-short"
+            >{{ equipment.electrotome.electrotomeDQ||'' }}</div>
           </span>
           <span>电凝</span>
           <span class="input-div mgl5">
             <span>功率</span>
-            <div class="input-div-context-short">{{ equipment.electrotome.electrotomeDN||'' }}</div>
+            <div
+              style="textAlign:center"
+              class="input-div-context-short"
+            >{{ equipment.electrotome.electrotomeDN||'' }}</div>
           </span>
         </div>
         <div class="context1">
@@ -244,11 +262,11 @@
           <span>气囊止血机：</span>
           <span style="marginLeft:6px">
             <span>无</span>
-            <IsSelect :myselect="equipment.bhMachine.bhMachineName === '0'?true:false" />
+            <IsSelect :myselect="equipment.bhMachine.bhMachineName === '1'?true:false" />
           </span>
           <span style="marginLeft:6px">
             <span>有</span>
-            <IsSelect :myselect="equipment.bhMachine.bhMachineName === '1'?true:false" />
+            <IsSelect :myselect="equipment.bhMachine.bhMachineName === '2'?true:false" />
           </span>
         </div>
         <div class="context2">
@@ -261,23 +279,43 @@
             <div class="box-row">
               <span class="input-div mgl5">
                 <span>部位</span>
-                <div class="input-div-context-short">{{ item.locateName }}</div>
+                <div
+                  class="input-div-context-short"
+                  style="width:60px;textAlign:center"
+                >{{ item.locateName | capitalize }}</div>
               </span>
-              <span class="input-div mgl5">
+              <span
+                class="input-div mgl5"
+                style="flex:1"
+              >
                 <span style="marginLeft:8px">压力</span>
-                <div class="input-div-context-short">{{ item.presureValue }} {{ item.presure }}</div>
+                <div
+                  class="input-div-context-short"
+                  style="textAlign:center;flex:1"
+                >{{ item.presureValue }} {{ item.presure }}</div>
               </span>
             </div>
             <div class="box-row">
-              <span class="input-div mgl5">
-                <span style="lineHeight:30px">充气时间</span>
-                <div class="input-div-context-short-60">{{ item.cqTime }}</div>
+              <span
+                class="input-div mgl5"
+                style="width:100%"
+              >
+                <span>充气时间</span>
+                <div
+                  style="flex: 1;padding-left: 5px;textAlign:center"
+                  class="input-div-context-short-60"
+                >{{ item.cqTime }}</div>
               </span>
-              <span class="input-div mgl5">
+            </div>
+            <div class="box-row">
+              <span
+                class="input-div mgl5"
+                style="width:100%"
+              >
                 <span style="lineHeight:30px">签名</span>
                 <div
                   class="input-div-context-short-60"
-                  style="height:30px"
+                  style="height:30px;flex:1"
                 >
                   <img
                     style="height:100%"
@@ -288,20 +326,33 @@
               </span>
             </div>
             <div class="box-row">
-              <span class="input-div mgl5">
-                <span style="lineHeight:30px">放气时间</span>
-                <div class="input-div-context-short-60">{{ item.fqTime }}</div>
+              <span
+                class="input-div mgl5"
+                style="width:100%"
+              >
+                <span>放气时间</span>
+                <div
+                  style="flex: 1;padding-left: 5px;textAlign:center"
+                  class="input-div-context-short-60"
+                >{{ item.fqTime }}</div>
               </span>
-              <span class="input-div mgl5">
+            </div>
+            <div class="box-row">
+              <span
+                class="input-div mgl5"
+                style="width:100%"
+              >
                 <span style="lineHeight:30px">签名</span>
                 <div
                   class="input-div-context-short-60"
-                  style="height:30px"
-                ><img
-                  style="height:100%"
-                  :src="item.fqSign"
-                  alt=""
-                ></div>
+                  style="height:30px;flex:1"
+                >
+                  <img
+                    style="height:100%"
+                    :src="item.fqSign"
+                    alt=""
+                  >
+                </div>
               </span>
             </div>
           </div>
@@ -341,7 +392,7 @@
           <span class="input-div mgl5">
             <span style="marginLeft:6px">操作者</span>
             <div
-              class="input-div-context-short-60"
+              class="input-div-context"
               style="height:30px;textAlign:center"
             >
               <img
@@ -350,14 +401,19 @@
                 style="height:100%"
               >
             </div>
-            <span style="marginLeft:6px">拔针芯时间</span>
+
+          </span>
+        </div>
+        <div class="context1 mgt20">
+          <span class="input-div mgl5">
+            <span>拔针芯时间</span>
             <div
-              class="input-div-context-short-60"
-              style="width:75px;textAlign:center"
+              class="input-div-context-short-140"
+              style="textAlign:center"
             >{{ waistPuncture.needleHeartTime }}</div>
             <span style="marginLeft:6px">签名</span>
             <div
-              class="input-div-context-short-60"
+              class="input-div-context"
               style="height:30px;textAlign:center"
             >
               <img
@@ -368,12 +424,12 @@
             </div>
             <span style="marginLeft:6px">拔针时间</span>
             <div
-              class="input-div-context-short-60"
-              style="width:75px;textAlign:center"
+              class="input-div-context-short-140"
+              style="textAlign:center"
             >{{ waistPuncture.needleTime }}</div>
             <span style="marginLeft:8px">签名</span>
             <div
-              class="input-div-context-short-60"
+              class="input-div-context"
               style="height:30px;textAlign:center"
             >
               <img
@@ -399,7 +455,7 @@
               <IsSelect :myselect="handOver.handOverName === '2'?true:false" />
             </span>
           </div>
-          <div style="width:300px;borderBottom:1px solid #000;marginLeft:10px">
+          <div style="width:300px;borderBottom:1px solid #000;marginLeft:10px;textAlign:center">
             {{ handOver.handOverRemarks }}
           </div>
         </div>
@@ -894,6 +950,23 @@ export default {
       })
     }
   },
+  filters: {
+    capitalize: function (value) {
+      if (!value) return ''
+      if (value === '1') {
+        return '左上肢'
+      }
+      if (value === '2') {
+        return '左下肢'
+      }
+      if (value === '3') {
+        return '右下肢'
+      }
+      if (value === '4') {
+        return '右下肢'
+      }
+    }
+  },
   components: {
     IsSelect
   }
@@ -910,7 +983,7 @@ export default {
   background-color: #fff;
   padding: 10px;
   .container-title {
-    border-bottom: 1px solid #000;
+    // border-bottom: 1px solid #000;
     text-align: center;
     font-weight: 600;
     margin: 0 70px;
@@ -967,7 +1040,9 @@ export default {
         border: 1px solid #000;
         padding: 5px;
         .box-row {
+          width: 100%;
           display: flex;
+          align-items: center;
         }
       }
     }
@@ -992,6 +1067,11 @@ export default {
   .input-div-context-short-60 {
     // padding: 0 5px;
     width: 60px;
+    border-bottom: 1px solid #000;
+  }
+  .input-div-context-short-140 {
+    // padding: 0 5px;
+    width: 150px;
     border-bottom: 1px solid #000;
   }
   .input-div-context-long {
@@ -1029,6 +1109,16 @@ export default {
   display: flex;
   font-size: 14px;
   width: 30%;
+}
+.col-20 {
+  display: flex;
+  font-size: 14px;
+  width: 20%;
+}
+.col-40 {
+  display: flex;
+  font-size: 14px;
+  width: 40%;
 }
 .col-50 {
   display: flex;
