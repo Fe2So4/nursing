@@ -63,11 +63,12 @@
 
 .hulijilv-two-container .info-content-container .context2 {
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
 }
 
 .hulijilv-two-container .info-content-container .context2 .context2-box {
-  width: 230px;
+  width: 240px;
+  font-size: 12px;
   display: flex;
   flex-wrap: wrap;
   border: 1px solid #000;

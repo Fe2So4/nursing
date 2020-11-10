@@ -255,8 +255,8 @@
           <div
             style="marginLeft:10px"
             class="context2-box"
-            v-for="item in equipment.bhMachine.bhMachineList || []"
-            :key="item.fqTime"
+            v-for="(item,index) in equipment.bhMachine.bhMachineList || []"
+            :key="index"
           >
             <div class="box-row">
               <span class="input-div mgl5">
@@ -265,7 +265,7 @@
               </span>
               <span class="input-div mgl5">
                 <span style="marginLeft:8px">压力</span>
-                <div class="input-div-context-short-60">{{ item.presureValue }} {{ item.presure }}</div>
+                <div class="input-div-context-short">{{ item.presureValue }} {{ item.presure }}</div>
               </span>
             </div>
             <div class="box-row">
@@ -310,11 +310,11 @@
           <span>10、手术冲洗：</span>
           <span style="marginLeft:6px">
             <span>0.9%氯化钠溶液</span>
-            <IsSelect :myselect="rinse.rinseName === '1'?true:false" />
+            <IsSelect :myselect="rinse.rinseList[0] === '1'?true:false" />
           </span>
           <span style="marginLeft:6px">
             <span>灭菌注射用水</span>
-            <IsSelect :myselect="rinse.rinseName === '2'?true:false" />
+            <IsSelect :myselect="rinse.rinseName[0] === '2'?true:false" />
           </span>
           <span class="input-div mgl5">
             <span style="marginLeft:8px">药液</span>
@@ -422,7 +422,7 @@
             <span
               class="input-div mgl5"
               v-for="(item,index) in frozen.frozenList"
-              :key="item.sendDoc"
+              :key="index"
             >
               <span style="marginLeft:8px">送检者{{ index + 1 }}、</span>
               <div
@@ -575,14 +575,14 @@
           <div>
             <div
               style="display:flex"
-              v-for="item in opsChange.opsChangeList"
-              :key="item.time"
+              v-for="(item,index) in opsChange.opsChangeList"
+              :key="index"
             >
               <span class="input-div mgl5">
                 <span style="marginLeft:8px">时间</span>
                 <div
                   class="input-div-context-noborder"
-                  style="width:120px;textAlign:center"
+                  style="width:140px;textAlign:center"
                 >{{ item.time }}</div>
               </span>
               <span class="input-div mgl5">
@@ -607,7 +607,7 @@
                 >接班人签名</span>
                 <div
                   class="input-div-context-noborder"
-                  style="width:120px;height:30px;textAlign:center"
+                  style="width:140px;height:30px;textAlign:center"
                 >
                   <img
                     style="height:100%"
@@ -958,9 +958,10 @@ export default {
     }
     .context2 {
       display: flex;
-      justify-content: center;
+      // justify-content: center;
       .context2-box {
-        width: 230px;
+        font-size: 12px;
+        width: 240px;
         display: flex;
         flex-wrap: wrap;
         border: 1px solid #000;
