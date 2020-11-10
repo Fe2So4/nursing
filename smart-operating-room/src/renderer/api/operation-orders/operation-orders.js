@@ -58,6 +58,16 @@ export const reqcancelOrderAction = (obj) => {
   })
 }
 
+// 已派单退单操作
+const reqapplicationForRefundUrl = `${config.default.api.baseURL}/ocis/sendOrder/applicationForRefund`
+export const reqapplicationForRefund = (obj) => {
+  return request({
+    url: reqapplicationForRefundUrl,
+    method: 'post',
+    params: obj
+  })
+}
+
 // 派单操作
 const reqsendOrderActionUrl = `${config.default.api.baseURL}/ocis/sendOrder/sendOrderAction`
 export const reqsendOrderAction = (obj) => {

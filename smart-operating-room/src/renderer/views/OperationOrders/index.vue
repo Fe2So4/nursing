@@ -68,7 +68,7 @@ export default {
     // }
 
     // 点击修改或退单
-    changeItem (type) {
+    changeItem (data) {
       this.$nextTick(() => {
         let selectItem = this.$refs.OperationContent.isSelectItem
         console.log(selectItem)
@@ -76,9 +76,8 @@ export default {
           this.$message.warning('请先选中一条数据')
           return false
         }
-        console.log(type)
-        if (type === 1) {
-          this.$refs.OperationContent.exitDialogShow()
+        if (data.type === 1) {
+          this.$refs.OperationContent.exitDialogShow(data.isSend)
         } else {
           this.$refs.OperationContent.changeDialogShow()
         }

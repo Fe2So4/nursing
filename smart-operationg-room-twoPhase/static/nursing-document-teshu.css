@@ -1,0 +1,178 @@
+.nursing-teshu-container {
+  width: 824px;
+  min-width: 824px;
+}
+
+.nursing-teshu-container .container-title {
+  letter-spacing: 10px;
+  border-bottom: 1px solid #000;
+  text-align: center;
+  font-weight: 600;
+  text-indent: 10px;
+  margin: 0 70px;
+}
+
+.nursing-teshu-container .wenben-content-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.nursing-teshu-container .wenben-content-info .info-content-title {
+  text-align: center;
+  font-weight: 600;
+}
+
+.nursing-teshu-container .wenben-content-info .info-content-form {
+  padding-left: 15px;
+}
+
+.nursing-teshu-container .info-content-container {
+  padding-left: 20px;
+  font-size: 14px;
+}
+
+.nursing-teshu-container .info-content-container .context1 {
+  display: flex;
+}
+
+.nursing-teshu-container .info-content-container .context1 table tr th {
+  overflow: hidden;
+  width: 85px;
+}
+
+.nursing-teshu-container .info-content-container .context1 table tr th .table-th-time {
+  width: 40px;
+  position: relative;
+  left: 40px;
+}
+
+.nursing-teshu-container .info-content-container .context1 table tr th .table-th-xiangmu {
+  width: 40px;
+}
+
+.nursing-teshu-container .info-content-container .context1 table tr td {
+  width: 85px;
+  height: 25px;
+  padding-left: 3px;
+}
+
+.nursing-teshu-container .info-content-container .context2 {
+  display: flex;
+  justify-content: center;
+}
+
+.nursing-teshu-container .info-content-container .context2 .context2-box {
+  width: 230px;
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid #000;
+  padding: 5px;
+}
+
+.nursing-teshu-container .info-content-container .context2 .context2-box .box-row {
+  display: flex;
+}
+
+.nursing-top {
+  padding: 10px;
+  background-color: #fff;
+}
+
+.input-div {
+  display: flex;
+}
+
+.input-div .input-div-context {
+  padding: 0 5px;
+  width: 100px;
+  border-bottom: 1px solid #000;
+}
+
+.input-div .input-div-context-120 {
+  text-align: center;
+  padding: 0 5px;
+  width: 140px;
+  border-bottom: 1px solid #000;
+}
+
+.input-div .input-div-context-noborder {
+  padding: 0 5px;
+  width: 100px;
+}
+
+.input-div .input-div-context-short {
+  padding: 0 5px;
+  width: 80px;
+  border-bottom: 1px solid #000;
+}
+
+.input-div .input-div-context-short-60 {
+  padding: 0 5px;
+  width: 60px;
+  border-bottom: 1px solid #000;
+}
+
+.input-div .input-div-context-long {
+  padding: 0 5px;
+  width: 380px;
+  border-bottom: 1px solid #000;
+}
+
+.mgt10 {
+  margin-top: 10px;
+}
+
+.mgt20 {
+  margin-top: 10px;
+}
+
+.mgl50 {
+  margin-left: 50px;
+}
+
+.mgl5 {
+  margin-left: 5px;
+}
+
+.row-line {
+  width: 140px;
+  height: 1px;
+  background-color: #000;
+  transform: rotate(-155deg);
+}
+
+.line {
+  width: 250px;
+  height: 1px;
+  background-color: #000;
+}
+
+.td-div {
+  display: flex;
+}
+
+.td-center {
+  width: 60px;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+.td-text-center {
+  text-align: center;
+}
+
+.td-colspan {
+  height: 50px;
+  line-height: 50px;
+  background-color: #ccc;
+  font-weight: 600;
+}
+
+.container-bottom {
+  margin-top: 50px;
+}
+
+table thead tr th,
+table tbody tr td {
+  border: 1px solid #000;
+}

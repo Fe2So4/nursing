@@ -428,10 +428,10 @@ export default {
     // 查询数据
     search () {
       let obj = {
-        cureNo: 1010,
-        // cureNo: this.$store.state['nursing-document-list'].cureNo,
-        hospitalNo: 666
-        // hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
+        // cureNo: 1010,
+        cureNo: this.$store.state['nursing-document-list'].cureNo,
+        // hospitalNo: 666
+        hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
       }
       this.$store.dispatch('ReqNursingDocumentJiChu', obj).then(res => {
         console.log(res)

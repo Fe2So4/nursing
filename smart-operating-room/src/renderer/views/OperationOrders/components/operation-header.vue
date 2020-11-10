@@ -159,7 +159,11 @@ export default {
       Bus.$emit('operation-header-synchronous', data)
     },
     changeItem (type) {
-      this.$emit('changeItem', type)
+      let data = {
+        type: type,
+        isSend: this.formData2.isSend
+      }
+      this.$emit('changeItem', data)
     },
     searchCardList () {
       let data = {

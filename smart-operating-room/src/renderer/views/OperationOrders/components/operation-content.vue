@@ -377,6 +377,7 @@ export default {
       cardList: [
 
       ],
+      isSend: '', // 判断哪个退单  0未  1已
       value: '',
       dbdialogVisible: false, // 派单
       exitdialogVisible: false, // 退单
@@ -501,28 +502,50 @@ export default {
       })
     },
     // 显示退单弹窗
-    exitDialogShow () {
+    exitDialogShow (isSend) {
+      this.isSend = isSend
       this.exitdialogVisible = true
     },
     // 退单
     exitOrder () {
-      let obj = {
-        operSchNo: this.isSelectItem[0].operSchNo
+      if (this.isSend === '1') {
+        let obj = {
+          operSchNo: this.isSelectItem[0].operSchNo,
+          cureNo: this.isSelectItem[0].cureNo,
+          hospitalNo: this.isSelectItem[0].hospitalNo
         // operSchNo: 'sdfjkadcnxjkzhuierhkjsdhcakhcisdh'
-      }
-
-      this.$store.dispatch('ReqcancelOrderAction', obj).then(res => {
-        console.log(res)
-        if (res.data.code === 200) {
-          this.openToast('success', '退单成功')
-          this.isSelectItem = [{floor: '', roomNo: '', runNurseName: '', washNurseCode: ''}]
-          this.isSelectIndex = 0
-        } else {
-          this.openToast('error', res.data.msg)
         }
-        this.exitdialogVisible = false
-        this.getCardList()
-      })
+
+        this.$store.dispatch('ReqapplicationForRefund', obj).then(res => {
+          if (res.data.code === 200) {
+            this.openToast('success', '退单成功')
+            this.isSelectItem = [{floor: '', roomNo: '', runNurseName: '', washNurseCode: ''}]
+            this.isSelectIndex = 0
+          } else {
+            this.openToast('error', res.data.msg)
+          }
+          this.exitdialogVisible = false
+          this.getCardList()
+        })
+      } else {
+        let obj = {
+          operSchNo: this.isSelectItem[0].operSchNo
+        // operSchNo: 'sdfjkadcnxjkzhuierhkjsdhcakhcisdh'
+        }
+
+        this.$store.dispatch('ReqcancelOrderAction', obj).then(res => {
+          console.log(res)
+          if (res.data.code === 200) {
+            this.openToast('success', '退单成功')
+            this.isSelectItem = [{floor: '', roomNo: '', runNurseName: '', washNurseCode: ''}]
+            this.isSelectIndex = 0
+          } else {
+            this.openToast('error', res.data.msg)
+          }
+          this.exitdialogVisible = false
+          this.getCardList()
+        })
+      }
     },
     handleClose (done) {
       this.exitdialogVisible = false

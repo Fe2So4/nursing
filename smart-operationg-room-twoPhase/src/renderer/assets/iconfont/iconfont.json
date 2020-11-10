@@ -1,0 +1,79 @@
+{
+  "id": "2083869",
+  "name": "智能护理",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "13385656",
+      "name": "功能",
+      "font_class": "gongneng",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "6781185",
+      "name": "退出 (5)",
+      "font_class": "tuichu5",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "10662289",
+      "name": "开关 关",
+      "font_class": "kaiguanguan",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "1041117",
+      "name": "提示",
+      "font_class": "tishi",
+      "unicode": "e657",
+      "unicode_decimal": 58967
+    },
+    {
+      "icon_id": "2987146",
+      "name": "喇叭 (1)",
+      "font_class": "laba",
+      "unicode": "e652",
+      "unicode_decimal": 58962
+    },
+    {
+      "icon_id": "2341651",
+      "name": "管理",
+      "font_class": "guanli",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "8120654",
+      "name": "数据",
+      "font_class": "shuju",
+      "unicode": "e65e",
+      "unicode_decimal": 58974
+    },
+    {
+      "icon_id": "13595541",
+      "name": "菜单向导",
+      "font_class": "caidanxiangdao-",
+      "unicode": "e7c5",
+      "unicode_decimal": 59333
+    },
+    {
+      "icon_id": "14493685",
+      "name": "检查",
+      "font_class": "wenjuan",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
+      "icon_id": "429349",
+      "name": "用户",
+      "font_class": "user",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    }
+  ]
+}
