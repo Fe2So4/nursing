@@ -10,6 +10,7 @@
         <NavTwo v-else />
       </el-aside>
       <el-main>
+        <BreadCrumb />
         <router-view />
         <div class="copyright">
           Copyright©2011-{{ time }}上海仝佥信息技术有限公司
@@ -24,6 +25,7 @@
 import WinHeader from './win-header'
 import NavTwo from './nav-two'
 import Nav from './nav'
+import BreadCrumb from '@/components/BreadCrumb/bread-crumb'
 import moment from 'moment'
 export default {
   name: 'Layout',
@@ -46,7 +48,7 @@ export default {
     }
   },
   // Header
-  components: {Nav, WinHeader, NavTwo}
+  components: {Nav, WinHeader, NavTwo, BreadCrumb}
 }
 </script>
 

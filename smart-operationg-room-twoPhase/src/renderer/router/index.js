@@ -37,7 +37,14 @@ export default new Router({
             title: '人员管理',
             noNavs: false,
             parent: 'Personnel'
-          }
+          },
+          children: [
+            {
+              path: '',
+              name: ''
+              // components: ()=>import('')
+            }
+          ]
         }
       ]
     },

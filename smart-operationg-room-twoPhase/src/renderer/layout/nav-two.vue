@@ -22,7 +22,7 @@
           v-show="activeIndex === item.path"
         />
       </el-menu-item>
-    </el-menu> -->.
+    </el-menu> -->
     <el-menu
       class="el-menu-vertical-demo"
       router
@@ -83,6 +83,40 @@ export default {
             {
               icon: 'iconfont icon-wenjuan',
               title: '护理列表',
+              path: '/home/client-nursing-document'
+            }
+          ]
+        },
+        {
+          icon: 'iconfont icon-caidanxiangdao-',
+          title: '人员管理',
+          path: '/personnel/search-leave',
+          children: [
+            {
+              icon: 'iconfont icon-guanli',
+              title: '人员档案管理',
+              path: '/home/client-pathological-application',
+              children: [
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '档案信息维护',
+                  path: '/home/client-pathological-application'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '档案信息查询',
+                  path: '/home/client-pathological-application'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '公务员信息维护',
+                  path: '/home/client-pathological-application'
+                }
+              ]
+            },
+            {
+              icon: 'iconfont icon-wenjuan',
+              title: '出勤排班管理',
               path: '/home/client-nursing-document'
             }
           ]

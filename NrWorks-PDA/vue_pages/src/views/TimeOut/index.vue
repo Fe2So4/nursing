@@ -102,7 +102,7 @@
         </van-cell>
       </van-cell-group>
       <van-cell-group>
-        <van-cell title="核查时间" value="2020-10-12 09:48"></van-cell>
+        <van-cell title="核查时间" :value="time"></van-cell>
         <van-cell title="麻醉医师签名" title-class="sign-title" @click="handleShowSignature(1)"></van-cell>
         <div v-if="anesBeforeAnesDoc!==''" style="text-align:center;">
           <img :src="anesBeforeAnesDoc" alt="" class="signatureImage">
@@ -130,11 +130,13 @@ import PatientCard from '@/components/PatientCard'
 import {submitTimeout, getTimeout} from '@/api/check'
 import request from '@/utils/request'
 import {mapState} from 'vuex'
+import moment from 'moment'
 export default {
   data () {
     return {
       checked: true,
       input: '',
+      time: moment(new Date()).format('YYYY-MM-DD HH:mm'),
       currentSign: null,
       visible: false,
       anesBeforeAnesDoc: '',
@@ -216,6 +218,7 @@ export default {
       }).then(res => {
         if (res.data.code === 200) {
           this.$notify({message: '保存成功', type: 'success'})
+          this.getData()
         }
       })
     },
@@ -233,6 +236,7 @@ export default {
           if (data.beforeOperAnesDoctorTwo) {
             this.anesBeforeAnesDoc = data.beforeOperAnesDoctorTwo
           }
+          this.time = data.beforeOperChkTime
           if (data.beforeOperDocTwo) {
             this.anesBeforeOperDoc = data.beforeOperDocTwo
           }

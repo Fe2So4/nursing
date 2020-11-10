@@ -6,7 +6,6 @@
   >
     <template v-if="children.children">
       <side-bar-item
-
         v-for="item in children.children"
         :menu="menu + 1"
         :children="item"
@@ -74,12 +73,39 @@ export default {
 .my-el-menu-item {
   font-size: 16px;
 }
-.el-submenu {
+/deep/ .el-menu{
   background-color: unset;
-  border-right: unset;
-  ul.el-menu {
-    background-color: $nav-bgc !important;
-    border-right: unset;
+}
+/deep/ .el-menu-item{
+  // background-color: unset;
+  color: #E2E9F2;
+}
+/deep/ .el-menu-item:focus, .el-menu-item:hover{
+  background: linear-gradient(90deg, #3269CE, #2E5287);
+  color: $nav-font;
+  i{
+    color: $nav-font;
   }
 }
+/deep/ .el-submenu__title{
+  color: #E2E9F2;
+  i{
+    color: #E2E9F2;
+  }
+}
+/deep/ .el-submenu__title:hover{
+  background: linear-gradient(90deg, #3269CE, #2E5287);
+  color: $nav-font;
+  i{
+    color: $nav-font;
+  }
+}
+// .el-submenu {
+//   // background-color: unset;
+//   border-right: unset;
+//   ul.el-menu {
+//     background-color: $nav-bgc !important;
+//     border-right: unset;
+//   }
+// }
 </style>

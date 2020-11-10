@@ -105,7 +105,7 @@
         </van-cell>
       </van-cell-group>
       <van-cell-group :border="false">
-        <van-cell title="核查时间" value="2020-10-12 09:48"></van-cell>
+        <van-cell title="核查时间" :value="time"></van-cell>
         <van-cell title="麻醉医师签名" title-class="sign-title" @click="handleShowSignature(1)"></van-cell>
         <div v-if="anesBeforeAnesDoc!==''" style="text-align:center;">
           <img :src="anesBeforeAnesDoc" alt="" class="signatureImage">
@@ -132,6 +132,7 @@ import PatientCard from '@/components/PatientCard'
 import {submitSignIn, getSignIn} from '@/api/check'
 import request from '@/utils/request'
 import {mapState} from 'vuex'
+import moment from 'moment'
 export default {
   data () {
     return {
@@ -139,6 +140,7 @@ export default {
       currentSign: null,
       showFullSkin: true,
       visible: false,
+      time: moment(new Date()).format('YYYY-MM-DD HH:mm'),
       anesBeforeAnesDoc: '',
       anesBeforeOperDoc: '',
       anesBeforeNurse: '',
@@ -166,7 +168,8 @@ export default {
         {key: '影像学资料', value: false, sort: '13'},
         {key: '假体', value: false, sort: '14'},
         {key: '体内植入物', value: false, sort: '15'},
-        {key: '其它', value: '', sort: '16'}
+        {key: '其它', value: '', sort: '16'},
+        {key: '核查时间', value: '', sort: '17'}
       ]
     }
   },
@@ -196,7 +199,7 @@ export default {
       let arr = JSON.parse(JSON.stringify(this.recordForm))
       let state = ''
       arr.forEach(item => {
-        if (item.key !== '其它：') {
+        if (item.key !== '其它') {
           if (item.value === true) {
             item.value = '是'
           } else {
@@ -226,6 +229,7 @@ export default {
       }).then(res => {
         if (res.data.code === 200) {
           this.$notify({message: '保存成功', type: 'success'})
+          this.getData()
         }
       })
     },
@@ -253,6 +257,7 @@ export default {
           if (data.anesBeforeNurse) {
             this.anesBeforeNurse = data.anesBeforeNurse
           }
+          this.time = data.anesBeforeChkTime
           if (data.anesBeforeCheck.length > 0) {
             data.anesBeforeCheck.forEach(item => {
               if (item.key !== '其它') {

@@ -33,7 +33,7 @@
         </van-cell>
         <van-cell title="病理标本号核对正确：" value="内容" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch v-model="recordForm[4].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
+            <van-switch v-model="recordForm[15].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
         <van-cell title="手术用物清点正确：" value="内容" value-class="van-cell-center">
@@ -46,7 +46,7 @@
             <van-switch v-model="recordForm[6].value" active-color="#3478FF" inactive-color="#E8E8E8" @change="handleChange"/>
           </template>
         </van-cell>
-        <van-cell-group v-show="showFullSkin">
+        <van-cell-group v-show="!recordForm[6].value">
           <van-cell title="部位：" title-class="left-title" value-class="right-value">
             <template #right-icon>
               <van-field v-model="recordForm[6].items[0].value" label="" placeholder="请输入部位：" label-align="right" input-align="right"/>
@@ -72,7 +72,9 @@
             </van-dropdown-menu>
           </template>
         </van-cell>
-        <van-cell title="各种管路：" value="内容" value-class="van-cell-center">
+        <van-cell title="各种管路：" value="" value-class="van-cell-center">
+        </van-cell>
+        <van-cell title="动脉通路：" value="内容" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="recordForm[9].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
@@ -104,7 +106,7 @@
         </van-cell>
       </van-cell-group>
       <van-cell-group>
-        <van-cell title="核查时间" value="2020-10-12 09:48"></van-cell>
+        <van-cell title="核查时间" :value="time"></van-cell>
         <van-cell title="麻醉医师签名" title-class="sign-title" @click="handleShowSignature(1)"></van-cell>
         <div v-if="anesBeforeAnesDoc!==''" style="text-align:center;">
           <img :src="anesBeforeAnesDoc" alt="" class="signatureImage">
@@ -131,10 +133,12 @@ import Signature from '@/components/Signature'
 import PatientCard from '@/components/PatientCard'
 import {submitSignOut, getSignOut} from '@/api/check'
 import request from '@/utils/request'
+import moment from 'moment'
 import {mapState} from 'vuex'
 export default {
   data () {
     return {
+      time: moment(new Date()).format('YYYY-MM-DD HH:mm'),
       checked: true,
       input: '',
       showFullSkin: false,
@@ -162,12 +166,13 @@ export default {
         {key: '皮肤是否完整', value: false, sort: '7', items: [{key: '部位', value: ''}, {key: '程度', value: ''}]},
         {key: '其它', value: '', sort: '15'},
         {key: '患者去向', value: '', sort: '8'},
-        {key: '各种管路', value: false, sort: '9'},
+        {key: '动脉通路', value: false, sort: '9'},
         {key: '静脉通路', value: '', sort: '10'},
         {key: '气管插管', value: false, sort: '11'},
         {key: '伤口引流', value: false, sort: '12'},
         {key: '胃管', value: false, sort: '13'},
-        {key: '尿管', value: '', sort: '14'}
+        {key: '尿管', value: '', sort: '14'},
+        {key: '病理标本号核对正确', value: false, sort: '16'}
       ]
     }
   },
@@ -184,14 +189,23 @@ export default {
     onClickRight () {
       let arr = JSON.parse(JSON.stringify(this.recordForm))
       arr.forEach(item => {
-        if (item.key !== '其它' || item.key !== '患者去向' || item.key !== '静脉通路' || item.key !== '尿管') {
+        if (item.key === '其它' || item.key === '患者去向') {
+        } else {
           if (item.value === true) {
             item.value = '是'
           } else {
             item.value = '否'
           }
         }
+        // if (item.key !== '其它' || item.key !== '患者去向') {
+        //   if (item.value === true) {
+        //     item.value = '是'
+        //   } else {
+        //     item.value = '否'
+        //   }
+        // }
       })
+      console.log(arr)
       let state = ''
       for (var i = 0; i < arr.length; i++) {
         if (!arr[i].value) {
@@ -215,6 +229,7 @@ export default {
       }).then(res => {
         if (res.data.code === 200) {
           this.$notify({message: '保存成功', type: 'success'})
+          this.getData()
         }
       })
     },
@@ -240,6 +255,7 @@ export default {
       }).then(res => {
         if (res.data.code === 200) {
           let data = res.data.data
+          this.time = data.leaveBeforeChkTime
           if (data.leaveBeforeAnesDoc) {
             this.anesBeforeAnesDoc = data.leaveBeforeAnesDoc
           }
@@ -251,7 +267,8 @@ export default {
           }
           if (data.beforeLeaveRoomCheck.length > 0) {
             data.beforeLeaveRoomCheck.forEach(item => {
-              if (item.key !== '其它' || item.key !== '患者去向' || item.key !== '静脉通路' || item.key !== '尿管') {
+              if (item.key === '其它' || item.key === '患者去向') {
+              } else {
                 if (item.value === '是') {
                   item.value = true
                 } else {
