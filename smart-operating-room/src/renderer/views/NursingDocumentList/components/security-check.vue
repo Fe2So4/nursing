@@ -119,7 +119,7 @@
             <div class="col">
               <span class="row-lable">性 别:</span>
               <div class="row-text">
-                {{ formData.gender }}
+                {{ formData.gender | changeGender }}
               </div>
             </div>
           </div>
@@ -131,9 +131,9 @@
               </div>
             </div>
             <div class="col">
-              <span class="row-lable">麻醉方式:</span>
+              <span class="row-lable">手术日期:</span>
               <div class="row-text">
-                {{ formData.operationMethodName }}
+                {{ formData.operationDate }}
               </div>
             </div>
             <div class="col">
@@ -144,16 +144,16 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-50">
+            <div class="col-60">
               <span
                 class="row-lable"
                 style="width:115px"
-              >手术日期:</span>
+              >麻醉方式:</span>
               <div class="row-text">
-                {{ formData.operationDate }}
+                {{ formData.operationMethodName }}
               </div>
             </div>
-            <div class="col-50">
+            <div class="col">
               <span class="row-lable">主 刀:</span>
               <div class="row-text">
                 {{ formData.operatorName }}
@@ -161,12 +161,17 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-70">
+            <div
+              class="col-70"
+              style="width:90%"
+            >
               <span
                 class="row-lable"
                 style="width:105px"
               >手术方式:</span>
-              <div class="row-text">
+              <div
+                class="row-text"
+              >
                 {{ formData.operationName }}
               </div>
             </div>
@@ -348,9 +353,13 @@
                 <span class="info-left padl3">手术关注点</span>
                 <IsSelect :myselect="opeeBeforeCheck.isSelect3_3" />
               </span>
-              <span class="info-right-one">
+              <span
+                class="info-right-one"
+                style="display: flex;
+                justify-content: flex-end;"
+              >
                 <span class="info-left padl3">其它</span>
-                <IsSelect :myselect="opeeBeforeCheck.isSelect3_4" />
+                <span class="zidingyi">{{ opeeBeforeCheck.isSelect3_4qita }}</span>
               </span>
             </div>
             <div class="info-one">
@@ -359,9 +368,14 @@
                 <span class="info-left padl3">麻醉关注点</span>
                 <IsSelect :myselect="opeeBeforeCheck.isSelect4_1" />
               </span>
-              <span class="info-right-one">
+
+              <span
+                class="info-right-one"
+                style="display: flex;
+                justify-content: flex-end;"
+              >
                 <span class="info-left padl3">其它</span>
-                <IsSelect :myselect="opeeBeforeCheck.isSelect4_2" />
+                <span class="zidingyi">{{ opeeBeforeCheck.isSelect4_2qita }}</span>
               </span>
             </div>
             <div class="info-one padb10">
@@ -378,9 +392,14 @@
                 <span class="info-left padl3">术前术中特殊用药情况</span>
                 <IsSelect :myselect="opeeBeforeCheck.isSelect5_3" />
               </span>
-              <span class="info-right-one">
-                <span class="info-left padl3">其他</span>
-                <IsSelect :myselect="opeeBeforeCheck.isSelect5_4" />
+
+              <span
+                class="info-right-one"
+                style="display: flex;
+                justify-content: flex-end;"
+              >
+                <span class="info-left padl3">其它</span>
+                <span class="zidingyi">{{ opeeBeforeCheck.isSelect5_4qita }}</span>
               </span>
             </div>
             <InfoList
@@ -454,10 +473,19 @@
               title="实际手术方式确认："
             />
             <div class="info-one">
-              <span class="info-left padl5">手术用药,输血,冰冻报告的检查正确：</span>
+              <span class="info-left padl5">手术部位、体位、标识正确：</span>
               <span class="info-right-one">
                 <InfoList
                   :myselect="beforeLeaveRoomCheck.isSelect2"
+                  title=""
+                />
+              </span>
+            </div>
+            <div class="info-one">
+              <span class="info-left padl5">手术用药,输血,冰冻报告的检查正确：</span>
+              <span class="info-right-one">
+                <InfoList
+                  :myselect="beforeLeaveRoomCheck.isSelect3"
                   title=""
                 />
                 <!-- <span>是</span>
@@ -467,7 +495,7 @@
               </span>
             </div>
             <InfoList
-              :myselect="beforeLeaveRoomCheck.isSelect3"
+              :myselect="beforeLeaveRoomCheck.isSelect4_1"
               title="病理标本："
             />
             <InfoList
@@ -499,13 +527,14 @@
             <div class="info-one padb10">
               <span class="info-left padl3 ziti">各种管路：</span>
               <span class="info-right-one">
-                <span class="info-left padl3">静脉通路</span>
+                <span class="info-left padl3">动脉通路</span>
                 <IsSelect :myselect="beforeLeaveRoomCheck.isSelect7_1" />
               </span>
               <span class="info-right-one">
-                <span class="info-left padl3">动脉通路</span>
+                <span class="info-left padl3">静脉通路</span>
                 <IsSelect :myselect="beforeLeaveRoomCheck.isSelect7_2" />
               </span>
+
               <span class="info-right-one">
                 <span class="info-left padl3">气管插管</span>
                 <IsSelect :myselect="beforeLeaveRoomCheck.isSelect7_3" />
@@ -524,13 +553,7 @@
               </span>
               <span class="info-right-one guanluqita">
                 <div class="info-left padl3">其他：</div>
-                <span class="zidingyi" />
-                <div>
-                  <img
-                    src="./../../../assets/isFalse.png"
-                    alt=""
-                  >
-                </div>
+                <span class="zidingyi">{{ beforeLeaveRoomCheck.isSelect7_6qita }}</span>
               </span>
             </div>
             <div class="info-one padb10">
@@ -566,12 +589,12 @@
               </div>
             </div>
           </div>
-          <div class="qita">
+          <!-- <div class="qita">
             <span>其他：</span>
             <div class="text">
               {{ beforeLeaveRoomCheck.qita }}
             </div>
-          </div>
+          </div> -->
           <div class="qianming">
             <div class="qianming-list">
               <span>麻醉医师签名：</span>
@@ -687,6 +710,7 @@ export default {
         isSelect2: '3',
         isSelect3: '3',
         isSelect4: '3',
+        isSelect4_1: '3',
         isSelect5: '3',
         isSelect6: '3',
         pifu_buwei: '',
@@ -800,76 +824,21 @@ export default {
             this.opeeBeforeCheck.isSelect0 = this.changeIsTrueOrFalse(this.opeeBeforeCheckTable[0].value)
             this.opeeBeforeCheck.isSelect1 = this.changeIsTrueOrFalse(this.opeeBeforeCheckTable[1].value)
             this.opeeBeforeCheck.isSelect2 = this.changeIsTrueOrFalse(this.opeeBeforeCheckTable[2].value)
+            this.opeeBeforeCheck.isSelect6 = this.changeIsTrueOrFalse(this.opeeBeforeCheckTable[3].value)
+            this.opeeBeforeCheck.isSelect3_4qita = this.opeeBeforeCheckTable[4].value
+            this.opeeBeforeCheck.isSelect3_1 = this.changeIsTrue(this.opeeBeforeCheckTable[5].value)
+            this.opeeBeforeCheck.isSelect3_2 = this.changeIsTrue(this.opeeBeforeCheckTable[6].value)
+            this.opeeBeforeCheck.isSelect3_3 = this.changeIsTrue(this.opeeBeforeCheckTable[7].value)
 
-            if (this.opeeBeforeCheckTable[3].value.includes('|')) {
-              let select3Arr = this.opeeBeforeCheckTable[3].value.split('|')
-              select3Arr.forEach(item => {
-                if (item === '预计手术时间') {
-                  this.opeeBeforeCheck.isSelect3_1 = true
-                } else if (item === '预计失血量') {
-                  this.opeeBeforeCheck.isSelect3_2 = true
-                } else if (item === '手术关注点') {
-                  this.opeeBeforeCheck.isSelect3_3 = true
-                } else if (item === '其它') {
-                  this.opeeBeforeCheck.isSelect3_4 = true
-                }
-              })
-            } else if (!this.IsEmpty(this.opeeBeforeCheckTable[3].value)) {
-              let str = this.opeeBeforeCheckTable[3].value
-              if (str === '预计手术时间') {
-                this.opeeBeforeCheck.isSelect3_1 = true
-              } else if (str === '预计失血量') {
-                this.opeeBeforeCheck.isSelect3_2 = true
-              } else if (str === '手术关注点') {
-                this.opeeBeforeCheck.isSelect3_3 = true
-              } else if (str === '其它') {
-                this.opeeBeforeCheck.isSelect3_4 = true
-              }
-            }
-            if (this.opeeBeforeCheckTable[4].value.includes('|')) {
-              let select4Arr = this.opeeBeforeCheckTable[4].value.split('|')
-              select4Arr.forEach(item => {
-                if (item === '麻醉关注点') {
-                  this.opeeBeforeCheck.isSelect4_1 = true
-                } else if (item === '其它') {
-                  this.opeeBeforeCheck.isSelect4_2 = true
-                }
-              })
-            } else if (!this.IsEmpty(this.opeeBeforeCheckTable[4].value)) {
-              let str = this.opeeBeforeCheckTable[4].value
-              if (str === '麻醉关注点') {
-                this.opeeBeforeCheck.isSelect4_1 = true
-              } else if (str === '其它') {
-                this.opeeBeforeCheck.isSelect4_2 = true
-              }
-            }
-            if (this.opeeBeforeCheckTable[5].value.includes('|')) {
-              let select5Arr = this.opeeBeforeCheckTable[5].value.split('|')
-              select5Arr.forEach(item => {
-                if (item === '物品灭菌合格') {
-                  this.opeeBeforeCheck.isSelect5_1 = true
-                } else if (item === '仪器设备、植入物') {
-                  this.opeeBeforeCheck.isSelect5_2 = true
-                } else if (item === '术前术中特殊用药情况') {
-                  this.opeeBeforeCheck.isSelect5_3 = true
-                } else if (item === '其它') {
-                  this.opeeBeforeCheck.isSelect5_4 = true
-                }
-              })
-            } else if (!this.IsEmpty(this.opeeBeforeCheckTable[5].value)) {
-              let str = this.opeeBeforeCheckTable[5].value
-              if (str === '物品灭菌合格') {
-                this.opeeBeforeCheck.isSelect5_1 = true
-              } else if (str === '仪器设备、植入物') {
-                this.opeeBeforeCheck.isSelect5_2 = true
-              } else if (str === '术前术中特殊用药情况') {
-                this.opeeBeforeCheck.isSelect5_3 = true
-              } else if (str === '其它') {
-                this.opeeBeforeCheck.isSelect5_4 = true
-              }
-            }
-            this.opeeBeforeCheck.isSelect6 = this.changeIsTrueOrFalse(this.opeeBeforeCheckTable[6].value)
-            this.opeeBeforeCheck.qita = this.opeeBeforeCheckTable[7].value
+            this.opeeBeforeCheck.isSelect4_2qita = this.opeeBeforeCheckTable[8].value
+            this.opeeBeforeCheck.isSelect4_1 = this.changeIsTrue(this.opeeBeforeCheckTable[9].value)
+
+            this.opeeBeforeCheck.isSelect5_4qita = this.opeeBeforeCheckTable[10].value
+            this.opeeBeforeCheck.isSelect5_1 = this.changeIsTrue(this.opeeBeforeCheckTable[11].value)
+            this.opeeBeforeCheck.isSelect5_2 = this.changeIsTrue(this.opeeBeforeCheckTable[12].value)
+            this.opeeBeforeCheck.isSelect5_3 = this.changeIsTrue(this.opeeBeforeCheckTable[13].value)
+
+            this.opeeBeforeCheck.qita = this.opeeBeforeCheckTable[14].value
           }
 
           // 患者离开前
@@ -884,74 +853,36 @@ export default {
             this.beforeLeaveRoomCheck.isSelect2 = this.changeIsTrueOrFalse(this.beforeLeaveRoomCheckTable[2].value)
             this.beforeLeaveRoomCheck.isSelect3 = this.changeIsTrueOrFalse(this.beforeLeaveRoomCheckTable[3].value)
             this.beforeLeaveRoomCheck.isSelect4 = this.changeIsTrueOrFalse(this.beforeLeaveRoomCheckTable[4].value)
+
             this.beforeLeaveRoomCheck.isSelect5 = this.changeIsTrueOrFalse(this.beforeLeaveRoomCheckTable[5].value)
             this.beforeLeaveRoomCheck.isSelect6 = this.changeIsTrueOrFalse(this.beforeLeaveRoomCheckTable[6].value)
-
-            if (this.beforeLeaveRoomCheckTable[7].value.includes('|')) {
-              let select7Arr = this.beforeLeaveRoomCheckTable[7].value.split('|')
-              select7Arr.forEach(item => {
-                if (item === '静脉通路') {
-                  this.beforeLeaveRoomCheck.isSelect7_1 = true
-                } else if (item === '动脉通路') {
-                  this.beforeLeaveRoomCheck.isSelect7_2 = true
-                } else if (item === '气管插管') {
-                  this.beforeLeaveRoomCheck.isSelect7_3 = true
-                } else if (item === '伤口引流') {
-                  this.beforeLeaveRoomCheck.isSelect7_4 = true
-                } else if (item === '胃管') {
-                  this.beforeLeaveRoomCheck.isSelect7_5 = true
-                } else if (item === '尿管') {
-                  this.beforeLeaveRoomCheck.isSelect7_6 = true
-                }
-              })
-            } else if (!this.IsEmpty(this.beforeLeaveRoomCheckTable[7].value)) {
-              let str = this.beforeLeaveRoomCheckTable[7].value
-              if (str === '静脉通路') {
-                this.beforeLeaveRoomCheck.isSelect7_1 = true
-              } else if (str === '动脉通路') {
-                this.beforeLeaveRoomCheck.isSelect7_2 = true
-              } else if (str === '气管插管') {
-                this.beforeLeaveRoomCheck.isSelect7_3 = true
-              } else if (str === '伤口引流') {
-                this.beforeLeaveRoomCheck.isSelect7_4 = true
-              } else if (str === '胃管') {
-                this.beforeLeaveRoomCheck.isSelect7_5 = true
-              } else if (str === '尿管') {
-                this.beforeLeaveRoomCheck.isSelect7_6 = true
-              }
+            this.beforeLeaveRoomCheck.isSelect7_6qita = this.beforeLeaveRoomCheckTable[7].value
+            this.beforeLeaveRoomCheck.isSelect7_1 = this.changeIsTrue(this.beforeLeaveRoomCheckTable[9].value)
+            this.beforeLeaveRoomCheck.isSelect7_2 = this.changeIsTrue(this.beforeLeaveRoomCheckTable[10].value)
+            this.beforeLeaveRoomCheck.isSelect7_3 = this.changeIsTrue(this.beforeLeaveRoomCheckTable[11].value)
+            this.beforeLeaveRoomCheck.isSelect7_4 = this.changeIsTrue(this.beforeLeaveRoomCheckTable[12].value)
+            this.beforeLeaveRoomCheck.isSelect7_5 = this.changeIsTrue(this.beforeLeaveRoomCheckTable[13].value)
+            this.beforeLeaveRoomCheck.isSelect7_6 = this.changeIsTrue(this.beforeLeaveRoomCheckTable[14].value)
+            if (this.beforeLeaveRoomCheckTable[8].value === 1) {
+              this.beforeLeaveRoomCheck.isSelect8_1 = true
             }
-            if (this.beforeLeaveRoomCheckTable[8].value.includes('|')) {
-              let select8Arr = this.beforeLeaveRoomCheckTable[8].value.split('|')
-              select8Arr.forEach(item => {
-                if (item === '恢复室') {
-                  this.beforeLeaveRoomCheck.isSelect8_1 = true
-                } else if (item === '病房') {
-                  this.beforeLeaveRoomCheck.isSelect8_2 = true
-                } else if (item === 'ICU病房') {
-                  this.beforeLeaveRoomCheck.isSelect8_3 = true
-                } else if (item === '急诊') {
-                  this.beforeLeaveRoomCheck.isSelect8_4 = true
-                } else if (item === '离院') {
-                  this.beforeLeaveRoomCheck.isSelect8_5 = true
-                }
-              })
-            } else if (!this.IsEmpty(this.beforeLeaveRoomCheckTable[8].value)) {
-              let str = this.beforeLeaveRoomCheckTable[8].value
-              if (str === '恢复室') {
-                this.beforeLeaveRoomCheck.isSelect8_1 = true
-              } else if (str === '病房') {
-                this.beforeLeaveRoomCheck.isSelect8_2 = true
-              } else if (str === 'ICU病房') {
-                this.beforeLeaveRoomCheck.isSelect8_3 = true
-              } else if (str === '急诊') {
-                this.beforeLeaveRoomCheck.isSelect8_4 = true
-              } else if (str === '离院') {
-                this.beforeLeaveRoomCheck.isSelect8_5 = true
-              }
+
+            if (this.beforeLeaveRoomCheckTable[8].value === 2) {
+              this.beforeLeaveRoomCheck.isSelect8_2 = true
+            }
+            if (this.beforeLeaveRoomCheckTable[8].value === 3) {
+              this.beforeLeaveRoomCheck.isSelect8_3 = true
+            }
+            if (this.beforeLeaveRoomCheckTable[8].value === 4) {
+              this.beforeLeaveRoomCheck.isSelect8_4 = true
+            }
+            if (this.beforeLeaveRoomCheckTable[8].value === 5) {
+              this.beforeLeaveRoomCheck.isSelect8_5 = true
             }
             this.beforeLeaveRoomCheck.pifu_buwei = this.beforeLeaveRoomCheckTable[6].items[0].value
             this.beforeLeaveRoomCheck.pifu_chengdu = this.beforeLeaveRoomCheckTable[6].items[1].value
-            this.beforeLeaveRoomCheck.qita = this.beforeLeaveRoomCheckTable[9].value
+            this.beforeLeaveRoomCheck.isSelect4_1 = this.changeIsTrueOrFalse(this.beforeLeaveRoomCheckTable[15].value)
+            // this.beforeLeaveRoomCheck.qita = this.beforeLeaveRoomCheckTable[9].value
           }
         }
       })
@@ -964,6 +895,13 @@ export default {
         return '2'
       } else {
         return '3'
+      }
+    },
+    changeIsTrue (str) {
+      if (str === '是' || str === '有') {
+        return true
+      } else {
+        return false
       }
     },
     // 提示方法
@@ -979,6 +917,17 @@ export default {
   components: {
     InfoList,
     IsSelect
+  },
+  filters: {
+    changeGender: function (value) {
+      if (!value) return ''
+      if (value === '1') {
+        return '男'
+      }
+      if (value === '2') {
+        return '女'
+      }
+    }
   }
 }
 </script>
@@ -998,7 +947,6 @@ export default {
     flex-direction: column;
     .wenben-content-title {
       text-align: center;
-      border-bottom: 1px solid #000;
       font-weight: 600;
     }
     .wenben-content-info {
@@ -1023,7 +971,7 @@ export default {
         border-right: 1px solid #000;
         flex: 1;
         .info-isTrue {
-          height: 480px;
+          height: 500px;
           display: flex;
           flex-direction: column;
           font-size: 12px;
@@ -1072,7 +1020,7 @@ export default {
         border-right: 1px solid #000;
         flex: 1;
         .info-isTrue {
-          height: 480px;
+          height: 500px;
           display: flex;
           flex-direction: column;
           font-size: 12px;
@@ -1119,7 +1067,7 @@ export default {
       .before-leaveroom {
         flex: 1;
         .info-isTrue {
-          height: 480px;
+          height: 529px;
           display: flex;
           flex-direction: column;
           font-size: 12px;
@@ -1233,10 +1181,11 @@ export default {
   justify-content: flex-end;
 }
 .zidingyi {
-  width: 120px;
+  width: 150px;
   border-bottom: 1px solid #000;
   text-align: left;
   padding: 0 5px;
+  text-align: center;
 }
 .ziti {
   font-size: 16px;
@@ -1258,6 +1207,11 @@ export default {
   display: flex;
   font-size: 14px;
   width: 50%;
+}
+.col-60 {
+  display: flex;
+  font-size: 14px;
+  width: 60%;
 }
 .col-70 {
   display: flex;

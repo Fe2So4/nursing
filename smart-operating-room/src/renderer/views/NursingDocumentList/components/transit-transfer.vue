@@ -1377,6 +1377,7 @@ export default {
   background-color: #fff;
   padding: 10px;
   .container-title {
+    font-size: 16px;
     display: flex;
     border-bottom: 1px solid #000;
     align-items: center;
