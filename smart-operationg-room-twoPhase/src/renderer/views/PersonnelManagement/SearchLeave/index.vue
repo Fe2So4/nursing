@@ -1,9 +1,6 @@
 <template>
   <div>
-    123
-    <el-button
-      @click="handleClick"
-    />
+    <router-view />
   </div>
 </template>
 

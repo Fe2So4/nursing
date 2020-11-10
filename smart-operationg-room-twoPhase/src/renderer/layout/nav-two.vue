@@ -84,22 +84,22 @@ export default {
         {
           icon: 'iconfont icon-caidanxiangdao-',
           title: '人员管理',
-          path: '/personnel/search-leave',
+          path: '/personnel/personnel-file',
           children: [
             {
               icon: 'iconfont icon-guanli',
               title: '人员档案管理',
-              path: '/home/client-pathological-application',
+              path: '/personnel/personnel-file',
               children: [
                 {
                   icon: 'iconfont icon-guanli',
                   title: '档案信息维护',
-                  path: '/home/client-pathological-application'
+                  path: '/personnel/personnel-file/files-info-maintain'
                 },
                 {
                   icon: 'iconfont icon-guanli',
                   title: '档案信息查询',
-                  path: '/personnel/search-leave/personnel-file/files-info-select'
+                  path: '/personnel/personnel-file/files-info-select'
                 },
                 {
                   icon: 'iconfont icon-guanli',

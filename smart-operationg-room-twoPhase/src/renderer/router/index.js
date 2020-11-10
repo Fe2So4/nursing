@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from '../layout/index'
+import FilesInfoSelect from '@/views/PersonnelManagement/PersonnelFiles/FilesInfoSelect/index'
 Vue.use(Router)
 
 export default new Router({
@@ -27,44 +28,48 @@ export default new Router({
       path: '/personnel',
       name: 'Personnel',
       component: Layout,
-      redirect: '/personnel/search-leave',
+      redirect: '/personnel/personnel-file',
+      meta: {
+        title: '人员管理',
+        noNavs: false,
+        parent: 'Personnel'
+      },
       children: [
         {
-          path: '/personnel/search-leave',
+          path: 'personnel-file',
           name: 'PersonnelManagement',
-          // component: () => import('@/views/PersonnelManagement/PersonnelFiles/FilesInfoSelect/index'),
-          component: () => import('@/views/PersonnelManagement/SearchLeave/index'),
-          children: [
-            {
-              path: '/personnel/search-leave/personnel-file',
-              name: 'PersonnelFile',
-              component: () => import('@/views/PersonnelManagement/PersonnelFiles/index'),
-              redirect: '/personnel/search-leave/personnel-file/files-info-select',
-              meta: {
-                title: '人员档案管理',
-                noNavs: false,
-                parent: 'PersonnelManagement'
-              },
-              children: [
-                {
-                  path: '/personnel/search-leave/personnel-file/files-info-select',
-                  name: 'FilesInfoSelect',
-                  component: () => import('@/views/PersonnelManagement/PersonnelFiles/FilesInfoSelect/index'),
-                  meta: {
-                    title: '档案信息查询',
-                    noNavs: false,
-                    parent: 'PersonnelFile'
-                  }
-                }
-              ]
-            }
-          ],
           meta: {
-            title: '人员管理',
+            title: '人员档案管理',
             noNavs: false,
             parent: 'Personnel'
-          }
-
+          },
+          component: () => import('@/views/PersonnelManagement/SearchLeave/index'),
+          // redirect: '/personnel/personnel-file/files-info-select',
+          children: [
+            {
+              path: 'files-info-select',
+              name: 'FilesInfoSelect',
+              // component: () => import('@/views/PersonnelManagement/PersonnelFiles/FilesInfoSelect/index'),
+              component: FilesInfoSelect,
+              meta: {
+                title: '档案信息查询',
+                noNavs: false,
+                parent: 'PersonnelFile'
+              }
+            },
+            {
+              path: 'files-info-maintain',
+              name: 'FilesInfoMaintain',
+              component: () => import('@/views/PersonnelManagement/PersonnelFiles/FilesInfoMaintain/index'),
+              meta: {
+                title: '档案信息维护',
+                noNavs: false,
+                parent: 'PersonnelFile'
+              }
+            }
+            // ]
+            // }
+          ]
         }
       ]
     },
