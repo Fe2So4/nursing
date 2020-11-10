@@ -26,7 +26,6 @@
     <el-menu
       class="el-menu-vertical-demo"
       router
-
       :collapse="isCollapse"
       @open="handleOpen"
       @close="handleClose"
@@ -58,11 +57,6 @@ export default {
       fold: 'el-icon-s-fold',
       activeIndex: '手术派单',
       menuList: [
-        // {
-        //   icon:'el-icon-data-line',
-        //   title:'术中大屏',
-        //   path:'/home/large-screen'
-        // },
         {
           icon: 'iconfont icon-caidanxiangdao-',
           title: '手术派单',
@@ -105,7 +99,7 @@ export default {
                 {
                   icon: 'iconfont icon-guanli',
                   title: '档案信息查询',
-                  path: '/home/client-pathological-application'
+                  path: '/personnel/search-leave/personnel-file/files-info-select'
                 },
                 {
                   icon: 'iconfont icon-guanli',

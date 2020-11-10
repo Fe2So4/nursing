@@ -25,7 +25,7 @@
     </template>
   </el-submenu>
   <el-menu-item
-    @click="changeRoute(children.url)"
+    @click="changeRoute(children.path)"
     :class="children.parentId?'':'my-el-menu-item'"
     v-else
     :index="children.id"
@@ -59,6 +59,7 @@ export default {
   },
   methods: {
     changeRoute (to) {
+      console.log(to)
       if (to) {
         this.$router.push(to)
       }

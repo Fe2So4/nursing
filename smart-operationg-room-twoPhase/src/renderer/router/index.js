@@ -31,20 +31,40 @@ export default new Router({
       children: [
         {
           path: '/personnel/search-leave',
-          name: 'search-leave',
+          name: 'PersonnelManagement',
+          // component: () => import('@/views/PersonnelManagement/PersonnelFiles/FilesInfoSelect/index'),
           component: () => import('@/views/PersonnelManagement/SearchLeave/index'),
+          children: [
+            {
+              path: '/personnel/search-leave/personnel-file',
+              name: 'PersonnelFile',
+              component: () => import('@/views/PersonnelManagement/PersonnelFiles/index'),
+              redirect: '/personnel/search-leave/personnel-file/files-info-select',
+              meta: {
+                title: '人员档案管理',
+                noNavs: false,
+                parent: 'PersonnelManagement'
+              },
+              children: [
+                {
+                  path: '/personnel/search-leave/personnel-file/files-info-select',
+                  name: 'FilesInfoSelect',
+                  component: () => import('@/views/PersonnelManagement/PersonnelFiles/FilesInfoSelect/index'),
+                  meta: {
+                    title: '档案信息查询',
+                    noNavs: false,
+                    parent: 'PersonnelFile'
+                  }
+                }
+              ]
+            }
+          ],
           meta: {
             title: '人员管理',
             noNavs: false,
             parent: 'Personnel'
-          },
-          children: [
-            {
-              path: '',
-              name: ''
-              // components: ()=>import('')
-            }
-          ]
+          }
+
         }
       ]
     },

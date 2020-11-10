@@ -1,10 +1,21 @@
 <template>
-  <div>123</div>
+  <div>
+    123
+    <el-button
+      @click="handleClick"
+    />
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'SearchLeave'
+  name: 'SearchLeave',
+  methods: {
+    handleClick () {
+      console.log(122)
+      this.$router.push('/personnel/search-leave/personnel-file/files-info-select')
+    }
+  }
 }
 </script>
 
