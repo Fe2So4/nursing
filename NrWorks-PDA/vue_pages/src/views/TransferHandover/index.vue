@@ -21,34 +21,34 @@
         <van-cell title="接患者" class="cell-title">
         </van-cell>
         <van-cell title="病房交接" :value="step.patForwardingRoomState==='0' ? '[转运交接单]' : ''" @click="handleJump(0,'病房交接')">
-          <template #right-icon v-if="step.patForwardingRoomState==='1'">
+          <template #right-icon v-if="step.patForwardingRoomState==='2'">
             <van-icon name="checked" color="#30C76C"></van-icon>
           </template>
         </van-cell>
         <van-cell title="进手术室" :value="step.pointInRoomState==='0' ? '[转运交接单]' : ''" @click="handleJump(1,'进手术室')">
-          <template #right-icon v-if="step.pointInRoomState==='1'">
+          <template #right-icon v-if="step.pointInRoomState==='2'">
             <van-icon name="checked" color="#30C76C"></van-icon>
           </template>
         </van-cell>
         <van-cell title="送患者" class="cell-title">
         </van-cell>
         <van-cell title="出手术室" :value="step.pointOutRoomState==='0' ? '[转运交接单]' : ''" @click="handleJump(1,'出手术室')">
-          <template #right-icon v-if="step.pointOutRoomState==='1'">
+          <template #right-icon v-if="step.pointOutRoomState==='2'">
             <van-icon name="checked" color="#30C76C"></van-icon>
           </template>
         </van-cell>
         <van-cell title="进PACU" :value="step.pointPacuState==='0' ? '[转运交接单]' : ''" @click="handleJump(1,'进PACU')">
-          <template #right-icon v-if="step.pointPacuState==='1'">
+          <template #right-icon v-if="step.pointPacuState==='2'">
             <van-icon name="checked" color="#30C76C"></van-icon>
           </template>
         </van-cell>
         <van-cell title="出PACU" :value="step.outPacuState==='0' ? '[转运交接单]' : ''" @click="handleJump(1,'出PACU')">
-          <template #right-icon v-if="step.outPacuState==='1'">
+          <template #right-icon v-if="step.outPacuState==='2'">
             <van-icon name="checked" color="#30C76C"></van-icon>
           </template>
         </van-cell>
         <van-cell title="病房收治" :value="step.patRoomState==='0' ? '[转运交接单]' : ''" @click="handleJump(2,'病房收治')">
-          <template #right-icon v-if="step.patRoomState==='1'">
+          <template #right-icon v-if="step.patRoomState==='2'">
             <van-icon name="checked" color="#30C76C"></van-icon>
           </template>
         </van-cell>

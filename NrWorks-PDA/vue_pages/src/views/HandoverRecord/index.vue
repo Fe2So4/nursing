@@ -452,7 +452,7 @@ export default {
           obj.goodsJson = [{goods: this.recordForm.goodsJson, number: this.recordForm.number}]
           obj.inpatientWard = this.recordForm.inpatientWard
           obj.startTime = this.recordForm.startTime
-          obj.patForwardingRoomState = this.recordForm.signatureImage2 !== '' ? '1' : '0'
+          obj.patForwardingRoomState = this.recordForm.signatureImage2 !== '' ? '2' : '1'
           obj.carrier = this.recordForm.signatureImage2
           obj.suggest = this.recordForm.suggest
           obj.department = this.recordForm.department
@@ -502,7 +502,7 @@ export default {
             skinSize: this.recordForm.skinSize,
             signatureImage2: this.recordForm.signatureImage2
           }]
-          obj.pointInRoomState = this.recordForm.signatureImage2 !== '' ? '1' : '0'
+          obj.pointInRoomState = this.recordForm.signatureImage2 !== '' ? '2' : '1'
           break
         case '出手术室':
           obj.pointOutRoom = [{pulse: this.recordForm.pulse,
@@ -516,7 +516,7 @@ export default {
             skinSize: this.recordForm.skinSize,
             signatureImage2: this.recordForm.signatureImage2
           }]
-          obj.pointOutRoomState = this.recordForm.signatureImage2 !== '' ? '1' : '0'
+          obj.pointOutRoomState = this.recordForm.signatureImage2 !== '' ? '2' : '1'
           obj.pointOutRoomTime = '2020-03-04 08:49:38'
           submitUrl = submitOutOpeRoom
           break
@@ -532,7 +532,7 @@ export default {
             skinSize: this.recordForm.skinSize,
             signatureImage2: this.recordForm.signatureImage2
           }]
-          obj.pointPacuState = this.recordForm.signatureImage2 !== '' ? '1' : '0'
+          obj.pointPacuState = this.recordForm.signatureImage2 !== '' ? '2' : '1'
           obj.pointPacuTime = '2020-03-04 08:49:38'
           submitUrl = submitInPacu
           break
@@ -548,14 +548,14 @@ export default {
             skinSize: this.recordForm.skinSize,
             signatureImage2: this.recordForm.signatureImage2
           }]
-          obj.outPacuState = this.recordForm.signatureImage2 !== '' ? '1' : '0'
+          obj.outPacuState = this.recordForm.signatureImage2 !== '' ? '2' : '1'
           obj.outPacuTime = '2020-10-27 13:52'
           submitUrl = submitOutPacu
           break
         case '病房收治':
           submitUrl = submitPatRoom
           obj.arrivalTime = this.recordForm.startTime
-          obj.patRoomState = this.recordForm.signatureImage2 !== '' ? '1' : '0'
+          obj.patRoomState = this.recordForm.signatureImage2 !== '' ? '2' : '1'
           obj.recipient = this.recordForm.signatureImage2
       }
       request({

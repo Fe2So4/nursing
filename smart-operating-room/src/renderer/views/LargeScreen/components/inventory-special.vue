@@ -1,104 +1,174 @@
 <template>
   <div class="inventory-special">
-    <table
-      cellSpacing="0"
-      height="100%"
+    <el-collapse
+      v-model="activeNames"
+      @change="handleChange"
     >
-      <thead>
-        <tr>
-          <th>名称</th>
-          <th>术前</th>
-          <th>术中加</th>
-          <th>关闭前</th>
-          <th>关闭后</th>
-          <th>缝合后</th>
-          <th />
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            纱布
-          </td>
-          <td>
-            0
-          </td>
-          <td>
-            0
-          </td>
-          <td>
-            5
-          </td>
-          <td>
-            5
-          </td>
-          <td>
-            5
-          </td>
-          <td>
-            <i class="el-icon-check" />
-          </td>
-        </tr>
-        <tr
-          v-for="item in 10"
-          :key="'table'+item"
+      <el-collapse-item
+        v-for="(item,index) in list"
+        :key="'collapse'+index"
+        :name="index"
+        :title="item.label"
+      >
+        <template slot="title">
+          <div>
+            <span>{{ item.pName }}</span>
+            <span>{{ item.pId }}</span>
+          </div>
+        </template>
+        <table
+          cellSpacing="0"
+          height="100%"
         >
-          <td>
-            纱布
-          </td>
-          <td>
-            0
-          </td>
-          <td>
-            0
-          </td>
-          <td>
-            5
-          </td>
-          <td>
-            5
-          </td>
-          <td>
-            5
-          </td>
-          <td>
-            <i class="el-icon-close red" />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          <thead>
+            <tr>
+              <th>名称</th>
+              <th>术前</th>
+              <th>术中加</th>
+              <th>关闭前</th>
+              <th>关闭后</th>
+              <th>缝合后</th>
+              <th />
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(_item,_index) in item.deviceList"
+              :key="_index"
+            >
+              <td>
+                {{ _item.name }}
+              </td>
+              <td>
+                {{ _item.before }}
+              </td>
+              <td>
+                {{ _item.adding + _item.adding1 + _item.adding2 + _item.adding3 }}
+              </td>
+              <td>
+                {{ _item.before2 }}
+              </td>
+              <td>
+                {{ _item.after }}
+              </td>
+              <td>
+                {{ _item.after2 }}
+              </td>
+              <td>
+                <i
+                  v-if="_item.before===0||_item.adding===0||_item.adding1===0||_item.adding2===0||_item.adding3===0||_item.before2===0||_item.after===0||_item.after2===0"
+                  :class="{'el-icon-close':true,'red':true}"
+                />
+                <i
+                  v-else
+                  :class="{'el-icon-check':true}"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </el-collapse-item>
+    </el-collapse>
   </div>
 </template>
 
 <script>
+import request from '@/utils/request'
+import $bus from '@/utils/busScreen'
+import {mapState} from 'vuex'
+import {getSpecialData} from '@/api/large-screen'
 export default {
   name: 'InventorySpecial',
   data () {
     return {
-    //   { name: '腔脑室外引流管', value: 26, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
-    //   { name: '小纱布', value: 25, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
-    //   { name: '腔镜纱布', value: 24, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
-    //   { name: '纱布', value: 23, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
-    //   { name: '纱布垫', value: 22, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
-    //   { name: '脑棉', value: 21, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
-    //   { name: '纱条', value: 20, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
-    //   { name: '缝针', value: 19, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
-    //   { name: '刀片', value: 18, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
-    //   { name: '切口保护器', value: 17, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
-    //   { name: '长电刀头', value: 13, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
-    //   { name: '红色尿管', value: 12, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
-    //   { name: '皮片', value: 11, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
-    //   { name: '彩带', value: 10, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
-    //   { name: '临时阻断夹', value: 9, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
-    //   { name: '花生米', value: 8, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
-    //   { name: '穿刺针', value: 7, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
-    //   { name: '纱带', value: 6, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
-    //   { name: '线团', value: 5, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
-    //   { name: '血管夹', value: 4, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
-    //   { name: '长针头', value: 3, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
-    //   { name: '清洁片', value: 2, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
-    //   { name: '电刀头', value: 1, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 }
+      activeNames: 0,
+      list: []
     }
+  },
+  computed: {
+    ...mapState('LargeScreen', ['patientInfo'])
+  },
+  methods: {
+    handleChange () {
+
+    },
+    getSpecialData () {
+      request({
+        url: getSpecialData + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`,
+        method: 'get'
+      }).then(res => {
+        let data = JSON.parse(res.data.data.specialEquipmentStr)
+        data.forEach(item => {
+          let arr = []
+          arr.push({ name: item.insName, value: 0, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 })
+          arr.forEach(_item => {
+            item.items.before.forEach(item => {
+              if (item.insName === _item.insName) {
+                _item.before = item.number
+              }
+            })
+          })
+          arr.forEach(_item => {
+            item.items.adding.forEach(item => {
+              if (item.insName === _item.insName) {
+                _item.adding = item.number
+              }
+            })
+          })
+          arr.forEach(_item => {
+            item.items.adding1.forEach(item => {
+              if (item.insName === _item.insName) {
+                _item.adding1 = item.number
+              }
+            })
+          })
+          arr.forEach(_item => {
+            item.items.adding2.forEach(item => {
+              if (item.insName === _item.insName) {
+                _item.adding2 = item.number
+              }
+            })
+          })
+          arr.forEach(_item => {
+            item.items.adding3.forEach(item => {
+              if (item.insName === _item.insName) {
+                _item.adding3 = item.number
+              }
+            })
+          })
+          arr.forEach(_item => {
+            item.items.before2.forEach(item => {
+              if (item.insName === _item.insName) {
+                _item.before2 = item.number
+              }
+            })
+          })
+          arr.forEach(_item => {
+            item.items.after.forEach(item => {
+              if (item.insName === _item.insName) {
+                _item.after = item.number
+              }
+            })
+          })
+          arr.forEach(_item => {
+            item.items.after2.forEach(item => {
+              if (item.insName === _item.insName) {
+                _item.after2 = item.number
+              }
+            })
+          })
+          item.deviceList = arr
+        })
+        this.list = data
+      })
+    }
+  },
+  mounted () {
+    this.getSpecialData()
+    $bus.$on('getSpecialData', this.getSpecialData)
+  },
+  beforeDestroy () {
+    $bus.$off('getSpecialData')
   }
 }
 </script>
@@ -107,6 +177,12 @@ export default {
   .inventory-special{
     height: 100%;
     padding-bottom: 10px;
+    .el-collapse{
+      height: 100%;
+      .el-collapse-item{
+        margin-bottom: 10px;
+      }
+    }
     table{
       width: 100%;
       height: 100%;
@@ -163,6 +239,22 @@ export default {
           }
         }
       }
+    }
+    /deep/ .el-collapse-item__header{
+      background: unset;
+      background: #F5F8FD;
+      height: 55px;
+      line-height: 55px;
+      border-radius: 5px;
+      font-size: 18px;
+      text-indent: 10px;
+      color: #919398;
+      i{
+        color: #388FF7;
+      }
+    }
+    /deep/ .el-collapse-item__wrap{
+      border-bottom:unset;
     }
   }
 </style>

@@ -202,7 +202,6 @@ export default {
           state = '2'
         }
       }
-      console.log(this.recordForm)
       request({
         method: 'post',
         url: submitTimeout,
@@ -215,7 +214,9 @@ export default {
           cureNo: this.patientInfo.cureNo
         }
       }).then(res => {
-
+        if (res.data.code === 200) {
+          this.$notify({message: '保存成功', type: 'success'})
+        }
       })
     },
     handleShowSignature (param) {

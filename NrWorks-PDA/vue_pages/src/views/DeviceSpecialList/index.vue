@@ -282,35 +282,35 @@ export default {
       }
       switch (this.active) {
         case 0:
-          obj.specialEquipment.items.before = this.packageList
+          obj.specialEquipment[0].items.before = this.packageList
           obj.tsBeforeStatus = state
           break
         case 1:
-          obj.specialEquipment.items.adding = this.packageList
+          obj.specialEquipment[0].items.adding = this.packageList
           obj.tsAddingOne = state
           break
         case 2:
-          obj.specialEquipment.items.adding1 = this.packageList
+          obj.specialEquipment[0].items.adding1 = this.packageList
           obj.tsAddingTwo = state
           break
         case 3:
-          obj.specialEquipment.items.adding2 = this.packageList
+          obj.specialEquipment[0].items.adding2 = this.packageList
           obj.tsAddingThree = state
           break
         case 4:
-          obj.specialEquipment.items.adding3 = this.packageList
+          obj.specialEquipment[0].items.adding3 = this.packageList
           obj.tsAddingFour = state
           break
         case 5:
-          obj.specialEquipment.items.before2 = this.packageList
+          obj.specialEquipment[0].items.before2 = this.packageList
           obj.tsClossBefore = state
           break
         case 6:
-          obj.specialEquipment.items.after = this.packageList
+          obj.specialEquipment[0].items.after = this.packageList
           obj.tsClossAfter = state
           break
         case 7:
-          obj.specialEquipment.items.after2 = this.packageList
+          obj.specialEquipment[0].items.after2 = this.packageList
           obj.tsSutureAfter = state
       }
       obj.specialEquipment = JSON.stringify(obj.specialEquipment)

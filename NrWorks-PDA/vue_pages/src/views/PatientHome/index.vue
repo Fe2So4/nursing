@@ -5,8 +5,8 @@
       @click-left="onClickLeft"
       @click-right="onClickRight"
       left-arrow
-      right-text="大屏同步"
     >
+      <!-- right-text="大屏同步" -->
     </van-nav-bar>
     <PatiendCard/>
     <div class="operation-content">

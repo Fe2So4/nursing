@@ -10,8 +10,8 @@ if (process.env.NODE_ENV === 'production') {
   // 本地测试用这个
   api = {
     // baseURL: 'http://47.103.105.200:8090'
-    baseURL: 'http://192.168.1.58:5090'
-    // baseURL: 'http://192.168.1.118:5090'
+    // baseURL: 'http://192.168.1.58:5090'
+    baseURL: 'http://192.168.1.106:5090'
     // baseURL: 'http://192.168.1.191:8090'
   }
 }
