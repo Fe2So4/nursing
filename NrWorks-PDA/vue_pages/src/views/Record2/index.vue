@@ -90,7 +90,7 @@
             </van-dropdown-menu>
           </template>
         </van-cell>
-        <div v-show="recordForm.catheter.catheterName==='1' || recordForm.catheter.catheterName==='2'">
+        <div v-show="recordForm.catheter.catheterName==='2' || recordForm.catheter.catheterName==='3'">
           <van-cell title="型号：" value="内容" title-class="left-title" value-class="right-value">
             <template #right-icon>
               <van-field v-model="recordForm.catheter.catheterType"/>
@@ -250,19 +250,19 @@
         <van-cell title="病理：" value="内容">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="recordForm.pathologyName" :options="constraintOptions" />
+              <van-dropdown-item v-model="recordForm.pathology.pathologyName" :options="constraintOptions" />
             </van-dropdown-menu>
           </template>
         </van-cell>
-        <van-cell title="数量：" v-show="recordForm.pathologyName==='2'">
+        <van-cell title="数量：" v-show="recordForm.pathology.pathologyName==='2'">
             <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
               <van-dropdown-item v-model="recordForm.pathologyCount" :options="pathologyList" />
             </van-dropdown-menu>
           </template>
         </van-cell>
-        <van-cell v-show="recordForm.pathologyName==='2'" title="送验医生签名" title-class="sign-title" @click="handleShowSignature('sendDoc')"></van-cell>
-        <div v-if="recordForm.pathologyName==='2'&&recordForm.pathology.sendDoc!==''" style="text-align:center;">
+        <van-cell v-show="recordForm.pathology.pathologyName==='2'" title="送验医生签名" title-class="sign-title" @click="handleShowSignature('sendDoc')"></van-cell>
+        <div v-if="recordForm.pathology.pathologyName==='2'&&recordForm.pathology.sendDoc!==''" style="text-align:center;">
           <img :src="recordForm.pathology.sendDoc" alt="" class="signatureImage">
         </div>
         <van-cell title="植入物：" value="内容">
@@ -421,7 +421,7 @@ export default {
         }
       ],
       skinOptions: [{text: '完整', value: '1'}, {text: '不完整', value: '2'}],
-      locationOptions: [{text: '左上肢', value: '1'}, {text: '左下肢', value: '2'}, {text: '左上肢', value: '3'}, {text: '右下肢', value: '4'}],
+      locationOptions: [{text: '左上肢', value: '1'}, {text: '左下肢', value: '2'}, {text: '右上肢', value: '3'}, {text: '右下肢', value: '4'}],
       consciousnessOptions: [{text: '清醒', value: '1'}, {text: '烦躁', value: '2'}, {text: '昏迷', value: '3'}],
       recordForm: {
         anesthesiaMode: [],
@@ -510,7 +510,7 @@ export default {
     }
   },
   mounted () {
-    this.getData()
+    // this.getData()
   },
   methods: {
     handleFilterLabel (obj) {
@@ -585,7 +585,7 @@ export default {
       this.recordForm.skin = this.recordForm.skin
       this.recordForm.hospitalNo = this.patientInfo.hospitalNo
       this.recordForm.recordTwoState = '2'
-      this.recordForm.device = this.recordForm.device.join(',').replace(reg, '')
+      this.recordForm.device = this.recordForm.device.length > 0 ? this.recordForm.device.join(',').replace(reg, '') : ''
       this.recordForm.position = this.recordForm.position.join(',').replace(reg, '')
       this.recordForm.anesthesiaMode = this.recordForm.anesthesiaMode.join(',').replace(reg, '')
       request({
@@ -594,11 +594,8 @@ export default {
         data: this.recordForm
       }).then(res => {
         if (res.data.code === 200) {
-          this.recordForm.device = this.recordForm.device.split(',')
-          this.recordForm.position = this.recordForm.position.split(',')
-          this.recordForm.anesthesiaMode = this.recordForm.anesthesiaMode.split(',')
           this.$notify({type: 'success', message: '保存成功'})
-          this.getData()
+          // this.getData()
         }
       })
     },
