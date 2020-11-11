@@ -62,44 +62,7 @@
           :label="item.title"
           :name="item.name"
         >
-          <el-form
-            :inline="true"
-            size="mini"
-          >
-            <el-form-item label="姓名">
-              <el-input />
-            </el-form-item>
-            <el-form-item label="性别">
-              <el-select v-model="form.department">
-                <el-option
-                  v-for="item in deptList"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="技术职称">
-              <el-select v-model="form.department">
-                <el-option
-                  v-for="item in deptList"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="人员类别">
-              <el-select v-model="form.department">
-                <el-option
-                  v-for="item in deptList"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
-          </el-form>
+          sdasasa
         </el-tab-pane>
       </el-tabs>
     </div>

@@ -43,7 +43,7 @@ export default new Router({
             parent: 'Personnel'
           },
           // component: () => import('@/views/PersonnelManagement/SearchLeave/index'),
-          // redirect: '/personnel/personnel-file/files-info-select',
+          redirect: '/personnel/personnel-file/files-info-select',
           children: [
             {
               path: 'files-info-select',
