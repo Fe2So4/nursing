@@ -42,7 +42,7 @@ export default new Router({
             noNavs: false,
             parent: 'Personnel'
           },
-          component: () => import('@/views/PersonnelManagement/SearchLeave/index'),
+          // component: () => import('@/views/PersonnelManagement/SearchLeave/index'),
           // redirect: '/personnel/personnel-file/files-info-select',
           children: [
             {

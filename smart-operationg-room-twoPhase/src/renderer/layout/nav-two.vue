@@ -95,6 +95,26 @@ export default {
               path: '/home/client-nursing-document'
             }
           ]
+        },
+        {
+          icon: 'iconfont icon-guanli',
+          title: '病理申请',
+          path: '/home/client-pathological-application'
+        },
+        {
+          icon: 'iconfont icon-wenjuan',
+          title: '护理列表',
+          path: '/home/client-nursing-document'
+        },
+        {
+          icon: 'iconfont icon-shuju',
+          title: '统计查询',
+          path: '/home/client-statistical-query'
+        },
+        {
+          icon: 'iconfont icon-gongneng',
+          title: '连台手术',
+          path: '/personnel/search-leave'
         }
       ]
     }
