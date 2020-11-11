@@ -290,12 +290,16 @@ export default {
   display: table;
   width: 100%;
   border-bottom: none;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15);
+  border-radius: 5px;
 }
 .cal-week {
   box-sizing: border-box;
-  border-right: 2px rgb(239, 239, 239) solid;
+  /* border-right: 2px rgb(239, 239, 239) solid; */
   color: #fff;
-  background-color: #143298;
+  color: #888888;
+  /* background-color: #143298; */
   width: 14.28%;
   text-align: center;
   line-height: 40px;
@@ -337,12 +341,13 @@ export default {
 }
 .cal-table {
   width: 100%;
-  border: 1px solid #eee;
+  border: 1px solid #e5e5e5;
   text-align: center;
+  background-color: #fff;
   border-collapse: collapse;
 }
 .cal-table tr {
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #e5e5e5;
 }
 .cal-table tr td:first-child .cal-item > span,
 .cal-table tr td:last-child .cal-item > span {
@@ -392,11 +397,10 @@ export default {
 }
 .item-day {
   font-weight: 600;
-  padding: 5px 5px 5px;
+  padding: 5px 20px 5px;
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
   width: 100%;
-  height: 20px;
-  background-color: #ccc;
+  /* background-color: #ccc; */
 }
 </style>>

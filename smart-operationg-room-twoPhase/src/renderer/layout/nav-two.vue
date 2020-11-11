@@ -113,7 +113,7 @@ export default {
         },
         {
           icon: 'iconfont icon-gongneng',
-          title: '连台手术',
+          title: '请假查询',
           path: '/personnel/search-leave'
         }
       ]

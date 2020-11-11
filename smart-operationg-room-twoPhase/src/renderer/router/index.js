@@ -79,6 +79,16 @@ export default new Router({
             parent: 'Personnel'
           },
           component: () => import('@/views/PersonnelManagement/BasicDictionaryMaintain/index')
+        },
+        {
+          path: 'search-leave',
+          name: 'searchLeave',
+          meta: {
+            title: '请假查询',
+            noNavs: false,
+            parent: 'Personnel'
+          },
+          component: () => import('@/views/PersonnelManagement/SearchLeave/index')
         }
       ]
     },

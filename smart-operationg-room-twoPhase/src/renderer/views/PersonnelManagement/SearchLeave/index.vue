@@ -13,10 +13,7 @@ export default {
 
   name: 'SearchLeave',
   methods: {
-    handleClick () {
-      console.log(122)
-      this.$router.push('/personnel/search-leave/personnel-file/files-info-select')
-    }
+
   },
   components: {
     myCalendar
