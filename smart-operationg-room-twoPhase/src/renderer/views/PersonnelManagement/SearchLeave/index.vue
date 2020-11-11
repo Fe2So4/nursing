@@ -1,14 +1,8 @@
+
 <template>
-  <<<<<<< HEAD
   <div class="search-leave-container">
-    <myCalendar
-      :show-today="true"
-      @on-click="showInfo"
-    />
-    =======
     <div class="search-leave">
-      <router-view />
-      >>>>>>> 6a22e430c47e3ef5734f374dadc5a1896c2add01
+      <myCalendar />
     </div>
   </div>
 </template>
