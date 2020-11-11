@@ -133,7 +133,7 @@ export default {
         {
           icon: 'iconfont icon-gongneng',
           title: '连台手术',
-          path: '/home/client-continuous-surgery'
+          path: '/personnel/search-leave'
         }
       ]
     }
