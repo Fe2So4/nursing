@@ -1,9 +1,15 @@
 <template>
+  <<<<<<< HEAD
   <div class="search-leave-container">
     <myCalendar
       :show-today="true"
       @on-click="showInfo"
     />
+    =======
+    <div class="search-leave">
+      <router-view />
+      >>>>>>> 6a22e430c47e3ef5734f374dadc5a1896c2add01
+    </div>
   </div>
 </template>
 
@@ -25,8 +31,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.search-leave-container {
-  width: 100%;
-  height: calc(100% - 50px);
-}
+  .search-leave{
+    height: calc(100% - 24px);
+  }
 </style>

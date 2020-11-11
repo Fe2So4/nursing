@@ -31,8 +31,7 @@ export default new Router({
       redirect: '/personnel/personnel-file',
       meta: {
         title: '人员管理',
-        noNavs: false,
-        parent: 'Personnel'
+        noNavs: false
       },
       children: [
         {
@@ -72,14 +71,14 @@ export default new Router({
           ]
         },
         {
-          path: 'search-leave',
-          name: 'SearchLeave',
-          component: () => import('@/views/PersonnelManagement/SearchLeave/index'),
+          path: 'basic-dictionary-maintain',
+          name: 'basicDictionaryMaintain',
           meta: {
-            title: '请假查询',
+            title: '基础字典维护',
             noNavs: false,
             parent: 'Personnel'
-          }
+          },
+          component: () => import('@/views/PersonnelManagement/BasicDictionaryMaintain/index')
         }
       ]
     },

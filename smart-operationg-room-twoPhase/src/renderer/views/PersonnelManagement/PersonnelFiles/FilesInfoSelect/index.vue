@@ -1,6 +1,131 @@
 <template>
   <div class="files-info-select">
-    dasas
+    <div class="fis-top">
+      <el-form
+        :inline="true"
+        size="mini"
+      >
+        <el-form-item label="工作时间">
+          <el-date-picker
+            v-model="form.time"
+            type="datetimerange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+          />
+        </el-form-item>
+        <el-form-item label="姓名">
+          <el-input v-model="form.name" />
+        </el-form-item>
+        <el-form-item label="工作部门">
+          <el-select v-model="form.department">
+            <el-option
+              v-for="item in deptList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary">
+            查 询
+          </el-button>
+          <el-button>新 增</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+    <div class="fis-bottom">
+      <div class="fis-table">
+        <vxe-table
+          align="center"
+          :data="tableData"
+          size="mini"
+          height="100%"
+        >
+          <vxe-table-column
+            field="name"
+            title="工号"
+          />
+          <vxe-table-column
+            field="sex"
+            title="姓名"
+          />
+          <vxe-table-column
+            field="age"
+            title="工作部门"
+          />
+          <vxe-table-column
+            field="age"
+            title="层级"
+          />
+          <vxe-table-column
+            field="age"
+            title="参加工作时间"
+          />
+          <vxe-table-column
+            field="age"
+            title="年假"
+          />
+          <vxe-table-column
+            field="age"
+            title="操作"
+          >
+            <template>
+              <el-button type="text">
+                查看
+              </el-button>
+              <span class="option-line">|</span>
+              <el-button type="text">
+                编辑
+              </el-button>
+              <span class="option-line">|</span>
+              <el-button type="text">
+                删除
+              </el-button>
+            </template>
+          </vxe-table-column>
+        </vxe-table>
+      </div>
+      <div class="fis-pagination">
+        <el-form
+          :inline="true"
+          size="mini"
+        >
+          <el-form-item>
+            共 400 条
+          </el-form-item>
+          <el-form-item>
+            <el-select
+              v-model="pageList[0].value"
+              style="width:134px;"
+            >
+              <el-option
+                v-for="item in pageList"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item>
+            <el-pagination
+              layout="prev, pager, next"
+              :total="50"
+            />
+          </el-form-item>
+          <el-form-item style="margin-right:unset;">
+            前往
+          </el-form-item>
+          <el-form-item style="margin-right:unset;">
+            <el-input style="width:64px;" />
+          </el-form-item>
+          <el-form-item style="margin-right:unset;">
+            页
+          </el-form-item>
+        </el-form>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -9,7 +134,24 @@ export default {
   name: 'FilesInfoSelect',
   data () {
     return {
-
+      form: {
+        name: '',
+        time: '',
+        startTime: '',
+        endTime: '',
+        department: ''
+      },
+      pageList: [{value: '20', label: '20条/页'}, {value: '30', label: '30条/页'}],
+      deptList: [
+        {
+          label: '部门1',
+          value: '1'
+        }, {
+          label: '部门2',
+          value: '2'
+        }
+      ],
+      tableData: [{name: 'ad', sex: 'ada', age: 'ad'}, {name: 'ad', sex: 'ada', age: 'ad'}]
     }
   },
   methods: {
@@ -18,6 +160,55 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+  .files-info-select{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    .fis-top{
+      padding: 20px 20px;
+      background-color: #FFFFFF;
+      box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+      border-radius: 5px;
+      .el-form{
+        .el-form-item{
+          margin-bottom: unset;
+        }
+      }
+    }
+    .fis-bottom{
+      margin-top: 10px;
+      overflow: hidden;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #FFFFFF;
+      box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15);
+      border-radius: 5px;
+      .fis-table{
+        flex: 1;
+        .option-line{
+          // vertical-align: middle;
+          // font-size: 20px;
+          display: inline-block;
+        }
+        .el-button{
+          vertical-align: middle;
+          &:nth-last-child(1){
+            color:#FF5454;
+          }
+        }
+      }
+      .fis-pagination{
+        padding: 40px 0;
+        display: flex;
+        justify-content: center;
+        .el-form{
+          .el-form-item{
+            margin-bottom:unset;
+          }
+        }
+      }
+    }
+  }
 </style>

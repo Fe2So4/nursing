@@ -64,8 +64,12 @@ export default {
     }
     .el-main{
       background: #f3f5fa;
+      box-sizing: border-box;
+      // height: calc(100% - 24px);
       padding-bottom: 34px;
       position: relative;
+      display: flex;
+      flex-direction: column;
       box-sizing: border-box;
       height: 100%;
       .copyright{

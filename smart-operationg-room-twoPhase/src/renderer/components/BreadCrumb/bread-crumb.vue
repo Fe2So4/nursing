@@ -63,6 +63,9 @@ export default {
 
 <style lang='scss' scoped>
   .bread-crumb{
-
+    display: flex;
+    // vertical-align: middle;
+    align-items: center;
+    padding-bottom: 20px;
   }
 </style>
