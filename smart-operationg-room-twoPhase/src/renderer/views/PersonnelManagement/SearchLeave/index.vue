@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="search-leave">
     <router-view />
   </div>
 </template>
@@ -16,6 +16,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+  .search-leave{
+    height: calc(100% - 24px);
+  }
 </style>

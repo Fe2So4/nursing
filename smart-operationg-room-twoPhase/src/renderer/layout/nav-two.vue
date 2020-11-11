@@ -59,30 +59,6 @@ export default {
       menuList: [
         {
           icon: 'iconfont icon-caidanxiangdao-',
-          title: '手术派单',
-          path: '/personnel/search-leave',
-          children: [
-            {
-              icon: 'iconfont icon-guanli',
-              title: '病理申请',
-              path: '/home/client-pathological-application',
-              children: [
-                {
-                  icon: 'iconfont icon-guanli',
-                  title: '病理申请',
-                  path: '/home/client-pathological-application'
-                }
-              ]
-            },
-            {
-              icon: 'iconfont icon-wenjuan',
-              title: '护理列表',
-              path: '/home/client-nursing-document'
-            }
-          ]
-        },
-        {
-          icon: 'iconfont icon-caidanxiangdao-',
           title: '人员管理',
           path: '/personnel/personnel-file',
           children: [
@@ -109,31 +85,16 @@ export default {
               ]
             },
             {
+              icon: 'iconfont icon-guanli',
+              title: '基础字典维护',
+              path: '/personnel/basic-dictionary-maintain'
+            },
+            {
               icon: 'iconfont icon-wenjuan',
               title: '出勤排班管理',
               path: '/home/client-nursing-document'
             }
           ]
-        },
-        {
-          icon: 'iconfont icon-guanli',
-          title: '病理申请',
-          path: '/home/client-pathological-application'
-        },
-        {
-          icon: 'iconfont icon-wenjuan',
-          title: '护理列表',
-          path: '/home/client-nursing-document'
-        },
-        {
-          icon: 'iconfont icon-shuju',
-          title: '统计查询',
-          path: '/home/client-statistical-query'
-        },
-        {
-          icon: 'iconfont icon-gongneng',
-          title: '连台手术',
-          path: '/home/client-continuous-surgery'
         }
       ]
     }

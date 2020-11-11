@@ -10,6 +10,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+ .personnel-files{
+   height: calc(100% - 24px);
+ }
 </style>
