@@ -73,7 +73,7 @@
                 v-for="(item,index) in 6"
                 :key="index"
               >
-                123
+                {{ item }}
               </div>
             </div>
           </td>
