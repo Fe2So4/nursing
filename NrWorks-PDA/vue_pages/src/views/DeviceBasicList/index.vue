@@ -170,7 +170,7 @@ export default {
             sign = 'xsFhQm'
             break
         }
-        this.sign1 = this.opePeopleInfo.userinsName
+        this.sign1 = this.opePeopleInfo.userName
         this.recordForm[sign] = this.sign1
       })
     },
@@ -206,7 +206,7 @@ export default {
             sign = 'xhFhQm'
             break
         }
-        this.sign2 = this.opePeopleInfo.userinsName
+        this.sign2 = this.opePeopleInfo.userName
         this.recordForm[sign] = this.sign2
       })
     },
@@ -240,34 +240,50 @@ export default {
               case 0:
                 this.packageList = data.basicEquipment.before
                 this.state = data.beforeStatus
+                this.sign1 = data.xsSqQm
+                this.sign2 = data.xhSqQm
                 break
               case 1:
                 this.packageList = data.basicEquipment.adding
                 this.state = data.addingOne
+                this.sign1 = data.xsOneQm
+                this.sign2 = data.xhOneQm
                 break
               case 2:
                 this.packageList = data.basicEquipment.adding1
                 this.state = data.addingTwo
+                this.sign1 = data.xsTwoQm
+                this.sign2 = data.xhTwoQm
                 break
               case 3:
                 this.packageList = data.basicEquipment.adding2
                 this.state = data.addingThree
+                this.sign1 = data.xsThreeQm
+                this.sign2 = data.xhThreeQm
                 break
               case 4:
                 this.packageList = data.basicEquipment.adding3
                 this.state = data.addingFour
+                this.sign1 = data.xsFourQm
+                this.sign2 = data.xhFourQm
                 break
               case 5:
                 this.packageList = data.basicEquipment.before2
                 this.state = data.clossBefore
+                this.sign1 = data.xsClossQm
+                this.sign2 = data.xhClossQm
                 break
               case 6:
                 this.packageList = data.basicEquipment.after
                 this.state = data.clossAfter
+                this.sign1 = data.xsAllClossQm
+                this.sign2 = data.xhAllClossQm
                 break
               case 7:
                 this.packageList = data.basicEquipment.after2
                 this.state = data.sutureAfter
+                this.sign1 = data.xsFhQm
+                this.sign2 = data.xhFhQm
                 break
             }
           }
@@ -351,7 +367,10 @@ export default {
         method: 'post',
         data: obj
       }).then(res => {
-        this.getPackageList()
+        if (res.data.code === 200) {
+          this.getPackageList()
+          this.$notify({type: 'success', message: '保存成功'})
+        }
       }
       )
     },

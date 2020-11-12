@@ -53,6 +53,8 @@ export default {
   .pagination{
     padding: 40px 0;
     display: flex;
+    height: 112px;
+    overflow: hidden;
     justify-content: center;
     .el-form{
       .el-form-item{
