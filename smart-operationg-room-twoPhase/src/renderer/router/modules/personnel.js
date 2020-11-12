@@ -70,7 +70,7 @@ const personnelRoutes = {
         noNavs: false,
         parent: 'Personnel'
       },
-      component: () => import('@/views/PersonnelManagement/AttendanceManagement/index'),
+      component: () => import('@/views/PersonnelManagement/index'),
       children: [
         {
           path: 'maintenance',
@@ -80,6 +80,7 @@ const personnelRoutes = {
             noNavs: false,
             parent: 'attendanceManagement'
           },
+          component: () => import('@/views/PersonnelManagement/AttendanceManagement/index'),
           redirect: '/personnel/attendance/maintenance/attendance-maintenance',
           children: [
             {
@@ -91,7 +92,28 @@ const personnelRoutes = {
                 noNavs: false,
                 parent: 'attendanceManagement'
               }
+            },
+            {
+              path: 'attendance-management',
+              name: 'attendanceMaintenance',
+              component: () => import('@/views/PersonnelManagement/AttendanceManagement/AttendanceManagement/index.vue'),
+              meta: {
+                title: '业务分组管理',
+                noNavs: false,
+                parent: 'attendanceManagement'
+              }
+            },
+            {
+              path: 'contrast',
+              name: 'attendanceMaintenance',
+              component: () => import('@/views/PersonnelManagement/AttendanceManagement/AttendanceMaintenance/AttendanceMaintenance.vue'),
+              meta: {
+                title: '业务带教班次对照',
+                noNavs: false,
+                parent: 'attendanceManagement'
+              }
             }
+
           ]
         },
         {
