@@ -495,11 +495,11 @@
               </span>
             </div>
             <InfoList
-              :myselect="beforeLeaveRoomCheck.isSelect4_1"
+              :myselect="beforeLeaveRoomCheck.isSelect4"
               title="病理标本："
             />
             <InfoList
-              :myselect="beforeLeaveRoomCheck.isSelect4"
+              :myselect="beforeLeaveRoomCheck.isSelect4_1"
               title="病理标本号核对正确："
             />
             <InfoList
@@ -863,20 +863,20 @@ export default {
             this.beforeLeaveRoomCheck.isSelect7_4 = this.changeIsTrue(this.beforeLeaveRoomCheckTable[12].value)
             this.beforeLeaveRoomCheck.isSelect7_5 = this.changeIsTrue(this.beforeLeaveRoomCheckTable[13].value)
             this.beforeLeaveRoomCheck.isSelect7_6 = this.changeIsTrue(this.beforeLeaveRoomCheckTable[14].value)
-            if (this.beforeLeaveRoomCheckTable[8].value === 1) {
+            if (this.beforeLeaveRoomCheckTable[8].value === 0) {
               this.beforeLeaveRoomCheck.isSelect8_1 = true
             }
 
-            if (this.beforeLeaveRoomCheckTable[8].value === 2) {
+            if (this.beforeLeaveRoomCheckTable[8].value === 1) {
               this.beforeLeaveRoomCheck.isSelect8_2 = true
             }
-            if (this.beforeLeaveRoomCheckTable[8].value === 3) {
+            if (this.beforeLeaveRoomCheckTable[8].value === 2) {
               this.beforeLeaveRoomCheck.isSelect8_3 = true
             }
-            if (this.beforeLeaveRoomCheckTable[8].value === 4) {
+            if (this.beforeLeaveRoomCheckTable[8].value === 3) {
               this.beforeLeaveRoomCheck.isSelect8_4 = true
             }
-            if (this.beforeLeaveRoomCheckTable[8].value === 5) {
+            if (this.beforeLeaveRoomCheckTable[8].value === 4) {
               this.beforeLeaveRoomCheck.isSelect8_5 = true
             }
             this.beforeLeaveRoomCheck.pifu_buwei = this.beforeLeaveRoomCheckTable[6].items[0].value

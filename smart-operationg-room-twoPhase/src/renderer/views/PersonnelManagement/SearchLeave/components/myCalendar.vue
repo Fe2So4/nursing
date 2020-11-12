@@ -45,32 +45,41 @@
         </div>
       </div>
     </div>
-
-    <table
-      id="table"
-      class="cal-table mb20"
-    >
-      <tr
-        v-for="(item, itemIndex) in calendar.dayList"
-        :key="itemIndex"
+    <el-scrollbar style="height:700px">
+      <table
+        id="table"
+        class="cal-table mb20"
       >
-        <td
-          v-for="key in item"
-          :key="key.date"
-          :class="{ 'bg-grey': key.disable }"
+        <tr
+          v-for="(item, itemIndex) in calendar.dayList"
+          :key="itemIndex"
         >
-          <div
-            class="cal-item"
-            :class="{ 'cal-active': calendar.isDay == key.date }"
+          <td
+            v-for="key in item"
+            :key="key.date"
+            :class="{ 'bg-grey': key.disable }"
           >
-            <div class="item-day">
-              {{ key.day }}
+            <div
+              class="cal-item"
+              :class="{ 'cal-active': calendar.isDay == key.date }"
+            >
+              <div style="height:44px">
+                <div class="item-day">
+                  {{ key.day }}
+                </div>
+              </div>
+              <div
+                class="item-type"
+                v-for="(item,index) in 6"
+                :key="index"
+              >
+                123
+              </div>
             </div>
-            <div class="item-type" />
-          </div>
-        </td>
-      </tr>
-    </table>
+          </td>
+        </tr>
+      </table>
+    </el-scrollbar>
   </div>
 </template>
 
@@ -205,7 +214,8 @@ export default {
     },
     getPrevMonth () {
       // 上一月
-      if (this.calendar.month !== 1) {
+      console.log(this.calendar.month)
+      if (this.calendar.month !== '01') {
         this.calendar.month = this.initDate(--this.calendar.month)
       } else {
         this.calendar.month = 12
@@ -253,7 +263,10 @@ export default {
   }
 }
 </script>
-<style >
+<style lang="scss" scoped >
+/deep/ .el-scrollbar__wrap{
+  overflow-x: hidden !important;
+}
 .ivu-affix {
   background: #fff;
 }
@@ -340,6 +353,8 @@ export default {
   color: #3583f7;
 }
 .cal-table {
+  height: 100%;
+  overflow: hidden;
   width: 100%;
   border: 1px solid #e5e5e5;
   text-align: center;
@@ -363,8 +378,9 @@ export default {
 }
 
 .cal-item {
+  position: relative;
   width: 100%;
-  min-height: 120px;
+  height: 160px;
   overflow: hidden;
 }
 .cal-item > span {
@@ -376,9 +392,28 @@ export default {
   line-height: 32px;
   font-size: 16px;
 }
-.cal-active > span {
-  color: #fff !important;
-  background: #3583f7;
+.cal-item .item-type {
+  width: 60%;
+  text-align: left;
+  border-left: 1px solid #366FE2;
+  /* padding-left: 0 20px; */
+  margin: 0 15px;
+  background-color: #DEE9FF;
+  padding-left: 10px;
+  margin-bottom: 5px;
+}
+.cal-active .item-day {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: #fff !important;
+    background: #3583f7;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .cal-time-list {
   font-size: 12px;
@@ -397,7 +432,7 @@ export default {
 }
 .item-day {
   font-weight: 600;
-  padding: 5px 20px 5px;
+  padding: 10px;
   display: flex;
   justify-content: flex-end;
   width: 100%;

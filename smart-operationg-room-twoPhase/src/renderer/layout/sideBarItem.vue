@@ -2,14 +2,14 @@
   <el-submenu
     :popper-class="children.parentId?'':'sub-popper'"
     v-if="children.children"
-    :index="children.title"
+    :index="children.path"
   >
     <template v-if="children.children">
       <side-bar-item
         v-for="item in children.children"
         :menu="menu + 1"
         :children="item"
-        :key="item.title"
+        :key="item.path"
       />
     </template>
     <template slot="title">
@@ -28,7 +28,7 @@
     @click="changeRoute(children.path)"
     :class="children.parentId?'':'my-el-menu-item'"
     v-else
-    :index="children.id"
+    :index="children.path"
   >
     <!-- <i
       v-if="children.icon"
@@ -53,15 +53,24 @@ export default {
 
     }
   },
-  props: ['children', 'menu', 'isCollapse', 'activeIndex'],
+  props: ['children', 'menu', 'activeIndex'],
   mounted () {
-
+    setTimeout(() => {
+      var width = document.getElementById('sideBar') ? document.getElementById('sideBar').clientWidth : 0
+      console.log(width)
+      this.$store.dispatch('changeView', width ? width + 20 : width)
+    }, 0)
   },
   methods: {
     changeRoute (to) {
       console.log(to)
       if (to) {
         this.$router.push(to)
+        setTimeout(() => {
+          var width = document.getElementById('sideBar') ? document.getElementById('sideBar').clientWidth : 0
+          console.log(width)
+          this.$store.dispatch('changeView', width ? width + 20 : width)
+        }, 0)
       }
     }
 
@@ -109,4 +118,12 @@ export default {
 //     border-right: unset;
 //   }
 // }
+.line{
+  width: 6px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 56px;
+  background: #6699FF;
+}
 </style>

@@ -1,17 +1,15 @@
 <template>
-  <div id="app">
+  <div>
     <router-view />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'SmartOperatingRoom'
 
 }
 </script>
 
 <style>
-/* CSS */
 
 </style>

@@ -2,13 +2,17 @@ import {reqOperationOrders, reqgetFloor, reqgetRoomByFloor, reqgetNurseDict, req
 
 const state = {
   floor: [],
-  isSend: '0'
+  isSend: '0',
+  marginLeft: 0
 }
 
 const mutations = {
   // SAVE_USERINFO (state, data) {
   //   state.userInfo = data.data || {}
   // }
+  SET_MARGINLEFT: (state, width) => {
+    state.marginLeft = width
+  },
   SAVE_FLOOR (state, data) {
     state.floor = data
   },
@@ -18,6 +22,9 @@ const mutations = {
 }
 
 const actions = {
+  changeView ({ commit }, width) {
+    commit('SET_MARGINLEFT', width)
+  },
   // 获取楼层列表
   async ReqgetFloor ({ commit }) {
     let res = await reqgetFloor()
