@@ -365,7 +365,7 @@
           </span>
           <span style="marginLeft:6px">
             <span>灭菌注射用水</span>
-            <IsSelect :myselect="rinse.rinseName[0] === '2'?true:false" />
+            <IsSelect :myselect="rinse.rinseList[0] === '2'?true:false" />
           </span>
           <span class="input-div mgl5">
             <span style="marginLeft:8px">药液</span>

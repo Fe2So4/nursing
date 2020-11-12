@@ -428,10 +428,10 @@ export default {
     // 查询数据
     search () {
       let obj = {
-        // cureNo: 1010,
-        cureNo: this.$store.state['nursing-document-list'].cureNo,
-        // hospitalNo: 666
-        hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
+        cureNo: 1010,
+        // cureNo: this.$store.state['nursing-document-list'].cureNo,
+        hospitalNo: 666
+        // hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
       }
       this.$store.dispatch('ReqNursingDocumentJiChu', obj).then(res => {
         console.log(res)
@@ -470,54 +470,54 @@ export default {
           // if (wenshuData.basicEquipment && this.IsEmpty(wenshuData.basicEquipment.items)) {
           let arr = []
           this.basicEquipmentStr = wenshuData.basicEquipment
-          if (this.basicEquipmentStr && this.basicEquipmentStr.items) {
-            this.basicEquipmentStr.items.adding.forEach(item => {
+          if (this.basicEquipmentStr) {
+            this.basicEquipmentStr.adding.forEach(item => {
               let obj = {
                 name: item.insName
               }
-              this.basicEquipmentStr.items.before.forEach(bItem => {
+              this.basicEquipmentStr.before.forEach(bItem => {
                 if (bItem.insName === item.insName) {
                   obj.before = bItem.number
                   return false
                 }
               })
-              this.basicEquipmentStr.items.adding.forEach(bItem => {
+              this.basicEquipmentStr.adding.forEach(bItem => {
                 if (bItem.insName === item.insName) {
                   obj.adding = bItem.number
                   return false
                 }
               })
-              this.basicEquipmentStr.items.adding1.forEach(bItem => {
+              this.basicEquipmentStr.adding1.forEach(bItem => {
                 if (bItem.insName === item.insName) {
                   obj.adding1 = bItem.number
                   return false
                 }
               })
-              this.basicEquipmentStr.items.adding2.forEach(bItem => {
+              this.basicEquipmentStr.adding2.forEach(bItem => {
                 if (bItem.insName === item.insName) {
                   obj.adding2 = bItem.number
                   return false
                 }
               })
-              this.basicEquipmentStr.items.adding3.forEach(bItem => {
+              this.basicEquipmentStr.adding3.forEach(bItem => {
                 if (bItem.insName === item.insName) {
                   obj.adding3 = bItem.number
                   return false
                 }
               })
-              this.basicEquipmentStr.items.before2.forEach(bItem => {
+              this.basicEquipmentStr.before2.forEach(bItem => {
                 if (bItem.insName === item.insName) {
                   obj.before2 = bItem.number
                   return false
                 }
               })
-              this.basicEquipmentStr.items.after.forEach(bItem => {
+              this.basicEquipmentStr.after.forEach(bItem => {
                 if (bItem.insName === item.insName) {
                   obj.after = bItem.number
                   return false
                 }
               })
-              this.basicEquipmentStr.items.after2.forEach(bItem => {
+              this.basicEquipmentStr.after2.forEach(bItem => {
                 if (bItem.insName === item.insName) {
                   obj.after2 = bItem.number
                   return false

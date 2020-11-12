@@ -1,5 +1,8 @@
 <template>
-  <div class="layout-aside">
+  <div
+    id="sideBar"
+    class="layout-aside"
+  >
     <!-- <el-menu
       :default-active="$route.path"
       :collapse="isCollapse"
@@ -23,22 +26,29 @@
         />
       </el-menu-item>
     </el-menu> -->
-    <el-menu
-      class="el-menu-vertical-demo"
-      router
-      :collapse="isCollapse"
-      @open="handleOpen"
-      @close="handleClose"
-    >
-      <side-bar-item
-        :collapse="isCollapse"
-        :key="item.id"
-        :children="item"
-        :menu="1"
-        v-for="item in menuList"
-        class="firstMenu"
-      />
-    </el-menu>
+    <transition name="slide-left">
+      <div v-show="show">
+        <el-menu
+          default-active="/personnel/search-leave"
+          class="el-menu-vertical-demo"
+          router
+          :collapse="false"
+          @open="handleOpen"
+          @select="handleSelect"
+          @close="handleClose"
+        >
+          <side-bar-item
+            :active-index="activeIndex"
+            :collapse="isCollapse"
+            :key="item.path"
+            :children="item"
+            :menu="1"
+            v-for="item in menuList"
+            class="firstMenu"
+          />
+        </el-menu>
+      </div>
+    </transition>
     <div
       :class="fold"
       class="collapse-icon"
@@ -53,10 +63,16 @@ export default {
   name: 'Navs',
   data () {
     return {
+      show: true,
       isCollapse: false,
       fold: 'el-icon-s-fold',
-      activeIndex: '手术派单',
+      activeIndex: '/personnel/search-leave',
       menuList: [
+        {
+          icon: 'iconfont icon-gongneng',
+          title: '请假查询',
+          path: '/personnel/search-leave'
+        },
         {
           icon: 'iconfont icon-caidanxiangdao-',
           title: '人员管理',
@@ -80,7 +96,7 @@ export default {
                 {
                   icon: 'iconfont icon-guanli',
                   title: '公务员信息维护',
-                  path: '/personnel/personnel-file/civil-servant-info-maintain'
+                  path: '/home/client-pathological-application'
                 }
               ]
             },
@@ -92,60 +108,83 @@ export default {
             {
               icon: 'iconfont icon-wenjuan',
               title: '出勤排班管理',
-              path: '/home/client-nursing-document'
+              children: [
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '排班规则维护',
+                  children: [
+                    {
+                      icon: 'iconfont icon-guanli',
+                      title: '班次时段维护',
+                      path: '/personnel/attendance/maintenance/attendance-maintenance'
+                    },
+                    {
+                      icon: 'iconfont icon-guanli',
+                      title: '业务分组管理',
+                      path: '/personnel/business/management'
+                    },
+                    {
+                      icon: 'iconfont icon-guanli',
+                      title: '业务带教班次对照',
+                      path: '/personnel/business/contrast'
+                    }
+                  ]
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '出勤排班发布',
+                  children: [
+                  ]
+
+                }
+              ]
+
             }
+
           ]
-        },
-        // {
-        //   icon: 'iconfont icon-guanli',
-        //   title: '病理申请',
-        //   path: '/home/client-pathological-application'
-        // },
-        // {
-        //   icon: 'iconfont icon-wenjuan',
-        //   title: '护理列表',
-        //   path: '/home/client-nursing-document'
-        // },
-        // {
-        //   icon: 'iconfont icon-shuju',
-        //   title: '统计查询',
-        //   path: '/home/client-statistical-query'
-        // },
-        {
-          icon: 'iconfont icon-gongneng',
-          title: '请假查询',
-          path: '/personnel/search-leave'
         }
+
       ]
     }
   },
 
-  watch: {
-    isCollapse: {
-      handler (newVal, old) {
-        if (newVal) {
-          this.fold = 'el-icon-s-unfold'
-        } else {
-          this.fold = 'el-icon-s-fold'
-        }
-      }
-    }
-  },
   mounted () {
-
+    this.clacMargin()
+    window.onresize = this.clacMargin()
   },
   methods: {
     handleOpen (index) {
       this.activeIndex = index
     },
     handleSelect (index) {
+      console.log('index', index)
       this.activeIndex = index
     },
     handleClose () {
 
     },
+    clacMargin () {
+      setTimeout(() => {
+        var width = document.getElementById('sideBar') ? document.getElementById('sideBar').clientWidth : 0
+        console.log(width)
+        if (this.show) {
+          this.$store.dispatch('changeView', width + 20)
+        } else {
+          this.$store.dispatch('changeView', 0)
+        }
+      }, 150)
+    },
+    // handleCollapse () {
+    //   this.isCollapse = !this.isCollapse
+    // },
     handleCollapse () {
-      this.isCollapse = !this.isCollapse
+      this.show = !this.show
+      if (this.show) {
+        this.fold = 'el-icon-s-fold'
+      } else {
+        this.fold = 'el-icon-s-unfold'
+      }
+      this.clacMargin()
     }
 
   },
@@ -164,6 +203,15 @@ export default {
 <style scoped lang="scss">
 @import './../assets/iconfont/iconfont.css';
 @import '@/variable.scss';
+.nav-top {
+  color: #fff;
+  width: 100%;
+  // justify-content: center;
+  padding: 0 20px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
 .layout-aside {
   height: 100%;
   position: relative;
@@ -185,21 +233,21 @@ export default {
   color: $nav-font;
   font-size: 16px !important;
 }
-.line{
-  width: 6px;
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 56px;
-  background: #6699FF;
-}
+
 .collapse-icon{
-  position:absolute;
-  right: 20px;
-  bottom: 20px;
-  font-size: 28px;
-  color: #C7DFFF;
-  cursor: pointer;
+  position: fixed;
+  left: 0;
+  top: 45%;
+  bottom: 0;
+  width: 20px;
+  color: white;
+  background: $nav-bgc;
+  height: 40px;
+  vertical-align: middle;
+  display: table-cell;
+  z-index: 1;
+  font-size: 18px;
+  line-height: 40px;
 }
 .my-el-menu-item div {
   font-size: 18px;
@@ -255,6 +303,16 @@ export default {
   //     cursor: pointer;
   //   }
   // }
+.slide-left-enter-active {
+  transition: all .1s ease;
+}
+.slide-left-leave-active {
+  transition: all .1s ease-out;
+}
+.slide-left-enter, .slide-left-leave-active {
+  transform: translateX(-150px);
+  opacity: 0;
+}
 </style>
 <style>
  .el-menu-vertical-demo:not(.el-menu--collapse) {

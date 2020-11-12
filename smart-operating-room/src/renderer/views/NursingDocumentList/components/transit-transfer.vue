@@ -317,12 +317,15 @@
         <div class="context1">
           <span>导管：固定并通畅</span>
         </div>
-        <div class="context1">
+        <div
+          class="context1"
+          style="flex-wrap:wrap"
+        >
           <span style="marginLeft:42px">
             <IsSelect :myselect="catheter.includes('o2') ? true : false" />
             <span>氧气</span>
           </span>
-          <span style="marginLeft:160px">
+          <span style="marginLeft:130px">
             <IsSelect :myselect="catheter.includes('qjm') ? true : false" />
             <span>浅静脉留置({{ conduitTime ||'留置日期' }})</span>
           </span>
@@ -331,44 +334,53 @@
             <span>深静脉留置({{ conduitTime ||'留置日期' }})</span>
           </span>
         </div>
-        <div class="context1">
+        <div
+          class="context1"
+          style="flex-wrap:wrap"
+        >
           <span style="marginLeft:42px">
             <IsSelect :myselect="catheter.includes('picc') ? true : false" />
             <span>PICC({{ conduitTime ||'留置日期' }})</span>
           </span>
-          <span style="marginLeft:135px">
+          <span style="marginLeft:45px">
             <IsSelect :myselect="catheter.includes('dml') ? true : false" />
             <span>动脉留置({{ conduitTime ||'留置日期' }})</span>
           </span>
-          <span style="marginLeft:100px">
+          <span style="marginLeft:69px">
             <IsSelect :myselect="catheter.includes('cwj') ? true : false" />
             <span>肠胃减压({{ conduitTime ||'留置日期' }})</span>
           </span>
         </div>
-        <div class="context1">
+        <div
+          class="context1"
+          style="flex-wrap:wrap"
+        >
           <span style="marginLeft:42px">
             <IsSelect :myselect="catheter.includes('bs') ? true : false" />
             <span>鼻饲({{ conduitTime ||'留置日期' }})</span>
           </span>
-          <span style="marginLeft:138px">
+          <span style="marginLeft:48px">
             <IsSelect :myselect="catheter.includes('lzd') ? true : false" />
             <span>留置导尿({{ conduitTime ||'留置日期' }})</span>
           </span>
-          <span style="marginLeft:100px">
+          <span style="marginLeft:71px">
             <IsSelect :myselect="catheter.includes('qgd') ? true : false" />
             <span>气管导管({{ conduitTime ||'留置日期' }})</span>
           </span>
         </div>
-        <div class="context1">
+        <div
+          class="context1"
+          style="flex-wrap:wrap"
+        >
           <span style="marginLeft:42px">
             <IsSelect :myselect="catheter.includes('fyq') ? true : false" />
             <span>负压球({{ conduitTime ||'留置日期' }})</span>
           </span>
-          <span style="marginLeft:125px">
+          <span style="marginLeft:34px">
             <IsSelect :myselect="catheter.includes('xqy') ? true : false" />
             <span>胸腔引流({{ conduitTime ||'留置日期' }})</span>
           </span>
-          <span style="marginLeft:100px">
+          <span style="marginLeft:71px">
             <IsSelect :myselect="catheter.includes('tg') ? true : false" />
             <span>T管({{ conduitTime ||'留置日期' }})</span>
           </span>
@@ -378,7 +390,7 @@
             <IsSelect :myselect="catheter.includes('qita') ? true : false" />
             <span>其他({{ conduitTime ||'留置日期' }})</span>
           </span>
-          <span style="marginLeft:140px">
+          <span style="marginLeft:49px">
             <IsSelect :myselect="catheter.includes('wu') ? true : false" />
             <span>无</span>
           </span>
@@ -722,11 +734,11 @@
               </td>
               <td>
                 <div>
-                  <IsSelect :myselect="pointInRoom.skinName === '0' ? true : false" />
+                  <IsSelect :myselect="pointInRoom.skinName === '1' ? true : false" />
                   <span>完整</span>
                 </div>
                 <div class="td-div">
-                  <IsSelect :myselect="pointInRoom.skinName === '1' ? true : false" />
+                  <IsSelect :myselect="pointInRoom.skinName === '2' ? true : false" />
                   <span>破损</span>
                   <span
                     class="input-div mgl5"
@@ -754,11 +766,11 @@
               </td>
               <td>
                 <div>
-                  <IsSelect :myselect="pointOutRoom.skinName === '0' ? true : false" />
+                  <IsSelect :myselect="pointOutRoom.skinName === '1' ? true : false" />
                   <span>完整</span>
                 </div>
                 <div class="td-div">
-                  <IsSelect :myselect="pointOutRoom.skinName === '1' ? true : false" />
+                  <IsSelect :myselect="pointOutRoom.skinName === '2' ? true : false" />
                   <span>破损</span>
                   <span
                     class="input-div mgl5"
@@ -786,11 +798,11 @@
               </td>
               <td>
                 <div>
-                  <IsSelect :myselect="pointPacu.skinName === '0' ? true : false" />
+                  <IsSelect :myselect="pointPacu.skinName === '1' ? true : false" />
                   <span>完整</span>
                 </div>
                 <div class="td-div">
-                  <IsSelect :myselect="pointPacu.skinName === '1' ? true : false" />
+                  <IsSelect :myselect="pointPacu.skinName === '2' ? true : false" />
                   <span>破损</span>
                   <span
                     class="input-div mgl5"
@@ -818,11 +830,11 @@
               </td>
               <td>
                 <div>
-                  <IsSelect :myselect="outPacu.skinName === '0' ? true : false" />
+                  <IsSelect :myselect="outPacu.skinName === '1' ? true : false" />
                   <span>完整</span>
                 </div>
                 <div class="td-div">
-                  <IsSelect :myselect="outPacu.skinName === '1' ? true : false" />
+                  <IsSelect :myselect="outPacu.skinName === '2' ? true : false" />
                   <span>破损</span>
                   <span
                     class="input-div mgl5"
@@ -981,7 +993,7 @@
               </td>
               <td style="textAlign:center;height:30px">
                 <div>
-                  <IsSelect :myselect="pointInRoomState === '1' ? true : false" />
+                  <IsSelect :myselect="pointInRoomState === '2' ? true : false" />
                   <span>是</span>
                   <IsSelect :myselect="pointInRoomState === '0' ? true : false" />
                   <span>否</span>
@@ -989,7 +1001,7 @@
               </td>
               <td style="textAlign:center;height:30px">
                 <div>
-                  <IsSelect :myselect="pointOutRoomState === '1' ? true : false" />
+                  <IsSelect :myselect="pointOutRoomState === '2' ? true : false" />
                   <span>是</span>
                   <IsSelect :myselect="pointOutRoomState === '0' ? true : false" />
                   <span>否</span>
@@ -997,7 +1009,7 @@
               </td>
               <td style="textAlign:center;height:30px">
                 <div>
-                  <IsSelect :myselect="pointPacuState === '1' ? true : false" />
+                  <IsSelect :myselect="pointPacuState === '2' ? true : false" />
                   <span>是</span>
                   <IsSelect :myselect="pointPacuState === '0' ? true : false" />
                   <span>否</span>
@@ -1005,7 +1017,7 @@
               </td>
               <td style="textAlign:center;height:30px">
                 <div>
-                  <IsSelect :myselect="outPacuState === '1' ? true : false" />
+                  <IsSelect :myselect="outPacuState === '2' ? true : false" />
                   <span>是</span>
                   <IsSelect :myselect="outPacuState === '0' ? true : false" />
                   <span>否</span>

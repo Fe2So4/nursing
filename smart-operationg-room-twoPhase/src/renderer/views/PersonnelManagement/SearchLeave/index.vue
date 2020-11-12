@@ -23,6 +23,6 @@ export default {
 
 <style lang="scss" scoped>
   .search-leave{
-    height: calc(100% - 24px);
+    height: 100%;
   }
 </style>
