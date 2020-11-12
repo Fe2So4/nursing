@@ -68,16 +68,17 @@ export default {
       fold: 'el-icon-s-fold',
       activeIndex: '/personnel/search-leave',
       menuList: [
-        {
-          icon: 'iconfont icon-gongneng',
-          title: '请假查询',
-          path: '/personnel/search-leave'
-        },
+
         {
           icon: 'iconfont icon-caidanxiangdao-',
           title: '人员管理',
           path: '/personnel/personnel-file',
           children: [
+            {
+              icon: 'iconfont icon-gongneng',
+              title: '请假查询',
+              path: '/personnel/search-leave'
+            },
             {
               icon: 'iconfont icon-guanli',
               title: '人员档案管理',
@@ -108,10 +109,12 @@ export default {
             {
               icon: 'iconfont icon-wenjuan',
               title: '出勤排班管理',
+              path: '/personnel/attendance',
               children: [
                 {
                   icon: 'iconfont icon-guanli',
                   title: '排班规则维护',
+                  PATH: '/personnel/attendance/maintenance',
                   children: [
                     {
                       icon: 'iconfont icon-guanli',
@@ -121,12 +124,12 @@ export default {
                     {
                       icon: 'iconfont icon-guanli',
                       title: '业务分组管理',
-                      path: '/personnel/business/management'
+                      path: '/personnel/attendance/maintenance/attendance-management'
                     },
                     {
                       icon: 'iconfont icon-guanli',
                       title: '业务带教班次对照',
-                      path: '/personnel/business/contrast'
+                      path: '/personnel/attendance/maintenance/contrast'
                     }
                   ]
                 },
