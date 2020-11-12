@@ -105,8 +105,8 @@ const personnelRoutes = {
             },
             {
               path: 'contrast',
-              name: 'attendanceMaintenance',
-              component: () => import('@/views/PersonnelManagement/AttendanceManagement/AttendanceMaintenance/AttendanceMaintenance.vue'),
+              name: 'attendanceContrast',
+              component: () => import('@/views/PersonnelManagement/AttendanceManagement/AttendanceContrast/Attendancecontrast.vue'),
               meta: {
                 title: '业务带教班次对照',
                 noNavs: false,
