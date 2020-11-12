@@ -1,0 +1,89 @@
+<template>
+  <!-- <div class="menu-tree"> -->
+  <fragment>
+    <template v-for="menu in this.menuData">
+      <el-submenu
+        :key="menu.path"
+        :index="menu.path + ''"
+        v-if="menu.children"
+      >
+        <template slot="title">
+          <i
+            :class="menu.icon"
+            v-if="menu.title==='人员管理'"
+          />
+          <span slot="title">{{ menu.title }}</span>
+        </template>
+        <menu-tree :menu-data="menu.children" />
+      </el-submenu>
+      <el-menu-item
+        :key="menu.path"
+        :index="menu.path + ''"
+        v-else
+      >
+        <!-- <i :class="menu.icon" /> -->
+        <span slot="title">{{ menu.title }}</span>
+      </el-menu-item>
+    </template>
+  </fragment>
+  <!-- </div> -->
+</template>
+<script>
+export default {
+  name: 'MenuTree',
+  data () {
+    return {
+
+    }
+  },
+  props: {
+    menuData: {
+      type: Array,
+      required: true
+    }
+  },
+  mounted () {
+
+  },
+  methods: {
+
+  }
+}
+</script>
+<style lang="scss" scoped>
+@import './../assets/iconfont/iconfont.css';
+@import '@/variable.scss';
+// .menu-tree{
+  .el-menu {
+    background-color: unset;
+    border-right: unset;
+    .el-menu-item {
+      color: $nav-font;
+      font-size: 16px !important;
+      &.is-active{
+        background: linear-gradient(90deg, #3269CE, #2E5287);
+      }
+    }
+    /deep/ .el-menu-item:focus, .el-menu-item:hover{
+      background: linear-gradient(90deg, #3269CE, #2E5287);
+      color: $nav-font;
+      i{
+        color: $nav-font;
+      }
+    }
+    /deep/ .el-submenu__title{
+      color: #E2E9F2;
+      i{
+        color: #E2E9F2;
+      }
+    }
+    /deep/ .el-submenu__title:hover{
+      background: linear-gradient(90deg, #3269CE, #2E5287);
+      color: $nav-font;
+      i{
+        color: $nav-font;
+      }
+      }
+    }
+// }
+</style>

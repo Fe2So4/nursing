@@ -97,7 +97,7 @@ export default {
                 {
                   icon: 'iconfont icon-guanli',
                   title: '公务员信息维护',
-                  path: '/home/client-pathological-application'
+                  path: '/personnel/personnel-file/civil-servant-info-maintain'
                 }
               ]
             },

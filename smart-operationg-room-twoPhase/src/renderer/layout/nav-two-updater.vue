@@ -1,58 +1,12 @@
 <template>
   <div class="layout-aside">
     <el-menu
-      default-active="/personnel/personnel-file"
+      default-active="defaultActive"
       class="el-menu-vertical-demo"
-      @open="handleOpen"
-      @close="handleClose"
       :collapse="isCollapse"
       router
     >
-      <template
-        v-for="item in menuList"
-      >
-        <el-submenu
-          :index="item.path"
-          :key="item.path"
-          v-if="item.children.length>0&&item.children"
-        >
-          <template slot="title">
-            <i class="el-icon-location" />
-            <span slot="title">{{ item.title }}</span>
-          </template>
-          <template v-for="_item in item.children">
-            <el-submenu
-              :index="_item.path"
-              :key="_item.path"
-              v-if="_item.children&&_item.children.length>0"
-            >
-              <span slot="title">{{ _item.title }}</span>
-              <el-menu-item
-                :index="__item.path"
-                v-for="__item in _item.children"
-                :key="__item.path"
-              >
-                {{ __item.title }}
-              </el-menu-item>
-            </el-submenu>
-            <el-menu-item
-              :key="_item.path"
-              :index="_item.path"
-              v-else
-            >
-              {{ _item.title }}
-            </el-menu-item>
-          </template>
-        </el-submenu>
-        <el-menu-item
-          :index="item.path"
-          :key="item.path"
-          v-else
-        >
-          <i class="el-icon-menu" />
-          <span slot="title">{{ item.title }}</span>
-        </el-menu-item>
-      </template>
+      <menu-tree :menu-data="menuList" />
     </el-menu>
     <div
       :class="fold"
@@ -63,6 +17,7 @@
 </template>
 
 <script>
+import MenuTree from './submenu'
 export default {
   name: 'Navs',
   data () {
@@ -74,7 +29,7 @@ export default {
         {
           icon: 'iconfont icon-caidanxiangdao-',
           title: '人员管理',
-          path: '/personnel/personnel-file',
+          path: '/personnel',
           children: [
             {
               icon: 'iconfont icon-guanli',
@@ -104,9 +59,41 @@ export default {
               path: '/personnel/basic-dictionary-maintain'
             },
             {
-              icon: 'iconfont icon-wenjuan',
+              icon: 'iconfont icon-wenjuan',
               title: '出勤排班管理',
-              path: '/home/client-nursing-document'
+              path: '/personnel/attendance',
+              children: [
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '排班规则维护',
+                  path: '/personnel/attendance/maintenance',
+                  children: [
+                    {
+                      icon: 'iconfont icon-guanli',
+                      title: '班次时段维护',
+                      path: '/personnel/attendance/maintenance/attendance-maintenance'
+                    },
+                    {
+                      icon: 'iconfont icon-guanli',
+                      title: '业务分组管理',
+                      path: '/personnel/attendance/maintenance/attendance-management'
+                    },
+                    {
+                      icon: 'iconfont icon-guanli',
+                      title: '业务带教班次对照',
+                      path: '/personnel/attendance/maintenance/contrast'
+                    }
+                  ]
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '出勤排班发布',
+                  path: '/personnel/attendance/maintenance1',
+                  children: [
+                  ]
+
+                }
+              ]
             },
             {
               icon: 'iconfont icon-gongneng',
@@ -155,6 +142,7 @@ export default {
   },
   components: {
     // SideBarItem
+    MenuTree
   }
 }
 </script>
