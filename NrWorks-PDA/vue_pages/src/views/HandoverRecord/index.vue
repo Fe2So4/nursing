@@ -300,7 +300,7 @@ export default {
       }
     },
     onClickLeft () {
-      this.$router.go(-1)
+      this.$router.push('/transfer-handover')
     },
     getData () {
       request({
@@ -323,7 +323,7 @@ export default {
               this.recordForm.catheter = data.catheterJson[0].catheter // 导管
               this.recordForm.ache = data.appraiseJson[0].ache.acheName
               this.recordForm.strength = data.appraiseJson[0].ache.acheStrength
-              this.recordForm.part = data.appraiseJson[0].vitalSigns.achePart
+              this.recordForm.achePart = data.appraiseJson[0].ache.achePart
               this.recordForm.nature = data.appraiseJson[0].nature
               this.recordForm.pulse = data.appraiseJson[0].vitalSigns.pulse
               this.recordForm.breathe = data.appraiseJson[0].vitalSigns.breathe
@@ -333,6 +333,7 @@ export default {
               this.recordForm.skinName = data.appraiseJson[0].skin.skinName
               this.recordForm.skinPart = data.appraiseJson[0].skin.skinPart
               this.recordForm.skinDegree = data.appraiseJson[0].skin.skinDegree
+              this.recordForm.skinSize = data.appraiseJson[0].skin.skinSize
               this.recordForm.consciousness = data.appraiseJson[0].consciousness.consciousnessName // 意识
               this.recordForm.consciousnessOther = data.appraiseJson[0].consciousness.consciousnessOther
               break

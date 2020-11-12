@@ -1,43 +1,58 @@
 <template>
   <div class="layout-aside">
-    <!-- <el-menu
-      :default-active="$route.path"
-      :collapse="isCollapse"
-      class="el-menu-vertical-demo"
-      router
-      @open="handleOpen"
-      @select="handleSelect"
-      @close="handleClose"
-    >
-      <el-menu-item
-        v-for="item in menuList"
-        :key="item.path"
-        :index="item.path"
-      >
-        <i :class="item.icon" />
-        <span slot="title">{{ item.title }}</span>
-        <div
-          slot="title"
-          class="line"
-          v-show="activeIndex === item.path"
-        />
-      </el-menu-item>
-    </el-menu> -->
     <el-menu
+      default-active="/personnel/personnel-file"
       class="el-menu-vertical-demo"
-      router
-      :collapse="isCollapse"
       @open="handleOpen"
       @close="handleClose"
+      :collapse="isCollapse"
+      router
     >
-      <side-bar-item
-        :collapse="isCollapse"
-        :key="item.id"
-        :children="item"
-        :menu="1"
+      <template
         v-for="item in menuList"
-        class="firstMenu"
-      />
+      >
+        <el-submenu
+          :index="item.path"
+          :key="item.path"
+          v-if="item.children.length>0&&item.children"
+        >
+          <template slot="title">
+            <i class="el-icon-location" />
+            <span slot="title">{{ item.title }}</span>
+          </template>
+          <template v-for="_item in item.children">
+            <el-submenu
+              :index="_item.path"
+              :key="_item.path"
+              v-if="_item.children&&_item.children.length>0"
+            >
+              <span slot="title">{{ _item.title }}</span>
+              <el-menu-item
+                :index="__item.path"
+                v-for="__item in _item.children"
+                :key="__item.path"
+              >
+                {{ __item.title }}
+              </el-menu-item>
+            </el-submenu>
+            <el-menu-item
+              :key="_item.path"
+              :index="_item.path"
+              v-else
+            >
+              {{ _item.title }}
+            </el-menu-item>
+          </template>
+        </el-submenu>
+        <el-menu-item
+          :index="item.path"
+          :key="item.path"
+          v-else
+        >
+          <i class="el-icon-menu" />
+          <span slot="title">{{ item.title }}</span>
+        </el-menu-item>
+      </template>
     </el-menu>
     <div
       :class="fold"
@@ -48,7 +63,6 @@
 </template>
 
 <script>
-import SideBarItem from './sideBarItem.vue'
 export default {
   name: 'Navs',
   data () {
@@ -93,33 +107,17 @@ export default {
               icon: 'iconfont icon-wenjuan',
               title: '出勤排班管理',
               path: '/home/client-nursing-document'
+            },
+            {
+              icon: 'iconfont icon-gongneng',
+              title: '请假查询',
+              path: '/personnel/search-leave'
             }
           ]
-        },
-        // {
-        //   icon: 'iconfont icon-guanli',
-        //   title: '病理申请',
-        //   path: '/home/client-pathological-application'
-        // },
-        // {
-        //   icon: 'iconfont icon-wenjuan',
-        //   title: '护理列表',
-        //   path: '/home/client-nursing-document'
-        // },
-        // {
-        //   icon: 'iconfont icon-shuju',
-        //   title: '统计查询',
-        //   path: '/home/client-statistical-query'
-        // },
-        {
-          icon: 'iconfont icon-gongneng',
-          title: '请假查询',
-          path: '/personnel/search-leave'
         }
       ]
     }
   },
-
   watch: {
     isCollapse: {
       handler (newVal, old) {
@@ -156,7 +154,7 @@ export default {
     }
   },
   components: {
-    SideBarItem
+    // SideBarItem
   }
 }
 </script>
@@ -169,18 +167,31 @@ export default {
   position: relative;
   background: $nav-bgc;
   overflow: hidden;
-  .el-menu {
+  /deep/ .el-menu {
     background-color: unset;
     border-right: unset;
-    .el-menu-item:focus, .el-menu-item:hover{
+    /deep/ .el-menu-item:focus, .el-menu-item:hover{
       background: linear-gradient(90deg, #3269CE, #2E5287);
       color: $nav-font;
       i{
         color: $nav-font;
       }
     }
+    /deep/ .el-submenu__title{
+      color: #E2E9F2;
+      i{
+        color: #E2E9F2;
+      }
+    }
+    /deep/ .el-submenu__title:hover{
+      background: linear-gradient(90deg, #3269CE, #2E5287);
+      color: $nav-font;
+      i{
+        color: $nav-font;
+      }
+      }
+    }
   }
-}
 .el-menu-item {
   color: $nav-font;
   font-size: 16px !important;

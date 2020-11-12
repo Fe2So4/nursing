@@ -8,6 +8,7 @@
       <el-aside v-show="hasNavs">
         <Nav v-if="$route.path.includes('home')" />
         <NavTwo v-else />
+        <!-- <NavNew v-else /> -->
       </el-aside>
       <el-main>
         <BreadCrumb />
@@ -25,6 +26,7 @@
 import WinHeader from './win-header'
 import NavTwo from './nav-two'
 import Nav from './nav'
+// import NavNew from './nav-two-updater'
 import BreadCrumb from '@/components/BreadCrumb/bread-crumb'
 import moment from 'moment'
 export default {
@@ -49,6 +51,7 @@ export default {
   },
   // Header
   components: {Nav, WinHeader, NavTwo, BreadCrumb}
+  // components: {Nav, WinHeader, BreadCrumb, NavNew}
 }
 </script>
 

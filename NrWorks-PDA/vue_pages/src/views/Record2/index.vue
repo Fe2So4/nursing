@@ -132,7 +132,7 @@
         <van-cell title="电极板位置：" value="内容">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="recordForm.electrotomeLocation" :options="djbOptions" />
+              <van-dropdown-item v-model="recordForm.equipment.electrotomeLocation" :options="djbOptions" />
             </van-dropdown-menu>
           </template>
         </van-cell>
@@ -275,7 +275,7 @@
         <van-cell title="术中可观察的受压部位皮肤：" style="background:#E8E8E8;">
         </van-cell>
         <template v-for="(item,index) in recordForm.compressedSkin">
-          <van-cell :title="(1+index)+'小时'" value="内容" :key="'hour'+index">
+          <van-cell :title="(2+index*2)+'小时'" value="内容" :key="'hour'+index">
             <template #right-icon>
               <van-dropdown-menu active-color="#3478FF">
                 <van-dropdown-item v-model="item.isFull" :options="skinOptions" />
@@ -438,8 +438,6 @@ export default {
           electrotomeDN: '', // 电凝功率
           electrotomeName: ''
         }, // 电刀名称
-        // 电极板位置
-        electrotomeLocation: '',
         bhMachine: {
           bhMachineName: '',
           bhMachineList: [
@@ -454,7 +452,10 @@ export default {
         deptName: '',
         device: [], // 体位装置
         diagnosis: '',
-        equipment: {},
+        equipment: {
+          // 电极板位置
+          electrotomeLocation: ''
+        },
         frozen: {
           frozenName: '',
           frozenList: [{sendDoc: '', receiveDoc: ''}, {sendDoc: '', receiveDoc: ''}, {sendDoc: '', receiveDoc: ''}, {sendDoc: '', receiveDoc: ''}, {sendDoc: '', receiveDoc: ''}]
@@ -578,7 +579,7 @@ export default {
     onClickRight () {
       var reg = /,$/gi
       this.recordForm.equipment.electrotome = this.recordForm.electrotome
-      this.recordForm.equipment.electrotomeLocation = this.recordForm.electrotomeLocation
+      // this.recordForm.equipment.electrotomeLocation = this.recordForm.electrotomeLocation
       this.recordForm.equipment.bhMachine = this.recordForm.bhMachine
       this.recordForm.admitNo = this.patientInfo.admitNo
       this.recordForm.cureNo = this.patientInfo.cureNo
@@ -606,7 +607,7 @@ export default {
       }).then(res => {
         this.recordForm = res.data.data
         this.recordForm.electrotome = this.recordForm.equipment.electrotome
-        this.recordForm.electrotomeLocation = this.recordForm.equipment.electrotomeLocation
+        // this.recordForm.electrotomeLocation = JSON.parse(JSON.stringify(this.recordForm.equipment.electrotomeLocation))
         this.recordForm.bhMachine = this.recordForm.equipment.bhMachine
         this.recordForm.device = this.recordForm.device.split(',')
         this.recordForm.position = this.recordForm.position.split(',')

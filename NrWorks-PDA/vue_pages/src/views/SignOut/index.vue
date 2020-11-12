@@ -16,19 +16,24 @@
             <van-switch v-model="recordForm[0].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="实际手术方式确认" value="内容" value-class="van-cell-center">
+        <van-cell title="实际手术方式确认：" value="内容" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="recordForm[1].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="手术用药、输血、冰冻报告的核查正确：" value="内容" title-class="first-cell" value-class="van-cell-center">
+        <van-cell title="手术部位、体位、标识正确：" value="内容" value-class="first-cell van-cell-center">
           <template #right-icon>
             <van-switch v-model="recordForm[2].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="病理标本：" value="内容" value-class="van-cell-center">
+        <van-cell title="手术用药、输血、冰冻报告的核查正确：" value="内容" title-class="first-cell" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="recordForm[3].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
+          </template>
+        </van-cell>
+        <van-cell title="病理标本：" value="内容" value-class="van-cell-center">
+          <template #right-icon>
+            <van-switch v-model="recordForm[4].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
         <van-cell title="病理标本号核对正确：" value="内容" value-class="van-cell-center">
@@ -197,18 +202,10 @@ export default {
             item.value = '否'
           }
         }
-        // if (item.key !== '其它' || item.key !== '患者去向') {
-        //   if (item.value === true) {
-        //     item.value = '是'
-        //   } else {
-        //     item.value = '否'
-        //   }
-        // }
       })
-      console.log(arr)
       let state = ''
       for (var i = 0; i < arr.length; i++) {
-        if (!arr[i].value) {
+        if (arr[i].value === '否') {
           state = '1'
           break
         } else {

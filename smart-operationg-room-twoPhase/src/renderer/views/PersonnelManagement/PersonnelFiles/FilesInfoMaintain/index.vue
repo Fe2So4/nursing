@@ -4,7 +4,12 @@
       <div class="fim-top-top">
         <div class="fim-top-left">
           <span>预览</span>
-          <div class="avater" />
+          <div class="avater">
+            <img
+              src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png"
+              alt=""
+            >
+          </div>
         </div>
         <div class="fim-top-right">
           <el-form
@@ -13,7 +18,7 @@
           >
             <el-form-item>
               <el-button
-                type="primary"
+                type="info"
                 plain
               >
                 上传头像
@@ -62,7 +67,7 @@
           :label="item.title"
           :name="item.name"
         >
-          sdasasa
+          <component :is="item.component" />
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -70,6 +75,11 @@
 </template>
 
 <script>
+import BasicInfo from './components/basic-info'
+import TitleInfo from './components/title-info'
+import EducationExperience from './components/education-experience'
+import DepartmentRotation from './components/department-rotation'
+import TrainingFurtherStudy from './components/training-further-study'
 export default {
   name: 'FilesInfoMaintain',
   data () {
@@ -80,7 +90,7 @@ export default {
         workNo: '',
         age: ''
       },
-      activeName: 'first',
+      activeName: '1',
       deptList: [
         {
           label: '部门1',
@@ -91,13 +101,16 @@ export default {
         }
       ],
       tabList: [
-        {title: '基本信息', component: '', name: '1'},
-        {title: '教育经历', component: '', name: '2'},
-        {title: '职称任凭情况', component: '', name: '3'},
-        {title: '科室转轮情况', component: '', name: '4'},
-        {title: '培训进修', component: '', name: '5'}
+        {title: '基本信息', component: 'BasicInfo', name: '1'},
+        {title: '教育经历', component: 'EducationExperience', name: '2'},
+        {title: '职称聘任情况', component: 'TitleInfo', name: '3'},
+        {title: '科室轮转情况', component: 'DepartmentRotation', name: '4'},
+        {title: '培训进修', component: 'TrainingFurtherStudy', name: '5'}
       ]
     }
+  },
+  components: {
+    BasicInfo, EducationExperience, TitleInfo, DepartmentRotation, TrainingFurtherStudy
   },
   methods: {
     handleClick () {
@@ -128,7 +141,7 @@ export default {
           height: 60px;
           width: 60px;
           margin-left: 10px;
-          background: gray;
+          // background: gray;
         }
       }
       .fim-top-right{

@@ -1,0 +1,26 @@
+#app /deep/ .el-tabs__nav-wrap::after{
+  background-color: #ffffff;
+}
+#app /deep/ .el-tabs__nav{
+  margin-left: 40px;
+}
+#app /deep/ .el-tabs{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+#app /deep/ .el-tabs__content{
+  flex: 1;
+  // padding-left: 20px;
+}
+#app /deep/ .el-tab-pane{
+  height: 100%;
+}
+
+#app /deep/ .el-dialog__header{
+  border-bottom: 1px solid #EBEBEB;
+  padding-top: 10px;
+  .el-dialog__headerbtn{
+    top: 10px;
+  }
+}

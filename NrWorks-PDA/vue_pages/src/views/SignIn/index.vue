@@ -199,7 +199,8 @@ export default {
       let arr = JSON.parse(JSON.stringify(this.recordForm))
       let state = ''
       arr.forEach(item => {
-        if (item.key !== '其它') {
+        if (item.key === '其它') {
+        } else {
           if (item.value === true) {
             item.value = '是'
           } else {
@@ -208,7 +209,7 @@ export default {
         }
       })
       for (var i = 0; i < arr.length; i++) {
-        if (!arr[i].value) {
+        if (arr[i].value === '否') {
           state = '1'
           break
         } else {

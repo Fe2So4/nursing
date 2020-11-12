@@ -187,7 +187,8 @@ export default {
     onClickRight () {
       let arr = JSON.parse(JSON.stringify(this.recordForm))
       arr.forEach(item => {
-        if (item.key !== '其它') {
+        if (item.key === '其它') {
+        } else {
           if (item.value === true) {
             item.value = '是'
           } else {
@@ -197,7 +198,7 @@ export default {
       })
       let state = ''
       for (var i = 0; i < arr.length; i++) {
-        if (!arr[i].value) {
+        if (arr[i].value === '是') {
           state = '1'
           break
         } else {

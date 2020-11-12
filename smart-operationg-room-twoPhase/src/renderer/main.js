@@ -5,6 +5,8 @@ import App from './App'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './styles/index.scss'
+import './styles/el-style.scss'
+import './styles/vxe-style.scss'
 import './styles/scrollbar.scss'
 import router from './router'
 import store from './store'
@@ -19,6 +21,11 @@ import utilsGetNewDate from './utils/utilsTime'
 import utilsNewTime from './utils/utilsNewTime'
 import utilsDebounce from './utils/utilsDebounce'
 import vueiInfinite from 'vue-infinite-scroll'
+// 处理element-ui vxe-table样式兼容问题
+import VXETablePluginElement from 'vxe-table-plugin-element'
+import 'vxe-table-plugin-element/dist/style.css'
+
+VXETable.use(VXETablePluginElement)
 
 Vue.prototype.IsEmpty = IsEmpty
 Vue.prototype.utilsGetNewDate = utilsGetNewDate
