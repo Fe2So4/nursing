@@ -41,7 +41,8 @@
           align="center"
           :data="tableData"
           size="mini"
-          height="100%"
+          height="auto"
+          auto-resize
         >
           <vxe-table-column
             field="name"
@@ -72,7 +73,10 @@
             title="操作"
           >
             <template>
-              <el-button type="text">
+              <el-button
+                type="text"
+                @click="handleShow"
+              >
                 查看
               </el-button>
               <span class="option-line">|</span>
@@ -87,49 +91,25 @@
           </vxe-table-column>
         </vxe-table>
       </div>
-      <div class="fis-pagination">
-        <el-form
-          :inline="true"
-          size="mini"
-        >
-          <el-form-item>
-            共 400 条
-          </el-form-item>
-          <el-form-item>
-            <el-select
-              v-model="pageList[0].value"
-              style="width:134px;"
-            >
-              <el-option
-                v-for="item in pageList"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-pagination
-              layout="prev, pager, next"
-              :total="50"
-            />
-          </el-form-item>
-          <el-form-item style="margin-right:unset;">
-            前往
-          </el-form-item>
-          <el-form-item style="margin-right:unset;">
-            <el-input style="width:64px;" />
-          </el-form-item>
-          <el-form-item style="margin-right:unset;">
-            页
-          </el-form-item>
-        </el-form>
-      </div>
+      <Pagination />
+      <!-- <div class="fis-pagination">
+      </div> -->
     </div>
+    <InfoDetail
+      :dialog-visible="dialogVisible"
+      @handleClose="handleClose"
+    />
+    <NurseList
+      :dialog-visible="nurseListVisible"
+      @handleClose="handleCloseNurseList"
+    />
   </div>
 </template>
 
 <script>
+import Pagination from '@/components/Pagination/pagination'
+import InfoDetail from './components/info-detail'
+import NurseList from './components/nurse-list'
 export default {
   name: 'FilesInfoSelect',
   data () {
@@ -141,6 +121,8 @@ export default {
         endTime: '',
         department: ''
       },
+      nurseListVisible: true,
+      dialogVisible: false,
       pageList: [{value: '20', label: '20条/页'}, {value: '30', label: '30条/页'}],
       deptList: [
         {
@@ -151,10 +133,27 @@ export default {
           value: '2'
         }
       ],
-      tableData: [{name: 'ad', sex: 'ada', age: 'ad'}, {name: 'ad', sex: 'ada', age: 'ad'}]
+      tableData: [
+        {name: 'ad', sex: 'ada', age: 'ad'}, {name: 'ad', sex: 'ada', age: 'ad'}
+      ]
     }
   },
   methods: {
+    handleClose () {
+      this.dialogVisible = false
+    },
+    handleShow () {
+      this.dialogVisible = true
+    },
+    handleShowNurseList () {
+      this.nurseListVisible = true
+    },
+    handleCloseNurseList () {
+      this.nurseListVisible = false
+    }
+  },
+  components: {Pagination, InfoDetail, NurseList},
+  created () {
 
   }
 }
@@ -187,6 +186,7 @@ export default {
       border-radius: 5px;
       .fis-table{
         flex: 1;
+        // height: 112px;
         .option-line{
           // vertical-align: middle;
           // font-size: 20px;
@@ -200,14 +200,14 @@ export default {
         }
       }
       .fis-pagination{
-        padding: 40px 0;
+        // padding: 40px 0;
         display: flex;
         justify-content: center;
-        .el-form{
-          .el-form-item{
-            margin-bottom:unset;
-          }
-        }
+        // .el-form{
+        //   .el-form-item{
+        //     margin-bottom:unset;
+        //   }
+        // }
       }
     }
   }

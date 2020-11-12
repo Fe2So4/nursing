@@ -297,26 +297,38 @@ export default {
       }).then(res => {
         switch (this.$route.query.title) {
           case '病房交接':
-            this.stepList = res.data.data.outWardScan
+            if (res.data.data.outWardScan.length > 0) {
+              this.stepList = res.data.data.outWardScan
+            }
             break
           case '进手术室':
             // 需要操作
-            this.stepList = res.data.data.pointInRoomScan[0].stepList
-            this.roomScanList = res.data.data.pointInRoomScan[0].roomScanList
+            if (res.data.data.pointInRoomScan.length > 0) {
+              this.stepList = res.data.data.pointInRoomScan[0].stepList
+              this.roomScanList = res.data.data.pointInRoomScan[0].roomScanList
+            }
             break
           case '出手术室':
             // 需要操作
-            this.stepList = res.data.data.pointOutRoomScan[0].stepList
-            this.roomScanList = res.data.data.pointOutRoomScan[0].roomScanList
+            if (res.data.data.pointOutRoomScan.length > 0) {
+              this.stepList = res.data.data.pointOutRoomScan[0].stepList
+              this.roomScanList = res.data.data.pointOutRoomScan[0].roomScanList
+            }
             break
           case '进PACU':
-            this.stepList = res.data.data.pointPacuScan
+            if (res.data.data.pointPacuScan.length > 0) {
+              this.stepList = res.data.data.pointPacuScan
+            }
             break
           case '出PACU':
-            this.stepList = res.data.data.outPacuScan
+            if (res.data.data.outPacuScan.length > 0) {
+              this.stepList = res.data.data.outPacuScan
+            }
             break
           case '病房收治':
-            this.stepList = res.data.data.pointWardScan
+            if (res.data.data.pointWardScan.length > 0) {
+              this.stepList = res.data.data.pointWardScan
+            }
         }
       })
     },
