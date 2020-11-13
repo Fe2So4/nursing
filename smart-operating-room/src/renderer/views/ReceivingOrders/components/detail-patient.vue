@@ -180,7 +180,7 @@ export default {
     return {
       optas: '',
       hiddenVisible: false,
-      codeInput: '',
+      codeInput: 'work=22350206',
       exitType: '2',
       workCode: ''
     }

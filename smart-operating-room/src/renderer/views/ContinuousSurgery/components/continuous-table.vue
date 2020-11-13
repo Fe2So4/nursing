@@ -15,6 +15,7 @@
         <vxe-table-column
           type="seq"
           width="80"
+          title="序号"
         />
         <vxe-table-column
           field="operateDate"

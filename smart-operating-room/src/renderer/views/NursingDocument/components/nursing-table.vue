@@ -20,6 +20,7 @@
         <!-- v-infinite-scroll="load" -->
         <vxe-table-column
           type="seq"
+          title="序号"
           width="100"
         />
         <vxe-table-column

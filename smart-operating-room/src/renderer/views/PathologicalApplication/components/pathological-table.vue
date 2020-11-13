@@ -14,6 +14,7 @@
         <!-- @current-change="currentChangeEvent" -->
         <vxe-table-column
           type="seq"
+          title="序号"
           width="80"
         />
         <vxe-table-column

@@ -22,16 +22,20 @@
               </div>
               <div
                 class="col-40"
-                style="width:33%"
               >
                 <span class="row-lable">手术日期：</span>
                 <div class="row-text">
                   {{ form.opsDate }}
                 </div>
               </div>
-              <div class="col">
+              <div
+                class="col"
+              >
                 <span class="row-lable">手术房间：</span>
-                <div class="row-text">
+                <div
+                  class="row-text"
+                  style="width:70px"
+                >
                   {{ form.opsRoom }}
                 </div>
               </div>
@@ -47,7 +51,7 @@
                 </div>
               </div>
               <div
-                style="width:63%"
+                style="width:66%"
                 class="col-50"
               >
                 <span
@@ -1109,41 +1113,42 @@ export default {
   display: flex;
   font-size: 14px;
   width: 30%;
+  flex-wrap: nowrap
 }
 .col-20 {
   display: flex;
   font-size: 14px;
   width: 20%;
+  flex-wrap: nowrap
 }
+
 .col-40 {
   display: flex;
   font-size: 14px;
+  flex-wrap: nowrap;
   width: 40%;
+}
+.col-45 {
+  display: flex;
+  font-size: 14px;
+  flex-wrap: nowrap;
+  width: 45%;
 }
 .col-50 {
   display: flex;
   font-size: 14px;
   width: 50%;
+  flex-wrap: nowrap
 }
 .col-70 {
   display: flex;
   font-size: 14px;
   width: 70%;
+  flex-wrap: nowrap
 }
+
 .row-lable {
-  width: 150px;
-  line-height: 28px;
-  text-align: right;
-  vertical-align: middle;
-  float: left;
-  font-size: 14px;
-  color: #606266;
-  padding: 0 12px 0 0;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-.row-lable {
-  width: 150px;
+  width: 135px;
   line-height: 28px;
   text-align: right;
   vertical-align: middle;

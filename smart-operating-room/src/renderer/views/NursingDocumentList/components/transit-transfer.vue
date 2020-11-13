@@ -356,7 +356,7 @@
           style="flex-wrap:wrap"
         >
           <span style="marginLeft:42px">
-            <IsSelect :myselect="catheter.includes('bs') ? true : false" />
+            <IsSelect :myselect="catheter.includes('bc') ? true : false" />
             <span>鼻饲({{ conduitTime ||'留置日期' }})</span>
           </span>
           <span style="marginLeft:48px">
@@ -740,26 +740,28 @@
                 <div class="td-div">
                   <IsSelect :myselect="pointInRoom.skinName === '2' ? true : false" />
                   <span>破损</span>
+                </div>
+                <div>
                   <span
                     class="input-div mgl5"
                   >
-                    <span>部位：</span>
+                    <span style="width:45px">部位：</span>
                     <div class="input-div-context-noborder-33">{{ pointInRoom.skinPart }}</div>
                   </span>
                 </div>
                 <div>
                   <span
-                    class="input-div mgl48"
+                    class="input-div mgl5"
                   >
-                    <span>程度：</span>
+                    <span style="width:45px">程度：</span>
                     <div class="input-div-context-noborder-33">{{ pointInRoom.skinDegree }}</div>
                   </span>
                 </div>
                 <div>
                   <span
-                    class="input-div mgl48"
+                    class="input-div mgl5"
                   >
-                    <span>大小：</span>
+                    <span style="width:45px">大小：</span>
                     <div class="input-div-context-noborder-33">{{ pointInRoom.skinSize }}</div>
                   </span>
                 </div>
@@ -772,26 +774,28 @@
                 <div class="td-div">
                   <IsSelect :myselect="pointOutRoom.skinName === '2' ? true : false" />
                   <span>破损</span>
+                </div>
+                <div>
                   <span
                     class="input-div mgl5"
                   >
-                    <span>部位：</span>
+                    <span style="width:45px">部位：</span>
                     <div class="input-div-context-noborder-33">{{ pointOutRoom.skinPart }}</div>
                   </span>
                 </div>
                 <div>
                   <span
-                    class="input-div mgl48"
+                    class="input-div mgl5"
                   >
-                    <span>程度：</span>
+                    <span style="width:45px">程度：</span>
                     <div class="input-div-context-noborder-33">{{ pointOutRoom.skinDegree }}</div>
                   </span>
                 </div>
                 <div>
                   <span
-                    class="input-div mgl48"
+                    class="input-div mgl5"
                   >
-                    <span>大小：</span>
+                    <span style="width:45px">大小：</span>
                     <div class="input-div-context-noborder-33">{{ pointOutRoom.skinSize }}</div>
                   </span>
                 </div>
@@ -804,6 +808,8 @@
                 <div class="td-div">
                   <IsSelect :myselect="pointPacu.skinName === '2' ? true : false" />
                   <span>破损</span>
+                </div>
+                <div>
                   <span
                     class="input-div mgl5"
                   >
@@ -813,17 +819,17 @@
                 </div>
                 <div>
                   <span
-                    class="input-div mgl48"
+                    class="input-div mgl5"
                   >
-                    <span>程度：</span>
+                    <span style="width:45px">程度：</span>
                     <div class="input-div-context-noborder-33">{{ pointPacu.skinDegree }}</div>
                   </span>
                 </div>
                 <div>
                   <span
-                    class="input-div mgl48"
+                    class="input-div mgl5"
                   >
-                    <span>大小：</span>
+                    <span style="width:45px">大小：</span>
                     <div class="input-div-context-noborder-33">{{ pointPacu.skinSize }}</div>
                   </span>
                 </div>
@@ -836,26 +842,28 @@
                 <div class="td-div">
                   <IsSelect :myselect="outPacu.skinName === '2' ? true : false" />
                   <span>破损</span>
+                </div>
+                <div>
                   <span
                     class="input-div mgl5"
                   >
-                    <span>部位：</span>
+                    <span style="width:45px">部位：</span>
                     <div class="input-div-context-noborder-33">{{ outPacu.skinPart }}</div>
                   </span>
                 </div>
                 <div>
                   <span
-                    class="input-div mgl48"
+                    class="input-div mgl5"
                   >
-                    <span>程度：</span>
+                    <span style="width:45px">程度：</span>
                     <div class="input-div-context-noborder-33">{{ outPacu.skinDegree }}</div>
                   </span>
                 </div>
                 <div>
                   <span
-                    class="input-div mgl48"
+                    class="input-div mgl5"
                   >
-                    <span>大小：</span>
+                    <span style="width:45px">大小：</span>
                     <div class="input-div-context-noborder-33">{{ outPacu.skinSize }}</div>
                   </span>
                 </div>
@@ -1249,11 +1257,11 @@ export default {
     },
     getWenShuData () {
       let obj = {
-        // hospitalNo: 666,
-        // cureNo: 1010
-        cureNo: this.$store.state['nursing-document-list'].cureNo,
+        hospitalNo: 666,
+        cureNo: 1010
+        // cureNo: this.$store.state['nursing-document-list'].cureNo,
 
-        hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
+        // hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
       }
 
       this.$store.dispatch('ReqTransitTransfer', obj).then(res => {

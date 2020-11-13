@@ -18,7 +18,12 @@
   display: flex;
   flex-direction: column;
 }
-
+.col-45 {
+  flex-wrap: nowrap;
+  display: flex;
+  font-size: 14px;
+  width: 45%;
+}
 .hulijilv-two-container .wenben-content-info .info-content-title {
   text-align: center;
   letter-spacing: 5px;
@@ -148,35 +153,31 @@
   display: flex;
   font-size: 14px;
   width: 30%;
+  flex-wrap: nowrap
 }
 
 .col-50 {
   display: flex;
   font-size: 14px;
   width: 50%;
+  flex-wrap: nowrap
 }
-
+.col-40 {
+  display: flex;
+  font-size: 14px;
+  width: 40%;
+  flex-wrap: nowrap
+}
 .col-70 {
   display: flex;
   font-size: 14px;
   width: 70%;
+  flex-wrap: nowrap
 }
 
-.row-lable {
-  width: 150px;
-  line-height: 28px;
-  text-align: right;
-  vertical-align: middle;
-  float: left;
-  font-size: 14px;
-  color: #000;
-  padding: 0 12px 0 0;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
 
 .row-lable {
-  width: 150px;
+  width: 135px;
   line-height: 28px;
   text-align: right;
   vertical-align: middle;
