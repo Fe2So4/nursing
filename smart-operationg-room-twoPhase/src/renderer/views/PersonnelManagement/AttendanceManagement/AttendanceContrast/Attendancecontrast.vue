@@ -46,8 +46,7 @@
           stripe
           ref="xTable"
           class="mytable-scrollbar"
-          highlight-current-row
-          highlight-hover-row
+
           align="center"
           :data="selectTableList"
         >
@@ -194,12 +193,12 @@ export default {
   methods: {
     changeBusiness () {
       this.selectCheckList = []
+      this.selectTableList = []
       this.topRadioList.forEach(item => {
         if (item.label === this.topRadio) {
           this.businessName = item.name
         }
       })
-      console.log(this.businessName)
     },
     changeShift () {
       if (this.IsEmpty(this.businessName)) {
@@ -221,10 +220,9 @@ export default {
     changeRowInfo (type, row) {
       // 点击向上
       if (type === '1') {
-        console.log(row)
         this.upGo(row.index)
       } else { // 点击向下
-        console.log(row)
+        this.downGo(row.index)
       }
     },
     upGo (index) {
@@ -232,6 +230,15 @@ export default {
         this.selectCheckList[index] = this.selectCheckList.splice(index - 1, 1, this.selectCheckList[index])[0]
       } else {
         this.selectCheckList.push(this.selectCheckList.shift())
+      }
+      this.changeShift()
+    },
+    downGo (index) {
+      console.log(index, this.selectCheckList.length - 1)
+      if (index !== this.selectCheckList.length - 1) {
+        this.selectCheckList[index] = this.selectCheckList.splice(index + 1, 1, this.selectCheckList[index])[0]
+      } else {
+        this.selectCheckList.unshift(this.selectCheckList.splice(index, 1)[0])
       }
       this.changeShift()
     },

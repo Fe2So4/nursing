@@ -365,11 +365,11 @@
           <span>10、手术冲洗：</span>
           <span style="marginLeft:6px">
             <span>0.9%氯化钠溶液</span>
-            <IsSelect :myselect="rinse.rinseList[0] === '1'?true:false" />
+            <IsSelect :myselect="rinse.rinseStr.includes('1')?true:false" />
           </span>
           <span style="marginLeft:6px">
             <span>灭菌注射用水</span>
-            <IsSelect :myselect="rinse.rinseList[0] === '2'?true:false" />
+            <IsSelect :myselect="rinse.rinseStr.includes('2')?true:false" />
           </span>
           <span class="input-div mgl5">
             <span style="marginLeft:8px">药液</span>
@@ -726,7 +726,8 @@ export default {
       },
       rinse: { // 手术冲洗
         rinseName: '',
-        rinseList: []
+        rinseList: [],
+        rinseStr: ''
       },
       waistPuncture: { // 腰穿留置
         waistPunctureName: '',
@@ -873,6 +874,7 @@ export default {
             }
           }
           this.rinse = this.wenshuData.rinse
+          this.rinse.rinseStr = this.rinse.rinseList.join(',')
           this.waistPuncture = this.wenshuData.waistPuncture
           this.opsChange = this.wenshuData.opsChange
           this.handOver = this.wenshuData.handOver
