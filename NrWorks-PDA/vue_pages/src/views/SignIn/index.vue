@@ -46,18 +46,18 @@
             <van-switch v-model="recordForm[6].value" active-color="#3478FF" inactive-color="#E8E8E8" @change="handleChange"/>
           </template>
         </van-cell>
-        <van-cell-group v-show="showFullSkin">
-          <van-cell v-show="showFullSkin" title="部位：" title-class="left-title" value-class="right-value">
+        <div v-show="!recordForm[6].value">
+          <van-cell title="部位：" title-class="left-title" value-class="right-value">
             <template #right-icon>
               <van-field v-model="recordForm[6].items[0].value" label="" placeholder="请输入部位：" label-align="right" input-align="right"/>
             </template>
           </van-cell>
-          <van-cell v-show="showFullSkin" title="程度：" title-class="left-title" value-class="right-value">
+          <van-cell title="程度：" title-class="left-title" value-class="right-value">
             <template #right-icon>
               <van-field v-model="recordForm[6].items[1].value" label="" placeholder="请输入程度：" label-align="right" input-align="right"/>
             </template>
           </van-cell>
-        </van-cell-group>
+        </div>
         <van-cell title="术野皮肤准备正确：" value="内容" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="recordForm[7].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
@@ -105,17 +105,17 @@
         </van-cell>
       </van-cell-group>
       <van-cell-group :border="false">
-        <van-cell title="核查时间" :value="time"></van-cell>
+        <van-cell title="核查时间" :value="recordForm[16].value"></van-cell>
         <van-cell title="麻醉医师签名" title-class="sign-title" @click="handleShowSignature(1)"></van-cell>
-        <div v-if="anesBeforeAnesDoc!==''" style="text-align:center;">
+        <div v-if="anesBeforeAnesDoc!==''" class="signatureImage-content">
           <img :src="anesBeforeAnesDoc" alt="" class="signatureImage">
         </div>
         <van-cell title="手术医师签名" title-class="sign-title" @click="handleShowSignature(2)"></van-cell>
-        <div v-if="anesBeforeOperDoc!==''" style="text-align:center;">
+        <div v-if="anesBeforeOperDoc!==''" class="signatureImage-content">
           <img :src="anesBeforeOperDoc" alt="" class="signatureImage">
         </div>
         <van-cell title="手术护士签名" title-class="sign-title" @click="handleShowSignature(3)"></van-cell>
-        <div v-if="anesBeforeNurse!==''" style="text-align:center;">
+        <div v-if="anesBeforeNurse!==''" class="signatureImage-content">
           <img :src="anesBeforeNurse" alt="" class="signatureImage">
         </div>
       </van-cell-group>
@@ -140,7 +140,7 @@ export default {
       currentSign: null,
       showFullSkin: true,
       visible: false,
-      time: moment(new Date()).format('YYYY-MM-DD HH:mm'),
+      // time: moment(new Date()).format('YYYY-MM-DD HH:mm'),
       anesBeforeAnesDoc: '',
       anesBeforeOperDoc: '',
       anesBeforeNurse: '',
@@ -169,7 +169,7 @@ export default {
         {key: '假体', value: false, sort: '14'},
         {key: '体内植入物', value: false, sort: '15'},
         {key: '其它', value: '', sort: '16'},
-        {key: '核查时间', value: '', sort: '17'}
+        {key: '核查时间', value: moment(new Date()).format('YYYY-MM-DD HH:mm'), sort: '17'}
       ]
     }
   },
@@ -219,6 +219,8 @@ export default {
           }
         }
       })
+      // console.log(arr, state)
+      // return false
       request({
         method: 'post',
         url: submitSignIn,
@@ -264,7 +266,8 @@ export default {
           this.time = data.anesBeforeChkTime
           if (data.anesBeforeCheck.length > 0) {
             data.anesBeforeCheck.forEach(item => {
-              if (item.key !== '其它') {
+              if (item.key === '其它' || item.key === '核查时间') {
+              } else {
                 if (item.value === '是') {
                   item.value = true
                 } else {
@@ -378,6 +381,7 @@ export default {
     .signatureImage{
       height: 300px;
       margin: 0 auto;
+
     }
     .van-cell-group{
       &:last-child{

@@ -135,28 +135,42 @@ export default {
       }).then(res => {
         let data = res.data.data
         this.state = data.recordTwoState
-        this.recordList[0].value = data.deptName
-        this.recordList[1].value = data.opsName
-        this.recordList[2].value = data.opsType === '1' ? '择期' : data.opsType === '2' ? '非择期' : '急诊'
-        this.recordList[3].value = data.consciousness === '1' ? '清醒' : data.consciousness === '2' ? '烦躁' : '昏迷'
-        this.recordList[4].value = data.skin.skinName === '1' ? '完整' : '不完整'
-        this.recordList[4].skin = data.skin
-        this.recordList[5].skin = data.anesthesiaMode
-        this.recordList[6].position = data.position
-        this.recordList[7].device = data.device
-        this.recordList[8].constraints = data.constraints
-        this.recordList[9].value = data.catheter.catheterName === '1' ? '无' : data.catheter.catheterName === '2' ? '病房带入' : '手术室插入'
-        this.recordList[9].catheter = data.catheter
-        this.recordList[10].value = data.equipment.electrotome.electrotomeName === '1' ? '无' : '有'
-        this.recordList[10].electrotome = data.equipment.electrotome
-        this.recordList[11].value = data.equipment.electrotomeLocation
-        this.recordList[12].value = data.equipment.bhMachine.bhMachineName === '1' ? '无' : '有'
-        this.recordList[13].value = data.handOver.handOverName === '1' ? '无' : '有'
-        this.recordList[13].handOver = data.handOver
-        this.recordList[14].value = data.frozen.frozenName === '1' ? '无' : '有'
-        this.recordList[15].value = data.pathology.pathologyName === '1' ? '无' : '有'
-        this.recordList[15].pathology = data.pathology
-        this.recordList[16].value = data.implants === '1' ? '无' : '有'
+        if (data.recordTwoState !== '0') {
+          this.recordList[0].value = data.deptName
+          this.recordList[1].value = data.opsName
+          this.recordList[2].value = data.opsType === '1' ? '择期' : data.opsType === '2' ? '非择期' : '急诊'
+          this.recordList[3].value = data.consciousness === '1' ? '清醒' : data.consciousness === '2' ? '烦躁' : '昏迷'
+          if (!this.IsEmpty(data.skin)) {
+            this.recordList[4].value = data.skin.skinName === '1' ? '完整' : '不完整'
+            this.recordList[4].skin = data.skin
+          }
+          this.recordList[5].value = data.anesthesiaMode
+          this.recordList[6].position = data.position
+          this.recordList[7].device = data.device
+          this.recordList[8].constraints = data.constraints
+          if (!this.IsEmpty(data.catheter)) {
+            this.recordList[9].value = data.catheter.catheterName === '1' ? '无' : data.catheter.catheterName === '2' ? '病房带入' : '手术室插入'
+            this.recordList[9].catheter = data.catheter
+          }
+          if (!this.IsEmpty(data.equipment)) {
+            this.recordList[10].value = data.equipment.electrotome.electrotomeName === '1' ? '无' : '有'
+            this.recordList[10].electrotome = data.equipment.electrotome
+            this.recordList[11].value = data.equipment.electrotomeLocation
+            this.recordList[12].value = data.equipment.bhMachine.bhMachineName === '1' ? '无' : '有'
+          }
+          if (!this.IsEmpty(data.handOver)) {
+            this.recordList[13].value = data.handOver.handOverName === '1' ? '无' : '有'
+            this.recordList[13].handOver = data.handOver
+          }
+          if (!this.IsEmpty(data.frozen)) {
+            this.recordList[14].value = data.frozen.frozenName === '1' ? '无' : '有'
+            this.recordList[15].value = data.pathology.pathologyName === '1' ? '无' : '有'
+          }
+          if (!this.IsEmpty(data.pathology)) {
+            this.recordList[15].pathology = data.pathology
+          }
+          this.recordList[16].value = data.implants === '1' ? '无' : '有'
+        }
       })
     }
   },

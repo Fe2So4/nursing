@@ -98,67 +98,69 @@ export default {
         method: 'get'
       }).then(res => {
         let data = JSON.parse(res.data.data.specialEquipmentStr)
-        data.forEach(item => {
-          let arr = []
-          arr.push({ name: item.insName, value: 0, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 })
-          arr.forEach(_item => {
-            item.items.before.forEach(item => {
-              if (item.insName === _item.insName) {
-                _item.before = item.number
-              }
+        if (data.length) {
+          data.forEach(item => {
+            let arr = []
+            arr.push({ name: item.insName, value: 0, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 })
+            arr.forEach(_item => {
+              item.items.before.forEach(item => {
+                if (item.insName === _item.insName) {
+                  _item.before = item.number
+                }
+              })
             })
-          })
-          arr.forEach(_item => {
-            item.items.adding.forEach(item => {
-              if (item.insName === _item.insName) {
-                _item.adding = item.number
-              }
+            arr.forEach(_item => {
+              item.items.adding.forEach(item => {
+                if (item.insName === _item.insName) {
+                  _item.adding = item.number
+                }
+              })
             })
-          })
-          arr.forEach(_item => {
-            item.items.adding1.forEach(item => {
-              if (item.insName === _item.insName) {
-                _item.adding1 = item.number
-              }
+            arr.forEach(_item => {
+              item.items.adding1.forEach(item => {
+                if (item.insName === _item.insName) {
+                  _item.adding1 = item.number
+                }
+              })
             })
-          })
-          arr.forEach(_item => {
-            item.items.adding2.forEach(item => {
-              if (item.insName === _item.insName) {
-                _item.adding2 = item.number
-              }
+            arr.forEach(_item => {
+              item.items.adding2.forEach(item => {
+                if (item.insName === _item.insName) {
+                  _item.adding2 = item.number
+                }
+              })
             })
-          })
-          arr.forEach(_item => {
-            item.items.adding3.forEach(item => {
-              if (item.insName === _item.insName) {
-                _item.adding3 = item.number
-              }
+            arr.forEach(_item => {
+              item.items.adding3.forEach(item => {
+                if (item.insName === _item.insName) {
+                  _item.adding3 = item.number
+                }
+              })
             })
-          })
-          arr.forEach(_item => {
-            item.items.before2.forEach(item => {
-              if (item.insName === _item.insName) {
-                _item.before2 = item.number
-              }
+            arr.forEach(_item => {
+              item.items.before2.forEach(item => {
+                if (item.insName === _item.insName) {
+                  _item.before2 = item.number
+                }
+              })
             })
-          })
-          arr.forEach(_item => {
-            item.items.after.forEach(item => {
-              if (item.insName === _item.insName) {
-                _item.after = item.number
-              }
+            arr.forEach(_item => {
+              item.items.after.forEach(item => {
+                if (item.insName === _item.insName) {
+                  _item.after = item.number
+                }
+              })
             })
-          })
-          arr.forEach(_item => {
-            item.items.after2.forEach(item => {
-              if (item.insName === _item.insName) {
-                _item.after2 = item.number
-              }
+            arr.forEach(_item => {
+              item.items.after2.forEach(item => {
+                if (item.insName === _item.insName) {
+                  _item.after2 = item.number
+                }
+              })
             })
+            item.deviceList = arr
           })
-          item.deviceList = arr
-        })
+        }
         this.list = data
       })
     }
