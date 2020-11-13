@@ -117,6 +117,39 @@ const personnelRoutes = {
           ]
         },
         {
+          path: 'maintenance1',
+          name: 'maintenance1',
+          meta: {
+            title: '出勤排班发布',
+            noNavs: false,
+            parent: 'attendanceManagement'
+          },
+          component: () => import('@/views/PersonnelManagement/AttendanceManagement/index'),
+          redirect: '/personnel/attendance/maintenance/attendance-maintenance',
+          children: [
+            {
+              path: 'attendance-daily',
+              name: 'attendanceDaily',
+              component: () => import('@/views/PersonnelManagement/AttendanceManagement/AttendanceDaily/index.vue'),
+              meta: {
+                title: '人员排班日常维护',
+                noNavs: false,
+                parent: 'attendanceManagement'
+              }
+            },
+            {
+              path: 'attendance-scheduling',
+              name: 'attendanceScheduling',
+              component: () => import('@/views/PersonnelManagement/AttendanceManagement/AttendanceScheduling/index.vue'),
+              meta: {
+                title: '排班结果展示发布',
+                noNavs: false,
+                parent: 'attendanceManagement'
+              }
+            }
+          ]
+        },
+        {
           path: 'files-info-maintain',
           name: 'FilesInfoMaintain',
           component: () => import('@/views/PersonnelManagement/PersonnelFiles/FilesInfoMaintain/index'),

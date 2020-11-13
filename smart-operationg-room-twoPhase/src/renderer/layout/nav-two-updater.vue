@@ -90,6 +90,16 @@ export default {
                   title: '出勤排班发布',
                   path: '/personnel/attendance/maintenance1',
                   children: [
+                    {
+                      icon: 'iconfont icon-guanli',
+                      title: '人员排班日常维护',
+                      path: '/personnel/attendance/maintenance1/attendance-daily'
+                    },
+                    {
+                      icon: 'iconfont icon-guanli',
+                      title: '排班结果展示发布',
+                      path: '/personnel/attendance/maintenance1/attendance-scheduling'
+                    }
                   ]
 
                 }

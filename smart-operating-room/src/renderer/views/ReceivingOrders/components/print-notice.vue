@@ -339,7 +339,7 @@ export default {
       request({
         url: getOperatingNoticeTime,
         method: 'post',
-        data: {
+        params: {
           cureNo: this.selectRow.cureNo,
           hospitalNo: this.selectRow.hospitalNo
         }
@@ -380,8 +380,8 @@ export default {
     })
     Bus.$on('detail-patient', res => {
       this.utilsDebounce(() => {
-        this.printCurrent()
         this.getOperatingTime()
+        this.printCurrent()
       }, 1000)
     })
   }
