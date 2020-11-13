@@ -86,7 +86,7 @@ export default {
         { name: '血管夹', value: 4, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
         { name: '长针头', value: 3, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
         { name: '清洁片', value: 2, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
-        { name: '电刀头', value: 1, before: 1, adding: 1, adding1: 1, adding2: 1, adding3: 1, before2: 1, after: 1, after2: 1 }
+        { name: '电刀头', value: 1, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 }
       ],
       list: []
     }
@@ -101,56 +101,58 @@ export default {
         method: 'get'
       }).then(res => {
         let data = res.data.data
-        data.basicEquipment.before.forEach(item => {
-          for (let i = 0; i < this.deviceList.length; i++) {
-            if (this.deviceList[i].name === item.insName) { this.deviceList[i].before = item.number }
-          }
-        })
-        data.basicEquipment.adding.forEach(item => {
-          for (let i = 0; i < this.deviceList.length; i++) {
-            if (this.deviceList[i].name === item.insName) { this.deviceList[i].adding = item.number }
-          }
-        })
-        data.basicEquipment.adding1.forEach(item => {
-          for (let i = 0; i < this.deviceList.length; i++) {
-            if (this.deviceList[i].name === item.insName) { this.deviceList[i].adding1 = item.number }
-          }
-        })
-        data.basicEquipment.adding2.forEach(item => {
-          for (let i = 0; i < this.deviceList.length; i++) {
-            if (this.deviceList[i].name === item.insName) {
-              this.deviceList[i].adding2 = item.number
+        if (!this.IsEmpty(data.basicEquipment)) {
+          data.basicEquipment.before.forEach(item => {
+            for (let i = 0; i < this.deviceList.length; i++) {
+              if (this.deviceList[i].name === item.insName) { this.deviceList[i].before = item.number }
             }
-          }
-        })
-        data.basicEquipment.adding3.forEach(item => {
-          for (let i = 0; i < this.deviceList.length; i++) {
-            if (this.deviceList[i].name === item.insName) {
-              this.deviceList[i].adding3 = item.number
+          })
+          data.basicEquipment.adding.forEach(item => {
+            for (let i = 0; i < this.deviceList.length; i++) {
+              if (this.deviceList[i].name === item.insName) { this.deviceList[i].adding = item.number }
             }
-          }
-        })
-        data.basicEquipment.before2.forEach(item => {
-          for (let i = 0; i < this.deviceList.length; i++) {
-            if (this.deviceList[i].name === item.insName) {
-              this.deviceList[i].before2 = item.number
+          })
+          data.basicEquipment.adding1.forEach(item => {
+            for (let i = 0; i < this.deviceList.length; i++) {
+              if (this.deviceList[i].name === item.insName) { this.deviceList[i].adding1 = item.number }
             }
-          }
-        })
-        data.basicEquipment.after.forEach(item => {
-          for (let i = 0; i < this.deviceList.length; i++) {
-            if (this.deviceList[i].name === item.insName) {
-              this.deviceList[i].after = item.number
+          })
+          data.basicEquipment.adding2.forEach(item => {
+            for (let i = 0; i < this.deviceList.length; i++) {
+              if (this.deviceList[i].name === item.insName) {
+                this.deviceList[i].adding2 = item.number
+              }
             }
-          }
-        })
-        data.basicEquipment.after2.forEach(item => {
-          for (let i = 0; i < this.deviceList.length; i++) {
-            if (this.deviceList[i].name === item.insName) {
-              this.deviceList[i].after2 = item.number
+          })
+          data.basicEquipment.adding3.forEach(item => {
+            for (let i = 0; i < this.deviceList.length; i++) {
+              if (this.deviceList[i].name === item.insName) {
+                this.deviceList[i].adding3 = item.number
+              }
             }
-          }
-        })
+          })
+          data.basicEquipment.before2.forEach(item => {
+            for (let i = 0; i < this.deviceList.length; i++) {
+              if (this.deviceList[i].name === item.insName) {
+                this.deviceList[i].before2 = item.number
+              }
+            }
+          })
+          data.basicEquipment.after.forEach(item => {
+            for (let i = 0; i < this.deviceList.length; i++) {
+              if (this.deviceList[i].name === item.insName) {
+                this.deviceList[i].after = item.number
+              }
+            }
+          })
+          data.basicEquipment.after2.forEach(item => {
+            for (let i = 0; i < this.deviceList.length; i++) {
+              if (this.deviceList[i].name === item.insName) {
+                this.deviceList[i].after2 = item.number
+              }
+            }
+          })
+        }
       })
     }
   },

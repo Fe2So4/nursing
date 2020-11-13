@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import $bus from '@/utils/busScreen'
 export default {
   name: 'Overview',
   props: {
@@ -34,6 +35,11 @@ export default {
   },
   method: {
 
+  },
+  created () {
+    $bus.$emit('getSignInInfo')
+    $bus.$emit('getTimeOutInfo')
+    $bus.$emit('getSignOutInfo')
   }
 }
 </script>

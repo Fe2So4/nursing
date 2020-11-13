@@ -38,6 +38,7 @@ import CheckOverview from './check-overview'
 import {startSpeak} from '@/utils/voiceSpeak'
 import {mapState} from 'vuex'
 import request from '@/utils/request'
+import $bus from '@/utils/busScreen'
 export default {
   name: 'SecurityCheck',
   data () {
@@ -293,6 +294,16 @@ export default {
   },
   mounted () {
     this.getSignInInfo()
+    this.getTimeOutInfo()
+    this.getSignOutInfo()
+    $bus.$on('getSignInInfo', this.getSignInInfo)
+    $bus.$on('getTimeOutInfo', this.getTimeOutInfo)
+    $bus.$on('getSignOutInfo', this.getSignOutInfo)
+  },
+  beforeDestroy () {
+    $bus.$off('getSignInInfo')
+    $bus.$off('getTimeOutInfo')
+    $bus.$off('getSignOutInfo')
   }
 }
 </script>

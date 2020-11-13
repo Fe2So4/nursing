@@ -12,7 +12,7 @@
         <div
           class="li-right"
         >
-          <i :class="item.value==='是' ? 'el-icon-check' : 'el-icon-close red'" />
+          <i :class="item.value==='是' || item.value!=='' ? 'el-icon-check' : 'el-icon-close red'" />
         </div>
       </li>
     </ul>

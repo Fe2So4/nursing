@@ -130,6 +130,8 @@ export default {
         margin-bottom:10px;
         span{
           color:#3377ff;
+          text-align: center;
+          flex: 1;
           &:nth-child(2){
             color: #08b147;
           }
