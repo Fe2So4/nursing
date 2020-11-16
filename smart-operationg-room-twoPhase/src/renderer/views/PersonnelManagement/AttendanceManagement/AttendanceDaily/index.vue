@@ -20,7 +20,7 @@
           size="mini"
           type="primary"
         >
-          搜索
+          搜 索
         </el-button>
         <el-button
           size="mini"
@@ -36,7 +36,7 @@
           plain
           style="color:#303133"
         >
-          保存
+          保 存
         </el-button>
       </div>
     </div>
@@ -382,6 +382,9 @@ export default {
 }
 /deep/ .vxe-cell--title {
   color: #000;
+}
+/deep/ .el-date-editor.el-input, .el-date-editor.el-input__inner {
+  width:30px !important
 }
 .attendance-daily-container {
   display: flex;

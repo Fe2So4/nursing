@@ -22,6 +22,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .search-leave-container {
+    height: 100%;
+  }
   .search-leave{
     height: 100%;
   }

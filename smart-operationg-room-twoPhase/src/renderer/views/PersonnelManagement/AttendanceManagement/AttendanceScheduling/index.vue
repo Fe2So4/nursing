@@ -176,6 +176,9 @@ export default {
 /deep/ .vxe-cell--title {
   color: #000;
 }
+/deep/ .el-date-editor.el-input, .el-date-editor.el-input__inner {
+  width:30px !important
+}
 .attendance-scheduling-container {
   display: flex;
   flex-direction: column;

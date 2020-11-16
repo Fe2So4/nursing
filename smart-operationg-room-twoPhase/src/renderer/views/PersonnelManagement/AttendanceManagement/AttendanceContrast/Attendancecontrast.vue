@@ -92,7 +92,7 @@
             type="primary"
             size="mini"
           >
-            保存
+            保 存
           </el-button>
         </div>
       </div>
@@ -261,6 +261,9 @@ export default {
 }
 /deep/ .vxe-cell--title {
   color: #000;
+}
+/deep/ .vxe-table .vxe-table--border-line {
+  border: none;
 }
 .attendance-contarst-container {
   width:100%;
