@@ -1293,11 +1293,11 @@ export default {
     },
     getWenShuData () {
       let obj = {
-        hospitalNo: 666,
-        cureNo: 1010
-        // cureNo: this.$store.state['nursing-document-list'].cureNo,
+        // hospitalNo: 666,
+        // cureNo: 1010
+        cureNo: this.$store.state['nursing-document-list'].cureNo,
 
-        // hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
+        hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
       }
 
       this.$store.dispatch('ReqTransitTransfer', obj).then(res => {

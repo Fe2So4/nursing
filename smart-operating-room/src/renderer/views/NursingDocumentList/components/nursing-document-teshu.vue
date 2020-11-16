@@ -102,7 +102,7 @@
                   <td style="height:20px;borderRight:1px solid #000;textAlign:center">
                     第三次
                   </td>
-                  <td style="height:20px">
+                  <td style="height:20px;textAlign:center">
                     第四次
                   </td>
                 </tr>

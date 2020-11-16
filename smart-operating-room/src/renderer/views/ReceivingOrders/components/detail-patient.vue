@@ -11,7 +11,7 @@
         </el-col>
         <el-col :span="3">
           <span>性别：</span>
-          <span class="dp-value">{{ selectRow.patientGender }}</span>
+          <span class="dp-value">{{ selectRow.patientGender | formatGender }}</span>
         </el-col>
         <el-col :span="3">
           <span>年龄：</span>
@@ -183,6 +183,17 @@ export default {
       codeInput: 'work=22350206',
       exitType: '2',
       workCode: ''
+    }
+  },
+  filters: {
+    formatGender: function (value) {
+      if (!value) return ''
+      value = value.toString()
+      if (value === '1') {
+        return '男'
+      } else {
+        return '女'
+      }
     }
   },
   methods: {
