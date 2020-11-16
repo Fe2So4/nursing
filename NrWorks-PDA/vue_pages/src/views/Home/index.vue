@@ -75,12 +75,18 @@ export default {
         url: getPatientInfo + '/' + this.cureNo,
         method: 'get'
       }).then(res => {
-        if (res.data.code === 200) {
-          this.getPatient(res.data.data)
-          setTimeout(() => {
-            this.bindingPatPushScreen()
-            this.showLoading = false
-          }, 2000)
+        if (res) {
+          if (res.data.code === 200) {
+            this.getPatient(res.data.data)
+            setTimeout(() => {
+              this.bindingPatPushScreen()
+              this.showLoading = false
+            }, 2000)
+          } else {
+            setTimeout(() => {
+              this.showLoading = false
+            }, 2000)
+          }
         } else {
           setTimeout(() => {
             this.showLoading = false

@@ -217,8 +217,8 @@ export default {
           url: getPackageData + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`
         }).then(res => {
           let data = res.data.data
-          data.basicEquipment = JSON.parse(JSON.stringify(data.basicEquipment))
-          this.recordForm.basicEquipment = data.basicEquipment
+          // data.basicEquipment = JSON.parse(JSON.stringify(data.basicEquipment))
+          // this.recordForm.basicEquipment = data.basicEquipment
           if (!this.IsEmpty(data.basicEquipment)) {
             this.recordForm.xhAllClossQm = data.xhAllClossQm
             this.recordForm.xhClossQm = data.xhClossQm
@@ -238,49 +238,65 @@ export default {
             this.recordForm.xsTwoQm = data.xsTwoQm
             switch (this.active) {
               case 0:
-                this.packageList = data.basicEquipment.before
+                if (data.basicEquipment.before && data.basicEquipment.before.length > 0) {
+                  this.packageList = data.basicEquipment.before
+                }
                 this.state = data.beforeStatus
                 this.sign1 = data.xsSqQm
                 this.sign2 = data.xhSqQm
                 break
               case 1:
-                this.packageList = data.basicEquipment.adding
+                if (data.basicEquipment.adding && data.basicEquipment.adding.length > 0) {
+                  this.packageList = data.basicEquipment.adding
+                }
                 this.state = data.addingOne
                 this.sign1 = data.xsOneQm
                 this.sign2 = data.xhOneQm
                 break
               case 2:
-                this.packageList = data.basicEquipment.adding1
+                if (data.basicEquipment.adding1 && data.basicEquipment.adding1.length > 0) {
+                  this.packageList = data.basicEquipment.adding1
+                }
                 this.state = data.addingTwo
                 this.sign1 = data.xsTwoQm
                 this.sign2 = data.xhTwoQm
                 break
               case 3:
-                this.packageList = data.basicEquipment.adding2
+                if (data.basicEquipment.adding2 && data.basicEquipment.adding2.length > 0) {
+                  this.packageList = data.basicEquipment.adding2
+                }
                 this.state = data.addingThree
                 this.sign1 = data.xsThreeQm
                 this.sign2 = data.xhThreeQm
                 break
               case 4:
-                this.packageList = data.basicEquipment.adding3
+                if (data.basicEquipment.adding3 && data.basicEquipment.adding3.length > 0) {
+                  this.packageList = data.basicEquipment.adding3
+                }
                 this.state = data.addingFour
                 this.sign1 = data.xsFourQm
                 this.sign2 = data.xhFourQm
                 break
               case 5:
-                this.packageList = data.basicEquipment.before2
+                if (data.basicEquipment.before2 && data.basicEquipment.before2.length) {
+                  this.packageList = data.basicEquipment.before2
+                }
                 this.state = data.clossBefore
                 this.sign1 = data.xsClossQm
                 this.sign2 = data.xhClossQm
                 break
               case 6:
-                this.packageList = data.basicEquipment.after
+                if (data.basicEquipment.after && data.basicEquipment.after.length > 0) {
+                  this.packageList = data.basicEquipment.after
+                }
                 this.state = data.clossAfter
                 this.sign1 = data.xsAllClossQm
                 this.sign2 = data.xhAllClossQm
                 break
               case 7:
-                this.packageList = data.basicEquipment.after2
+                if (data.basicEquipment.after2.length > 0) {
+                  this.packageList = data.basicEquipment.after2
+                }
                 this.state = data.sutureAfter
                 this.sign1 = data.xsFhQm
                 this.sign2 = data.xhFhQm
@@ -290,29 +306,6 @@ export default {
         })
       }
     },
-    // getData () {
-    //   let deviceId = '123456'
-    //   request({
-    //     method: 'get',
-    //     url: getPackage + '/' + deviceId
-    //   }).then(res => {
-    //     let data = res.data.data.packageDetail
-    //     data.forEach(item => {
-    //       item.number = 0
-    //     })
-    //     this.packageList = JSON.parse(JSON.stringify(data))
-    //     this.recordForm.basicEquipment.pinsName = res.data.data.insName
-    //     this.recordForm.basicEquipment.pId = res.data.data.id
-    //     this.recordForm.basicEquipment.items.before = JSON.parse(JSON.stringify(data)) // 术前
-    //     this.recordForm.basicEquipment.items.adding = JSON.parse(JSON.stringify(data)) // 术中一
-    //     this.recordForm.basicEquipment.items.adding1 = JSON.parse(JSON.stringify(data)) // 术中二
-    //     this.recordForm.basicEquipment.items.adding2 = JSON.parse(JSON.stringify(data)) // 术中三
-    //     this.recordForm.basicEquipment.items.adding3 = JSON.parse(JSON.stringify(data)) // 术中四
-    //     this.recordForm.basicEquipment.items.before2 = JSON.parse(JSON.stringify(data)) // 体腔关闭前
-    //     this.recordForm.basicEquipment.items.after = JSON.parse(JSON.stringify(data)) // 体腔关闭后
-    //     this.recordForm.basicEquipment.items.after2 = JSON.parse(JSON.stringify(data)) // 缝合后
-    //   })
-    // },
     onClickRight () {
       let obj = JSON.parse(JSON.stringify(this.recordForm))
       let state = 0
