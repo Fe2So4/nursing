@@ -89,7 +89,7 @@
             class="value"
             style="border-top:1px solid #000;border-right:1px solid #000;"
           >
-            {{ selectRow.patientGender }}
+            {{ selectRow.patientGender | formatGender }}
           </td>
           <td
             class="label"
@@ -339,7 +339,7 @@ export default {
       request({
         url: getOperatingNoticeTime,
         method: 'post',
-        data: {
+        params: {
           cureNo: this.selectRow.cureNo,
           hospitalNo: this.selectRow.hospitalNo
         }
@@ -380,10 +380,21 @@ export default {
     })
     Bus.$on('detail-patient', res => {
       this.utilsDebounce(() => {
-        this.printCurrent()
         this.getOperatingTime()
+        this.printCurrent()
       }, 1000)
     })
+  },
+  filters: {
+    formatGender: function (value) {
+      if (!value) return ''
+      value = value.toString()
+      if (value === '1') {
+        return '男'
+      } else {
+        return '女'
+      }
+    }
   }
 }
 </script>

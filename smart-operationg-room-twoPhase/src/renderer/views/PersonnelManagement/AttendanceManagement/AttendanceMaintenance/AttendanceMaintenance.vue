@@ -450,6 +450,9 @@ export default {
 /deep/ .el-radio__label {
   padding-left: 0px;
 }
+/deep/ .vxe-cell--title {
+  color: #000;
+}
 .dialog-content {
   .content-name, .content-two {
     background-color: #f9fafc;

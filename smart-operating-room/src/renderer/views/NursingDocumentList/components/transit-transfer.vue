@@ -746,7 +746,10 @@
                     class="input-div mgl5"
                   >
                     <span style="width:45px">部位：</span>
-                    <div class="input-div-context-noborder-33">{{ pointInRoom.skinPart }}</div>
+                    <div
+                      style="width:100px"
+                      class="input-div-context-noborder-33"
+                    >{{ pointInRoom.skinPart }}</div>
                   </span>
                 </div>
                 <div>
@@ -754,7 +757,10 @@
                     class="input-div mgl5"
                   >
                     <span style="width:45px">程度：</span>
-                    <div class="input-div-context-noborder-33">{{ pointInRoom.skinDegree }}</div>
+                    <div
+                      style="width:100px"
+                      class="input-div-context-noborder-33"
+                    >{{ pointInRoom.skinDegree }}</div>
                   </span>
                 </div>
                 <div>
@@ -762,7 +768,10 @@
                     class="input-div mgl5"
                   >
                     <span style="width:45px">大小：</span>
-                    <div class="input-div-context-noborder-33">{{ pointInRoom.skinSize }}</div>
+                    <div
+                      style="width:100px"
+                      class="input-div-context-noborder-33"
+                    >{{ pointInRoom.skinSize }}</div>
                   </span>
                 </div>
               </td>
@@ -780,7 +789,10 @@
                     class="input-div mgl5"
                   >
                     <span style="width:45px">部位：</span>
-                    <div class="input-div-context-noborder-33">{{ pointOutRoom.skinPart }}</div>
+                    <div
+                      style="width:100px"
+                      class="input-div-context-noborder-33"
+                    >{{ pointOutRoom.skinPart }}</div>
                   </span>
                 </div>
                 <div>
@@ -788,7 +800,10 @@
                     class="input-div mgl5"
                   >
                     <span style="width:45px">程度：</span>
-                    <div class="input-div-context-noborder-33">{{ pointOutRoom.skinDegree }}</div>
+                    <div
+                      style="width:100px"
+                      class="input-div-context-noborder-33"
+                    >{{ pointOutRoom.skinDegree }}</div>
                   </span>
                 </div>
                 <div>
@@ -796,7 +811,10 @@
                     class="input-div mgl5"
                   >
                     <span style="width:45px">大小：</span>
-                    <div class="input-div-context-noborder-33">{{ pointOutRoom.skinSize }}</div>
+                    <div
+                      style="width:100px"
+                      class="input-div-context-noborder-33"
+                    >{{ pointOutRoom.skinSize }}</div>
                   </span>
                 </div>
               </td>
@@ -814,7 +832,10 @@
                     class="input-div mgl5"
                   >
                     <span>部位：</span>
-                    <div class="input-div-context-noborder-33">{{ pointPacu.skinPart }}</div>
+                    <div
+                      style="width:100px"
+                      class="input-div-context-noborder-33"
+                    >{{ pointPacu.skinPart }}</div>
                   </span>
                 </div>
                 <div>
@@ -822,7 +843,10 @@
                     class="input-div mgl5"
                   >
                     <span style="width:45px">程度：</span>
-                    <div class="input-div-context-noborder-33">{{ pointPacu.skinDegree }}</div>
+                    <div
+                      style="width:100px"
+                      class="input-div-context-noborder-33"
+                    >{{ pointPacu.skinDegree }}</div>
                   </span>
                 </div>
                 <div>
@@ -830,7 +854,10 @@
                     class="input-div mgl5"
                   >
                     <span style="width:45px">大小：</span>
-                    <div class="input-div-context-noborder-33">{{ pointPacu.skinSize }}</div>
+                    <div
+                      style="width:100px"
+                      class="input-div-context-noborder-33"
+                    >{{ pointPacu.skinSize }}</div>
                   </span>
                 </div>
               </td>
@@ -848,7 +875,10 @@
                     class="input-div mgl5"
                   >
                     <span style="width:45px">部位：</span>
-                    <div class="input-div-context-noborder-33">{{ outPacu.skinPart }}</div>
+                    <div
+                      style="width:100px"
+                      class="input-div-context-noborder-33"
+                    >{{ outPacu.skinPart }}</div>
                   </span>
                 </div>
                 <div>
@@ -856,7 +886,10 @@
                     class="input-div mgl5"
                   >
                     <span style="width:45px">程度：</span>
-                    <div class="input-div-context-noborder-33">{{ outPacu.skinDegree }}</div>
+                    <div
+                      style="width:100px"
+                      class="input-div-context-noborder-33"
+                    >{{ outPacu.skinDegree }}</div>
                   </span>
                 </div>
                 <div>
@@ -864,7 +897,10 @@
                     class="input-div mgl5"
                   >
                     <span style="width:45px">大小：</span>
-                    <div class="input-div-context-noborder-33">{{ outPacu.skinSize }}</div>
+                    <div
+                      style="width:100px"
+                      class="input-div-context-noborder-33"
+                    >{{ outPacu.skinSize }}</div>
                   </span>
                 </div>
               </td>
@@ -1257,11 +1293,11 @@ export default {
     },
     getWenShuData () {
       let obj = {
-        hospitalNo: 666,
-        cureNo: 1010
-        // cureNo: this.$store.state['nursing-document-list'].cureNo,
+        // hospitalNo: 666,
+        // cureNo: 1010
+        cureNo: this.$store.state['nursing-document-list'].cureNo,
 
-        // hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
+        hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
       }
 
       this.$store.dispatch('ReqTransitTransfer', obj).then(res => {
@@ -1306,18 +1342,6 @@ export default {
           if (this.wenshuData.goodsJson.length > 0) {
             this.goodsJson = this.wenshuData.goodsJson[0]
           }
-          if (!this.IsEmpty(this.wenshuData.pointInRoomtime)) {
-            this.pointInRoomtime = this.Moment(this.wenshuData.pointInRoomtime).format('DD日HH时mm分')
-          }
-          if (!this.IsEmpty(this.wenshuData.pointOutRoomTime)) {
-            this.pointOutRoomTime = this.Moment(this.wenshuData.pointOutRoomTime).format('DD日HH时mm分')
-          }
-          if (!this.IsEmpty(this.wenshuData.pointPacuTime)) {
-            this.pointPacuTime = this.Moment(this.wenshuData.pointPacuTime).format('DD日HH时mm分')
-          }
-          if (!this.IsEmpty(this.wenshuData.outPacuTime)) {
-            this.outPacuTime = this.Moment(this.wenshuData.outPacuTime).format('DD日HH时mm分')
-          }
 
           if (this.wenshuData.pointInRoom.length > 0) {
             this.pointInRoom.bp = this.wenshuData.pointInRoom[0].bp
@@ -1330,6 +1354,7 @@ export default {
             this.pointInRoom.skinName = this.wenshuData.pointInRoom[0].skinName
             this.pointInRoom.skinPart = this.wenshuData.pointInRoom[0].skinPart
             this.pointInRoom.skinSize = this.wenshuData.pointInRoom[0].skinSize
+            this.pointInRoomtime = this.Moment(this.wenshuData.pointInRoom[0].appraiseTime).format('DD日HH时mm分')
           }
           if (this.wenshuData.pointOutRoom.length > 0) {
             this.pointOutRoom.bp = this.wenshuData.pointOutRoom[0].bp
@@ -1342,6 +1367,8 @@ export default {
             this.pointOutRoom.skinName = this.wenshuData.pointOutRoom[0].skinName
             this.pointOutRoom.skinPart = this.wenshuData.pointOutRoom[0].skinPart
             this.pointOutRoom.skinSize = this.wenshuData.pointOutRoom[0].skinSize
+
+            this.pointOutRoomTime = this.Moment(this.wenshuData.pointOutRoom[0].appraiseTime).format('DD日HH时mm分')
           }
           if (this.wenshuData.pointPacu.length > 0) {
             this.pointPacu.bp = this.wenshuData.pointPacu[0].bp
@@ -1354,6 +1381,8 @@ export default {
             this.pointPacu.skinName = this.wenshuData.pointPacu[0].skinName
             this.pointPacu.skinPart = this.wenshuData.pointPacu[0].skinPart
             this.pointPacu.skinSize = this.wenshuData.pointPacu[0].skinSize
+
+            this.pointPacuTime = this.Moment(this.wenshuData.pointPacu[0].appraiseTime).format('DD日HH时mm分')
           }
           if (this.wenshuData.outPacu.length > 0) {
             this.outPacu.bp = this.wenshuData.outPacu[0].bp
@@ -1366,6 +1395,8 @@ export default {
             this.outPacu.skinName = this.wenshuData.outPacu[0].skinName
             this.outPacu.skinPart = this.wenshuData.outPacu[0].skinPart
             this.outPacu.skinSize = this.wenshuData.outPacu[0].skinSize
+
+            this.outPacuTime = this.Moment(this.wenshuData.outPacu[0].appraiseTime).format('DD日HH时mm分')
           }
         }
       })

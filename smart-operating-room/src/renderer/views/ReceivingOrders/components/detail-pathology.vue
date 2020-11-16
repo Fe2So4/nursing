@@ -11,7 +11,7 @@
       </el-col>
       <el-col :span="8">
         <span>性别：</span>
-        <span class="dp-value">{{ selectRow.patientGender }}</span>
+        <span class="dp-value">{{ selectRow.patientGender | formatGender }}</span>
       </el-col>
       <el-col :span="8">
         <span>年龄：</span>
@@ -178,6 +178,17 @@ export default {
       this.optas = '点击取消接单后，扫描工勤人员二维码，进行退单...'
     } else {
       this.optas = '扫描工勤人员二维码，进行接单...'
+    }
+  },
+  filters: {
+    formatGender: function (value) {
+      if (!value) return ''
+      value = value.toString()
+      if (value === '1') {
+        return '男'
+      } else {
+        return '女'
+      }
     }
   }
 }

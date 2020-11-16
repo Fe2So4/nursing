@@ -19,6 +19,7 @@ import htmlToPdf from './utils/htmlToPdf'
 import IsEmpty from './utils/isEmpty'
 import utilsGetNewDate from './utils/utilsTime'
 import utilsNewTime from './utils/utilsNewTime'
+import utilsGetWeek from './utils/getWeek'
 import utilsDebounce from './utils/utilsDebounce'
 import vueiInfinite from 'vue-infinite-scroll'
 // 处理element-ui vxe-table样式兼容问题
@@ -34,6 +35,7 @@ Vue.prototype.utilsGetNewDate = utilsGetNewDate
 Vue.prototype.utilsNewTime = utilsNewTime
 Vue.prototype.utilsDebounce = utilsDebounce
 Vue.prototype.Moment = Moment
+Vue.prototype.utilsGetWeek = utilsGetWeek
 Vue.prototype.voicePrompt = voicePromptFun.voicePrompt // 语音提醒
 
 Vue.use(ElementUI)
