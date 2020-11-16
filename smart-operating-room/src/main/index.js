@@ -93,7 +93,7 @@ const printPageURL = process.env.NODE_ENV === 'development'
 const printWindows = new Set()
 const createPrintWindow = () => {
   let newPrintWindow = new BrowserWindow({
-    show: false,
+    show: true,
     frame: false,
     webPreferences: {
       webSecurity: false,

@@ -18,6 +18,7 @@ import * as voicePromptFun from './utils/voicePrompt'
 import htmlToPdf from './utils/htmlToPdf'
 import IsEmpty from './utils/isEmpty'
 import utilsGetNewDate from './utils/utilsTime'
+import utilsGetNowDay from './utils/utilsNowDay'
 import utilsNewTime from './utils/utilsNewTime'
 import utilsGetWeek from './utils/getWeek'
 import utilsDebounce from './utils/utilsDebounce'
@@ -34,6 +35,7 @@ Vue.prototype.IsEmpty = IsEmpty
 Vue.prototype.utilsGetNewDate = utilsGetNewDate
 Vue.prototype.utilsNewTime = utilsNewTime
 Vue.prototype.utilsDebounce = utilsDebounce
+Vue.prototype.utilsGetNowDay = utilsGetNowDay
 Vue.prototype.Moment = Moment
 Vue.prototype.utilsGetWeek = utilsGetWeek
 Vue.prototype.voicePrompt = voicePromptFun.voicePrompt // 语音提醒

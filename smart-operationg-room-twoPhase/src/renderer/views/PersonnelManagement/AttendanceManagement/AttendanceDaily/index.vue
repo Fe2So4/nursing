@@ -336,6 +336,11 @@ export default {
     this.dayTitle = this.utilsGetWeek(a)
   },
   methods: {
+    getTableList () {
+      // let obj = {
+      //   selectTime:
+      // }
+    },
     changeHeight () {
       let dom = document.getElementsByClassName('container-table')[0]
       this.Wheight = dom.offsetHeight

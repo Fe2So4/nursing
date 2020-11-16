@@ -405,70 +405,73 @@ export default {
           this.basicEquipmentStr = wenshuData.specialEquipment || []
 
           let arr = []
-          this.basicEquipmentStr.forEach(item => {
-            let packName = []
 
-            let pId = item.pId
-            let pName = item.pName
+          if (!this.IsEmpty(this.basicEquipmentStr)) {
+            this.basicEquipmentStr.forEach(item => {
+              let packName = []
 
-            if (item.items.adding.length > 0) {
-              item.items.adding.forEach((pkn, index) => {
-                let obj = {
-                  insName: pkn.insName
-                }
-                item.items.before.forEach(bItem => {
-                  if (bItem.insName === pkn.insName) {
-                    obj.before = bItem.number
-                    return false
+              let pId = item.pId
+              let pName = item.pName
+
+              if (item.items.adding.length > 0) {
+                item.items.adding.forEach((pkn, index) => {
+                  let obj = {
+                    insName: pkn.insName
                   }
+                  item.items.before.forEach(bItem => {
+                    if (bItem.insName === pkn.insName) {
+                      obj.before = bItem.number
+                      return false
+                    }
+                  })
+                  item.items.adding.forEach(bItem => {
+                    if (bItem.insName === pkn.insName) {
+                      obj.adding = bItem.number
+                      return false
+                    }
+                  })
+                  item.items.adding1.forEach(bItem => {
+                    if (bItem.insName === pkn.insName) {
+                      obj.adding1 = bItem.number
+                      return false
+                    }
+                  })
+                  item.items.adding2.forEach(bItem => {
+                    if (bItem.insName === pkn.insName) {
+                      obj.adding2 = bItem.number
+                      return false
+                    }
+                  })
+                  item.items.adding3.forEach(bItem => {
+                    if (bItem.insName === pkn.insName) {
+                      obj.adding3 = bItem.number
+                      return false
+                    }
+                  })
+                  item.items.before2.forEach(bItem => {
+                    if (bItem.insName === pkn.insName) {
+                      obj.before2 = bItem.number
+                      return false
+                    }
+                  })
+                  item.items.after.forEach(bItem => {
+                    if (bItem.insName === pkn.insName) {
+                      obj.after = bItem.number
+                      return false
+                    }
+                  })
+                  item.items.after2.forEach(bItem => {
+                    if (bItem.insName === pkn.insName) {
+                      obj.after2 = bItem.number
+                      return false
+                    }
+                  })
+                  packName.push(obj)
                 })
-                item.items.adding.forEach(bItem => {
-                  if (bItem.insName === pkn.insName) {
-                    obj.adding = bItem.number
-                    return false
-                  }
-                })
-                item.items.adding1.forEach(bItem => {
-                  if (bItem.insName === pkn.insName) {
-                    obj.adding1 = bItem.number
-                    return false
-                  }
-                })
-                item.items.adding2.forEach(bItem => {
-                  if (bItem.insName === pkn.insName) {
-                    obj.adding2 = bItem.number
-                    return false
-                  }
-                })
-                item.items.adding3.forEach(bItem => {
-                  if (bItem.insName === pkn.insName) {
-                    obj.adding3 = bItem.number
-                    return false
-                  }
-                })
-                item.items.before2.forEach(bItem => {
-                  if (bItem.insName === pkn.insName) {
-                    obj.before2 = bItem.number
-                    return false
-                  }
-                })
-                item.items.after.forEach(bItem => {
-                  if (bItem.insName === pkn.insName) {
-                    obj.after = bItem.number
-                    return false
-                  }
-                })
-                item.items.after2.forEach(bItem => {
-                  if (bItem.insName === pkn.insName) {
-                    obj.after2 = bItem.number
-                    return false
-                  }
-                })
-                packName.push(obj)
-              })
-            }
-            arr.push({pId, pName, pkg: packName})
-          })
+              }
+              arr.push({pId, pName, pkg: packName})
+            })
+          }
           this.basicequipment = arr
           console.log('特殊器械清单列表', this.basicequipment)
         }

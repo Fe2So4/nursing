@@ -1,26 +1,26 @@
 <template>
   <div
     class="print-content"
-    style="width:960px;height:800px"
+    style="width:960px;height:1000px"
     id="detail-patient"
   >
     <table
-      style="width:880px;height:380px;margin:0 auto;border-collapse:collapse;text-align:center;font-size:18px"
+      style="width:880px;height:380px;margin:0 auto;border-collapse:collapse;text-align:center;font-size:22px"
     >
       <thead>
         <tr>
           <td
             colspan="10"
             style="text-align:center;height: 20px;
-          font-weight:bold;font-size:30;"
+          font-weight:bold"
           />
         </tr>
 
         <tr>
           <td
             colspan="10"
-            style="text-align:center;height: 20px;
-          font-weight:bold;font-size:30;"
+            style="text-align:center;height: 100px;
+          font-weight:bold"
           />
         </tr>
         <tr>
