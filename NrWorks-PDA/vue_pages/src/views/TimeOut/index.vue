@@ -186,6 +186,15 @@ export default {
     },
     onClickRight () {
       let arr = JSON.parse(JSON.stringify(this.recordForm))
+      let state = ''
+      for (var i = 0; i < arr.length; i++) {
+        if (!arr[i].value || arr[i].value === '') {
+          state = '1'
+          break
+        } else {
+          state = '2'
+        }
+      }
       arr.forEach(item => {
         if (item.key === '其它') {
         } else {
@@ -196,15 +205,6 @@ export default {
           }
         }
       })
-      let state = ''
-      for (var i = 0; i < arr.length; i++) {
-        if (arr[i].value === '是') {
-          state = '1'
-          break
-        } else {
-          state = '2'
-        }
-      }
       request({
         method: 'post',
         url: submitTimeout,

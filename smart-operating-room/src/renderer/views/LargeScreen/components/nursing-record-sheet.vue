@@ -113,7 +113,37 @@ export default {
         {text: '病理', value: '', sort: '16'},
         {text: '植入物', value: '', sort: '17'}
       ],
-      state: '0'
+      state: '0',
+      // 电极板
+      djbOptions: [{text: '大腿', value: '1'}, {text: '小腿', value: '2'}, {text: '臀部', value: '3'}, {text: '其它', value: '4'}, {text: '负极返回路垫', value: '5'}, {text: '无', value: '6'}],
+      // 术中冲洗
+      szcxOptions: [{text: '0.9%氯化钠溶液', value: '1'}, {text: '灭菌注射用水', value: '2'}],
+      bodyOptions: [{text: '仰卧位', value: '1'},
+        {text: '俯卧位', value: '2'},
+        {text: '左侧卧位', value: '3'},
+        {text: '右侧卧位', value: '4'},
+        {text: '左侧俯卧位', value: '5'},
+        {text: '右侧俯卧位', value: '6'},
+        {text: '坐位', value: '7'},
+        {text: '俯卧位', value: '8'}
+      ],
+      deviceOptions: [
+        {text: '肩垫', value: '1'},
+        {text: '腋垫', value: '2'},
+        {text: '胸垫', value: '3'},
+        {text: '背垫', value: '4'},
+        {text: '腰垫', value: '5'},
+        {text: '肘垫', value: '6'},
+        {text: '两脚间垫', value: '7'},
+        {text: '膝垫', value: '8'},
+        {text: '后跟垫', value: '9'},
+        {text: '其他', value: '10'},
+        {text: '无', value: '11'}
+      ],
+      anesMethodOptions: [{text: '全麻', value: '1'}, {text: '臂丛麻醉', value: '2'}, {text: '硬膜外麻醉', value: '3'},
+        {text: '丛麻醉', value: '4'}, {text: '跟阻麻醉', value: '5'}, {text: '静脉麻醉', value: '6'}, {text: '腰麻', value: '7'},
+        {text: '颈从麻醉', value: '8'}, {text: '局麻监护', value: '9'}, {text: '局麻', value: '10'}, {text: '唤醒麻醉', value: '11'}],
+      constraintOptions: [{value: '1', text: '无'}, {value: '2', text: '有'}] // 约束带
     }
   },
   components: {
@@ -125,8 +155,27 @@ export default {
     ...mapState('LargeScreen', ['patientInfo'])
   },
   methods: {
-    handleChange () {
-
+    handleFilterLabel (obj) {
+      let str = ''
+      var reg = /,$/gi
+      let arr = obj.value.split(',')
+      obj.list.forEach(item => {
+        arr.forEach(_item => {
+          if (item.value === _item) {
+            str = (str + item.text + ',')
+          }
+        })
+      })
+      return str.replace(reg, '')
+    },
+    handleSimpleFilterLabel (obj) {
+      let str = ''
+      obj.list.forEach(item => {
+        if (item.value === obj.value) {
+          str = item.text
+        }
+      })
+      return str
     },
     getData () {
       request({
@@ -144,10 +193,10 @@ export default {
             this.recordList[4].value = data.skin.skinName === '1' ? '完整' : '不完整'
             this.recordList[4].skin = data.skin
           }
-          this.recordList[5].value = data.anesthesiaMode
-          this.recordList[6].position = data.position
-          this.recordList[7].device = data.device
-          this.recordList[8].constraints = data.constraints
+          this.recordList[5].value = this.handleFilterLabel({list: this.anesMethodOptions, value: data.anesthesiaMode})
+          this.recordList[6].value = this.handleFilterLabel({list: this.bodyOptions, value: data.position})
+          this.recordList[7].value = this.handleFilterLabel({list: this.deviceOptions, value: data.device})
+          this.recordList[8].value = this.handleSimpleFilterLabel({list: this.constraintOptions, value: data.constraints})
           if (!this.IsEmpty(data.catheter)) {
             this.recordList[9].value = data.catheter.catheterName === '1' ? '无' : data.catheter.catheterName === '2' ? '病房带入' : '手术室插入'
             this.recordList[9].catheter = data.catheter
@@ -155,7 +204,7 @@ export default {
           if (!this.IsEmpty(data.equipment)) {
             this.recordList[10].value = data.equipment.electrotome.electrotomeName === '1' ? '无' : '有'
             this.recordList[10].electrotome = data.equipment.electrotome
-            this.recordList[11].value = data.equipment.electrotomeLocation
+            this.recordList[11].value = this.handleSimpleFilterLabel({list: this.djbOptions, value: data.equipment.electrotomeLocation})
             this.recordList[12].value = data.equipment.bhMachine.bhMachineName === '1' ? '无' : '有'
           }
           if (!this.IsEmpty(data.handOver)) {

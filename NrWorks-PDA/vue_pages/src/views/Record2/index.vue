@@ -18,7 +18,7 @@
         </van-cell>
         <van-cell title="手术方式：" value="内容" title-class="left-title" value-class="right-value">
           <template #right-icon>
-            <van-field v-model="recordForm.opsName"/>
+            <van-field v-model="recordForm.opsMode"/>
           </template>
         </van-cell>
       </van-cell-group>
@@ -152,7 +152,7 @@
                 </van-dropdown-menu>
               </template>
             </van-cell>
-            <van-cell style="height:104px;" :key="'presure'+index" title="" v-show="recordForm.bhMachine.bhMachineList[index].locateName!==''">
+            <van-cell class="presure" :key="'presure'+index" title="" v-show="recordForm.bhMachine.bhMachineList[index].locateName!==''">
               <template #right-icon>
                 <van-dropdown-menu active-color="#3478FF">
                   <van-dropdown-item v-model="item.presure" :options="presureOptions" />
@@ -470,6 +470,7 @@ export default {
           opsChangeName: '',
           opsChangeList: [{time: moment(new Date()).format('YYYY-MM-DD HH:mm'), jiaobrSign: '', jiebrSign: ''}, {time: moment(new Date()).format('YYYY-MM-DD HH:mm'), jiaobrSign: '', jiebrSign: ''}]
         },
+        opsMode: '',
         opsType: '',
         pathology: {
           pathologyName: '',
@@ -605,13 +606,18 @@ export default {
         url: getRecordData + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`,
         method: 'get'
       }).then(res => {
-        this.recordForm = res.data.data
-        this.recordForm.electrotome = this.recordForm.equipment.electrotome
-        // this.recordForm.electrotomeLocation = JSON.parse(JSON.stringify(this.recordForm.equipment.electrotomeLocation))
-        this.recordForm.bhMachine = this.recordForm.equipment.bhMachine
-        this.recordForm.device = this.recordForm.device.split(',')
-        this.recordForm.position = this.recordForm.position.split(',')
-        this.recordForm.anesthesiaMode = this.recordForm.anesthesiaMode.split(',')
+        let data = res.data.data
+        if (data.recordTwoState !== '0') {
+          if (!this.IsEmpty(data.equipment)) {
+            data.electrotome = data.equipment.electrotome
+            // this.recordForm.electrotomeLocation = JSON.parse(JSON.stringify(this.recordForm.equipment.electrotomeLocation))
+            data.bhMachine = data.equipment.bhMachine
+          }
+          data.anesthesiaMode = data.anesthesiaMode.split(',')
+          data.position = data.position.split(',')
+          data.device = data.device.split(',')
+          this.recordForm = data
+        }
       })
     },
     handleOpenConstraint () {
@@ -739,6 +745,9 @@ export default {
       font-size: 30px;
       &::after{
         border-color: #E2E2E2;
+      }
+      &.presure{
+        height: 104px !important;
       }
       .first-cell{
         flex: unset;

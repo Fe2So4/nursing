@@ -23,23 +23,37 @@
             </div>
             <div class="title-right">{{state === 0 ? '未清点' : '已清点'}}</div>
           </div>
-          <ul>
-            <li v-for="item in packageList" :key="item.insIndex">
+          <div class="packageContent">
+            <!-- <li v-for="item in packageList" :key="item.insIndex">
               <van-cell :title="item.insName" value="已清点" title-class="first-cell" border>
                 <template #right-icon>
                   <van-stepper v-model="item.number" theme="round" min="0"/>
                 </template>
               </van-cell>
-            </li>
-            <li @click="handleSign1">
+            </li> -->
+            <div class="package" v-for="item in packageList" :key="item.pId">
+              <div class="packageItem" @click="handleShowList">
+                <span class="packageName">{{item.pName}}</span>
+                <span class="option">删除</span>
+              </div>
+              <div class="packageItemList">
+                <!-- :style="{'display': item.showList}" -->
+                <van-cell :title="_item.insName" value="已清点" title-class="first-cell" border v-for="(_item,index) in item.items" :key="index">
+                  <template #right-icon>
+                    <van-stepper v-model="_item.number" theme="round" min="0"/>
+                  </template>
+              </van-cell>
+              </div>
+            </div>
+            <div @click="handleSign1">
               <span class="sign-class">洗手护士签名</span>
               <span class="sign-value">{{sign1}}</span>
-            </li>
-            <li @click="handleSign2">
+            </div>
+            <div @click="handleSign2">
               <span class="sign-class">巡回护士签名</span>
               <span class="sign-value">{{sign2}}</span>
-            </li>
-          </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -57,11 +71,12 @@ export default {
     return {
       checked: true,
       input: '',
-      showFullSkin: false,
+      showList: 'none',
       sign1: '',
       sign2: '',
       value1: '',
       active: 0,
+      activeName: [],
       state: 0, // 清点状态
       stepper: '',
       items: [{ text: '术前', active: 0 }, { text: '术中(一)', active: 1 },
@@ -113,6 +128,13 @@ export default {
   methods: {
     onClickLeft () {
       this.$router.go(-1)
+    },
+    handleShowList () {
+      if (this.showList === 'none') {
+        this.showList = 'block'
+      } else {
+        this.showList = 'none'
+      }
     },
     handleSign1 () {
       this.$dialog.confirm({
@@ -252,21 +274,27 @@ export default {
         method: 'get',
         url: getPackage + '/' + deviceId
       }).then(res => {
-        let data = res.data.data.packageDetail
-        data.forEach(item => {
+        let data = res.data.data
+        data.packageDetail.forEach(item => {
           item.number = 0
         })
-        this.packageList = JSON.parse(JSON.stringify(data))
-        this.recordForm.specialEquipment.pName = res.data.data.name
-        this.recordForm.specialEquipment.pId = res.data.data.id
-        this.recordForm.specialEquipment.items.before = JSON.parse(JSON.stringify(data)) // 术前
-        this.recordForm.specialEquipment.items.adding = JSON.parse(JSON.stringify(data)) // 术中一
-        this.recordForm.specialEquipment.items.adding1 = JSON.parse(JSON.stringify(data)) // 术中二
-        this.recordForm.specialEquipment.items.adding2 = JSON.parse(JSON.stringify(data)) // 术中三
-        this.recordForm.specialEquipment.items.adding3 = JSON.parse(JSON.stringify(data)) // 术中四
-        this.recordForm.specialEquipment.items.before2 = JSON.parse(JSON.stringify(data)) // 体腔关闭前
-        this.recordForm.specialEquipment.items.after = JSON.parse(JSON.stringify(data)) // 体腔关闭后
-        this.recordForm.specialEquipment.items.after2 = JSON.parse(JSON.stringify(data)) // 缝合后
+        let obj = {}
+        obj.pId = data.id
+        obj.pName = data.name
+        obj.items = data.packageDetail
+        this.packageList.push(obj)
+        // this.recordForm.push()
+        // this.packageList = JSON.parse(JSON.stringify(data))
+        // this.recordForm.specialEquipment.pName = res.data.name
+        // this.recordForm.specialEquipment.pId = res.data.id
+        // this.recordForm.specialEquipment.items.before = JSON.parse(JSON.stringify(data)) // 术前
+        // this.recordForm.specialEquipment.items.adding = JSON.parse(JSON.stringify(data)) // 术中一
+        // this.recordForm.specialEquipment.items.adding1 = JSON.parse(JSON.stringify(data)) // 术中二
+        // this.recordForm.specialEquipment.items.adding2 = JSON.parse(JSON.stringify(data)) // 术中三
+        // this.recordForm.specialEquipment.items.adding3 = JSON.parse(JSON.stringify(data)) // 术中四
+        // this.recordForm.specialEquipment.items.before2 = JSON.parse(JSON.stringify(data)) // 体腔关闭前
+        // this.recordForm.specialEquipment.items.after = JSON.parse(JSON.stringify(data)) // 体腔关闭后
+        // this.recordForm.specialEquipment.items.after2 = JSON.parse(JSON.stringify(data)) // 缝合后
       })
     },
     onClickRight () {
@@ -410,18 +438,59 @@ export default {
               color: #10C15B;
             }
           }
-          ul{
+          .packageContent{
             height: calc(100% - 124px);
             overflow-y: auto;
+            .package{
+              .packageItem{
+                background: #ffffff;
+                border-bottom:1PX solid #e2e2e2;
+                border-top:1PX solid #e2e2e2;
+                line-height: 90px;
+                display: flex;
+                justify-content: space-between;
+                padding: 0 15px 0 15px;
+                .packageName{
+                  color: #3377FF;
+                }
+                .option{
+                  color: red;
+                }
+                &.package-item-between{
+                  justify-content: space-between;
+                }
+              }
+              .packageItemList{
+
+              }
+            }
+             .sign-class{
+              color: hsl(145, 85%, 41%);
+              line-height: 90px;
+              // text-indent: 15px;
+            }
+            .sign-value{
+              line-height: 90px;
+              color: #0000ff;
+              margin-left: 30px;
+            }
+          }
+          ul{
+            height: calc(100% - 124px);
             li{
               background: #ffffff;
               border-bottom:1PX solid #e2e2e2;
+              line-height: 90px;
+              display: flex;
+              padding: 0 15px 0 15px;
+              &.package{
+                justify-content: space-between;
+              }
             }
             .sign-class{
-              color: #10C15B;
+              color: hsl(145, 85%, 41%);
               line-height: 90px;
-              text-indent: 15px;
-              margin-left: 15px;
+              // text-indent: 15px;
             }
             .sign-value{
               line-height: 90px;

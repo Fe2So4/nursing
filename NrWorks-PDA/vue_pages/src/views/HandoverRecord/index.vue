@@ -217,7 +217,7 @@ export default {
       checkBoxList: null,
       dialogTitle: '',
       recordForm: {
-        startTime: '2020-10-27 14:56', // 转运起始时间
+        startTime: '', // 转运起始时间
         suggest: '', // 建议
         department: '', // 手术/监护室/透析室
         inpatientWard: '', // 住院/转病区
@@ -338,7 +338,7 @@ export default {
               this.recordForm.consciousnessOther = data.appraiseJson[0].consciousness.consciousnessOther
               break
             case '进手术室':
-              this.recordForm.startTime = data.pointInRoomTime // 进手术间时间
+              this.recordForm.startTime = data.pointInRoomtime // 进手术间时间
               this.recordForm.pulse = data.pointInRoom[0].pulse
               this.recordForm.breathe = data.pointInRoom[0].breathe
               this.recordForm.bp = data.pointInRoom[0].bp
@@ -348,7 +348,7 @@ export default {
               this.recordForm.skinPart = data.pointInRoom[0].skinPart
               this.recordForm.skinDegree = data.pointInRoom[0].skinDegree
               this.recordForm.skinSize = data.pointInRoom[0].skinSize
-              this.recordForm.signatureImage2 = data.pointInRoom[0].signatureImage2
+              this.recordForm.signatureImage2 = data.pointInRoom[0].appraiseTime
               break
             case '出手术室':
               this.recordForm.pulse = data.pointOutRoom[0].pulse
@@ -361,7 +361,7 @@ export default {
               this.recordForm.skinDegree = data.pointOutRoom[0].skinDegree
               this.recordForm.skinSize = data.pointOutRoom[0].skinSize
               this.recordForm.signatureImage2 = data.pointOutRoom[0].signatureImage2
-              this.recordForm.startTime = data.pointOutRoomTime
+              this.recordForm.startTime = data.pointOutRoom[0].appraiseTime
               break
             case '进PACU':
               this.recordForm.pulse = data.pointPacu[0].pulse
@@ -374,7 +374,7 @@ export default {
               this.recordForm.skinDegree = data.pointPacu[0].skinDegree
               this.recordForm.skinSize = data.pointPacu[0].skinSize
               this.recordForm.signatureImage2 = data.pointPacu[0].signatureImage2
-              this.recordForm.startTime = data.pointPacuTime
+              this.recordForm.startTime = data.pointPacu[0].appraiseTime
               break
             case '出PACU':
               this.recordForm.pulse = data.outPacu[0].pulse
@@ -387,7 +387,7 @@ export default {
               this.recordForm.skinDegree = data.outPacu[0].skinDegree
               this.recordForm.skinSize = data.outPacu[0].skinSize
               this.recordForm.signatureImage2 = data.outPacu[0].signatureImage2
-              this.recordForm.startTime = data.outPacuTime
+              this.recordForm.startTime = data.outPacu[0].appraiseTime
               break
             case '病房收治':
               this.recordForm.startTime = data.arrivalTime
@@ -401,9 +401,9 @@ export default {
     },
     handleDrowDownChange (value) {
       if (value === '2') {
-        this.showFullSkin = true
+        // this.showFullSkin = true
       } else {
-        this.showFullSkin = false
+        // this.showFullSkin = false
         this.recordForm.skinSize = ''
         this.recordForm.skinPart = ''
         this.recordForm.skinDegree = ''
@@ -444,7 +444,6 @@ export default {
       let obj = {
         cureNo: this.patientInfo.cureNo,
         hospitalNo: this.patientInfo.hospitalNo
-        // pointOutRoomTime: '2020-03-04 12:02:03', // 出手术间时间
       }
       let submitUrl = ''
       switch (this.transferTitle) {
@@ -490,7 +489,7 @@ export default {
           break
         case '进手术室':
           submitUrl = submitInOpeRoom
-          obj.pointInRoomTime = '2020-03-04 08:49:38' // 进手术间时间
+          obj.pointInRoomTime = moment(new Date()).format('YYYY-MM-DD HH:mm') // 进手术间时间
           obj.pointInRoom = [{
             pulse: this.recordForm.pulse,
             bp: this.recordForm.bp,
@@ -501,7 +500,8 @@ export default {
             skinPart: this.recordForm.skinPart,
             skinDegree: this.recordForm.skinDegree,
             skinSize: this.recordForm.skinSize,
-            signatureImage2: this.recordForm.signatureImage2
+            signatureImage2: this.recordForm.signatureImage2,
+            appraiseTime: this.recordForm.startTime
           }]
           obj.pointInRoomState = this.recordForm.signatureImage2 !== '' ? '2' : '1'
           break
@@ -515,10 +515,11 @@ export default {
             skinPart: this.recordForm.skinPart,
             skinDegree: this.recordForm.skinDegree,
             skinSize: this.recordForm.skinSize,
-            signatureImage2: this.recordForm.signatureImage2
+            signatureImage2: this.recordForm.signatureImage2,
+            appraiseTime: this.recordForm.startTime
           }]
           obj.pointOutRoomState = this.recordForm.signatureImage2 !== '' ? '2' : '1'
-          obj.pointOutRoomTime = '2020-03-04 08:49:38'
+          obj.pointOutRoomTime = moment(new Date()).format('YYYY-MM-DD HH:mm')
           submitUrl = submitOutOpeRoom
           break
         case '进PACU':
@@ -531,10 +532,11 @@ export default {
             skinPart: this.recordForm.skinPart,
             skinDegree: this.recordForm.skinDegree,
             skinSize: this.recordForm.skinSize,
-            signatureImage2: this.recordForm.signatureImage2
+            signatureImage2: this.recordForm.signatureImage2,
+            appraiseTime: this.recordForm.startTime
           }]
           obj.pointPacuState = this.recordForm.signatureImage2 !== '' ? '2' : '1'
-          obj.pointPacuTime = '2020-03-04 08:49:38'
+          obj.pointPacuTime = moment(new Date()).format('YYYY-MM-DD HH:mm')
           submitUrl = submitInPacu
           break
         case '出PACU':
@@ -547,10 +549,11 @@ export default {
             skinPart: this.recordForm.skinPart,
             skinDegree: this.recordForm.skinDegree,
             skinSize: this.recordForm.skinSize,
-            signatureImage2: this.recordForm.signatureImage2
+            signatureImage2: this.recordForm.signatureImage2,
+            appraiseTime: this.recordForm.startTime
           }]
           obj.outPacuState = this.recordForm.signatureImage2 !== '' ? '2' : '1'
-          obj.outPacuTime = '2020-10-27 13:52'
+          obj.outPacuTime = moment(new Date()).format('YYYY-MM-DD HH:mm')
           submitUrl = submitOutPacu
           break
         case '病房收治':
