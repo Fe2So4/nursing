@@ -21,7 +21,7 @@
           主刀医师：<span class="value">{{ patientBasicInfo.surgeon }}</span>
         </el-col>
         <el-col :span="6">
-          麻醉医师：<span class="value">{{ patientBasicInfo.anes_doc }}</span>
+          麻醉医师：<span class="value">{{ patientBasicInfo.anesDoc }}</span>
         </el-col>
         <el-col
           :span="4"
@@ -42,13 +42,13 @@
           手术信息：<span class="value">{{ patientBasicInfo.operationName }} {{ patientInfo.anesMethodName }}</span>
         </el-col>
         <el-col :span="6">
-          第一助手：<span class="value">{{ patientBasicInfo.opa_ssis_name1 }}</span>
+          第一助手：<span class="value">{{ patientBasicInfo.opaSsisName1 }}</span>
         </el-col>
         <el-col :span="4">
-          巡回护士：<span class="value">{{ patientBasicInfo.run_nurse_name1 }}</span>
+          巡回护士：<span class="value">{{ patientBasicInfo.runNurseName1 }}</span>
         </el-col>
         <el-col :span="4">
-          洗手护士：<span class="value">{{ patientBasicInfo.wash_nurse_name1 }}</span>
+          洗手护士：<span class="value">{{ patientBasicInfo.washNurseName1 }}</span>
         </el-col>
       </el-row>
       <div
