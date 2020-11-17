@@ -187,13 +187,13 @@
                           {{ v.adding }}
                         </td>
                         <td class="td-text-center">
-                          {{ v.adding }}
+                          {{ v.adding1 }}
                         </td>
                         <td class="td-text-center">
-                          {{ v.adding }}
+                          {{ v.adding2 }}
                         </td>
                         <td class="td-text-center">
-                          {{ v.adding }}
+                          {{ v.adding3 }}
                         </td>
 
                         <td class="td-text-center">
@@ -362,11 +362,11 @@ export default {
     EquipmentChange () {
       this.basicequipment = []
       let obj = {
-        // cureNo: 1010,
-        cureNo: this.$store.state['nursing-document-list'].cureNo,
-        // hospitalNo: 666
+        cureNo: 1010,
+        // cureNo: this.$store.state['nursing-document-list'].cureNo,
+        hospitalNo: 666
 
-        hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
+        // hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
       }
       this.$store.dispatch('ReqNursingDocumentTeShu', obj).then(res => {
         // && res.data.data.specialEquipment.scheduleName === '已清点'
@@ -402,8 +402,8 @@ export default {
           this.qianmingList.xhAllClossQm = wenshuData.xhAllClossQm
           this.qianmingList.xhFhQm = wenshuData.xhFhQm
 
-          this.basicEquipmentStr = wenshuData.specialEquipment || []
-
+          this.basicEquipmentStr = JSON.parse(wenshuData.specialEquipmentStr)
+          console.log(this.basicEquipmentStr, '111')
           let arr = []
 
           if (!this.IsEmpty(this.basicEquipmentStr)) {

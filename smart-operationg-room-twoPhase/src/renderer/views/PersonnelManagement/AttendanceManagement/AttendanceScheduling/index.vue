@@ -13,7 +13,6 @@
           size="mini"
           type="info"
           plain
-          style="color:#303133"
         >
           导出Excel
         </el-button>
@@ -30,7 +29,7 @@
         highlight-current-row
         highlight-hover-row
         align="center"
-        :data="tableList"
+        :data="showTableList"
       >
         <vxe-table-column
           type="seq"
@@ -38,35 +37,35 @@
           width="100"
         />
         <vxe-table-column
-          field="name"
+          field="userName"
           title="姓名"
         />
         <vxe-table-column
-          field="sex"
+          field="week1.weekClassName"
           :title="weekList[0].weekTimeName"
         />
         <vxe-table-column
-          field="age"
+          field="week2.weekClassName"
           :title="weekList[1].weekTimeName"
         />
         <vxe-table-column
-          field="age"
+          field="week3.weekClassName"
           :title="weekList[2].weekTimeName"
         />
         <vxe-table-column
-          field="age"
+          field="week4.weekClassName"
           :title="weekList[3].weekTimeName"
         />
         <vxe-table-column
-          field="age"
+          field="week5.weekClassName"
           :title="weekList[4].weekTimeName"
         />
         <vxe-table-column
-          field="age"
+          field="week6.weekClassName"
           :title="weekList[5].weekTimeName"
         />
         <vxe-table-column
-          field="age"
+          field="week7.weekClassName"
           :title="weekList[6].weekTimeName"
         />
       </vxe-table>
@@ -115,48 +114,9 @@ export default {
       }],
 
       tableList: [
-        {name: '1', sex: '1', age: '2'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'}
-      ]
+
+      ],
+      showTableList: []
     }
   },
   mounted () {
@@ -185,8 +145,85 @@ export default {
           this.weekList = res.data.data[0].week
           this.tableList = res.data.data[1].userData
 
-          console.log(this.weekList, 'weekList')
+          // console.log(this.weekList, 'weekList')
           console.log(this.tableList, 'tableList')
+
+          let arr = []
+          this.tableList.forEach(item => {
+            console.log(item)
+            let obj = {
+              userCode: item.userCode,
+              userName: item.userName,
+              week1: {
+                id: '',
+                weekClassName: ''
+              },
+              week2: {
+                id: '',
+                weekClassName: ''
+              },
+              week3: {
+                id: '',
+                weekClassName: ''
+              },
+              week4: {
+                id: '',
+                weekClassName: ''
+              },
+              week5: {
+                id: '',
+                weekClassName: ''
+              },
+              week6: {
+                id: '',
+                weekClassName: ''
+              },
+              week7: {
+                id: '',
+                weekClassName: ''
+              }
+            }
+
+            item.list.forEach(v => {
+              if (v.weekTimeName.includes('一')) {
+                obj.week1.id = v.id
+                obj.week1.weekClassName = v.weekClassName
+                return false
+              }
+              if (v.weekTimeName.includes('二')) {
+                obj.week2.id = v.id
+                obj.week2.weekClassName = v.weekClassName
+                return false
+              }
+              if (v.weekTimeName.includes('三')) {
+                obj.week3.id = v.id
+                obj.week3.weekClassName = v.weekClassName
+                return false
+              }
+              if (v.weekTimeName.includes('四')) {
+                obj.week4.id = v.id
+                obj.week4.weekClassName = v.weekClassName
+                return false
+              }
+              if (v.weekTimeName.includes('五')) {
+                obj.week5.id = v.id
+                obj.week5.weekClassName = v.weekClassName
+                return false
+              }
+              if (v.weekTimeName.includes('六')) {
+                obj.week6.id = v.id
+                obj.week6.weekClassName = v.weekClassName
+                return false
+              }
+              if (v.weekTimeName.includes('日')) {
+                obj.week7.id = v.id
+                obj.week7.weekClassName = v.weekClassName
+                return false
+              }
+            })
+            arr.push(obj)
+          })
+          this.showTableList = arr
         } else {
           this.openToast('error', res.data.msg)
         }
@@ -208,9 +245,9 @@ export default {
   },
   watch: {
     'dateValue': function (newVal, oldVal) {
-      this.nowDay = this.utilsGetNowDay(newVal)
-      this.getTableList()
       if (newVal !== oldVal) {
+        this.nowDay = this.utilsGetNowDay(newVal)
+        this.getTableList()
         this.dayTitle = this.utilsGetWeek(newVal)
       }
     },

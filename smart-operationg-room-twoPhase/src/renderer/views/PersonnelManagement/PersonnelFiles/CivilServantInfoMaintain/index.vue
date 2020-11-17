@@ -10,6 +10,8 @@
             v-model="form.time"
             type="datetimerange"
             range-separator="至"
+            format="yyyy-MM-dd HH:mm"
+            value-format="yyyy-MM-dd HH:mm"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
           />
@@ -28,7 +30,10 @@
           </el-select>
         </el-form-item> -->
         <el-form-item>
-          <el-button type="primary">
+          <el-button
+            @click="searchTableList"
+            type="primary"
+          >
             查 询
           </el-button>
           <el-button>新 增</el-button>
@@ -94,7 +99,7 @@
           </vxe-table-column>
         </vxe-table>
       </div>
-      <Pagination />
+      <Pagination ref="pagination" />
     </div>
     <InfoDialog
       :dialog-visible="dialogVisible"
@@ -135,6 +140,26 @@ export default {
     Pagination, InfoDialog
   },
   methods: {
+    searchTableList () {
+      console.log(this.form.time)
+      let obj = {
+        pageIndex: '1',
+        pageSize: '20',
+        workerName: '',
+        inWorkTimeBefore: '',
+        inWorkTimeAfter: ''
+      }
+      if (!this.IsEmpty(this.form.time)) {
+        obj.inWorkTimeBefore = this.form.time[0]
+        obj.inWorkTimeAfter = this.form.time[1]
+      }
+      if (!this.IsEmpty(this.form.name)) {
+        obj.workerName = this.form.name
+      }
+      this.$store.dispatch('ReqGetWorkerInfoList', obj).then(res => {
+        console.log(res)
+      })
+    },
     handleClose () {
       this.dialogVisible = false
     },

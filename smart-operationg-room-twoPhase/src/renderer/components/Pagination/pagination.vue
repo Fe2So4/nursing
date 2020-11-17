@@ -9,7 +9,7 @@
       </el-form-item>
       <el-form-item>
         <el-select
-          v-model="pageList[0].value"
+          v-model="pageSize"
           style="width:134px;"
         >
           <el-option
@@ -22,6 +22,10 @@
       </el-form-item>
       <el-form-item>
         <el-pagination
+          :page-size="pageSize"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page.sync="currentPage1"
           layout="prev, pager, next"
           :total="50"
         />
@@ -43,6 +47,7 @@
 export default {
   data () {
     return {
+      pageSize: '20',
       pageList: [{value: '20', label: '20条/页'}, {value: '30', label: '30条/页'}]
     }
   }
