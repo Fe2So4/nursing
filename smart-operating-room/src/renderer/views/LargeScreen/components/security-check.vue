@@ -45,7 +45,7 @@ export default {
     return {
       // itemStatus:1,
       activeName: 'first',
-      stateList: {signIn: '0', timeOut: '1', signOut: '0'},
+      stateList: {signIn: '0', timeOut: '0', signOut: '0'},
       list: [],
       navList: [
         {label: '概览', name: 'first', component: 'CheckOverview'},

@@ -77,6 +77,7 @@ export default {
     return {
       roomVisible: false,
       voice: true,
+      interval: null,
       patientBasicInfo: {}
     }
   },
@@ -92,6 +93,7 @@ export default {
   },
   beforeDestroy () {
     $bus.$off('getPatientInfo')
+    this.interval = null
   },
   methods: {
     ...mapActions('LargeScreen', ['setVoiceSwitch']),
@@ -107,9 +109,33 @@ export default {
             cureNo: this.patientInfo.cureNo
           }
         }).then(res => {
-          this.patientBasicInfo = res.data.data
+          if (res.data.code === 200) {
+            this.patientBasicInfo = res.data.data
+            // this.intervalRefresh()
+          }
         })
       }
+    },
+    intervalRefresh () {
+      if (this.interval) {
+        clearInterval(this.interval)
+      }
+      this.interval = setInterval(() => {
+        // 有效遗嘱
+        $bus.$emit('getMedicalAdvice')
+        // 病史摘要
+        $bus.$emit('getMedicalHistory')
+        // 检查报告
+        $bus.$emit('getInspectReport')
+        // 检验报告
+        $bus.$emit('getTestReport')
+        // 术中带药
+        $bus.$emit('getMedecial')
+        // 抗生素用药
+        $bus.$emit('getAntibiotic')
+        // 生命体征
+        $bus.$emit('getSignData')
+      }, 5000)
     },
     handleClose () {
       this.roomVisible = false

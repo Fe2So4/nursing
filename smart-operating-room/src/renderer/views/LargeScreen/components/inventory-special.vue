@@ -37,7 +37,7 @@
               :key="_index"
             >
               <td>
-                {{ _item.name }}
+                {{ _item.insName }}
               </td>
               <td>
                 {{ _item.before }}
@@ -101,60 +101,62 @@ export default {
         if (data.length) {
           data.forEach(item => {
             let arr = []
-            arr.push({ name: item.insName, value: 0, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 })
+            item.items.before.forEach(_item => {
+              arr.push({ insName: _item.insName, id: item.pId, value: 0, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 })
+            })
             arr.forEach(_item => {
-              item.items.before.forEach(item => {
-                if (item.insName === _item.insName) {
-                  _item.before = item.number
+              item.items.before.forEach(ite => {
+                if (ite.insName === _item.insName) {
+                  _item.before = ite.number
                 }
               })
             })
             arr.forEach(_item => {
-              item.items.adding.forEach(item => {
-                if (item.insName === _item.insName) {
-                  _item.adding = item.number
+              item.items.adding.forEach(ite => {
+                if (ite.insName === _item.insName) {
+                  _item.adding = ite.number
                 }
               })
             })
             arr.forEach(_item => {
-              item.items.adding1.forEach(item => {
-                if (item.insName === _item.insName) {
-                  _item.adding1 = item.number
+              item.items.adding1.forEach(ite => {
+                if (ite.insName === _item.insName) {
+                  _item.adding1 = ite.number
                 }
               })
             })
             arr.forEach(_item => {
-              item.items.adding2.forEach(item => {
-                if (item.insName === _item.insName) {
-                  _item.adding2 = item.number
+              item.items.adding2.forEach(ite => {
+                if (ite.insName === _item.insName) {
+                  _item.adding2 = ite.number
                 }
               })
             })
             arr.forEach(_item => {
-              item.items.adding3.forEach(item => {
-                if (item.insName === _item.insName) {
-                  _item.adding3 = item.number
+              item.items.adding3.forEach(ite => {
+                if (ite.insName === _item.insName) {
+                  _item.adding3 = ite.number
                 }
               })
             })
             arr.forEach(_item => {
-              item.items.before2.forEach(item => {
-                if (item.insName === _item.insName) {
-                  _item.before2 = item.number
+              item.items.before2.forEach(ite => {
+                if (ite.insName === _item.insName) {
+                  _item.before2 = ite.number
                 }
               })
             })
             arr.forEach(_item => {
-              item.items.after.forEach(item => {
-                if (item.insName === _item.insName) {
-                  _item.after = item.number
+              item.items.after.forEach(ite => {
+                if (ite.insName === _item.insName) {
+                  _item.after = ite.number
                 }
               })
             })
             arr.forEach(_item => {
-              item.items.after2.forEach(item => {
-                if (item.insName === _item.insName) {
-                  _item.after2 = item.number
+              item.items.after2.forEach(ite => {
+                if (ite.insName === _item.insName) {
+                  _item.after2 = ite.number
                 }
               })
             })
@@ -219,6 +221,7 @@ export default {
           td{
             line-height: 55px;
             background: #F5F8FD;
+            font-size: 16px;
             &:first-child{
               padding-left: 10px;
             }

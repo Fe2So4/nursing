@@ -11,11 +11,12 @@ import './styles/index.css'
 import './utils/rem'
 import IsEmpty from './utils/isEmpty'
 import store from './store'
-import { Collapse, CollapseItem, Loading, DatetimePicker, Step, Steps, Stepper, TreeSelect, ActionSheet, Checkbox, CheckboxGroup, Popup, DropdownMenu, DropdownItem, Switch, Cell, CellGroup, Image, Button, Dialog, Grid, GridItem, Field, Form, Notify, NavBar, Icon } from 'vant'
+import { Popup, Collapse, CollapseItem, Loading, DatetimePicker, Step, Steps, Stepper, TreeSelect, ActionSheet, Checkbox, CheckboxGroup, DropdownMenu, DropdownItem, Switch, Cell, CellGroup, Image, Button, Dialog, Grid, GridItem, Field, Form, Notify, NavBar, Icon } from 'vant'
 // import VueSignaturePad from 'vue-signature-pad'
 import vueEsign from 'vue-esign'
 Vue.prototype.IsEmpty = IsEmpty
 Vue.use(vueEsign)
+Vue.use(Popup)
 Vue.use(Collapse)
 Vue.use(CollapseItem)
 Vue.use(Dialog)

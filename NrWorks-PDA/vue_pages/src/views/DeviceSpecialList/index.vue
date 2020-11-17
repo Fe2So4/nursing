@@ -5,7 +5,7 @@
       @click-left="onClickLeft"
       @click-right="onClickRight"
       left-arrow
-      right-text="运送"
+      right-text="保存"
     >
     </van-nav-bar>
     <PatientCard></PatientCard>
@@ -24,32 +24,25 @@
             <div class="title-right">{{state === 0 ? '未清点' : '已清点'}}</div>
           </div>
           <div class="packageContent">
-            <!-- <li v-for="item in packageList" :key="item.insIndex">
-              <van-cell :title="item.insName" value="已清点" title-class="first-cell" border>
-                <template #right-icon>
-                  <van-stepper v-model="item.number" theme="round" min="0"/>
-                </template>
-              </van-cell>
-            </li> -->
             <div class="package" v-for="item in packageList" :key="item.pId">
-              <div class="packageItem" @click="handleShowList">
-                <span class="packageName">{{item.pName}}</span>
-                <span class="option">删除</span>
+              <div class="packageItem" @click="handleShowList($event)">
+                <span class="packageName">{{item.pName}}（{{item.itemsList.length}}）</span>
+                <span class="option" @click.stop="handleDelete(item.pId)">删除</span>
               </div>
               <div class="packageItemList">
                 <!-- :style="{'display': item.showList}" -->
-                <van-cell :title="_item.insName" value="已清点" title-class="first-cell" border v-for="(_item,index) in item.items" :key="index">
+                <van-cell :title="_item.insName" value="已清点" title-class="first-cell" border v-for="(_item,index) in item.itemsList" :key="index">
                   <template #right-icon>
                     <van-stepper v-model="_item.number" theme="round" min="0"/>
                   </template>
               </van-cell>
               </div>
             </div>
-            <div @click="handleSign1">
+            <div @click="handleSign1" class="sign">
               <span class="sign-class">洗手护士签名</span>
               <span class="sign-value">{{sign1}}</span>
             </div>
-            <div @click="handleSign2">
+            <div @click="handleSign2" class="sign">
               <span class="sign-class">巡回护士签名</span>
               <span class="sign-value">{{sign2}}</span>
             </div>
@@ -65,6 +58,7 @@ import PatientCard from '@/components/PatientCard'
 import {getPackage, getPackageDataSpecial, savePackageDataSpecial} from '@/api/device-package'
 import request from '@/utils/request'
 import {mapState} from 'vuex'
+import $bus from '@/utils/bus'
 export default {
   name: 'DeviceList',
   data () {
@@ -75,6 +69,7 @@ export default {
       sign1: '',
       sign2: '',
       value1: '',
+      code: null,
       active: 0,
       activeName: [],
       state: 0, // 清点状态
@@ -84,20 +79,7 @@ export default {
         { text: '体腔关闭前', active: 5 }, { text: '体腔关闭后', active: 6 }, { text: '皮肤缝合后', active: 7 }],
       packageList: [],
       recordForm: {
-        specialEquipment: [{
-          items: {
-            before: [], // 术前
-            adding: [], // 术中一
-            adding1: [], // 术中二
-            adding2: [], // 术中三
-            adding3: [], // 术中四
-            before2: [], // 体腔关闭前
-            after: [], // 体腔关闭后
-            after2: [] // 缝合后
-          },
-          pId: '',
-          pName: ''
-        }],
+        specialEquipment: [],
         modifier: '',
         modifierCode: '',
         tsXhAllClossQm: '',
@@ -129,11 +111,20 @@ export default {
     onClickLeft () {
       this.$router.go(-1)
     },
-    handleShowList () {
-      if (this.showList === 'none') {
-        this.showList = 'block'
+    handleDelete (id) {
+      this.packageList.forEach((item, index) => {
+        if (item.pId === id) {
+          this.packageList.splice(index, 1)
+        }
+      })
+    },
+    handleShowList (e) {
+      // 根据当前点击的dom，获取需要展示隐藏的dom
+      var listCardsBlock = e.currentTarget.nextElementSibling
+      if (listCardsBlock.style.display === 'none') {
+        listCardsBlock.style.display = 'block'
       } else {
-        this.showList = 'none'
+        listCardsBlock.style.display = 'none'
       }
     },
     handleSign1 () {
@@ -212,64 +203,100 @@ export default {
       request({
         method: 'get',
         url: getPackageDataSpecial + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`
-        // url: getPackageDataSpecial + `/91160537/17655867`
       }).then(res => {
-        if (res.data.data.specialEquipment) {
-          this.recordForm = res.data.data
-          // this.recordForm.specialEquipment = JSON.parse(this.recordForm.specialEquipment)
+        if (res.data.data.specialEquipmentStr) {
+          let data = res.data.data
+          this.recordForm = data
+          this.recordForm.specialEquipment = JSON.parse(JSON.parse(JSON.stringify(data.specialEquipmentStr)))
+          let arr = JSON.parse(JSON.parse(JSON.stringify(data.specialEquipmentStr)))
           switch (this.active) {
             case 0:
-              this.packageList = this.recordForm.specialEquipment.items.before
+              let before = []
+              arr.forEach(item => {
+                before.push({pId: item.pId, pName: item.pName, itemsList: item.items.before})
+              })
+              this.packageList = before
               this.state = this.recordForm.beforeStatus
               this.sign1 = this.recordForm.xsSqQm
               this.sign2 = this.recordForm.xhSqQm
               break
             case 1:
-              this.packageList = this.recordForm.specialEquipment.items.adding
+              let adding = []
+              arr.forEach(item => {
+                adding.push({pId: item.pId, pName: item.pName, itemsList: item.items.adding})
+              })
+              this.packageList = adding
               this.state = this.recordForm.addingOne
               this.sign1 = this.recordForm.xsTwoQm
               this.sign2 = this.recordForm.xhTwoQm
               break
             case 2:
-              this.packageList = this.recordForm.specialEquipment.items.adding1
+              let adding1 = []
+              arr.forEach(item => {
+                adding1.push({pId: item.pId, pName: item.pName, itemsList: item.items.adding1})
+              })
+              this.packageList = adding1
               this.state = this.recordForm.addingTwo
               this.sign1 = this.recordForm.xsThreeQm
               this.sign2 = this.recordForm.xhThreeQm
               break
             case 3:
-              this.packageList = this.recordForm.specialEquipment.items.adding2
+              let adding2 = []
+              arr.forEach(item => {
+                adding2.push({pId: item.pId, pName: item.pName, itemsList: item.items.adding2})
+              })
+              this.packageList = adding2
               this.state = this.recordForm.addingThree
               this.sign1 = this.recordForm.xsFourQm
               this.sign2 = this.recordForm.xhFourQm
               break
             case 4:
-              this.packageList = this.recordForm.specialEquipment.items.adding3
+              let adding3 = []
+              arr.forEach(item => {
+                adding3.push({pId: item.pId, pName: item.pName, itemsList: item.items.adding3})
+              })
+              this.packageList = adding3
               this.state = this.recordForm.addingFour
               break
             case 5:
-              this.packageList = this.recordForm.specialEquipment.items.before2
+              let before2 = []
+              arr.forEach(item => {
+                before2.push({pId: item.pId, pName: item.pName, itemsList: item.items.before2})
+              })
+              this.packageList = before2
               this.state = this.recordForm.clossBefore
               this.sign1 = this.recordForm.xsClossQm
               this.sign2 = this.recordForm.xhClossQm
               break
             case 6:
-              this.packageList = this.recordForm.specialEquipment.items.after
+            // this.packageList = this.recordForm.specialEquipment.items.after
+              let after = []
+              arr.forEach(item => {
+                after.push({pId: item.pId, pName: item.pName, itemsList: item.items.after})
+              })
+              this.packageList = after
               this.state = this.recordForm.clossAfter
               this.sign1 = this.recordForm.xsAllClossQm
               this.sign2 = this.recordForm.xhAllClossQm
               break
             case 7:
-              this.packageList = this.recordForm.specialEquipment.items.after2
+              let after2 = []
+              arr.forEach(item => {
+                after2.push({pId: item.pId, pName: item.pName, itemsList: item.items.after2})
+              })
+              this.packageList = after2
               this.state = this.recordForm.sutureAfter
               this.sign1 = this.recordForm.xsFhQm
               this.sign2 = this.recordForm.xhFhQm
               break
           }
         }
-      })
+      }
+      )
     },
     getData () {
-      let deviceId = '123456'
+      let deviceId = this.code
+      // let deviceId = 1
       request({
         method: 'get',
         url: getPackage + '/' + deviceId
@@ -280,74 +307,136 @@ export default {
         })
         let obj = {}
         obj.pId = data.id
+        obj.code = data.code
         obj.pName = data.name
-        obj.items = data.packageDetail
+        obj.itemsList = data.packageDetail
         this.packageList.push(obj)
-        // this.recordForm.push()
-        // this.packageList = JSON.parse(JSON.stringify(data))
-        // this.recordForm.specialEquipment.pName = res.data.name
-        // this.recordForm.specialEquipment.pId = res.data.id
-        // this.recordForm.specialEquipment.items.before = JSON.parse(JSON.stringify(data)) // 术前
-        // this.recordForm.specialEquipment.items.adding = JSON.parse(JSON.stringify(data)) // 术中一
-        // this.recordForm.specialEquipment.items.adding1 = JSON.parse(JSON.stringify(data)) // 术中二
-        // this.recordForm.specialEquipment.items.adding2 = JSON.parse(JSON.stringify(data)) // 术中三
-        // this.recordForm.specialEquipment.items.adding3 = JSON.parse(JSON.stringify(data)) // 术中四
-        // this.recordForm.specialEquipment.items.before2 = JSON.parse(JSON.stringify(data)) // 体腔关闭前
-        // this.recordForm.specialEquipment.items.after = JSON.parse(JSON.stringify(data)) // 体腔关闭后
-        // this.recordForm.specialEquipment.items.after2 = JSON.parse(JSON.stringify(data)) // 缝合后
       })
     },
     onClickRight () {
       let obj = this.recordForm
-      let state = 0
-      for (let i = 0; i < this.packageList.length; i++) {
-        if (this.packageList[i].number === 0) {
-          state = 0
-          break
-        } else {
-          state = 1
-        }
-      }
+      let arr = JSON.parse(JSON.stringify(this.packageList))
+      let arr1 = JSON.parse(JSON.stringify(this.packageList))
+      arr.forEach(item => {
+        obj.specialEquipment.push({pId: item.pId, pName: item.pName, items: {before: [], adding: [], adding1: [], adding2: [], adding3: [], before2: [], after: [], after2: []}})
+      })
+      arr1.forEach(item => {
+        item.itemsList.forEach(_item => {
+          _item.number = 0
+        })
+      })
       switch (this.active) {
         case 0:
-          obj.specialEquipment[0].items.before = this.packageList
-          obj.tsBeforeStatus = state
+          obj.tsBeforeStatus = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
+          obj.specialEquipment.forEach(item => {
+            this.packageList.forEach(_item => {
+              if (item.pId === _item.pId) {
+                item.items.before = _item.itemsList
+              }
+            })
+            arr1.forEach(_item => {
+              if (item.pId === _item.pId) {
+                if (item.items.adding.length === 0) {
+                  item.items.adding = _item.itemsList
+                }
+                if (item.items.adding1.length === 0) {
+                  item.items.adding1 = _item.itemsList
+                }
+                if (item.items.adding2.length === 0) {
+                  item.items.adding2 = _item.itemsList
+                }
+                if (item.items.adding3.length === 0) {
+                  item.items.adding3 = _item.itemsList
+                }
+                if (item.items.before2.length === 0) {
+                  item.items.before2 = _item.itemsList
+                }
+                if (item.items.after.length === 0) {
+                  item.items.after = _item.itemsList
+                }
+                if (item.items.after2.length === 0) {
+                  item.items.after2 = _item.itemsList
+                }
+              }
+            })
+          })
           break
         case 1:
-          obj.specialEquipment[0].items.adding = this.packageList
-          obj.tsAddingOne = state
+          obj.tsAddingOne = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
+          obj.specialEquipment.forEach(item => {
+            this.packageList.forEach(_item => {
+              if (item.pId === _item.pId) {
+                item.items.adding = _item.itemsList
+              }
+            })
+          })
           break
         case 2:
-          obj.specialEquipment[0].items.adding1 = this.packageList
-          obj.tsAddingTwo = state
+          obj.tsAddingTwo = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
+          obj.specialEquipment.forEach(item => {
+            this.packageList.forEach(_item => {
+              if (item.pId === _item.pId) {
+                item.items.adding1 = _item.itemsList
+              }
+            })
+          })
           break
         case 3:
-          obj.specialEquipment[0].items.adding2 = this.packageList
-          obj.tsAddingThree = state
+          obj.tsAddingThree = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
+          obj.specialEquipment.forEach(item => {
+            this.packageList.forEach(_item => {
+              if (item.pId === _item.pId) {
+                item.items.adding2 = _item.itemsList
+              }
+            })
+          })
           break
         case 4:
-          obj.specialEquipment[0].items.adding3 = this.packageList
-          obj.tsAddingFour = state
+          obj.tsAddingFour = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
+          obj.specialEquipment.forEach(item => {
+            this.packageList.forEach(_item => {
+              if (item.pId === _item.pId) {
+                item.items.adding3 = _item.itemsList
+              }
+            })
+          })
           break
         case 5:
-          obj.specialEquipment[0].items.before2 = this.packageList
-          obj.tsClossBefore = state
+          obj.tsClossBefore = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
+          obj.specialEquipment.forEach(item => {
+            this.packageList.forEach(_item => {
+              if (item.pId === _item.pId) {
+                item.items.before2 = _item.itemsList
+              }
+            })
+          })
           break
         case 6:
-          obj.specialEquipment[0].items.after = this.packageList
-          obj.tsClossAfter = state
+          obj.tsClossAfter = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
+          obj.specialEquipment.forEach(item => {
+            this.packageList.forEach(_item => {
+              if (item.pId === _item.pId) {
+                item.items.after = _item.itemsList
+              }
+            })
+          })
           break
         case 7:
-          obj.specialEquipment[0].items.after2 = this.packageList
-          obj.tsSutureAfter = state
+          obj.tsSutureAfter = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
+          obj.specialEquipment.forEach(item => {
+            this.packageList.forEach(_item => {
+              if (item.pId === _item.pId) {
+                item.items.after2 = _item.itemsList
+              }
+            })
+          })
       }
       obj.specialEquipment = JSON.stringify(obj.specialEquipment)
       obj.cureNo = this.patientInfo.cureNo
       obj.hospitalNo = this.patientInfo.hospitalNo
-      // obj.cureNo = '17655867'
       obj.modifier = this.opePeopleInfo.userName
       obj.modifierCode = this.opePeopleInfo.userCode
-      // obj.hospitalNo = '91160537'
+      console.log(obj)
       request({
         url: savePackageDataSpecial,
         method: 'post',
@@ -360,6 +449,13 @@ export default {
     async handleChange (index) {
       this.active = index
       this.getPackageList()
+    },
+    handleDeviceCode (code) {
+      // 器械包条码
+      if (code.indexOf('P-') !== -1) {
+        this.code = code.replace('P-', '')
+        this.getData()
+      }
     }
   },
   created () {
@@ -374,7 +470,11 @@ export default {
   },
   async mounted () {
     // await this.getData()
-    // this.getPackageList()
+    this.getPackageList()
+    $bus.$on('handleDeviceCode', this.handleDeviceCode)
+  },
+  beforeDestroy () {
+    $bus.$off('handleDeviceCode')
   }
 }
 </script>
@@ -411,7 +511,7 @@ export default {
             flex-direction: column;
             li{
               color: #2E2E2E;
-              padding: 10px 0 10px 16px;
+              padding: 20px 0 20px 16px;
               font-size: 30px;
               border:1PX solid #E2E2E2;
               &.active{
@@ -431,6 +531,7 @@ export default {
             line-height: 104px;
             font-size: 30px;
             padding: 10px 15px;
+            border-top: 1PX solid #e2e2e2;
             .title-left{
 
             }
@@ -439,7 +540,7 @@ export default {
             }
           }
           .packageContent{
-            height: calc(100% - 124px);
+            height: calc(100% - 125px);
             overflow-y: auto;
             .package{
               .packageItem{
@@ -449,7 +550,7 @@ export default {
                 line-height: 90px;
                 display: flex;
                 justify-content: space-between;
-                padding: 0 15px 0 15px;
+                padding: 10px 15px 10px 15px;
                 .packageName{
                   color: #3377FF;
                 }
@@ -461,18 +562,24 @@ export default {
                 }
               }
               .packageItemList{
-
+                display: none;
               }
             }
              .sign-class{
-              color: hsl(145, 85%, 41%);
+              color:#10ce5a;
               line-height: 90px;
-              // text-indent: 15px;
+              margin-left: 15px;
             }
             .sign-value{
               line-height: 90px;
               color: #0000ff;
               margin-left: 30px;
+            }
+            .sign{
+              background: #FFFFFF;
+              &:nth-last-child(1){
+                border-top: 1PX solid #e2e2e2;
+              }
             }
           }
           ul{
@@ -490,7 +597,7 @@ export default {
             .sign-class{
               color: hsl(145, 85%, 41%);
               line-height: 90px;
-              // text-indent: 15px;
+              text-indent: 15px;
             }
             .sign-value{
               line-height: 90px;
