@@ -18,3 +18,6 @@ export const getHandoverCodeStatus = `${config.api.baseURL}/ocis/forwardingRepor
 
 // 转运交接扫码存储
 export const saveHandoverCodeStatus = `${config.api.baseURL}/ocis/forwardingReport/saveForwardingScan`
+
+// 已接单改成已完成
+export const changeApplyStatus = `${config.api.baseURL}/ocis/receivingorders/updateOrderstatus`

@@ -44,7 +44,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('LargeScreen', ['patientInfo'])
+    ...mapState('LargeScreen', ['patientInfo', 'currentRoom'])
   },
   watch: {
     patientInfo: {
@@ -56,7 +56,7 @@ export default {
   },
   components: {PatientCard, PatientStep, PatientInfo, EmptyNotice},
   methods: {
-    ...mapActions('LargeScreen', ['setPatientInfo', 'currentRoom']),
+    ...mapActions('LargeScreen', ['setPatientInfo', 'setCurrentRoom']),
     handleShowStep () {
       this.stepVisible = !this.stepVisible
     },
@@ -65,8 +65,8 @@ export default {
     }
   },
   mounted () {
-    this.socket = io('http://192.168.1.58:5099', {
-      query: 'sendName=' + '602'
+    this.socket = io('http://192.168.1.106:5099', {
+      query: 'sendName=701'
     })
     this.socket.on('connect', () => {
       console.log('socket.io connected')
@@ -87,6 +87,18 @@ export default {
         $bus.$emit('getPatientInfo')
         arr.push(data)
         this.socket.emit('text', arr)
+      }
+    })
+    this.socket.on('push_event_screen', (data) => {
+      console.log(data.sendMessage)
+      if (data.sendMessage === 'option') {
+        $bus.$emit('getStepList')
+        $bus.$emit('getRecord2')
+        $bus.$emit('getOrdinaryData')
+        $bus.$emit('getSpecialData')
+        $bus.$emit('getSignInInfo')
+        $bus.$emit('getTimeOutInfo')
+        $bus.$emit('getSignOutInfo')
       }
     })
   }

@@ -34,55 +34,55 @@ export default {
           title: '手术通知单',
           time: '12:23',
           mins: '',
-          status: 'success'
+          status: '0'
         },
         {
           title: '工勤人员接单',
           time: '12:23',
           mins: '(15Mins)',
-          status: 'success'
+          status: '0'
         },
         {
           title: '病房交接',
           time: '12:23',
           mins: '(34Mins)',
-          status: 'error'
+          status: '0'
         },
         {
           title: '进手术室',
           time: '13:23',
           mins: '(18Mins)',
-          status: 'success'
+          status: '0'
         },
         {
           title: 'Sign In',
           time: '13:23',
           mins: '',
-          status: 'success'
+          status: '0'
         },
         {
           title: 'Time Out',
           time: '14:23',
           mins: '',
-          status: 'success'
+          status: '0'
         },
         {
           title: 'Sign Out',
           time: '13:23',
           mins: '',
-          status: 'wait'
+          status: '0'
         },
         {
           title: '出手术室',
           time: '13:23',
           mins: '',
-          status: 'wait'
+          status: '0'
         },
         {
           title: '回病房',
           time: '13:23',
           mins: '',
-          status: 'wait'
+          status: '0'
         }
       ]
     }

@@ -424,7 +424,7 @@ export default {
             flex-direction: column;
             li{
               color: #2E2E2E;
-              padding: 10px 0 10px 16px;
+              padding: 20px 0 20px 16px;
               font-size: 30px;
               border:1PX solid #E2E2E2;
               &.active{
@@ -444,6 +444,7 @@ export default {
             line-height: 104px;
             font-size: 30px;
             padding: 10px 15px;
+            border-top: 1PX solid #e2e2e2;
             .title-left{
 
             }
@@ -452,7 +453,7 @@ export default {
             }
           }
           ul{
-            height: calc(100% - 124px);
+            height: calc(100% - 125px);
             overflow-y: auto;
             li{
               background: #ffffff;

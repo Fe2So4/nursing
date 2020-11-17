@@ -226,6 +226,9 @@ export default {
   mounted () {
     $bus.$on('getRecord2', this.getData)
     this.getData()
+  },
+  beforeDestroy () {
+    $bus.$off('getRecord2')
   }
 }
 </script>

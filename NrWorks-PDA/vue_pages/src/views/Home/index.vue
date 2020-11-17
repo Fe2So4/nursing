@@ -2,11 +2,11 @@
   <div class="home">
     <van-nav-bar
       title="手术室移动工作平台"
-      @click-left="onClickLeft"
-      @click-right="onClickRight"
     >
-      <van-icon name="wap-nav" slot="left" size="34" color="#ffffff"/>
-      <van-icon name="exchange" slot="right" size="34" color="#ffffff"/>
+      <!-- @click-left="onClickLeft"
+      @click-right="onClickRight" -->
+      <van-icon name="wap-nav" slot="left" size="34" color="#ffffff" @click="onClickLeft"/>
+      <van-icon name="exchange" slot="right" size="34" color="#ffffff" @click="handleExitApp"/>
     </van-nav-bar>
     <div class="list">
       <ul>
@@ -22,6 +22,7 @@
       </ul>
     </div>
     <Loading v-if="showLoading"/>
+    <Menu v-if="showMenu" :showMenu="showMenu" @handleClose="handleClose"></Menu>
   </div>
 </template>
 
@@ -32,25 +33,36 @@ import Loading from '@/components/Loading'
 // import {getOpePeople} from '@/api/device-package'
 import def from '@/assets/def.png'
 import $bus from '@/utils/bus'
+import Menu from '@/components/Menu'
 import {mapActions, mapState} from 'vuex'
 export default {
   data () {
     return {
       cureNo: '',
       avater: def,
-      showLoading: false
+      showLoading: false,
+      showMenu: false
     }
   },
   computed: {
     ...mapState('Patient', ['opePeopleInfo'])
   },
   components: {
-    Loading
+    Loading, Menu
   },
   methods: {
     ...mapActions('Patient', ['getPatient']),
     onClickLeft () {
-      this.$router.go(-1)
+      // this.$router.go(-1)
+      this.showMenu = true
+    },
+    handleClose () {
+      this.showMenu = false
+    },
+    handleExitApp () {
+      // 关闭app
+      // var that = this
+      navigator.app.exitApp()
     },
     onClickRight () {
 
@@ -146,6 +158,8 @@ export default {
           } else if (that.$route.path === '/transfer') {
             // alert('/transfer')
             $bus.$emit('handleCode', e)
+          } else if (that.$route.path === '/device-special') {
+            $bus.$emit('handleDeviceCode', e)
           }
         }
       })

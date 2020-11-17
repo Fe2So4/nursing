@@ -27,7 +27,7 @@
             :title="item.label"
           >
             <template slot="title">
-              <div>
+              <div class="collapse-header">
                 <span>{{ item.label }}</span>
                 <span>{{ item.time }}</span>
               </div>
@@ -216,12 +216,34 @@ export default {
     /deep/ .el-collapse-item__header{
       background: unset;
       background: #F5F8FD;
-      height: 55px;
-      line-height: 55px;
+      // height: 55px;
+      height: unset;
+      line-height: 20px;
       border-radius: 5px;
       font-size: 18px;
-      text-indent: 10px;
+      // text-indent: 10px;
+      padding-left: 10px;
+      padding-top: 15px;
+      padding-bottom: 15px;
       color: #919398;
+      display: flex;
+      justify-content: space-between;
+      .collapse-header{
+        display: flex;
+        justify-content: space-between;
+        flex: 1;
+        font-size: 16px;
+        span{
+          &:first-child{
+            max-width:260px;
+            word-wrap: break-word;
+            // word-break: break-all;
+          }
+          &:last-child{
+            width: 100px;
+          }
+        }
+      }
       i{
         color: #388FF7;
       }

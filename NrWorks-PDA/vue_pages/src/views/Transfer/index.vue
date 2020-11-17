@@ -467,8 +467,8 @@ export default {
       }
       p{
         .van-button{
-          line-height: 60px;
-          height: 60px;
+          line-height: 80px;
+          height: 80px;
           background: #3377FF;
           width: 480px;
           font-size: 30px;
@@ -477,7 +477,7 @@ export default {
         &.option{
           text-align: center;
           color: #7F7F7F;
-          font-size: 26px;
+          font-size: 30px;
           &:last-child{
             margin-top: 20px;
           }

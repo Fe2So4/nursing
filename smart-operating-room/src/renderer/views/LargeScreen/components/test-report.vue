@@ -36,6 +36,10 @@ export default {
       justify-content: space-between;
       &:last-child{
         color:#919398;
+        span{
+          min-width: 100px;
+          color: #3890f7;
+        }
       }
     }
   }
