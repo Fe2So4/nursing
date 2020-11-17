@@ -2,9 +2,12 @@
   <div class="empty-notice">
     <div class="top">
       <i class="el-icon-warning-outline" />
-      <span>目前未绑定患者，请在PDA中进行操作！</span>
+      <span>{{ currentRoom ? '目前未绑定患者，请在PDA中进行操作！' : '请先选择手术房间' }}</span>
     </div>
-    <div class="bottom">
+    <div
+      class="bottom"
+      v-if="currentRoom"
+    >
       <ul>
         <li>
           <div class="li-top">
@@ -45,10 +48,15 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
   data () {
     return {
+
     }
+  },
+  computed: {
+    ...mapState('LargeScreen', ['currentRoom'])
   },
   methods: {
 

@@ -52,6 +52,11 @@ export default {
         return newValue
       },
       deep: true
+    },
+    currentRoom: {
+      handler (newVal, old) {
+        this.initSocket()
+      }
     }
   },
   components: {PatientCard, PatientStep, PatientInfo, EmptyNotice},
@@ -62,45 +67,74 @@ export default {
     },
     setCureNo (obj) {
       this.setPatientInfo(obj)
+    },
+    intervalRefresh () {
+      setInterval(() => {
+        // 有效遗嘱
+        $bus.$emit('getMedicalAdvice')
+        // 病史摘要
+        $bus.$emit('getMedicalHistory')
+        // 检查报告
+        $bus.$emit('getInspectReport')
+        // 检验报告
+        $bus.$emit('getTestReport')
+        // 术中带药
+        $bus.$emit('getMedecial')
+        // 抗生素用药
+        $bus.$emit('getAntibiotic')
+        // 生命体征
+        $bus.$emit('getSignData')
+      }, 3000)
+    },
+    initSocket () {
+      if (this.socket) {
+        this.socket = null
+      }
+      if (this.currentRoom) {
+        this.socket = io('http://192.168.1.106:5099', {
+          query: 'sendName=' + this.currentRoom
+        })
+        this.socket.on('connect', () => {
+          console.log('socket.io connected')
+          this.connect = true
+        })
+        this.socket.on('reconnect_error', e => {
+          console.error(e)
+        })
+        this.socket.on('disconnect', () => {
+          console.log('socket.io disconnect')
+          this.connect = false
+        })
+        this.socket.on('push_event', (data) => {
+          console.log(data)
+          if (data) {
+            let arr = []
+            this.setCureNo({cureNo: data.cureNo, hospitalNo: data.hospitalNo})
+            $bus.$emit('getPatientInfo')
+            arr.push(data)
+            this.socket.emit('text', arr)
+          }
+        })
+        this.socket.on('push_event_screen', (data) => {
+          console.log(data.sendMessage)
+          if (data.sendMessage === 'option') {
+            $bus.$emit('getStepList')
+            $bus.$emit('getRecord2')
+            $bus.$emit('getOrdinaryData')
+            $bus.$emit('getSpecialData')
+            $bus.$emit('getSignInInfo')
+            $bus.$emit('getTimeOutInfo')
+            $bus.$emit('getSignOutInfo')
+          }
+        })
+      }
     }
   },
   mounted () {
-    this.socket = io('http://192.168.1.106:5099', {
-      query: 'sendName=701'
-    })
-    this.socket.on('connect', () => {
-      console.log('socket.io connected')
-      this.connect = true
-    })
-    this.socket.on('reconnect_error', e => {
-      console.error(e)
-    })
-    this.socket.on('disconnect', () => {
-      console.log('socket.io disconnect')
-      this.connect = false
-    })
-    this.socket.on('push_event', (data) => {
-      console.log(data)
-      if (data) {
-        let arr = []
-        this.setCureNo({cureNo: data.cureNo, hospitalNo: data.hospitalNo})
-        $bus.$emit('getPatientInfo')
-        arr.push(data)
-        this.socket.emit('text', arr)
-      }
-    })
-    this.socket.on('push_event_screen', (data) => {
-      console.log(data.sendMessage)
-      if (data.sendMessage === 'option') {
-        $bus.$emit('getStepList')
-        $bus.$emit('getRecord2')
-        $bus.$emit('getOrdinaryData')
-        $bus.$emit('getSpecialData')
-        $bus.$emit('getSignInInfo')
-        $bus.$emit('getTimeOutInfo')
-        $bus.$emit('getSignOutInfo')
-      }
-    })
+    this.initSocket()
+  },
+  beforeDestroy () {
+    this.socket = null
   }
 }
 </script>

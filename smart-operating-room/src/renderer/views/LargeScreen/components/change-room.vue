@@ -67,16 +67,16 @@ export default {
       floorList: [],
       floor: '',
       roomList: [
-        '601',
-        '602',
-        '603',
-        '604',
-        '605',
-        '606',
-        '607',
-        '608',
-        '609',
-        '6pacu'
+        // '601',
+        // '602',
+        // '603',
+        // '604',
+        // '605',
+        // '606',
+        // '607',
+        // '608',
+        // '609',
+        // '6pacu'
       ],
       activeIndex: '',
       selectIndex: '',
@@ -118,9 +118,9 @@ export default {
       this.laretRoomByFloor(obj).then(res => {
         if (res.data.code === 200) {
           this.roomList = res.data.data
-          if (this.type === 0) {
-            this.setCurrentRoom(this.roomList[0].roomCode)
-          }
+          // if (this.type === 0) {
+          //   this.setCurrentRoom(this.roomList[0].roomCode)
+          // }
           this.type += 1
           if (!this.IsEmpty(this.selectIndex)) {
             this.activeIndex = this.selectIndex

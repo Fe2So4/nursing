@@ -37,6 +37,7 @@
 import {getSign} from '@/api/large-screen'
 import request from '@/utils/request'
 import { mapState } from 'vuex'
+import $bus from '@/utils/busScreen'
 export default {
   name: 'PostoperativeList',
   data () {
@@ -72,6 +73,10 @@ export default {
   },
   mounted () {
     this.getSignData()
+    $bus.$emit('getSignData', this.getSignData)
+  },
+  beforeDestroy () {
+    $bus.$off('getSignData')
   }
 }
 </script>
