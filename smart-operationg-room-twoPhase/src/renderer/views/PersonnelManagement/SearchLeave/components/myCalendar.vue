@@ -45,7 +45,7 @@
         </div>
       </div>
     </div>
-    <el-scrollbar style="height:700px">
+    <el-scrollbar>
       <table
         id="table"
         class="cal-table mb20"
@@ -267,6 +267,10 @@ export default {
 /deep/ .el-scrollbar__wrap{
   overflow-x: hidden !important;
 }
+
+/deep/ .el-scrollbar {
+ height: calc(100% - 93px);
+}
 .ivu-affix {
   background: #fff;
 }
@@ -286,6 +290,9 @@ export default {
 .cal-wrap,
 .perconsult .cert-title + p {
   font-family: "SimSun";
+}
+.cal-wrap {
+  height: 100%;
 }
 .cal-YM {
     padding-bottom: 20px;

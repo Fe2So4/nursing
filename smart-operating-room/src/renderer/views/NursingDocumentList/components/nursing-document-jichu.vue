@@ -470,7 +470,7 @@ export default {
           // if (wenshuData.basicEquipment && this.IsEmpty(wenshuData.basicEquipment.items)) {
           let arr = []
           this.basicEquipmentStr = wenshuData.basicEquipment
-          if (this.basicEquipmentStr) {
+          if (this.basicEquipmentStr.adding) {
             this.basicEquipmentStr.adding.forEach(item => {
               let obj = {
                 name: item.insName

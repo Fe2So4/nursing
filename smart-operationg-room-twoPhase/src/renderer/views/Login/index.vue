@@ -129,7 +129,7 @@ export default {
           }
           login(obj).then(res => {
             console.log(res)
-            if (res.data.code === '0') {
+            if (res.data.code === 200) {
               setUserToken(res.data.data)
               setCurrentAccount(this.form.username)
               // ipcRenderer.send('login-window')

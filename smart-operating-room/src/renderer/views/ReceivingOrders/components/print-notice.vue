@@ -1,33 +1,33 @@
 <template>
   <div
     class="print-content"
-    style="width:960px;height:800px"
+    style="width:960px;height:1000px"
     id="detail-patient"
   >
     <table
-      style="width:880px;height:380px;margin:0 auto;border-collapse:collapse;text-align:center;"
+      style="width:880px;height:380px;margin:0 auto;border-collapse:collapse;text-align:center;font-size:22px"
     >
       <thead>
         <tr>
           <td
             colspan="10"
             style="text-align:center;height: 20px;
-          font-weight:bold;font-size:30;"
+          font-weight:bold"
           />
         </tr>
 
         <tr>
           <td
             colspan="10"
-            style="text-align:center;height: 20px;
-          font-weight:bold;font-size:30;"
+            style="text-align:center;height: 100px;
+          font-weight:bold"
           />
         </tr>
         <tr>
           <td
             colspan="10"
             style="text-align:center;height: 20px;
-          font-weight:bold;font-size:30;"
+          font-weight:bold;font-size:24px;"
           >
             华山医院
           </td>
@@ -37,7 +37,7 @@
           <td
             colspan="10"
             style="text-align:center;height: 20px;
-          font-weight:bold;font-size:30;"
+          font-weight:bold;font-size:24px;"
           >
             手术通知单
           </td>
@@ -45,23 +45,26 @@
       </thead>
       <tbody>
         <tr>
+          <td style="height:20px" />
+        </tr>
+        <tr>
           <td
             colspan="2"
             style="text-align:left;
-          font-size:30;"
+          "
           >
             房间号: {{ selectRow.roomNo }}
           </td>
           <td
             style="text-align:left;
-          bold;font-size:30;"
+          bold;"
           >
             序号:{{ selectRow.sequenceNo }}
           </td>
           <td
             colspan="3"
             style="text-align:left;
-          bold;font-size:30;"
+          bold"
           >
             拟手术时间: {{ selectRow.operateDate }}
           </td>
@@ -366,8 +369,8 @@ export default {
       // eslint-disable-next-line no-new
       new QRCode(this.$refs.qrCodeDiv, {
         text: text,
-        width: 160,
-        height: 160,
+        width: 200,
+        height: 200,
         colorDark: '#333333', // 二维码颜色
         colorLight: '#ffffff', // 二维码背景色
         correctLevel: QRCode.CorrectLevel.L // 容错率，L/M/H

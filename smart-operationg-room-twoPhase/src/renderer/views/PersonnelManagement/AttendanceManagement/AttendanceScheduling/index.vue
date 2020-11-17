@@ -43,31 +43,31 @@
         />
         <vxe-table-column
           field="sex"
-          title="周一"
+          :title="weekList[0].weekTimeName"
         />
         <vxe-table-column
           field="age"
-          title="周二"
+          :title="weekList[1].weekTimeName"
         />
         <vxe-table-column
           field="age"
-          title="周三"
+          :title="weekList[2].weekTimeName"
         />
         <vxe-table-column
           field="age"
-          title="周四"
+          :title="weekList[3].weekTimeName"
         />
         <vxe-table-column
           field="age"
-          title="周五"
+          :title="weekList[4].weekTimeName"
         />
         <vxe-table-column
           field="age"
-          title="周六"
+          :title="weekList[5].weekTimeName"
         />
         <vxe-table-column
           field="age"
-          title="周日"
+          :title="weekList[6].weekTimeName"
         />
       </vxe-table>
     </div>
@@ -82,7 +82,38 @@ export default {
       Wheight: 100,
       clientHeight: document.body.clientHeight,
       dateValue: '',
+      nowDay: '',
+      dayList: [''],
       dayTitle: '2020年第43周',
+      weekList: [{
+        'weekTime': '2020-11-09',
+        'weekTimeName': '周一(11/09)'
+      },
+      {
+        'weekTime': '2020-11-10',
+        'weekTimeName': '周二(11/10)'
+      },
+      {
+        'weekTime': '2020-11-11',
+        'weekTimeName': '周三(11/11)'
+      },
+      {
+        'weekTime': '2020-11-12',
+        'weekTimeName': '周四(11/12)'
+      },
+      {
+        'weekTime': '2020-11-13',
+        'weekTimeName': '周五(11/13)'
+      },
+      {
+        'weekTime': '2020-11-14',
+        'weekTimeName': '周六(11/14)'
+      },
+      {
+        'weekTime': '2020-11-15',
+        'weekTimeName': '周日(11/15)'
+      }],
+
       tableList: [
         {name: '1', sex: '1', age: '2'},
         {name: '1', sex: '1', age: '1'},
@@ -139,16 +170,46 @@ export default {
       })()
     }
     let a = new Date()
+    this.nowDay = this.utilsGetNowDay(a)
     this.dayTitle = this.utilsGetWeek(a)
+    this.getTableList()
   },
   methods: {
+    getTableList () {
+      let obj = {
+        selectTime: this.nowDay
+      }
+      this.$store.dispatch('ReqGetPersonnelScheduling', obj).then(res => {
+        console.log(res)
+        if (res.data.code === 200) {
+          this.weekList = res.data.data[0].week
+          this.tableList = res.data.data[1].userData
+
+          console.log(this.weekList, 'weekList')
+          console.log(this.tableList, 'tableList')
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
     changeHeight () {
       let dom = document.getElementsByClassName('container-table')[0]
       this.Wheight = dom.offsetHeight
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
   },
   watch: {
     'dateValue': function (newVal, oldVal) {
+      this.nowDay = this.utilsGetNowDay(newVal)
+      this.getTableList()
       if (newVal !== oldVal) {
         this.dayTitle = this.utilsGetWeek(newVal)
       }
@@ -175,6 +236,9 @@ export default {
 }
 /deep/ .vxe-cell--title {
   color: #000;
+}
+/deep/ .el-date-editor.el-input, .el-date-editor.el-input__inner {
+  width:30px !important
 }
 .attendance-scheduling-container {
   display: flex;
