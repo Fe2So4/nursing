@@ -2,6 +2,7 @@
   <div class="attendance-management">
     <div class="option-top">
       <el-button
+        @click="handleAddTableItem"
         type="primary"
         size="mini"
       >
@@ -13,18 +14,24 @@
         <div class="am-content">
           <div
             class="am-group"
-            v-for="item in 3"
-            :key="'group'+item"
+            v-for="item in dataList"
+            :key="item.orderId"
           >
             <div class="am-group-title">
-              <span>徐汇院区护士组</span>
+              <span>{{ item.transactionGroupName }}</span>
               <span>
                 <i
                   class="el-icon-edit-outline"
-                  @click="handleEditGroup"
+                  @click="handleEditGroup(item)"
                 />
-                <i class="el-icon-delete" />
-                <i class="el-icon-plus" />
+                <i
+                  @click="handleDeleteGroup(item)"
+                  class="el-icon-delete"
+                />
+                <i
+                  class="el-icon-plus"
+                  @click="handleAddGroup(item)"
+                />
               </span>
             </div>
             <div class="am-group-table">
@@ -33,38 +40,32 @@
                 size="mini"
                 stripe
                 round
-                :data="tableData"
+                :data="item.detailList"
                 auto-resize
-                height="300px"
+                height="300"
               >
                 <vxe-table-column
-                  field="name"
-                  title="选择"
-                  width="60"
-                >
-                  <template>
-                    <el-checkbox />
-                  </template>
-                </vxe-table-column>
-                <vxe-table-column
-                  field="name"
+                  field="orderBy"
                   title="序号"
-                  sortable
                 />
                 <vxe-table-column
-                  field="sex"
+                  field="groupMemberCode"
                   title="工号"
                 />
                 <vxe-table-column
-                  field="age"
+                  field="groupMemberName"
                   title="用户姓名"
                 />
                 <vxe-table-column
-                  field="address"
+                  field="isGroupLeader"
                   title="组长"
                 >
-                  <template>
-                    <el-checkbox />
+                  <template v-slot="{row}">
+                    <el-checkbox
+                      :true-label="1"
+                      :false-label="0"
+                      v-model="row.isGroupLeader"
+                    />
                   </template>
                 </vxe-table-column>
                 <vxe-table-column
@@ -79,15 +80,40 @@
                     </span>
                   </template>
                 </vxe-table-column>
+                <vxe-table-column
+                  title="操作"
+                  show-overflow
+                >
+                  <template v-slot="{row}">
+                    <span class="sort">
+                      <i
+                        class="el-icon-delete"
+                        @click="itemDelete(item,row)"
+                      />
+                    </span>
+                  </template>
+                </vxe-table-column>
               </vxe-table>
             </div>
             <div class="am-group-remark">
               <el-form
+                style="display:flex;align-items: center"
                 size="mini"
                 :inline="true"
               >
-                <el-form-item label="备注">
-                  <el-input type="textarea" />
+                <el-form-item
+                  label="备注"
+                >
+                  <el-input
+                    readonly
+                    v-model="item.transactionRemark"
+                    type="textarea"
+                  />
+                </el-form-item>
+                <el-form-item style="width:unset;margin-left:20px">
+                  <el-button type="primary">
+                    保存
+                  </el-button>
                 </el-form-item>
               </el-form>
             </div>
@@ -96,6 +122,8 @@
       </el-scrollbar>
     </div>
     <GroupDialog
+      @changeTitle="changeTitle"
+      :dialog-change-form="dialogChangeForm"
       :dialog-visible="dialogVisible"
       @handleClose="handleClose"
     />
@@ -108,16 +136,110 @@ export default {
   data () {
     return {
       dialogVisible: false,
-      tableData: [{name: 'ada', sex: 'ada', age: 45, address: 'ada'}, {name: 'ada', sex: 'ada', age: 45, address: 'ada'}, {name: 'ada', sex: 'ada', age: 45, address: 'ada'}]
+      dataList: [],
+      tableData: [{name: 'ada', sex: 'ada', age: 45, address: 'ada'}, {name: 'ada', sex: 'ada', age: 45, address: 'ada'}, {name: 'ada', sex: 'ada', age: 45, address: 'ada'}],
+      dialogChangeForm: {}
     }
   },
   components: {GroupDialog},
+  mounted () {
+    this.searchList()
+    this.getNuresList()
+  },
   methods: {
-    handleEditGroup () {
+    // 获取护士列表
+    getNuresList () {
+      this.$store.dispatch('ReqGetNurList').then(res => {
+        console.log(res)
+      })
+    },
+    // 查询数据
+    searchList () {
+      this.$store.dispatch('ReqGetTransactionGroupShow').then(res => {
+        if (res.data.code === 200) {
+          this.dataList = res.data.data
+          this.orderRelife()
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 点击新增分组
+    handleAddTableItem () {
+      let obj = {
+        detailList: [],
+        id: null,
+        orderId: this.dataList.length,
+        transactionGroupName: '',
+        transactionRemark: ''
+      }
+      this.dataList.push(obj)
+      console.log(this.dataList)
+    },
+    // 点击修改
+    handleEditGroup (item) {
+      this.dialogChangeForm = JSON.parse(JSON.stringify(item))
       this.dialogVisible = true
+    },
+    handleDeleteGroup (item) {
+      this.$confirm('是否删除当前业务分组', '', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        callback: action => {
+          if (action === 'confirm') {
+            this.dataList.forEach((v, index) => {
+              if (item.orderId === v.orderId) {
+                this.dataList.splice(index, 1)
+                return false
+              }
+            })
+          } else {
+
+          }
+        }
+      })
+    },
+    handleAddGroup (item) {
+      console.log(item)
+      // let obj = {
+
+      // }
+      // item.
+    },
+    orderRelife () {
+      this.dataList.forEach((item, index) => {
+        item.orderId = index
+        item.detailList.forEach((v, i) => {
+          v.orderBy = i + 1
+        })
+      })
+    },
+    // 回调修改保存
+    changeTitle (item) {
+      this.dataList.forEach(v => {
+        if (v.orderId === item.orderId) {
+          v.transactionGroupName = item.transactionGroupName
+          v.transactionRemark = item.transactionRemark
+        }
+      })
+      this.dialogVisible = false
+    },
+    // 单条删除
+    itemDelete (item, row) {
+      console.log(item, row)
     },
     handleClose () {
       this.dialogVisible = false
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
   }
 }

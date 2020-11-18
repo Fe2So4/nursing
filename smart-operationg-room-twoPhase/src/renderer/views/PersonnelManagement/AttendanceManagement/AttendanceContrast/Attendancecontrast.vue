@@ -32,9 +32,9 @@
           >
             <el-checkbox
               style="width:120px"
-              :label="item.name"
+              :label="item.typeName"
               v-for="item in checkList"
-              :key="item.label"
+              :key="item.typeName"
             />
           </el-checkbox-group>
         </div>
@@ -150,36 +150,7 @@ export default {
         }
       ],
       checkList: [
-        {
-          label: '0',
-          name: '周末加班'
-        },
-        {
-          label: '1',
-          name: '一值班'
-        },
-        {
-          label: '2',
-          name: '二值班'
-        },
-        {
-          label: '3',
-          name: '三值班'
-        }, {
-          label: '4',
-          name: '四值班'
-        }, {
-          label: '5',
-          name: '五值班'
-        },
-        {
-          label: '6',
-          name: '六值班'
-        },
-        {
-          label: '7',
-          name: '七值班'
-        }
+
       ],
       selectCheckList: [],
       selectTableList: [
@@ -189,6 +160,9 @@ export default {
 
       ]
     }
+  },
+  mounted () {
+    this.getSelectList()
   },
   methods: {
     changeBusiness () {
@@ -241,6 +215,19 @@ export default {
         this.selectCheckList.unshift(this.selectCheckList.splice(index, 1)[0])
       }
       this.changeShift()
+    },
+    // 获取下拉框数据字典
+    getSelectList () {
+      let obj = {
+        belongSerialNumber: '006'
+      }
+      this.$store.dispatch('ReqgetBaseDictDetailList', obj).then(res => {
+        if (res.data.code === 200) {
+          this.checkList = res.data.data
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
     },
     getBottomTableList () {}
   },

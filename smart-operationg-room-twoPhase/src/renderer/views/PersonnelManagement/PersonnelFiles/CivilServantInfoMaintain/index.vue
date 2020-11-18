@@ -17,7 +17,10 @@
           />
         </el-form-item>
         <el-form-item label="姓名">
-          <el-input v-model="form.name" />
+          <el-input
+            clearable
+            v-model="form.name"
+          />
         </el-form-item>
         <!-- <el-form-item label="工作部门">
           <el-select v-model="form.department">
@@ -31,12 +34,14 @@
         </el-form-item> -->
         <el-form-item>
           <el-button
-            @click="searchTableList"
+            @click="getTable"
             type="primary"
           >
             查 询
           </el-button>
-          <el-button>新 增</el-button>
+          <el-button @click="addTableItem">
+            新 增
+          </el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -47,62 +52,77 @@
           :data="tableData"
           size="mini"
           height="100%"
+          stripe
         >
           <vxe-table-column
-            field="name"
+            field="workerCode"
             title="工号"
           />
           <vxe-table-column
-            field="name"
+            field="workerNumber"
             title="编号"
           />
           <vxe-table-column
-            field="sex"
+
+            field="workerName"
             title="姓名"
           />
           <vxe-table-column
-            field="age"
+            field="workerDuty"
             title="职务"
           />
           <vxe-table-column
-            field="age"
+            field="workerDept"
             title="科室"
           />
           <vxe-table-column
-            field="age"
+            field="subordinateCampus"
             title="所属院区"
           />
           <vxe-table-column
-            field="age"
+            field="workStartTime"
             title="入职时间"
           />
           <vxe-table-column
-            field="age"
-            title="公种"
-          />
+            field="workType"
+            title="工种"
+          >
+            <template v-slot="{row}">
+              {{ row.workType === 1?'长期':'临时' }}
+            </template>
+          </vxe-table-column>
           <vxe-table-column
-            field="age"
             title="操作"
           >
-            <template>
+            <template v-slot="{row}">
               <el-button
                 type="text"
-                @click="handleShowDialog"
+                @click="handleShowDialog(row)"
               >
                 编辑
               </el-button>
               <span class="option-line">|</span>
-              <el-button type="text">
+              <el-button
+                @click="deleteWorkmen(row)"
+                type="text"
+              >
                 删除
               </el-button>
             </template>
           </vxe-table-column>
         </vxe-table>
       </div>
-      <Pagination ref="pagination" />
+      <Pagination
+        @searchTableList="searchTableList"
+        :children-data="childrenData"
+      />
     </div>
     <InfoDialog
+      @saveAddItem="saveAddItem"
+      @upDataItem="upDataItem"
       :dialog-visible="dialogVisible"
+      :dialog-title="dialogTitle"
+      :form="childrenForm"
       @handleClose="handleClose"
     />
   </div>
@@ -115,6 +135,9 @@ export default {
   name: 'CivilServantInfoMaintain',
   data () {
     return {
+      dialogTitle: '',
+      childrenForm: {},
+      childrenData: {},
       form: {
         name: '',
         time: '',
@@ -133,18 +156,33 @@ export default {
           value: '2'
         }
       ],
-      tableData: [{name: 'ad', sex: 'ada', age: 'ad'}, {name: 'ad', sex: 'ada', age: 'ad'}]
+      tableData: [],
+      currentPage: 1,
+      pageSize: 10
     }
   },
   components: {
     Pagination, InfoDialog
   },
+  mounted () {
+    this.getTable()
+  },
   methods: {
-    searchTableList () {
-      console.log(this.form.time)
+    // 点击查询调用获取数据接口
+    getTable () {
+      let params = {
+        currentPage: this.currentPage,
+        pageSize: this.pageSize
+      }
+      this.searchTableList(params)
+    },
+    // 调用接口获取表格数据
+    searchTableList (params) {
+      this.currentPage = params.currentPage
+      this.pageSize = params.pageSize
       let obj = {
-        pageIndex: '1',
-        pageSize: '20',
+        pageIndex: params.currentPage,
+        pageSize: params.pageSize,
         workerName: '',
         inWorkTimeBefore: '',
         inWorkTimeAfter: ''
@@ -157,14 +195,100 @@ export default {
         obj.workerName = this.form.name
       }
       this.$store.dispatch('ReqGetWorkerInfoList', obj).then(res => {
-        console.log(res)
+        if (res.data.code === 200) {
+          this.childrenData = res.data.data
+          this.tableData = res.data.data.list
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 点击添加按钮
+    addTableItem () {
+      this.childrenForm = {
+        workerName: '',
+        subordinateCampus: '',
+        workStartTime: '',
+        workType: '',
+        workerCode: '',
+        workerDept: '',
+        workerNumber: '',
+        workerState: '',
+        workerDuty: ''
+      }
+      this.dialogTitle = '公务员信息-新增'
+      this.dialogVisible = true
+    },
+    // 调用添加接口保存数据
+    saveAddItem (params) {
+      let obj = [
+        params
+      ]
+      this.$store.dispatch('ReqAddWorkerInfot', obj).then(res => {
+        if (res.data.code === 200) {
+          this.openToast('success', '添加成功')
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+        this.handleClose()
+        this.getTable()
+      })
+    },
+    deleteWorkmen (row) {
+      let arr = [row.id]
+      let obj = {
+        idList: arr
+      }
+      this.$store.dispatch('ReqDeleteWorkerInfo', obj).then(res => {
+        if (res.data.code === 200) {
+          this.openToast('success', '删除成功')
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+        this.getTable()
       })
     },
     handleClose () {
       this.dialogVisible = false
     },
-    handleShowDialog () {
+    handleShowDialog (row) {
+      this.childrenForm = {
+        id: row.id,
+        workerName: row.workerName,
+        subordinateCampus: row.subordinateCampus,
+        workStartTime: row.workStartTime,
+        workType: row.workType,
+        workerCode: row.workerCode,
+        workerDept: row.workerDept,
+        workerNumber: row.workerNumber,
+        workerState: row.workerState,
+        workerDuty: row.workerDuty
+      }
+      this.dialogTitle = '公务员信息-修改'
       this.dialogVisible = true
+    },
+    upDataItem (params) {
+      let obj = [
+        params
+      ]
+      this.$store.dispatch('ReqUpdateWorkerInfo', obj).then(res => {
+        if (res.data.code === 200) {
+          this.openToast('success', '修改成功')
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+        this.handleClose()
+        this.getTable()
+      })
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
   }
 }

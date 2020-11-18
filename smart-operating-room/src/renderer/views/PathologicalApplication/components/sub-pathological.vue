@@ -106,6 +106,7 @@
               class="btn"
               size="mini"
               status="my-purple"
+              @click="gotoThree"
             >
               送检单
             </vxe-button>
@@ -578,6 +579,10 @@ export default {
           this.openToast('error', res.data.msg)
         }
       })
+    },
+    gotoThree () {
+      let url = 'http://128.0.16.55:8009'
+      this.$electron.shell.openExternal(url)
     },
     // 提示方法
     openToast (type, mesg) {

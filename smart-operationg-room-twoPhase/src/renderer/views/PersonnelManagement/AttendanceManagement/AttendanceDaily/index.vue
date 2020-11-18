@@ -555,6 +555,7 @@ export default {
       })
     }
   },
+
   watch: {
     'dateValue': function (newVal, oldVal) {
       if (newVal !== oldVal) {
