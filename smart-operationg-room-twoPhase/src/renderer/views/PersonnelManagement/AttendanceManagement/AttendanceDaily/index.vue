@@ -46,7 +46,8 @@
     <div class="container-table">
       <vxe-table
         size="mini"
-        :height="Wheight"
+        height="auto"
+        auto-resize
         stripe
         ref="xTable1"
         class="mytable-scrollbar"
@@ -276,9 +277,7 @@ export default {
   data () {
     return {
       dialogVisible: false,
-      Wheight: 100,
       batchSetSelect: ['', '', '', '', '', '', ''],
-      clientHeight: document.body.clientHeight,
       dateValue: '',
       nowDay: '',
       dayTitle: '2020年第43周',
@@ -343,15 +342,6 @@ export default {
     }
   },
   mounted () {
-    // console.log(dom.offsetHeight - 40)
-    this.changeHeight()
-    let that = this
-    window.onresize = () => {
-      return (() => {
-        window.clientHeight = document.body.clientHeight
-        that.clientHeight = window.clientHeight
-      })()
-    }
     let a = new Date()
     this.nowDay = this.utilsGetNowDay(a)
     this.dayTitle = this.utilsGetWeek(a)
@@ -535,12 +525,6 @@ export default {
     selectChangeEvent ({ checked, records }) {
       this.selectRecords = records
     },
-
-    // 改变高度
-    changeHeight () {
-      let dom = document.getElementsByClassName('container-table')[0]
-      this.Wheight = dom.offsetHeight
-    },
     handleClose () {
       this.batchSetSelect = ['', '', '', '', '', '', '']
       this.dialogVisible = false
@@ -564,15 +548,13 @@ export default {
         this.dayTitle = this.utilsGetWeek(newVal)
         this.getTableList()
       }
-    },
-    clientHeight (newVal, oldVal) {
-      this.changeHeight()
     }
   }
 }
 </script>
 
 <style  scoped lang="scss">
+@import '@/styles/scrollbar.scss';
 /deep/ .el-input--prefix .el-input__inner {
   color: transparent;
   border: none;

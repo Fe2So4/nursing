@@ -61,7 +61,11 @@ export default {
       this.$emit('handleClose')
     },
     saveChangeFrom () {
-      this.$emit('changeTitle', this.dialogChangeForm)
+      if (this.dialogChangeForm.clickType === '2') {
+        this.$emit('changeTitle', this.dialogChangeForm)
+      } else {
+        this.$emit('getAddList', this.dialogChangeForm)
+      }
     }
   }
 }

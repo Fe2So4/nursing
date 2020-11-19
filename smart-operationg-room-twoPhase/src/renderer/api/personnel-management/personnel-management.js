@@ -83,3 +83,37 @@ export const reqGetNurseDicttwo = () => {
     method: 'get'
   })
 }
+// 获取业务分组带教班次信息对照列表
+const reqGetTransactionGroupTeachResultUrl = `${config.default.api.baseURL}/ocis/portfolio/getTransactionGroupTeachResult`
+export const reqGetTransactionGroupTeachResult = () => {
+  return request({
+    url: reqGetTransactionGroupTeachResultUrl,
+    method: 'get'
+  })
+}
+// 业务分组带教信息查询
+const reqgetTransactionGroupUrl = `${config.default.api.baseURL}/ocis/portfolio/getTransactionGroup`
+export const reqgetTransactionGroup = () => {
+  return request({
+    url: reqgetTransactionGroupUrl,
+    method: 'get'
+  })
+}
+
+// 根据id获取业务分组带教班次信息
+const reqGetTransactionGroupTeachUrl = `${config.default.api.baseURL}/ocis/portfolio/getTransactionGroupTeach`
+export const reqGetTransactionGroupTeach = (obj) => {
+  return request({
+    url: reqGetTransactionGroupTeachUrl + `/${obj.id}`,
+    method: 'get'
+  })
+}
+// 添加业务分组带教班次信息
+const reqAddTransactionGroupTeachUrl = `${config.default.api.baseURL}/ocis/portfolio/addTransactionGroupTeach`
+export const reqAddTransactionGroupTeach = (obj) => {
+  return request({
+    url: reqAddTransactionGroupTeachUrl,
+    method: 'post',
+    data: obj
+  })
+}

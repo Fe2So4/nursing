@@ -8,7 +8,7 @@
     >
       <div class="file-content">
         <el-scrollbar style="height:100%;">
-          <InfoDetailDocument />
+          <InfoDetailDocument :show-data="showData" />
         </el-scrollbar>
       </div>
       <span
@@ -55,6 +55,12 @@ export default {
     dialogVisible: {
       type: Boolean,
       default: false
+    },
+    showData: {
+      type: Object,
+      default () {
+        return {}
+      }
     }
   },
   methods: {

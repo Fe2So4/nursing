@@ -15,3 +15,8 @@ export default {
     height: 100%;
   }
 </style>
+<style>
+.el-select-dropdown .el-scrollbar .el-scrollbar__wrap {
+  margin-bottom: 0px !important;
+}
+</style>

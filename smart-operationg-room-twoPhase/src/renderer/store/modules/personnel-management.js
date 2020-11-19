@@ -1,5 +1,6 @@
 import {reqGetPersonnelScheduling, reqgetBaseDictDetailList, reqUpdatePersionSchedule, reqGetClassTimeInfo,
-  reqDeleteClassTimeInfo, reqaddClassTimeInfo, reqUpdateClassTimeInfo, reqGetTransactionGroupShow, reqGetNurseDicttwo} from '@/api/personnel-management/personnel-management.js'
+  reqDeleteClassTimeInfo, reqaddClassTimeInfo, reqUpdateClassTimeInfo, reqGetTransactionGroupShow, reqGetNurseDicttwo,
+  reqGetTransactionGroupTeachResult, reqgetTransactionGroup, reqGetTransactionGroupTeach, reqAddTransactionGroupTeach} from '@/api/personnel-management/personnel-management.js'
 
 const state = {
   baseDictDetailLis: []
@@ -73,7 +74,28 @@ const actions = {
   async ReqGetNurseDicttwo ({ commit }) {
     let res = await reqGetNurseDicttwo()
     return res
+  },
+  // 获取业务分组带教班次信息对照列表
+  async ReqGetTransactionGroupTeachResult ({ commit }) {
+    let res = await reqGetTransactionGroupTeachResult()
+    return res
+  },
+  // 业务分组带教信息查询
+  async ReqgetTransactionGroup ({ commit }) {
+    let res = await reqgetTransactionGroup()
+    return res
+  },
+  // 根据id获取业务分组带教班次信息
+  async ReqGetTransactionGroupTeach ({ commit }, query) {
+    let res = await reqGetTransactionGroupTeach(query)
+    return res
+  },
+  // 添加业务分组带教班次信息
+  async ReqAddTransactionGroupTeach ({ commit }, query) {
+    let res = await reqAddTransactionGroupTeach(query)
+    return res
   }
+
 }
 
 export default {

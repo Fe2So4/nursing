@@ -22,7 +22,8 @@
     <div class="container-table">
       <vxe-table
         size="mini"
-        :height="Wheight"
+        height="auto"
+        auto-resize
         stripe
         ref="xTable"
         class="mytable-scrollbar"
@@ -78,8 +79,6 @@ export default {
   name: 'AttendanceSheduling',
   data () {
     return {
-      Wheight: 100,
-      clientHeight: document.body.clientHeight,
       dateValue: '',
       nowDay: '',
       dayList: [''],
@@ -120,15 +119,6 @@ export default {
     }
   },
   mounted () {
-    // console.log(dom.offsetHeight - 40)
-    this.changeHeight()
-    let that = this
-    window.onresize = () => {
-      return (() => {
-        window.clientHeight = document.body.clientHeight
-        that.clientHeight = window.clientHeight
-      })()
-    }
     let a = new Date()
     this.nowDay = this.utilsGetNowDay(a)
     this.dayTitle = this.utilsGetWeek(a)
@@ -140,7 +130,6 @@ export default {
         selectTime: this.nowDay
       }
       this.$store.dispatch('ReqGetPersonnelScheduling', obj).then(res => {
-        console.log(res)
         if (res.data.code === 200) {
           this.weekList = res.data.data[0].week
           this.tableList = res.data.data[1].userData
@@ -229,10 +218,7 @@ export default {
         }
       })
     },
-    changeHeight () {
-      let dom = document.getElementsByClassName('container-table')[0]
-      this.Wheight = dom.offsetHeight
-    },
+
     // 提示方法
     openToast (type, mesg) {
       this.$message({
@@ -250,15 +236,13 @@ export default {
         this.getTableList()
         this.dayTitle = this.utilsGetWeek(newVal)
       }
-    },
-    clientHeight (newVal, oldVal) {
-      this.changeHeight()
     }
   }
 }
 </script>
 
 <style  scoped lang="scss">
+@import '@/styles/scrollbar.scss';
 /deep/ .el-input--prefix .el-input__inner {
   color: transparent;
   border: none;
