@@ -33,6 +33,7 @@
     <PathologyReport
       :report-visible="reportVisible"
       v-if="reportVisible"
+      :report-data="reportData"
       @handleClose="handleShowReport"
     />
   </div>
@@ -49,7 +50,8 @@ export default {
   data () {
     return {
       reportVisible: false,
-      list: []
+      list: [],
+      reportData: null
     }
   },
   components: {
@@ -68,6 +70,7 @@ export default {
       })
     },
     handleShowReport (item) {
+      this.reportData = item
       this.reportVisible = true
     },
     handleClose () {
