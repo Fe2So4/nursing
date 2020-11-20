@@ -151,7 +151,7 @@ export default {
         url: getDeviceData
       }).then(res => {
         let data = res.data.data
-        for (let i of data) {
+        for (let i in data) {
           console.log(i, data[i])
         }
         this.deviceList = data
