@@ -56,6 +56,12 @@ export default {
       if (item.label === '护理一期') {
         this.$router.push('/home/client-operation-orders')
       }
+      if (item.label === '设备管理') {
+        this.$router.push('/device')
+      }
+      if (item.label === '手术计费') {
+        this.$router.push('/charge')
+      }
     }
   }
 }

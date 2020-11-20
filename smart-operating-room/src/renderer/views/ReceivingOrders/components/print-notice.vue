@@ -309,8 +309,8 @@
     <div style="width:100%;textAlign:center">
       <div
         style="display: flex;
-    justifyContent: center;
-    marginTop: 30px;"
+        justifyContent: center;
+        marginTop: 30px;"
         class="qrcode"
         ref="qrCodeDiv"
       />

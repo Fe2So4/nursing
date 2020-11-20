@@ -93,8 +93,8 @@ const printPageURL = process.env.NODE_ENV === 'development'
 const printWindows = new Set()
 const createPrintWindow = () => {
   let newPrintWindow = new BrowserWindow({
-    show: true,
-    frame: false,
+    show: false,
+    // frame: false,
     webPreferences: {
       webSecurity: false,
       nodeIntegration: true
@@ -131,7 +131,7 @@ ipcMain.on('print-page-ready', (e) => {
 })
 
 ipcMain.on('print-content', (e, options) => {
-  console.log(e, options)
+  // console.log(e, options)
   if (options) {
     printWin.webContents.print(options)
   } else {

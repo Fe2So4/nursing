@@ -111,6 +111,7 @@ export default {
         }).then(res => {
           if (res.data.code === 200) {
             this.patientBasicInfo = res.data.data
+            // 大屏启动后5秒刷新一次数据
             // this.intervalRefresh()
           }
         })
@@ -135,6 +136,8 @@ export default {
         $bus.$emit('getAntibiotic')
         // 生命体征
         $bus.$emit('getSignData')
+        // 术中病理
+        $bus.$emit('getPathology')
       }, 5000)
     },
     handleClose () {

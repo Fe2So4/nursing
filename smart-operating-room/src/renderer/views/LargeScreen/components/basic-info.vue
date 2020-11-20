@@ -161,10 +161,10 @@ export default {
     this.getAntibioticData()
     $bus.$on('getMedicalAdvice', this.getMedicalAdvice)
     $bus.$on('getMedicalHistory', this.getMedicalHistory)
-    $bus.$on('getInspectReport', this.getInspectReport)
-    $bus.$on('getTestReport', this.getTestReport)
+    $bus.$on('getInspectReport', this.getInspectReportData)
+    $bus.$on('getTestReport', this.getTestReportData)
     $bus.$on('getMedecial', this.getMedecialData)
-    $bus.$on('getAntibiotic', this.getTestReportData)
+    $bus.$on('getAntibiotic', this.getAntibioticData)
   },
   beforeDestroy () {
     $bus.$off('getMedicalAdvice')

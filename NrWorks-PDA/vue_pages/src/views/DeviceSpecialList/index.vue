@@ -310,126 +310,153 @@ export default {
         obj.code = data.code
         obj.pName = data.name
         obj.itemsList = data.packageDetail
+        // console.log(data)
+        switch (this.active) {
+          case 0:
+            this.recordForm.specialEquipment.push({pId: obj.pId,
+              pName: data.pName,
+              code: data.code,
+              items: {
+                before: obj.itemsList,
+                adding: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding1: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding2: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding3: JSON.parse(JSON.stringify(obj.itemsList)),
+                before2: JSON.parse(JSON.stringify(obj.itemsList)),
+                after: JSON.parse(JSON.stringify(obj.itemsList)),
+                after2: JSON.parse(JSON.stringify(obj.itemsList))}})
+            break
+          case 1:
+            this.recordForm.specialEquipment.push({pId: obj.pId,
+              pName: data.pName,
+              code: data.code,
+              items: {
+                before: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding: obj.itemsList,
+                adding1: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding2: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding3: JSON.parse(JSON.stringify(obj.itemsList)),
+                before2: JSON.parse(JSON.stringify(obj.itemsList)),
+                after: JSON.parse(JSON.stringify(obj.itemsList)),
+                after2: JSON.parse(JSON.stringify(obj.itemsList))}})
+            break
+          case 2:
+            this.recordForm.specialEquipment.push({pId: obj.pId,
+              pName: data.pName,
+              code: data.code,
+              items: {
+                before: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding1: obj.itemsList,
+                adding2: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding3: JSON.parse(JSON.stringify(obj.itemsList)),
+                before2: JSON.parse(JSON.stringify(obj.itemsList)),
+                after: JSON.parse(JSON.stringify(obj.itemsList)),
+                after2: JSON.parse(JSON.stringify(obj.itemsList))}})
+            break
+          case 3:
+            this.recordForm.specialEquipment.push({pId: obj.pId,
+              pName: data.pName,
+              code: data.code,
+              items: {
+                before: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding1: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding2: obj.itemsList,
+                adding3: JSON.parse(JSON.stringify(obj.itemsList)),
+                before2: JSON.parse(JSON.stringify(obj.itemsList)),
+                after: JSON.parse(JSON.stringify(obj.itemsList)),
+                after2: JSON.parse(JSON.stringify(obj.itemsList))}})
+            break
+          case 4:
+            this.recordForm.specialEquipment.push({pId: obj.pId,
+              pName: data.pName,
+              code: data.code,
+              items: {
+                before: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding1: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding2: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding3: obj.itemsList,
+                before2: JSON.parse(JSON.stringify(obj.itemsList)),
+                after: JSON.parse(JSON.stringify(obj.itemsList)),
+                after2: JSON.parse(JSON.stringify(obj.itemsList))}})
+            break
+          case 5:
+            this.recordForm.specialEquipment.push({pId: obj.pId,
+              pName: data.pName,
+              code: data.code,
+              items: {
+                before: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding1: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding2: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding3: JSON.parse(JSON.stringify(obj.itemsList)),
+                before2: obj.itemsList,
+                after: JSON.parse(JSON.stringify(obj.itemsList)),
+                after2: JSON.parse(JSON.stringify(obj.itemsList))}})
+            break
+          case 6:
+            this.recordForm.specialEquipment.push({pId: obj.pId,
+              pName: data.pName,
+              code: data.code,
+              items: {
+                before: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding1: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding2: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding3: JSON.parse(JSON.stringify(obj.itemsList)),
+                before2: JSON.parse(JSON.stringify(obj.itemsList)),
+                after: obj.itemsList,
+                after2: JSON.parse(JSON.stringify(obj.itemsList))}})
+            break
+          case 7:
+            this.recordForm.specialEquipment.push({pId: obj.pId,
+              pName: data.pName,
+              code: data.code,
+              items: {
+                before: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding1: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding2: JSON.parse(JSON.stringify(obj.itemsList)),
+                adding3: JSON.parse(JSON.stringify(obj.itemsList)),
+                before2: JSON.parse(JSON.stringify(obj.itemsList)),
+                after: JSON.parse(JSON.stringify(obj.itemsList)),
+                after2: obj.itemsList
+              }})
+            break
+        }
         this.packageList.push(obj)
       })
     },
     onClickRight () {
       let obj = this.recordForm
-      let arr = JSON.parse(JSON.stringify(this.packageList))
-      let arr1 = JSON.parse(JSON.stringify(this.packageList))
-      arr.forEach(item => {
-        obj.specialEquipment.push({pId: item.pId, pName: item.pName, items: {before: [], adding: [], adding1: [], adding2: [], adding3: [], before2: [], after: [], after2: []}})
-      })
-      arr1.forEach(item => {
-        item.itemsList.forEach(_item => {
-          _item.number = 0
-        })
-      })
+      // let arr = JSON.parse(JSON.stringify(this.packageList))
+      // let arr1 = JSON.parse(JSON.stringify(this.packageList))
       switch (this.active) {
         case 0:
           obj.tsBeforeStatus = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
-          obj.specialEquipment.forEach(item => {
-            this.packageList.forEach(_item => {
-              if (item.pId === _item.pId) {
-                item.items.before = _item.itemsList
-              }
-            })
-            arr1.forEach(_item => {
-              if (item.pId === _item.pId) {
-                if (item.items.adding.length === 0) {
-                  item.items.adding = _item.itemsList
-                }
-                if (item.items.adding1.length === 0) {
-                  item.items.adding1 = _item.itemsList
-                }
-                if (item.items.adding2.length === 0) {
-                  item.items.adding2 = _item.itemsList
-                }
-                if (item.items.adding3.length === 0) {
-                  item.items.adding3 = _item.itemsList
-                }
-                if (item.items.before2.length === 0) {
-                  item.items.before2 = _item.itemsList
-                }
-                if (item.items.after.length === 0) {
-                  item.items.after = _item.itemsList
-                }
-                if (item.items.after2.length === 0) {
-                  item.items.after2 = _item.itemsList
-                }
-              }
-            })
-          })
           break
         case 1:
           obj.tsAddingOne = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
-          obj.specialEquipment.forEach(item => {
-            this.packageList.forEach(_item => {
-              if (item.pId === _item.pId) {
-                item.items.adding = _item.itemsList
-              }
-            })
-          })
           break
         case 2:
           obj.tsAddingTwo = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
-          obj.specialEquipment.forEach(item => {
-            this.packageList.forEach(_item => {
-              if (item.pId === _item.pId) {
-                item.items.adding1 = _item.itemsList
-              }
-            })
-          })
           break
         case 3:
           obj.tsAddingThree = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
-          obj.specialEquipment.forEach(item => {
-            this.packageList.forEach(_item => {
-              if (item.pId === _item.pId) {
-                item.items.adding2 = _item.itemsList
-              }
-            })
-          })
           break
         case 4:
           obj.tsAddingFour = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
-          obj.specialEquipment.forEach(item => {
-            this.packageList.forEach(_item => {
-              if (item.pId === _item.pId) {
-                item.items.adding3 = _item.itemsList
-              }
-            })
-          })
           break
         case 5:
           obj.tsClossBefore = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
-          obj.specialEquipment.forEach(item => {
-            this.packageList.forEach(_item => {
-              if (item.pId === _item.pId) {
-                item.items.before2 = _item.itemsList
-              }
-            })
-          })
           break
         case 6:
           obj.tsClossAfter = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
-          obj.specialEquipment.forEach(item => {
-            this.packageList.forEach(_item => {
-              if (item.pId === _item.pId) {
-                item.items.after = _item.itemsList
-              }
-            })
-          })
           break
         case 7:
           obj.tsSutureAfter = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
-          obj.specialEquipment.forEach(item => {
-            this.packageList.forEach(_item => {
-              if (item.pId === _item.pId) {
-                item.items.after2 = _item.itemsList
-              }
-            })
-          })
       }
       obj.specialEquipment = JSON.stringify(obj.specialEquipment)
       obj.cureNo = this.patientInfo.cureNo
@@ -470,7 +497,7 @@ export default {
   },
   async mounted () {
     // await this.getData()
-    this.getPackageList()
+    // this.getPackageList()
     $bus.$on('handleDeviceCode', this.handleDeviceCode)
   },
   beforeDestroy () {

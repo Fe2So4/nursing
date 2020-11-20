@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from '../layout/index'
 import Personnel from './modules/personnel'
+import Device from './modules/device'
+import Charge from './modules/charge'
 Vue.use(Router)
 
 export default new Router({
@@ -25,6 +27,8 @@ export default new Router({
       component: () => import('@/views/indexTab/indexTab.vue')
     },
     Personnel,
+    Device,
+    Charge,
     {
       path: '/home',
       name: 'Home',

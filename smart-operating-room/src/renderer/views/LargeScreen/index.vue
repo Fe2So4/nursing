@@ -40,7 +40,8 @@ export default {
     return {
       stepVisible: true,
       socket: null,
-      connect: false
+      connect: false,
+      interval: null
     }
   },
   computed: {
@@ -49,6 +50,7 @@ export default {
   watch: {
     patientInfo: {
       handler (newValue, old) {
+        // this.intervalRefresh()
         return newValue
       },
       deep: true
@@ -69,7 +71,8 @@ export default {
       this.setPatientInfo(obj)
     },
     intervalRefresh () {
-      setInterval(() => {
+      clearInterval(this.interval)
+      this.interval = setInterval(() => {
         // 有效遗嘱
         $bus.$emit('getMedicalAdvice')
         // 病史摘要
@@ -84,7 +87,7 @@ export default {
         $bus.$emit('getAntibiotic')
         // 生命体征
         $bus.$emit('getSignData')
-      }, 3000)
+      }, 5000)
     },
     initSocket () {
       if (this.socket) {
@@ -135,6 +138,7 @@ export default {
   },
   beforeDestroy () {
     this.socket = null
+    this.interval = null
   }
 }
 </script>

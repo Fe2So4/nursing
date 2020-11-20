@@ -111,6 +111,45 @@ export default {
               path: '/personnel/search-leave'
             }
           ]
+        },
+        {
+          icon: 'iconfont icon-caidanxiangdao-',
+          title: '设备管理',
+          path: '/device',
+          children: [
+            {
+              icon: 'iconfont icon-guanli',
+              title: '设备查询',
+              path: '/device/device-select'
+            },
+            {
+              icon: 'iconfont icon-guanli',
+              title: '设备登记',
+              path: '/device/device-register'
+            },
+            {
+              icon: 'iconfont icon-guanli',
+              title: '设备组套',
+              path: '/device/device-group'
+            },
+            {
+              icon: 'iconfont icon-guanli',
+              title: '设备字典信息维护',
+              path: '/device/device-dictionary-maintain'
+            }
+          ]
+        },
+        {
+          icon: 'iconfont icon-caidanxiangdao-',
+          title: '手术计费',
+          path: '/charge',
+          children: [
+            {
+              icon: 'iconfont icon-guanli',
+              title: '模板维护',
+              path: '/charge/template-maintain'
+            }
+          ]
         }
       ]
     }
