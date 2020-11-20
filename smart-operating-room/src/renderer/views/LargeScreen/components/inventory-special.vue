@@ -2,6 +2,7 @@
   <div class="inventory-special">
     <el-collapse
       v-model="activeNames"
+      v-if="list.length"
       @change="handleChange"
     >
       <el-collapse-item
@@ -69,6 +70,18 @@
         </table>
       </el-collapse-item>
     </el-collapse>
+    <div
+      v-else
+      class="data-empty"
+    >
+      <div>
+        <img
+          src="@/assets/list-empty.png"
+          alt=""
+        >
+        <p>暂无数据</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -181,6 +194,18 @@ export default {
   .inventory-special{
     height: 100%;
     padding-bottom: 10px;
+    .data-empty{
+      text-align: center;
+      height: calc(100% - 58px);
+      color: #91949A;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img{
+        // margin-top: 100px;
+        transform: translateX(10px);
+      }
+    }
     .el-collapse{
       height: 100%;
       .el-collapse-item{

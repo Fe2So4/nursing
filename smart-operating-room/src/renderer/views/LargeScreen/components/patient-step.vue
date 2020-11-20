@@ -97,27 +97,27 @@ export default {
         url: getPatientStep + `/${this.patientInfo.cureNo}/${this.patientInfo.hospitalNo}`
       }).then(res => {
         let data = res.data.data
-        if (!data.length) {
-          return
+        if (Array.isArray(data)) {
+        } else {
+          this.stepList[0].time = data.operatingNoticeTime !== '' ? moment(data.operatingNoticeTime).format('HH:mm') : ''
+          this.stepList[0].status = data.operatingNoticeTime === '' ? '0' : '2'
+          this.stepList[1].time = data.workerGetOrderTime !== '' ? moment(data.workerGetOrderTime).format('HH:mm') : ''
+          this.stepList[1].status = data.workerGetOrderTime === '' ? '0' : '2'
+          this.stepList[2].time = data.wardHandoverTime !== '' ? moment(data.wardHandoverTime).format('HH:mm') : ''
+          this.stepList[2].status = data.wardHandoverState
+          this.stepList[3].time = data.inOperroomTime !== '' ? moment(data.inOperroomTime).format('HH:mm') : ''
+          this.stepList[3].status = data.inOperroomState
+          this.stepList[4].time = data.anesBeforeTime !== '' ? moment(data.anesBeforeTime).format('HH:mm') : ''
+          this.stepList[4].status = data.anesBeforeState
+          this.stepList[5].time = data.operBeforeTime !== '' ? moment(data.operBeforeTime).format('HH:mm') : ''
+          this.stepList[5].status = data.operBeforeState
+          this.stepList[6].time = data.leaveBeforeTime !== '' ? moment(data.leaveBeforeTime).format('HH:mm') : ''
+          this.stepList[6].status = data.leaveBeforeState
+          this.stepList[7].time = data.outOperroomTime !== '' ? moment(data.outOperroomTime).format('HH:mm') : ''
+          this.stepList[7].status = data.outOperroomState
+          this.stepList[8].time = data.backRoomTime !== '' ? moment(data.backRoomTime).format('HH:mm') : ''
+          this.stepList[8].status = data.backRoomState
         }
-        this.stepList[0].time = data.operatingNoticeTime !== '' ? moment(data.operatingNoticeTime).format('HH:mm') : ''
-        this.stepList[0].status = data.operatingNoticeTime === '' ? '0' : '2'
-        this.stepList[1].time = data.workerGetOrderTime !== '' ? moment(data.workerGetOrderTime).format('HH:mm') : ''
-        this.stepList[1].status = data.workerGetOrderTime === '' ? '0' : '2'
-        this.stepList[2].time = data.wardHandoverTime !== '' ? moment(data.wardHandoverTime).format('HH:mm') : ''
-        this.stepList[2].status = data.wardHandoverState
-        this.stepList[3].time = data.inOperroomTime !== '' ? moment(data.inOperroomTime).format('HH:mm') : ''
-        this.stepList[3].status = data.inOperroomState
-        this.stepList[4].time = data.anesBeforeTime !== '' ? moment(data.anesBeforeTime).format('HH:mm') : ''
-        this.stepList[4].status = data.anesBeforeState
-        this.stepList[5].time = data.operBeforeTime !== '' ? moment(data.operBeforeTime).format('HH:mm') : ''
-        this.stepList[5].status = data.operBeforeState
-        this.stepList[6].time = data.leaveBeforeTime !== '' ? moment(data.leaveBeforeTime).format('HH:mm') : ''
-        this.stepList[6].status = data.leaveBeforeState
-        this.stepList[7].time = data.outOperroomTime !== '' ? moment(data.outOperroomTime).format('HH:mm') : ''
-        this.stepList[7].status = data.outOperroomState
-        this.stepList[8].time = data.backRoomTime !== '' ? moment(data.backRoomTime).format('HH:mm') : ''
-        this.stepList[8].status = data.backRoomState
       })
     }
   },

@@ -365,7 +365,7 @@ export default {
       ipcRenderer.send('printChannel', printHtml, 'detail-patient.css', options)
     },
     bindQRCode () {
-      let text = `OpsQRCode = ${this.selectRow.cureNo},OpsSchNo=${this.selectRow.operSchNo}`
+      let text = `OpsQRCode=${this.selectRow.cureNo},OpsSchNo=${this.selectRow.operSchNo}`
       // eslint-disable-next-line no-new
       new QRCode(this.$refs.qrCodeDiv, {
         text: text,
