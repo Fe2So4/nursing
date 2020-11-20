@@ -109,8 +109,9 @@ export default {
   },
   data () {
     return {
+      timearr: [0, 0],
       optas: '',
-      codeInput: '22350201',
+      codeInput: '',
       hiddenVisible: false,
       exitType: '2'
     }
@@ -127,23 +128,20 @@ export default {
     // 扫描二维码
     enterInput () {
       this.workCode = ''
+      if (!this.codeInput.includes('=')) {
+        this.$alert('请先扫描工勤人员二维码')
+        return false
+      }
       if (this.selectRow.orderState === '0') {
-        if (this.IsEmpty(this.codeInput)) {
-          this.$alert('请先扫描工勤人员二维码')
-          return false
-        } else {
-          this.workCode = this.codeInput.split('=')[1]
-        }
+        this.workCode = this.codeInput.split('=')[1]
+
         this.changePatient(0)
       } else {
         if (this.exitType !== '1') {
           this.$alert('请先点击取消接单')
           return false
         }
-        if (this.IsEmpty(this.codeInput)) {
-          this.$alert('请先扫描工勤人员二维码')
-          return false
-        }
+
         this.workCode = this.codeInput.split('=')[1]
         if (this.selectRow.workerCode !== this.workCode) {
           this.$alert('接单工勤人员与扫描人员工号不符,请确认后重试')
@@ -178,6 +176,18 @@ export default {
       this.optas = '点击取消接单后，扫描工勤人员二维码，进行退单...'
     } else {
       this.optas = '扫描工勤人员二维码，进行接单...'
+    }
+  },
+  watch: {
+    'codeInput': function (newVal) {
+      if (this.codeInput.length % 2 !== 0) {
+        this.timearr[0] = new Date().getTime()
+      } else {
+        this.timearr[1] = new Date().getTime()
+      }
+      if (this.codeInput.length > 1 && Math.abs(this.timearr[1] - this.timearr[0]) > 40) {
+        this.codeInput = ''
+      }
     }
   },
   filters: {
