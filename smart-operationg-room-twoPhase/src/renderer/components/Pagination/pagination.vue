@@ -5,11 +5,12 @@
       size="mini"
     >
       <el-form-item>
-        共 400 条
+        共 {{ childrenData.total }} 条
       </el-form-item>
       <el-form-item>
         <el-select
-          v-model="pageList[0].value"
+          @change="pageSizeChange(pageSize)"
+          v-model="pageSize"
           style="width:134px;"
         >
           <el-option
@@ -22,15 +23,28 @@
       </el-form-item>
       <el-form-item>
         <el-pagination
+          :page-size="pageSize"
+
+          @current-change="handleCurrentChange"
+          :current-page.sync="currentPage"
           layout="prev, pager, next"
-          :total="50"
+          :total="childrenData.total"
         />
       </el-form-item>
       <el-form-item style="margin-right:unset;">
         前往
       </el-form-item>
       <el-form-item style="margin-right:unset;">
-        <el-input style="width:64px;" />
+        <el-input-number
+          :controls="false"
+          v-model="gotoYe"
+
+          @keyup.enter.native="gotoPage"
+          style="width:64px;"
+          :min="1"
+          :max="childrenData.pages"
+          label="描述文字"
+        />
       </el-form-item>
       <el-form-item style="margin-right:unset;">
         页
@@ -41,10 +55,43 @@
 
 <script>
 export default {
+  props: {
+    childrenData: {
+      type: Object,
+      required: false,
+      default () {
+        return {}
+      }
+    }
+  },
   data () {
     return {
-      pageList: [{value: '20', label: '20条/页'}, {value: '30', label: '30条/页'}]
+      gotoYe: null,
+      currentPage: 1,
+      pageSize: 10,
+      pageList: [{value: 10, label: '10条/页'}, {value: 20, label: '20条/页'}]
     }
+  },
+  methods: {
+    pageSizeChange () {
+      let obj = {
+        currentPage: this.currentPage,
+        pageSize: this.pageSize
+      }
+      this.$emit('searchTableList', obj)
+    },
+    handleCurrentChange () {
+      let obj = {
+        currentPage: this.currentPage,
+        pageSize: this.pageSize
+      }
+      this.$emit('searchTableList', obj)
+    },
+    gotoPage () {
+      this.currentPage = Number(this.gotoYe)
+      this.handleCurrentChange()
+    }
+
   }
 }
 </script>

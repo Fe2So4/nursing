@@ -1,22 +1,35 @@
 <template>
   <div class="attendance-maintenance-container">
-    <el-select
-      style="width:154px"
-      v-model="search_select"
-      placeholder="请选择"
-      size="mini"
-    >
-      <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      />
-    </el-select>
+    <div class="btm-btn">
+      <div class="btm-btn">
+        <el-select
+          style="width:154px"
+          v-model="search_select"
+          placeholder="请选择"
+          size="mini"
+        >
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </div>
+      <div>
+        <el-button
+          size="mini"
+          type="primary"
+          @click="addItem"
+        >
+          添加
+        </el-button>
+      </div>
+    </div>
     <div class="container-table">
       <vxe-table
         size="mini"
-        height="600"
+        height="769"
         stripe
         ref="xTable"
         class="mytable-scrollbar"
@@ -31,36 +44,43 @@
           width="100"
         />
         <vxe-table-column
-          field="name"
+          field="className"
           title="班次名称"
         />
         <vxe-table-column
-          field="sex"
+          field="useState"
           title="状态"
-        />
+        >
+          <template v-slot="{row}">
+            {{ row.useState === 1?'启用':'禁用' }}
+          </template>
+        </vxe-table-column>
         <vxe-table-column
-          field="age"
+          field="firstStartTime"
           title="一段开始时间"
         />
         <vxe-table-column
-          field="age"
+          field="firstEndTime"
           title="一段结束时间"
         />
         <vxe-table-column
-          field="age"
+          field="secondStartTime"
           title="二段开始时间"
         />
         <vxe-table-column
-          field="age"
+          field="secondEndTime"
           title="二段结束时间"
         />
         <vxe-table-column
-          field="age"
+          field="useState"
           title="操作"
         >
           <template v-slot="{row}">
-            <el-button type="text">
-              启用 {{ row.age }}
+            <el-button
+              type="text"
+              @click="changeListType(row)"
+            >
+              {{ row.useState === 1?'禁用':'启用' }}
             </el-button>
             <span class="option-line">|</span>
             <el-button
@@ -70,33 +90,21 @@
               编辑
             </el-button>
             <span class="option-line">|</span>
-            <el-button type="text">
+            <el-button
+              @click="delectListItem(row)"
+              type="text"
+            >
               删除
             </el-button>
           </template>
         </vxe-table-column>
       </vxe-table>
     </div>
-    <div class="btm-btn">
-      <el-button
-        size="mini"
-        type="primary"
-      >
-        添加
-      </el-button>
-      <el-button
-        style="margin-left:40px"
-        size="mini"
-        type="info"
-        plain
-      >
-        保存
-      </el-button>
-    </div>
+
     <el-dialog
       :close-on-click-modal="false"
 
-      title="班次时段-编辑"
+      :title="dialogTitle"
       :visible.sync="dialogVisible"
       width="55%"
       :before-close="handleClose"
@@ -107,14 +115,14 @@
             班次选择
           </div>
           <div class="select-right right-div">
-            <el-radio-group v-model="radio">
+            <el-radio-group v-model="select_row.className">
               <el-radio
                 style="width:210px"
                 v-for="item in radioList"
-                :key="item.label"
-                :label="item.label"
+                :key="item.id"
+                :label="item.typeName"
               >
-                {{ item.name }}
+                {{ item.typeName }}
               </el-radio>
             </el-radio-group>
           </div>
@@ -124,7 +132,7 @@
             名称
           </div>
           <div class="name-right right-div">
-            123
+            {{ select_row.className }}
           </div>
         </div>
         <div class="content-one context-div">
@@ -136,7 +144,8 @@
               <el-input
                 size="mini"
                 type="text"
-                v-model="dialog_one.start"
+                placeholder="输入格式 08:00"
+                v-model="select_row.firstStartTime"
               />
             </div>
             <span style="width:60px;margin-left:60px;margin-right:10px">
@@ -146,7 +155,8 @@
               <el-input
                 size="mini"
                 type="text"
-                v-model="dialog_one.end"
+                placeholder="输入格式 12:00"
+                v-model="select_row.firstEndTime"
               />
             </div>
           </div>
@@ -160,7 +170,8 @@
               <el-input
                 size="mini"
                 type="text"
-                v-model="dialog_two.start"
+                placeholder="输入格式 13:00"
+                v-model="select_row.secondStartTime"
               />
             </div>
             <span style="width:60px;margin-left:60px;margin-right:10px">
@@ -170,7 +181,8 @@
               <el-input
                 size="mini"
                 type="text"
-                v-model="dialog_two.end"
+                placeholder="输入格式 18:00"
+                v-model="select_row.secondEndTime"
               />
             </div>
           </div>
@@ -184,7 +196,7 @@
               <el-input
                 size="mini"
                 type="text"
-                v-model="instructions"
+                v-model="select_row.classDoc"
               />
             </div>
           </div>
@@ -197,7 +209,7 @@
         <el-button
           size="mini"
           type="primary"
-          @click="dialogVisible = false"
+          @click="saveDio"
         >确 定</el-button>
       </span>
     </el-dialog>
@@ -209,10 +221,20 @@ export default {
   name: 'AttendanceMaintenance',
   data () {
     return {
+      dialogTitle: '',
+      dialogType: '0',
       dialogVisible: false, // dialog是否显示
       search_select: '0', // 选中的
-      select_row: {}, // 选中的数据
-      instructions: '', // 说明
+      select_row: {
+        id: '',
+        classDoc: '',
+        className: '',
+        firstStartTime: '',
+        firstEndTime: '',
+        secondStartTime: '',
+        secondEndTime: '',
+        useState: '1'
+      }, // 选中的数据
       dialog_one: {
         start: '',
         end: ''
@@ -232,142 +254,167 @@ export default {
           value: '1'
         },
         {
-          label: '停用',
+          label: '禁用',
           value: '2'
-        },
-        {
-          label: '删除',
-          value: '3'
         }
       ],
       tableList: [
-        {name: '1', sex: '1', age: '2'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'},
-        {name: '1', sex: '1', age: '1'}
+
       ],
-      radio: '3',
       radioList: [
-        {
-          label: '0',
-          name: '7点rwarrwrw半'
-        },
-        {
-          label: '1',
-          name: '7点半'
-        },
-        {
-          label: '2',
-          name: '7点半'
-        },
-        {
-          label: '3',
-          name: '7点半'
-        },
-        {
-          label: '4',
-          name: '7点半'
-        },
-        {
-          label: '5',
-          name: '7点半'
-        },
-        {
-          label: '6',
-          name: '7点半'
-        },
-        {
-          label: '7',
-          name: '7点半'
-        },
-        {
-          label: '4',
-          name: '7点半'
-        },
-        {
-          label: '5',
-          name: '7点半'
-        },
-        {
-          label: '6',
-          name: '7点半'
-        },
-        {
-          label: '7',
-          name: '7点半'
-        },
-        {
-          label: '4',
-          name: '7点半asdfgdadasdh'
-        },
-        {
-          label: '5',
-          name: '7点半'
-        },
-        {
-          label: '6',
-          name: '7点半'
-        },
-        {
-          label: '7',
-          name: '7点半'
-        },
-        {
-          label: '7',
-          name: '7点半'
-        }
+
       ]
     }
   },
   mounted () {
-
+    this.getTableList()
+    this.getSelectList()
   },
   methods: {
+    // 获取表格数据
+    getTableList () {
+      let obj = {
+        userStete: this.search_select
+      }
+      this.$store.dispatch('ReqGetClassTimeInfo', obj).then(res => {
+        if (res.data.code === 200) {
+          this.tableList = res.data.data
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+
     // dialog
     handleClose () {
       this.dialogVisible = false
     },
+    // 点击启用或者禁用
+    changeListType (row) {
+      console.log(row)
+      if (row.useState === 1) {
+        row.useState = 2
+      } else {
+        row.useState = 1
+      }
+      this.dialogType = '1'
+      this.select_row = JSON.parse(JSON.stringify(row))
+      this.saveDio()
+    },
+    // 点击新增
+    addItem () {
+      this.dialogVisible = true
+      this.dialogTitle = '班次时段-新增'
+      this.dialogType = '0'
+      this.select_row = {
+        id: '',
+        className: '',
+        firstEndTime: '',
+        firstStartTime: '',
+        secondEndTime: '',
+        secondStartTime: '',
+        useState: 1,
+        classDoc: ''
+      }
+    },
     // 点击编辑
     changeRowInfo (row) {
+      this.dialogTitle = '班次时段-编辑'
+      this.dialogType = '1'
       this.dialogVisible = true
-      this.select_row = row
+      this.select_row = JSON.parse(JSON.stringify(row))
+    },
+    // 点击删除
+    delectListItem (row) {
+      let arr = [row.id]
+      let obj = {
+        idList: arr
+      }
+      this.$store.dispatch('ReqDeleteClassTimeInfo', obj).then(res => {
+        console.log(res)
+        if (res.data.code === 200) {
+          this.openToast('success', '删除成功')
+          this.getTableList()
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 弹出框点击确定
+    saveDio () {
+      // if (!this.IsEmpty(this.select_row.firstStartTime)) {
+      //   if (!this.select_row.firstStartTime.includes(':')) {
+      //     this.$alert('一阶段开始时间格式错误,请重新输入')
+      //     return false
+      //   } else {
+      //     console.log(this.select_row.firstStartTime.split(':')[0].length)
+      //   }
+      //   return false
+      // }
+      console.log(this.select_row)
+      if (this.IsEmpty(this.select_row.className)) {
+        this.$alert('班次选择不能为空')
+        return false
+      }
+      let obj = [{
+        classDoc: this.select_row.classDoc,
+        className: this.select_row.className,
+        firstEndTime: this.select_row.firstEndTime,
+        firstStartTime: this.select_row.firstStartTime,
+        id: this.select_row.id,
+        secondEndTime: this.select_row.secondEndTime,
+        secondStartTime: this.select_row.secondStartTime,
+        useState: this.select_row.useState
+      }]
+      if (this.dialogType === '0') {
+        this.$store.dispatch('ReqaddClassTimeInfo', obj).then(res => {
+          if (res.data.code === 200) {
+            this.openToast('success', '添加成功')
+          } else {
+            this.openToast('error', res.data.msg)
+          }
+          this.dialogVisible = false
+          this.getTableList()
+        })
+      } else {
+        console.log(obj, 'obj')
+        this.$store.dispatch('ReqUpdateClassTimeInfo', obj).then(res => {
+          if (res.data.code === 200) {
+            this.openToast('success', '修改成功')
+          } else {
+            this.openToast('error', res.data.msg)
+          }
+          this.dialogVisible = false
+          this.getTableList()
+        })
+      }
+    },
+    // 获取下拉框数据字典
+    getSelectList () {
+      let obj = {
+        belongSerialNumber: '006'
+      }
+      this.$store.dispatch('ReqgetBaseDictDetailList', obj).then(res => {
+        if (res.data.code === 200) {
+          this.radioList = res.data.data
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
+    }
+  },
+  watch: {
+    'search_select': function (newVal, oldVal) {
+      this.getTableList()
     }
   }
 }
@@ -420,10 +467,8 @@ export default {
 
   }
   .btm-btn {
-    margin-top: 40px;
-    width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
   }
 }
 .context-div {

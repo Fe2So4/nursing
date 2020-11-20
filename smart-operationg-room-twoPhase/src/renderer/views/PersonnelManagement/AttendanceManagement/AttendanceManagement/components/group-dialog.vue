@@ -2,6 +2,7 @@
   <div class="group-dialog">
     <el-dialog
       title="分组编辑"
+      :close-on-click-modal="false"
       :visible.sync="dialogVisible"
       width="400px"
       :before-close="handleClose"
@@ -12,10 +13,10 @@
         label-width="80px"
       >
         <el-form-item label="分组名称">
-          <el-input v-model="form.input" />
+          <el-input v-model="dialogChangeForm.transactionGroupName" />
         </el-form-item>
         <el-form-item label="备注">
-          <el-input v-model="form.input" />
+          <el-input v-model="dialogChangeForm.transactionRemark" />
         </el-form-item>
       </el-form>
       <span
@@ -25,7 +26,7 @@
         <el-button
           type="primary"
           size="mini"
-          @click="handleClose"
+          @click="saveChangeFrom"
         >保 存</el-button>
         <el-button
           @click="handleClose"
@@ -40,31 +41,31 @@
 export default {
   data () {
     return {
-      form: {
-        department: '',
-        time: '',
-        input: ''
-      },
-      deptList: [
-        {
-          label: '部门1',
-          value: '1'
-        }, {
-          label: '部门2',
-          value: '2'
-        }
-      ]
+
     }
   },
   props: {
     dialogVisible: {
       type: Boolean,
       default: false
+    },
+    dialogChangeForm: {
+      type: Object,
+      default () {
+        return {}
+      }
     }
   },
   methods: {
     handleClose () {
       this.$emit('handleClose')
+    },
+    saveChangeFrom () {
+      if (this.dialogChangeForm.clickType === '2') {
+        this.$emit('changeTitle', this.dialogChangeForm)
+      } else {
+        this.$emit('getAddList', this.dialogChangeForm)
+      }
     }
   }
 }

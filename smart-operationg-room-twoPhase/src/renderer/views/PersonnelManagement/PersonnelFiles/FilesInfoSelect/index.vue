@@ -31,51 +31,57 @@
           <el-button type="primary">
             查 询
           </el-button>
-          <el-button>新 增</el-button>
+          <el-button
+            type="info"
+            plain
+          >
+            新 增
+          </el-button>
         </el-form-item>
       </el-form>
     </div>
     <div class="fis-bottom">
       <div class="fis-table">
         <vxe-table
+          stripe
           align="center"
           :data="tableData"
           size="mini"
+          class="mytable-scrollbar"
           height="auto"
           auto-resize
         >
           <vxe-table-column
-            field="name"
+            field="userCode"
             title="工号"
           />
           <vxe-table-column
-            field="sex"
+            field="userName"
             title="姓名"
           />
           <vxe-table-column
-            field="age"
+            field="workDepartmentName"
             title="工作部门"
           />
           <vxe-table-column
-            field="age"
+            field="energyLevels"
             title="层级"
           />
           <vxe-table-column
-            field="age"
+            field="workTime"
             title="参加工作时间"
           />
           <vxe-table-column
-            field="age"
+            field="annualLeave"
             title="年假"
           />
           <vxe-table-column
-            field="age"
             title="操作"
           >
-            <template>
+            <template v-slot="{row}">
               <el-button
                 type="text"
-                @click="handleShow"
+                @click="handleShow(row)"
               >
                 查看
               </el-button>
@@ -91,25 +97,26 @@
           </vxe-table-column>
         </vxe-table>
       </div>
-      <Pagination />
+      <!-- <Pagination /> -->
       <!-- <div class="fis-pagination">
       </div> -->
     </div>
     <InfoDetail
+      :show-data="showData"
       :dialog-visible="dialogVisible"
       @handleClose="handleClose"
     />
-    <NurseList
+    <!-- <NurseList
       :dialog-visible="nurseListVisible"
       @handleClose="handleCloseNurseList"
-    />
+    /> -->
   </div>
 </template>
 
 <script>
-import Pagination from '@/components/Pagination/pagination'
+// import Pagination from '@/components/Pagination/pagination'
 import InfoDetail from './components/info-detail'
-import NurseList from './components/nurse-list'
+// import NurseList from './components/nurse-list'
 export default {
   name: 'FilesInfoSelect',
   data () {
@@ -121,7 +128,7 @@ export default {
         endTime: '',
         department: ''
       },
-      nurseListVisible: true,
+      // nurseListVisible: true,
       dialogVisible: false,
       pageList: [{value: '20', label: '20条/页'}, {value: '30', label: '30条/页'}],
       deptList: [
@@ -134,25 +141,54 @@ export default {
         }
       ],
       tableData: [
-        {name: 'ad', sex: 'ada', age: 'ad'}, {name: 'ad', sex: 'ada', age: 'ad'}
-      ]
+
+      ],
+      showData: {}
     }
   },
+  mounted () {
+    this.getTableData()
+  },
   methods: {
+    // 获取列表数据
+    getTableData () {
+      let obj = {
+
+      }
+      this.$store.dispatch('ReqGetNurList', obj).then(res => {
+        if (res.data.code === 200) {
+          let arr = res.data.data
+          this.tableData = arr
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+
     handleClose () {
       this.dialogVisible = false
     },
-    handleShow () {
+    handleShow (row) {
+      this.showData = row
       this.dialogVisible = true
     },
-    handleShowNurseList () {
-      this.nurseListVisible = true
-    },
+    // handleShowNurseList () {
+    //   this.nurseListVisible = true
+    // },
     handleCloseNurseList () {
       this.nurseListVisible = false
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
   },
-  components: {Pagination, InfoDetail, NurseList},
+  components: {InfoDetail},
   created () {
 
   }
@@ -160,6 +196,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/scrollbar.scss';
   .files-info-select{
     height: 100%;
     display: flex;
@@ -211,4 +248,8 @@ export default {
       }
     }
   }
+
+</style>
+<style>
+
 </style>

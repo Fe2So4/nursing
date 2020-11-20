@@ -2,42 +2,45 @@
   <div class="attendance-contarst-container">
     <div class="container-left">
       <div class="left-top">
-        <div class="contarst-title">
-          业务分组
-        </div>
-        <div class="contarst-content">
-          <el-radio-group
-            v-model="topRadio"
-            @change="changeBusiness"
-          >
-            <el-radio
-              style="width:160px;margin-top:5px"
-              v-for="item in topRadioList"
-              :key="item.label"
-              :label="item.label"
+        <el-scrollbar style="height:100%">
+          <div class="contarst-title">
+            业务分组
+          </div>
+          <div class="contarst-content">
+            <el-radio-group
+              v-model="topRadio"
             >
-              {{ item.name }}
-            </el-radio>
-          </el-radio-group>
-        </div>
+              <el-radio
+                style="width:160px;margin-top:5px"
+                v-for="item in topRadioList"
+                :key="item.id"
+                :label="item.id"
+              >
+                {{ item.transactionGroupName }}
+              </el-radio>
+            </el-radio-group>
+          </div>
+        </el-scrollbar>
       </div>
       <div class="left-content">
-        <div class="contarst-title">
-          班次名称
-        </div>
-        <div class="contarst-content">
-          <el-checkbox-group
-            v-model="selectCheckList"
-            @change="changeShift"
-          >
-            <el-checkbox
-              style="width:120px"
-              :label="item.name"
-              v-for="item in checkList"
-              :key="item.label"
-            />
-          </el-checkbox-group>
-        </div>
+        <el-scrollbar style="height:100%">
+          <div class="contarst-title">
+            班次名称
+          </div>
+          <div class="contarst-content">
+            <el-checkbox-group
+              v-model="selectCheckList"
+            >
+              <el-checkbox
+                @change="changeShift(item)"
+                style="width:120px"
+                :label="item.typeName"
+                v-for="item in checkList"
+                :key="item.typeName"
+              />
+            </el-checkbox-group>
+          </div>
+        </el-scrollbar>
       </div>
       <div class="left-bottom">
         <vxe-table
@@ -56,15 +59,14 @@
             width="100"
           />
           <vxe-table-column
-            field="name"
+            field="className"
             title="业务分组"
           />
           <vxe-table-column
-            field="sex"
+            field="className"
             title="班次名称"
           />
           <vxe-table-column
-            field="age"
             title="操作"
           >
             <template v-slot="{row}">
@@ -100,7 +102,8 @@
     <div class="container-right">
       <vxe-table
         size="mini"
-        height="100%"
+        height="auto"
+        auto-resize
         stripe
         ref="xTable"
         class="mytable-scrollbar"
@@ -116,11 +119,11 @@
         />
         <vxe-table-column
           width="180px"
-          field="name"
+          field="groupName"
           title="业务分组"
         />
         <vxe-table-column
-          field="sex"
+          field="groupClassTime"
           title="班次顺序"
         />
       </vxe-table>
@@ -133,53 +136,13 @@ export default {
   name: 'AttendanceContrast',
   data () {
     return {
-      businessName: '',
+
       topRadio: '',
       topRadioList: [
-        {
-          label: '0',
-          name: '徐汇院区护士组0'
-        },
-        {
-          label: '1',
-          name: '徐汇院区护士组1'
-        },
-        {
-          label: '2',
-          name: '徐汇院区护士组2'
-        }
+
       ],
       checkList: [
-        {
-          label: '0',
-          name: '周末加班'
-        },
-        {
-          label: '1',
-          name: '一值班'
-        },
-        {
-          label: '2',
-          name: '二值班'
-        },
-        {
-          label: '3',
-          name: '三值班'
-        }, {
-          label: '4',
-          name: '四值班'
-        }, {
-          label: '5',
-          name: '五值班'
-        },
-        {
-          label: '6',
-          name: '六值班'
-        },
-        {
-          label: '7',
-          name: '七值班'
-        }
+
       ],
       selectCheckList: [],
       selectTableList: [
@@ -190,31 +153,79 @@ export default {
       ]
     }
   },
+  mounted () {
+    this.getTransactionGroupTeachResult()
+    this.getTransactionGroup()
+    this.getSelectList()
+  },
   methods: {
-    changeBusiness () {
-      this.selectCheckList = []
-      this.selectTableList = []
-      this.topRadioList.forEach(item => {
-        if (item.label === this.topRadio) {
-          this.businessName = item.name
+    // 获取右边展示数据
+    getTransactionGroupTeachResult () {
+      this.$store.dispatch('ReqGetTransactionGroupTeachResult').then(res => {
+        if (res.data.code === 200) {
+          this.rightTableList = res.data.data
+        } else {
+          this.openToast('error', res.data.msg)
         }
       })
     },
-    changeShift () {
-      if (this.IsEmpty(this.businessName)) {
+    // 获取业务分组列表
+    getTransactionGroup () {
+      this.$store.dispatch('ReqgetTransactionGroup').then(res => {
+        if (res.data.code === 200) {
+          this.topRadioList = res.data.data
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 点击分组获取列表
+    getTransactionGroupTeach (newVal) {
+      let obj = {
+        id: newVal
+      }
+      this.$store.dispatch('ReqGetTransactionGroupTeach', obj).then(res => {
+        if (res.data.code === 200) {
+          this.selectTableList = res.data.data
+          this.orderList()
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 进行班次排序
+    orderList () {
+      this.selectCheckList = []
+      this.selectTableList.forEach((item, index) => {
+        item.order = index + 1
+
+        this.checkList.forEach(v => {
+          v.checkFlag = '2'
+          if (v.typeName === item.className) {
+            v.checkFlag = '1'
+            this.selectCheckList.push(item.className)
+          }
+        })
+      })
+    },
+    // 点击添加班次
+    changeShift (item) {
+      console.log(item)
+      if (this.IsEmpty(this.topRadio)) {
         this.$alert('请先选择业务分组')
         this.selectCheckList = []
         return false
       }
-      this.selectTableList = []
-      this.selectCheckList.forEach((item, index) => {
-        let obj = {
-          index: index,
-          order: index + 1,
-          name: this.businessName,
-          sex: item
+    },
+    // 调用接口添加班次
+    getAddTransactionGroupTeach () {
+      let obj = {}
+      this.$store.dispatch('ReqAddTransactionGroupTeach', obj).then(res => {
+        if (res.data.code === 200) {
+          console.log(res)
+        } else {
+          this.openToast('error', res.data.msg)
         }
-        this.selectTableList.push(obj)
       })
     },
     changeRowInfo (type, row) {
@@ -242,12 +253,31 @@ export default {
       }
       this.changeShift()
     },
-    getBottomTableList () {}
+    // 获取下拉框数据字典
+    getSelectList () {
+      let obj = {
+        belongSerialNumber: '006'
+      }
+      this.$store.dispatch('ReqgetBaseDictDetailList', obj).then(res => {
+        if (res.data.code === 200) {
+          this.checkList = res.data.data
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    getBottomTableList () {
+      console.log(this.topRadio)
+    }
   },
   watch: {
-    // 'topRadio': function (newVal, oldVal) {
-    //   this.getBottomTableList()
-    // }
+    'topRadio': function (newVal, oldVal) {
+      if (this.IsEmpty(newVal)) {
+        this.selectTableList = []
+      } else {
+        this.getTransactionGroupTeach(newVal)
+      }
+    }
   }
 }
 </script>
@@ -325,6 +355,7 @@ export default {
     }
   }
   .container-right {
+    padding: 0 5px;
     background-color: #fff;
     box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15);
     border-radius: 5px;
