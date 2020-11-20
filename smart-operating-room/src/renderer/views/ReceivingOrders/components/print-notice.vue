@@ -375,6 +375,7 @@ export default {
         colorLight: '#ffffff', // 二维码背景色
         correctLevel: QRCode.CorrectLevel.L // 容错率，L/M/H
       })
+      console.log(text)
     }
   },
   mounted () {

@@ -1,6 +1,7 @@
 import {reqGetPersonnelScheduling, reqgetBaseDictDetailList, reqUpdatePersionSchedule, reqGetClassTimeInfo,
   reqDeleteClassTimeInfo, reqaddClassTimeInfo, reqUpdateClassTimeInfo, reqGetTransactionGroupShow, reqGetNurseDicttwo,
-  reqGetTransactionGroupTeachResult, reqgetTransactionGroup, reqGetTransactionGroupTeach, reqAddTransactionGroupTeach} from '@/api/personnel-management/personnel-management.js'
+  reqGetTransactionGroupTeachResult, reqgetTransactionGroup, reqGetTransactionGroupTeach, reqAddTransactionGroupTeach,
+  reqDeleteTransactionGroupTeach} from '@/api/personnel-management/personnel-management.js'
 
 const state = {
   baseDictDetailLis: []
@@ -93,6 +94,11 @@ const actions = {
   // 添加业务分组带教班次信息
   async ReqAddTransactionGroupTeach ({ commit }, query) {
     let res = await reqAddTransactionGroupTeach(query)
+    return res
+  },
+  // 删除业务分组带教班次信息
+  async ReqDeleteTransactionGroupTeach ({ commit }, query) {
+    let res = await reqDeleteTransactionGroupTeach(query)
     return res
   }
 

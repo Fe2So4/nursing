@@ -196,11 +196,13 @@ export default {
     // 进行班次排序
     orderList () {
       this.selectCheckList = []
+      this.checkList.forEach(item => {
+        item.checkFlag = '2'
+      })
       this.selectTableList.forEach((item, index) => {
         item.order = index + 1
 
         this.checkList.forEach(v => {
-          v.checkFlag = '2'
           if (v.typeName === item.className) {
             v.checkFlag = '1'
             this.selectCheckList.push(item.className)
@@ -216,6 +218,47 @@ export default {
         this.selectCheckList = []
         return false
       }
+      // 改变列表
+      if (item.checkFlag === '1') {
+        // 删除
+        let arr = []
+        this.selectTableList.forEach((v, index) => {
+          if (v.className === item.typeName) {
+            arr.push(v.id)
+          }
+        })
+        let idList = {
+          idList: arr
+        }
+        this.$store.dispatch('ReqDeleteTransactionGroupTeach', idList).then(res => {
+          console.log(res)
+          if (res.data.code === 200) {
+            this.openToast('success', `删除${item.typeName}班次成功`)
+          } else {
+            this.openToast('error', `删除${item.typeName}班次失败`)
+          }
+          this.getTransactionGroupTeach(this.topRadio)
+        })
+      } else {
+        // 添加
+        let arr = []
+        let obj = {
+          className: item.typeName,
+          transactionBelongCode: String(this.topRadio),
+          id: null,
+          classSortNo: this.selectCheckList.length
+        }
+        arr.push(obj)
+
+        this.$store.dispatch('ReqAddTransactionGroupTeach', arr).then(res => {
+          if (res.data.code === 200) {
+            this.openToast('success', `添加${item.typeName}班次成功`)
+          } else {
+            this.openToast('error', `添加${item.typeName}班次失败`)
+          }
+          this.getTransactionGroupTeach(this.topRadio)
+        })
+      }
     },
     // 调用接口添加班次
     getAddTransactionGroupTeach () {
@@ -229,6 +272,7 @@ export default {
       })
     },
     changeRowInfo (type, row) {
+      console.log(row)
       // 点击向上
       if (type === '1') {
         this.upGo(row.index)
@@ -242,7 +286,6 @@ export default {
       } else {
         this.selectCheckList.push(this.selectCheckList.shift())
       }
-      this.changeShift()
     },
     downGo (index) {
       console.log(index, this.selectCheckList.length - 1)
@@ -251,7 +294,6 @@ export default {
       } else {
         this.selectCheckList.unshift(this.selectCheckList.splice(index, 1)[0])
       }
-      this.changeShift()
     },
     // 获取下拉框数据字典
     getSelectList () {
@@ -268,6 +310,15 @@ export default {
     },
     getBottomTableList () {
       console.log(this.topRadio)
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
   },
   watch: {
