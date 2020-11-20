@@ -52,8 +52,8 @@ import {mapState} from 'vuex'
 export default {
   data () {
     return {
-      activeIndex: 1,
-      componentInfo: 'BasicInfo'
+      activeIndex: 2,
+      componentInfo: 'CheckInfo'
     }
   },
   props: {

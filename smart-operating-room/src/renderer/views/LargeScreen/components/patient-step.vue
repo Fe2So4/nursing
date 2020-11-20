@@ -32,55 +32,55 @@ export default {
       stepList: [
         {
           title: '手术通知单',
-          time: '12:23',
+          time: '',
           mins: '',
           status: '0'
         },
         {
           title: '工勤人员接单',
-          time: '12:23',
+          time: '',
           mins: '(15Mins)',
           status: '0'
         },
         {
           title: '病房交接',
-          time: '12:23',
+          time: '',
           mins: '(34Mins)',
           status: '0'
         },
         {
           title: '进手术室',
-          time: '13:23',
+          time: '',
           mins: '(18Mins)',
           status: '0'
         },
         {
           title: 'Sign In',
-          time: '13:23',
+          time: '',
           mins: '',
           status: '0'
         },
         {
           title: 'Time Out',
-          time: '14:23',
+          time: '',
           mins: '',
           status: '0'
         },
         {
           title: 'Sign Out',
-          time: '13:23',
+          time: '',
           mins: '',
           status: '0'
         },
         {
           title: '出手术室',
-          time: '13:23',
+          time: '',
           mins: '',
           status: '0'
         },
         {
           title: '回病房',
-          time: '13:23',
+          time: '',
           mins: '',
           status: '0'
         }
@@ -97,6 +97,9 @@ export default {
         url: getPatientStep + `/${this.patientInfo.cureNo}/${this.patientInfo.hospitalNo}`
       }).then(res => {
         let data = res.data.data
+        if (!data.length) {
+          return
+        }
         this.stepList[0].time = data.operatingNoticeTime !== '' ? moment(data.operatingNoticeTime).format('HH:mm') : ''
         this.stepList[0].status = data.operatingNoticeTime === '' ? '0' : '2'
         this.stepList[1].time = data.workerGetOrderTime !== '' ? moment(data.workerGetOrderTime).format('HH:mm') : ''

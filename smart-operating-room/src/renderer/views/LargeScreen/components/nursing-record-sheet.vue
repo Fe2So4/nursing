@@ -183,8 +183,11 @@ export default {
         method: 'get'
       }).then(res => {
         let data = res.data.data
+        if (!data) {
+          return
+        }
         this.state = data.recordTwoState
-        if (data.recordTwoState !== '0') {
+        if (data.recordTwoState && data.recordTwoState !== '0') {
           this.recordList[0].value = data.deptName
           this.recordList[1].value = data.opsName
           this.recordList[2].value = data.opsType === '1' ? '择期' : data.opsType === '2' ? '非择期' : '急诊'

@@ -5,22 +5,42 @@
       <i />
     </div>
     <div class="nav">
-      <ul>
-        <li>
-          <div class="li-left">
-            手术方式
-          </div>
-          <div class="li-right">
-            1
-          </div>
+      <ul v-if="list.length">
+        <li
+          @click="handleShowReport(item)"
+          v-for="(item,index) in list"
+          :key="index"
+        >
+          <p><span>{{ item.patName }}</span><span>{{ item.patSex }}</span></p>
+          <p>{{ item.recAddress }}</p>
+          <p>{{ item.createTime }}</p>
+          <p>{{ item.nursingWorkName }}<span>完成</span></p>
         </li>
       </ul>
+      <div
+        v-else
+        class="data-empty"
+      >
+        <div>
+          <img
+            src="@/assets/list-empty.png"
+            alt=""
+          >
+          <p>暂无数据</p>
+        </div>
+      </div>
     </div>
+    <PathologyReport
+      :report-visible="reportVisible"
+      v-if="reportVisible"
+      @handleClose="handleShowReport"
+    />
   </div>
 </template>
 
 <script>
 import request from '@/utils/request'
+import PathologyReport from './pathology-report'
 import {getPathology} from '@/api/large-screen'
 import {mapState} from 'vuex'
 import $bus from '@/utils/busScreen'
@@ -28,8 +48,12 @@ export default {
   name: 'IntraoperativePathology',
   data () {
     return {
-
+      reportVisible: false,
+      list: []
     }
+  },
+  components: {
+    PathologyReport
   },
   computed: {
     ...mapState('LargeScreen', ['patientInfo'])
@@ -42,11 +66,17 @@ export default {
       }).then(res => {
         this.list = res.data.data
       })
+    },
+    handleShowReport (item) {
+      this.reportVisible = true
+    },
+    handleClose () {
+      this.reportVisible = false
     }
   },
   mounted () {
     this.getData()
-    $bus.$on('getPathology', this.getPathology)
+    $bus.$on('getPathology', this.getData)
   },
   beforeDestroy () {
     $bus.$off('getPathology')
@@ -95,17 +125,38 @@ export default {
         }
         li{
           display: flex;
+          cursor: pointer;
+          flex-direction: column;
           justify-content: space-between;
           background: #F4F7FD;
           padding: 10px;
           border-radius: 5px;
           font-size: 18px;
           margin-bottom:10px;
-          .li-left{
-            color: #919398;
-          }
-          .li-right{
-            color: #444444;
+          p{
+            &:first-child{
+              display: flex;
+              justify-content: space-between;
+              span{
+                flex: 1;
+                &:last-child{
+                  text-align: right;
+                  // padding-right: 20px;
+                }
+              }
+            }
+            &:nth-child(2){
+              color: #3377ff;
+            }
+            &:nth-child(3){
+              font-size: 16px;
+            }
+            &:last-child{
+              span{
+                color: #3377ff;
+                margin-left: 10px;
+              }
+            }
           }
           &:last-child{
             margin-bottom: unset;
