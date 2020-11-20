@@ -117,3 +117,13 @@ export const reqAddTransactionGroupTeach = (obj) => {
     data: obj
   })
 }
+
+// 删除业务分组带教班次信息
+const reqDeleteTransactionGroupTeachUrl = `${config.default.api.baseURL}/ocis/portfolio/deleteTransactionGroupTeach`
+export const reqDeleteTransactionGroupTeach = (obj) => {
+  return request({
+    url: reqDeleteTransactionGroupTeachUrl,
+    method: 'post',
+    data: obj
+  })
+}
