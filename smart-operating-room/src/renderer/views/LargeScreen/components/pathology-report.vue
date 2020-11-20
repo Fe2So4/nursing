@@ -26,13 +26,13 @@
               colspan="4"
               style="font-size:16px;"
             >
-              病理号：19-05920-冰冻1
+              病理号：{{ reportData.pathologyId }}
             </td>
             <td
               colspan="4"
               style="text-align:right;font-size:16px;"
             >
-              报告医生：杜尊过
+              报告医生：{{ reportData.reportDoc }}
             </td>
           </tr>
           <tr>
@@ -40,25 +40,25 @@
               姓名
             </td>
             <td style="border:1px solid #000000;border-left:unset;text-align:center;line-height:60px;font-size:16px;">
-              陈爱云
+              {{ reportData.patName }}
             </td>
             <td style="border:1px solid #000000;border-left:unset;text-align:center;line-height:60px;font-size:16px;">
               性别
             </td>
             <td style="border:1px solid #000000;border-left:unset;text-align:center;line-height:60px;font-size:16px;">
-              男
+              {{ reportData.patSex }}
             </td>
             <td style="border:1px solid #000000;border-left:unset;text-align:center;line-height:60px;font-size:16px;">
               年龄
             </td>
             <td style="border:1px solid #000000;border-left:unset;text-align:center;line-height:60px;font-size:16px;">
-              30岁
+              {{ reportData.patAge }}岁
             </td>
             <td style="border:1px solid #000000;border-left:unset;text-align:center;line-height:60px;font-size:16px;">
               住院号
             </td>
             <td style="border:1px solid #000000;border-left:unset;text-align:center;line-height:60px;font-size:16px;">
-              123456
+              {{ reportData.admitNo }}
             </td>
           </tr>
           <tr>
@@ -66,25 +66,25 @@
               病区
             </td>
             <td style="font-size:16px;line-height:60px;border-right:1px solid #000000;text-align:center;border-bottom:1px solid #000000;">
-              16病区
+              {{ reportData.categpry }}
             </td>
             <td style="font-size:16px;line-height:60px;border-right:1px solid #000000;text-align:center;border-bottom:1px solid #000000;">
               送检医院
             </td>
             <td style="font-size:16px;line-height:60px;border-right:1px solid #000000;text-align:center;border-bottom:1px solid #000000;">
-              本院
+              {{ reportData.inspectionHospital }}
             </td>
             <td style="font-size:16px;line-height:60px;border-right:1px solid #000000;text-align:center;border-bottom:1px solid #000000;">
               送检医生
             </td>
             <td style="font-size:16px;line-height:60px;border-right:1px solid #000000;text-align:center;border-bottom:1px solid #000000;">
-              8081
+              {{ reportData.checkName }}
             </td>
             <td style="font-size:16px;line-height:60px;border-right:1px solid #000000;text-align:center;border-bottom:1px solid #000000;">
               收到日期
             </td>
             <td style="font-size:16px;line-height:60px;border-right:1px solid #000000;text-align:center;border-bottom:1px solid #000000;">
-              2019-12-11 15:01
+              {{ reportData.receiptTime }}
             </td>
           </tr>
           <tr>
@@ -95,7 +95,7 @@
               colspan="7"
               style="font-size:16px;line-height:60px;border-right:1px solid #000000;text-align:center;border-bottom:1px solid #000000;"
             >
-              转移性啊啊啊
+              {{ reportData.pathologyDiagnosis }}
             </td>
           </tr>
         </table>
@@ -129,6 +129,10 @@ export default {
   props: {
     reportVisible: {
       type: Boolean,
+      required: true
+    },
+    reportData: {
+      type: Object,
       required: true
     }
   },

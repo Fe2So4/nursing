@@ -497,7 +497,7 @@ export default {
   },
   async mounted () {
     // await this.getData()
-    // this.getPackageList()
+    this.getPackageList()
     $bus.$on('handleDeviceCode', this.handleDeviceCode)
   },
   beforeDestroy () {
