@@ -45,7 +45,7 @@
       <div class="left-bottom">
         <vxe-table
           size="mini"
-          height="420"
+          height="auto"
           stripe
           ref="xTable"
           class="mytable-scrollbar"
@@ -88,15 +88,6 @@
             </template>
           </vxe-table-column>
         </vxe-table>
-        <div style="width:100%;text-align:center;margin-top:5px">
-          <el-button
-            @click="getBottomTableList"
-            type="primary"
-            size="mini"
-          >
-            保 存
-          </el-button>
-        </div>
       </div>
     </div>
     <div class="container-right">
@@ -193,7 +184,7 @@ export default {
         }
       })
     },
-    // 进行班次排序
+    // 进行设置选择值班次排序
     orderList () {
       this.selectCheckList = []
       this.checkList.forEach(item => {
@@ -201,13 +192,20 @@ export default {
       })
       this.selectTableList.forEach((item, index) => {
         item.order = index + 1
-
+        item.index = index
         this.checkList.forEach(v => {
           if (v.typeName === item.className) {
             v.checkFlag = '1'
             this.selectCheckList.push(item.className)
           }
         })
+      })
+    },
+    // 进行班次顺序排列
+    orderByList () {
+      this.selectTableList.forEach((item, index) => {
+        item.order = index + 1
+        item.index = index
       })
     },
     // 点击添加班次
@@ -234,6 +232,7 @@ export default {
           console.log(res)
           if (res.data.code === 200) {
             this.openToast('success', `删除${item.typeName}班次成功`)
+            this.getTransactionGroupTeachResult()
           } else {
             this.openToast('error', `删除${item.typeName}班次失败`)
           }
@@ -253,6 +252,7 @@ export default {
         this.$store.dispatch('ReqAddTransactionGroupTeach', arr).then(res => {
           if (res.data.code === 200) {
             this.openToast('success', `添加${item.typeName}班次成功`)
+            this.getTransactionGroupTeachResult()
           } else {
             this.openToast('error', `添加${item.typeName}班次失败`)
           }
@@ -260,12 +260,23 @@ export default {
         })
       }
     },
-    // 调用接口添加班次
-    getAddTransactionGroupTeach () {
-      let obj = {}
-      this.$store.dispatch('ReqAddTransactionGroupTeach', obj).then(res => {
+    // 调用接口修改信息
+    changeTransactionGroupTeach () {
+      console.log(this.selectTableList)
+      let arr = []
+      this.selectTableList.forEach(item => {
+        let obj = {
+          className: item.className,
+          transactionBelongCode: item.transactionBelongCode,
+          id: item.id,
+          classSortNo: item.order
+        }
+        arr.push(obj)
+      })
+
+      this.$store.dispatch('ReqUpdateTransactionGroupTeach', arr).then(res => {
         if (res.data.code === 200) {
-          console.log(res)
+          this.getTransactionGroupTeachResult()
         } else {
           this.openToast('error', res.data.msg)
         }
@@ -282,18 +293,22 @@ export default {
     },
     upGo (index) {
       if (index !== 0) {
-        this.selectCheckList[index] = this.selectCheckList.splice(index - 1, 1, this.selectCheckList[index])[0]
+        this.selectTableList[index] = this.selectTableList.splice(index - 1, 1, this.selectTableList[index])[0]
       } else {
-        this.selectCheckList.push(this.selectCheckList.shift())
+        this.selectTableList.push(this.selectTableList.shift())
       }
+      this.orderByList()
+      this.changeTransactionGroupTeach()
     },
     downGo (index) {
-      console.log(index, this.selectCheckList.length - 1)
-      if (index !== this.selectCheckList.length - 1) {
-        this.selectCheckList[index] = this.selectCheckList.splice(index + 1, 1, this.selectCheckList[index])[0]
+      console.log(index, this.selectTableList.length - 1)
+      if (index !== this.selectTableList.length - 1) {
+        this.selectTableList[index] = this.selectTableList.splice(index + 1, 1, this.selectTableList[index])[0]
       } else {
-        this.selectCheckList.unshift(this.selectCheckList.splice(index, 1)[0])
+        this.selectTableList.unshift(this.selectTableList.splice(index, 1)[0])
       }
+      this.orderByList()
+      this.changeTransactionGroupTeach()
     },
     // 获取下拉框数据字典
     getSelectList () {

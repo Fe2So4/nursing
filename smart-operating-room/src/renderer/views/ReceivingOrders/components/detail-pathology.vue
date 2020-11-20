@@ -31,8 +31,6 @@
     <p>
       <el-input
         ref="inputs"
-        readonly
-        @keyup.enter.native="enterInput"
         v-model="codeInput"
         :placeholder="optas"
       />
@@ -135,7 +133,7 @@ export default {
       if (this.selectRow.orderState === '0') {
         this.workCode = this.codeInput.split('=')[1]
 
-        this.changePatient(0)
+        this.changePatient(1)
       } else {
         if (this.exitType !== '1') {
           this.$alert('请先点击取消接单')
@@ -147,7 +145,7 @@ export default {
           this.$alert('接单工勤人员与扫描人员工号不符,请确认后重试')
           return false
         }
-        this.changePatient(1)
+        this.changePatient(0)
       }
     },
     changePatient (type) {
@@ -188,6 +186,13 @@ export default {
       if (this.codeInput.length > 1 && Math.abs(this.timearr[1] - this.timearr[0]) > 40) {
         this.codeInput = ''
       }
+      this.utilsDebounce(() => {
+        setTimeout(() => {
+          if (this.codeInput !== '') {
+            this.enterInput()
+          }
+        }, 1000)
+      }, 3000)
     }
   },
   filters: {

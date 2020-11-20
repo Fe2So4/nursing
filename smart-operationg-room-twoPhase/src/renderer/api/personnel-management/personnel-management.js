@@ -127,3 +127,21 @@ export const reqDeleteTransactionGroupTeach = (obj) => {
     data: obj
   })
 }
+// 修改业务分组带教班次信息
+const reqUpdateTransactionGroupTeachUrl = `${config.default.api.baseURL}/ocis/portfolio/updateTransactionGroupTeach`
+export const reqUpdateTransactionGroupTeach = (obj) => {
+  return request({
+    url: reqUpdateTransactionGroupTeachUrl,
+    method: 'post',
+    data: obj
+  })
+}
+
+// 查询基础字典分类信息列表
+const reqGetBaseDictCategoryListUrl = `${config.default.api.baseURL}/ocis/dictInfo/getBaseDictCategoryList`
+export const reqGetBaseDictCategoryList = () => {
+  return request({
+    url: reqGetBaseDictCategoryListUrl,
+    method: 'get'
+  })
+}
