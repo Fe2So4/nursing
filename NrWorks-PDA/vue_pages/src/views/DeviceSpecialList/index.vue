@@ -204,7 +204,7 @@ export default {
         method: 'get',
         url: getPackageDataSpecial + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`
       }).then(res => {
-        if (res.data.data.specialEquipmentStr) {
+        if (!this.IsEmpty(JSON.parse(res.data.data.specialEquipmentStr))) {
           let data = res.data.data
           this.recordForm = data
           this.recordForm.specialEquipment = JSON.parse(JSON.parse(JSON.stringify(data.specialEquipmentStr)))

@@ -129,11 +129,14 @@
 
 <script>
 import DevicePosition from './components/device-position'
+import {getDeviceData} from '@/api/device'
+import request from '@/utils/request'
 export default {
   name: 'DeviceSelect',
   data () {
     return {
-      deviceVisible: false
+      deviceVisible: false,
+      deviceList: []
       // visible: true
     }
   },
@@ -141,7 +144,25 @@ export default {
   methods: {
     handleClose () {
       this.deviceVisible = false
+    },
+    getDeviceData () {
+      request({
+        methods: 'get',
+        url: getDeviceData
+      }).then(res => {
+        let data = res.data.data
+        for (let i of data) {
+          console.log(i, data[i])
+        }
+        this.deviceList = data
+      })
     }
+  },
+  created () {
+    this.getDeviceData()
+  },
+  mounted () {
+    // this.getDeviceData()
   }
 }
 </script>

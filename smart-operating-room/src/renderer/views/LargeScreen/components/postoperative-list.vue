@@ -73,7 +73,7 @@ export default {
   },
   mounted () {
     this.getSignData()
-    $bus.$emit('getSignData', this.getSignData)
+    $bus.$on('getSignData', this.getSignData)
   },
   beforeDestroy () {
     $bus.$off('getSignData')

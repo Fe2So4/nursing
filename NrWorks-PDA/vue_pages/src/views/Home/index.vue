@@ -159,6 +159,7 @@ export default {
             // alert('/transfer')
             $bus.$emit('handleCode', e)
           } else if (that.$route.path === '/device-special') {
+            alert(e)
             $bus.$emit('handleDeviceCode', e)
           }
         }
