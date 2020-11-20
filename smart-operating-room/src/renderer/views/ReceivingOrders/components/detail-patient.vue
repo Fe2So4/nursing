@@ -37,7 +37,6 @@
       <p>
         <el-input
           ref="inputs"
-          readonly
           @keyup.enter.native="enterInput"
           v-model="codeInput"
           :placeholder="optas"
@@ -178,9 +177,10 @@ export default {
   },
   data () {
     return {
+      timearr: [0, 0],
       optas: '',
       hiddenVisible: false,
-      codeInput: 'work=22350206',
+      codeInput: '',
       exitType: '2',
       workCode: ''
     }
@@ -218,24 +218,21 @@ export default {
         correctLevel: QRCode.CorrectLevel.L // 容错率，L/M/H
       })
     },
+
     // 扫描二维码
     enterInput () {
       this.workCode = ''
+      if (!this.codeInput.includes('=')) {
+        this.$alert('请先扫描工勤人员二维码')
+        return false
+      }
       if (this.selectRow.orderState === '0') {
-        if (this.IsEmpty(this.codeInput)) {
-          this.$alert('请先扫描工勤人员二维码')
-          return false
-        }
         this.workCode = this.codeInput.split('=')[1]
 
         this.changePatient(1)
       } else {
         if (this.exitType !== '1') {
           this.$alert('请先点击取消接单')
-          return false
-        }
-        if (this.IsEmpty(this.codeInput)) {
-          this.$alert('请先扫描工勤人员二维码')
           return false
         }
         this.workCode = this.codeInput.split('=')[1]
@@ -293,6 +290,7 @@ export default {
     this.$nextTick(function () {
       this.bindQRCode()
     })
+
     this.changfouce()
     if (this.selectRow.orderState === '1') {
       this.optas = '点击取消接单后，扫描工勤人员二维码，进行退单...'
@@ -300,6 +298,18 @@ export default {
       this.optas = '获取焦点后，扫描工勤人员二维码，进行接单...'
     }
     console.log(this.selectRow)
+  },
+  watch: {
+    'codeInput': function (newVal) {
+      if (this.codeInput.length % 2 !== 0) {
+        this.timearr[0] = new Date().getTime()
+      } else {
+        this.timearr[1] = new Date().getTime()
+      }
+      if (this.codeInput.length > 1 && Math.abs(this.timearr[1] - this.timearr[0]) > 40) {
+        this.codeInput = ''
+      }
+    }
   },
   components: {
     PrintNotice
