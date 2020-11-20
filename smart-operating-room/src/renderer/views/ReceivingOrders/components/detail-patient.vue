@@ -37,7 +37,6 @@
       <p>
         <el-input
           ref="inputs"
-          @keyup.enter.native="enterInput"
           v-model="codeInput"
           :placeholder="optas"
         />
@@ -309,6 +308,13 @@ export default {
       if (this.codeInput.length > 1 && Math.abs(this.timearr[1] - this.timearr[0]) > 40) {
         this.codeInput = ''
       }
+      this.utilsDebounce(() => {
+        setTimeout(() => {
+          if (this.codeInput !== '') {
+            this.enterInput()
+          }
+        }, 1000)
+      }, 3000)
     }
   },
   components: {
