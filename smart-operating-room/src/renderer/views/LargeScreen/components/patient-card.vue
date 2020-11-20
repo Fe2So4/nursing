@@ -112,7 +112,7 @@ export default {
           if (res.data.code === 200) {
             this.patientBasicInfo = res.data.data
             // 大屏启动后5秒刷新一次数据
-            // this.intervalRefresh()
+            this.intervalRefresh()
           }
         })
       }
