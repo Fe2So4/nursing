@@ -1,7 +1,8 @@
 import {reqGetPersonnelScheduling, reqgetBaseDictDetailList, reqUpdatePersionSchedule, reqGetClassTimeInfo,
   reqDeleteClassTimeInfo, reqaddClassTimeInfo, reqUpdateClassTimeInfo, reqGetTransactionGroupShow, reqGetNurseDicttwo,
   reqGetTransactionGroupTeachResult, reqgetTransactionGroup, reqGetTransactionGroupTeach, reqAddTransactionGroupTeach,
-  reqDeleteTransactionGroupTeach, reqUpdateTransactionGroupTeach, reqGetBaseDictCategoryList} from '@/api/personnel-management/personnel-management.js'
+  reqDeleteTransactionGroupTeach, reqUpdateTransactionGroupTeach, reqGetBaseDictCategoryList, reqAddBaseDictDetailList,
+  reqUpdateBaseDictDetailList, reqDeleteBaseDictDetail} from '@/api/personnel-management/personnel-management.js'
 
 const state = {
   baseDictDetailLis: []
@@ -109,6 +110,21 @@ const actions = {
   // 查询基础字典分类信息列表
   async ReqGetBaseDictCategoryList ({ commit }) {
     let res = await reqGetBaseDictCategoryList()
+    return res
+  },
+  // 新增基础字典分类信息列表
+  async ReqAddBaseDictDetailList ({ commit }, query) {
+    let res = await reqAddBaseDictDetailList(query)
+    return res
+  },
+  // 修改基础字典分类信息列表
+  async ReqUpdateBaseDictDetailList ({ commit }, query) {
+    let res = await reqUpdateBaseDictDetailList(query)
+    return res
+  },
+  // 删除基础字典分类信息列表
+  async ReqDeleteBaseDictDetail ({ commit }, query) {
+    let res = await reqDeleteBaseDictDetail(query)
     return res
   }
 

@@ -145,3 +145,31 @@ export const reqGetBaseDictCategoryList = () => {
     method: 'get'
   })
 }
+
+// 新增基础字典分类信息列表
+const reqAddBaseDictDetailListUrl = `${config.default.api.baseURL}/ocis/dictInfo/addBaseDictDetailList`
+export const reqAddBaseDictDetailList = (obj) => {
+  return request({
+    url: reqAddBaseDictDetailListUrl,
+    method: 'post',
+    data: obj
+  })
+}
+// 修改基础字典分类信息列表
+const reqUpdateBaseDictDetailListUrl = `${config.default.api.baseURL}/ocis/dictInfo/updateBaseDictDetailList`
+export const reqUpdateBaseDictDetailList = (obj) => {
+  return request({
+    url: reqUpdateBaseDictDetailListUrl,
+    method: 'post',
+    data: obj
+  })
+}
+// 删除基础字典分类信息列表
+const reqDeleteBaseDictDetailUrl = `${config.default.api.baseURL}/ocis/dictInfo/deleteBaseDictDetail`
+export const reqDeleteBaseDictDetail = (obj) => {
+  return request({
+    url: reqDeleteBaseDictDetailUrl,
+    method: 'post',
+    data: obj
+  })
+}
