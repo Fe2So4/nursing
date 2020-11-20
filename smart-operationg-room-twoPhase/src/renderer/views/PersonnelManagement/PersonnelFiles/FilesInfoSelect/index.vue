@@ -34,6 +34,7 @@
           <el-button
             type="info"
             plain
+            @click="handleGo({})"
           >
             新 增
           </el-button>
@@ -86,7 +87,10 @@
                 查看
               </el-button>
               <span class="option-line">|</span>
-              <el-button type="text">
+              <el-button
+                @click="handleGo(row)"
+                type="text"
+              >
                 编辑
               </el-button>
               <span class="option-line">|</span>
@@ -177,6 +181,15 @@ export default {
     // },
     handleCloseNurseList () {
       this.nurseListVisible = false
+    },
+    // 编辑或添加
+    handleGo (row) {
+      this.$router.push({
+        path: '/personnel/personnel-file/files-info-maintain',
+        query: {
+          userCode: row.userCode
+        }
+      })
     },
     // 提示方法
     openToast (type, mesg) {

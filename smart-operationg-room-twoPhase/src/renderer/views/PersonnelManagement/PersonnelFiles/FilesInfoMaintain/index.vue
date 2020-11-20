@@ -112,10 +112,38 @@ export default {
   components: {
     BasicInfo, EducationExperience, TitleInfo, DepartmentRotation, TrainingFurtherStudy
   },
+  mounted () {
+    if (!this.IsEmpty(this.$route.query.userCode)) {
+      this.searchUserInfo()
+    }
+  },
   methods: {
+    // 获取用户基本信息
+    searchUserInfo () {
+      let obj = {
+        userCode: this.$route.query.userCode
+      }
+      this.$store.dispatch('ReqGetUserBaseInfo', obj).then(res => {
+        if (res.data.code === 200) {
+          console.log(res)
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
     handleClick () {
 
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
+    //
   }
 }
 </script>
