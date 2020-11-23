@@ -121,7 +121,7 @@
             :key="index"
           >
             <td style="width:60px;textAlign:center">
-              {{ index }}
+              {{ index + 1 }}
             </td>
             <td style="width:85px;textAlign:center">
               {{ item.hospitalNo || '' }}

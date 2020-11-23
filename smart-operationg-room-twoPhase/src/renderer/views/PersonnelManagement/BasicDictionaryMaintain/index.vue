@@ -67,7 +67,7 @@
             title="人员类别名称"
           />
           <vxe-table-column
-            field="typeName"
+            field="detailDesc"
             title="说明"
           />
           <vxe-table-column
@@ -77,14 +77,14 @@
             <template v-slot="{row}">
               <el-button
                 type="text"
-                @click="showDiv(row)"
+                @click="changeInfo(row)"
               >
                 编辑
               </el-button>
               <el-button
                 class="redFont"
                 type="text"
-                @click="showDiv(row)"
+                @click="handleEdit(row)"
               >
                 删除
               </el-button>
@@ -94,14 +94,14 @@
       </div>
       <div class="bdm-option">
         <el-button
-
+          @click="goBack"
           type="primary"
           size="mini"
         >
           返回
         </el-button>
         <el-button
-
+          @click="addBaseDictDetail"
           type="primary"
           size="mini"
         >
@@ -116,6 +116,51 @@
         </el-button>
       </div>
     </div>
+    <el-dialog
+      :close-on-click-modal="false"
+      :title="dialogTitle"
+      :visible.sync="dialogVisible"
+      width="400px"
+      :before-close="handleClose"
+    >
+      <el-form
+        size="mini"
+        :inline="true"
+        label-width="80px"
+      >
+        <el-form-item
+          class="bitianxiang"
+          label="项目名称"
+        >
+          <el-input
+            placeholder="请输入项目详细类型名称"
+            v-model="form.typeName"
+          />
+        </el-form-item>
+        <el-form-item
+          class="bitianxiang"
+          label="说明"
+        >
+          <el-input
+            v-model="form.detailDesc"
+          />
+        </el-form-item>
+      </el-form>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          type="primary"
+          size="mini"
+          @click="save"
+        >保 存</el-button>
+        <el-button
+          @click="handleClose"
+          size="mini"
+        >取 消</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -124,10 +169,18 @@ export default {
   name: 'BasicDictionaryMaintain',
   data () {
     return {
+      dialogTitle: '',
+      dialogVisible: false,
+      form: {
+        typeName: '',
+        detailDesc: ''
+      },
       showFlag: true,
       tableData: [],
       tableChildData: [],
-      belongSerialNumber: ''
+      belongSerialNumber: '',
+      selectRow: {},
+      selectItemRow: {}
     }
   },
   mounted () {
@@ -146,13 +199,14 @@ export default {
     },
     // 点击编辑
     showDiv (row) {
+      this.selectRow = row
       this.getSelectList(row.serialNumber)
       this.showFlag = false
     },
     // 获取数据字典列表
     getSelectList (num) {
       let obj = {
-        belongSerialNumber: '005'
+        belongSerialNumber: num
       }
       this.$store.dispatch('ReqgetBaseDictDetailList', obj).then(res => {
         if (res.data.code === 200) {
@@ -161,6 +215,92 @@ export default {
           this.openToast('error', res.data.msg)
         }
       })
+    },
+    // 点击新增项目
+    addBaseDictDetail () {
+      this.form.typeName = ''
+      this.form.detailDesc = ''
+      this.dialogTitle = '项目名称-新增'
+      this.dialogVisible = true
+    },
+    // 点击编辑项目
+    changeInfo (row) {
+      this.dialogTitle = '项目名称-修改'
+      this.selectItemRow = row
+      this.form.typeName = row.typeName
+      this.form.detailDesc = row.detailDesc
+      this.dialogVisible = true
+    },
+    // 点击返回
+    goBack () {
+      this.showFlag = true
+    },
+    // 保存新增或者修改
+    save () {
+      console.log(this.selectRow)
+      if (this.dialogTitle.includes('新增')) {
+        let arr = []
+        let obj = {
+          belongSerialNumber: this.selectRow.serialNumber,
+          typeName: this.form.typeName,
+          detailDesc: this.form.detailDesc
+        }
+        arr.push(obj)
+        this.$store.dispatch('ReqAddBaseDictDetailList', arr).then(res => {
+          if (res.data.code === 200) {
+            this.openToast('success', '添加成功')
+            this.getSelectList(this.selectRow.serialNumber)
+          } else {
+            this.openToast('error', res.data.msg)
+          }
+          this.dialogVisible = false
+        })
+      } else {
+        let arr = []
+        let obj = {
+          id: this.selectItemRow.id,
+          isDeleted: this.selectItemRow.isDeleted,
+          belongSerialNumber: this.selectRow.serialNumber,
+          typeName: this.form.typeName,
+          detailDesc: this.form.detailDesc
+        }
+        arr.push(obj)
+        this.$store.dispatch('ReqUpdateBaseDictDetailList', arr).then(res => {
+          if (res.data.code === 200) {
+            this.openToast('success', '修改成功')
+            this.getSelectList(this.selectRow.serialNumber)
+          } else {
+            this.openToast('error', res.data.msg)
+          }
+          this.dialogVisible = false
+        })
+      }
+    },
+    handleEdit (row) {
+      this.$confirm('是否删除当前项目分组', '', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        callback: action => {
+          if (action === 'confirm') {
+            let arr = [row.id]
+
+            this.$store.dispatch('ReqDeleteBaseDictDetail', arr).then(res => {
+              if (res.data.code === 200) {
+                this.openToast('success', '删除成功')
+                this.getSelectList(this.selectRow.serialNumber)
+              } else {
+                this.openToast('error', res.data.code)
+              }
+            })
+          } else {
+
+          }
+        }
+      })
+    },
+    handleClose () {
+      this.dialogVisible = false
     },
     // 提示方法
     openToast (type, mesg) {
@@ -206,5 +346,10 @@ export default {
   }
 .redFont{
   color:#FF5454;
+}
+/deep/.el-form-item.bitianxiang:not(.is-no-asterisk)>.el-form-item__label:before{
+  content:'*'!important;
+  color:#f56c6c !important;
+  margin-right:4px !important;
 }
 </style>

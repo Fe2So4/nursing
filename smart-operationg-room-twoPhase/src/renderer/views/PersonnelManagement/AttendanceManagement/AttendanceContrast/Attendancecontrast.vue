@@ -240,29 +240,30 @@ export default {
         })
       } else {
         // 添加
-        let arr = []
+
         let obj = {
           className: item.typeName,
           transactionBelongCode: String(this.topRadio),
           id: null,
           classSortNo: this.selectCheckList.length
         }
-        arr.push(obj)
+        this.selectTableList.push(obj)
+        this.orderByList()
+        this.changeTransactionGroupTeach()
 
-        this.$store.dispatch('ReqAddTransactionGroupTeach', arr).then(res => {
-          if (res.data.code === 200) {
-            this.openToast('success', `添加${item.typeName}班次成功`)
-            this.getTransactionGroupTeachResult()
-          } else {
-            this.openToast('error', `添加${item.typeName}班次失败`)
-          }
-          this.getTransactionGroupTeach(this.topRadio)
-        })
+        // this.$store.dispatch('ReqAddTransactionGroupTeach', arr).then(res => {
+        //   if (res.data.code === 200) {
+        //     this.openToast('success', `添加${item.typeName}班次成功`)
+        //     this.getTransactionGroupTeachResult()
+        //   } else {
+        //     this.openToast('error', `添加${item.typeName}班次失败`)
+        //   }
+        //   this.getTransactionGroupTeach(this.topRadio)
+        // })
       }
     },
     // 调用接口修改信息
     changeTransactionGroupTeach () {
-      console.log(this.selectTableList)
       let arr = []
       this.selectTableList.forEach(item => {
         let obj = {
@@ -274,12 +275,13 @@ export default {
         arr.push(obj)
       })
 
-      this.$store.dispatch('ReqUpdateTransactionGroupTeach', arr).then(res => {
+      this.$store.dispatch('ReqAddTransactionGroupTeach', arr).then(res => {
         if (res.data.code === 200) {
           this.getTransactionGroupTeachResult()
         } else {
           this.openToast('error', res.data.msg)
         }
+        this.getTransactionGroupTeach(this.topRadio)
       })
     },
     changeRowInfo (type, row) {
