@@ -61,6 +61,10 @@ export default {
       pageSize: 20
     }
   },
+  mounted () {
+    this.formData.startTime = this.utilsGetNewDate()
+    this.formData.endTime = this.utilsGetNewDate()
+  },
   methods: {
     searchTable () {
       let obj = {

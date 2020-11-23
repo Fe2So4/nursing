@@ -141,6 +141,7 @@ export default {
         }
 
         this.workCode = this.codeInput.split('=')[1]
+        console.log(this.selectRow.workerCode, this.workCode)
         if (this.selectRow.workerCode !== this.workCode) {
           this.$alert('接单工勤人员与扫描人员工号不符,请确认后重试')
           return false
@@ -192,7 +193,7 @@ export default {
             this.enterInput()
           }
         }, 1000)
-      }, 3000)
+      }, 1000)
     }
   },
   filters: {

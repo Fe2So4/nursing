@@ -125,7 +125,7 @@
       </div>
       <el-scrollbar
         class="scrollbarList"
-        style="height:155px"
+        style="height:205px"
       >
         <div class="subP-container-list">
           <div
@@ -661,7 +661,7 @@ export default {
 .subP-container {
     box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
     border-radius: 5px;
-    height: 300px;
+    height: 350px;
     background-color: #fff;
     padding: 10px 20px;
     .container-content {

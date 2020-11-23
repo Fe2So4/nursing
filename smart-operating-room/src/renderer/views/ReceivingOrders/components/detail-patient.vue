@@ -315,7 +315,7 @@ export default {
             this.enterInput()
           }
         }, 1000)
-      }, 3000)
+      }, 1000)
     }
   },
   components: {

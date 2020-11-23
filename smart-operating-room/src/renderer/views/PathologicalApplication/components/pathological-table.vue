@@ -5,7 +5,7 @@
         stripe
         highlight-current-row
         ref="xTable"
-        height="300"
+        height="250"
         class="mytable-scrollbar"
         border="none"
         :data="tableData"
