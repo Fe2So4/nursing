@@ -123,19 +123,19 @@
             </template>
           </van-cell>
         </div>
-        <van-cell title-class="left-title" value-class="right-value" v-show="transferType === 0" title="导管：" value="内容" @click="handleShowDialog({list:'dgOptions',model:'catheter',title:'导管'})">
+        <van-cell title-class="left-title" value-class="right-value multipul-select" v-show="transferType === 0" title="导管：" value="内容" @click="handleShowDialog({list:'dgOptions',model:'catheter',title:'导管'})">
           <template #right-icon>
             <span class="mul-ellipsis">{{handleFilterLabel({list:'dgOptions',value:'catheter'})}}</span>
-            <van-icon name="play"/>
+            <!-- <van-icon name="play"/> -->
           </template>
         </van-cell>
         <van-cell v-show="transferType === 0 && recordForm.catheter.length>0" title="留置时间：" :value="this.recordForm.conduitTime" @click="hanldeShowTime('conduitTime')">
         </van-cell>
-        <van-cell title-class="left-title" value-class="right-value" v-show="transferType === 1" title="留置导管固定畅通：" value="内容" @click="handleShowDialog({list:'lzdgOptions',model:'conduit',title:'留置导管固定畅通'})">
+        <van-cell title-class="left-title" value-class="right-value multipul-select" v-show="transferType === 1" title="留置导管固定畅通：" value="内容" @click="handleShowDialog({list:'lzdgOptions',model:'conduit',title:'留置导管固定畅通'})">
           <template #right-icon>
             <div style="display:flex;">
               <span class="mul-ellipsis">{{handleFilterLabel({list:'lzdgOptions',value:'conduit'})}}</span>
-              <van-icon name="play"/>
+              <!-- <van-icon name="play"/> -->
             </div>
           </template>
         </van-cell>

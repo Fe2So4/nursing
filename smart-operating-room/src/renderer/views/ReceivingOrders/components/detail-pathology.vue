@@ -68,8 +68,15 @@
       >
         <!-- :active="1" -->
         <el-step
-          title="手术排班"
-        />
+          title="开单申请"
+        >
+          <template slot="description">
+            <div class="time">
+              {{ selectRow.orderApplyTime }}
+            </div>
+            <div>{{ selectRow.checkName === '' ? '-': selectRow.checkName }}</div>
+          </template>
+        </el-step>
         <el-step title="工勤人员接单">
           <template slot="description">
             <div class="time">
