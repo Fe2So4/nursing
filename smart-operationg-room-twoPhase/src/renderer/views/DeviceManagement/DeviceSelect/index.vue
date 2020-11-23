@@ -16,12 +16,12 @@
             :key="'tr'+index"
           >
             <td>
-              307
+              {{ item.position }}
             </td>
             <td
               v-for="(_item,i) in 13"
               :key="'td'+i"
-              :class="i%2===0?'bg-sq':i%3===0?'bg-ssks':'bg-ssjs'"
+              :class="_item.status==='1'?'bg-sq':_item.status==='2'?'bg-rssj':_item.status==='3'?'bg-ssks':_item.status==='4'?'ssjs': _item.status==='5'?'ssjs':'cssj'"
             >
               <el-popover
                 placement="top-start"
@@ -40,31 +40,31 @@
                       <li>
                         <span>
                           <span class="detail-label">设备名称：</span>
-                          <span class="detail-value">1</span>
+                          <span class="detail-value">{{ _item.name }}</span>
                         </span>
                         <span>
                           <span class="detail-label">序列号：</span>
-                          <span class="detail-value">2</span>
+                          <span class="detail-value">{{ _item.serialNo }}</span>
                         </span>
                       </li>
                       <li>
                         <span>
                           <span class="detail-label">设备位置：</span>
-                          <span class="detail-value">2</span>
+                          <span class="detail-value">{{ _item.position }}</span>
                         </span>
                         <span>
                           <span class="detail-label">设备状态：</span>
-                          <span class="detail-value">2</span>
+                          <span class="detail-value">{{ _item.status }}</span>
                         </span>
                       </li>
                       <li>
                         <span>
                           <span class="detail-label">设备编号：</span>
-                          <span class="detail-value">2</span>
+                          <span class="detail-value">{{ item.deviceNo }}</span>
                         </span>
                         <span>
                           <span class="detail-label">设备状态：</span>
-                          <span class="detail-value">3</span>
+                          <span class="detail-value">{{ item.status }}</span>
                         </span>
                       </li>
                     </ul>
@@ -74,7 +74,12 @@
                   slot="reference"
                   class="td-content"
                 >
-                  {{ '能来平台Triad'+i }}
+                  <b>
+                    {{ _item.name }}
+                  </b>
+                  <b>
+                    {{ _item.model }}
+                  </b>
                 </span>
               </el-popover>
             </td>
@@ -151,10 +156,11 @@ export default {
         url: getDeviceData
       }).then(res => {
         let data = res.data.data
+        let arr = []
         for (let i in data) {
-          console.log(i, data[i])
+          arr.push({position: i, list: data[i]})
         }
-        this.deviceList = data
+        this.deviceList = arr
       })
     }
   },

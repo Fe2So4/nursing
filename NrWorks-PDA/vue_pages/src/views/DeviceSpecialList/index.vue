@@ -314,7 +314,7 @@ export default {
         switch (this.active) {
           case 0:
             this.recordForm.specialEquipment.push({pId: obj.pId,
-              pName: data.pName,
+              pName: obj.pName,
               code: data.code,
               items: {
                 before: obj.itemsList,
@@ -328,7 +328,7 @@ export default {
             break
           case 1:
             this.recordForm.specialEquipment.push({pId: obj.pId,
-              pName: data.pName,
+              pName: obj.pName,
               code: data.code,
               items: {
                 before: JSON.parse(JSON.stringify(obj.itemsList)),
@@ -342,7 +342,7 @@ export default {
             break
           case 2:
             this.recordForm.specialEquipment.push({pId: obj.pId,
-              pName: data.pName,
+              pName: obj.pName,
               code: data.code,
               items: {
                 before: JSON.parse(JSON.stringify(obj.itemsList)),
@@ -356,7 +356,7 @@ export default {
             break
           case 3:
             this.recordForm.specialEquipment.push({pId: obj.pId,
-              pName: data.pName,
+              pName: obj.pName,
               code: data.code,
               items: {
                 before: JSON.parse(JSON.stringify(obj.itemsList)),
@@ -370,7 +370,7 @@ export default {
             break
           case 4:
             this.recordForm.specialEquipment.push({pId: obj.pId,
-              pName: data.pName,
+              pName: obj.pName,
               code: data.code,
               items: {
                 before: JSON.parse(JSON.stringify(obj.itemsList)),
@@ -384,7 +384,7 @@ export default {
             break
           case 5:
             this.recordForm.specialEquipment.push({pId: obj.pId,
-              pName: data.pName,
+              pName: obj.pName,
               code: data.code,
               items: {
                 before: JSON.parse(JSON.stringify(obj.itemsList)),
@@ -398,7 +398,7 @@ export default {
             break
           case 6:
             this.recordForm.specialEquipment.push({pId: obj.pId,
-              pName: data.pName,
+              pName: obj.pName,
               code: data.code,
               items: {
                 before: JSON.parse(JSON.stringify(obj.itemsList)),
@@ -412,7 +412,7 @@ export default {
             break
           case 7:
             this.recordForm.specialEquipment.push({pId: obj.pId,
-              pName: data.pName,
+              pName: obj.pName,
               code: data.code,
               items: {
                 before: JSON.parse(JSON.stringify(obj.itemsList)),
@@ -592,7 +592,7 @@ export default {
                 display: none;
               }
             }
-             .sign-class{
+            .sign-class{
               color:#10ce5a;
               line-height: 90px;
               margin-left: 15px;

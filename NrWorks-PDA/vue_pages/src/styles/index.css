@@ -18,7 +18,8 @@ body .van-dialog__header{
 }
 body .van-dialog__content{
   font-size: 30px;
-  border-bottom: 1px solid #e2e2e2;
+  border-bottom: 1PX solid #e2e2e2;
+  box-sizing: border-box;
 }
 body .van-dialog__message{
   font-size: 30px;
@@ -29,8 +30,8 @@ body .van-dialog__message{
 body .van-dialog__footer{
 }
 body .van-dialog__footer .van-button{
-  height: 60px;
-  line-height: 60px;
+  height: 80px;
+  line-height: 80px;
   font-size: 30px;
 }
 body .van-dialog__footer .van-button:last-child{
@@ -155,19 +156,57 @@ body /deep/ .van-notify{
   /* font-size: 30px; */
   line-height: 0;
 }
+#app /deep/ .van-cell__value{
+  /* background-color: purple; */
+  /* height: 100%; */
+}
+#app /deep/ .multipul-select{
+  padding-right: 30px;
+}
+#app /deep/ .multipul-select::after{
+  position: absolute;
+  top: 50%;
+  margin-top: -12px;
+  border: 9px solid;
+  right: 5px;
+  border-color: transparent transparent #7f7f7f #7f7f7f;
+  transform: rotate(-45deg);
+  opacity: .8;
+  content: '';
+}
+#app /deep/ .van-dropdown-menu__title--active::after{
+  margin-top: -5px !important;
+}
+#app /deep/ .van-dropdown-menu__item{
+  height:100%;
+}
+#app /deep/ .van-dropdown-menu__title_top .van-dropdown-menu__title.van-dropdown-menu__title--active::after{
+  margin-top: -12px !important;
+}
+#app /deep/ .van-dropdown-menu__title_top .van-dropdown-menu__title::after{
+  margin-top: -5px !important;
+}
 #app /deep/ .van-dropdown-menu{
-  background-color: red;
+  /* background-color: green; */
+  /* height: 100%; */
+  height: 94px;
+}
+#app /deep/ .van-dropdown-menu__bar{
+  background-color: unset;
 }
 #app /deep/ .van-dropdown-menu__title{
   font-size: 30px;
+  line-height: 94px;
+  /* background-color: red; */
   /* line-height: unset; */
   padding-right: 30px;
+  height:100%;
 }
 /* .van-dropdown-menu__title:after */
 #app /deep/ .van-dropdown-menu__title::after{
   border-color: transparent transparent #7f7f7f #7f7f7f;
   border-width: 9px;
-  /* margin-top: -6px; */
+  margin-top: -12px;
   right: 5px;
 }
 

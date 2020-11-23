@@ -169,7 +169,7 @@ export default {
   },
   beforeDetroy () {
     // eslint-disable-next-line no-undef
-    // cordova.ScanCode.stopCode('12')
+    this.showLoading = false
     $bus.$off('handleScan')
     // 移除 <div> 事件句柄
     document.removeEventListener('deviceready')

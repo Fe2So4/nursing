@@ -58,22 +58,22 @@
         </div>
       </van-cell-group>
       <van-cell-group>
-        <van-cell title="麻醉方式：" title-class="left-title" value-class="right-value" value="内容" @click="handleShowDialog({list:'anesMethodOptions',model:'anesthesiaMode',title:'麻醉方式'})">
+        <van-cell title="麻醉方式：" title-class="left-title" value-class="right-value multipul-select" value="内容" @click="handleShowDialog({list:'anesMethodOptions',model:'anesthesiaMode',title:'麻醉方式'})">
           <template #right-icon>
             <span class="mul-ellipsis">{{handleFilterLabel({list:'anesMethodOptions',value:'anesthesiaMode'})}}</span>
-            <van-icon name="play"/>
+            <!-- <van-icon name="play"/> -->
           </template>
         </van-cell>
-        <van-cell title="手术体位：" title-class="left-title" value-class="right-value" value="内容" @click="handleShowDialog({list:'bodyOptions',model:'position',title:'手术体位'})">
+        <van-cell title="手术体位：" title-class="left-title" value-class="right-value multipul-select" value="内容" @click="handleShowDialog({list:'bodyOptions',model:'position',title:'手术体位'})">
           <template #right-icon>
             <span class="mul-ellipsis">{{handleFilterLabel({list:'bodyOptions',value:'position'})}}</span>
-            <van-icon name="play"/>
+            <!-- <van-icon name="play"/> -->
           </template>
         </van-cell>
-        <van-cell title="体位装置：" title-class="left-title" value-class="right-value" value="内容" @click="handleShowDialog({list:'deviceOptions',model:'device',title:'体位装置'})">
+        <van-cell title="体位装置：" title-class="left-title" value-class="right-value multipul-select" value="内容" @click="handleShowDialog({list:'deviceOptions',model:'device',title:'体位装置'})">
           <template #right-icon>
             <span class="mul-ellipsis">{{handleFilterLabel({list:'deviceOptions',value:'device'})}}</span>
-            <van-icon name="play"/>
+            <!-- <van-icon name="play"/> -->
           </template>
         </van-cell>
         <van-cell title="约束带：" value="内容">
@@ -186,10 +186,10 @@
             </div>
           </template>
         </div>
-        <van-cell title="术中冲洗：" title-class="left-title" value-class="right-value" value="内容" @click="handleShowDialog({list:'szcxOptions',model:'rinseList',title:'术中冲洗'})">
+        <van-cell title="术中冲洗：" title-class="left-title" value-class="right-value multipul-select" value="内容" @click="handleShowDialog({list:'szcxOptions',model:'rinseList',title:'术中冲洗'})">
           <template #right-icon>
             <span class="mul-ellipsis">{{handleFilterLabel({list:'szcxOptions',value:'rinseList'})}}</span>
-            <van-icon name="play"/>
+            <!-- <van-icon name="play"/> -->
           </template>
         </van-cell>
         <van-cell title="腰穿留置：" value="内容">
@@ -296,7 +296,7 @@
         </div>
         <van-cell title="术中交接班">
           <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF" direction="up">
+            <van-dropdown-menu active-color="#3478FF" direction="up" class="van-dropdown-menu__title_top">
               <van-dropdown-item v-model="recordForm.opsChange.opsChangeName" :options="constraintOptions" />
             </van-dropdown-menu>
           </template>
@@ -512,7 +512,7 @@ export default {
     }
   },
   mounted () {
-    this.getData()
+    // this.getData()
   },
   methods: {
     handleFilterLabel (obj) {
