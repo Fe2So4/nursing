@@ -202,6 +202,10 @@ export default {
         this.$alert('请先双击选中一条数据')
         return false
       }
+      if (this.selectData[0].sendOrderStatus === 1) {
+        this.$alert('该病理已派单,不可撤销')
+        return false
+      }
       console.log(this.selectData)
       this.exitdialogVisible = true
     },
@@ -209,8 +213,8 @@ export default {
     exitPathological () {
       let obj = {
         pathologyId: this.selectData[0].pathologyId,
-        // checkCode: this.selectData[0].checkCode
-        checkCode: '9797'
+        checkCode: this.selectData[0].checkCode
+        // checkCode: '9797'
       }
       console.log(this.selectData[0], obj)
       this.$store.dispatch('ReqdeleteFastPathologic', obj).then(res => {

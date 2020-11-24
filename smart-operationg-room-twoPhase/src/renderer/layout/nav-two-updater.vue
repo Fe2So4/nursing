@@ -141,6 +141,36 @@ export default {
         },
         {
           icon: 'iconfont icon-caidanxiangdao-',
+          title: '科室管理',
+          path: '/department',
+          children: [
+            {
+              icon: 'iconfont icon-guanli',
+              title: '手术查询',
+              path: '/department/search',
+              children: [
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '手术明细查询',
+                  path: '/department/search/department-search'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '多次手术查询',
+                  path: '/department/search/department-moresearch'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '房间状态查询',
+                  path: '/department/search/department-roomsearch'
+                }
+              ]
+            }
+
+          ]
+        },
+        {
+          icon: 'iconfont icon-caidanxiangdao-',
           title: '手术计费',
           path: '/charge',
           children: [
