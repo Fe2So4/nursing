@@ -83,6 +83,7 @@
           >
             <template v-slot>
               <vxe-input
+                placeholder="双击病理后获得"
                 readonly
                 style="width:150px"
                 v-model="formData1.pathologyId"

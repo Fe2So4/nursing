@@ -101,7 +101,7 @@
               新增标本
             </vxe-button>
           </vxe-form-item>
-          <vxe-form-item>
+          <!-- <vxe-form-item>
             <vxe-button
               class="btn"
               size="mini"
@@ -110,7 +110,7 @@
             >
               送检单
             </vxe-button>
-          </vxe-form-item>
+          </vxe-form-item> -->
           <vxe-form-item>
             <vxe-button
               @click="dayinPingTie"
@@ -477,7 +477,7 @@ export default {
             if (res.data.code === '0') {
               console.log(res)
               this.loginType = '1'
-              this.loginName = '王德发'
+              this.loginName = this.form.username
             } else {
               this.$message({ type: 'error', message: res.data.message })
             }
@@ -531,7 +531,7 @@ export default {
       let obj = {
         admitNo: this.userInfo.hospitalNo,
         checkCode: '',
-        checkName: '',
+        checkName: this.form.username,
         id: this.selectItem.id || '',
         pathologyId: this.selectItem.pathologyId || '',
         createTime: time,
