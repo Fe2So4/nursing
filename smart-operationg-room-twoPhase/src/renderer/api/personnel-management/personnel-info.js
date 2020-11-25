@@ -14,7 +14,8 @@ const reqGetNurListUrl = `${config.default.api.baseURL}/ocis/portfolio/getUserBa
 export const reqGetNurList = (obj) => {
   return request({
     url: reqGetNurListUrl,
-    method: 'get'
+    method: 'post',
+    params: obj
   })
 }
 // 公务员信息列表查询

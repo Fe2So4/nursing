@@ -20,8 +20,8 @@ const actions = {
     return res
   },
   // 获取护士列表
-  async ReqGetNurList ({ commit }) {
-    let res = await reqGetNurList()
+  async ReqGetNurList ({ commit }, query) {
+    let res = await reqGetNurList(query)
     return res
   },
 

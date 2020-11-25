@@ -151,6 +151,7 @@
         type="info"
         size="mini"
         plain
+        @click="goback"
       >返 回</el-button>
       </span>
     </div>
@@ -324,6 +325,10 @@ export default {
     this.getSelectList('015')
   },
   methods: {
+    // 点击返回
+    goback () {
+      this.$emit('gotoBack')
+    },
     formatDate (date, format) {
       console.log(date)
       return moment(date).format(format)

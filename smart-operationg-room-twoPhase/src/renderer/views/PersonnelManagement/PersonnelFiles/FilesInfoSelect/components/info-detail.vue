@@ -19,11 +19,7 @@
           type="primary"
           size="mini"
           @click="handleClose"
-        >保 存</el-button>
-        <el-button
-          @click="handleClose"
-          size="mini"
-        >取 消</el-button>
+        >关 闭</el-button>
       </span>
     </el-dialog>
   </div>

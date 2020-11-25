@@ -1,4 +1,5 @@
 <template>
+  <!-- 档案信息查询 -->
   <div class="files-info-maintain">
     <div class="fim-top">
       <div class="fim-top-top">
@@ -84,6 +85,7 @@
           :name="item.name"
         >
           <component
+            @gotoBack="gotoBack"
             :login-type="loginType"
             @getEducationInfo="getEducationInfo"
             @getUserWork="getUserWork"
@@ -177,7 +179,21 @@ export default {
   methods: {
     // 点击返回信息查询
     gotoBack () {
-
+      console.log(this.$route.query)
+      this.$router.push({
+        path: '/personnel/personnel-file/files-info-select',
+        query: {
+          chuandiType: '0',
+          userCode: this.$route.query.userCode || '',
+          form: {
+            name: this.$route.query.form.name || '',
+            workTime: this.$route.query.form.workTime || '',
+            workTimeStart: this.$route.query.form.workTimeStart || '',
+            workTimeEnd: this.$route.query.form.workTimeEnd || '',
+            department: this.$route.query.form.department || ''
+          }
+        }
+      })
     },
     // 获取用户基本信息
     searchUserInfo () {

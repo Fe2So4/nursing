@@ -9,7 +9,7 @@
           size="mini"
         >
           <el-form-item
-            label="开始时间"
+            label="开始日期"
           >
             <el-date-picker
               style="width:178px"
@@ -19,7 +19,7 @@
               placeholder="选择日期"
             />
           </el-form-item>
-          <el-form-item label="结束时间">
+          <el-form-item label="结束日期">
             <el-date-picker
               v-model="form.input"
               style="width:178px"
@@ -29,55 +29,85 @@
             />
           </el-form-item>
           <el-form-item label="患者ID">
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.input"
+            />
           </el-form-item>
           <el-form-item label="姓名">
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.input"
+            />
           </el-form-item>
           <el-form-item label="麻醉医生">
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.input"
+            />
           </el-form-item>
           <el-form-item
             v-show="showType"
             label="手术医生"
           >
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.input"
+            />
           </el-form-item>
           <el-form-item
             v-show="showType"
             label="临床科室"
           >
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.input"
+            />
           </el-form-item>
           <el-form-item
             v-show="showType"
             label="手术间"
           >
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.input"
+            />
           </el-form-item>
           <el-form-item
             v-show="showType"
             label="手术名称"
           >
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.input"
+            />
           </el-form-item>
           <el-form-item
             v-show="showType"
             label="麻醉方法"
           >
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.input"
+            />
           </el-form-item>
           <el-form-item
             v-show="showType"
             label="护士"
           >
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.input"
+            />
           </el-form-item>
           <el-form-item
             v-show="showType"
             label="特殊器械"
           >
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.input"
+            />
           </el-form-item>
           <el-form-item
             v-show="showType"
@@ -362,4 +392,7 @@ export default {
       border-radius: 5px;
     }
   }
+/deep/.dr-top-left .el-form-item__content .el-input--mini{
+  width: 178px;
+}
 </style>
