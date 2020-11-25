@@ -278,7 +278,7 @@
             class="btn"
             size="mini"
             status="my-purple"
-            @click="login"
+            @click="yishilogin"
           >
             验 证
           </vxe-button>
@@ -298,7 +298,8 @@
 
 <script>
 import Bus from '@/utils/bus.js'
-import {pathologicalLogin, reqsaveFastPathologic} from '@/api/client-api/pathological-application.js'
+import {reqsaveFastPathologic} from '@/api/client-api/pathological-application.js'
+import { reqcheckSendDoctor } from '@/api/login'
 export default {
   name: 'SubPathological',
   data () {
@@ -351,6 +352,7 @@ export default {
       dialogVisible: false,
       loginType: '0', // 验证标志
       loginName: '',
+      loginCode: '',
       userInfoGetType: '0'
     }
   },
@@ -380,6 +382,7 @@ export default {
     initialValue () {
       this.loginType = '0'
       this.loginName = ''
+      this.loginCode = ''
       this.userInfoGetType = ''
       this.formData.remarks = ''
       this.formData.specimenList = [
@@ -462,24 +465,25 @@ export default {
     },
     enter (e) {
       if (e.keyCode === 13) {
-        this.login()
+        this.yishilogin()
       }
     },
-    login () {
+    yishilogin () {
       this.$refs.form.validate((valid) => {
         console.log(valid)
         if (valid) {
           let obj = {
             loginName: this.form.username,
-            loginPwd: this.form.password
+            password: this.form.password
           }
-          pathologicalLogin(obj).then(res => {
-            if (res.data.code === '0') {
-              console.log(res)
+          reqcheckSendDoctor(obj).then(res => {
+            if (res.data.code === 200) {
               this.loginType = '1'
-              this.loginName = this.form.username
+              this.loginName = res.data.data.userName
+              this.loginCode = res.data.data.loginName
             } else {
-              this.$message({ type: 'error', message: res.data.message })
+              this.openToast('error', '验证送检医师错误,请重试')
+              this.loginType = '0'
             }
             this.dialogVisible = false
           })
@@ -530,8 +534,8 @@ export default {
       let historyDetails = this.$store.state['pathological-table'].historyDetails || ''
       let obj = {
         admitNo: this.userInfo.hospitalNo,
-        checkCode: '',
-        checkName: this.form.username,
+        checkCode: this.loginCode,
+        checkName: this.loginName,
         id: this.selectItem.id || '',
         pathologyId: this.selectItem.pathologyId || '',
         createTime: time,

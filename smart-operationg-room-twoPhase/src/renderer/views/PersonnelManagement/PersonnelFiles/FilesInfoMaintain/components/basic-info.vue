@@ -51,10 +51,14 @@
       label-width="80px"
     >
       <el-form-item label="民族">
-        <el-input
-          v-model="userInfo.nation"
-          placeholder="请输入名族 例如:汉族"
-        />
+        <el-select v-model="userInfo.nation">
+          <el-option
+            v-for="item in ethnicList"
+            :key="item.typeName"
+            :label="item.typeName"
+            :value="item.typeName"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item label="出生年月">
         <el-date-picker
@@ -243,6 +247,7 @@
         plain
         @click="saveUserInfo"
       >保 存</el-button><el-button
+        v-show="loginType === 0"
         type="info"
         size="mini"
         plain
@@ -300,7 +305,8 @@ export default {
       personnelCategory: [],
       dutyList: [],
       originalEducateBack: [],
-      energyLevelList: []
+      energyLevelList: [],
+      ethnicList: []
     }
   },
   props: {
@@ -310,6 +316,11 @@ export default {
       default () {
         return {}
       }
+    },
+    loginType: {
+      type: Number,
+      required: false,
+      default: 1
     }
   },
   mounted () {
@@ -318,6 +329,7 @@ export default {
     this.getSelectList('002')
     this.getSelectList('010')
     this.getSelectList('004')
+    this.getSelectList('009')
   },
   methods: {
     // 获取数据字典列表
@@ -337,6 +349,8 @@ export default {
             this.originalEducateBack = res.data.data
           } else if (num === '004') {
             this.energyLevelList = res.data.data
+          } else if (num === '009') {
+            this.ethnicList = res.data.data
           }
         } else {
           this.openToast('error', res.data.msg)
@@ -397,4 +411,7 @@ export default {
       }
     }
   }
+/deep/ .el-select, .el-date-editor.el-input{
+  width: 178px;
+}
 </style>

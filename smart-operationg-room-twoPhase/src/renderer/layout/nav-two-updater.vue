@@ -163,6 +163,36 @@ export default {
                   icon: 'iconfont icon-guanli',
                   title: '房间状态查询',
                   path: '/department/search/department-roomsearch'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '手术状态查询',
+                  path: '/department/search/department-surgeryStatus'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '护理记录单查询',
+                  path: '/department/search/nursing-record-search'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '手术接病人时间查询',
+                  path: '/department/search/nursing-receive-search'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '手术接台间隔时间查询',
+                  path: '/department/search/surgery-interval-search'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '每日房间结束时间查询',
+                  path: '/department/search/daily-endtime-search'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '术后手术信息登记查询',
+                  path: '/department/search/endsurgery-info-search'
                 }
               ]
             }

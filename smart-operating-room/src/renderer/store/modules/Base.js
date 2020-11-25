@@ -1,5 +1,7 @@
 const state = {
-  base: 0
+  base: 0,
+  userName: '',
+  userCode: ''
 }
 
 const mutations = {
@@ -8,6 +10,10 @@ const mutations = {
   },
   INCREMENT_MAIN_COUNTER (state) {
     state.base++
+  },
+  SAVE_LOGIN_USERINFO (state, data) {
+    state.userName = data.userName
+    state.userCode = data.userCode
   }
 }
 
@@ -20,7 +26,6 @@ const actions = {
 }
 
 export default {
-  namespaced: true,
   state,
   mutations,
   actions

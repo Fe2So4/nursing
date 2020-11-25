@@ -323,6 +323,7 @@ export default {
       this.dialogType = '1'
       this.dialogVisible = true
       this.select_row = JSON.parse(JSON.stringify(row))
+      console.log(this.select_row)
     },
     // 点击删除
     delectListItem (row) {
@@ -342,15 +343,6 @@ export default {
     },
     // 弹出框点击确定
     saveDio () {
-      // if (!this.IsEmpty(this.select_row.firstStartTime)) {
-      //   if (!this.select_row.firstStartTime.includes(':')) {
-      //     this.$alert('一阶段开始时间格式错误,请重新输入')
-      //     return false
-      //   } else {
-      //     console.log(this.select_row.firstStartTime.split(':')[0].length)
-      //   }
-      //   return false
-      // }
       console.log(this.select_row)
       if (this.IsEmpty(this.select_row.className)) {
         this.$alert('班次选择不能为空')

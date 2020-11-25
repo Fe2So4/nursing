@@ -65,6 +65,7 @@ export default {
   destroyed () {
     this.interval = null
   }
+
 }
 </script>
 

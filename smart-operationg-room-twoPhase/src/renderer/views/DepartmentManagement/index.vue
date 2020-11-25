@@ -14,4 +14,5 @@ export default {
   .depart-manage{
     height: calc(100% - 64px);
   }
+
 </style>

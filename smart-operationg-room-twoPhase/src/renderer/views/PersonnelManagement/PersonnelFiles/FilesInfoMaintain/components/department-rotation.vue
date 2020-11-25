@@ -242,6 +242,7 @@
         plain
         @click="saveTwo"
       >保 存</el-button><el-button
+        v-show="loginType === 0"
         type="info"
         size="mini"
         plain
@@ -477,6 +478,11 @@ export default {
       type: String,
       required: true,
       default: ''
+    },
+    loginType: {
+      type: Number,
+      required: false,
+      default: 1
     }
   },
   mounted () {

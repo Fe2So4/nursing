@@ -1,5 +1,5 @@
 <template>
-  <div class="surgery-search">
+  <div class="nursing-record-search">
     <div class="dr-top">
       <div class="dr-top-left">
         <el-form
@@ -8,7 +8,7 @@
           size="mini"
         >
           <el-form-item
-            label="开始时间"
+            label="开始日期"
           >
             <el-date-picker
               style="width:178px"
@@ -18,7 +18,7 @@
               placeholder="选择日期"
             />
           </el-form-item>
-          <el-form-item label="结束时间">
+          <el-form-item label="结束日期">
             <el-date-picker
               v-model="form.input"
               style="width:178px"
@@ -27,30 +27,46 @@
               placeholder="选择日期"
             />
           </el-form-item>
-          <el-form-item label="患者ID">
-            <el-input v-model="form.input" />
+          <el-form-item label="病区">
+            <el-select
+              v-model="form.input"
+              placeholder="请选择"
+              size="mini"
+            >
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
           </el-form-item>
-          <el-form-item label="姓名">
-            <el-input v-model="form.input" />
+          <el-form-item label="手术状态">
+            <el-select
+              v-model="form.input"
+              placeholder="请选择"
+              size="mini"
+            >
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
           </el-form-item>
-          <el-form-item label="麻醉医生">
+          <el-form-item label="住院号">
             <el-input v-model="form.input" />
           </el-form-item>
           <el-form-item
             v-show="showType"
-            label="手术医生"
+            label="病床号"
           >
             <el-input v-model="form.input" />
           </el-form-item>
           <el-form-item
             v-show="showType"
-            label="临床科室"
-          >
-            <el-input v-model="form.input" />
-          </el-form-item>
-          <el-form-item
-            v-show="showType"
-            label="手术间"
+            label="病人姓名"
           >
             <el-input v-model="form.input" />
           </el-form-item>
@@ -62,40 +78,31 @@
           </el-form-item>
           <el-form-item
             v-show="showType"
-            label="麻醉方法"
+            label="所属科室"
           >
             <el-input v-model="form.input" />
           </el-form-item>
           <el-form-item
             v-show="showType"
-            label="护士"
+            label="主刀医师"
           >
             <el-input v-model="form.input" />
           </el-form-item>
           <el-form-item
             v-show="showType"
-            label="特殊器械"
+            label="洗手护士"
           >
             <el-input v-model="form.input" />
           </el-form-item>
           <el-form-item
             v-show="showType"
-            style="margin-left:30px"
+            label="巡回护士"
           >
-            <el-radio-group v-model="radio">
-              <el-radio :label="1">
-                全部
-              </el-radio>
-              <el-radio :label="2">
-                急诊
-              </el-radio>
-              <el-radio :label="3">
-                择期
-              </el-radio>
-            </el-radio-group>
+            <el-input v-model="form.input" />
           </el-form-item>
         </el-form>
       </div>
+
       <div class="dr-top-right">
         <el-form
           :inline="true"
@@ -134,102 +141,112 @@
       </div>
     </div>
     <div class="dr-table">
-      <vxe-table
-        align="center"
-        :data="tableData"
-        class="mytable-scrollbar"
-        size="mini"
-        height="auto"
-        auto-resize
-        stripe
-      >
-        <vxe-table-column
-          field="sex"
-          title="手术日期"
-        />
-        <vxe-table-column
-          field="no"
-          title="手术间"
-        />
-        <vxe-table-column
-          field="age1"
-          title="住院号"
-        />
-        <vxe-table-column
-          field="age2"
-          title="床号"
-        />
-        <vxe-table-column
-          field="age3"
-          title="患者姓名"
-        />
-        <vxe-table-column
-          field="age3"
-          title="性别"
-        />
-        <vxe-table-column
-          field="age3"
-          title="年龄"
-        />
-        <vxe-table-column
-          field="age3"
-          title="手术科室"
-        />
-        <vxe-table-column
-          field="age3"
-          title="拟施手术"
-        />
-        <vxe-table-column
-          field="age3"
-          title="手术名称"
-        />
-        <vxe-table-column
-          field="age3"
-          title="麻醉方式"
-        />
-        <vxe-table-column
-          field="age3"
-          title="手术类型"
-        />
-        <vxe-table-column
-          field="age3"
-          title="手术级别"
-        />
-        <vxe-table-column
-          field="age3"
-          title="入室时间"
-        />
-        <vxe-table-column
-          field="age3"
-          title="麻醉开始时间"
-        />
-        <vxe-table-column
-          field="age3"
-          title="手术开始时间"
-        />
-        <vxe-table-column
-          field="age3"
-          title="手术结束时间"
-        />
-        <vxe-table-column
-          field="age3"
-          title="麻醉结束时间"
-        />
-      </vxe-table>
-    </div>
-    <div
-      class="dr-pagination"
-    >
-      <Pagination :distance="'20'" />
+      <div class="dr-table-top">
+        <div
+          :key="index"
+          v-for="(item,index) in 4"
+          class="dr-table-top-item"
+        >
+          <div class="item-left">
+            所属科室:
+          </div>
+          <div class="item-right">
+            <div
+              class="item-right-context"
+              :key="index"
+              v-for="(item,index) in 20"
+            >
+              <span>
+                <span class="context-title">普外科</span>
+                <span>(20)</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dr-table-bottom">
+        <vxe-table
+          align="center"
+          :data="tableData"
+          class="mytable-scrollbar"
+          size="mini"
+          height="auto"
+          auto-resize
+          stripe
+        >
+          <vxe-table-column
+            type="seq"
+            title="序号"
+          />
+          <vxe-table-column
+            field="sex"
+            title="手术日期"
+          />
+          <vxe-table-column
+            field="no"
+            title="日间手术"
+          />
+          <vxe-table-column
+            field="age1"
+            title="房间"
+          />
+          <vxe-table-column
+            field="age1"
+            title="术序"
+          />
+
+          <vxe-table-column
+            field="age2"
+            title="床号"
+          />
+          <vxe-table-column
+            field="age3"
+            title="姓名"
+          />
+          <vxe-table-column
+            field="age3"
+            title="性别"
+          />
+          <vxe-table-column
+            field="age3"
+            title="年龄"
+          />
+          <vxe-table-column
+            field="age3"
+            title="住院号"
+          />
+          <vxe-table-column
+            field="age3"
+            title="所属科室"
+          />
+
+          <vxe-table-column
+            field="age3"
+            title="手术名称"
+          />
+
+          <vxe-table-column
+            field="age3"
+            title="主刀医生"
+          />
+          <vxe-table-column
+            field="age3"
+            title="洗手护士"
+          />
+          <vxe-table-column
+            field="age3"
+            title="巡回护士"
+          />
+        </vxe-table>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import Pagination from '@/components/Pagination/pagination'
 
 export default {
-  name: 'SurgerySearch',
+  name: 'NursingRecordSearch',
   data () {
     return {
       showType: false,
@@ -263,13 +280,11 @@ export default {
         {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'}]
     }
   },
-  components: {
-    Pagination
-  },
+
   methods: {
     // 点击图标切换显示
     handleChangeIcon () {
-
+      this.showType = !this.showType
     },
     // 点击查询查询数据
     handleSearchTableList () {
@@ -281,7 +296,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .surgery-search{
+  .nursing-record-search{
     display: flex;
     height: 100%;
     flex-direction: column;
@@ -331,16 +346,49 @@ export default {
         border-radius: 50%;
         position: absolute;
         right: 30px;
-        bottom: 10px;
+        bottom: 15px;
       }
     }
     .dr-table{
       flex: 1;
-      max-height: calc(100% - 202px);
+      display: flex;
+      flex-direction: column;
+      // max-height: calc(100% - 202px);
       margin-top: 10px;
       box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15);
       border-radius: 5px;
       overflow: hidden;
+      .dr-table-top {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        background-color: #fff;
+        .dr-table-top-item {
+          display: flex;
+          .item-left {
+            width: 100px;
+            font-size: 14px;
+            color: #333333;
+          }
+          .item-right {
+            display: flex;
+            flex-wrap: wrap;
+            .item-right-context {
+              margin-left: 20px;
+              span {
+                font-size: 14px;
+              }
+              .context-title {
+                cursor: pointer;
+                color: #2474F8;
+              }
+            }
+          }
+        }
+      }
+      .dr-table-bottom {
+        flex: 1;
+      }
       .option-line{
           // vertical-align: middle;
           // font-size: 20px;

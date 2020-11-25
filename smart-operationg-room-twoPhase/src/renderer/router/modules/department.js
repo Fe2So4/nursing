@@ -22,7 +22,7 @@ const departmentRoutes = {
         {
           path: 'department-search',
           name: 'DepartmentSearch',
-          component: () => import('@/views/DepartmentManagement/SurgerySearch/index'),
+          component: () => import('@/views/DepartmentManagement/SurgerySearch1/SurgeryDetailSearch/index'),
           meta: {
             title: '手术明细查询',
             noNavs: false,
@@ -37,8 +37,7 @@ const departmentRoutes = {
             noNavs: false,
             parent: 'Department'
           },
-          component: () => import('@/views/DepartmentManagement/MoreSurgerySearch/index')
-          // redirect: '/personnel/personnel-file/files-info-select',
+          component: () => import('@/views/DepartmentManagement/SurgerySearch1/MoreSurgerySearch/index')
         },
         {
           path: 'department-roomsearch',
@@ -48,8 +47,67 @@ const departmentRoutes = {
             noNavs: false,
             parent: 'Department'
           },
-          component: () => import('@/views/DepartmentManagement/RoomStatusSearch/index')
-          // redirect: '/personnel/personnel-file/files-info-select',
+          component: () => import('@/views/DepartmentManagement/SurgerySearch1/RoomStatusSearch/index')
+        },
+        {
+          path: 'department-surgeryStatus',
+          name: 'departmentSurgeryStatus',
+          meta: {
+            title: '手术状态查询',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/SurgerySearch1/SurgeryStatus/index')
+        },
+        {
+          path: 'nursing-record-search',
+          name: 'NursingRecordSearch',
+          meta: {
+            title: '护理记录单查询',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/SurgerySearch1/NursingRecordSearch/index')
+        },
+        {
+          path: 'nursing-receive-search',
+          name: 'NursingReceiveSearch',
+          meta: {
+            title: '手术接病人时间查询',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/SurgerySearch1/NursingReceiveSearch/index')
+        },
+        {
+          path: 'surgery-interval-search',
+          name: 'SurgeryIntervalSearch',
+          meta: {
+            title: '手术接台间隔时间查询',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/SurgerySearch1/SurgeryIntervalSearch/index')
+        },
+        {
+          path: 'daily-endtime-search',
+          name: 'DailyEndTimeSearch',
+          meta: {
+            title: '手术接台间隔时间查询',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/SurgerySearch1/DailyEndTimeSearch/index')
+        },
+        {
+          path: 'endsurgery-info-search',
+          name: 'EndSurgeryInfoSearch',
+          meta: {
+            title: '术后手术信息登记查询',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/SurgerySearch1/EndSurgeryInfoSearch/index')
         }
       ]
       // redirect: '/personnel/personnel-file/files-info-select',

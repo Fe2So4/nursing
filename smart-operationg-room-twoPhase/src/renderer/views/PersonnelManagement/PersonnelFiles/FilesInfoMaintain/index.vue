@@ -84,6 +84,7 @@
           :name="item.name"
         >
           <component
+            :login-type="loginType"
             @getEducationInfo="getEducationInfo"
             @getUserWork="getUserWork"
             @getUserDeptTurnInfo="getUserDeptTurnInfo"
@@ -114,6 +115,7 @@ export default {
   name: 'FilesInfoMaintain',
   data () {
     return {
+      chuandiForm: {},
       loginType: 0,
       userCode: '',
       educationInfo: [],
@@ -144,23 +146,39 @@ export default {
     BasicInfo, EducationExperience, TitleInfo, DepartmentRotation, TrainingFurtherStudy
   },
   mounted () {
-    if (!this.IsEmpty(this.$route.query.userCode)) {
+    console.log(this.$route.query)
+    if (this.$route.query.chuandiType === '0') {
       this.loginType = 0
-      this.userCode = this.$route.query.userCode
+      this.chuandiForm = this.$route.query.form
+      if (!this.IsEmpty(this.$route.query.userCode)) {
+        this.userCode = this.$route.query.userCode
+        // 获取基本信息
+        this.searchUserInfo()
+        this.getEducationInfo()
+        this.getUserWork()
+        this.getUserDeptTurnInfo()
+        this.getUserOperDeptTurnInfo()
+        this.getReqgetUserTrainInfo()
+      }
     } else {
       this.loginType = 1
       this.userCode = '7441'
+      // 获取基本信息
+      this.searchUserInfo()
+      this.getEducationInfo()
+      this.getUserWork()
+      this.getUserDeptTurnInfo()
+      this.getUserOperDeptTurnInfo()
+      this.getReqgetUserTrainInfo()
     }
-    // 获取基本信息
-    this.searchUserInfo()
-    this.getEducationInfo()
-    this.getUserWork()
-    this.getUserDeptTurnInfo()
-    this.getUserOperDeptTurnInfo()
-    this.getReqgetUserTrainInfo()
+
     this.getSelectList('011')
   },
   methods: {
+    // 点击返回信息查询
+    gotoBack () {
+
+    },
     // 获取用户基本信息
     searchUserInfo () {
       let obj = {

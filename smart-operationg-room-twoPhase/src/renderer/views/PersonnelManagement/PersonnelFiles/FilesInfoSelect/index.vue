@@ -187,7 +187,15 @@ export default {
       this.$router.push({
         path: '/personnel/personnel-file/files-info-maintain',
         query: {
-          userCode: row.userCode
+          chuandiType: '0',
+          userCode: row.userCode || '',
+          form: {
+            name: this.form.name,
+            time: this.form.time,
+            startTime: this.form.startTime,
+            endTime: this.form.endTime,
+            department: this.form.department
+          }
         }
       })
     },

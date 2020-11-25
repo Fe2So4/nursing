@@ -10,3 +10,21 @@ export const login = (obj) => {
     data: obj
   })
 }
+// 登录成功获取信息
+const reqgetLoginUserInfoUrl = `${config.default.api.baseURL}/ocis/dict/getLoginUserInfo`
+export const reqgetLoginUserInfo = (obj) => {
+  return request({
+    url: reqgetLoginUserInfoUrl,
+    method: 'get'
+  })
+}
+
+// 获取送检医师
+const reqcheckSendDoctorUrl = `${config.default.api.baseURL}/ocis/dict/checkSendDoctor`
+export const reqcheckSendDoctor = (obj) => {
+  return request({
+    url: reqcheckSendDoctorUrl,
+    method: 'post',
+    params: obj
+  })
+}
