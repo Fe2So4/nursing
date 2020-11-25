@@ -108,6 +108,76 @@ const departmentRoutes = {
             parent: 'Department'
           },
           component: () => import('@/views/DepartmentManagement/SurgerySearch1/EndSurgeryInfoSearch/index')
+        },
+        {
+          path: 'surgery-level-statistical',
+          name: 'SurgeryLevelStatistical',
+          meta: {
+            title: '手术分级统计',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/SurgerySearch1/SurgeryLevelStatistical/index')
+        },
+        {
+          path: 'duty-search',
+          name: 'DutySearch',
+          meta: {
+            title: '一值班二值班',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/SurgerySearch1/OneDutyTwoDuty/index')
+        },
+        {
+          path: 'statistical-detail-search',
+          name: 'StatisticalDetailSearch',
+          meta: {
+            title: '积休统计明细表',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/SurgerySearch1/StatisticalDetailSearch/index')
+        },
+        {
+          path: 'surgery-interval-time',
+          name: 'SurgeryIntervalTime',
+          meta: {
+            title: '手术间隔时长统计',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/SurgerySearch1/SurgeryIntervalTime/index')
+        },
+        {
+          path: 'work-overtime-search',
+          name: 'WorkOvertimeSearch',
+          meta: {
+            title: '夜间加班积修统计',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/SurgerySearch1/WorkOvertimeSearch/index')
+        },
+        {
+          path: 'surgery-name-number',
+          name: 'SurgeryNameNumber',
+          meta: {
+            title: '手术名称数量统计',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/SurgerySearch1/SurgeryNameNumber/index')
+        },
+        {
+          path: 'surgery-score',
+          name: 'SurgeryScore',
+          meta: {
+            title: '手术分值记录统计',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/SurgerySearch1/SurgeryScore/index')
         }
       ]
       // redirect: '/personnel/personnel-file/files-info-select',

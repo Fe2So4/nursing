@@ -59,7 +59,7 @@ export default {
     border-right: unset;
     .el-menu-item {
       color: $nav-font;
-      font-size: 16px !important;
+      font-size: 12px !important;
       &.is-active{
         background: linear-gradient(90deg, #3269CE, #2E5287);
       }

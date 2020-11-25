@@ -19,14 +19,7 @@
               placeholder="选择日期"
             />
           </el-form-item>
-        </el-form>
-      </div>
-      <div class="dr-top-right">
-        <el-form
-          :inline="true"
-          size="mini"
-        >
-          <el-form-item>
+          <el-form-item label=" ">
             <el-button
               type="primary"
               @click="handleAddDevice"
@@ -48,56 +41,40 @@
         stripe
       >
         <vxe-table-column
-          type="seq"
-          title="序号"
-        />
-        <vxe-table-column
           field="no"
-          title="手术日期"
-        />
-        <vxe-table-column
-          field="age1"
-          title="住院号"
-        />
-        <vxe-table-column
-          field="age2"
-          title="病床号"
-        />
-        <vxe-table-column
-          field="age3"
-          title="患者姓名"
-        />
-        <vxe-table-column
-          field="age3"
-          title="性别"
-        />
-        <vxe-table-column
-          field="age3"
-          title="年龄"
-        />
-        <vxe-table-column
-          field="age3"
-          title="术前诊断"
-        />
-        <vxe-table-column
-          field="age3"
-          title="手术名称"
-        />
-        <vxe-table-column
-          field="age3"
-          title="术后诊断"
-        />
-        <vxe-table-column
-          field="age3"
           title="科室"
         />
         <vxe-table-column
-          field="age3"
-          title="主刀医生"
+          field="age1"
+          title="手术级别一级"
+        />
+        <vxe-table-column
+          field="age2"
+          title="手术级别二级"
         />
         <vxe-table-column
           field="age3"
-          title="辅刀医生"
+          title="手术级别三级"
+        />
+        <vxe-table-column
+          field="age3"
+          title="手术级别四级"
+        />
+        <vxe-table-column
+          field="age3"
+          title="手术类型急诊"
+        />
+        <vxe-table-column
+          field="age3"
+          title="手术类型择期"
+        />
+        <vxe-table-column
+          field="age3"
+          title="抢救"
+        />
+        <vxe-table-column
+          field="age3"
+          title="合计"
         />
       </vxe-table>
     </div>
@@ -159,7 +136,7 @@ export default {
     flex-direction: column;
     .dr-top{
       position: relative;
-      padding: 20px 30px 0 40px;
+      padding: 20px 30px 10px 40px;
       background: #FFFFFF;
       box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
       border-radius: 5px;

@@ -1,6 +1,6 @@
 <template>
-  <!-- 手术明细查询 -->
-  <div class="surgery-search">
+  <!-- 手术分值记录统计 -->
+  <div class="roomstatus-search">
     <div class="dr-top">
       <div class="dr-top-left">
         <el-form
@@ -9,7 +9,7 @@
           size="mini"
         >
           <el-form-item
-            label="开始时间"
+            label="开始日期"
           >
             <el-date-picker
               style="width:178px"
@@ -19,94 +19,31 @@
               placeholder="选择日期"
             />
           </el-form-item>
-          <el-form-item label="结束时间">
+          <el-form-item
+            label="结束日期"
+          >
             <el-date-picker
-              v-model="form.input"
               style="width:178px"
+              v-model="form.input"
               type="date"
               format="yyyy-MM-dd"
               placeholder="选择日期"
             />
           </el-form-item>
-          <el-form-item label="患者ID">
-            <el-input v-model="form.input" />
-          </el-form-item>
-          <el-form-item label="姓名">
-            <el-input v-model="form.input" />
-          </el-form-item>
-          <el-form-item label="麻醉医生">
-            <el-input v-model="form.input" />
-          </el-form-item>
           <el-form-item
-            v-show="showType"
             label="手术医生"
           >
             <el-input v-model="form.input" />
           </el-form-item>
           <el-form-item
-            v-show="showType"
-            label="临床科室"
+            label="住院号"
           >
             <el-input v-model="form.input" />
           </el-form-item>
-          <el-form-item
-            v-show="showType"
-            label="手术间"
-          >
-            <el-input v-model="form.input" />
-          </el-form-item>
-          <el-form-item
-            v-show="showType"
-            label="手术名称"
-          >
-            <el-input v-model="form.input" />
-          </el-form-item>
-          <el-form-item
-            v-show="showType"
-            label="麻醉方法"
-          >
-            <el-input v-model="form.input" />
-          </el-form-item>
-          <el-form-item
-            v-show="showType"
-            label="护士"
-          >
-            <el-input v-model="form.input" />
-          </el-form-item>
-          <el-form-item
-            v-show="showType"
-            label="特殊器械"
-          >
-            <el-input v-model="form.input" />
-          </el-form-item>
-          <el-form-item
-            v-show="showType"
-            style="margin-left:30px"
-          >
-            <el-radio-group v-model="radio">
-              <el-radio :label="1">
-                全部
-              </el-radio>
-              <el-radio :label="2">
-                急诊
-              </el-radio>
-              <el-radio :label="3">
-                择期
-              </el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </el-form>
-      </div>
-
-      <div class="dr-top-right">
-        <el-form
-          :inline="true"
-          size="mini"
-        >
-          <el-form-item>
+          <el-form-item label=" ">
             <el-button
               type="primary"
-              @click="handleSearchTableList"
+              @click="handleAddDevice"
             >
               查 询
             </el-button>
@@ -119,20 +56,15 @@
               导 出
             </el-button>
           </el-form-item>
+          <el-form-item>
+            <el-button
+              type="info"
+              plain
+            >
+              导入分值
+            </el-button>
+          </el-form-item>
         </el-form>
-      </div>
-      <div
-        class="top-icon"
-        @click="handleChangeIcon"
-      >
-        <i
-          v-show="showType"
-          class="el-icon-arrow-up"
-        />
-        <i
-          v-show="!showType"
-          class="el-icon-arrow-down"
-        />
       </div>
     </div>
     <div class="dr-table">
@@ -146,76 +78,64 @@
         stripe
       >
         <vxe-table-column
-          field="sex"
-          title="手术日期"
+          type="seq"
+          title="序号"
         />
         <vxe-table-column
           field="no"
-          title="手术间"
-        />
-        <vxe-table-column
-          field="age1"
-          title="住院号"
-        />
-        <vxe-table-column
-          field="age2"
-          title="床号"
-        />
-        <vxe-table-column
-          field="age3"
-          title="患者姓名"
-        />
-        <vxe-table-column
-          field="age3"
-          title="性别"
-        />
-        <vxe-table-column
-          field="age3"
-          title="年龄"
-        />
-        <vxe-table-column
-          field="age3"
-          title="手术科室"
-        />
-        <vxe-table-column
-          field="age3"
-          title="拟施手术"
-        />
-        <vxe-table-column
-          field="age3"
           title="手术名称"
         />
         <vxe-table-column
-          field="age3"
-          title="麻醉方式"
+          field="age1"
+          title="1月"
+        />
+        <vxe-table-column
+          field="age2"
+          title="2月"
         />
         <vxe-table-column
           field="age3"
-          title="手术类型"
+          title="3月"
         />
         <vxe-table-column
           field="age3"
-          title="手术级别"
+          title="4月"
         />
         <vxe-table-column
           field="age3"
-          title="入室时间"
+          title="5月"
         />
         <vxe-table-column
           field="age3"
-          title="麻醉开始时间"
+          title="6月"
         />
         <vxe-table-column
           field="age3"
-          title="手术开始时间"
+          title="7月"
         />
         <vxe-table-column
           field="age3"
-          title="手术结束时间"
+          title="8月"
         />
         <vxe-table-column
           field="age3"
-          title="麻醉结束时间"
+          title="9月"
+        />
+        <vxe-table-column
+          field="age3"
+          title="10月"
+        />
+        <vxe-table-column
+          field="age3"
+          title="11月"
+        />
+        <vxe-table-column
+          field="age3"
+          title="12月"
+        />
+        <vxe-table-column
+          field="age3"
+          title="合计"
         />
       </vxe-table>
     </div>
@@ -229,12 +149,12 @@
 
 <script>
 import Pagination from '@/components/Pagination/pagination'
-
 export default {
-  name: 'SurgeryDetailSearch',
+
+  name: 'SurgeryLevelStatistical',
   data () {
     return {
-      showType: false,
+
       form: {
         input: ''
       },
@@ -269,12 +189,8 @@ export default {
     Pagination
   },
   methods: {
-    // 点击图标切换显示
-    handleChangeIcon () {
-      this.showType = !this.showType
-    },
-    // 点击查询查询数据
-    handleSearchTableList () {
+
+    handleAddDevice () {
       this.addVisible = true
     }
 
@@ -283,13 +199,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .surgery-search{
+  .roomstatus-search{
     display: flex;
     height: 100%;
     flex-direction: column;
     .dr-top{
       position: relative;
-      padding: 20px 30px 0px 40px;
+      padding: 20px 30px 10px 40px;
       background: #FFFFFF;
       box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
       border-radius: 5px;
@@ -301,7 +217,7 @@ export default {
         flex-wrap: wrap;
         .el-form{
           /deep/.el-form-item{
-          margin-bottom: 15px;
+          margin-bottom: 10px;
           .el-select{
             max-width: 178px;
           }
@@ -333,7 +249,7 @@ export default {
         border-radius: 50%;
         position: absolute;
         right: 30px;
-        bottom: 15px;
+        bottom: 10px;
       }
     }
     .dr-table{
