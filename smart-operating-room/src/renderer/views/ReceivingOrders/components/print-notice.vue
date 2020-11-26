@@ -322,7 +322,7 @@
 import QRCode from 'qrcodejs2'
 import Bus from '@/utils/bus.js'
 import {getOperatingNoticeTime} from '@/api/receiving-orders'
-import request from '@/utils/request'
+import request from '@/utils/request2'
 import {ipcRenderer} from 'electron'
 export default {
   data () {

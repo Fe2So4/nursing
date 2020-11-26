@@ -34,6 +34,9 @@
         </li>
       </ul>
       <div class="connect">
+        <span>
+          <el-button @click="handleShowHistory">历史患者</el-button>
+        </span>
         <span>服务器通信&nbsp;&nbsp;</span>
         <span :class="{'active':connect}">{{ connect ? 'SUCCESS' : 'CLOSE' }}</span>
       </div>
@@ -71,6 +74,9 @@ export default {
     PostoperativeInfo
   },
   methods: {
+    handleShowHistory () {
+      this.$emit('handleShowHistory')
+    },
     handleActive (index) {
       this.activeIndex = index
       if (index === 1) {

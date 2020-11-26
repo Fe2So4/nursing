@@ -14,15 +14,22 @@
         <patient-step />
       </div>
       <div class="pt-info">
-        <patient-info :connect="connect" />
+        <patient-info
+          :connect="connect"
+          @handleShowHistory="handleShowHistory"
+        />
       </div>
     </div>
     <div
       v-else
       class="ls-empty"
     >
-      <empty-notice />
+      <empty-notice @handleShowHistory="handleShowHistory" />
     </div>
+    <HistoryRecord
+      :history-visible="historyVisible"
+      @handleClose="handleClose"
+    />
   </div>
 </template>
 
@@ -34,6 +41,9 @@ import io from 'socket.io-client'
 import $bus from '@/utils/busScreen'
 import EmptyNotice from './components/empty-notice'
 import {mapActions, mapState} from 'vuex'
+import HistoryRecord from './components/history-record'
+const config = require('@/config/url.js')
+const { BrowserWindow } = require('electron').remote
 export default {
   name: 'LargeScreen',
   data () {
@@ -41,7 +51,9 @@ export default {
       stepVisible: true,
       socket: null,
       connect: false,
-      interval: null
+      interval: null,
+      historyVisible: false,
+      historyList: []
     }
   },
   computed: {
@@ -50,7 +62,6 @@ export default {
   watch: {
     patientInfo: {
       handler (newValue, old) {
-        // this.intervalRefresh()
         return newValue
       },
       deep: true
@@ -61,11 +72,17 @@ export default {
       }
     }
   },
-  components: {PatientCard, PatientStep, PatientInfo, EmptyNotice},
+  components: {PatientCard, PatientStep, PatientInfo, EmptyNotice, HistoryRecord},
   methods: {
     ...mapActions('LargeScreen', ['setPatientInfo', 'setCurrentRoom']),
     handleShowStep () {
       this.stepVisible = !this.stepVisible
+    },
+    handleClose () {
+      this.historyVisible = false
+    },
+    handleShowHistory () {
+      this.historyVisible = true
     },
     setCureNo (obj) {
       this.setPatientInfo(obj)
@@ -94,7 +111,7 @@ export default {
         this.socket = null
       }
       if (this.currentRoom) {
-        this.socket = io('http://192.168.1.106:5099', {
+        this.socket = io(config.default.api.socketURL, {
           query: 'sendName=' + this.currentRoom
         })
         this.socket.on('connect', () => {
@@ -109,7 +126,6 @@ export default {
           this.connect = false
         })
         this.socket.on('push_event', (data) => {
-          // console.log(data)
           if (data) {
             let arr = []
             this.setCureNo({cureNo: data.cureNo, hospitalNo: data.hospitalNo})
@@ -126,7 +142,6 @@ export default {
           }
         })
         this.socket.on('push_event_screen', (data) => {
-          // console.log(data.sendMessage)
           if (data.sendMessage === 'option') {
             $bus.$emit('getStepList')
             $bus.$emit('getRecord2')
@@ -138,6 +153,12 @@ export default {
           }
         })
       }
+    }
+  },
+  created () {
+    const win = BrowserWindow.getFocusedWindow()
+    if (win) {
+      win.maximize()
     }
   },
   mounted () {
@@ -155,6 +176,7 @@ export default {
     height: 100%;
     width: 100%;
     display: flex;
+    position: relative;
     flex-direction: column;
     .pt-card{
       height: 110px;

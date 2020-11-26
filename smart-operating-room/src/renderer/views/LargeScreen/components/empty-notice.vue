@@ -3,6 +3,10 @@
     <div class="top">
       <i class="el-icon-warning-outline" />
       <span>{{ currentRoom ? '目前未绑定患者，请在PDA中进行操作！' : '请先选择手术房间' }}</span>
+      <span
+        style="position:absolute;right:50px;cursor:pointer;"
+        @click="handleShowHistory"
+      >历史患者</span>
     </div>
     <div
       class="bottom"
@@ -59,7 +63,9 @@ export default {
     ...mapState('LargeScreen', ['currentRoom'])
   },
   methods: {
-
+    handleShowHistory () {
+      this.$emit('handleShowHistory')
+    }
   },
   mounted () {
 

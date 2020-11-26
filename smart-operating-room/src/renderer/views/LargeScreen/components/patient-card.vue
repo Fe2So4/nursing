@@ -68,7 +68,7 @@
 <script>
 import ChangeRoom from './change-room'
 import { mapActions, mapState } from 'vuex'
-import request from '@/utils/request'
+import request from '@/utils/request2'
 import { getPatientInfo } from '@/api/large-screen'
 import $bus from '@/utils/busScreen'
 import { getCurrentRoom } from '@/utils/storage'
