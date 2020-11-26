@@ -218,8 +218,8 @@ export default {
       }).then(res => {
         let data = res.data.data
         // data.basicEquipment = JSON.parse(JSON.stringify(data.basicEquipment))
-        this.recordForm.basicEquipment = data.basicEquipment
         if (!this.IsEmpty(data.basicEquipment)) {
+          this.recordForm.basicEquipment = data.basicEquipment
           this.recordForm.xhAllClossQm = data.xhAllClossQm
           this.recordForm.xhClossQm = data.xhClossQm
           this.recordForm.xhFhQm = data.xhFhQm
@@ -355,8 +355,6 @@ export default {
       obj.modifier = this.opePeopleInfo.userinsName
       obj.modifierCode = this.opePeopleInfo.userCode
       obj.cureNo = this.patientInfo.cureNo
-      // console.log(obj.basicEquipment.before, obj.basicEquipment.adding)
-      console.log(savePackageData)
       request({
         url: savePackageData,
         method: 'post',
@@ -366,8 +364,7 @@ export default {
           this.getPackageList()
           this.$notify({type: 'success', message: '保存成功'})
         }
-      }
-      )
+      })
     },
     handleChange (index) {
       this.active = index
@@ -387,8 +384,7 @@ export default {
   created () {
     this.initData()
   },
-  async mounted () {
-    // await this.getData()
+  mounted () {
     this.getPackageList()
   }
 }

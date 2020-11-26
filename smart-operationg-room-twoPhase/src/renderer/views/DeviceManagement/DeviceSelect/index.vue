@@ -8,19 +8,21 @@
               v-for="(item,index) in 14"
               :key="'item'+index"
             />
+            <div style="width:17px;height:100%;" />
           </tr>
         </thead>
         <tbody>
           <tr
-            v-for="(item,index) in 14"
+            v-for="(item,index) in deviceList"
             :key="'tr'+index"
           >
             <td>
               {{ item.position }}
             </td>
             <td
-              v-for="(_item,i) in 13"
+              v-for="(_item,i) in item.list"
               :key="'td'+i"
+              @dblclick="handleChangePosition(_item)"
               :class="_item.status==='1'?'bg-sq':_item.status==='2'?'bg-rssj':_item.status==='3'?'bg-ssks':_item.status==='4'?'ssjs': _item.status==='5'?'ssjs':'cssj'"
             >
               <el-popover
@@ -32,7 +34,7 @@
                 <!-- trigger="hover" -->
                 <div class="popover-detail">
                   <div class="title">
-                    <span>爱尔博(泌尿)</span>
+                    <span>{{ _item.name }}</span>
                     <span />
                   </div>
                   <div class="content">
@@ -126,22 +128,26 @@
       </span>
     </div>
     <DevicePosition
+      v-if="deviceVisible"
       @handleClose="handleClose"
       :device-visible="deviceVisible"
+      :device-position="devicePosition"
     />
   </div>
 </template>
 
 <script>
 import DevicePosition from './components/device-position'
-import {getDeviceData} from '@/api/device'
+import {getDeviceData, getDict} from '@/api/device'
 import request from '@/utils/request'
 export default {
   name: 'DeviceSelect',
   data () {
     return {
       deviceVisible: false,
-      deviceList: []
+      deviceList: [],
+      positionList: [],
+      devicePosition: null
       // visible: true
     }
   },
@@ -150,9 +156,31 @@ export default {
     handleClose () {
       this.deviceVisible = false
     },
+    handleChangePosition (_item) {
+      this.deviceVisible = true
+      this.devicePosition = _item
+    },
+    initData () {
+      for (let i = 0; i < 14; i++) {
+        let arr = []
+        for (let j = 0; j < 13; j++) {
+          arr.push({deviceNo: '', id: '', model: '', name: '', position: '', serialNo: '', status: ''})
+        }
+        this.deviceList.push({position: '', list: arr})
+      }
+    },
+    getDevicePosition () {
+      request(
+        {
+          method: 'get',
+          url: getDict + '/' + 'POSITION'
+        }).then(res => {
+        this.positionList = res.data.data
+      })
+    },
     getDeviceData () {
       request({
-        methods: 'get',
+        method: 'get',
         url: getDeviceData
       }).then(res => {
         let data = res.data.data
@@ -160,14 +188,28 @@ export default {
         for (let i in data) {
           arr.push({position: i, list: data[i]})
         }
-        this.deviceList = arr
+        for (var i = 0; i < arr.length; i++) {
+          this.deviceList[i].position = arr[i].position
+          for (var j = 0; j < arr[i].list.length; j++) {
+            this.deviceList[i].list[j].deviceNo = arr[i].list[j].deviceNo
+            this.deviceList[i].list[j].id = arr[i].list[j].id
+            this.deviceList[i].list[j].model = arr[i].list[j].model
+            this.deviceList[i].list[j].name = arr[i].list[j].name
+            this.deviceList[i].list[j].position = arr[i].list[j].position
+            this.deviceList[i].list[j].serialNo = arr[i].list[j].serialNo
+            this.deviceList[i].list[j].status = arr[i].list[j].status
+          }
+        }
+        // this.deviceList = arr
       })
     }
   },
   created () {
-    this.getDeviceData()
+    this.initData()
   },
   mounted () {
+    this.getDevicePosition()
+    this.getDeviceData()
     // this.getDeviceData()
   }
 }
@@ -175,16 +217,21 @@ export default {
 
 <style lang="scss" scoped>
 .device-select{
-  display: flex;
+  // display: flex;
   height: 100%;
   overflow: hidden;
   background: #FFFFFF;
   box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15);
   border-radius: 5px;
-  flex-direction: column;
+  // flex-direction: column;
   .content{
+    flex: 1;
+    height: calc(100% - 40px);
     table{
+      display: flex;
+      flex-direction: column;
       width: 100%;
+      height: 100%;
       font-size: 14px;
       thead{
         width: 100%;
@@ -194,11 +241,16 @@ export default {
             border-right: 1px solid #EBEBEB;
             background: #CFD6E4;
             width: 120px;
+            &:last-child{
+              border-right: unset;
+            }
           }
         }
       }
       tbody{
         width: 100%;
+        height: 100%;
+        overflow-y: auto;
         tr{
           td{
             height: 55px;
@@ -218,6 +270,7 @@ export default {
               background: #9CAFD4;
               text-align: center;
               color: #FFFFFF;
+              padding-left: unset;
             }
             &.bg-sq{
               background: #96D6FA;
@@ -240,7 +293,8 @@ export default {
     }
   }
   .bottom{
-    flex: 1;
+    // flex: 1;
+    height: 40px;
     font-size: 14px;
     line-height: 20px;
     display: flex;

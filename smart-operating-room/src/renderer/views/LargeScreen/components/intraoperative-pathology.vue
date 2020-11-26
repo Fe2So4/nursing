@@ -14,7 +14,7 @@
           <p><span>{{ item.patName }}</span><span>{{ item.patSex }}</span></p>
           <p>{{ item.recAddress }}</p>
           <p>{{ item.createTime }}</p>
-          <p>{{ item.nursingWorkName }}<span>完成</span></p>
+          <p>{{ item.nursingWorkName }}<span>{{ item.orderState==='0'?'未接单':item.orderState==='1'?'进行中':'已完成' }}</span></p>
         </li>
       </ul>
       <div
@@ -34,7 +34,7 @@
       :report-visible="reportVisible"
       v-if="reportVisible"
       :report-data="reportData"
-      @handleClose="handleShowReport"
+      @handleClose="handleClose"
     />
   </div>
 </template>

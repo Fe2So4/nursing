@@ -2,11 +2,14 @@
   <div class="device-group">
     <div class="dg-left">
       <el-tree
-        :data="data"
+        :data="treeData"
         node-key="id"
         highlight-current
         default-expand-all
         :expand-on-click-node="false"
+        @node-click="handleTreeClick"
+        ref="tree"
+        :current-node-key="defaultActive"
       >
         <span
           class="custom-tree-node"
@@ -20,7 +23,7 @@
           >
             <i
               class="el-icon-plus"
-              @click="handleAdd(1)"
+              @click.stop="handleAdd(1)"
             />
           </span>
           <span
@@ -29,9 +32,12 @@
           >
             <i
               class="el-icon-edit"
-              @click="handleAdd(2)"
+              @click="handleAdd(2,data)"
             />
-            <i class="el-icon-delete" />
+            <i
+              class="el-icon-delete"
+              @click="handleDeleteGroup(data.id)"
+            />
           </span>
         </span>
       </el-tree>
@@ -44,14 +50,18 @@
         >
           <el-form-item label="">
             <el-input
-              v-model="form.value"
+              v-model="form.deviceNo"
+              clearable
+              prefix-icon="el-icon-search"
               placeholder="扫描或者手动输入设备序列号"
+              @keyup.enter.native="getDeviceByNo"
             />
           </el-form-item>
           <el-form-item label="">
             <el-button
               type="info"
               plain
+              @click="handleAddDeviceToGroup"
             >
               新 增
             </el-button>
@@ -71,41 +81,42 @@
           :data="tableData"
           size="mini"
           height="auto"
+          ref="xTable"
           auto-resize
           stripe
         >
           <vxe-table-column
-            field="sort"
             title="序号"
+            type="seq"
           />
           <vxe-table-column
-            field="sex"
+            field="name"
             title="设备名称"
           />
           <vxe-table-column
-            field="sex"
+            field="deviceNo"
             title="设备序列号"
           />
           <vxe-table-column
-            field="no"
+            field="model"
             title="型号"
           />
           <vxe-table-column
-            field="no"
+            field="serialNo"
             title="序列号"
           />
           <vxe-table-column
-            field="age1"
+            field="position"
             title="设备位置"
           />
           <vxe-table-column
-            field="age2"
+            field="sort"
             title="排序号"
           >
             <template v-slot="{ row }">
               <el-input-number
                 size="mini"
-                v-model="row.age"
+                v-model="row.sort"
                 :controls="false"
               />
             </template>
@@ -123,54 +134,153 @@
       </div>
     </div>
     <AddGroup
+      v-if="addVisible"
       :add-visible="addVisible"
       :dialog-title="dialogTitle"
       @handleClose="handleAdd"
+      :edit-data="editData"
+      @getTreeData="getTreeData"
     />
   </div>
 </template>
 
 <script>
 import AddGroup from './components/add-group'
+import {getDict, getDeviceGroupById, deleteDict, addDeviceToGroup, getDeviceInfoByDeviceNo} from '@/api/device'
+import request from '@/utils/request'
 export default {
   name: 'DeviceGroup',
   data () {
     return {
       form: {
-        value: ''
+        deviceNo: ''
       },
+      defaultActive: '',
       addVisible: false,
-      data: [{id: '1',
+      treeData: [{id: '1',
         label: '设备组套维护',
         isChild: false,
-        children: [{
-          id: '1-1',
-          label: '胰腺组套',
-          isChild: true }, {
-          id: '1-2',
-          label: '乳房组套',
-          isChild: true }, {
-          id: '1-3',
-          label: '头颈组套',
-          isChild: true }, {
-          id: '1-4',
-          label: '大肠组套',
-          isChild: true }]}],
+        children: []}],
       tableData: [{name: 'd'}],
-      dialogTitle: '新增组套'
+      dialogTitle: '新增组套',
+      editData: {}
     }
   },
   components: {
     AddGroup
   },
+  watch: {
+    treeData: {
+      handler (newVal) {
+        return newVal
+      },
+      immediate: true
+    }
+  },
+  async created () {
+    await this.getTreeData()
+  },
+  mounted () {
+    // this.getDeviceGroupData()
+  },
   methods: {
-    handleAdd (param = 0) {
+    handleDeleteGroup (id) {
+      request({
+        url: deleteDict + '/' + id,
+        method: 'get'
+      }).then(res => {
+        if (res.data.code === 200) {
+          this.$message({message: '删除成功', type: 'success'})
+          this.getTreeData()
+        } else {
+          this.$message({message: res.data.msg, type: 'error'})
+        }
+      })
+    },
+    handleAdd (param = 0, row = {}) {
       this.addVisible = !this.addVisible
       if (param === 1) {
         this.dialogTitle = '新增组套'
       } else if (param === 2) {
         this.dialogTitle = '编辑组套'
+        this.editData = row
       }
+    },
+    getDeviceByNo () {
+      request({
+        url: getDeviceInfoByDeviceNo + '/' + this.form.deviceNo,
+        method: 'get'
+      }).then(res => {
+        let data = res.data.data
+        let record = {
+          deviceNo: data.deviceNo,
+          dictNameId: data.dictNameId,
+          dictPositionId: data.dictPositionId,
+          groupId: data.groupId,
+          model: data.model,
+          name: data.name,
+          position: data.position,
+          serialNo: data.serialNo,
+          sort: data.sort
+        }
+        this.$refs.xTable.insertAt(record)
+      })
+    },
+    handleAddDeviceToGroup () {
+      let insertRecords = this.$refs.xTable.getInsertRecords()
+      insertRecords.forEach(item => {
+        delete item._XID
+      })
+      console.log(insertRecords)
+      let obj = {
+        equipmentGroupList: insertRecords,
+        groupId: this.defaultActive
+      }
+      request({
+        method: 'post',
+        url: addDeviceToGroup,
+        data: obj
+      }).then(res => {
+        if (res.data.code === 200) {
+          this.$message({message: '新增成功', type: 'success'})
+          this.getDeviceGroupData()
+        } else {
+          this.$message({message: res.data.msg, type: 'error'})
+        }
+      })
+    },
+    handleTreeClick (nodeObj) {
+      this.defaultActive = nodeObj.id
+      this.getDeviceGroupData()
+    },
+    getTreeData () {
+      request(
+        {
+          method: 'get',
+          url: getDict + '/' + 'GROUP'
+        }
+      ).then(res => {
+        let data = res.data.data
+        data.forEach(item => {
+          item.isChild = true
+          item.label = item.name
+        })
+        this.treeData[0].children = data
+        this.defaultActive = data[0].id
+        this.$nextTick(() => {
+          this.$refs.tree.setCurrentKey(data[0].id)
+        })
+        this.getDeviceGroupData()
+      })
+    },
+    getDeviceGroupData () {
+      request(
+        {
+          method: 'get',
+          url: getDeviceGroupById + '/' + this.defaultActive
+        }).then(res => {
+        this.tableData = res.data.data
+      })
     }
   }
 }

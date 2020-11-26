@@ -12,9 +12,9 @@
           ref="qrCodeDiv"
         />
         <div class="right">
-          <p>BK超声诊断扫描机</p>
+          <p>{{ codeData.name }}</p>
           <p>5007949</p>
-          <p>2号楼9号门口</p>
+          <p>{{ codeData.position }}</p>
         </div>
       </div>
       <span
@@ -25,7 +25,7 @@
           type="primary"
           size="mini"
           @click="handleClose"
-        >保 存</el-button>
+        >打 印</el-button>
         <el-button
           @click="handleClose"
           size="mini"
@@ -47,6 +47,10 @@ export default {
   props: {
     codeVisible: {
       type: Boolean,
+      required: true
+    },
+    codeData: {
+      type: Object,
       required: true
     }
   },

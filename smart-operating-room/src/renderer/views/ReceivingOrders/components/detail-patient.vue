@@ -34,12 +34,31 @@
           <span class="dp-value">{{ selectRow.bedNo }}</span>
         </el-col>
       </el-row>
-      <p>
+      <!-- <p>
         <el-input
           ref="inputs"
           v-model="codeInput"
           :placeholder="optas"
         />
+      </p> -->
+      <p
+        :class="{'code-input':true,'active':codeInputFocus}"
+        @click="handleFocus"
+      >
+        <el-input
+          ref="inputs"
+          v-model="codeInput"
+          :placeholder="optas"
+          @blur="handleBlurCodeInput"
+        />
+        {{ optas }}
+      <!-- <el-input
+        ref="inputs"
+        readonly
+        v-model="codeInput"
+        type="textarea"
+        :placeholder="optas"
+      /> -->
       </p>
     </div>
     <div class="dp-info-notice">
@@ -181,7 +200,8 @@ export default {
       hiddenVisible: false,
       codeInput: '',
       exitType: '2',
-      workCode: ''
+      workCode: '',
+      codeInputFocus: true
     }
   },
   filters: {
@@ -200,7 +220,13 @@ export default {
       Bus.$emit('detail-patient', this.selectRow)
       // this.utilsDebounce(() => { this.printCurrent() }, 1000)
     },
-
+    handleFocus () {
+      this.codeInputFocus = true
+      this.$refs.inputs.focus()
+    },
+    handleBlurCodeInput () {
+      this.codeInputFocus = false
+    },
     handleHidden () {
       this.hiddenVisible = !this.hiddenVisible
     },
@@ -216,7 +242,6 @@ export default {
         colorLight: '#ffffff', // 二维码背景色
         correctLevel: QRCode.CorrectLevel.L // 容错率，L/M/H
       })
-      console.log(text)
     },
 
     // 扫描二维码
@@ -259,10 +284,10 @@ export default {
       }).then(res => {
         if (res.data.code === 200) {
           this.openToast('success', res.data.msg)
+          Bus.$emit('shuaxinPatient', '3')
         } else {
           this.openToast('error', res.data.msg)
         }
-        Bus.$emit('shuaxinPatient', '3')
       })
     },
     // 提示方法
@@ -364,6 +389,21 @@ export default {
         // border: 1px solid #E4E4E4;
         border-radius: 5px;
       }
+       .code-input{
+        line-height: 40px;
+        position: relative;
+        border: 1px solid #E4E4E4;
+        height: 40px;
+        .el-input{
+          position: absolute;
+          z-index: -666;
+          left: 0;
+          top: 0;
+        }
+        &.active{
+          border-color: rgb(64,153,240);
+        }
+    }
     }
     .dp-info-notice{
       border: 1px solid #E0E0E0;

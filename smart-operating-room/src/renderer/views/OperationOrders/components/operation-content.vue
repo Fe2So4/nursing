@@ -1,6 +1,9 @@
 <template>
   <el-scrollbar style="height:100%;">
-    <div v-if="cardList.length !== 0">
+    <div
+      v-if="cardList.length !== 0"
+      style="height:100%;"
+    >
       <div
         ref="operation"
         class="operation-body-container"
@@ -83,8 +86,8 @@
               </div>
               <div
                 style="display: flex;
-    overflow: hidden;
-    flex-wrap: nowrap;"
+                overflow: hidden;
+                flex-wrap: nowrap;"
               >
                 <span class="blue mgl0">{{ item.deptName }}</span>
                 <span class="blue">{{ item.wardName }}</span>
@@ -828,12 +831,19 @@ export default {
 .active {
   background-color: #E9EFF9 !important;
 }
+/deep/ .el-scrollbar__view{
+  height: 100%;
+}
 .noneDate {
     text-align: center;
-    font-size: 30px;
-    color: #ccc;
-    margin-top: 15%;
-    margin-bottom: 20px
+    font-size: 14px;
+    color: #606266;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    // margin-top: 15%;
+    // margin-bottom: 20px
 }
 .text-one-row {
   overflow: hidden;

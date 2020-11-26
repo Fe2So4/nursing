@@ -348,7 +348,7 @@ export default {
               this.recordForm.skinPart = data.pointInRoom[0].skinPart
               this.recordForm.skinDegree = data.pointInRoom[0].skinDegree
               this.recordForm.skinSize = data.pointInRoom[0].skinSize
-              this.recordForm.signatureImage2 = data.pointInRoom[0].appraiseTime
+              this.recordForm.signatureImage2 = data.pointInRoom[0].signatureImage2
               break
             case '出手术室':
               this.recordForm.pulse = data.pointOutRoom[0].pulse

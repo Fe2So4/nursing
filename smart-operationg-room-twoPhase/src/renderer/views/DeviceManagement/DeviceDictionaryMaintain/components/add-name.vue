@@ -1,7 +1,7 @@
 <template>
   <div class="add-name">
     <el-dialog
-      title="新增设备名称信息"
+      :title="dialogTitle"
       :visible.sync="addVisible"
       width="20%"
       :before-close="handleClose"
@@ -17,7 +17,10 @@
           label="名称信息"
           prop="nameInfo"
         >
-          <el-input v-model="form.nameInfo" />
+          <el-input
+            v-model="form.nameInfo"
+            @keyup.enter.native="handleSubmit"
+          />
         </el-form-item>
       </el-form>
       <span
@@ -39,6 +42,8 @@
 </template>
 
 <script>
+import { addDict } from '@/api/device'
+import request from '@/utils/request'
 export default {
   name: 'AddName',
   data () {
@@ -61,24 +66,61 @@ export default {
     dialogTitle: {
       type: String,
       required: true
+    },
+    editData: {
+      type: Object,
+      default: function () {
+        return {}
+      }
     }
   },
   methods: {
     handleClose () {
       this.$emit('handleClose')
     },
+    addDict () {
+      let obj = { name: this.form.nameInfo, type: 'NAME' }
+      if (this.editData.id && this.editData.id !== '') {
+        obj.id = this.editData.id
+      }
+      request(
+        {
+          url: addDict,
+          method: 'post',
+          data: obj
+        }
+      ).then(res => {
+        if (res.data.code === 200) {
+          if (this.editData.id && this.editData.id !== '') {
+            this.$message({message: '修改成功', type: 'success'})
+          } else {
+            this.$message({message: '新增成功', type: 'success'})
+          }
+          this.$emit('getNameData')
+          this.$emit('handleClose')
+          this.form.position = ''
+        } else {
+          this.$message({message: '新增失败', type: 'error'})
+        }
+      })
+    },
     handleSubmit () {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          alert('submit!')
+          this.addDict()
         } else {
-          console.log('error submit!!')
           return false
         }
       })
+    },
+    initEditData () {
+      if (this.editData.id && this.editData.id !== '') {
+        this.form.nameInfo = this.editData.name
+      }
     }
   },
   mounted () {
+    this.initEditData()
   }
 }
 </script>

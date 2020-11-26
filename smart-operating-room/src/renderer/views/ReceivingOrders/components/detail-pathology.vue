@@ -28,12 +28,24 @@
         <span class="dp-value">{{ selectRow.bedNo }}</span>
       </el-col>
     </el-row>
-    <p>
+    <p
+      :class="{'code-input':true,'active':codeInputFocus}"
+      @click="handleFocus"
+    >
       <el-input
         ref="inputs"
         v-model="codeInput"
         :placeholder="optas"
+        @blur="handleBlurCodeInput"
       />
+      {{ optas }}
+      <!-- <el-input
+        ref="inputs"
+        readonly
+        v-model="codeInput"
+        type="textarea"
+        :placeholder="optas"
+      /> -->
     </p>
     <div class="dp-info">
       <div
@@ -56,6 +68,14 @@
         <el-row>
           <el-col><span>固定液：</span><span class="dp-value">{{ selectRow.fixed }}</span></el-col>
         </el-row>
+        <p v-if="selectRow.orderState === '1'">
+          <el-button
+            @click="gotoThree"
+            class="el-icon-printer"
+          >
+            打印
+          </el-button>
+        </p>
       </div>
     </div>
     <div
@@ -118,12 +138,24 @@ export default {
       optas: '',
       codeInput: '',
       hiddenVisible: false,
-      exitType: '2'
+      exitType: '2',
+      codeInputFocus: true
     }
   },
   methods: {
     handleHidden () {
       this.hiddenVisible = !this.hiddenVisible
+    },
+    handleFocus () {
+      this.codeInputFocus = true
+      this.$refs.inputs.focus()
+    },
+    handleBlurCodeInput () {
+      this.codeInputFocus = false
+    },
+    gotoThree () {
+      let url = 'http://128.0.16.55:8009'
+      this.$electron.shell.openExternal(url)
     },
     // 取消接单
     exitJiedan () {
@@ -236,13 +268,26 @@ export default {
     }
     p{
       text-align: center;
-      height: 40px;
+      // height: 40px;
       background: #FFFFFF;
       font-size: 16px;
-      line-height: 40px;
-      border: 1px solid #E4E4E4;
       border-radius: 5px;
       margin:25px 0;
+    }
+    .code-input{
+      line-height: 40px;
+      position: relative;
+      border: 1px solid #E4E4E4;
+      height: 40px;
+      .el-input{
+        position: absolute;
+        z-index: -666;
+        left: 0;
+        top: 0;
+      }
+      &.active{
+        border-color: rgb(64,153,240);
+      }
     }
     .dp-info{
       border: 1px solid #E0E0E0;
@@ -275,6 +320,20 @@ export default {
           &:first-child{
             width: 90px;
             text-align: right;
+          }
+        }
+        p{
+          margin-bottom: unset;
+          border: unset;
+          // position: relative;
+          .el-button{
+            width: 114px;
+            font-size: 18px;
+            background: #E5E5E5;
+            border: 1px solid #E5E5E5;
+            &:before{
+              color:#AAB6CC;
+            }
           }
         }
       }

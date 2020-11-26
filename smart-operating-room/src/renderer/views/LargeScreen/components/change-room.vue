@@ -60,6 +60,7 @@
 
 <script>
 import {mapActions} from 'vuex'
+import {setCurrentRoom} from '@/utils/storage'
 export default {
   name: 'ChangeRoom',
   data () {
@@ -156,6 +157,7 @@ export default {
       }
       this.selectfloor = this.floor
       this.selectIndex = this.activeIndex
+      setCurrentRoom(this.selectIndex)
       this.setCurrentRoom(this.selectIndex)
       this.handleClose()
     },

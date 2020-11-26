@@ -8,7 +8,10 @@
         <tr>
           <th>名称</th>
           <th>术前</th>
-          <th>术中加</th>
+          <th>术中1</th>
+          <th>术中2</th>
+          <th>术中3</th>
+          <th>术中4</th>
           <th>关闭前</th>
           <th>关闭后</th>
           <th>缝合后</th>
@@ -27,7 +30,16 @@
             {{ item.before }}
           </td>
           <td>
-            {{ item.adding + item.adding1 + item.adding2 + item.adding3 }}
+            {{ item.adding }}
+          </td>
+          <td>
+            {{ item.adding1 }}
+          </td>
+          <td>
+            {{ item.adding2 }}
+          </td>
+          <td>
+            {{ item.adding3 }}
           </td>
           <td>
             {{ item.before2 }}
@@ -179,18 +191,21 @@ export default {
       thead{
         background: #F2F2F2;
         border-radius: 5px;
-        font-size: 18px;
+        font-size: 16px;
         tr{
           border-radius: 5px;
           th{
             line-height: 55px;
             color: #929498;
+            min-width: 60px;
             font-weight: lighter;
             &:first-child{
               border-radius: 5px 0 0 5px;
             }
             &:last-child{
               border-radius: 0 5px 5px 0;
+              min-width: unset;
+              width: 30px;
             }
           }
         }
@@ -200,6 +215,7 @@ export default {
         text-align: center;
         border-collapse:separate;
         border-spacing:10px;
+        font-size: 16px;
         overflow-y: auto;
         &::-webkit-scrollbar{
           display: none;
@@ -208,7 +224,8 @@ export default {
           margin-bottom:10px;
           border-radius: 5px;
           td{
-            line-height: 55px;
+            line-height: 20px;
+            padding:18px 0;
             background: #F5F8FD;
             &:first-child{
               padding-left: 10px;

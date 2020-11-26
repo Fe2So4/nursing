@@ -192,6 +192,28 @@
             <!-- <van-icon name="play"/> -->
           </template>
         </van-cell>
+        <div v-show="recordForm.rinse.rinseList.includes('3')">
+          <van-cell title="药液1：" value="内容" title-class="left-title" value-class="right-value">
+            <template #right-icon>
+              <van-field v-model="recordForm.rinse.liquidMedicine1"/>
+            </template>
+          </van-cell>
+          <van-cell title="药液2：" value="内容" title-class="left-title" value-class="right-value">
+            <template #right-icon>
+              <van-field v-model="recordForm.rinse.liquidMedicine2"/>
+            </template>
+          </van-cell>
+          <van-cell title="药液3：" value="内容" title-class="left-title" value-class="right-value">
+            <template #right-icon>
+              <van-field v-model="recordForm.rinse.liquidMedicine3"/>
+            </template>
+          </van-cell>
+          <van-cell title="药液4：" value="内容" title-class="left-title" value-class="right-value">
+            <template #right-icon>
+              <van-field v-model="recordForm.rinse.liquidMedicine4"/>
+            </template>
+          </van-cell>
+        </div>
         <van-cell title="腰穿留置：" value="内容">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
@@ -374,7 +396,7 @@ export default {
       djbOptions: [{text: '大腿', value: '1'}, {text: '小腿', value: '2'}, {text: '臀部', value: '3'}, {text: '其它', value: '4'}, {text: '负极返回路垫', value: '5'}, {text: '无', value: '6'}],
       wOptions: [],
       // 术中冲洗
-      szcxOptions: [{text: '0.9%氯化钠溶液', value: '1'}, {text: '灭菌注射用水', value: '2'}],
+      szcxOptions: [{text: '0.9%氯化钠溶液', value: '1'}, {text: '灭菌注射用水', value: '2'}, {text: '药液', value: '3'}],
       // 病理数量
       pathologyList: [{text: '1', value: '1'}, {text: '2', value: '2'}, {text: '3', value: '3'}, {text: '4', value: '4'}, {text: '5', value: '5'}, {text: '6', value: '6'}, {text: '7', value: '7'}, {text: '8', value: '8'}, {text: '9', value: '9'}, {text: '10', value: '10'}],
       catheterOptions: [{text: '无', value: '1'}, {text: '病房带入', value: '2'}, {text: '手术室插入', value: '3'}],
@@ -481,7 +503,11 @@ export default {
         position: [],
         rinse: {
           rinseName: '',
-          rinseList: []
+          rinseList: [],
+          liquidMedicine1: '',
+          liquidMedicine2: '',
+          liquidMedicine3: '',
+          liquidMedicine4: ''
         },
         skin: {
           skinName: '',
@@ -512,7 +538,7 @@ export default {
     }
   },
   mounted () {
-    // this.getData()
+    this.getData()
   },
   methods: {
     handleFilterLabel (obj) {

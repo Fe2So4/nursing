@@ -111,9 +111,15 @@ export default {
         if (this.stepList[0].value) {
           if (!this.stepList[1].value) {
             if (this.code.indexOf('OpsQRCode') !== -1) {
-              mark = 2
-              this.stepList[1].value = true
-              arr = [{stepList: this.stepList, roomScanList: this.roomScanList}]
+              var OpsRQCode = this.code.replace('OpsQRCode=', '')
+              if (this.patientInfo.cureNo !== OpsRQCode) {
+                this.$notify({message: '该手术通知单与当前患者不匹配', type: 'warning'})
+                return
+              } else {
+                mark = 2
+                this.stepList[1].value = true
+                arr = [{stepList: this.stepList, roomScanList: this.roomScanList}]
+              }
             } else {
               this.$notify({message: '请扫描患者手术通知单', type: 'warning'})
               return
@@ -401,7 +407,7 @@ export default {
       var key = window.event.keyCode
       if (key === 13) {
         setTimeout(() => {
-          this.handleCode('1010')
+          this.handleCode('OpsQRCode=1018')
         }, 1000)
       }
     }
