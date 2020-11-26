@@ -109,17 +109,24 @@ export default {
           this.connect = false
         })
         this.socket.on('push_event', (data) => {
-          console.log(data)
+          // console.log(data)
           if (data) {
             let arr = []
             this.setCureNo({cureNo: data.cureNo, hospitalNo: data.hospitalNo})
             $bus.$emit('getPatientInfo')
+            $bus.$emit('getStepList')
+            $bus.$emit('getRecord2')
+            $bus.$emit('getOrdinaryData')
+            $bus.$emit('getSpecialData')
+            $bus.$emit('getSignInInfo')
+            $bus.$emit('getTimeOutInfo')
+            $bus.$emit('getSignOutInfo')
             arr.push(data)
             this.socket.emit('text', arr)
           }
         })
         this.socket.on('push_event_screen', (data) => {
-          console.log(data.sendMessage)
+          // console.log(data.sendMessage)
           if (data.sendMessage === 'option') {
             $bus.$emit('getStepList')
             $bus.$emit('getRecord2')

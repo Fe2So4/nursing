@@ -69,8 +69,9 @@
 import ChangeRoom from './change-room'
 import { mapActions, mapState } from 'vuex'
 import request from '@/utils/request'
-import {getPatientInfo} from '@/api/large-screen'
+import { getPatientInfo } from '@/api/large-screen'
 import $bus from '@/utils/busScreen'
+import { getCurrentRoom } from '@/utils/storage'
 export default {
   name: 'PatientCard',
   data () {
@@ -87,6 +88,9 @@ export default {
   computed: {
     ...mapState('LargeScreen', ['voiceSwitch', 'patientInfo', 'currentRoom'])
   },
+  created () {
+    this.getCurrentRoomFromStorage()
+  },
   mounted () {
     this.getPatientInfo()
     $bus.$on('getPatientInfo', this.getPatientInfo)
@@ -96,9 +100,17 @@ export default {
     this.interval = null
   },
   methods: {
-    ...mapActions('LargeScreen', ['setVoiceSwitch']),
+    ...mapActions('LargeScreen', ['setVoiceSwitch', 'setCurrentRoom']),
     handleChangeRoom () {
-      this.roomVisible = true
+      if (!this.currentRoom) {
+        this.roomVisible = true
+      }
+    },
+    getCurrentRoomFromStorage () {
+      let room = getCurrentRoom()
+      if (room) {
+        this.setCurrentRoom(room)
+      }
     },
     getPatientInfo () {
       if (this.patientInfo.cureNo) {
@@ -112,7 +124,7 @@ export default {
           if (res.data.code === 200) {
             this.patientBasicInfo = res.data.data
             // 大屏启动后5秒刷新一次数据
-            this.intervalRefresh()
+            // this.intervalRefresh()
           }
         })
       }

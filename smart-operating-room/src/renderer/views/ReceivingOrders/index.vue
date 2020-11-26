@@ -33,18 +33,16 @@
             class="label"
             style="margin-left:34px;"
           >手术房间</span>
-          <el-select
+          <el-radio-group
             v-model="room"
-            placeholder="请选择"
             size="medium"
           >
-            <el-option
+            <el-radio-button
+              :label="item.label"
               v-for="item in roomList"
               :key="item.roomCode"
-              :label="item.label"
-              :value="item.roomCode"
             />
-          </el-select>
+          </el-radio-group>
         </div>
         <div class="lo-right">
           <span style="color:#FF8B45;">未接单 <strong>{{ receivedOrderCount || 0 }}</strong></span>
@@ -173,7 +171,6 @@ export default {
       floor: '',
       receivedOrder: [],
       receivedOrderCount: 0,
-
       haveInHandOrder: [],
       haveInHandOrderCount: 0,
       completeOrder: [],
@@ -225,10 +222,9 @@ export default {
         this.roomList.forEach(item => {
           item.label = item.roomCode
         })
-
         this.roomList.unshift({roomCode: '', label: '全部'})
         if (this.roomList.length > 0) {
-          this.room = this.roomList[0].roomCode
+          this.room = this.roomList[0].label
           this.getReceiveOrders()
         } else {
           this.openToast('warning', '暂无房间信息')
@@ -239,12 +235,18 @@ export default {
     // 获取表单
     getReceiveOrders () {
       let text = this.floor.replace(/楼/ig, '')
+      let room = ''
+      if (this.room === '全部') {
+        room = ''
+      } else {
+        room = this.room
+      }
       request({
         url: receiveOrderList,
         method: 'post',
         data: {
           floor: text,
-          roomNo: this.room,
+          roomNo: room,
           sort: this.selectOrder
         }
       }).then(res => {
@@ -253,7 +255,6 @@ export default {
           this.receivedOrderCount = arrList.receivedOrderCount
           this.haveInHandOrderCount = arrList.haveInHandOrderCount
           this.completeOrderCount = arrList.completeOrderCount
-
           this.receivedOrder = arrList.receivedOrder
           this.haveInHandOrder = arrList.haveInHandOrder
           this.completeOrder = arrList.completeOrder
@@ -358,6 +359,7 @@ export default {
         box-sizing: border-box;
         .lo-left{
           font-size: 18px;
+          line-height: 36px;
           .label{
             color: #929498;
             margin-right: 14px;

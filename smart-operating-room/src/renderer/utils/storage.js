@@ -1,6 +1,7 @@
 const ptId = 'CURRENT_PTID'
 const token = 'ACIS_URSER_TOKEN'
 const account = 'ACIS_CURRENT_ACCOUNT'
+const screenRoom = 'SCREEN_ROOM'
 
 export function setStoragePtId (val) {
   return localStorage.setItem(ptId, val)
@@ -36,4 +37,14 @@ export function setCurrentAccount (val) {
 
 export function getCurrentAccount (val) {
   return localStorage.getItem(account, val)
+}
+
+// 设置房间号
+export function setCurrentRoom (val) {
+  return localStorage.setItem(screenRoom, val)
+}
+
+// 查找房间号
+export function getCurrentRoom (val) {
+  return localStorage.getItem(screenRoom, val)
 }

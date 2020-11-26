@@ -4,6 +4,7 @@
       title="病理报告"
       :visible.sync="reportVisible"
       :before-close="handleClose"
+      width="60%"
     >
       <div
         id="pathology-report"
@@ -32,7 +33,7 @@
               colspan="4"
               style="text-align:right;font-size:16px;"
             >
-              报告医生：{{ reportData.reportDoc }}
+              报告医生：{{ reportData.reportDoc===''?'-':reportData.reportDoc }}
             </td>
           </tr>
           <tr>
@@ -45,7 +46,7 @@
             <td style="border:1px solid #000000;border-left:unset;text-align:center;line-height:60px;font-size:16px;">
               性别
             </td>
-            <td style="border:1px solid #000000;border-left:unset;text-align:center;line-height:60px;font-size:16px;">
+            <td style="min-width:60px;border:1px solid #000000;border-left:unset;text-align:center;line-height:60px;font-size:16px;">
               {{ reportData.patSex }}
             </td>
             <td style="border:1px solid #000000;border-left:unset;text-align:center;line-height:60px;font-size:16px;">
@@ -57,7 +58,7 @@
             <td style="border:1px solid #000000;border-left:unset;text-align:center;line-height:60px;font-size:16px;">
               住院号
             </td>
-            <td style="border:1px solid #000000;border-left:unset;text-align:center;line-height:60px;font-size:16px;">
+            <td style="width:120px;border:1px solid #000000;border-left:unset;text-align:center;line-height:60px;font-size:16px;">
               {{ reportData.admitNo }}
             </td>
           </tr>
@@ -65,7 +66,7 @@
             <td style="font-size:16px;line-height:60px;border-right:1px solid #000000;text-align:center;border-bottom:1px solid #000000;border-left:1px solid #000000;">
               病区
             </td>
-            <td style="font-size:16px;line-height:60px;border-right:1px solid #000000;text-align:center;border-bottom:1px solid #000000;">
+            <td style="width:140px;font-size:16px;line-height:60px;border-right:1px solid #000000;text-align:center;border-bottom:1px solid #000000;">
               {{ reportData.categpry }}
             </td>
             <td style="font-size:16px;line-height:60px;border-right:1px solid #000000;text-align:center;border-bottom:1px solid #000000;">
@@ -88,7 +89,7 @@
             </td>
           </tr>
           <tr>
-            <td style="font-size:16px;line-height:60px;border-right:1px solid #000000;text-align:center;border-bottom:1px solid #000000;border-left:1px solid #000000;">
+            <td style="width:140px;font-size:16px;line-height:60px;border-right:1px solid #000000;text-align:center;border-bottom:1px solid #000000;border-left:1px solid #000000;">
               冰冻病理诊断
             </td>
             <td

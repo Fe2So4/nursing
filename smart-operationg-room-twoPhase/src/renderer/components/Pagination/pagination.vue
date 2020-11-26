@@ -38,7 +38,6 @@
         <el-input-number
           :controls="false"
           v-model="gotoYe"
-
           @keyup.enter.native="gotoPage"
           style="width:64px;"
           :min="1"

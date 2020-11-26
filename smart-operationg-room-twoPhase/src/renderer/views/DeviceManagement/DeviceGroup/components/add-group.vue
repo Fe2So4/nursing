@@ -17,7 +17,10 @@
           label="组套名称"
           prop="groupName"
         >
-          <el-input v-model="form.groupName" />
+          <el-input
+            v-model="form.groupName"
+            @keyup.enter.native="addDict"
+          />
         </el-form-item>
       </el-form>
       <span
@@ -39,6 +42,8 @@
 </template>
 
 <script>
+import { addDict } from '@/api/device'
+import request from '@/utils/request'
 export default {
   name: 'AddGroup',
   data () {
@@ -61,16 +66,60 @@ export default {
     dialogTitle: {
       type: String,
       required: true
+    },
+    editData: {
+      type: Object,
+      default: function () {
+        return {}
+      }
     }
+  },
+  created () {
+    this.initEditData()
   },
   methods: {
     handleClose () {
       this.$emit('handleClose')
     },
+    addDict () {
+      let obj = {
+        name: this.form.groupName,
+        type: 'GROUP'
+      }
+      if (this.editData.id && this.editData.id !== '') {
+        obj.id = this.editData.id
+      }
+      request(
+        {
+          url: addDict,
+          method: 'post',
+          data: obj
+        }
+      ).then(res => {
+        if (res.data.code === 200) {
+          if (this.editData.id && this.editData.id !== '') {
+            this.$message({message: '修改成功', type: 'success'})
+          } else {
+            this.$message({message: '新增成功', type: 'success'})
+          }
+          this.$emit('getTreeData')
+          this.$emit('handleClose')
+          this.form.groupName = ''
+        } else {
+          this.$message({message: res.data.msg, type: 'error'})
+        }
+      })
+    },
+    initEditData () {
+      if (this.editData.id && this.editData.id !== '') {
+        this.form.groupName = this.editData.name
+      }
+    },
     handleSubmit () {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          alert('submit!')
+          // alert('submit!')
+          this.addDict()
         } else {
           console.log('error submit!!')
           return false
