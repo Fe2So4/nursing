@@ -228,8 +228,20 @@
         <el-input
           clearable
           v-model="userInfo.idNumber"
-          style="width:466px"
         />
+      </el-form-item>
+      <el-form-item label="年假">
+        <el-select
+          clearable
+          v-model="userInfo.annualLeave"
+        >
+          <el-option
+            v-for="item in annualList "
+            :key="item.typeName"
+            :label="item.typeName"
+            :value="item.typeName"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item
         label-width="100px"
@@ -237,7 +249,7 @@
       >
         <el-input
           clearable
-          style="width:466px"
+          style="width:470px"
           v-model="userInfo.homeAddress"
         />
       </el-form-item>
@@ -358,7 +370,8 @@ export default {
       dutyList: [],
       originalEducateBack: [],
       energyLevelList: [],
-      ethnicList: []
+      ethnicList: [],
+      annualList: []
     }
   },
   props: {
@@ -387,6 +400,7 @@ export default {
     this.getSelectList('010')
     this.getSelectList('004')
     this.getSelectList('009')
+    this.getSelectList('008')
   },
   methods: {
     // 点击返回
@@ -413,6 +427,8 @@ export default {
             this.energyLevelList = res.data.data
           } else if (num === '009') {
             this.ethnicList = res.data.data
+          } else if (num === '008') {
+            this.annualList = res.data.data
           }
         } else {
           this.openToast('error', res.data.msg)

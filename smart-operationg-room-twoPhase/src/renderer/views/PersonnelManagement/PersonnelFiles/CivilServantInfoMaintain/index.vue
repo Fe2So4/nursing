@@ -51,6 +51,7 @@
         <vxe-table
           align="center"
           :data="tableData"
+          class="mytable-scrollbar"
           size="mini"
           height="100%"
           stripe

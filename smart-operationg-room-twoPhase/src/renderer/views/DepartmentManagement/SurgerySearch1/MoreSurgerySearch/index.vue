@@ -12,18 +12,20 @@
           >
             <el-date-picker
               style="width:178px"
-              v-model="input"
+              v-model="form.startTime"
               type="date"
+              value-format="yyyy-MM-dd"
               format="yyyy-MM-dd"
               placeholder="选择日期"
             />
           </el-form-item>
           <el-form-item label="结束时间">
             <el-date-picker
-              v-model="input"
+              v-model="form.endTime"
               style="width:178px"
               type="date"
               format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd"
               placeholder="选择日期"
             />
           </el-form-item>
@@ -76,6 +78,8 @@ export default {
   data () {
     return {
       form: {
+        startTime: '',
+        endTime: '',
         input: ''
       },
       radio: '',
@@ -105,8 +109,15 @@ export default {
         {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'}]
     }
   },
-
+  mounted () {
+    this.getNewTime()
+  },
   methods: {
+    // 获取当前时间
+    getNewTime () {
+      this.form.startTime = this.utilsGetNewDate()
+      this.form.endTime = this.utilsGetNewDate()
+    },
     handleShow () {
       this.codeVisible = true
     },
