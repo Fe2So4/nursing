@@ -13,17 +13,19 @@
           >
             <el-date-picker
               style="width:178px"
-              v-model="form.input"
+              v-model="form.startTime"
               type="date"
               format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd"
               placeholder="选择日期"
             />
           </el-form-item>
           <el-form-item label="结束日期">
             <el-date-picker
-              v-model="form.input"
+              v-model="form.endTime"
               style="width:178px"
               type="date"
+              value-format="yyyy-MM-dd"
               format="yyyy-MM-dd"
               placeholder="选择日期"
             />
@@ -266,6 +268,8 @@ export default {
     return {
       showType: false,
       form: {
+        startTime: '',
+        endTime: '',
         input: ''
       },
       radio: '',
@@ -298,7 +302,16 @@ export default {
   components: {
     Pagination
   },
+  mounted () {
+    // 获取当前时间
+    this.getNewTime()
+  },
   methods: {
+    // 获取当前时间
+    getNewTime () {
+      this.form.startTime = this.utilsGetNewDate()
+      this.form.endTime = this.utilsGetNewDate()
+    },
     // 点击图标切换显示
     handleChangeIcon () {
       this.showType = !this.showType

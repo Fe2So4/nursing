@@ -49,7 +49,15 @@ export const reqdeleteFastPathologic = (obj) => {
     method: 'get'
   })
 }
+// 获取病理打印瓶贴状态
 
+const reqgetPrintStateUrl = `${config.default.api.baseURL}/ocis/dict/getPrintState`
+export const reqgetPrintState = (obj) => {
+  return request({
+    url: reqgetPrintStateUrl + `/${obj.id}`,
+    method: 'get'
+  })
+}
 // 病理派单
 const reqsendPathologicOrderUrl = `${config.default.api.baseURL}/ocis/pathology/sendPathologicOrder`
 export const reqsendPathologicOrder = (obj) => {

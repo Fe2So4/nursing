@@ -1,5 +1,5 @@
 <template>
-  <!-- 业务分值管理 -->
+  <!-- 业务分组管理 -->
   <div class="attendance-management">
     <div class="option-top">
       <el-button
@@ -38,6 +38,7 @@
             <div class="am-group-table">
               <vxe-table
                 align="center"
+                class="mytable-scrollbar"
                 size="mini"
                 stripe
                 round

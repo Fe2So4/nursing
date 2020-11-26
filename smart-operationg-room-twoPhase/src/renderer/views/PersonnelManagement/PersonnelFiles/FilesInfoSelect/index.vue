@@ -161,8 +161,7 @@ export default {
     }
   },
   mounted () {
-    console.log(this.$route.query)
-    if (!this.IsEmpty(this.$route.query.userCode)) {
+    if (!this.IsEmpty(this.$route.query.form)) {
       this.form.name = this.$route.query.form.name || ''
       this.form.workTime = this.$route.query.form.workTime || ''
       this.form.workTimeStart = this.$route.query.form.workTimeStart || ''

@@ -237,8 +237,30 @@ export default {
         this.$alert('该病理已派单,请勿重复提交')
         return false
       }
-      this.senddialogVisible = true
+      this.getDayinStatus()
+      // this.senddialogVisible = true
     },
+    // 获取打印瓶贴状态
+    getDayinStatus () {
+      let obj = {
+        id: this.selectData[0].pathologyId
+        // id: '300000001'
+      }
+      this.$store.dispatch('ReqgetPrintState', obj).then(res => {
+        console.log(res)
+        if (res.data.code === 200) {
+          if (res.data.data.printstate !== 1) {
+            this.$alert('该病理未打印瓶贴,请先打印瓶贴')
+            return false
+          } else {
+            this.senddialogVisible = true
+          }
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 发起派单
     sendPathological () {
       let obj = {
         orderId: this.selectData[0].pathologyId,

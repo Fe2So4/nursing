@@ -81,26 +81,31 @@
         <el-tab-pane
           v-for="item in tabList"
           :key="item.name"
-          :label="item.title"
+          :label="item.showType?item.title:''"
           :name="item.name"
         >
-          <component
-            @gotoBack="gotoBack"
-            :login-type="loginType"
-            @getEducationInfo="getEducationInfo"
-            @getUserWork="getUserWork"
-            @getUserDeptTurnInfo="getUserDeptTurnInfo"
-            @getUserOperDeptTurnInfo="getUserOperDeptTurnInfo"
-            @getReqgetUserTrainInfo="getReqgetUserTrainInfo"
-            :education-info="educationInfo"
-            :user-work="userWork"
-            :user-train-info="userTrainInfo"
-            :user-code="userCode"
-            :user-info="form"
-            :user-dept-turn="userDeptTurn"
-            :user-oper-dept-turn="userOperDeptTurn"
-            :is="item.component"
-          />
+          <template v-if="item.showType">
+            <component
+              :is-add="isAdd"
+              @gotoBack="gotoBack"
+              :login-type="loginType"
+              @setUserCodeAndSearch="setUserCodeAndSearch"
+              @IsShowAnthorInfo="IsShowAnthorInfo"
+              @getEducationInfo="getEducationInfo"
+              @getUserWork="getUserWork"
+              @getUserDeptTurnInfo="getUserDeptTurnInfo"
+              @getUserOperDeptTurnInfo="getUserOperDeptTurnInfo"
+              @getReqgetUserTrainInfo="getReqgetUserTrainInfo"
+              :education-info="educationInfo"
+              :user-work="userWork"
+              :user-train-info="userTrainInfo"
+              :user-code="userCode"
+              :user-info="form"
+              :user-dept-turn="userDeptTurn"
+              :user-oper-dept-turn="userOperDeptTurn"
+              :is="item.component"
+            />
+          </template>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -117,6 +122,7 @@ export default {
   name: 'FilesInfoMaintain',
   data () {
     return {
+      isAdd: '1',
       chuandiForm: {},
       loginType: 0,
       userCode: '',
@@ -136,11 +142,11 @@ export default {
 
       ],
       tabList: [
-        {title: '基本信息', component: 'BasicInfo', name: '1'},
-        {title: '教育经历', component: 'EducationExperience', name: '2'},
-        {title: '职称聘任情况', component: 'TitleInfo', name: '3'},
-        {title: '科室轮转情况', component: 'DepartmentRotation', name: '4'},
-        {title: '培训进修', component: 'TrainingFurtherStudy', name: '5'}
+        {title: '基本信息', component: 'BasicInfo', name: '1', showType: true},
+        {title: '教育经历', component: 'EducationExperience', name: '2', showType: false},
+        {title: '职称聘任情况', component: 'TitleInfo', name: '3', showType: false},
+        {title: '科室轮转情况', component: 'DepartmentRotation', name: '4', showType: false},
+        {title: '培训进修', component: 'TrainingFurtherStudy', name: '5', showType: false}
       ]
     }
   },
@@ -153,6 +159,9 @@ export default {
       this.loginType = 0
       this.chuandiForm = this.$route.query.form
       if (!this.IsEmpty(this.$route.query.userCode)) {
+        this.isAdd = '1'
+        this.IsShowAnthorInfo(true)
+        // 维护页点击维护跳转
         this.userCode = this.$route.query.userCode
         // 获取基本信息
         this.searchUserInfo()
@@ -161,8 +170,13 @@ export default {
         this.getUserDeptTurnInfo()
         this.getUserOperDeptTurnInfo()
         this.getReqgetUserTrainInfo()
+      } else {
+        this.isAdd = '0'
+        this.IsShowAnthorInfo(false)
+        // 维护页点击新增
       }
     } else {
+      this.IsShowAnthorInfo(true)
       this.loginType = 1
       this.userCode = '7441'
       // 获取基本信息
@@ -177,6 +191,18 @@ export default {
     this.getSelectList('011')
   },
   methods: {
+    // 判断是否显示其他信息
+    IsShowAnthorInfo (showType) {
+      this.tabList.forEach((item, index) => {
+        if (index !== 0) {
+          item.showType = showType
+        }
+      })
+    },
+    setUserCodeAndSearch (userCode) {
+      this.userCode = userCode
+      this.searchUserInfo()
+    },
     // 点击返回信息查询
     gotoBack () {
       console.log(this.$route.query)
@@ -202,7 +228,11 @@ export default {
       }
       this.$store.dispatch('ReqGetUserBaseInfo', obj).then(res => {
         if (res.data.code === 200) {
-          res.data.data.age = this.utilsGetAge(res.data.data.birthTime)
+          if (!this.IsEmpty(res.data.data.birthTime)) {
+            res.data.data.age = this.utilsGetAge(res.data.data.birthTime)
+          } else {
+            res.data.data.age = ''
+          }
           this.form = res.data.data
         } else {
           this.openToast('error', res.data.msg)
