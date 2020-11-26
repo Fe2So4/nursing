@@ -18,6 +18,16 @@ const chargeRoutes = {
         parent: 'Charge'
       },
       component: () => import('@/views/OperationCharge/TemplateMaintain/index')
+    },
+    {
+      path: 'limit-drugs',
+      name: 'LimitDrugs',
+      meta: {
+        title: '限制耗材药品计费',
+        noNavs: false,
+        parent: 'Charge'
+      },
+      component: () => import('@/views/OperationCharge/LimitChargingConsumableDrugs2/index')
     }
   ]
 }

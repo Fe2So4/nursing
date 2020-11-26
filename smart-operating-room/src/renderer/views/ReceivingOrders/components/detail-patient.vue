@@ -184,7 +184,7 @@ import QRCode from 'qrcodejs2'
 import Bus from '@/utils/bus.js'
 import PrintNotice from './print-notice'
 import {changeReceiveOrderList} from '@/api/receiving-orders'
-import request from '@/utils/request'
+import request from '@/utils/request2'
 export default {
   name: 'DetailPatient',
   props: {

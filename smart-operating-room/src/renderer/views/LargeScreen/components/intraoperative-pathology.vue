@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import request from '@/utils/request'
+import request from '@/utils/request2'
 import PathologyReport from './pathology-report'
 import {getPathology} from '@/api/large-screen'
 import {mapState} from 'vuex'

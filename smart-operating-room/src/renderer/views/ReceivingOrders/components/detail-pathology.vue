@@ -122,7 +122,7 @@
 
 <script>
 import {changeReceiveOrderList} from '@/api/receiving-orders'
-import request from '@/utils/request'
+import request from '@/utils/request2'
 import Bus from '@/utils/bus.js'
 export default {
   name: 'DetailPathology',

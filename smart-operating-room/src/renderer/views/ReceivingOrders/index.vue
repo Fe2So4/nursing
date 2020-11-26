@@ -158,7 +158,8 @@ import Bus from '@/utils/bus.js'
 import PathologyList from './components/pathology-list'
 import DetailDrawer from './components/detail-drawer'
 import {receiveOrderList, floorList, roomList} from '@/api/receiving-orders'
-import request from '@/utils/request'
+import request from '@/utils/request2'
+const { BrowserWindow } = require('electron').remote
 export default {
   name: 'ReceivingOrders',
   data () {
@@ -184,6 +185,10 @@ export default {
   },
   components: {
     PatientList, PathologyList, DetailDrawer
+  },
+  created () {
+    const win = BrowserWindow.getFocusedWindow()
+    win.maximize()
   },
   methods: {
     // 获取楼层列表

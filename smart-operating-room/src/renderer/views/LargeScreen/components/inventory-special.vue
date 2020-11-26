@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import request from '@/utils/request'
+import request from '@/utils/request2'
 import $bus from '@/utils/busScreen'
 import {mapState} from 'vuex'
 import {getSpecialData} from '@/api/large-screen'

@@ -83,7 +83,7 @@
 </template>
 <script>
 import {getRecord2Data} from '@/api/large-screen'
-import request from '@/utils/request'
+import request from '@/utils/request2'
 import {mapState} from 'vuex'
 import $bus from '@/utils/busScreen'
 export default {

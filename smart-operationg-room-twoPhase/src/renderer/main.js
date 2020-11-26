@@ -46,7 +46,8 @@ Vue.use(ElementUI)
 Vue.use(VXETable)
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
-
+// 清除安全警告
+process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true'
 Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 Vue.use(htmlToPdf)

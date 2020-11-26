@@ -67,18 +67,7 @@ export default {
     return {
       floorList: [],
       floor: '',
-      roomList: [
-        // '601',
-        // '602',
-        // '603',
-        // '604',
-        // '605',
-        // '606',
-        // '607',
-        // '608',
-        // '609',
-        // '6pacu'
-      ],
+      roomList: [],
       activeIndex: '',
       selectIndex: '',
       selectfloor: '',

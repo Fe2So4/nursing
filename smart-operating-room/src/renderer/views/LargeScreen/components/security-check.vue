@@ -37,7 +37,7 @@ import {getSignInInfo, getTimeOutInfo, getSignOutInfo} from '@/api/large-screen'
 import CheckOverview from './check-overview'
 import {startSpeak} from '@/utils/voiceSpeak'
 import {mapState} from 'vuex'
-import request from '@/utils/request'
+import request from '@/utils/request2'
 import $bus from '@/utils/busScreen'
 export default {
   name: 'SecurityCheck',

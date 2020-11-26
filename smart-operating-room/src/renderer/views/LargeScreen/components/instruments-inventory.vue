@@ -25,7 +25,7 @@ import CheckDetail from './check-detail'
 import CheckOverview from './check-overview'
 import InventoryBasic from './inventory-basic'
 import InventorySpecial from './inventory-special'
-import request from '@/utils/request'
+import request from '@/utils/request2'
 import {mapState} from 'vuex'
 import {getOrdinaryData, getSpecialData} from '@/api/large-screen'
 export default {

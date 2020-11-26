@@ -21,7 +21,7 @@
 
 <script>
 import {getPatientStep} from '@/api/large-screen'
-import request from '@/utils/request'
+import request from '@/utils/request2'
 import {mapState} from 'vuex'
 import $bus from '@/utils/busScreen'
 import moment from 'moment'
