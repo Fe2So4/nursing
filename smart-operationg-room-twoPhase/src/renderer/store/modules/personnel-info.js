@@ -3,7 +3,7 @@ import {reqGetUserBaseInfo, reqGetWorkerInfoList, reqAddWorkerInfot, reqDeleteWo
   reqUpdateTransactionGroupDetails, reqGetUserEducationInfo, reqGetUserAppointInfo, reqGetUserDeptTurnInfo, reqGetUserOperDeptTurnInfo,
   reqgetUserTrainInfo, requpdateUserBaseInfo, reqaddUserEducationInfo, reqdeleteUserEducationInfo, requpdateUserEducationInfo, reqaddUserAppointInfo,
   reqdeleteUserAppointInfo, requpdateUserAppointInfo, reqaddUserDeptTurnInfo, reqdeleteUserDeptTurnInfo, reqaddUserOperDeptTurnInfo, reqdeleteUserOperDeptTurnInfo,
-  requpdateUserDeptTurnInfo, requpdateUserOperDeptTurnInfo, requpdateUserTrainInfo, reqaddUserTrainInfo, reqdeleteUserTrainInfo} from '@/api/personnel-management/personnel-info.js'
+  requpdateUserDeptTurnInfo, requpdateUserOperDeptTurnInfo, requpdateUserTrainInfo, reqaddUserTrainInfo, reqdeleteUserTrainInfo, reqaddUserBaseInfo} from '@/api/personnel-management/personnel-info.js'
 
 const state = {
   // baseDictDetailLis
@@ -96,6 +96,11 @@ const actions = {
   //  培训经历查询
   async ReqgetUserTrainInfo ({ commit }, query) {
     let res = await reqgetUserTrainInfo(query)
+    return res
+  },
+  //  用户基本信息添加
+  async ReqaddUserBaseInfo ({ commit }, query) {
+    let res = await reqaddUserBaseInfo(query)
     return res
   },
   //  用户基本信息更新

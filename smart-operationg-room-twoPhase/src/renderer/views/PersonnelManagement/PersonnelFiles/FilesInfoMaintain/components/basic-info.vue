@@ -6,10 +6,16 @@
       label-width="80px"
     >
       <el-form-item label="姓名">
-        <el-input v-model="userInfo.userName" />
+        <el-input
+          clearable
+          v-model="userInfo.userName"
+        />
       </el-form-item>
       <el-form-item label="性别">
-        <el-select v-model="userInfo.gender">
+        <el-select
+          clearable
+          v-model="userInfo.gender"
+        >
           <el-option
             v-for="item in genderList"
             :key="item.value"
@@ -22,7 +28,10 @@
         label="技术职称"
         label-width="100px"
       >
-        <el-select v-model="userInfo.technicalTitle">
+        <el-select
+          clearable
+          v-model="userInfo.technicalTitle"
+        >
           <el-option
             v-for="item in technologyList"
             :key="item.id"
@@ -35,7 +44,10 @@
         label="人员类别"
         label-width="100px"
       >
-        <el-select v-model="userInfo.personnelCategory">
+        <el-select
+          clearable
+          v-model="userInfo.personnelCategory"
+        >
           <el-option
             v-for="item in personnelCategory"
             :key="item.typeName"
@@ -51,7 +63,10 @@
       label-width="80px"
     >
       <el-form-item label="民族">
-        <el-select v-model="userInfo.nation">
+        <el-select
+          clearable
+          v-model="userInfo.nation"
+        >
           <el-option
             v-for="item in ethnicList"
             :key="item.typeName"
@@ -62,9 +77,11 @@
       </el-form-item>
       <el-form-item label="出生年月">
         <el-date-picker
+          clearable
           v-model="userInfo.birthTime"
           type="date"
           format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
           placeholder="选择日期"
         />
       </el-form-item>
@@ -73,9 +90,11 @@
         label-width="100px"
       >
         <el-date-picker
+          clearable
           v-model="userInfo.workTime"
           type="date"
           format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
           placeholder="选择日期"
         />
       </el-form-item>
@@ -83,7 +102,10 @@
         label="职务"
         label-width="100px"
       >
-        <el-select v-model="userInfo.duty">
+        <el-select
+          clearable
+          v-model="userInfo.duty"
+        >
           <el-option
             v-for="item in dutyList"
             :key="item.typeName"
@@ -99,7 +121,10 @@
       label-width="80px"
     >
       <el-form-item label="原学历">
-        <el-select v-model="userInfo.originalEducateBack">
+        <el-select
+          clearable
+          v-model="userInfo.originalEducateBack"
+        >
           <el-option
             v-for="item in originalEducateBack"
             :key="item.typeName"
@@ -109,7 +134,10 @@
         </el-select>
       </el-form-item>
       <el-form-item label="现学历">
-        <el-select v-model="userInfo.presentEducateBack">
+        <el-select
+          clearable
+          v-model="userInfo.presentEducateBack"
+        >
           <el-option
             v-for="item in originalEducateBack"
             :key="item.typeName"
@@ -122,7 +150,10 @@
         label="能级水平"
         label-width="100px"
       >
-        <el-select v-model="userInfo.energyLevels">
+        <el-select
+          clearable
+          v-model="userInfo.energyLevels"
+        >
           <el-option
             v-for="item in energyLevelList"
             :key="item.typeName"
@@ -135,7 +166,10 @@
         label="是否带教组长"
         label-width="100px"
       >
-        <el-select v-model="userInfo.teachingGroupLeader">
+        <el-select
+          clearable
+          v-model="userInfo.teachingGroupLeader"
+        >
           <el-option
             v-for="item in isTeachingGroupLeader"
             :key="item.value"
@@ -151,7 +185,10 @@
       label-width="80px"
     >
       <el-form-item label="籍贯">
-        <el-input v-model="userInfo.nativePlace" />
+        <el-input
+          clearable
+          v-model="userInfo.nativePlace"
+        />
       </el-form-item>
       <el-form-item label="手机">
         <el-input v-model="userInfo.mobilePhone" />
@@ -160,13 +197,19 @@
         label="宅电"
         label-width="100px"
       >
-        <el-input v-model="userInfo.homePhone" />
+        <el-input
+          clearable
+          v-model="userInfo.homePhone"
+        />
       </el-form-item>
       <el-form-item
         label="是否在科"
         label-width="100px"
       >
-        <el-select v-model="userInfo.isInDept">
+        <el-select
+          clearable
+          v-model="userInfo.isInDept"
+        >
           <el-option
             v-for="item in isInDept"
             :key="item.value"
@@ -183,6 +226,7 @@
     >
       <el-form-item label="身份证">
         <el-input
+          clearable
           v-model="userInfo.idNumber"
           style="width:466px"
         />
@@ -191,7 +235,11 @@
         label-width="100px"
         label="家庭详细地址"
       >
-        <el-input v-model="userInfo.homeAddress" />
+        <el-input
+          clearable
+          style="width:466px"
+          v-model="userInfo.homeAddress"
+        />
       </el-form-item>
     </el-form>
     <el-form
@@ -201,6 +249,7 @@
     >
       <el-form-item label="获奖情况">
         <el-input
+          clearable
           type="textarea"
           v-model="userInfo.honorAward"
           style="width:1080px"
@@ -214,6 +263,7 @@
     >
       <el-form-item label="论文发表">
         <el-input
+          clearable
           v-model="userInfo.paperPublishing"
           type="textarea"
           style="width:1080px"
@@ -227,6 +277,7 @@
     >
       <el-form-item label="课题申报">
         <el-input
+          clearable
           v-model="userInfo.subjectDeclare"
           type="textarea"
           style="width:1080px"
@@ -322,6 +373,11 @@ export default {
       type: Number,
       required: false,
       default: 1
+    },
+    isAdd: {
+      type: String,
+      required: false,
+      default: '1'
     }
   },
   mounted () {
@@ -365,13 +421,29 @@ export default {
     },
     // 点击保存
     saveUserInfo () {
-      this.$store.dispatch('RequpdateUserBaseInfo', this.userInfo).then(res => {
-        if (res.data.code === 200) {
-          this.openToast('success', '保存成功')
-        } else {
-          this.openToast('error', res.data.msg)
-        }
-      })
+      console.log(this.userInfo)
+
+      if (this.isAdd === '0') {
+        // 新增
+        this.$store.dispatch('ReqaddUserBaseInfo', this.userInfo).then(res => {
+          if (res.data.code === 200) {
+            this.openToast('success', '保存成功')
+            this.$emit('IsShowAnthorInfo', true)
+            this.$emit('setUserCodeAndSearch', res.data.data)
+          } else {
+            this.openToast('error', res.data.msg)
+          }
+        })
+      } else {
+        // 修改
+        this.$store.dispatch('RequpdateUserBaseInfo', this.userInfo).then(res => {
+          if (res.data.code === 200) {
+            this.openToast('success', '保存成功')
+          } else {
+            this.openToast('error', res.data.msg)
+          }
+        })
+      }
     },
     // 提示方法
     openToast (type, mesg) {
@@ -417,7 +489,8 @@ export default {
       }
     }
   }
-/deep/ .el-select, .el-date-editor.el-input{
+/deep/ .el-select, .el-date-editor.el-input, .el-input.el-input--mini.el-input--suffix{
   width: 178px;
 }
+
 </style>

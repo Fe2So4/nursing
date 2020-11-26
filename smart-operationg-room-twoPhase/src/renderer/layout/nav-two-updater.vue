@@ -198,7 +198,15 @@ export default {
                   icon: 'iconfont icon-guanli',
                   title: '术后手术信息登记查询',
                   path: '/department/search/endsurgery-info-search'
-                },
+                }
+
+              ]
+            },
+            {
+              icon: 'iconfont icon-guanli',
+              title: '日常统计',
+              // path: '/department/search',
+              children: [
                 {
                   icon: 'iconfont icon-guanli',
                   title: '手术分级统计',

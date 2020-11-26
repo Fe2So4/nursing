@@ -145,6 +145,15 @@ export const reqgetUserTrainInfo = (obj) => {
     method: 'get'
   })
 }
+// 用户基本信息添加
+const reqaddUserBaseInfoUrl = `${config.default.api.baseURL}/ocis/portfolio/addUserBaseInfo`
+export const reqaddUserBaseInfo = (obj) => {
+  return request({
+    url: reqaddUserBaseInfoUrl,
+    method: 'post',
+    data: obj
+  })
+}
 // 用户基本信息更新
 const requpdateUserBaseInfoUrl = `${config.default.api.baseURL}/ocis/portfolio/updateUserBaseInfo`
 export const requpdateUserBaseInfo = (obj) => {

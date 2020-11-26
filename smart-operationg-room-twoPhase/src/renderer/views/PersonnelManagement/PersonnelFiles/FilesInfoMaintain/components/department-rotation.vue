@@ -1,5 +1,7 @@
 <template>
-  <div class="department-rotation">
+  <div
+    class="department-rotation"
+  >
     <div class="dr-table">
       <div class="title">
         科室轮转情况
