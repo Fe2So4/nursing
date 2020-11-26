@@ -1,4 +1,5 @@
 <template>
+  <!-- 业务分值管理 -->
   <div class="attendance-management">
     <div class="option-top">
       <el-button
@@ -493,9 +494,7 @@ export default {
       }
     }
   }
-</style>
-<style>
-.el-scrollbar__wrap{
+/deep/ .el-scrollbar__wrap{
   overflow-x: hidden;
 }
 </style>

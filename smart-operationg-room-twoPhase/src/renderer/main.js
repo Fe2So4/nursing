@@ -19,6 +19,7 @@ import htmlToPdf from './utils/htmlToPdf'
 import IsEmpty from './utils/isEmpty'
 import utilsGetNewDate from './utils/utilsTime'
 import utilsGetNowDay from './utils/utilsNowDay'
+import utilsGetAge from './utils/utilsGetAge'
 import utilsNewTime from './utils/utilsNewTime'
 import utilsGetWeek from './utils/getWeek'
 import utilsDebounce from './utils/utilsDebounce'
@@ -33,6 +34,7 @@ VXETable.use(VXETablePluginElement)
 
 Vue.prototype.IsEmpty = IsEmpty
 Vue.prototype.utilsGetNewDate = utilsGetNewDate
+Vue.prototype.utilsGetAge = utilsGetAge
 Vue.prototype.utilsNewTime = utilsNewTime
 Vue.prototype.utilsDebounce = utilsDebounce
 Vue.prototype.utilsGetNowDay = utilsGetNowDay

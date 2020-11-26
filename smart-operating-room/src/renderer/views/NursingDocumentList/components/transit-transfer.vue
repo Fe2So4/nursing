@@ -453,7 +453,10 @@
           <span
             class="input-div"
           >
-            <div class="input-div-context-long">{{ userInfo.suggest }}</div>
+            <div
+              class="input-div-context-long"
+              style="textAlign:center"
+            >{{ userInfo.suggest }}</div>
           </span>
         </div>
         <div class="context1">
@@ -463,8 +466,8 @@
           >
             <div
               class="input-div-context-long"
-              style="lineHeight:30px"
-            >{{ userInfo.endTime }}</div>
+              style="lineHeight:30px;textAlign:center"
+            >{{ pointInRoomtime2 }}</div>
           </span>
           <span
             class="input-div"
@@ -472,14 +475,14 @@
             <span style="lineHeight:30px">接收</span>
             <div
               class="input-div-context-noborder-40"
-              style="height:30px;width:160px;borderBottom:1px solid #000;paddingLeft:15px;lineHeight:30px"
+              style="height:30px;width:160px;borderBottom:1px solid #000;paddingLeft:15px;lineHeight:30px;textAlign:center"
             >
-              <span>{{ userInfo.recipientEnd }}</span>
-              <!-- <img
+              <!-- <span>{{  }}</span> -->
+              <img
                 style="height:100%"
-                :src="userInfo.recipientEnd"
+                :src="pointInRoom.signatureImage2"
                 alt=""
-              > -->
+              >
             </div>
           </span>
         </div>
@@ -1205,7 +1208,7 @@ export default {
       pointOutRoomTime: '', // 出手术室时间
       pointPacuTime: '', // 进pacu时间
       outPacuTime: '', // 出pacu时间
-
+      pointInRoomtime2: '',
       pointInRoomState: '0',
       pointOutRoomState: '0',
       pointPacuState: '0',
@@ -1327,6 +1330,7 @@ export default {
 
           this.pointInRoomState = this.wenshuData.pointInRoomState || '0'
           this.pointOutRoomState = this.wenshuData.pointOutRoomState || '0'
+          this.pointInRoomtime2 = this.wenshuData.pointInRoomtime
           this.pointPacuState = this.wenshuData.pointPacuState || '0'
           this.outPacuState = this.wenshuData.outPacuState || '0'
 

@@ -1,4 +1,5 @@
 <template>
+  <!-- 人员排班日常维护 -->
   <div class="attendance-daily-container">
     <div class="container-header">
       <span class="day-title">{{ dayTitle }}</span>
@@ -10,6 +11,7 @@
       />
       <div style="position: absolute;right: 20px;">
         <el-input
+          clearable
           style="width:140px;margin-right:15px"
           size="mini"
           type="text"
@@ -19,6 +21,7 @@
         <el-button
           size="mini"
           type="primary"
+          @click="getTableList"
         >
           搜 索
         </el-button>
@@ -353,7 +356,8 @@ export default {
     // 获取展示列表数据
     getTableList () {
       let obj = {
-        selectTime: this.nowDay
+        selectTime: this.nowDay,
+        name: this.codeOrName || ''
       }
       this.$store.dispatch('ReqGetPersonnelScheduling', obj).then(res => {
         if (res.data.code === 200) {

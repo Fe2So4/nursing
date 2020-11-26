@@ -1,5 +1,8 @@
 <template>
-  <div class="pagination">
+  <div
+    class="pagination"
+    :style="{paddingTop:distance + 'px',paddingBottom:distance+'px'}"
+  >
     <el-form
       :inline="true"
       size="mini"
@@ -59,9 +62,17 @@ export default {
       type: Object,
       required: false,
       default () {
-        return {}
+        return {
+
+        }
       }
+    },
+    distance: {
+      type: String,
+      required: false,
+      default: '40'
     }
+
   },
   data () {
     return {
@@ -80,11 +91,7 @@ export default {
       this.$emit('searchTableList', obj)
     },
     handleCurrentChange () {
-      let obj = {
-        currentPage: this.currentPage,
-        pageSize: this.pageSize
-      }
-      this.$emit('searchTableList', obj)
+      this.pageSizeChange()
     },
     gotoPage () {
       this.currentPage = Number(this.gotoYe)
@@ -97,9 +104,8 @@ export default {
 
 <style lang="scss" scoped>
   .pagination{
-    padding: 40px 0;
     display: flex;
-    height: 112px;
+    // height: 112px;
     overflow: hidden;
     justify-content: center;
     .el-form{

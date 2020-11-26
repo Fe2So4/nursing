@@ -11,7 +11,7 @@
         <div
           @click="pushRouterChange(item)"
           class="item-content"
-          :class="{'renyuan':item.label === '人员管理','shebei':item.label === '设备管理','yiqi':item.label === '护理一期'}"
+          :class="{'renyuan':item.label === '人员管理','shebei':item.label === '设备管理','yiqi':item.label === '护理一期','keshi':item.label === '科室管理'}"
         >
           {{ item.label }}
         </div>
@@ -35,6 +35,9 @@ export default {
         },
         {
           label: '手术计费'
+        },
+        {
+          label: '科室管理'
         },
         {
           label: '护理电子病历'
@@ -61,6 +64,9 @@ export default {
       }
       if (item.label === '手术计费') {
         this.$router.push('/charge')
+      }
+      if (item.label === '科室管理') {
+        this.$router.push('/department')
       }
     }
   }
@@ -106,5 +112,8 @@ export default {
 }
 .yiqi {
   background-color: red;
+}
+.keshi {
+  background-color: rgb(65, 189, 226);
 }
 </style>

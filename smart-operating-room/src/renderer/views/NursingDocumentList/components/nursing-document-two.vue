@@ -371,16 +371,41 @@
             <span>灭菌注射用水</span>
             <IsSelect :myselect="rinse.rinseStr.includes('2')?true:false" />
           </span>
+          <!-- <span class="input-div mgl5">
+            <span style="marginLeft:8px">药液</span>
+            <span style="marginLeft:8px">1、</span>
+            <div class="input-div-context-short-60">{{ rinse.liquidMedicine1 || '氯化钠溶液' }}</div>
+            <span style="marginLeft:8px">2、</span>
+            <div class="input-div-context-short-60">{{ rinse.liquidMedicine2 || '' }}</div>
+            <span style="marginLeft:8px">3、</span>
+            <div class="input-div-context-short-60">{{ rinse.liquidMedicine3 || '' }}</div>
+            <span style="marginLeft:8px">4、</span>
+            <div class="input-div-context-short-60">{{ rinse.liquidMedicine4 || '' }}</div>
+          </span> -->
+        </div>
+        <div class="context1">
           <span class="input-div mgl5">
             <span style="marginLeft:8px">药液</span>
             <span style="marginLeft:8px">1、</span>
-            <div class="input-div-context-short-60" />
+            <div
+              class="input-div-context"
+              style="width:140px"
+            >{{ rinse.liquidMedicine1 || '氯化钠溶液' }}</div>
             <span style="marginLeft:8px">2、</span>
-            <div class="input-div-context-short-60" />
+            <div
+              class="input-div-context"
+              style="width:140px"
+            >{{ rinse.liquidMedicine2 || '' }}</div>
             <span style="marginLeft:8px">3、</span>
-            <div class="input-div-context-short-60" />
+            <div
+              class="input-div-context"
+              style="width:140px"
+            >{{ rinse.liquidMedicine3 || '' }}</div>
             <span style="marginLeft:8px">4、</span>
-            <div class="input-div-context-short-60" />
+            <div
+              class="input-div-context"
+              style="width:140px"
+            >{{ rinse.liquidMedicine4 || '' }}</div>
           </span>
         </div>
         <div class="context1 mgt20">

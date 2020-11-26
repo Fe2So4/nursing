@@ -19,11 +19,7 @@
           type="primary"
           size="mini"
           @click="handleClose"
-        >保 存</el-button>
-        <el-button
-          @click="handleClose"
-          size="mini"
-        >取 消</el-button>
+        >关 闭</el-button>
       </span>
     </el-dialog>
   </div>
@@ -77,9 +73,7 @@ export default {
       height: 60vh;
     }
   }
-</style>
-<style>
-/* .el-scrollbar__wrap{
-  overflow-x: hidden;
-} */
+  /deep/ .el-scrollbar__wrap{
+   overflow-x: hidden;
+  }
 </style>

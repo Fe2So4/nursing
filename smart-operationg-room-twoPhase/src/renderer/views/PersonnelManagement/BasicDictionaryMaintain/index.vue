@@ -55,7 +55,7 @@
           align="center"
           :data="tableChildData"
           size="mini"
-          height="100%"
+          height="auto"
         >
           <vxe-table-column
             type="seq"

@@ -1,4 +1,5 @@
 <template>
+  <!-- 公务员信息维护 -->
   <div class="civil-servant-info-maintain">
     <div class="csim-top">
       <el-form
@@ -8,10 +9,10 @@
         <el-form-item label="工作时间">
           <el-date-picker
             v-model="form.time"
-            type="datetimerange"
+            type="daterange"
             range-separator="至"
-            format="yyyy-MM-dd HH:mm"
-            value-format="yyyy-MM-dd HH:mm"
+            format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
           />

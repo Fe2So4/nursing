@@ -86,9 +86,9 @@
 </template>
 
 <script>
-import { login } from '@/api/login'
+import { login, reqgetLoginUserInfo } from '@/api/login'
 // import request from '@/utils/request'
-import { setUserToken, setCurrentAccount } from '../../utils/storage'
+import { setUserToken } from '../../utils/storage'
 import moment from 'moment'
 // import {ipcRenderer} from 'electron'
 const { BrowserWindow } = require('electron').remote
@@ -128,10 +128,18 @@ export default {
             loginPwd: this.form.password
           }
           login(obj).then(res => {
-            console.log(res)
             if (res.data.code === '0') {
               setUserToken(res.data.data)
-              setCurrentAccount(this.form.username)
+              reqgetLoginUserInfo().then(res => {
+                if (res.data.code === 200) {
+                  let obj = {
+                    userName: res.data.data.userName,
+                    userCode: res.data.data.userCode
+                  }
+                  this.$store.commit('SAVE_LOGIN_USERINFO', obj)
+                }
+              })
+
               // ipcRenderer.send('login-window')
               const win = BrowserWindow.getFocusedWindow()
               win.maximize()

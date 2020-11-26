@@ -14,7 +14,8 @@ const reqGetNurListUrl = `${config.default.api.baseURL}/ocis/portfolio/getUserBa
 export const reqGetNurList = (obj) => {
   return request({
     url: reqGetNurListUrl,
-    method: 'get'
+    method: 'post',
+    params: obj
   })
 }
 // 公务员信息列表查询
@@ -142,5 +143,150 @@ export const reqgetUserTrainInfo = (obj) => {
   return request({
     url: reqgetUserTrainInfoUrl + `/${obj.userCode}`,
     method: 'get'
+  })
+}
+// 用户基本信息更新
+const requpdateUserBaseInfoUrl = `${config.default.api.baseURL}/ocis/portfolio/updateUserBaseInfo`
+export const requpdateUserBaseInfo = (obj) => {
+  return request({
+    url: requpdateUserBaseInfoUrl,
+    method: 'post',
+    data: obj
+  })
+}
+// 用户教育经历添加
+const reqaddUserEducationInfoUrl = `${config.default.api.baseURL}/ocis/portfolio/addUserEducationInfo`
+export const reqaddUserEducationInfo = (obj) => {
+  return request({
+    url: reqaddUserEducationInfoUrl,
+    method: 'post',
+    data: obj
+  })
+}
+// 用户教育经历删除
+const reqdeleteUserEducationInfoUrl = `${config.default.api.baseURL}/ocis/portfolio/deleteUserEducationInfo`
+export const reqdeleteUserEducationInfo = (obj) => {
+  return request({
+    url: reqdeleteUserEducationInfoUrl,
+    method: 'post',
+    data: obj
+  })
+}
+// 用户教育经历更新
+const requpdateUserEducationInfoUrl = `${config.default.api.baseURL}/ocis/portfolio/updateUserEducationInfo`
+export const requpdateUserEducationInfo = (obj) => {
+  return request({
+    url: requpdateUserEducationInfoUrl,
+    method: 'post',
+    data: obj
+  })
+}
+// 职称任聘经历添加
+const reqaddUserAppointInfoUrl = `${config.default.api.baseURL}/ocis/portfolio/addUserAppointInfo`
+export const reqaddUserAppointInfo = (obj) => {
+  return request({
+    url: reqaddUserAppointInfoUrl,
+    method: 'post',
+    data: obj
+  })
+}
+// 职称任聘经历删除
+const reqdeleteUserAppointInfoUrl = `${config.default.api.baseURL}/ocis/portfolio/deleteUserAppointInfo`
+export const reqdeleteUserAppointInfo = (obj) => {
+  return request({
+    url: reqdeleteUserAppointInfoUrl,
+    method: 'post',
+    data: obj
+  })
+}
+// 职称任聘经历更新
+const requpdateUserAppointInfoUrl = `${config.default.api.baseURL}/ocis/portfolio/updateUserAppointInfo`
+export const requpdateUserAppointInfo = (obj) => {
+  return request({
+    url: requpdateUserAppointInfoUrl,
+    method: 'post',
+    data: obj
+  })
+}
+// 科室轮转经历添加
+const reqaddUserDeptTurnInfoUrl = `${config.default.api.baseURL}/ocis/portfolio/addUserDeptTurnInfo`
+export const reqaddUserDeptTurnInfo = (obj) => {
+  return request({
+    url: reqaddUserDeptTurnInfoUrl,
+    method: 'post',
+    data: obj
+  })
+}
+// 科室轮转经历删除
+const reqdeleteUserDeptTurnInfoUrl = `${config.default.api.baseURL}/ocis/portfolio/deleteUserDeptTurnInfo`
+export const reqdeleteUserDeptTurnInfo = (obj) => {
+  return request({
+    url: reqdeleteUserDeptTurnInfoUrl,
+    method: 'post',
+    data: obj
+  })
+}
+// 手术科室轮转经历添加
+const reqaddUserOperDeptTurnInfoUrl = `${config.default.api.baseURL}/ocis/portfolio/addUserOperDeptTurnInfo`
+export const reqaddUserOperDeptTurnInfo = (obj) => {
+  return request({
+    url: reqaddUserOperDeptTurnInfoUrl,
+    method: 'post',
+    data: obj
+  })
+}
+// 手术科室轮转经历删除
+const reqdeleteUserOperDeptTurnInfoUrl = `${config.default.api.baseURL}/ocis/portfolio/deleteUserOperDeptTurnInfo`
+export const reqdeleteUserOperDeptTurnInfo = (obj) => {
+  return request({
+    url: reqdeleteUserOperDeptTurnInfoUrl,
+    method: 'post',
+    data: obj
+  })
+}
+// 科室轮转经历更新
+const requpdateUserDeptTurnInfoUrl = `${config.default.api.baseURL}/ocis/portfolio/updateUserDeptTurnInfo`
+export const requpdateUserDeptTurnInfo = (obj) => {
+  return request({
+    url: requpdateUserDeptTurnInfoUrl,
+    method: 'post',
+    data: obj
+  })
+}
+// 手术科室轮转经历更新
+const requpdateUserOperDeptTurnInfoUrl = `${config.default.api.baseURL}/ocis/portfolio/updateUserOperDeptTurnInfo`
+export const requpdateUserOperDeptTurnInfo = (obj) => {
+  return request({
+    url: requpdateUserOperDeptTurnInfoUrl,
+    method: 'post',
+    data: obj
+  })
+}
+// 培训经历添加
+const reqaddUserTrainInfoUrl = `${config.default.api.baseURL}/ocis/portfolio/addUserTrainInfo`
+export const reqaddUserTrainInfo = (obj) => {
+  return request({
+    url: reqaddUserTrainInfoUrl,
+    method: 'post',
+    data: obj
+  })
+}
+// 培训经历删除
+const reqdeleteUserTrainInfoUrl = `${config.default.api.baseURL}/ocis/portfolio/deleteUserTrainInfo`
+export const reqdeleteUserTrainInfo = (obj) => {
+  return request({
+    url: reqdeleteUserTrainInfoUrl,
+    method: 'post',
+    data: obj
+  })
+}
+
+// 培训经历更新
+const requpdateUserTrainInfoUrl = `${config.default.api.baseURL}/ocis/portfolio/updateUserTrainInfo`
+export const requpdateUserTrainInfo = (obj) => {
+  return request({
+    url: requpdateUserTrainInfoUrl,
+    method: 'post',
+    data: obj
   })
 }

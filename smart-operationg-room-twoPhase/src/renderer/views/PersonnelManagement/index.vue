@@ -14,9 +14,10 @@ export default {
   .personel-manage{
     height: 100%;
   }
+  // /deep/ .el-select-dropdown .el-scrollbar .el-select-dropdown__wrap {
+  //   margin-bottom: 0px !important;
+  // }
 </style>
 <style>
-.el-select-dropdown .el-scrollbar .el-scrollbar__wrap {
-  margin-bottom: 0px !important;
-}
+
 </style>

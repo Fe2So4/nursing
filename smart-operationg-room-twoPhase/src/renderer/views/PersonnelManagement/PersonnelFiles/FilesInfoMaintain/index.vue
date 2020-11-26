@@ -1,4 +1,5 @@
 <template>
+  <!-- 档案信息查询 -->
   <div class="files-info-maintain">
     <div class="fim-top">
       <div class="fim-top-top">
@@ -25,23 +26,39 @@
               </el-button>
             </el-form-item>
             <el-form-item label="姓名">
-              <el-input v-model="form.name" />
+              <el-input
+                readonly
+                v-model="form.userName"
+              />
             </el-form-item>
             <el-form-item label="工号">
-              <el-input v-model="form.workNo" />
+              <el-input
+                readonly
+                v-model="form.userCode"
+              />
             </el-form-item>
             <el-form-item label="工作部门">
-              <el-select v-model="form.department">
+              <!-- <el-input
+                readonly
+                v-model="form.workDepartmentName"
+              /> -->
+              <el-select
+                readonly
+                v-model="form.workDepartmentName"
+              >
                 <el-option
                   v-for="item in deptList"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
+                  :key="item.typeName"
+                  :label="item.typeName"
+                  :value="item.typeName"
                 />
               </el-select>
             </el-form-item>
             <el-form-item label="年龄">
-              <el-input v-model="form.age" />
+              <el-input
+                readonly
+                v-model="form.age"
+              />
             </el-form-item>
             <el-form-item>
               <el-button type="primary">
@@ -67,7 +84,23 @@
           :label="item.title"
           :name="item.name"
         >
-          <component :is="item.component" />
+          <component
+            @gotoBack="gotoBack"
+            :login-type="loginType"
+            @getEducationInfo="getEducationInfo"
+            @getUserWork="getUserWork"
+            @getUserDeptTurnInfo="getUserDeptTurnInfo"
+            @getUserOperDeptTurnInfo="getUserOperDeptTurnInfo"
+            @getReqgetUserTrainInfo="getReqgetUserTrainInfo"
+            :education-info="educationInfo"
+            :user-work="userWork"
+            :user-train-info="userTrainInfo"
+            :user-code="userCode"
+            :user-info="form"
+            :user-dept-turn="userDeptTurn"
+            :user-oper-dept-turn="userOperDeptTurn"
+            :is="item.component"
+          />
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -84,6 +117,14 @@ export default {
   name: 'FilesInfoMaintain',
   data () {
     return {
+      chuandiForm: {},
+      loginType: 0,
+      userCode: '',
+      educationInfo: [],
+      userWork: [],
+      userDeptTurn: [],
+      userOperDeptTurn: [],
+      userTrainInfo: [],
       form: {
         department: '',
         name: '',
@@ -92,13 +133,7 @@ export default {
       },
       activeName: '1',
       deptList: [
-        {
-          label: '部门1',
-          value: '1'
-        }, {
-          label: '部门2',
-          value: '2'
-        }
+
       ],
       tabList: [
         {title: '基本信息', component: 'BasicInfo', name: '1'},
@@ -113,19 +148,142 @@ export default {
     BasicInfo, EducationExperience, TitleInfo, DepartmentRotation, TrainingFurtherStudy
   },
   mounted () {
-    if (!this.IsEmpty(this.$route.query.userCode)) {
+    console.log(this.$route.query)
+    if (this.$route.query.chuandiType === '0') {
+      this.loginType = 0
+      this.chuandiForm = this.$route.query.form
+      if (!this.IsEmpty(this.$route.query.userCode)) {
+        this.userCode = this.$route.query.userCode
+        // 获取基本信息
+        this.searchUserInfo()
+        this.getEducationInfo()
+        this.getUserWork()
+        this.getUserDeptTurnInfo()
+        this.getUserOperDeptTurnInfo()
+        this.getReqgetUserTrainInfo()
+      }
+    } else {
+      this.loginType = 1
+      this.userCode = '7441'
+      // 获取基本信息
       this.searchUserInfo()
+      this.getEducationInfo()
+      this.getUserWork()
+      this.getUserDeptTurnInfo()
+      this.getUserOperDeptTurnInfo()
+      this.getReqgetUserTrainInfo()
     }
+
+    this.getSelectList('011')
   },
   methods: {
+    // 点击返回信息查询
+    gotoBack () {
+      console.log(this.$route.query)
+      this.$router.push({
+        path: '/personnel/personnel-file/files-info-select',
+        query: {
+          chuandiType: '0',
+          userCode: this.$route.query.userCode || '',
+          form: {
+            name: this.$route.query.form.name || '',
+            workTime: this.$route.query.form.workTime || '',
+            workTimeStart: this.$route.query.form.workTimeStart || '',
+            workTimeEnd: this.$route.query.form.workTimeEnd || '',
+            department: this.$route.query.form.department || ''
+          }
+        }
+      })
+    },
     // 获取用户基本信息
     searchUserInfo () {
       let obj = {
-        userCode: this.$route.query.userCode
+        userCode: this.userCode
       }
       this.$store.dispatch('ReqGetUserBaseInfo', obj).then(res => {
         if (res.data.code === 200) {
-          console.log(res)
+          res.data.data.age = this.utilsGetAge(res.data.data.birthTime)
+          this.form = res.data.data
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 获取用户教育经历
+    getEducationInfo () {
+      let obj = {
+        userCode: this.userCode
+      }
+      this.$store.dispatch('ReqGetUserEducationInfo', obj).then(res => {
+        if (res.data.code === 200) {
+          this.educationInfo = res.data.data
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 获取用户任聘经历
+    getUserWork () {
+      let obj = {
+        userCode: this.userCode
+      }
+      this.$store.dispatch('ReqGetUserAppointInfo', obj).then(res => {
+        if (res.data.code === 200) {
+          this.userWork = res.data.data
+        } else {
+          this.openToast('error', '获取任聘经历失败')
+        }
+      })
+    },
+    // 科室轮转经历查询
+    getUserDeptTurnInfo () {
+      let obj = {
+        userCode: this.userCode
+      }
+      this.$store.dispatch('ReqGetUserDeptTurnInfo', obj).then(res => {
+        if (res.data.code === 200) {
+          this.userDeptTurn = res.data.data
+        } else {
+          this.openToast('error', '获取科室轮转经历失败')
+        }
+      })
+    },
+    // 手术科室轮转经历查询
+    getUserOperDeptTurnInfo () {
+      let obj = {
+        userCode: this.userCode
+      }
+      this.$store.dispatch('ReqGetUserOperDeptTurnInfo', obj).then(res => {
+        if (res.data.code === 200) {
+          this.userOperDeptTurn = res.data.data
+        } else {
+          this.openToast('error', '获取手术科室轮转经历失败')
+        }
+      })
+    },
+    // 培训经历查询
+    getReqgetUserTrainInfo () {
+      let obj = {
+        userCode: this.userCode
+      }
+      this.$store.dispatch('ReqgetUserTrainInfo', obj).then(res => {
+        if (res.data.code === 200) {
+          this.userTrainInfo = res.data.data
+        } else {
+          this.openToast('error', '培训经历查询失败')
+        }
+      })
+    },
+    // 获取数据字典列表
+    getSelectList (num) {
+      let obj = {
+        belongSerialNumber: num
+      }
+      this.$store.dispatch('ReqgetBaseDictDetailList', obj).then(res => {
+        if (res.data.code === 200) {
+          if (num === '011') {
+            this.deptList = res.data.data
+          }
         } else {
           this.openToast('error', res.data.msg)
         }
@@ -144,6 +302,13 @@ export default {
       })
     }
     //
+  },
+  filters: {
+    getAge: function (value) {
+      if (!value) return ''
+      value = value.toString()
+      return value.charAt(0).toUpperCase() + value.slice(1)
+    }
   }
 }
 </script>
@@ -201,5 +366,10 @@ export default {
     box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15);
     border-radius: 5px;
   }
+}
+/deep/.el-form-item.bitianxiang:not(.is-no-asterisk)>.el-form-item__label:before{
+  content:'*'!important;
+  color:#f56c6c !important;
+  margin-right:4px !important;
 }
 </style>

@@ -1,4 +1,5 @@
 <template>
+  <!-- 档案信息查询 -->
   <div class="files-info-select">
     <div class="fis-top">
       <el-form
@@ -7,28 +8,44 @@
       >
         <el-form-item label="工作时间">
           <el-date-picker
-            v-model="form.time"
-            type="datetimerange"
+            v-model="form.workTime"
+            type="daterange"
             range-separator="至"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
+            format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd"
+            clearable
           />
         </el-form-item>
-        <el-form-item label="姓名">
-          <el-input v-model="form.name" />
+        <el-form-item
+          label="姓名"
+        >
+          <el-input
+            clearable
+            v-model="form.name"
+          />
         </el-form-item>
-        <el-form-item label="工作部门">
-          <el-select v-model="form.department">
+        <el-form-item
+          label="工作部门"
+        >
+          <el-select
+            clearable
+            v-model="form.department"
+          >
             <el-option
               v-for="item in deptList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              :key="item.typeName"
+              :label="item.typeName"
+              :value="item.typeName"
             />
           </el-select>
         </el-form-item>
-        <el-form-item>
-          <el-button type="primary">
+        <el-form-item label=" ">
+          <el-button
+            type="primary"
+            @click="getTableData"
+          >
             查 询
           </el-button>
           <el-button
@@ -127,22 +144,15 @@ export default {
     return {
       form: {
         name: '',
-        time: '',
-        startTime: '',
-        endTime: '',
+        workTime: [],
+        workTimeStart: '',
+        workTimeEnd: '',
         department: ''
       },
       // nurseListVisible: true,
       dialogVisible: false,
-      pageList: [{value: '20', label: '20条/页'}, {value: '30', label: '30条/页'}],
       deptList: [
-        {
-          label: '部门1',
-          value: '1'
-        }, {
-          label: '部门2',
-          value: '2'
-        }
+
       ],
       tableData: [
 
@@ -151,13 +161,27 @@ export default {
     }
   },
   mounted () {
+    console.log(this.$route.query)
+    if (!this.IsEmpty(this.$route.query.userCode)) {
+      this.form.name = this.$route.query.form.name || ''
+      this.form.workTime = this.$route.query.form.workTime || ''
+      this.form.workTimeStart = this.$route.query.form.workTimeStart || ''
+      this.form.workTimeEnd = this.$route.query.form.workTimeEnd || ''
+      this.form.department = this.$route.query.form.department || ''
+    }
     this.getTableData()
+    this.getSelectList('011')
   },
   methods: {
     // 获取列表数据
     getTableData () {
       let obj = {
-
+        name: this.form.name || '',
+        department: this.form.department || ''
+      }
+      if (!this.IsEmpty(this.form.workTime)) {
+        obj.workTimeStart = this.form.workTime[0]
+        obj.workTimeEnd = this.form.workTime[1]
       }
       this.$store.dispatch('ReqGetNurList', obj).then(res => {
         if (res.data.code === 200) {
@@ -168,7 +192,21 @@ export default {
         }
       })
     },
-
+    // 获取数据字典列表
+    getSelectList (num) {
+      let obj = {
+        belongSerialNumber: num
+      }
+      this.$store.dispatch('ReqgetBaseDictDetailList', obj).then(res => {
+        if (res.data.code === 200) {
+          if (num === '011') {
+            this.deptList = res.data.data
+          }
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
     handleClose () {
       this.dialogVisible = false
     },
@@ -187,7 +225,15 @@ export default {
       this.$router.push({
         path: '/personnel/personnel-file/files-info-maintain',
         query: {
-          userCode: row.userCode
+          chuandiType: '0',
+          userCode: row.userCode || '',
+          form: {
+            name: this.form.name || '',
+            workTime: this.form.workTime || '',
+            workTimeStart: this.form.workTimeStart || '',
+            workTimeEnd: this.form.workTimeEnd || '',
+            department: this.form.department || ''
+          }
         }
       })
     },

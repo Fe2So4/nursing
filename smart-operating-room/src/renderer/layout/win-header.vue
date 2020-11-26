@@ -24,7 +24,7 @@
       <div class="userInfo">
         <span>
           <i class="el-icon-user-solid" />
-          {{ '万富贵' }}
+          {{ userName }}
         </span>
       </div>
       <div class="caozuo">
@@ -81,6 +81,11 @@ export default {
   },
   destroyed () {
     this.interval = null
+  },
+  computed: {
+    'userName': function () {
+      return this.$store.state['Base'].userName
+    }
   }
 }
 </script>

@@ -4,6 +4,7 @@ import Layout from '../layout/index'
 import Personnel from './modules/personnel'
 import Device from './modules/device'
 import Charge from './modules/charge'
+import Department from './modules/department'
 Vue.use(Router)
 
 export default new Router({
@@ -29,6 +30,7 @@ export default new Router({
     Personnel,
     Device,
     Charge,
+    Department,
     {
       path: '/home',
       name: 'Home',

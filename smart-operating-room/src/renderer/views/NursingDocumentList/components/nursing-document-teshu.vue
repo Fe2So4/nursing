@@ -362,11 +362,11 @@ export default {
     EquipmentChange () {
       this.basicequipment = []
       let obj = {
-        cureNo: 1010,
-        // cureNo: this.$store.state['nursing-document-list'].cureNo,
-        hospitalNo: 666
+        // cureNo: 1010,
+        cureNo: this.$store.state['nursing-document-list'].cureNo,
+        // hospitalNo: 666
 
-        // hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
+        hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
       }
       this.$store.dispatch('ReqNursingDocumentTeShu', obj).then(res => {
         // && res.data.data.specialEquipment.scheduleName === '已清点'

@@ -1,13 +1,18 @@
 <template>
   <div class="layout-aside">
-    <el-menu
-      default-active="defaultActive"
-      class="el-menu-vertical-demo"
-      :collapse="isCollapse"
-      router
-    >
-      <menu-tree :menu-data="menuList" />
-    </el-menu>
+    <div style="height:100%">
+      <el-scrollbar :class="{'reduceHeight':true}">
+        <el-menu
+          default-active="defaultActive"
+          class="el-menu-vertical-demo"
+          :collapse="isCollapse"
+          router
+        >
+          <menu-tree :menu-data="menuList" />
+        </el-menu>
+      </el-scrollbar>
+    </div>
+
     <div
       :class="fold"
       class="collapse-icon"
@@ -141,6 +146,101 @@ export default {
         },
         {
           icon: 'iconfont icon-caidanxiangdao-',
+          title: '科室管理',
+          path: '/department',
+          children: [
+            {
+              icon: 'iconfont icon-guanli',
+              title: '手术查询',
+              path: '/department/search',
+              children: [
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '手术明细查询',
+                  path: '/department/search/department-search'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '多次手术查询',
+                  path: '/department/search/department-moresearch'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '房间状态查询',
+                  path: '/department/search/department-roomsearch'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '手术状态查询',
+                  path: '/department/search/department-surgeryStatus'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '护理记录单查询',
+                  path: '/department/search/nursing-record-search'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '手术接病人时间查询',
+                  path: '/department/search/nursing-receive-search'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '手术接台间隔时间查询',
+                  path: '/department/search/surgery-interval-search'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '每日房间结束时间查询',
+                  path: '/department/search/daily-endtime-search'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '术后手术信息登记查询',
+                  path: '/department/search/endsurgery-info-search'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '手术分级统计',
+                  path: '/department/search/surgery-level-statistical'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '一值班二值班',
+                  path: '/department/search/duty-search'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '积休统计明细表',
+                  path: '/department/search/statistical-detail-search'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '手术间隔时长统计',
+                  path: '/department/search/surgery-interval-time'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '夜间加班积修统计',
+                  path: '/department/search/work-overtime-search'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '手术名称数量统计',
+                  path: '/department/search/surgery-name-number'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '手术分值记录统计',
+                  path: '/department/search/surgery-score'
+                }
+              ]
+            }
+
+          ]
+        },
+        {
+          icon: 'iconfont icon-caidanxiangdao-',
           title: '手术计费',
           path: '/charge',
           children: [
@@ -200,10 +300,9 @@ export default {
 @import './../assets/iconfont/iconfont.css';
 @import '@/variable.scss';
 .layout-aside {
+  background: $nav-bgc;
   height: 100%;
   position: relative;
-  background: $nav-bgc;
-  overflow: hidden;
   /deep/ .el-menu {
     background-color: unset;
     border-right: unset;
@@ -252,6 +351,15 @@ export default {
 .my-el-menu-item div {
   font-size: 18px;
   color: $nav-font;
+}
+/deep/ .el-scrollbar__view {
+  height: 100%;
+}
+/deep/ .el-scrollbar__wrap {
+  overflow-x: hidden !important;
+}
+.reduceHeight {
+  height: calc(100% - 50px);
 }
   // .layout-aside{
   //   height: 100%;
