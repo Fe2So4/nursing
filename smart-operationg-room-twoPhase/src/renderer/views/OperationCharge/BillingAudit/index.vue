@@ -121,7 +121,7 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="10">
+          <el-col :span="24">
             <span class="label">已行</span>
             <span class="value">腹腔镜探查术+胸腔镜下胃游离术</span>
           </el-col>
@@ -228,7 +228,10 @@
             title="操作"
           >
             <template>
-              <i class="el-icon-success icon-status" />
+              <i
+                class="el-icon-success icon-status"
+                @click="handleDelete"
+              />
             </template>
           </vxe-table-column>
         </vxe-table>
@@ -274,6 +277,25 @@ export default {
         search: ''
       },
       tableData: [{time: '2012'}]
+    }
+  },
+  methods: {
+    handleDelete () {
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
     }
   }
 }
