@@ -1,5 +1,5 @@
 <template>
-  <!-- 档案信息查询 -->
+  <!-- 档案信息维护 -->
   <div class="files-info-maintain">
     <div class="fim-top">
       <div class="fim-top-top">

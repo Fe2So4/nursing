@@ -166,7 +166,7 @@
                   <vxe-input
                     size="mini"
                     style="width:60px"
-                    min="0"
+                    :min="1"
                     v-model="item.sampleNum"
                     placeholder="整数类型"
                     type="integer"
@@ -343,7 +343,7 @@ export default {
             id: '',
             sampleName: '',
             remark: '',
-            sampleNum: 0,
+            sampleNum: 1,
             takePartName: ''
           }
         ] // 标本列表
@@ -392,7 +392,7 @@ export default {
           id: '',
           sampleName: '',
           remark: '',
-          sampleNum: 0,
+          sampleNum: 1,
           takePartName: ''
         }
       ]
@@ -445,7 +445,7 @@ export default {
         id: '',
         sampleName: '',
         takePartName: '',
-        sampleNum: 0,
+        sampleNum: 1,
         remark: ''
       })
     },
