@@ -17,6 +17,7 @@
           <li
             v-for="(item,index) in historyList"
             :key="index"
+            @click="handleBindPatient(item)"
           >
             <p><span>{{ item.cureNo }}</span><span>{{ item.patientName }}</span><span>男</span></p>
             <p><span class="label">手术</span><span>{{ item.operationName }}</span></p>
@@ -47,7 +48,8 @@
 <script>
 import {getPatientHistoryRecord} from '@/api/large-screen'
 import request from '@/utils/request2'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
+import $bus from '@/utils/busScreen'
 export default {
   name: 'HistoryRecord',
   data () {
@@ -64,11 +66,23 @@ export default {
     }
   },
   computed: {
-    ...mapState('LargeScreen', ['currentRoom'])
+    ...mapState('LargeScreen', ['currentRoom', 'patientInfo'])
   },
   methods: {
+    ...mapActions('LargeScreen', ['setPatientInfo', 'setCurrentRoom']),
     handleClose () {
       this.$emit('handleClose')
+    },
+    handleBindPatient (data) {
+      this.setPatientInfo({cureNo: data.cureNo, hospitalNo: data.hospitalNo})
+      $bus.$emit('getPatientInfo')
+      $bus.$emit('getStepList')
+      $bus.$emit('getRecord2')
+      $bus.$emit('getOrdinaryData')
+      $bus.$emit('getSpecialData')
+      $bus.$emit('getSignInInfo')
+      $bus.$emit('getTimeOutInfo')
+      $bus.$emit('getSignOutInfo')
     },
     // handleShowHistory () {
     //   this.$emit('handleShowHistory')

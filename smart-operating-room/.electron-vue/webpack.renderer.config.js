@@ -20,11 +20,14 @@ const { VueLoaderPlugin } = require('vue-loader')
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/webpack-configurations.html#white-listing-externals
  */
 let whiteListedModules = ['vue','element-ui']
-
+let entryPath
+if (process.env.BUILD_TARGET === 'LargeScreen') entryPath = path.join(__dirname, '../src/renderer/mainLargeScreen.js')
+else if (process.env.BUILD_TARGET === 'OrderScreen') entryPath = path.join(__dirname, '../src/renderer/mainOrderScreen.js')
+else entryPath = path.join(__dirname, '../src/renderer/main.js')
 let rendererConfig = {
   devtool: '#cheap-module-eval-source-map',
   entry: {
-    renderer: path.join(__dirname, '../src/renderer/main.js')
+    renderer: entryPath
   },
   externals: [
     ...Object.keys(dependencies || {}).filter(d => !whiteListedModules.includes(d))

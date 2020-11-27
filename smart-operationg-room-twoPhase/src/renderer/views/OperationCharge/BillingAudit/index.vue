@@ -42,7 +42,7 @@
           :data="tableData"
           size="mini"
           class="mytable-scrollbar"
-          height="320px"
+          height="280px"
           auto-resize
         >
           <vxe-table-column
@@ -66,7 +66,9 @@
             title="状态"
           >
             <template>
-              <i class="el-icon-circle-check" />
+              <i
+                class="el-icon-success icon-status"
+              />
               <!-- el-icon-circle-close -->
             </template>
           </vxe-table-column>
@@ -74,73 +76,72 @@
       </div>
       <div class="ba-m-right">
         <el-row>
-          <el-col>
+          <el-col :span="8">
             <span class="label">姓名</span>
             <span class="value">林本德 (转入病房)</span>
           </el-col>
-          <el-col>
+          <el-col :span="4">
             <span class="label">性别</span>
             <span class="value">男</span>
           </el-col>
-          <el-col>
+          <el-col :span="5">
             <span class="label">年龄</span>
             <span class="value">68岁</span>
           </el-col>
-          <el-col>
+          <el-col :span="5">
             <span class="label">患者来源</span>
             <span class="value">外地</span>
           </el-col>
         </el-row>
         <el-row>
-          <el-col>
+          <el-col :span="8">
             <span class="label">手术间</span>
             <span class="value">林本德 (转入病房)</span>
           </el-col>
-          <el-col>
+          <el-col :span="6">
             <span class="label">科室</span>
             <span class="value">为外壳</span>
           </el-col>
-          <el-col>
-            <!-- <span class="label"></span> -->
+          <el-col :span="4">
             <span class="value">68555</span>
           </el-col>
         </el-row>
         <el-row>
-          <el-col>
+          <el-col :span="8">
             <span class="label">住院/门诊号</span>
             <span class="value">212</span>
           </el-col>
-          <el-col>
+          <el-col :span="6">
             <span class="label">日期</span>
             <span class="value">2020-09-28</span>
           </el-col>
-          <el-col>
+          <el-col :span="6">
             <span class="label">付费方式</span>
             <span class="value">自费</span>
           </el-col>
         </el-row>
         <el-row>
-          <el-col>
+          <el-col :span="10">
             <span class="label">已行</span>
             <span class="value">腹腔镜探查术+胸腔镜下胃游离术</span>
           </el-col>
         </el-row>
         <el-row>
-          <el-col>
+          <el-col :span="6">
             <span class="label">洗手护士</span>
             <span class="value">陈佳佳</span>
           </el-col>
-          <el-col>
+          <el-col :span="6">
             <span class="label">巡回护士</span>
             <span class="value">孙新琪</span>
           </el-col>
         </el-row>
         <el-row>
-          <el-col>
+          <el-col :span="6">
             <span class="label">术者</span>
             <span class="value">刘晓文</span>
           </el-col>
-          <el-col>
+          <el-col :span="6">
             <span class="label">麻醉医生</span>
             <span class="value">黄思铭</span>
           </el-col>
@@ -154,6 +155,16 @@
       </div>
     </div>
     <div class="ba-bottom">
+      <div class="ba-b-search">
+        <el-form size="mini">
+          <el-form-item>
+            <el-input
+              placeholder="输入关键字查询新增项目"
+              v-model="form.search"
+            />
+          </el-form-item>
+        </el-form>
+      </div>
       <div class="ba-b-table">
         <vxe-table
           stripe
@@ -161,7 +172,7 @@
           :data="tableData"
           size="mini"
           class="mytable-scrollbar"
-          height="320px"
+          height="300px"
           auto-resize
         >
           <vxe-table-column
@@ -217,11 +228,34 @@
             title="操作"
           >
             <template>
-              <i class="el-icon-circle-check" />
-              <!-- el-icon-circle-close -->
+              <i class="el-icon-success icon-status" />
             </template>
           </vxe-table-column>
         </vxe-table>
+      </div>
+      <div class="ba-b-option">
+        <el-form :inline="true">
+          <el-form-item>
+            <el-checkbox>已修改</el-checkbox>
+          </el-form-item>
+          <el-form-item>
+            共7条计费项目
+          </el-form-item>
+          <el-form-item>
+            计费总计 4296.59元
+          </el-form-item>
+          <el-form-item>
+            <el-checkbox>标记为已审核</el-checkbox>
+          </el-form-item>
+        </el-form>
+        <div class="button">
+          <el-button
+            type="primary"
+            size="mini"
+          >
+            提 交
+          </el-button>
+        </div>
       </div>
     </div>
   </div>
@@ -236,7 +270,8 @@ export default {
         opeTime: '',
         name: '',
         opeHosNo: '',
-        opeRoom: ''
+        opeRoom: '',
+        search: ''
       },
       tableData: [{time: '2012'}]
     }
@@ -246,6 +281,12 @@ export default {
 
 <style lang="scss" scoped>
   .billing-audit{
+    display: flex;
+    flex-direction: column;
+    .icon-status{
+      color: #0CD1AA;
+      font-size: 20px;
+    }
     .ba-top{
       background: #FFFFFF;
       box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
@@ -266,10 +307,68 @@ export default {
         flex: 1;
         background: #FFFFFF;
         margin-left: 10px;
+        display: flex;
+        flex-direction: column;
+        .el-row{
+          flex: 1;
+          .el-col{
+            height: 100%;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            span{
+              display: inline-block;
+              &.label{
+                width: 100px;
+                text-align: right;
+                color: #808080;
+              }
+              &.value{
+                color: #333333;
+                padding-left: 10px;
+              }
+            }
+          }
+          &:nth-child(2){
+            background: #F9FAFC;
+          }
+          &:nth-child(4){
+            background: #F9FAFC;
+          }
+          &:nth-child(6){
+            background: #F9FAFC;
+          }
+        }
       }
     }
     .ba-bottom{
-      background: #ffffff;;
+      flex: 1;
+      background: #ffffff;
+      .ba-b-search{
+        padding-top: 20px;
+        padding-left: 20px;
+        max-width: 580px;
+        .el-form-item{
+          margin-bottom: 10px;
+        }
+      }
+      .ba-b-option{
+        .el-form{
+          background: #F7F7F7;
+          display: flex;
+          justify-content: space-around;
+        }
+        .el-form-item{
+          margin-bottom: unset;
+          /deep/ .el-form-item__content{
+            line-height: 36px;
+          }
+        }
+        .button{
+          text-align: center;
+          padding: 20px 0;
+        }
+      }
     }
   }
 </style>
