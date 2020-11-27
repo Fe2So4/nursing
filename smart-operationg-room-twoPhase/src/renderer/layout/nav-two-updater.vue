@@ -256,6 +256,16 @@ export default {
               icon: 'iconfont icon-guanli',
               title: '模板维护',
               path: '/charge/template-maintain'
+            },
+            {
+              icon: 'iconfont icon-guanli',
+              title: '限制耗材药品计费',
+              path: '/charge/limit-drugs'
+            },
+            {
+              icon: 'iconfont icon-guanli',
+              title: '计费审核',
+              path: '/charge/billing-audit'
             }
           ]
         }

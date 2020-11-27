@@ -27,7 +27,17 @@ const chargeRoutes = {
         noNavs: false,
         parent: 'Charge'
       },
-      component: () => import('@/views/OperationCharge/LimitChargingConsumableDrugs2/index')
+      component: () => import('@/views/OperationCharge/LimitChargingConsumableDrugs/index')
+    },
+    {
+      path: 'billing-audit',
+      name: 'BillingAudit',
+      meta: {
+        title: '计费审核',
+        noNavs: false,
+        parent: 'Charge'
+      },
+      component: () => import('@/views/OperationCharge/BillingAudit/index')
     }
   ]
 }
