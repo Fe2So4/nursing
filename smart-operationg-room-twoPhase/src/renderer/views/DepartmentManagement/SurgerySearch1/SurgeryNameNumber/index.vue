@@ -13,9 +13,10 @@
           >
             <el-date-picker
               style="width:178px"
-              v-model="form.input"
+              v-model="form.time"
               type="date"
               format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd"
               placeholder="选择日期"
             />
           </el-form-item>
@@ -126,6 +127,7 @@ export default {
     return {
 
       form: {
+        time: '',
         input: ''
       },
       radio: '',
@@ -158,8 +160,14 @@ export default {
   components: {
     Pagination
   },
+  mounted () {
+    this.getNewTime()
+  },
   methods: {
-
+    // 获取当前时间
+    getNewTime () {
+      this.form.time = this.utilsGetNewDate()
+    },
     handleAddDevice () {
       this.addVisible = true
     }
