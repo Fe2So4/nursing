@@ -1,5 +1,5 @@
 <template>
-  <!-- 护理记录单查询 -->
+  <!-- 高值耗材收费统计 -->
   <div class="nursing-record-search">
     <div class="dr-top">
       <div class="dr-top-left">
@@ -30,53 +30,13 @@
               placeholder="选择日期"
             />
           </el-form-item>
-          <el-form-item label="病区">
-            <el-select
-              v-model="form.input"
-              placeholder="请选择"
-              size="mini"
-            >
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="手术状态">
-            <el-select
-              v-model="form.input"
-              placeholder="请选择"
-              size="mini"
-            >
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="住院号">
+          <el-form-item label="床号">
             <el-input v-model="form.input" />
           </el-form-item>
-          <el-form-item
-            v-show="showType"
-            label="病床号"
-          >
+          <el-form-item label="患者姓名">
             <el-input v-model="form.input" />
           </el-form-item>
-          <el-form-item
-            v-show="showType"
-            label="病人姓名"
-          >
-            <el-input v-model="form.input" />
-          </el-form-item>
-          <el-form-item
-            v-show="showType"
-            label="手术名称"
-          >
+          <el-form-item label="耗材名称">
             <el-input v-model="form.input" />
           </el-form-item>
           <el-form-item
@@ -87,19 +47,7 @@
           </el-form-item>
           <el-form-item
             v-show="showType"
-            label="主刀医师"
-          >
-            <el-input v-model="form.input" />
-          </el-form-item>
-          <el-form-item
-            v-show="showType"
-            label="洗手护士"
-          >
-            <el-input v-model="form.input" />
-          </el-form-item>
-          <el-form-item
-            v-show="showType"
-            label="巡回护士"
+            label="手术房间"
           >
             <el-input v-model="form.input" />
           </el-form-item>
@@ -145,9 +93,17 @@
     </div>
     <div class="dr-table">
       <div class="dr-table-top">
+        <div>
+          <el-tag
+            v-for="tag in tags"
+            :key="tag.name"
+            closable
+            :type="tag.type"
+          >
+            {{ tag.name }}
+          </el-tag>
+        </div>
         <div
-          :key="index"
-          v-for="(item,index) in 4"
           class="dr-table-top-item"
         >
           <div class="item-left">
@@ -187,23 +143,19 @@
           />
           <vxe-table-column
             field="no"
-            title="日间手术"
+            title="手术间号"
           />
           <vxe-table-column
             field="age1"
-            title="房间"
+            title="住院号"
           />
           <vxe-table-column
             field="age1"
-            title="术序"
+            title="床号"
           />
 
           <vxe-table-column
             field="age2"
-            title="床号"
-          />
-          <vxe-table-column
-            field="age3"
             title="姓名"
           />
           <vxe-table-column
@@ -216,29 +168,37 @@
           />
           <vxe-table-column
             field="age3"
-            title="住院号"
+            title="项目名称"
           />
           <vxe-table-column
             field="age3"
-            title="所属科室"
+            title="条形码"
+          />
+          <vxe-table-column
+            field="age3"
+            title="规格"
           />
 
           <vxe-table-column
             field="age3"
-            title="手术名称"
+            title="单位"
           />
 
           <vxe-table-column
             field="age3"
-            title="主刀医生"
+            title="分类"
           />
           <vxe-table-column
             field="age3"
-            title="洗手护士"
+            title="单价"
           />
           <vxe-table-column
             field="age3"
-            title="巡回护士"
+            title="数量"
+          />
+          <vxe-table-column
+            field="age3"
+            title="小计"
           />
         </vxe-table>
       </div>
@@ -277,6 +237,13 @@ export default {
         value: '选项5',
         label: '北京烤鸭'
       }],
+      tags: [
+        { name: '标签一', type: '' },
+        { name: '标签二', type: 'success' },
+        { name: '标签三', type: 'info' },
+        { name: '标签四', type: 'warning' },
+        { name: '标签五', type: 'danger' }
+      ],
       tableData: [{sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
         {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
         {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},

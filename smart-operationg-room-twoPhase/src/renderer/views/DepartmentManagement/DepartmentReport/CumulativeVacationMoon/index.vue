@@ -1,5 +1,5 @@
 <template>
-  <!-- 护理记录单查询 -->
+  <!-- 积休按月统计 -->
   <div class="nursing-record-search">
     <div class="dr-top">
       <div class="dr-top-left">
@@ -9,109 +9,26 @@
           size="mini"
         >
           <el-form-item
-            label="开始日期"
+            label="年"
           >
             <el-date-picker
-              style="width:178px"
-              v-model="form.startTime"
-              type="date"
-              format="yyyy-MM-dd"
-              value-format="yyyy-MM-dd"
-              placeholder="选择日期"
+              v-model="form.input"
+              type="year"
+              format="yyyy"
+              value-format="yyyy"
+              placeholder="选择年"
             />
           </el-form-item>
-          <el-form-item label="结束日期">
+          <el-form-item label="月">
             <el-date-picker
-              v-model="form.endTime"
-              style="width:178px"
-              type="date"
-              format="yyyy-MM-dd"
-              value-format="yyyy-MM-dd"
-              placeholder="选择日期"
+              format="yyyy-MM"
+              value-format="yyyy-MM"
+              v-model="form.input"
+              type="month"
+              placeholder="选择月"
             />
           </el-form-item>
-          <el-form-item label="病区">
-            <el-select
-              v-model="form.input"
-              placeholder="请选择"
-              size="mini"
-            >
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="手术状态">
-            <el-select
-              v-model="form.input"
-              placeholder="请选择"
-              size="mini"
-            >
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="住院号">
-            <el-input v-model="form.input" />
-          </el-form-item>
-          <el-form-item
-            v-show="showType"
-            label="病床号"
-          >
-            <el-input v-model="form.input" />
-          </el-form-item>
-          <el-form-item
-            v-show="showType"
-            label="病人姓名"
-          >
-            <el-input v-model="form.input" />
-          </el-form-item>
-          <el-form-item
-            v-show="showType"
-            label="手术名称"
-          >
-            <el-input v-model="form.input" />
-          </el-form-item>
-          <el-form-item
-            v-show="showType"
-            label="所属科室"
-          >
-            <el-input v-model="form.input" />
-          </el-form-item>
-          <el-form-item
-            v-show="showType"
-            label="主刀医师"
-          >
-            <el-input v-model="form.input" />
-          </el-form-item>
-          <el-form-item
-            v-show="showType"
-            label="洗手护士"
-          >
-            <el-input v-model="form.input" />
-          </el-form-item>
-          <el-form-item
-            v-show="showType"
-            label="巡回护士"
-          >
-            <el-input v-model="form.input" />
-          </el-form-item>
-        </el-form>
-      </div>
-
-      <div class="dr-top-right">
-        <el-form
-          :inline="true"
-          size="mini"
-        >
-          <el-form-item>
+          <el-form-item label=" ">
             <el-button
               type="primary"
               @click="handleSearchTableList"
@@ -129,44 +46,8 @@
           </el-form-item>
         </el-form>
       </div>
-      <div
-        class="top-icon"
-        @click="handleChangeIcon"
-      >
-        <i
-          v-show="showType"
-          class="el-icon-arrow-up"
-        />
-        <i
-          v-show="!showType"
-          class="el-icon-arrow-down"
-        />
-      </div>
     </div>
     <div class="dr-table">
-      <div class="dr-table-top">
-        <div
-          :key="index"
-          v-for="(item,index) in 4"
-          class="dr-table-top-item"
-        >
-          <div class="item-left">
-            所属科室:
-          </div>
-          <div class="item-right">
-            <div
-              class="item-right-context"
-              :key="index"
-              v-for="(item,index) in 20"
-            >
-              <span>
-                <span class="context-title">普外科</span>
-                <span>(20)</span>
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
       <div class="dr-table-bottom">
         <vxe-table
           align="center"
@@ -187,23 +68,19 @@
           />
           <vxe-table-column
             field="no"
-            title="日间手术"
+            title="手术间号"
           />
           <vxe-table-column
             field="age1"
-            title="房间"
+            title="住院号"
           />
           <vxe-table-column
             field="age1"
-            title="术序"
+            title="床号"
           />
 
           <vxe-table-column
             field="age2"
-            title="床号"
-          />
-          <vxe-table-column
-            field="age3"
             title="姓名"
           />
           <vxe-table-column
@@ -216,29 +93,33 @@
           />
           <vxe-table-column
             field="age3"
-            title="住院号"
+            title="吻合器"
           />
           <vxe-table-column
             field="age3"
-            title="所属科室"
+            title="型号"
+          />
+          <vxe-table-column
+            field="age3"
+            title="厂家"
           />
 
           <vxe-table-column
             field="age3"
-            title="手术名称"
+            title="供货单位"
           />
 
           <vxe-table-column
             field="age3"
-            title="主刀医生"
+            title="供货人"
           />
           <vxe-table-column
             field="age3"
-            title="洗手护士"
+            title="数量"
           />
           <vxe-table-column
             field="age3"
-            title="巡回护士"
+            title="收费名称"
           />
         </vxe-table>
       </div>

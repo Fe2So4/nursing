@@ -241,6 +241,90 @@ export default {
                   icon: 'iconfont icon-guanli',
                   title: '手术分值记录统计',
                   path: '/department/search/surgery-score'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '高值耗材收费统计',
+                  path: '/department/search/height-value-charge'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '吻合器使用登记统计',
+                  path: '/department/search/stapling-number'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '收费项目统计手术收费',
+                  path: '/department/search/charge-project-statistical'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '手术房间消毒时间统计',
+                  path: '/department/search/disinfection-time-statistical'
+                }
+              ]
+            },
+            {
+              icon: 'iconfont icon-guanli',
+              title: '科室报表',
+              path: '/department/baobiao',
+              children: [
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '积休按月统计',
+                  path: '/department/search/cumulative-vacation-moon'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '积休按年统计',
+                  path: '/department/search/cumulative-vacation-year'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '护理人员计费统计',
+                  path: '/department/search/nursing-staff-billing'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '科室人员分工统计',
+                  path: '/department/search/personnel-department-work'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '科室人员休假统计',
+                  path: '/department/search/personnel-department-holiday'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '按科室统计手术费用',
+                  path: '/department/search/indepartment-calculate-cost'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '按科室统计手术数量',
+                  path: '/department/search/indepartment-calculate-number'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '按护士统计手术数量',
+                  path: '/department/search/innursing-calculate-number'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '按主刀医生统计手术数量',
+                  path: '/department/search/indoctor-calculate-number'
+                }
+              ]
+            },
+            {
+              icon: 'iconfont icon-guanli',
+              title: '器械设备报表',
+              path: '/department/qixie',
+              children: [
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '房间设备使用登记',
+                  path: '/department/search/room-equipment'
                 }
               ]
             }
