@@ -192,7 +192,7 @@
             <!-- <van-icon name="play"/> -->
           </template>
         </van-cell>
-        <div v-show="recordForm.rinse.rinseList.includes('3')">
+        <!-- <div v-show="recordForm.rinse.rinseList.includes('3')">
           <van-cell title="药液1：" value="内容" title-class="left-title" value-class="right-value">
             <template #right-icon>
               <van-field v-model="recordForm.rinse.liquidMedicine1"/>
@@ -213,7 +213,7 @@
               <van-field v-model="recordForm.rinse.liquidMedicine4"/>
             </template>
           </van-cell>
-        </div>
+        </div> -->
         <van-cell title="腰穿留置：" value="内容">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">

@@ -141,7 +141,7 @@ export default {
     document.onkeydown = (e) => {
       var key = window.event.keyCode
       if (key === 13) {
-        this.handleScan('1001')
+        this.handleScan('1018')
       }
     }
   },
