@@ -18,12 +18,24 @@
             size="mini"
           >
             <el-form-item>
-              <el-button
-                type="info"
-                plain
+              <!--  -->
+              <el-upload
+                ref="upload"
+                class="upload-demo"
+                :action="updataUrl"
+                :on-success="handleAvatarSuccess"
+                :headers="myHeaders"
+                multiple
+                :show-file-list="false"
+                accept="image/png,image/gif,image/jpg,image/jpeg"
               >
-                上传头像
-              </el-button>
+                <el-button
+                  type="info"
+                  plain
+                >
+                  上传头像
+                </el-button>
+              </el-upload>
             </el-form-item>
             <el-form-item label="姓名">
               <el-input
@@ -113,6 +125,8 @@
 </template>
 
 <script>
+import { getUserToken } from '@/utils/storage'
+import ConfigUrl from '@/config/url.js'
 import BasicInfo from './components/basic-info'
 import TitleInfo from './components/title-info'
 import EducationExperience from './components/education-experience'
@@ -122,6 +136,8 @@ export default {
   name: 'FilesInfoMaintain',
   data () {
     return {
+      updataUrl: `${ConfigUrl.api.baseURL}/ocis/portfolio/addPictures`,
+      myHeaders: {},
       isAdd: '1',
       chuandiForm: {},
       loginType: 0,
@@ -154,6 +170,9 @@ export default {
     BasicInfo, EducationExperience, TitleInfo, DepartmentRotation, TrainingFurtherStudy
   },
   mounted () {
+    this.myHeaders = {
+      Authorization: getUserToken()
+    }
     console.log(this.$route.query)
     if (this.$route.query.chuandiType === '0') {
       this.loginType = 0
@@ -191,6 +210,9 @@ export default {
     this.getSelectList('011')
   },
   methods: {
+    handleAvatarSuccess (res, file) {
+      console.log(URL.createObjectURL(file.raw))
+    },
     // 判断是否显示其他信息
     IsShowAnthorInfo (showType) {
       this.tabList.forEach((item, index) => {

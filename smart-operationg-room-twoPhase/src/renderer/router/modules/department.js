@@ -178,6 +178,146 @@ const departmentRoutes = {
             parent: 'Department'
           },
           component: () => import('@/views/DepartmentManagement/SurgerySearch1/SurgeryScore/index')
+        },
+        {
+          path: 'height-value-charge',
+          name: 'HeightValueCharge',
+          meta: {
+            title: '高值耗材收费统计',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/SurgerySearch1/HeightValueCharge/index')
+        },
+        {
+          path: 'stapling-number',
+          name: 'StaplingNumber',
+          meta: {
+            title: '吻合器使用登记统计',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/SurgerySearch1/StaplingNumber/index')
+        },
+        {
+          path: 'charge-project-statistical',
+          name: 'ChargeProjectStatistical',
+          meta: {
+            title: '收费项目统计手术收费',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/SurgerySearch1/ChargeProjectStatistical/index')
+        },
+        {
+          path: 'disinfection-time-statistical',
+          name: 'DisinfectionTimeStatistical',
+          meta: {
+            title: '手术房间消毒时间统计',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/SurgerySearch1/DisinfectionTimeStatistical/index')
+        },
+        {
+          path: 'cumulative-vacation-moon',
+          name: 'CumulativeVacationMoon',
+          meta: {
+            title: '积休按月统计',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/DepartmentReport/CumulativeVacationMoon/index')
+        },
+        {
+          path: 'cumulative-vacation-year',
+          name: 'CumulativeVacationYear',
+          meta: {
+            title: '积休按年统计',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/DepartmentReport/CumulativeVacationYear/index')
+        },
+        {
+          path: 'nursing-staff-billing',
+          name: 'NursingStaffBilling',
+          meta: {
+            title: '护理人员计费统计',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/DepartmentReport/NursingStaffBilling/index')
+        },
+        {
+          path: 'personnel-department-work',
+          name: 'PersonnelDepartmentWork',
+          meta: {
+            title: '科室人员分工统计',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/DepartmentReport/PersonnelDepartmentWork/index')
+        },
+        {
+          path: 'personnel-department-holiday',
+          name: 'PersonnelDepartmentHoliday',
+          meta: {
+            title: '科室人员休假统计',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/DepartmentReport/PersonnelDepartmentHoliday/index')
+        },
+        {
+          path: 'indepartment-calculate-cost',
+          name: 'InDepartmentCalculateCost',
+          meta: {
+            title: '按科室统计手术费用',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/DepartmentReport/InDepartmentCalculateCost/index')
+        },
+        {
+          path: 'indepartment-calculate-number',
+          name: 'InDepartmentCalculateNumber',
+          meta: {
+            title: '按科室统计手术数量',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/DepartmentReport/InDepartmentCalculateNumber/index')
+        },
+        {
+          path: 'innursing-calculate-number',
+          name: 'InNursingCalculateNumber',
+          meta: {
+            title: '按护士统计手术数量',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/DepartmentReport/InNursingCalculateNumber/index')
+        },
+        {
+          path: 'indoctor-calculate-number',
+          name: 'InDoctorCalculateNumber',
+          meta: {
+            title: '按主刀医生统计手术数量',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/DepartmentReport/InDoctorCalculateNumber/index')
+        },
+        {
+          path: 'room-equipment',
+          name: 'RoomEquipment',
+          meta: {
+            title: '房间设备使用登记',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/InstrumentEquipment/RoomEquipment/index')
         }
       ]
       // redirect: '/personnel/personnel-file/files-info-select',
