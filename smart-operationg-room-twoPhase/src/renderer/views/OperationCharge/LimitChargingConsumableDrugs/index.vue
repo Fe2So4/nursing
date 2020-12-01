@@ -7,22 +7,30 @@
         size="mini"
       >
         <el-form-item label="计费项目">
-          <el-input v-model="form.orderItem" />
+          <el-input
+            v-model="form.orderItem"
+            clearable
+          />
         </el-form-item>
         <el-form-item
           label="科室"
         >
-          <el-input v-model="form.department" />
+          <el-input
+            v-model="form.department"
+            clearable
+          />
         </el-form-item>
         <el-form-item label=" ">
           <el-button
             type="primary"
+            @click="getConsumablesDrugData"
           >
             查 询
           </el-button>
           <el-button
             type="info"
             plain
+            @click="handleAddNew"
           >
             添 加
           </el-button>
@@ -36,6 +44,7 @@
           <el-button
             type="info"
             plain
+            @click="handleExport"
           >
             导 出
           </el-button>
@@ -54,43 +63,44 @@
           auto-resize
         >
           <vxe-table-column
-            field="userCode"
+            field="code"
             title="项目编号"
           />
           <vxe-table-column
-            field="userName"
+            field="chargeName"
             title="项目名称"
           />
           <vxe-table-column
-            field="workDepartmentName"
+            field="unit"
             title="单位"
           />
           <vxe-table-column
-            field="energyLevels"
+            field="deptName"
             title="科室名称"
           />
           <vxe-table-column
-            field="workTime"
+            field="availableQuantity"
             title="可用数量"
           />
           <vxe-table-column
-            field="annualLeave"
+            field="usedQuantity"
             title="已用数量"
           />
           <vxe-table-column
-            field="annualLeave1"
+            field="createBy"
             title="录入人"
           />
           <vxe-table-column
-            field="annualLeave2"
+            field="createTime"
             title="录入时间"
           />
           <vxe-table-column
             title="操作"
           >
-            <template>
+            <template v-slot="{row}">
               <el-button
                 type="text"
+                @click="handleEdit(row)"
               >
                 编辑
               </el-button>
@@ -108,8 +118,11 @@
     </div>
     <ConfigDrug
       :config-visible="configVisible"
+      v-if="configVisible"
       :dialog-title="dialogTitle"
+      :edit-data="editData"
       @handleClose="handleClose"
+      @getConsumablesDrugData="getConsumablesDrugData"
     />
   </div>
 </template>
@@ -117,6 +130,8 @@
 <script>
 import Pagination from '@/components/Pagination/pagination'
 import ConfigDrug from './components/config-drug'
+import request from '@/utils/request'
+import {getConsumablesDrugData, exportExcel} from '@/api/charge'
 export default {
   name: 'LimitDrugs',
   data () {
@@ -130,28 +145,62 @@ export default {
         department: ''
       },
       configVisible: false,
-      deptList: [
-
-      ],
+      deptList: [],
       dialogTitle: '手术止血耗材配置',
       tableData: [
         {userCode: '1'}
       ],
-      showData: {}
+      showData: {},
+      pageSize: 20,
+      currentPage: 1,
+      editData: {}
     }
   },
   mounted () {
 
   },
+  created () {
+    this.getConsumablesDrugData()
+  },
   methods: {
+    handleAddNew () {
+      this.editData = {}
+      this.configVisible = true
+    },
+    handleEdit (row) {
+      this.editData = row
+      this.configVisible = true
+    },
     handleClose () {
       this.configVisible = false
+    },
+    handleExport () {
+      request({
+        method: 'get',
+        url: exportExcel,
+        params: {
+          chargeBasicName: this.form.orderItem,
+          dictDeptName: this.form.department
+        }
+      })
+    },
+    getConsumablesDrugData () {
+      request({
+        url: getConsumablesDrugData,
+        method: 'post',
+        data: {
+          chargeBasicName: this.form.orderItem,
+          dictDeptName: this.form.department,
+          pageIndex: this.currentPage,
+          pageSize: this.pageSize
+        }
+      }).then(res => {
+        let data = res.data.data
+        this.tableData = data.list
+      })
     }
   },
-  components: {Pagination, ConfigDrug},
-  created () {
-
-  }
+  components: {Pagination, ConfigDrug}
 }
 </script>
 

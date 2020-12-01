@@ -84,8 +84,10 @@ export default {
   },
   components: {
   },
-  mounted () {
+  created () {
     this.getStep()
+  },
+  mounted () {
   },
   methods: {
     onClickLeft () {

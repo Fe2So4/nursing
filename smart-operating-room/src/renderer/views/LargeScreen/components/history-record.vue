@@ -98,6 +98,10 @@ export default {
   },
   created () {
     this.getHistoryRecord()
+    $bus.$on('getHistoryRecord', this.getHistoryRecord)
+  },
+  beforeDestroy () {
+    $bus.$off('getHistoryRecord')
   }
 }
 </script>

@@ -10,11 +10,13 @@
         />
       </div>
       <el-tree
-        :data="data"
+        :data="treeData"
         node-key="id"
         highlight-current
         default-expand-all
         ref="tree"
+        :props="treeProps"
+        @node-click="handleTreeClick"
         :filter-node-method="filterNode"
         :expand-on-click-node="false"
       >
@@ -22,26 +24,28 @@
           class="custom-tree-node"
           slot-scope="{ node, data }"
         >
-          <!-- slot-scope="{ node, data }" -->
-          <span :class="data.children?'tree-parent-title':''">{{ node.label }}</span>
+          <span :class="data.child?'tree-parent-title':''">{{ node.label }}</span>
           <span
-            v-if="data.children"
+            v-if="data.level"
             class="tree-option"
           >
             <i
               class="el-icon-plus"
-              @click="handleAdd(1)"
+              @click="handleAdd(data)"
             />
           </span>
           <span
-            v-if="!data.children"
+            v-if="!data.level"
             class="tree-option"
           >
             <!-- <i
               class="el-icon-plus"
               @click="handleAdd(2)"
             /> -->
-            <i class="el-icon-minus" />
+            <i
+              class="el-icon-minus"
+              @click="handleDeleteTree(data.id)"
+            />
           </span>
         </span>
       </el-tree>
@@ -62,6 +66,7 @@
             <el-button
               type="info"
               plain
+              @click="handleAddItem"
             >
               新 增
             </el-button>
@@ -96,6 +101,7 @@
           height="auto"
           auto-resize
           stripe
+          ref="xTable"
         >
           <vxe-table-column
             field="sort"
@@ -116,7 +122,14 @@
           <vxe-table-column
             field="no"
             title="项目名称"
-          />
+          >
+            <template v-slot="{ row }">
+              <el-input
+                v-model="row.name"
+                size="mini"
+              />
+            </template>
+          </vxe-table-column>
           <vxe-table-column
             field="age1"
             title="规格"
@@ -172,13 +185,17 @@
     <AddGroup
       :add-visible="addVisible"
       :dialog-title="dialogTitle"
-      @handleClose="handleAdd"
+      :tree-data="treeObj"
+      @getTreeData="getTreeData"
+      @handleClose="handleCloseTreeDialog"
     />
   </div>
 </template>
 
 <script>
 import AddGroup from './components/add-group'
+import request from '@/utils/request'
+import {getTreeData, deleteTreeNode, addTemplateDetail, getDictCharge} from '@/api/charge'
 export default {
   name: 'TemplateMaintain',
   data () {
@@ -186,35 +203,18 @@ export default {
       form: {
         value: ''
       },
+      treeProps: {
+        label: 'name',
+        children: 'child'
+      },
       filterText: '',
       addVisible: false,
-      data: [{id: '1',
-        label: '术中收费模块',
-        isChild: false,
-        children: [{
-          id: '1-1',
-          label: '徐汇院区手术室',
-          isChild: false,
-          children: [{
-            id: '1-1-1',
-            label: '大肠组套',
-            isChild: true
-          }]
-        }, {
-          id: '1-2',
-          label: '肝脏外科',
-          isChild: false,
-          children: [] }, {
-          id: '1-3',
-          label: '头颈外科',
-          isChild: false,
-          children: [] }, {
-          id: '1-4',
-          label: '大肠外科',
-          isChild: false,
-          children: [] }]}],
+      treeData: [],
       tableData: [{name: 'd'}],
-      dialogTitle: '新增组套'
+      dialogTitle: '新增模板',
+      treeObj: {},
+      defaultActive: '',
+      categoryList: []
     }
   },
   watch: {
@@ -225,14 +225,89 @@ export default {
   components: {
     AddGroup
   },
+  created () {
+    this.getTreeData()
+    this.getChargeCategoryList()
+  },
   methods: {
-    handleAdd (param = 0) {
-      this.addVisible = !this.addVisible
-      if (param === 1) {
-        this.dialogTitle = '新增组套'
-      } else if (param === 2) {
-        this.dialogTitle = '编辑组套'
+    getTreeData () {
+      request({
+        url: getTreeData,
+        method: 'get'
+      }).then(res => {
+        let data = res.data.data
+        data.forEach(item => {
+          item.level = 'first'
+          item.child.forEach(_item => {
+            _item.level = 'second'
+          })
+        })
+        this.treeData = data
+      })
+    },
+    handleSave () {
+      request({
+        method: 'post',
+        url: addTemplateDetail,
+        data: {
+
+        }
+      }).then(res => {
+        if (res.data.code === 200) {
+          this.$emit({type: 'success', message: '保存成功'})
+        } else {
+          this.$emit({type: 'error', message: res.data.msg})
+        }
+      })
+    },
+    getChargeCategoryList () {
+      request(
+        {
+          url: getDictCharge + '/' + 'CHARGCATEGORY',
+          method: 'get'
+        }
+      ).then(res => {
+        this.categoryList = res.data.data
+      })
+    },
+    handleAddItem () {
+      let record = {
+        // deviceNo: '',
+        // dictNameId: data.dictNameId,
+        // dictPositionId: data.dictPositionId,
+        // groupId: data.groupId,
+        // model: data.model,
+        // name: data.name,
+        // position: data.position,
+        // serialNo: data.serialNo,
+        // sort: data.sort
       }
+      this.$refs.xTable.insertAt(record)
+    },
+    handleCloseTreeDialog () {
+      this.addVisible = false
+    },
+    handleTreeClick (nodeObj) {
+      this.defaultActive = nodeObj.id
+      // this.getDeviceGroupData()
+    },
+    handleDeleteTree (id) {
+      request({
+        method: 'get',
+        url: deleteTreeNode + '/' + id
+      }).then(res => {
+        if (res.data.code === 200) {
+          this.$message({type: 'success', message: '删除成功'})
+          this.getTreeData()
+        } else {
+          this.$message({type: 'error', message: res.data.msg})
+        }
+      })
+    },
+    handleAdd (param) {
+      this.addVisible = true
+      this.treeObj = param
+      console.log(param)
     },
     filterNode (value, data) {
       if (!value) return true

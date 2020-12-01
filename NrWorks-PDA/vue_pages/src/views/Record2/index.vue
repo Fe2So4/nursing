@@ -192,7 +192,7 @@
             <!-- <van-icon name="play"/> -->
           </template>
         </van-cell>
-        <!-- <div v-show="recordForm.rinse.rinseList.includes('3')">
+        <div v-show="recordForm.rinse.rinseList.indexOf('3')!==-1">
           <van-cell title="药液1：" value="内容" title-class="left-title" value-class="right-value">
             <template #right-icon>
               <van-field v-model="recordForm.rinse.liquidMedicine1"/>
@@ -213,7 +213,7 @@
               <van-field v-model="recordForm.rinse.liquidMedicine4"/>
             </template>
           </van-cell>
-        </div> -->
+        </div>
         <van-cell title="腰穿留置：" value="内容">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
@@ -393,14 +393,14 @@ export default {
       ],
       result: [],
       // 电极板
-      djbOptions: [{text: '大腿', value: '1'}, {text: '小腿', value: '2'}, {text: '臀部', value: '3'}, {text: '其它', value: '4'}, {text: '负极返回路垫', value: '5'}, {text: '无', value: '6'}],
+      djbOptions: [{text: '大腿', value: '1'}, {text: '小腿', value: '2'}, {text: '臀部', value: '3'}, {text: '其它', value: '4'}, {text: '负极返回路垫', value: '5'}, {text: '无', value: '6'}, {text: '', value: ''}],
       wOptions: [],
       // 术中冲洗
       szcxOptions: [{text: '0.9%氯化钠溶液', value: '1'}, {text: '灭菌注射用水', value: '2'}, {text: '药液', value: '3'}],
       // 病理数量
-      pathologyList: [{text: '1', value: '1'}, {text: '2', value: '2'}, {text: '3', value: '3'}, {text: '4', value: '4'}, {text: '5', value: '5'}, {text: '6', value: '6'}, {text: '7', value: '7'}, {text: '8', value: '8'}, {text: '9', value: '9'}, {text: '10', value: '10'}],
-      catheterOptions: [{text: '无', value: '1'}, {text: '病房带入', value: '2'}, {text: '手术室插入', value: '3'}],
-      constraintOptions: [{value: '1', text: '无'}, {value: '2', text: '有'}], // 约束带
+      pathologyList: [{text: '1', value: '1'}, {text: '2', value: '2'}, {text: '3', value: '3'}, {text: '4', value: '4'}, {text: '5', value: '5'}, {text: '6', value: '6'}, {text: '7', value: '7'}, {text: '8', value: '8'}, {text: '9', value: '9'}, {text: '10', value: '10'}, {text: '', value: ''}],
+      catheterOptions: [{text: '无', value: '1'}, {text: '病房带入', value: '2'}, {text: '手术室插入', value: '3'}, {text: '', value: ''}],
+      constraintOptions: [{value: '1', text: '无'}, {value: '2', text: '有'}, {value: '', text: ''}], // 约束带
       bodyOptions: [{text: '仰卧位', value: '1'},
         {text: '俯卧位', value: '2'},
         {text: '左侧卧位', value: '3'},
@@ -411,7 +411,7 @@ export default {
         {text: '俯卧位', value: '8'}
       ],
       presureValueList: [],
-      presureOptions: [{text: 'kPa', value: 'kPa'}, {text: 'mmHg', value: 'mmHg'}],
+      presureOptions: [{text: 'kPa', value: 'kPa'}, {text: 'mmHg', value: 'mmHg'}, {text: '', value: ''}],
       deviceOptions: [
         {text: '肩垫', value: '1'},
         {text: '腋垫', value: '2'},
@@ -440,11 +440,15 @@ export default {
         {
           text: '急诊',
           value: '3'
+        },
+        {
+          text: '',
+          value: ''
         }
       ],
-      skinOptions: [{text: '完整', value: '1'}, {text: '不完整', value: '2'}],
-      locationOptions: [{text: '左上肢', value: '1'}, {text: '左下肢', value: '2'}, {text: '右上肢', value: '3'}, {text: '右下肢', value: '4'}],
-      consciousnessOptions: [{text: '清醒', value: '1'}, {text: '烦躁', value: '2'}, {text: '昏迷', value: '3'}],
+      skinOptions: [{text: '完整', value: '1'}, {text: '不完整', value: '2'}, {text: '', value: ''}],
+      locationOptions: [{text: '左上肢', value: '1'}, {text: '左下肢', value: '2'}, {text: '右上肢', value: '3'}, {text: '右下肢', value: '4'}, {text: '', value: ''}],
+      consciousnessOptions: [{text: '清醒', value: '1'}, {text: '烦躁', value: '2'}, {text: '昏迷', value: '3'}, {text: '', value: ''}],
       recordForm: {
         anesthesiaMode: [],
         catheter: {
@@ -544,6 +548,7 @@ export default {
     handleFilterLabel (obj) {
       let str = ''
       var reg = /,$/gi
+      // setTimeout(() => {
       if (this.recordForm[obj.value] !== '' && obj.value !== 'rinseList') {
         this[obj.list].forEach(item => {
           this.recordForm[obj.value].forEach(_item => {
@@ -565,6 +570,7 @@ export default {
       } else {
         return ''
       }
+      // }, 10)
     },
     handleShowTime (param) {
       if (param.indexOf('opsChangeList') !== -1) {
@@ -623,7 +629,8 @@ export default {
       }).then(res => {
         if (res.data.code === 200) {
           this.$notify({type: 'success', message: '保存成功'})
-          // this.getData()
+          this.recordForm.anesthesiaMode = this.recordForm.anesthesiaMode.split(',')
+          this.getData()
         }
       })
     },
@@ -654,6 +661,8 @@ export default {
       for (var j = 200; j <= 300; j++) {
         this.presureValueList.push({text: j, value: j})
       }
+      this.presureValueList.push({text: '', value: ''})
+      arr.push({text: '', value: ''})
       this.wOptions = arr
     },
     handleShowSignature (param) {

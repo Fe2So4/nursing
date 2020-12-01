@@ -83,6 +83,7 @@ export default {
     },
     handleShowHistory () {
       this.historyVisible = true
+      $bus.$emit('getHistoryRecord')
     },
     setCureNo (obj) {
       this.setPatientInfo(obj)

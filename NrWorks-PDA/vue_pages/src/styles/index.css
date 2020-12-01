@@ -180,6 +180,9 @@ body /deep/ .van-notify{
 #app /deep/ .van-dropdown-menu__item{
   height:100%;
 }
+#app /deep/ .van-dropdown-item__option{
+  height: 80px;
+}
 #app /deep/ .van-dropdown-menu__title_top .van-dropdown-menu__title.van-dropdown-menu__title--active::after{
   margin-top: -12px !important;
 }
