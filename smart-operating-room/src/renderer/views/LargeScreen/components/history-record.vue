@@ -14,7 +14,7 @@
       </div>
       <div class="history-content">
         <ul>
-          <li
+          <!-- <li
             v-for="(item,index) in historyList"
             :key="index"
             @click="handleBindPatient(item)"
@@ -32,6 +32,30 @@
             <p>
               <span>
                 <span class="label">主刀</span><span>{{ item.surgeon }}</span>
+              </span>
+              <span class="span-last">
+                <span style="color:#388FF7;">泌尿科</span><span style="color:#388FF7;">8病区</span>
+              </span>
+            </p>
+          </li> -->
+          <!-- @click="handleBindPatient(item)" -->
+          <li
+            v-for="(item,index) in 20"
+            :key="index"
+          >
+            <p><span>{{ item }}</span><span>{{ item }}</span><span>男</span></p>
+            <p><span class="label">手术</span><span>{{ item }}</span></p>
+            <p>
+              <span>
+                <span class="label">台次</span><span style="color:#FF2525;">6</span>
+              </span>
+              <span>
+                <span class="label">床位</span><span>{{ item }}</span>
+              </span>
+            </p>
+            <p>
+              <span>
+                <span class="label">主刀</span><span>{{ item }}</span>
               </span>
               <span class="span-last">
                 <span style="color:#388FF7;">泌尿科</span><span style="color:#388FF7;">8病区</span>
