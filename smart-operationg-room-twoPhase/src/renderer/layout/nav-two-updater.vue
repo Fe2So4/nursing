@@ -352,6 +352,18 @@ export default {
               path: '/charge/billing-audit'
             }
           ]
+        },
+        {
+          icon: 'iconfont icon-caidanxiangdao-',
+          title: '护理电子病历',
+          path: '/emr',
+          children: [
+            {
+              icon: 'iconfont icon-guanli',
+              title: '模板维护',
+              path: '/emr/record-ready'
+            }
+          ]
         }
       ]
     }
