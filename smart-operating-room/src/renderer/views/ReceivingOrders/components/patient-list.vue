@@ -11,16 +11,16 @@
             :class="{'female':ptData.patientGender==='女','male':ptData.patientGender==='男'}"
           />
           <span class="pt-info">{{ ptData.patientName }}</span>
-          <span class="pt-info">{{ ptData.wardName }}</span>
+          <span class="pt-info">{{ ptData.wardName }}病区</span>
           <span class="pt-info">{{ ptData.deptName }}</span>
-          <span class="pt-info">{{ ptData.bedNo }}</span>
+          <span class="pt-info">{{ ptData.bedNo }}床</span>
           <span class="pt-info">{{ ptData.hospitalNo }}</span>
         </span>
         <span style="color:#444444;font-weight:bold;">{{ ptData.roomNo }}</span>
       </p>
       <p>{{ ptData.operationName }}</p>
       <p>手术医生：<span style="color:#08B147;font-weight:600;">{{ ptData.surgeon }}</span></p>
-      <p>巡回/洗手：<span style="color:#FF7623;font-weight:600;">{{ ptData.washNurseName }}/{{ ptData.runNurseName }}</span></p>
+      <p><span><span>巡回/洗手：</span><span style="color:#FF7623;font-weight:600;">{{ ptData.washNurseName }}/{{ ptData.runNurseName }}</span></span><span v-if="ptData.orderState!=='0'">汪志斌</span></p>
     </div>
   </div>
 </template>
@@ -100,6 +100,8 @@ export default {
         &:nth-child(4){
           font-size: 16px;
           color:#929498;
+          display: flex;
+          justify-content: space-between;
         }
       }
     }

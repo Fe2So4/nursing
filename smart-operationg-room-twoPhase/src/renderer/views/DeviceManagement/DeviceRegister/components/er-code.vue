@@ -13,7 +13,7 @@
         />
         <div class="right">
           <p>{{ codeData.name }}</p>
-          <p>5007949</p>
+          <p>{{ codeData.barCode }}</p>
           <p>{{ codeData.position }}</p>
         </div>
       </div>
@@ -60,8 +60,7 @@ export default {
     },
     handleCreateCode () {
       this.$nextTick(() => {
-        let text = `123456`
-        // let text = '1010'
+        let text = this.codeData.barCode
         // eslint-disable-next-line no-new
         new QRCode(this.$refs.qrCodeDiv, {
           text: text,

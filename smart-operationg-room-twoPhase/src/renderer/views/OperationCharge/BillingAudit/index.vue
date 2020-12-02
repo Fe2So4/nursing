@@ -39,30 +39,30 @@
         <vxe-table
           stripe
           align="center"
-          :data="tableData"
+          :data="patientList"
           size="mini"
           class="mytable-scrollbar"
           height="280px"
           auto-resize
         >
           <vxe-table-column
-            field="time"
+            field="operateDate"
             title="日期"
           />
           <vxe-table-column
-            field="userName"
+            field="roomNo"
             title="手术间"
           />
           <vxe-table-column
-            field="workDepartmentName"
+            field="hospitalNo"
             title="住院号"
           />
           <vxe-table-column
-            field="energyLevels"
+            field="patientName"
             title="姓名"
           />
           <vxe-table-column
-            field="energyLevels"
+            field="chargeExamineStatus"
             title="状态"
           >
             <template>
@@ -78,29 +78,29 @@
         <el-row>
           <el-col :span="8">
             <span class="label">姓名</span>
-            <span class="value">林本德 (转入病房)</span>
+            <span class="value">{{ patientDetail.patientName }} (转入病房)</span>
           </el-col>
           <el-col :span="4">
             <span class="label">性别</span>
-            <span class="value">男</span>
+            <span class="value">{{ patientDetail.patientGender }}</span>
           </el-col>
           <el-col :span="5">
             <span class="label">年龄</span>
-            <span class="value">68岁</span>
+            <span class="value">{{ patientDetail.patientAge }}</span>
           </el-col>
           <el-col :span="5">
             <span class="label">患者来源</span>
-            <span class="value">外地</span>
+            <span class="value">{{ patientDetail.patientSource }}</span>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
             <span class="label">手术间</span>
-            <span class="value">林本德 (转入病房)</span>
+            <span class="value">{{ patientDetail.roomNo }}</span>
           </el-col>
           <el-col :span="6">
             <span class="label">科室</span>
-            <span class="value">为外壳</span>
+            <span class="value">{{ patientDetail.deptName }}</span>
           </el-col>
           <el-col :span="4">
             <span class="value">68555</span>
@@ -109,47 +109,47 @@
         <el-row>
           <el-col :span="8">
             <span class="label">住院/门诊号</span>
-            <span class="value">212</span>
+            <span class="value">{{ patientDetail.hospitalNo }}</span>
           </el-col>
           <el-col :span="6">
             <span class="label">日期</span>
-            <span class="value">2020-09-28</span>
+            <span class="value">{{ patientDetail.operateDate }}</span>
           </el-col>
           <el-col :span="6">
             <span class="label">付费方式</span>
-            <span class="value">自费</span>
+            <span class="value">{{ patientDetail.settlementMethod }}</span>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="24">
             <span class="label">已行</span>
-            <span class="value">腹腔镜探查术+胸腔镜下胃游离术</span>
+            <span class="value">{{ patientDetail.operationName }}</span>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
             <span class="label">洗手护士</span>
-            <span class="value">陈佳佳</span>
+            <span class="value">{{ patientDetail.washNurseName }}</span>
           </el-col>
           <el-col :span="6">
             <span class="label">巡回护士</span>
-            <span class="value">孙新琪</span>
+            <span class="value">{{ patientDetail.runNurseName }}</span>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
             <span class="label">术者</span>
-            <span class="value">刘晓文</span>
+            <span class="value">{{ patientDetail.surgeon }}</span>
           </el-col>
           <el-col :span="6">
             <span class="label">麻醉医生</span>
-            <span class="value">黄思铭</span>
+            <span class="value">{{ patientDetail.anesDoc }}</span>
           </el-col>
         </el-row>
         <el-row>
           <el-col>
             <span class="label">术后诊断</span>
-            <span class="value">胃体癌</span>
+            <span class="value">{{ patientDetail.diagnose }}</span>
           </el-col>
         </el-row>
       </div>
@@ -158,10 +158,15 @@
       <div class="ba-b-search">
         <el-form size="mini">
           <el-form-item>
-            <el-input
-              placeholder="输入关键字查询新增项目"
+            <el-select
               v-model="form.search"
-            />
+              placeholder="输入关键字查询新增项目"
+            >
+              <el-option>1</el-option>
+              <el-option>2</el-option>
+              <el-option>3</el-option>
+              <el-option>4</el-option>
+            </el-select>
           </el-form-item>
         </el-form>
       </div>
@@ -170,13 +175,15 @@
           stripe
           align="center"
           :data="tableData"
+          highlight-hover-row
+          @cell-click="cellClickEvent"
           size="mini"
           class="mytable-scrollbar"
           height="300px"
           auto-resize
         >
           <vxe-table-column
-            field="time"
+            type="seq"
             title="序号"
           />
           <vxe-table-column
@@ -188,43 +195,42 @@
             title="类别名称"
           />
           <vxe-table-column
-            field="energyLevels"
+            field="name"
             title="项目名称"
           />
           <vxe-table-column
-            field="energyLevels"
+            field="barCode"
             title="条形码"
           />
           <vxe-table-column
-            field="energyLevels"
+            field="specifications"
             title="规格"
           />
           <vxe-table-column
-            field="energyLevels"
+            field="unit"
             title="单位"
           />
           <vxe-table-column
-            field="energyLevels"
+            field="count"
             title="用量"
           />
           <vxe-table-column
-            field="energyLevels"
+            field="price"
             title="单价(元)"
           />
           <vxe-table-column
-            field="energyLevels"
+            field="totalPrice"
             title="费用(元)"
           />
           <vxe-table-column
-            field="energyLevels"
+            field="enteredBy"
             title="录入者"
           />
           <vxe-table-column
-            field="energyLevels"
+            field="entryTime"
             title="录入时间"
           />
           <vxe-table-column
-            field="energyLevels"
             title="操作"
           >
             <template>
@@ -265,6 +271,8 @@
 </template>
 
 <script>
+import request from '@/utils/request'
+import {getPatientList, getPatientDetail} from '@/api/charge'
 export default {
   name: 'BillingAudit',
   data () {
@@ -276,10 +284,42 @@ export default {
         opeRoom: '',
         search: ''
       },
-      tableData: [{time: '2012'}]
+      patientList: [],
+      tableData: [{time: '2012'}],
+      patientDetail: {}
     }
   },
+  created () {
+    this.getPatientList()
+  },
   methods: {
+    // 单击表格选中患者
+    cellClickEvent () {
+
+    },
+    getPatientList () {
+      request({
+        method: 'post',
+        url: getPatientList,
+        data: {
+          hospitalNo: this.form.opeHosNo,
+          operateDate: this.form.opeTime,
+          patientName: this.form.patientName,
+          roomNo: this.opeRoom
+        }
+      }).then(res => {
+        this.patientList = res.data.data
+      })
+    },
+    getPatientInfo (obj) {
+      request({
+        url: getPatientDetail + '/' + this.obj.hospitalNo + '/' + this.obj.cureNo,
+        method: 'get'
+      }).then(res => {
+        this.patientDetail = res.data.data
+        this.tableData = res.data.data.chargeList
+      })
+    },
     handleDelete () {
       this.$confirm('是否确认删除[自粘性外科敷料(美敷)9*10cm]?', '询问', {
         confirmButtonText: '确定',
@@ -373,6 +413,9 @@ export default {
         max-width: 580px;
         .el-form-item{
           margin-bottom: 10px;
+          .el-select{
+            width: 100%;
+          }
         }
       }
       .ba-b-option{

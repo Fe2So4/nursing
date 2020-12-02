@@ -6,18 +6,22 @@
         size="mini"
       >
         <el-form-item label="设备名称/型号">
-          <el-input v-model="form.name" />
+          <el-input
+            v-model="form.name"
+            clearable
+          />
         </el-form-item>
         <el-form-item label="设备位置">
           <el-select
             v-model="form.position"
             placeholder="请选择"
+            clearable
           >
             <el-option
               v-for="item in positionValue"
-              :key="item.id"
+              :key="item.name"
               :label="item.name"
-              :value="item.id"
+              :value="item.name"
             />
           </el-select>
         </el-form-item>
@@ -25,12 +29,13 @@
           <el-select
             v-model="form.status"
             placeholder="请选择"
+            clearable
           >
             <el-option
               v-for="item in statusValue"
-              :key="item.id"
+              :key="item.name"
               :label="item.name"
-              :value="item.id"
+              :value="item.name"
             />
           </el-select>
         </el-form-item>
@@ -75,7 +80,6 @@
         auto-resize
         stripe
       >
-        <!-- field="sort" -->
         <vxe-table-column
           title="序号"
           type="seq"
@@ -118,7 +122,10 @@
               编辑
             </el-button>
             <span class="option-line">|</span>
-            <el-button type="text">
+            <el-button
+              type="text"
+              @click="handleDeleteDevice(row.id)"
+            >
               删除
             </el-button>
           </template>
@@ -133,7 +140,9 @@
       v-if="addVisible"
       :position-list="positionList"
       :title="deviceTitle"
+      :edit-data="editData"
       :status-list="statusList"
+      @getDeviceList="getDeviceList"
       @handleClose="handleCloseAddDialog"
     />
     <ErCode
@@ -149,7 +158,7 @@
 import Pagination from '@/components/Pagination/pagination'
 import AddDevice from './components/add-device'
 import ErCode from './components/er-code'
-import { getDeviceRegisterList, getDict } from '@/api/device'
+import { getDeviceRegisterList, getDict, deleteDeviceByNo } from '@/api/device'
 import request from '@/utils/request'
 export default {
   name: 'DeviceRegister',
@@ -157,8 +166,8 @@ export default {
     return {
       form: {
         name: '',
-        position: '',
-        status: ''
+        position: '全部',
+        status: '全部'
       },
       addVisible: false,
       codeVisible: false,
@@ -173,7 +182,8 @@ export default {
       paginationData: {
         total: null,
         pages: null
-      }
+      },
+      editData: {}
     }
   },
   components: {
@@ -197,13 +207,35 @@ export default {
     this.getDeviceList()
   },
   methods: {
+    // 删除设备
+    handleDeleteDevice (id) {
+      request({
+        method: 'get',
+        url: deleteDeviceByNo + '/' + id
+      }).then(res => {
+        if (res.data.code === 200) {
+          this.$message({type: 'success', message: '删除成功'})
+          this.getDeviceList()
+        } else {
+          this.$message({type: 'error', message: '删除失败'})
+        }
+      })
+    },
     getDeviceList () {
+      let position = ''
+      let status = ''
+      if (this.form.position !== '全部') {
+        position = this.form.position
+      }
+      if (this.form.status !== '全部') {
+        status = this.form.status
+      }
       request({
         url: getDeviceRegisterList,
         data: {
           nameOrModel: this.form.name,
-          position: this.form.position,
-          status: this.form.status,
+          position: position,
+          status: status,
           pageIndex: this.currentPage,
           pageSize: this.pageSize
         },
@@ -211,7 +243,6 @@ export default {
       }).then(res => {
         this.paginationData.pages = res.data.data.pages
         this.paginationData.total = res.data.data.total
-        // this.paginationData.pages = res.data.data.pages
         this.tableData = res.data.data.list
       })
     },
@@ -236,7 +267,6 @@ export default {
       })
     },
     handleShow (row) {
-      console.log(row)
       this.codeData = row
       this.codeVisible = true
     },
@@ -247,6 +277,7 @@ export default {
       if (type === 1) {
         // 新增
         this.deviceTitle = '新增设备'
+        this.editData = {}
       } else {
         // 编辑
         this.deviceTitle = '修改设备'

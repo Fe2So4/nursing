@@ -10,11 +10,13 @@
         <el-radio
           v-model="form.radio"
           label="1"
+          :disabled="editDisabled"
         >
           单件
         </el-radio>
         <el-radio
           v-model="form.radio"
+          :disabled="editDisabled"
           label="2"
         >
           套件
@@ -80,6 +82,7 @@
           prop="deviceNo"
         >
           <el-input
+            :disabled="editDisabled"
             v-model="form.deviceNo"
           />
         </el-form-item>
@@ -110,8 +113,8 @@
           </el-form-item>
           <el-form-item
             label="设备编号"
-            prop="deviceNo"
           >
+            <!-- prop="deviceNo" -->
             <el-input v-model="item.deviceNo" />
           </el-form-item>
           <el-form-item label="型号">
@@ -154,17 +157,17 @@ export default {
         radio: '1'
       },
       value: '',
+      editDisabled: false,
       rules: {
         deviceNo: [
           {
             required: true,
-            message: '请输入设备名称',
+            message: '请输入设备编号',
             trigger: 'blur'
           }
         ]
       },
       formGroup: [
-
       ],
       nameList: []
     }
@@ -185,11 +188,18 @@ export default {
     title: {
       type: String,
       required: true
+    },
+    editData: {
+      type: Object,
+      default: function () {
+        return {}
+      }
     }
   },
   created () {
     this.initFormGroup()
     this.getNameList()
+    this.initEditData()
   },
   methods: {
     handleClose () {
@@ -198,6 +208,33 @@ export default {
     initFormGroup () {
       for (let i = 0; i < 6; i++) {
         this.formGroup.push({name: '', deviceNo: '', model: ''})
+      }
+    },
+    initEditData () {
+      if (Object.keys(this.editData).length !== 0) {
+        if (this.editData.type === '1') {
+          this.form.name = this.editData.name
+          this.form.status = this.editData.status
+          this.form.position = this.editData.position
+          this.form.deviceNo = this.editData.barCode
+          this.form.radio = this.editData.type
+          this.editDisabled = true
+          let model = this.editData.deviceNoAndModelStr.split('|')
+          this.form.model = model[1]
+        } else {
+          this.form.radio = this.editData.type
+          this.form.name = this.editData.name
+          this.form.status = this.editData.status
+          this.form.position = this.editData.position
+          this.editDisabled = true
+          let arr = this.editData.deviceNoAndModel
+          arr.forEach((ite, index) => {
+            let item = ite.split('|')
+            this.formGroup[index].name = item[0]
+            this.formGroup[index].deviceNo = item[1]
+            this.formGroup[index].model = item[2]
+          })
+        }
       }
     },
     // 新增单件或者组套
@@ -219,6 +256,7 @@ export default {
             }).then(res => {
               if (res.data.code === 200) {
                 this.$message({message: '新增成功', type: 'success'})
+                this.$emit('getDeviceList')
                 this.handleClose()
               } else {
                 this.$message({message: '新增失败', type: 'error'})
@@ -258,6 +296,7 @@ export default {
         }).then(res => {
           if (res.data.code === 200) {
             this.$message({message: '新增成功', type: 'success'})
+            this.$emit('getDeviceList')
             this.handleClose()
           } else {
             this.$message({message: '新增失败', type: 'error'})
@@ -267,11 +306,82 @@ export default {
     },
     // 编辑单件或者组套
     edit () {
-
+      console.log('edit')
+      if (this.form.radio === '1') {
+        this.$refs.formSimple.validate((valid) => {
+          if (valid) {
+            request({
+              url: submitDeviceRegister,
+              method: 'post',
+              data: {
+                deviceNo: this.form.deviceNo,
+                model: this.form.model,
+                dictPositionId: this.form.position,
+                dictStatusId: this.form.status,
+                type: this.form.radio,
+                dictNameId: this.form.name,
+                id: this.editData.id
+              }
+            }).then(res => {
+              if (res.data.code === 200) {
+                this.$message({message: '修改成功', type: 'success'})
+                this.$emit('getDeviceList')
+                this.handleClose()
+              } else {
+                this.$message({message: res.data.msg, type: 'error'})
+              }
+            })
+          } else {
+            return false
+          }
+        })
+      } else {
+        // 新增套件
+        let formGroups = this.$refs['formGroup']
+        let arr = []
+        formGroups.forEach(item => {
+          item.validate((valid) => {
+            if (valid) {
+              arr.push(1)
+            } else {
+              arr.push(0)
+            }
+          })
+        })
+        if (arr.includes(0)) {
+          return false
+        }
+        request({
+          url: submitDeviceRegister,
+          method: 'post',
+          data: {
+            // deviceNo: this.form.deviceNo,
+            dictPositionId: this.form.position,
+            dictStatusId: this.form.status,
+            type: this.form.radio,
+            dictNameId: this.form.name,
+            id: this.editData.id,
+            equipmentKits: this.formGroup
+          }
+        }).then(res => {
+          if (res.data.code === 200) {
+            this.$message({message: '修改成功', type: 'success'})
+            this.$emit('getDeviceList')
+            this.handleClose()
+          } else {
+            this.$message({message: res.data.msg, type: 'error'})
+          }
+        })
+      }
     },
     // 提交新增/修改
     handleSubmit () {
-      this.newAdd()
+      if (Object.keys(this.editData).length === 0) {
+        this.newAdd()
+      } else {
+        console.log('执行')
+        this.edit()
+      }
     },
     getNameList () {
       request({

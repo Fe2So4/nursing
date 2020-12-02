@@ -21,7 +21,7 @@
         <span style="color:#444444;font-weight:bold;">{{ ptData.roomNo }}</span>
       </p>
       <p><span class="pt-info">{{ ptData.floor }}号楼手术室{{ ptData.roomNo }}</span><span style="font-weight:600;">{{ ptData.workerName }}</span></p>
-      <p>接单时间：{{ ptData.updateTime }}</p>
+      <p><span>唐开平</span><span>接单时间：{{ ptData.updateTime }}</span></p>
       <p v-if="ptData.orderState==='2'">
         到达时间：{{ ptData.endTime }}
       </p>
@@ -127,7 +127,9 @@ export default {
         &:nth-child(3){
           font-size: 16px;
           color:#929498;
-          text-align: right;
+          // text-align: right;
+          display: flex;
+          justify-content: space-between;
         }
         &:nth-child(4){
           text-align: right;

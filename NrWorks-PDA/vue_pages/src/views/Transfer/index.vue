@@ -15,7 +15,7 @@
             <van-step v-for="(item,index) in stepList" :key="index">
               <h3>请扫描[{{item.label}}]</h3>
               <h3></h3>
-              <p></p>
+              <p>{{item.time}}</p>
             </van-step>
           </van-steps>
         </div>
@@ -24,7 +24,8 @@
           <van-steps direction="vertical" :active="roomScanList[0].value===true ? 0 : -1" active-color="2E2E2E">
             <van-step v-for="item in roomScanList" :key="item.active">
               <h3>请扫描[手术房间]</h3>
-              <p>2016-07-10 09:30</p>
+              <h3>{{item.room}}</h3>
+              <p>{{item.time}}</p>
             </van-step>
           </van-steps>
         </div>
@@ -44,6 +45,7 @@ import request from '@/utils/request'
 import {getHandoverCodeStatus, saveHandoverCodeStatus} from '@/api/handover-record'
 import {mapState} from 'vuex'
 import $bus from '@/utils/bus'
+import moment from 'moment'
 export default {
   name: 'Transfer',
   data () {
@@ -51,13 +53,13 @@ export default {
       active: -1,
       code: '',
       stepList: [],
-      roomScanList: [{label: '手术房间', value: false, active: 2}],
-      outPacuScan: [{label: '患者腕带', value: false, active: 0}], // 出pacu
-      outWardScan: [{label: '患者腕带', value: false, active: 0}], // 病房交接
-      pointInRoomScan: [{label: '患者腕带', value: false, active: 0}, {label: '手术通知单', value: false, active: 1}], // 进手术室
-      pointOutRoomScan: [{label: '患者腕带', value: false, active: 0}, {label: '工勤人员二维码', value: false, active: 1}], // 出手术室
-      pointPacuScan: [{label: '患者腕带', value: false, active: 0}], // 进pacu
-      pointWardScan: [{label: '患者腕带', value: false, active: 0}, {label: '工勤人员二维码', value: false, active: 1}] // 回病房---病房收治
+      roomScanList: [{label: '手术房间', value: false, active: 2, room: '', time: ''}],
+      outPacuScan: [{label: '患者腕带', value: false, active: 0, time: ''}], // 出pacu
+      outWardScan: [{label: '患者腕带', value: false, active: 0, time: ''}], // 病房交接
+      pointInRoomScan: [{label: '患者腕带', value: false, active: 0, time: ''}, {label: '手术通知单', value: false, active: 1, time: ''}], // 进手术室
+      pointOutRoomScan: [{label: '患者腕带', value: false, active: 0, time: ''}, {label: '工勤人员二维码', value: false, active: 1, time: ''}], // 出手术室
+      pointPacuScan: [{label: '患者腕带', value: false, active: 0, time: ''}], // 进pacu
+      pointWardScan: [{label: '患者腕带', value: false, active: 0, time: ''}, {label: '工勤人员二维码', value: false, active: 1, time: ''}] // 回病房---病房收治
     }
   },
   watch: {
@@ -88,6 +90,7 @@ export default {
     saveCodeStatus () {
       let mark = null
       let arr = []
+      let time = moment(new Date()).format('YYYY-MM-DD HH:mm')
       if (this.$route.query.title === '病房交接') {
         if (parseInt(this.code)) {
           if (this.patientInfo.cureNo === this.code) {
@@ -97,6 +100,7 @@ export default {
             } else {
               mark = 1
               this.stepList[0].value = true
+              this.stepList[0].time = time
               arr = JSON.parse(JSON.stringify(this.stepList))
             }
           } else {
@@ -118,6 +122,7 @@ export default {
               } else {
                 mark = 2
                 this.stepList[1].value = true
+                this.stepList[1].time = time
                 arr = [{stepList: this.stepList, roomScanList: this.roomScanList}]
               }
             } else {
@@ -127,8 +132,11 @@ export default {
           } else {
             if (!this.roomScanList[0].value) {
               if (this.code.indexOf('RoomNum') !== -1) {
+                let roomCode = this.code.replace('RoomNum=', '')
                 mark = 2
                 this.roomScanList[0].value = true
+                this.roomScanList[0].room = roomCode
+                this.roomScanList[0].time = time
                 arr = [{stepList: this.stepList, roomScanList: this.roomScanList}]
               } else {
                 this.$notify({message: '请扫描手术房间', type: 'warning'})
@@ -148,6 +156,7 @@ export default {
               } else {
                 mark = 2
                 this.stepList[0].value = true
+                this.stepList[0].time = time
                 arr = [{stepList: this.stepList, roomScanList: this.roomScanList}]
               }
             } else {
@@ -165,6 +174,7 @@ export default {
             if (this.code.indexOf('Worker') !== -1) {
               mark = 3
               this.stepList[1].value = true
+              this.stepList[1].time = time
               arr = [{stepList: this.stepList, roomScanList: this.roomScanList}]
             } else {
               this.$notify({message: '请扫描工勤人员二维码', type: 'warning'})
@@ -173,8 +183,11 @@ export default {
           } else {
             if (!this.roomScanList[0].value) {
               if (this.code.indexOf('RoomNum') !== -1) {
+                let roomCode = this.code.replace('RoomNum=', '')
                 mark = 3
                 this.roomScanList[0].value = true
+                this.roomScanList[0].room = roomCode
+                this.roomScanList[0].time = time
                 arr = [{stepList: this.stepList, roomScanList: this.roomScanList}]
               } else {
                 this.$notify({message: '请扫描手术房间', type: 'warning'})
@@ -194,6 +207,7 @@ export default {
               } else {
                 mark = 3
                 this.stepList[0].value = true
+                this.stepList[0].time = time
                 arr = [{stepList: this.stepList, roomScanList: this.roomScanList}]
               }
             } else {
@@ -214,6 +228,7 @@ export default {
             } else {
               mark = 4
               this.stepList[0].value = true
+              this.stepList[0].time = time
               arr = JSON.parse(JSON.stringify(this.stepList))
             }
           } else {
@@ -233,6 +248,7 @@ export default {
             } else {
               mark = 5
               this.stepList[0].value = true
+              this.stepList[0].time = time
               arr = JSON.parse(JSON.stringify(this.stepList))
             }
           } else {
@@ -249,6 +265,7 @@ export default {
             if (this.code.indexOf('Worker') !== -1) {
               mark = 6
               this.stepList[1].value = true
+              this.stepList[1].time = time
               arr = JSON.parse(JSON.stringify(this.stepList))
             } else {
               this.$notify({message: '请扫描工勤人员二维码', type: 'warning'})
@@ -267,6 +284,7 @@ export default {
               } else {
                 mark = 6
                 this.stepList[0].value = true
+                this.stepList[0].time = time
                 arr = JSON.parse(JSON.stringify(this.stepList))
               }
             } else {
@@ -407,7 +425,7 @@ export default {
       var key = window.event.keyCode
       if (key === 13) {
         setTimeout(() => {
-          this.handleCode('OpsQRCode=1018')
+          this.handleCode('RoomNum=606')
         }, 1000)
       }
     }

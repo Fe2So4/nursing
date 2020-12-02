@@ -159,7 +159,8 @@ export default {
         { text: '病房', value: 1 },
         { text: 'ICU病房', value: 2 },
         { text: '急诊', value: 3 },
-        { text: '离院', value: 4 }
+        { text: '离院', value: 4 },
+        {text: '', value: ''}
       ],
       recordForm: [
         {key: '患者姓名，住院号，性别，年龄正确', value: false, sort: '1'},

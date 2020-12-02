@@ -14,7 +14,7 @@
         :rules="rules"
       >
         <el-form-item
-          label="组套名称"
+          label="模板名称"
           prop="groupName"
         >
           <el-input v-model="form.groupName" />
@@ -39,6 +39,8 @@
 </template>
 
 <script>
+import request from '@/utils/request'
+import {addTreeData} from '@/api/charge'
 export default {
   name: 'AddGroup',
   data () {
@@ -48,7 +50,7 @@ export default {
       },
       rules: {
         groupName: [
-          { required: true, message: '请输入组套名称', trigger: 'blur' }
+          { required: true, message: '请输入模板名称', trigger: 'blur' }
         ]
       }
     }
@@ -61,16 +63,39 @@ export default {
     dialogTitle: {
       type: String,
       required: true
+    },
+    treeData: {
+      type: Object,
+      required: true
     }
   },
   methods: {
+    addTreeData () {
+      let id = this.treeData.id
+      if (this.treeData.parentId === '0') {
+        id = 0
+      }
+      request({
+        url: addTreeData,
+        method: 'post',
+        data: {name: this.form.groupName, parentId: id}
+      }).then(res => {
+        if (res.data.code === 200) {
+          this.$message({type: 'success', message: '新增成功'})
+          this.$emit('getTreeData')
+          this.handleClose()
+        } else {
+          this.$message({type: 'error', message: res.data.msg})
+        }
+      })
+    },
     handleClose () {
       this.$emit('handleClose')
     },
     handleSubmit () {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          alert('submit!')
+          this.addTreeData()
         } else {
           console.log('error submit!!')
           return false

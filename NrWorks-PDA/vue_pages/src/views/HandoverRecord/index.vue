@@ -247,13 +247,13 @@ export default {
         nature: '', // 性质
         signatureImage2: '' // 签名
       },
-      zyOptions: [{text: '住院', value: '1'}, {text: '转病区', value: '2'}], // 住院/转病区
-      bfOptions: [{text: '手术', value: '1'}, {text: '监护室', value: '2'}, {text: '透析室', value: '3'}], // 手术室/监护室/透析室
-      ysOptions: [{text: '清楚', value: '1'}, {text: '烦躁', value: '2'}, {text: '嗜睡', value: '3'}, {text: '昏迷', value: '4'}, {text: '其它', value: '5'}], // 意识
-      ttOptions: [{text: 'NRS', value: '1'}, {text: 'FLACC', value: '2'}, {text: 'CCPOT', value: 'WONG-BAKER'}], // 疼痛
+      zyOptions: [{text: '住院', value: '1'}, {text: '转病区', value: '2'}, {text: '', value: ''}], // 住院/转病区
+      bfOptions: [{text: '手术', value: '1'}, {text: '监护室', value: '2'}, {text: '透析室', value: '3'}, {text: '', value: ''}], // 手术室/监护室/透析室
+      ysOptions: [{text: '清楚', value: '1'}, {text: '烦躁', value: '2'}, {text: '嗜睡', value: '3'}, {text: '昏迷', value: '4'}, {text: '其它', value: '5'}, {text: '', value: ''}], // 意识
+      ttOptions: [{text: 'NRS', value: '1'}, {text: 'FLACC', value: '2'}, {text: 'CCPOT', value: 'WONG-BAKER'}, {text: '', value: ''}], // 疼痛
       xzOptions: [{text: '刀割样痛', value: '1'}, {text: '绞痛', value: '2'}, {text: '灼烧样痛', value: '3'}, {text: '刺痛', value: '4'},
-        {text: '压痛', value: '5'}, {text: '胀痛', value: '6'}, {text: '钝痛', value: '7'}],
-      pfOptions: [{text: '完整', value: '1'}, {text: '破损', value: '2'}],
+        {text: '压痛', value: '5'}, {text: '胀痛', value: '6'}, {text: '钝痛', value: '7'}, {text: '', value: ''}],
+      pfOptions: [{text: '完整', value: '1'}, {text: '破损', value: '2'}, {text: '', value: ''}],
       dgOptions: [{text: '氧气', value: 'o2'}, {text: '浅静脉留置', value: 'qjm'},
         {text: '深静脉留置', value: 'sjm'}, {text: 'PICC', value: 'picc'}, {text: '动脉留置', value: 'dml'},
         {text: '胃肠减压', value: 'cwj'}, {text: '鼻饲', value: 'bc'}, {text: '留置导尿', value: 'lzd'}, {text: '气质导管', value: 'qgd'},
@@ -268,7 +268,7 @@ export default {
         {text: 'PICC', value: 'picc'},
         {text: '其他', value: 'qita'},
         {text: '无', value: 'wu'}],
-      wpOptions: [{text: '输液', value: '1'}, {text: 'X片', value: '2'}, {text: 'CT片', value: '3'}, {text: '磁共振片', value: '4'}, {text: '其它', value: '5'}]
+      wpOptions: [{text: '输液', value: '1'}, {text: 'X片', value: '2'}, {text: 'CT片', value: '3'}, {text: '磁共振片', value: '4'}, {text: '其它', value: '5'}, {text: '', value: ''}]
     }
   },
   components: {
