@@ -3,6 +3,7 @@
     <div style="height:100%">
       <el-scrollbar :class="{'reduceHeight':true}">
         <el-menu
+          :unique-opened="true"
           default-active="defaultActive"
           class="el-menu-vertical-demo"
           :collapse="isCollapse"
@@ -244,6 +245,11 @@ export default {
                 },
                 {
                   icon: 'iconfont icon-guanli',
+                  title: '手术间利用率统计',
+                  path: '/department/search/interoperative-utilization'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
                   title: '高值耗材收费统计',
                   path: '/department/search/height-value-charge'
                 },
@@ -325,6 +331,26 @@ export default {
                   icon: 'iconfont icon-guanli',
                   title: '房间设备使用登记',
                   path: '/department/search/room-equipment'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '医疗设备使用统计',
+                  path: '/department/search/medical-equipment-use'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '病人器械叫包查询',
+                  path: '/department/search/patient-instrument-search'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '术中器械补包查询',
+                  path: '/department/search/intraoperative-device-search'
+                },
+                {
+                  icon: 'iconfont icon-guanli',
+                  title: '器械包使用明细统计',
+                  path: '/department/search/use-detail-statistics'
                 }
               ]
             }

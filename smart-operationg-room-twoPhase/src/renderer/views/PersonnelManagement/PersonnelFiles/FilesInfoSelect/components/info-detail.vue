@@ -18,6 +18,12 @@
         <el-button
           type="primary"
           size="mini"
+          v-if="showDayin"
+          @click="handleClose"
+        >打 印</el-button>
+        <el-button
+          type="primary"
+          size="mini"
           @click="handleClose"
         >关 闭</el-button>
       </span>
@@ -56,6 +62,12 @@ export default {
       type: Object,
       default () {
         return {}
+      }
+    },
+    showDayin: {
+      type: Boolean,
+      default () {
+        return false
       }
     }
   },

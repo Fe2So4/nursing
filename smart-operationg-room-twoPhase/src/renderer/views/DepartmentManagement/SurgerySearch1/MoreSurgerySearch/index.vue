@@ -1,4 +1,5 @@
 <template>
+  <!-- 多次手术查询 -->
   <div class="surgery-search">
     <div class="dr-top">
       <div class="dr-top-left">
@@ -29,7 +30,7 @@
               placeholder="选择日期"
             />
           </el-form-item>
-          <el-form-item label=" ">
+          <el-form-item>
             <el-button
               type="primary"
               @click="handleAddDevice"

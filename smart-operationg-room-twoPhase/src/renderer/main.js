@@ -27,6 +27,7 @@ import vueiInfinite from 'vue-infinite-scroll'
 // 处理element-ui vxe-table样式兼容问题
 import VXETablePluginElement from 'vxe-table-plugin-element'
 import 'vxe-table-plugin-element/dist/style.css'
+
 import Fragment from 'vue-fragment'
 
 Vue.use(Fragment.Plugin)

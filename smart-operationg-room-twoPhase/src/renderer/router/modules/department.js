@@ -180,6 +180,16 @@ const departmentRoutes = {
           component: () => import('@/views/DepartmentManagement/SurgerySearch1/SurgeryScore/index')
         },
         {
+          path: 'interoperative-utilization',
+          name: 'InteroperativeUtilization',
+          meta: {
+            title: '手术间利用率统计',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/SurgerySearch1/InteroperativeUtilization/index')
+        },
+        {
           path: 'height-value-charge',
           name: 'HeightValueCharge',
           meta: {
@@ -318,6 +328,46 @@ const departmentRoutes = {
             parent: 'Department'
           },
           component: () => import('@/views/DepartmentManagement/InstrumentEquipment/RoomEquipment/index')
+        },
+        {
+          path: 'medical-equipment-use',
+          name: 'MedicalEquipmentUse',
+          meta: {
+            title: '房间设备使用登记',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/InstrumentEquipment/MedicalEquipmentUse/index')
+        },
+        {
+          path: 'patient-instrument-search',
+          name: 'PatientInstrumentSearch',
+          meta: {
+            title: '病人器械叫包查询',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/InstrumentEquipment/PatientInstrumentSearch/index')
+        },
+        {
+          path: 'intraoperative-device-search',
+          name: 'IntraoperativeDeviceSearch',
+          meta: {
+            title: '术中器械补包查询',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/InstrumentEquipment/IntraoperativeDeviceSearch/index')
+        },
+        {
+          path: 'use-detail-statistics',
+          name: 'UseDetailStatistics',
+          meta: {
+            title: '器械包使用明细统计',
+            noNavs: false,
+            parent: 'Department'
+          },
+          component: () => import('@/views/DepartmentManagement/InstrumentEquipment/UseDetailStatistics/index')
         }
       ]
       // redirect: '/personnel/personnel-file/files-info-select',

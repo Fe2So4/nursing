@@ -123,6 +123,7 @@
       </div> -->
     </div>
     <InfoDetail
+      :show-dayin="dayinType"
       :show-data="showData"
       :dialog-visible="dialogVisible"
       @handleClose="handleClose"
@@ -142,6 +143,7 @@ export default {
   name: 'FilesInfoSelect',
   data () {
     return {
+      dayinType: false,
       form: {
         name: '',
         workTime: [],
