@@ -54,6 +54,9 @@ export default {
 @import './../assets/iconfont/iconfont.css';
 @import '@/variable.scss';
 // .menu-tree{
+  .active {
+    background-color: #000;
+  }
   .el-menu {
     background-color: unset;
     border-right: unset;

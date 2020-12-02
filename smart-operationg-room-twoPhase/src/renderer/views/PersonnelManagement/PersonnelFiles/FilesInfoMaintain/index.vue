@@ -73,7 +73,10 @@
               />
             </el-form-item>
             <el-form-item>
-              <el-button type="primary">
+              <el-button
+                type="primary"
+                @click="dayin"
+              >
                 打印预览
               </el-button>
             </el-form-item>
@@ -99,6 +102,7 @@
           <template v-if="item.showType">
             <component
               :is-add="isAdd"
+              @searchUserInfo="searchUserInfo"
               @gotoBack="gotoBack"
               :login-type="loginType"
               @setUserCodeAndSearch="setUserCodeAndSearch"
@@ -121,6 +125,12 @@
         </el-tab-pane>
       </el-tabs>
     </div>
+    <InfoDetail
+      :show-dayin="dayinType"
+      :show-data="form"
+      :dialog-visible="dialogVisible"
+      @handleClose="handleClose"
+    />
   </div>
 </template>
 
@@ -129,6 +139,7 @@ import { getUserToken } from '@/utils/storage'
 import ConfigUrl from '@/config/url.js'
 import BasicInfo from './components/basic-info'
 import TitleInfo from './components/title-info'
+import InfoDetail from './../FilesInfoSelect/components/info-detail'
 import EducationExperience from './components/education-experience'
 import DepartmentRotation from './components/department-rotation'
 import TrainingFurtherStudy from './components/training-further-study'
@@ -136,6 +147,8 @@ export default {
   name: 'FilesInfoMaintain',
   data () {
     return {
+      dayinType: true,
+      dialogVisible: false,
       updataUrl: `${ConfigUrl.api.baseURL}/ocis/portfolio/addPictures`,
       myHeaders: {},
       isAdd: '1',
@@ -167,7 +180,7 @@ export default {
     }
   },
   components: {
-    BasicInfo, EducationExperience, TitleInfo, DepartmentRotation, TrainingFurtherStudy
+    BasicInfo, EducationExperience, TitleInfo, DepartmentRotation, TrainingFurtherStudy, InfoDetail
   },
   mounted () {
     this.myHeaders = {
@@ -210,6 +223,14 @@ export default {
     this.getSelectList('011')
   },
   methods: {
+    handleClose () {
+      this.dialogVisible = false
+    },
+    // 打印预览
+    dayin () {
+      this.dialogVisible = true
+    },
+    // 上传头像
     handleAvatarSuccess (res, file) {
       console.log(URL.createObjectURL(file.raw))
     },

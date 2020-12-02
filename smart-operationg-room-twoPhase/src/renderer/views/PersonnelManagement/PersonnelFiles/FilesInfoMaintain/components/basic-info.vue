@@ -438,7 +438,10 @@ export default {
     // 点击保存
     saveUserInfo () {
       console.log(this.userInfo)
-
+      if (this.IsEmpty(this.userInfo.userName)) {
+        this.$alert('姓名不能为空')
+        return false
+      }
       if (this.isAdd === '0') {
         // 新增
         this.$store.dispatch('ReqaddUserBaseInfo', this.userInfo).then(res => {
@@ -455,6 +458,7 @@ export default {
         this.$store.dispatch('RequpdateUserBaseInfo', this.userInfo).then(res => {
           if (res.data.code === 200) {
             this.openToast('success', '保存成功')
+            this.$emit('searchUserInfo')
           } else {
             this.openToast('error', res.data.msg)
           }

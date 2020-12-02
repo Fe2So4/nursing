@@ -1,5 +1,5 @@
 <template>
-  <!-- 按科室统计手术数量 -->
+  <!-- 医疗设备使用统计 -->
   <div class="nursing-record-search">
     <div class="dr-top">
       <div class="dr-top-left">
@@ -36,6 +36,15 @@
               查 询
             </el-button>
           </el-form-item>
+          <el-form-item>
+            <el-button
+              type="info"
+              plain
+              @click="handleSearchTableList"
+            >
+              导 出
+            </el-button>
+          </el-form-item>
         </el-form>
       </div>
     </div>
@@ -56,19 +65,31 @@
           />
           <vxe-table-column
             field="sex"
-            title="科室"
+            title="设备编号"
           />
           <vxe-table-column
             field="no"
-            title="科室代码"
+            title="设备名称"
           />
           <vxe-table-column
             field="age1"
-            title="手术数量"
+            title="型号"
           />
           <vxe-table-column
             field="age1"
-            title="总时长"
+            title="设备位置"
+          />
+          <vxe-table-column
+            field="age1"
+            title="使用频次"
+          />
+          <vxe-table-column
+            field="age1"
+            title="手术使用时长"
+          />
+          <vxe-table-column
+            field="age1"
+            title="使用率"
           />
         </vxe-table>
       </div>

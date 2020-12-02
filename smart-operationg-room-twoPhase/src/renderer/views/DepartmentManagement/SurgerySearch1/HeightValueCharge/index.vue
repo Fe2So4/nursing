@@ -93,21 +93,16 @@
     </div>
     <div class="dr-table">
       <div class="dr-table-top">
-        <div>
-          <el-tag
-            v-for="tag in tags"
-            :key="tag.name"
-            closable
-            :type="tag.type"
-          >
-            {{ tag.name }}
-          </el-tag>
+        <div class="top-list">
+          <span class="top-list-title">腔镜直线型切割吻合器及钉匣(吻合器F12S)</span>
+          <span class="top-list-number">(20)</span>
+          <span class="top-list-icon"> <i class="el-icon-close" /> </span>
         </div>
         <div
           class="dr-table-top-item"
         >
           <div class="item-left">
-            所属科室:
+            耗材名称:
           </div>
           <div class="item-right">
             <div
@@ -342,6 +337,28 @@ export default {
         flex-direction: column;
         padding: 20px;
         background-color: #fff;
+        .top-list {
+          margin-right: 10px;
+          align-items: center;
+          font-size: 14px;
+          display: flex;
+          .top-list-title{
+            cursor: pointer;
+            color: #2474F8;
+          }
+          .top-list-number {
+            color: #888;
+          }
+          .top-list-icon {
+            cursor: pointer;
+            margin-left: 5px;
+            color: #888;
+            font-size: 12px;
+            &:hover {
+              color: #2474F8;
+            }
+          }
+        }
         .dr-table-top-item {
           display: flex;
           .item-left {
