@@ -68,6 +68,9 @@ export default {
       if (item.label === '科室管理') {
         this.$router.push('/department')
       }
+      if (item.label === '护理电子病历') {
+        this.$router.push('/emr')
+      }
     }
   }
 }
