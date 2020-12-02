@@ -64,9 +64,15 @@
           title="病患住院号"
         />
         <vxe-table-column
-          field="age2"
+
           title="手术申请/护理记录单明细"
-        />
+        >
+          <template v-slot="{row}">
+            <el-button type="text">
+              {{ row.sort }}
+            </el-button>
+          </template>
+        </vxe-table-column>
       </vxe-table>
     </div>
   </div>
@@ -136,6 +142,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+/deep/.el-button.el-button--text {
+        color: #606266;
+        span {
+          border-bottom: 1px solid #606266;
+        }
+      }
   .surgery-search{
     display: flex;
     height: 100%;
@@ -184,12 +196,6 @@ export default {
           // vertical-align: middle;
           // font-size: 20px;
           display: inline-block;
-        }
-        .el-button{
-          vertical-align: middle;
-          &:nth-last-child(1){
-            color:#FF5454;
-          }
         }
     }
     .dr-pagination{

@@ -389,22 +389,22 @@
             <span style="marginLeft:8px">1、</span>
             <div
               class="input-div-context"
-              style="width:140px"
-            >{{ rinse.liquidMedicine1 || '氯化钠溶液' }}</div>
+              style="width:140px;textAlign:center"
+            >{{ rinse.liquidMedicine1 || '' }}</div>
             <span style="marginLeft:8px">2、</span>
             <div
               class="input-div-context"
-              style="width:140px"
+              style="width:140px;textAlign:center"
             >{{ rinse.liquidMedicine2 || '' }}</div>
             <span style="marginLeft:8px">3、</span>
             <div
               class="input-div-context"
-              style="width:140px"
+              style="width:140px;textAlign:center"
             >{{ rinse.liquidMedicine3 || '' }}</div>
             <span style="marginLeft:8px">4、</span>
             <div
               class="input-div-context"
-              style="width:140px"
+              style="width:140px;textAlign:center"
             >{{ rinse.liquidMedicine4 || '' }}</div>
           </span>
         </div>
