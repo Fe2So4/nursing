@@ -1,5 +1,5 @@
 {
-  "name": "LargeScreen",
+  "name": "large-screen",
   "version": "1.0.0",
   "author": "dyw-design <1875742887@qq.com>",
   "description": "An electron-vue project",
@@ -26,8 +26,8 @@
     "postinstall": "npm run lint:fix"
   },
   "build": {
-    "productName": "LargeScreen",
-    "appId": "LargeScreen",
+    "productName": "large-screen",
+    "appId": "large-screen",
     "directories": {
       "output": "build"
     },
@@ -67,7 +67,7 @@
       "installerHeaderIcon": "build/icons/large_screen.ico",
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "LargeScreen"
+      "shortcutName": "large-screen"
     }
   },
   "dependencies": {
