@@ -217,7 +217,7 @@
             </tr>
             <tr>
               <td style="height:102px;">
-                随带物品
+                随带病史
               </td>
               <td class="left">
                 <el-radio-group v-model="radio">
@@ -235,7 +235,7 @@
             </tr>
             <tr>
               <td style="height:102px;">
-                随带病史
+                随带物品
               </td>
               <td class="left">
                 <el-radio-group v-model="radio">
@@ -246,25 +246,160 @@
                     有
                   </el-radio>
                 </el-radio-group>
-                <div>
-                  <span>
-                    药品名称及数量
-                  </span>
-                  <el-button
-                    type="info"
-                    size="mini"
-                    plain
-                  >
-                    扫码核对
-                  </el-button>
-                </div>
-                <div><span>[乙10%]注射用矛头蝮蛇血凝酶（巴曲亭）1iu/瓶2.0瓶</span></div>
-                <div><span>[甲]氯化钠针（百特塑袋）100ml*0.9% 1.0袋+[甲]头孢呋辛钠针（西力欣）750mg 2.0支</span><i class="el-icon-success" /></div>
-                <div><span>[乙20%]左奥硝唑氯化钠注射液（优诺安）0.5g：100ml 1.0瓶</span><i class="el-icon-success" /></div>
+                <div><span>腹带*</span><span>胃管*</span><span>塑管*</span><span>防压疮敷料*</span></div>
+                <div><span>造口袋*</span><span>胸瓶*</span><span>穿刺针*</span><span>其他*</span></div>
               </td>
               <td><el-radio label="" /></td>
               <td><el-radio label="" /></td>
-              <td />
+              <td>腰带</td>
+            </tr>
+            <tr>
+              <td style="height:52px;">
+                抗血栓袜
+              </td>
+              <td class="left">
+                <el-radio-group v-model="radio">
+                  <el-radio :label="1">
+                    无
+                  </el-radio>
+                  <el-radio :label="2">
+                    有
+                  </el-radio>
+                </el-radio-group>
+              </td>
+              <td><el-radio label="" /></td>
+              <td><el-radio label="" /></td>
+              <td>腰带</td>
+            </tr>
+            <tr>
+              <td style="height:52px;">
+                随带影像学检查
+              </td>
+              <td class="left">
+                <el-radio-group v-model="radio">
+                  <el-radio :label="1">
+                    无
+                  </el-radio>
+                  <el-radio :label="2">
+                    有
+                  </el-radio>
+                </el-radio-group>
+              </td>
+              <td><el-radio label="" /></td>
+              <td><el-radio label="" /></td>
+              <td>腰带</td>
+            </tr>
+            <tr>
+              <td style="height:52px;">
+                随带导管情况
+              </td>
+              <td class="left">
+                <el-radio-group v-model="radio">
+                  <el-radio :label="1">
+                    无
+                  </el-radio>
+                  <el-radio :label="2">
+                    有
+                  </el-radio>
+                </el-radio-group>
+                <el-input />
+              </td>
+              <td><el-radio label="" /></td>
+              <td><el-radio label="" /></td>
+              <td>腰带+1</td>
+            </tr>
+            <tr>
+              <td style="height:52px;">
+                女性月经情况
+              </td>
+              <td class="left">
+                <el-radio-group v-model="radio">
+                  <el-radio :label="1">
+                    无
+                  </el-radio>
+                  <el-radio :label="2">
+                    有
+                  </el-radio>
+                </el-radio-group>
+                <span>(如果患者为男性此条无需填写)</span>
+              </td>
+              <td><el-radio label="" /></td>
+              <td><el-radio label="" /></td>
+              <td>腰带+1</td>
+            </tr>
+            <tr>
+              <td style="height:52px;">
+                备注
+              </td>
+              <td class="left">
+                <el-radio-group v-model="radio">
+                  <el-radio :label="1">
+                    无
+                  </el-radio>
+                  <el-radio :label="2">
+                    有
+                  </el-radio>
+                </el-radio-group>
+                <span>说明</span>
+                <el-input
+                  size="mini"
+                  style="width:300px;"
+                  v-model="input"
+                />
+              </td>
+              <td><el-radio label="" /></td>
+              <td><el-radio label="" /></td>
+              <td>腰带+1</td>
+            </tr>
+            <tr>
+              <td style="height:52px;">
+                交接签名及时间
+              </td>
+              <td class="left">
+                <span>
+                  <span>病区护士：</span>
+                  <el-input
+                    size="mini"
+                    style="width:100px;"
+                    v-model="input"
+                  />
+                </span>
+                <span>
+                  <span>交接时间：</span>
+                  <el-input
+                    size="mini"
+                    style="width:150px;"
+                    v-model="input"
+                  />
+                </span>
+                <span>
+                  <span>工务员：</span>
+                  <el-input
+                    size="mini"
+                    style="width:100px;"
+                    v-model="input"
+                  />
+                </span>
+                <span>
+                  <span>手术室护士：</span>
+                  <el-input
+                    size="mini"
+                    style="width:100px;"
+                    v-model="input"
+                  />
+                </span>
+                <span>
+                  <span>交接时间：</span>
+                  <el-input
+                    size="mini"
+                    style="width:150px;"
+                    v-model="input"
+                  />
+                </span>
+              </td>
+              <td><el-radio label="" /></td>
+              <td><el-radio label="" /></td>
+              <td>腰带+1</td>
             </tr>
           </tbody>
         </table>
@@ -320,7 +455,6 @@ export default {
                 &.left{
                   text-align: left;
                   padding-left: 20px;
-                  // text-indent:20px;
                 }
                 .el-checkbox-group{
                   display: inline-block;
