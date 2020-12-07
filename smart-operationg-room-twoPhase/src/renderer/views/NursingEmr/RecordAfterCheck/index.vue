@@ -9,6 +9,12 @@
         >
           解 锁
         </el-button>
+        <el-button
+          type="primary"
+          size="mini"
+        >
+          更新病房确认
+        </el-button>
       </div>
       <div class="rb-table">
         <table cellspacing="0">
@@ -23,12 +29,12 @@
               <td
                 rowspan="2"
               >
-                病房护士确认栏
+                手术护士确认栏
               </td>
               <td style="width:40px;" />
               <td style="width:40px;" />
               <td style="height:35px;width:120px;">
-                手术护士确认栏
+                病房护士确认栏
               </td>
             </tr>
             <tr>
@@ -40,17 +46,36 @@
             </tr>
             <tr>
               <td style="height:52px;">
-                术前一日晚睡眠
+                术中留置导管情况
               </td>
               <td class="left">
-                <el-radio-group v-model="radio">
-                  <el-radio :label="3">
-                    正常
-                  </el-radio>
-                  <el-radio :label="6">
-                    失眠
-                  </el-radio>
-                </el-radio-group>
+                <div>
+                  <el-radio-group v-model="radio">
+                    <el-radio :label="3">
+                      无
+                    </el-radio>
+                    <el-radio :label="6">
+                      有
+                    </el-radio>
+                  </el-radio-group>
+                </div>
+                <div>
+                  <span>数量*</span>
+                  <span>
+                    <LineInput
+                      :value="input"
+                      input-width="620px"
+                    />
+                  </span>
+                  <el-radio-group v-model="radio">
+                    <el-radio :label="3">
+                      通畅
+                    </el-radio>
+                    <el-radio :label="6">
+                      不畅
+                    </el-radio>
+                  </el-radio-group>
+                </div>
               </td>
               <td><el-radio label="" /></td>
               <td><el-radio label="" /></td>
@@ -58,23 +83,64 @@
             </tr>
             <tr>
               <td style="height:52px;">
-                心理状态
+                静脉通路情况
+              </td>
+              <td class="left">
+                <div>
+                  <el-radio-group v-model="radio">
+                    <el-radio :label="3">
+                      无
+                    </el-radio>
+                    <el-radio :label="6">
+                      有
+                    </el-radio>
+                  </el-radio-group>
+                </div>
+                <div>
+                  <el-checkbox-group v-model="checkList">
+                    <el-checkbox label="浅静脉" />
+                    <el-checkbox label="PICC" />
+                    <el-checkbox label="CVC" />
+                    <el-checkbox label="PORT" />
+                    <el-checkbox label="通畅" />
+                    <el-checkbox label="不畅" />
+                    <el-checkbox label="其它" />
+                  </el-checkbox-group>
+                </div>
+                <div>
+                  <span>
+                    <LineInput
+                      :value="input"
+                      input-width="620px"
+                    />
+                  </span>
+                </div>
+              </td>
+              <td><el-radio label="" /></td>
+              <td><el-radio label="" /></td>
+              <td />
+            </tr>
+            <tr>
+              <td style="height:52px;">
+                术前带药
               </td>
               <td class="left">
                 <el-radio-group v-model="radio">
                   <el-radio :label="1">
-                    稳定
+                    无
                   </el-radio>
                   <el-radio :label="2">
-                    紧张
+                    已执行
                   </el-radio>
                   <el-radio :label="3">
-                    焦虑
-                  </el-radio>
-                  <el-radio :label="4">
-                    恐惧
+                    未执行
                   </el-radio>
                 </el-radio-group>
+                <span>备注</span>
+                <LineInput
+                  :value="input"
+                  input-width="620px"
+                />
               </td>
               <td><el-radio label="" /></td>
               <td><el-radio label="" /></td>
@@ -82,7 +148,7 @@
             </tr>
             <tr>
               <td style="height:52px;">
-                风险评估
+                归还药品
               </td>
               <td class="left">
                 <el-radio-group v-model="radio">
@@ -93,11 +159,6 @@
                     有
                   </el-radio>
                 </el-radio-group>
-                <el-checkbox-group v-model="checkList">
-                  <el-checkbox label="跌倒" />
-                  <el-checkbox label="营养" />
-                  <el-checkbox label="压疮 营养" />
-                </el-checkbox-group>
               </td>
               <td><el-radio label="" /></td>
               <td><el-radio label="" /></td>
@@ -105,25 +166,7 @@
             </tr>
             <tr>
               <td style="height:52px;">
-                药物过敏史
-              </td>
-              <td class="left">
-                <el-radio-group v-model="radio">
-                  <el-radio :label="1">
-                    无
-                  </el-radio>
-                  <el-radio :label="2">
-                    有
-                  </el-radio>
-                </el-radio-group>
-              </td>
-              <td><el-radio label="" /></td>
-              <td><el-radio label="" /></td>
-              <td />
-            </tr>
-            <tr>
-              <td style="height:52px;">
-                已禁食
+                带回血制品情况
               </td>
               <td class="left">
                 <el-radio-group v-model="radio">
@@ -134,6 +177,10 @@
                     否
                   </el-radio>
                 </el-radio-group>
+                <el-input
+                  type="textarea"
+                  style="width:600px;"
+                />
               </td>
               <td><el-radio label="" /></td>
               <td><el-radio label="" /></td>
@@ -141,7 +188,7 @@
             </tr>
             <tr>
               <td style="height:52px;">
-                已肠道准备
+                归还影像学检查
               </td>
               <td class="left">
                 <el-radio-group v-model="radio">
@@ -159,23 +206,22 @@
             </tr>
             <tr>
               <td style="height:72px;">
-                取下假牙、隐形眼镜、首饰贵重物品
+                术后皮肤粘膜情况
               </td>
               <td class="left">
                 <el-radio-group v-model="radio">
                   <el-radio :label="1">
-                    是
+                    完整
                   </el-radio>
                   <el-radio :label="2">
-                    否
+                    破损
+                  </el-radio>
+                  <el-radio :label="3">
+                    发红
                   </el-radio>
                 </el-radio-group>
                 <span>
-                  <span>备注：</span>
-                  <LineInput
-                    :value="input"
-                    input-width="620px"
-                  />
+                  （术后门罗评分：分）
                 </span>
               </td>
               <td><el-radio label="" /></td>
@@ -183,41 +229,8 @@
               <td />
             </tr>
             <tr>
-              <td style="height:170px;">
-                随带药品
-              </td>
-              <td class="left">
-                <el-radio-group v-model="radio">
-                  <el-radio :label="1">
-                    无
-                  </el-radio>
-                  <el-radio :label="2">
-                    有
-                  </el-radio>
-                </el-radio-group>
-                <div>
-                  <span>
-                    药品名称及数量
-                  </span>
-                  <el-button
-                    type="info"
-                    size="mini"
-                    plain
-                  >
-                    扫码核对
-                  </el-button>
-                </div>
-                <div><span>[乙10%]注射用矛头蝮蛇血凝酶（巴曲亭）1iu/瓶2.0瓶</span></div>
-                <div><span>[甲]氯化钠针（百特塑袋）100ml*0.9% 1.0袋+[甲]头孢呋辛钠针（西力欣）750mg 2.0支</span><i class="el-icon-success" /></div>
-                <div><span>[乙20%]左奥硝唑氯化钠注射液（优诺安）0.5g：100ml 1.0瓶</span><i class="el-icon-success" /></div>
-              </td>
-              <td><el-radio label="" /></td>
-              <td><el-radio label="" /></td>
-              <td />
-            </tr>
-            <tr>
-              <td style="height:102px;">
-                随带病史
+              <td style="height:52px;">
+                归还病史
               </td>
               <td class="left">
                 <el-radio-group v-model="radio">
@@ -235,7 +248,7 @@
             </tr>
             <tr>
               <td style="height:102px;">
-                随带物品
+                归还物品情况
               </td>
               <td class="left">
                 <el-radio-group v-model="radio">
@@ -331,7 +344,7 @@
             </tr>
             <tr>
               <td style="height:52px;">
-                随带影像学检查
+                术中添加情况
               </td>
               <td class="left">
                 <el-radio-group v-model="radio">
@@ -349,48 +362,6 @@
             </tr>
             <tr>
               <td style="height:52px;">
-                随带导管情况
-              </td>
-              <td class="left">
-                <el-radio-group v-model="radio">
-                  <el-radio :label="1">
-                    无
-                  </el-radio>
-                  <el-radio :label="2">
-                    有
-                  </el-radio>
-                </el-radio-group>
-                <!-- <el-input
-                  size="mini"
-                  v-model="input"
-                /> -->
-                <LineInput :value="input" />
-              </td>
-              <td><el-radio label="" /></td>
-              <td><el-radio label="" /></td>
-              <td>腰带+1</td>
-            </tr>
-            <tr>
-              <td style="height:52px;">
-                女性月经情况
-              </td>
-              <td class="left">
-                <el-radio-group v-model="radio">
-                  <el-radio :label="1">
-                    无
-                  </el-radio>
-                  <el-radio :label="2">
-                    有
-                  </el-radio>
-                </el-radio-group>
-                <span>(如果患者为男性此条无需填写)</span>
-              </td>
-              <td><el-radio label="" /></td>
-              <td><el-radio label="" /></td>
-              <td>腰带+1</td>
-            </tr>
-            <tr>
-              <td style="height:52px;">
                 备注
               </td>
               <td class="left">
@@ -402,7 +373,6 @@
                     有
                   </el-radio>
                 </el-radio-group>
-                <span>说明：</span>
                 <LineInput :value="input" />
               </td>
               <td><el-radio label="" /></td>
@@ -414,41 +384,66 @@
                 交接签名及时间
               </td>
               <td class="left">
-                <span>
-                  <span>病区护士：</span>
-                  <LineInput
-                    :value="input"
-                    input-width="100px"
-                  />
-                </span>
-                <span>
-                  <span>交接时间：</span>
-                  <LineInput
-                    :value="input"
-                    input-width="150px"
-                  />
-                </span>
-                <span>
-                  <span>工务员：</span>
-                  <LineInput
-                    :value="input"
-                    input-width="100px"
-                  />
-                </span>
-                <span>
-                  <span>手术室护士：</span>
-                  <LineInput
-                    :value="input"
-                    input-width="100px"
-                  />
-                </span>
-                <span>
-                  <span>交接时间：</span>
-                  <LineInput
-                    :value="input"
-                    input-width="150px"
-                  />
-                </span>
+                <div>
+                  <span>
+                    <span>手术室护士：</span>
+                    <LineInput
+                      :value="input"
+                      input-width="100px"
+                    />
+                  </span>
+                  <span>
+                    <span>麻醉医生：</span>
+                    <LineInput
+                      :value="input"
+                      input-width="150px"
+                    />
+                  </span>
+                  <span>
+                    <span>送复苏室工务员：</span>
+                    <LineInput
+                      :value="input"
+                      input-width="100px"
+                    />
+                  </span>
+                  <span>
+                    <span>交接时间：</span>
+                    <LineInput
+                      :value="input"
+                      input-width="150px"
+                    />
+                  </span>
+                </div>
+                <div>
+                  <span>
+                    <span>复苏室护士：</span>
+                    <LineInput
+                      :value="input"
+                      input-width="100px"
+                    />
+                  </span>
+                  <span>
+                    <span>病区护士：</span>
+                    <LineInput
+                      :value="input"
+                      input-width="150px"
+                    />
+                  </span>
+                  <span>
+                    <span>送到病房工务员：</span>
+                    <LineInput
+                      :value="input"
+                      input-width="100px"
+                    />
+                  </span>
+                  <span>
+                    <span>交接时间：</span>
+                    <LineInput
+                      :value="input"
+                      input-width="150px"
+                    />
+                  </span>
+                </div>
               </td>
               <td><el-radio label="" /></td>
               <td><el-radio label="" /></td>
@@ -486,17 +481,17 @@ export default {
       height: calc(100% - 250px);
       background: #FFFFFF;
       box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15);
-      // padding-left:20px;
+      padding-left:20px;
       border-radius: 5px;
       .rb-option{
         text-align: right;
-        padding: 10px 20px 10px 0;
+        padding: 10px 20px;
       }
       .rb-table{
         height: calc(100% - 48px);
         overflow-y: scroll;
-        padding:0 20px;
         padding-bottom: 20px;
+        padding-right: 20px;
         table{
           width: 100%;
           // height: 100%;

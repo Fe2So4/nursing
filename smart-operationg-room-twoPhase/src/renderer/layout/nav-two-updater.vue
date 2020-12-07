@@ -107,7 +107,6 @@ export default {
                       path: '/personnel/attendance/maintenance1/attendance-scheduling'
                     }
                   ]
-
                 }
               ]
             },
@@ -354,7 +353,6 @@ export default {
                 }
               ]
             }
-
           ]
         },
         {
@@ -386,8 +384,78 @@ export default {
           children: [
             {
               icon: 'iconfont icon-guanli',
-              title: '模板维护',
+              title: '术前准备交接记录',
               path: '/emr/record-ready'
+            },
+            {
+              icon: 'iconfont icon-guanli',
+              title: '术前护理评估单',
+              path: '/emr/record-before-nursing'
+            },
+            {
+              icon: 'iconfont icon-guanli',
+              title: '术前访视记录单',
+              path: '/emr/record-before-interview'
+            },
+            {
+              icon: 'iconfont icon-guanli',
+              title: '术后检查交接记录',
+              path: '/emr/record-after-check'
+            },
+            {
+              icon: 'iconfont icon-guanli',
+              title: '术后访视记录单',
+              path: '/emr/record-after-interview'
+            },
+            {
+              icon: 'iconfont icon-guanli',
+              title: '手术室护士交接单',
+              path: '/emr/record-nurse-handover'
+            },
+            {
+              icon: 'iconfont icon-guanli',
+              title: '患者手术信息',
+              path: '/emr/patient-operation-info'
+            },
+            {
+              icon: 'iconfont icon-guanli',
+              title: '风险门罗评估单',
+              path: '/emr/record-risk-monroe-assessment'
+            },
+            {
+              icon: 'iconfont icon-guanli',
+              title: '手术安全风险评估',
+              path: '/emr/operation-security-assessment'
+            },
+            {
+              icon: 'iconfont icon-guanli',
+              title: '手术不良事件上报',
+              path: '/emr/operation-bad-event'
+            },
+            {
+              icon: 'iconfont icon-guanli',
+              title: '手术护理记录单',
+              path: '/emr/record-nursing'
+            },
+            {
+              icon: 'iconfont icon-guanli',
+              title: '家属呼叫',
+              path: '/emr/family-call'
+            },
+            {
+              icon: 'iconfont icon-guanli',
+              title: '取消手术器械包退包',
+              path: '/emr/cancel-device-package-back'
+            },
+            {
+              icon: 'iconfont icon-guanli',
+              title: '急诊与日间手术',
+              path: '/emr/emergency-day'
+            },
+            {
+              icon: 'iconfont icon-guanli',
+              title: '电子病历首页',
+              path: '/emr/emr-home'
             }
           ]
         }
