@@ -13,7 +13,7 @@
           >
             <el-date-picker
               style="width:178px"
-              v-model="form.startTime"
+              v-model="form.startDate"
               type="date"
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
@@ -25,7 +25,7 @@
           >
             <el-date-picker
               style="width:178px"
-              v-model="form.endTime"
+              v-model="form.endDate"
               type="date"
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
@@ -36,7 +36,7 @@
             <span style="font-weight:700;color:#606266">每周按</span>
             <el-input-number
               :controls="false"
-              v-model="form.input"
+              v-model="form.denominator"
               style="width:64px;"
             />
             <span style="font-weight:700;color:#606266">小时计算使用率</span>
@@ -45,7 +45,7 @@
           <el-form-item style="margin-left:10px">
             <el-button
               type="primary"
-              @click="handleAddDevice"
+              @click="handleSearchTable"
             >
               查 询
             </el-button>
@@ -73,35 +73,11 @@ export default {
     return {
 
       form: {
-        startTime: '',
-        endTime: '',
-        input: 50
+        startDate: '',
+        endDate: '',
+        denominator: 50
       },
-      radio: '',
-      addVisible: false,
-      codeVisible: false,
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
-      tableData: [{sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'}]
+      tableData: []
     }
   },
   components: {
@@ -109,15 +85,38 @@ export default {
   },
   mounted () {
     this.getNewTime()
+    this.handleSearchTable()
   },
   methods: {
     // 获取当前时间
     getNewTime () {
-      this.form.startTime = this.utilsGetNewDate()
-      this.form.endTime = this.utilsGetNewDate()
+      this.form.startDate = this.utilsGetNewDate()
+      this.form.endDate = this.utilsGetNewDate()
     },
-    handleAddDevice () {
-      this.addVisible = true
+    // 查询数据
+    handleSearchTable () {
+      let obj = {
+        startDate: this.form.startDate || '',
+        endDate: this.form.endDate || '',
+        denominator: this.form.denominator
+      }
+      this.$store.dispatch('ReqoperRoomUseStatis', obj).then(res => {
+        console.log(res)
+        if (res.data.code === 200) {
+          this.tableData = res.data.data
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
 
   }

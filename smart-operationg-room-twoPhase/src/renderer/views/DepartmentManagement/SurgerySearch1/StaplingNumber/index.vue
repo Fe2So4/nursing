@@ -97,7 +97,10 @@
         />
       </div>
     </div>
-    <div class="dr-table">
+    <div
+      class="dr-table"
+      v-if="infoType"
+    >
       <div class="dr-table-bottom">
         <vxe-table
           align="center"
@@ -174,15 +177,22 @@
         </vxe-table>
       </div>
     </div>
+    <div
+      class="dr-table"
+      v-else
+    >
+      <StaplingInfo @handleChangeType="handleChangeType" />
+    </div>
   </div>
 </template>
 
 <script>
-
+import StaplingInfo from './components/staplingInfo'
 export default {
   name: 'NursingRecordSearch',
   data () {
     return {
+      infoType: true,
       showType: false,
       form: {
         startTime: '',
@@ -219,6 +229,9 @@ export default {
   mounted () {
     this.getNewTime()
   },
+  components: {
+    StaplingInfo
+  },
   methods: {
     // 获取当前时间
     getNewTime () {
@@ -232,8 +245,11 @@ export default {
     // 点击查询查询数据
     handleSearchTableList () {
       this.addVisible = true
+    },
+    // 切换列表
+    handleChangeType () {
+      this.infoType = !this.infoType
     }
-
   }
 }
 </script>

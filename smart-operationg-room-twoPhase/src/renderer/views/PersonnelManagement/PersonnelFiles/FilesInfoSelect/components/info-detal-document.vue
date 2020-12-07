@@ -1,5 +1,6 @@
 <template>
   <table
+    id="userInfoDetail"
     width="100%"
     cellspacing="0"
   >
@@ -288,6 +289,7 @@
 </template>
 
 <script>
+import {ipcRenderer} from 'electron'
 export default {
   props: {
     showData: {
@@ -315,6 +317,13 @@ export default {
     this.getUserTrainInfo()
   },
   methods: {
+    // 打印
+    printCurrent () {
+      const printHtml = document.getElementById('userInfoDetail').outerHTML
+      const options = { silent: false }
+      // options = JSON.stringify(options)
+      ipcRenderer.send('printChannel', printHtml, 'userInfoDetail.css', options)
+    },
     // 获取用户教育经历
     getUserEducation () {
       let obj = {

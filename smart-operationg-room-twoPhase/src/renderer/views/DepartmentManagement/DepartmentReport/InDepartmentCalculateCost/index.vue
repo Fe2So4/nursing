@@ -8,27 +8,16 @@
           :inline="true"
           size="mini"
         >
-          <el-form-item
-            label="年"
-          >
-            <el-date-picker
-              v-model="form.input"
-              type="year"
-              format="yyyy"
-              value-format="yyyy"
-              placeholder="选择年"
-            />
-          </el-form-item>
-          <el-form-item label="月">
+          <el-form-item label="月份">
             <el-date-picker
               format="yyyy-MM"
               value-format="yyyy-MM"
-              v-model="form.input"
+              v-model="form.moonTime"
               type="month"
               placeholder="选择月"
             />
           </el-form-item>
-          <el-form-item label=" ">
+          <el-form-item>
             <el-button
               type="primary"
               @click="handleSearchTableList"
@@ -42,6 +31,7 @@
     <div class="dr-table">
       <div class="dr-table-bottom">
         <vxe-table
+          :loading="loading"
           align="center"
           :data="tableData"
           class="mytable-scrollbar"
@@ -51,90 +41,91 @@
           stripe
         >
           <vxe-table-column
-            type="seq"
+            field="index"
             title="序号"
           />
           <vxe-table-column
-            field="sex"
+            width="120px"
+            field="deptName"
             title="科室"
           />
           <vxe-table-column
-            field="no"
+            field="westernMedicineFee"
             title="西药费"
           />
           <vxe-table-column
-            field="age1"
+            field="chinesePatnetMedicineFee"
             title="中成药费"
           />
           <vxe-table-column
-            field="age1"
+            field="herbalMedicineFee"
             title="草药费"
           />
 
           <vxe-table-column
-            field="age2"
+            field="medicalExpenses"
             title="诊疗费"
           />
           <vxe-table-column
-            field="age3"
+            field="laboratoryFee"
             title="化验费"
           />
           <vxe-table-column
-            field="age3"
+            field="photographFee"
             title="摄片费"
           />
           <vxe-table-column
-            field="age3"
+            field="costOfSurgery"
             title="手术费"
           />
           <vxe-table-column
-            field="age3"
+            field="bloodTransfusionFee"
             title="输血费"
           />
           <vxe-table-column
-            field="age3"
+            field="inspectionFee"
             title="检查费"
           />
 
           <vxe-table-column
-            field="age3"
+            field="treatmentFee"
             title="治疗费"
           />
 
           <vxe-table-column
-            field="age3"
+            field="oxygenFee"
             title="氧气费"
           />
           <vxe-table-column
-            field="age3"
+            field="bedCharge"
             title="床位费"
           />
           <vxe-table-column
-            field="age3"
+            field="rageiotherapy"
             title="放射治疗"
           />
           <vxe-table-column
-            field="age3"
+            field="nursingExpenses"
             title="护理费"
           />
           <vxe-table-column
-            field="age3"
+            field="other"
             title="其它"
           />
           <vxe-table-column
-            field="age3"
+            field="mealExpenses"
             title="膳食费"
           />
           <vxe-table-column
-            field="age3"
+            field="stmoaBag"
             title="造口袋"
           />
           <vxe-table-column
-            field="age3"
+            field="perspectiveFee"
             title="透视费"
           />
           <vxe-table-column
-            field="age3"
+            field="totalPrice"
             title="合计"
           />
         </vxe-table>
@@ -144,60 +135,116 @@
 </template>
 
 <script>
-
 export default {
   name: 'NursingRecordSearch',
   data () {
     return {
-      showType: false,
+      loading: false,
       form: {
-        startTime: '',
-        endTime: '',
-        input: ''
+        moonTime: ''
       },
-      radio: '',
-      addVisible: false,
-      codeVisible: false,
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
-      tableData: [{sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'}]
+      tableData: []
     }
   },
   mounted () {
     this.getNewTime()
+    this.handleSearchTableList()
   },
   methods: {
     // 获取当前时间
     getNewTime () {
-      this.form.startTime = this.utilsGetNewDate()
-      this.form.endTime = this.utilsGetNewDate()
+      this.form.moonTime = this.utilsGetMoon()
     },
-    // 点击图标切换显示
-    handleChangeIcon () {
-      this.showType = !this.showType
-    },
+
     // 点击查询查询数据
     handleSearchTableList () {
-      this.addVisible = true
+      this.loading = true
+      let obj = {
+        date: this.form.moonTime
+      }
+      this.$store.dispatch('ReqstatisOperChargeByDept', obj).then(res => {
+        this.loading = false
+        if (res.data.code === 200) {
+          this.tableData = res.data.data
+          if (this.tableData.length > 0) {
+            let westernMedicineFee = 0
+            let chinesePatnetMedicineFee = 0
+            let herbalMedicineFee = 0
+            let medicalExpenses = 0
+            let laboratoryFee = 0
+            let photographFee = 0
+            let costOfSurgery = 0
+            let bloodTransfusionFee = 0
+            let inspectionFee = 0
+            let treatmentFee = 0
+            let oxygenFee = 0
+            let bedCharge = 0
+            let rageiotherapy = 0
+            let nursingExpenses = 0
+            let other = 0
+            let mealExpenses = 0
+            let stmoaBag = 0
+            let totalPrice = 0
+            let perspectiveFee = 0
+            this.tableData.forEach((item, index) => {
+              item.order = index + 1
+              westernMedicineFee += item.westernMedicineFee
+              chinesePatnetMedicineFee += item.chinesePatnetMedicineFee
+              herbalMedicineFee += item.herbalMedicineFee
+              medicalExpenses += item.medicalExpenses
+              laboratoryFee += item.laboratoryFee
+              photographFee += item.photographFee
+              costOfSurgery += item.costOfSurgery
+              bloodTransfusionFee += item.bloodTransfusionFee
+              inspectionFee += item.inspectionFee
+              treatmentFee += item.treatmentFee
+              oxygenFee += item.oxygenFee
+              bedCharge += item.bedCharge
+              rageiotherapy += item.rageiotherapy
+              nursingExpenses += item.nursingExpenses
+              other += item.other
+              mealExpenses += item.mealExpenses
+              stmoaBag += item.stmoaBag
+              perspectiveFee += item.perspectiveFee
+              totalPrice += item.totalPrice
+            })
+            let obj = {
+              index: '合计',
+              westernMedicineFee,
+              chinesePatnetMedicineFee,
+              herbalMedicineFee,
+              medicalExpenses,
+              laboratoryFee,
+              photographFee,
+              costOfSurgery,
+              bloodTransfusionFee,
+              inspectionFee,
+              treatmentFee,
+              oxygenFee,
+              bedCharge,
+              rageiotherapy,
+              nursingExpenses,
+              other,
+              mealExpenses,
+              stmoaBag,
+              totalPrice,
+              perspectiveFee
+            }
+            this.tableData.push(obj)
+          }
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
 
   }

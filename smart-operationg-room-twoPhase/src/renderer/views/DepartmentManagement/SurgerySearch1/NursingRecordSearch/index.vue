@@ -12,8 +12,9 @@
             label="开始日期"
           >
             <el-date-picker
+              :clearable="false"
               style="width:178px"
-              v-model="form.startTime"
+              v-model="form.operationDateStart"
               type="date"
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
@@ -22,7 +23,8 @@
           </el-form-item>
           <el-form-item label="结束日期">
             <el-date-picker
-              v-model="form.endTime"
+              :clearable="false"
+              v-model="form.operationDateEnd"
               style="width:178px"
               type="date"
               format="yyyy-MM-dd"
@@ -30,78 +32,77 @@
               placeholder="选择日期"
             />
           </el-form-item>
-          <el-form-item label="病区">
-            <el-select
-              v-model="form.input"
-              placeholder="请选择"
-              size="mini"
-            >
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="手术状态">
-            <el-select
-              v-model="form.input"
-              placeholder="请选择"
-              size="mini"
-            >
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="住院号">
-            <el-input v-model="form.input" />
+          <el-form-item
+            v-show="showType"
+            label="住院号"
+          >
+            <el-input
+              clearable
+              v-model="form.hospitalNo"
+            />
           </el-form-item>
           <el-form-item
             v-show="showType"
             label="病床号"
           >
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.bedNo"
+            />
           </el-form-item>
           <el-form-item
             v-show="showType"
             label="病人姓名"
           >
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.patientName"
+            />
           </el-form-item>
           <el-form-item
             v-show="showType"
             label="手术名称"
           >
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.operationName"
+            />
           </el-form-item>
           <el-form-item
             v-show="showType"
             label="所属科室"
           >
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.deptName"
+            />
           </el-form-item>
           <el-form-item
             v-show="showType"
             label="主刀医师"
           >
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.surgeon"
+            />
           </el-form-item>
           <el-form-item
             v-show="showType"
             label="洗手护士"
           >
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.washNurseName1"
+            />
           </el-form-item>
           <el-form-item
             v-show="showType"
             label="巡回护士"
           >
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.runNurseName1"
+            />
           </el-form-item>
         </el-form>
       </div>
@@ -145,23 +146,28 @@
     </div>
     <div class="dr-table">
       <div class="dr-table-top">
+        <!-- <div class="top-list">
+          <span class="top-list-title">腔镜直线型切割吻合器及钉匣(吻合器F12S)</span>
+          <span class="top-list-number">(20)</span>
+          <span class="top-list-icon"> <i class="el-icon-close" /> </span>
+        </div> -->
         <div
           :key="index"
-          v-for="(item,index) in 4"
+          v-for="(item,index) in options"
           class="dr-table-top-item"
         >
           <div class="item-left">
-            所属科室:
+            {{ item.name }}:
           </div>
           <div class="item-right">
             <div
               class="item-right-context"
-              :key="index"
-              v-for="(item,index) in 20"
+              :key="i"
+              v-for="(v,i) in item.dataList"
             >
               <span>
-                <span class="context-title">普外科</span>
-                <span>(20)</span>
+                <span class="context-title">{{ v.typeName }}</span>
+                <span style="color:#aaa">({{ v.count }})</span>
               </span>
             </div>
           </div>
@@ -182,7 +188,7 @@
             title="序号"
           />
           <vxe-table-column
-            field="sex"
+            field="operateDate"
             title="手术日期"
           />
           <vxe-table-column
@@ -190,54 +196,55 @@
             title="日间手术"
           />
           <vxe-table-column
-            field="age1"
+            field="roomNo"
             title="房间"
           />
           <vxe-table-column
-            field="age1"
+            field="sequenceNo"
             title="术序"
           />
 
           <vxe-table-column
-            field="age2"
+            field="bedNo"
             title="床号"
           />
           <vxe-table-column
-            field="age3"
+            field="patientName"
             title="姓名"
           />
           <vxe-table-column
-            field="age3"
+            field="patientGender"
             title="性别"
           />
           <vxe-table-column
-            field="age3"
+            field="patientAge"
             title="年龄"
           />
           <vxe-table-column
-            field="age3"
+            field="hospitalNo"
             title="住院号"
           />
           <vxe-table-column
-            field="age3"
+            field="deptName"
             title="所属科室"
           />
 
           <vxe-table-column
-            field="age3"
+            width="160px"
+            field="operationName"
             title="手术名称"
           />
 
           <vxe-table-column
-            field="age3"
+            field="surgeon"
             title="主刀医生"
           />
           <vxe-table-column
-            field="age3"
+            field="washNurseName1"
             title="洗手护士"
           />
           <vxe-table-column
-            field="age3"
+            field="runNurseName1"
             title="巡回护士"
           />
         </vxe-table>
@@ -254,45 +261,35 @@ export default {
     return {
       showType: false,
       form: {
-        startTime: '',
-        endTime: '',
-        input: ''
+        operationDateStart: '',
+        operationDateEnd: '',
+        bedNo: '',
+        deptName: '',
+        hospitalNo: '',
+        operationName: '',
+        patientName: '',
+        runNurseName1: '',
+        surgeon: '',
+        washNurseName1: ''
       },
       radio: '',
       addVisible: false,
       codeVisible: false,
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
-      tableData: [{sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'}]
+      options: [{name: '所属科室', dataList: []}, {name: '主刀医生', dataList: []}, {name: '麻醉方式', dataList: []}, {name: '手术房间', dataList: []}],
+      surgeonList: [],
+      tableData: []
     }
   },
   mounted () {
     this.getNewTime()
+    this.handleSearchTableList()
   },
   methods: {
+
     // 获取当前时间
     getNewTime () {
-      this.form.startTime = this.utilsGetNewDate()
-      this.form.endTime = this.utilsGetNewDate()
+      this.form.operationDateStart = this.utilsGetNewDate()
+      this.form.operationDateEnd = this.utilsGetNewDate()
     },
     // 点击图标切换显示
     handleChangeIcon () {
@@ -300,7 +297,61 @@ export default {
     },
     // 点击查询查询数据
     handleSearchTableList () {
-      this.addVisible = true
+      let obj = {
+        operationDateStart: this.form.operationDateStart || '',
+        operationDateEnd: this.form.operationDateEnd || '',
+        bedNo: this.form.bedNo || '',
+        deptName: this.form.deptName || '',
+        hospitalNo: this.form.hospitalNo || '',
+        operationName: this.form.operationName || '',
+        patientName: this.form.patientName || '',
+        runNurseName1: this.form.runNurseName1 || '',
+        surgeon: this.form.surgeon || '',
+        washNurseName1: this.form.washNurseName1 || ''
+      }
+      this.$store.dispatch('ReqgetNursingRecordSheet', obj).then(res => {
+        console.log(res)
+        if (res.data.code === 200) {
+          this.tableData = res.data.data.dataList
+          this.options.forEach(item => {
+            if (item.name === '所属科室') {
+              item.dataList = res.data.data.deptList
+              item.dataList.forEach(v => {
+                v.typeName = v.deptName
+              })
+            }
+            if (item.name === '主刀医生') {
+              item.dataList = res.data.data.surgeonList
+              item.dataList.forEach(v => {
+                v.typeName = v.surgeonName
+              })
+            }
+            if (item.name === '手术房间') {
+              item.dataList = res.data.data.roomList
+              item.dataList.forEach(v => {
+                v.typeName = v.roomName
+              })
+            }
+            if (item.name === '麻醉方式') {
+              item.dataList = res.data.data.operationNameList
+              item.dataList.forEach(v => {
+                v.typeName = v.operationName
+              })
+            }
+          })
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
 
   }
@@ -330,6 +381,9 @@ export default {
           .el-select{
             max-width: 178px;
           }
+          .el-input.el-input--mini.el-input--suffix {
+            max-width: 178px;
+          }
         }
         }
 
@@ -341,6 +395,9 @@ export default {
           .el-form-item{
           margin-bottom: 10px;
           .el-select{
+            max-width: 178px;
+          }
+          .el-input.el-input--mini.el-input--suffix {
             max-width: 178px;
           }
         }
@@ -375,10 +432,32 @@ export default {
         flex-direction: column;
         padding: 20px;
         background-color: #fff;
+        .top-list {
+          margin-right: 10px;
+          align-items: center;
+          font-size: 14px;
+          display: flex;
+          .top-list-title{
+            cursor: pointer;
+            color: #2474F8;
+          }
+          .top-list-number {
+            color: #888;
+          }
+          .top-list-icon {
+            cursor: pointer;
+            margin-left: 5px;
+            color: #888;
+            font-size: 12px;
+            &:hover {
+              color: #2474F8;
+            }
+          }
+        }
         .dr-table-top-item {
           display: flex;
           .item-left {
-            width: 100px;
+            width: 60px;
             font-size: 14px;
             color: #333333;
           }

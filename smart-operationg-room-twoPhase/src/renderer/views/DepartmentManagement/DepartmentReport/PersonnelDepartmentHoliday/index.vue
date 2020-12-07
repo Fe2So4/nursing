@@ -39,7 +39,7 @@
               placeholder="请选择"
             >
               <el-option
-                v-for="item in options"
+                v-for="item in deptList"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -142,6 +142,7 @@ export default {
   name: 'NursingRecordSearch',
   data () {
     return {
+      deptList: [],
       showType: false,
       form: {
         startTime: '',
@@ -177,6 +178,7 @@ export default {
   },
   mounted () {
     this.getNewTime()
+    this.getSelectList('007')
   },
   methods: {
     // 获取当前时间
@@ -191,8 +193,31 @@ export default {
     // 点击查询查询数据
     handleSearchTableList () {
       this.addVisible = true
+    },
+    // 获取数据字典列表
+    getSelectList (num) {
+      let obj = {
+        belongSerialNumber: num
+      }
+      this.$store.dispatch('ReqgetBaseDictDetailList', obj).then(res => {
+        if (res.data.code === 200) {
+          if (num === '007') {
+            this.deptList = res.data.data
+          }
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
-
   }
 }
 </script>

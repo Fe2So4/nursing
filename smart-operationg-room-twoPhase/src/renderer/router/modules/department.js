@@ -93,7 +93,7 @@ const departmentRoutes = {
           path: 'daily-endtime-search',
           name: 'DailyEndTimeSearch',
           meta: {
-            title: '手术接台间隔时间查询',
+            title: '每日房间结束时间查询',
             noNavs: false,
             parent: 'Department'
           },

@@ -47,7 +47,7 @@ export default {
           data: ['衬衫', '雪纺衫', '裤子', '高跟鞋', '袜子', '袜子1', '袜2子', '袜子3', '袜子5']
         },
         series: [{
-          barWidth: '30%',
+          barWidth: '15%',
           name: '销量',
           type: 'bar',
           data: [10, 20, 30, 40, 49],

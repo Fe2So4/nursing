@@ -12,9 +12,11 @@
             label="开始时间"
           >
             <el-date-picker
+              readonly
               style="width:178px"
               v-model="form.startTime"
               type="date"
+              :clearable="false"
               value-format="yyyy-MM-dd"
               format="yyyy-MM-dd"
               placeholder="选择日期"
@@ -22,6 +24,8 @@
           </el-form-item>
           <el-form-item label="结束时间">
             <el-date-picker
+              readonly
+              :clearable="false"
               v-model="form.endTime"
               style="width:178px"
               type="date"
@@ -33,7 +37,7 @@
           <el-form-item>
             <el-button
               type="primary"
-              @click="handleAddDevice"
+              @click="handleSearchTable"
             >
               查 询
             </el-button>
@@ -68,56 +72,49 @@
           title="手术申请/护理记录单明细"
         >
           <template v-slot="{row}">
-            <el-button type="text">
+            <el-button
+              @click="handleShowDio(row)"
+              type="text"
+            >
               {{ row.sort }}
             </el-button>
           </template>
         </vxe-table-column>
       </vxe-table>
     </div>
+    <el-dialog
+      :close-on-click-modal="false"
+      title="提示"
+      :visible.sync="dialogVisible"
+      width="90%"
+      :before-close="handleClose"
+    >
+      <NursingRecordSheet />
+    </el-dialog>
   </div>
 </template>
 
 <script>
-
+import NursingRecordSheet from './components/NursingRecordSheet'
 export default {
   name: 'MoreSurgerySearch',
   data () {
     return {
+      dialogVisible: false,
       form: {
         startTime: '',
         endTime: '',
         input: ''
       },
-      radio: '',
-      addVisible: false,
-      codeVisible: false,
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
-      tableData: [{sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'}]
+      tableData: []
     }
+  },
+  components: {
+    NursingRecordSheet
   },
   mounted () {
     this.getNewTime()
+    this.handleSearchTable()
   },
   methods: {
     // 获取当前时间
@@ -125,17 +122,38 @@ export default {
       this.form.startTime = this.utilsGetNewDate()
       this.form.endTime = this.utilsGetNewDate()
     },
-    handleShow () {
-      this.codeVisible = true
+    // 查询数据
+    handleSearchTable () {
+      let obj = {
+        startTime: this.form.startTime || '',
+        endTime: this.form.endTime || ''
+      }
+      this.$store.dispatch('ReqgetTimesOperations', obj).then(res => {
+        console.log(res)
+        if (res.data.code === 200) {
+          this.tableData = res.data.data
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
     },
-    handleCloseAddDialog () {
-      this.addVisible = false
+    // 点击
+    handleShowDio (row) {
+      console.log(row)
+      this.dialogVisible = true
     },
-    handleAddDevice () {
-      this.addVisible = true
+    // 关闭
+    handleClose () {
+      this.dialogVisible = false
     },
-    handleCloseCode () {
-      this.codeVisible = false
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
   }
 }

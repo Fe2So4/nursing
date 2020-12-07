@@ -1,6 +1,6 @@
 <template>
   <!-- 每日房间结束时间查询 -->
-  <div class="nursing-recieive-search">
+  <div class="daily-endtime-search">
     <div class="dr-top">
       <div class="dr-top-left">
         <el-form
@@ -13,24 +13,25 @@
           >
             <el-date-picker
               style="width:178px"
-              v-model="form.time"
+              :clearable="false"
+              v-model="form.date"
               type="date"
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
               placeholder="选择日期"
             />
           </el-form-item>
-          <el-form-item label=" ">
+          <el-form-item>
             <el-button
               type="primary"
-              @click="handleAddDevice"
+              @click="handleSearchData"
             >
               查 询
             </el-button>
             <el-button
               type="info"
               plain
-              @click="handleAddDevice"
+              @click="handleExitExcel"
             >
               导 出
             </el-button>
@@ -53,23 +54,23 @@
           title="序号"
         />
         <vxe-table-column
-          field="age1"
+          field="opeRoom"
           title="手术房间"
         />
         <vxe-table-column
-          field="age2"
+          field="startTime"
           title="日期"
         />
         <vxe-table-column
-          field="age2"
+          field="outOperTime"
           title="最后结束时间"
         />
         <vxe-table-column
-          field="age2"
+          field="surgeon"
           title="主刀医生"
         />
         <vxe-table-column
-          field="age2"
+          field="deptOperName"
           title="科室"
         />
       </vxe-table>
@@ -84,62 +85,50 @@ export default {
   data () {
     return {
       form: {
-        time: '',
-        input: ''
+        date: ''
       },
-      radio: '',
-      addVisible: false,
-      codeVisible: false,
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
-      tableData: [{sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'}]
+      tableData: []
     }
   },
   mounted () {
     this.getNewTime()
+    this.handleSearchData()
   },
   methods: {
     // 获取当前时间
     getNewTime () {
-      this.form.time = this.utilsGetNewDate()
+      this.form.date = this.utilsGetNewDate()
     },
-    handleShow () {
-      this.codeVisible = true
+    // 查数据
+    handleSearchData () {
+      let obj = {
+        date: this.form.date || ''
+      }
+      this.$store.dispatch('ReqgetEveryDayRoomEndTime', obj).then(res => {
+        if (res.data.code === 200) {
+          this.tableData = res.data.data
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
     },
-    handleCloseAddDialog () {
-      this.addVisible = false
-    },
-    handleAddDevice () {
-      this.addVisible = true
-    },
-    handleCloseCode () {
-      this.codeVisible = false
+    // 导出
+    handleExitExcel () {},
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  .nursing-recieive-search{
+  .daily-endtime-search{
     display: flex;
     height: 100%;
     flex-direction: column;
