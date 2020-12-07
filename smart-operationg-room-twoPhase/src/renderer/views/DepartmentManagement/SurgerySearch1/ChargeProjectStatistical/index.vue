@@ -13,7 +13,7 @@
           >
             <el-date-picker
               style="width:178px"
-              v-model="form.startTime"
+              v-model="form.startDate"
               type="date"
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
@@ -22,7 +22,7 @@
           </el-form-item>
           <el-form-item label="结束日期">
             <el-date-picker
-              v-model="form.endTime"
+              v-model="form.endDate"
               style="width:178px"
               type="date"
               format="yyyy-MM-dd"
@@ -30,52 +30,58 @@
               placeholder="选择日期"
             />
           </el-form-item>
-          <el-form-item label="分类">
+          <el-form-item
+            v-show="showType"
+            label="分类"
+          >
             <el-select
-              v-model="form.input"
+              clearable
+              v-model="form.categoryId"
               placeholder="请选择"
             >
               <el-option
                 v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
               />
             </el-select>
           </el-form-item>
-          <el-form-item label="吻合器分类">
+          <el-form-item
+            v-show="showType"
+            label="吻合器分类"
+          >
             <el-select
-              v-model="form.input"
+              clearable
+              v-model="form.staplerCategoryId"
               placeholder="请选择"
             >
               <el-option
                 v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
               />
             </el-select>
           </el-form-item>
-          <el-form-item label="计费项">
-            <el-input v-model="form.input" />
-          </el-form-item>
           <el-form-item
             v-show="showType"
-            label="吻合器"
+            label="计费项"
           >
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.chargeName"
+            />
           </el-form-item>
+
           <el-form-item
             v-show="showType"
-            label="所属科室"
+            label="手术医生"
           >
-            <el-input v-model="form.input" />
-          </el-form-item>
-          <el-form-item
-            v-show="showType"
-            label="手术房间"
-          >
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.surgeon"
+            />
           </el-form-item>
         </el-form>
       </div>
@@ -125,28 +131,29 @@
             title="序号"
           />
           <vxe-table-column
-            field="sex"
+            width="500px"
+            field="chargeName"
             title="收费项目"
           />
           <vxe-table-column
-            field="no"
+            field="unit"
             title="单位"
           />
           <vxe-table-column
-            field="age1"
+            field="categoryName"
             title="分类"
           />
           <vxe-table-column
-            field="age1"
+            field="price"
             title="单价"
           />
 
           <vxe-table-column
-            field="age2"
+            field="count"
             title="用量"
           />
           <vxe-table-column
-            field="age3"
+            field="totalPrice"
             title="小计"
           />
         </vxe-table>
@@ -163,45 +170,40 @@ export default {
     return {
       showType: false,
       form: {
-        startTime: '',
-        endTime: '',
-        input: ''
+        startDate: '',
+        endDate: '',
+        categoryId: '',
+        chargeName: '',
+        staplerCategoryId: '',
+        surgeon: ''
       },
-      radio: '',
-      addVisible: false,
-      codeVisible: false,
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
-      tableData: [{sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'}]
+      options: [],
+      tableData: []
     }
   },
   mounted () {
     this.getNewTime()
+    this.getClassification()
+    this.handleSearchTableList()
   },
   methods: {
+    // 获取分类字典
+    getClassification () {
+      let obj = {
+        type: 'CHARGCATEGORY'
+      }
+      this.$store.dispatch('ReqgetDictByType', obj).then(res => {
+        if (res.data.code === 200) {
+          this.options = res.data.data
+        } else {
+
+        }
+      })
+    },
     // 获取当前时间
     getNewTime () {
-      this.form.startTime = this.utilsGetNewDate()
-      this.form.endTime = this.utilsGetNewDate()
+      this.form.startDate = this.utilsGetNewDate()
+      this.form.endDate = this.utilsGetNewDate()
     },
     // 点击图标切换显示
     handleChangeIcon () {
@@ -209,7 +211,30 @@ export default {
     },
     // 点击查询查询数据
     handleSearchTableList () {
-      this.addVisible = true
+      let obj = {
+        categoryId: this.form.categoryId || '',
+        chargeName: this.form.chargeName || '',
+        endDate: this.form.endDate || '',
+        staplerCategoryId: this.form.staplerCategoryId || '',
+        startDate: this.form.startDate || '',
+        surgeon: this.form.surgeon || ''
+      }
+      this.$store.dispatch('ReqoperChargeStatis', obj).then(res => {
+        if (res.data.code === 200) {
+          this.tableData = res.data.data
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
 
   }
@@ -237,6 +262,9 @@ export default {
           /deep/.el-form-item{
           margin-bottom: 15px;
           .el-select{
+            max-width: 178px;
+          }
+          .el-input {
             max-width: 178px;
           }
         }

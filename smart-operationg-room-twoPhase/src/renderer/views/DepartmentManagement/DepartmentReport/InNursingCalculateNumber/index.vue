@@ -8,27 +8,16 @@
           :inline="true"
           size="mini"
         >
-          <el-form-item
-            label="年"
-          >
-            <el-date-picker
-              v-model="form.input"
-              type="year"
-              format="yyyy"
-              value-format="yyyy"
-              placeholder="选择年"
-            />
-          </el-form-item>
-          <el-form-item label="月">
+          <el-form-item label="年月">
             <el-date-picker
               format="yyyy-MM"
               value-format="yyyy-MM"
-              v-model="form.input"
+              v-model="form.moonTime"
               type="month"
               placeholder="选择月"
             />
           </el-form-item>
-          <el-form-item label=" ">
+          <el-form-item>
             <el-button
               type="primary"
               @click="handleSearchTableList"
@@ -42,6 +31,7 @@
     <div class="dr-table">
       <div class="dr-table-bottom">
         <vxe-table
+          :loading="loading"
           align="center"
           :data="tableData"
           class="mytable-scrollbar"
@@ -55,23 +45,23 @@
             title="序号"
           />
           <vxe-table-column
-            field="sex"
+            field="name"
             title="护士姓名"
           />
           <vxe-table-column
-            field="no"
+            field="code"
             title="工号"
           />
           <vxe-table-column
-            field="age1"
+            field="washNurseCount"
             title="器械护士"
           />
           <vxe-table-column
-            field="age1"
+            field="runNurseCount"
             title="巡回护士"
           />
           <vxe-table-column
-            field="age1"
+            field="totalCount"
             title="总台数"
           />
         </vxe-table>
@@ -86,55 +76,46 @@ export default {
   name: 'NursingRecordSearch',
   data () {
     return {
-      showType: false,
+      loading: false,
       form: {
-        startTime: '',
-        endTime: '',
-        input: ''
+        moonTime: ''
       },
-      radio: '',
-      addVisible: false,
-      codeVisible: false,
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
-      tableData: [{sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'}]
+      tableData: []
     }
   },
   mounted () {
     this.getNewTime()
+    this.handleSearchTableList()
   },
   methods: {
     // 获取当前时间
     getNewTime () {
-      this.form.startTime = this.utilsGetNewDate()
-      this.form.endTime = this.utilsGetNewDate()
-    },
-    // 点击图标切换显示
-    handleChangeIcon () {
-      this.showType = !this.showType
+      this.form.moonTime = this.utilsGetMoon()
     },
     // 点击查询查询数据
     handleSearchTableList () {
-      this.addVisible = true
+      this.loading = true
+      let obj = {
+        date: this.form.moonTime
+      }
+      this.$store.dispatch('ReqstatisOperCountByNurse', obj).then(res => {
+        this.loading = false
+        if (res.data.code === 200) {
+          this.tableData = res.data.data
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+      console.log(this.form)
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
 
   }

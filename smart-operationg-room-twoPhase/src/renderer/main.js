@@ -22,7 +22,9 @@ import utilsGetNowDay from './utils/utilsNowDay'
 import utilsGetAge from './utils/utilsGetAge'
 import utilsNewTime from './utils/utilsNewTime'
 import utilsGetWeek from './utils/getWeek'
+import utilsGetMoon from './utils/utilsMoon'
 import utilsDebounce from './utils/utilsDebounce'
+import utilsGetYear from './utils/utilsYear'
 import vueiInfinite from 'vue-infinite-scroll'
 // 处理element-ui vxe-table样式兼容问题
 import VXETablePluginElement from 'vxe-table-plugin-element'
@@ -38,7 +40,9 @@ Vue.prototype.utilsGetNewDate = utilsGetNewDate
 Vue.prototype.utilsGetAge = utilsGetAge
 Vue.prototype.utilsNewTime = utilsNewTime
 Vue.prototype.utilsDebounce = utilsDebounce
+Vue.prototype.utilsGetYear = utilsGetYear
 Vue.prototype.utilsGetNowDay = utilsGetNowDay
+Vue.prototype.utilsGetMoon = utilsGetMoon
 Vue.prototype.Moment = Moment
 Vue.prototype.utilsGetWeek = utilsGetWeek
 Vue.prototype.voicePrompt = voicePromptFun.voicePrompt // 语音提醒

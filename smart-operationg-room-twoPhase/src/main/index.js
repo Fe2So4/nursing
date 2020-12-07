@@ -195,3 +195,10 @@ ipcMain.on('did-finish-load', (e, options, a) => {
 
 // const options = { silent: true, landscape: true }
 })
+
+ipcMain.on('download', (evt, args) => {
+  const url = JSON.parse(args)
+  const downloadUrl = url.downloadUrl
+  console.log(downloadUrl)
+  mainWindow.webContents.downloadURL(downloadUrl)
+})

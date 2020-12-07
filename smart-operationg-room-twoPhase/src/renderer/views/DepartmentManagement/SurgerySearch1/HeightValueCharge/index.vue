@@ -262,7 +262,10 @@ export default {
     },
     // 点击查询查询数据
     handleSearchTableList () {
-      this.addVisible = true
+      let obj = {}
+      this.$store.dispatch('ReqgetNursingRecordSheet', obj).then(res => {
+        console.log(res)
+      })
     }
 
   }

@@ -2,7 +2,7 @@ import request from '@/utils/request'
 const config = require('@/config/url.js')
 
 // 获取楼层列表
-const reqgetFloorUrl = `${config.default.api.baseURL}/ocis/dict/getFloor`
+const reqgetFloorUrl = `${config.default.api.baseURL}/ocis/dictInfo/getFloor`
 export const reqgetFloor = () => {
   return request({
     url: reqgetFloorUrl,

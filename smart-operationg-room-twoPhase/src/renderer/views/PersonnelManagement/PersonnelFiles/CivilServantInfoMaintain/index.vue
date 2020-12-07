@@ -115,6 +115,7 @@
         </vxe-table>
       </div>
       <Pagination
+        ref="pagination"
         @searchTableList="searchTableList"
         :children-data="childrenData"
       />
@@ -170,17 +171,20 @@ export default {
     this.getTable()
   },
   methods: {
+
     // 点击查询调用获取数据接口
     getTable () {
+      this.$refs.pagination.currentPage = 1
+      console.log(this.$refs.pagination.currentPage)
       let params = {
-        currentPage: this.currentPage,
+        currentPage: 1,
         pageSize: this.pageSize
       }
+      console.log(params)
       this.searchTableList(params)
     },
     // 调用接口获取表格数据
     searchTableList (params) {
-      this.currentPage = params.currentPage
       this.pageSize = params.pageSize
       let obj = {
         pageIndex: params.currentPage,

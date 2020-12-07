@@ -12,6 +12,7 @@
             label="日期"
           >
             <el-date-picker
+              readonly
               style="width:178px"
               v-model="form.time"
               type="date"
@@ -22,38 +23,54 @@
           </el-form-item>
           <el-form-item label="楼">
             <el-select
-              v-model="form.input"
+              clearable
+              v-model="form.floor"
               placeholder="请选择"
               size="mini"
             >
               <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.vaule"
+                v-for="item in floorList"
+                :key="item.floorNo"
+                :label="item.floorName"
+                :value="item.floorNo"
               />
             </el-select>
           </el-form-item>
           <el-form-item label="住院号">
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.hospitalNo"
+            />
           </el-form-item>
           <el-form-item label="床号">
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.bedNo"
+            />
           </el-form-item>
           <el-form-item label="姓名">
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.patientName"
+            />
           </el-form-item>
           <el-form-item
             label="手术名称"
             v-show="showType"
           >
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.operationName"
+            />
           </el-form-item>
           <el-form-item
             label="手术医生"
             v-show="showType"
           >
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.surgeon"
+            />
           </el-form-item>
         </el-form>
       </div>
@@ -65,7 +82,7 @@
           <el-form-item>
             <el-button
               type="primary"
-              @click="handleAddDevice"
+              @click="handleSearchData"
             >
               查 询
             </el-button>
@@ -101,69 +118,64 @@
           title="序号"
         />
         <vxe-table-column
-          field="no"
+          field="opeRoom"
           title="手术房间"
         />
         <vxe-table-column
-          field="age1"
+          field="operationStateName"
           title="状态"
         />
         <vxe-table-column
-          field="age2"
+          field="sequence"
           title="术序"
         />
         <vxe-table-column
-          field="age3"
+          width="160px"
+          field="startTime"
           title="开始时间"
         />
         <vxe-table-column
-          field="age3"
+          field="opeNameAfter"
           title="手术名称"
         />
         <vxe-table-column
-          field="age3"
+          field="patientName"
           title="病人姓名"
         />
         <vxe-table-column
-          field="age3"
+          field="patientId"
           title="住院号"
         />
         <vxe-table-column
-          field="age3"
+          field="bedId"
           title="病床号"
         />
         <vxe-table-column
-          field="age3"
+          field="surgeon"
           title="主刀医师"
         />
         <vxe-table-column
-          field="age3"
+          field="anesName"
           title="麻醉方法"
         />
         <vxe-table-column
-          field="age3"
+          field="anesDoc"
           title="麻醉医生"
         />
         <vxe-table-column
-          field="age3"
+          field="firstOpeNurse"
           title="器械护士"
         />
         <vxe-table-column
-          field="age3"
+          field="firstSupplyNurse"
           title="巡回护士"
         />
       </vxe-table>
-    </div>
-    <div
-      class="dr-pagination"
-    >
-      <Pagination :distance="'20'" />
     </div>
   </div>
 </template>
 
 <script>
-import Pagination from '@/components/Pagination/pagination'
 
 export default {
   name: 'RoomStatusSearch',
@@ -172,27 +184,17 @@ export default {
       showType: false,
       form: {
         time: '',
-        input: ''
+        floor: '',
+        hospitalNo: '',
+        bedNo: '',
+        patientName: '',
+        operationName: '',
+        surgeon: ''
       },
       radio: '',
       addVisible: false,
       codeVisible: false,
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
+      floorList: [],
       tableData: [{sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
         {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
         {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
@@ -201,13 +203,22 @@ export default {
         {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'}]
     }
   },
-  components: {
-    Pagination
-  },
+
   mounted () {
     this.getNewTime()
+    this.getFloorList()
+    this.handleSearchData()
   },
   methods: {
+    // 获取楼层列表
+    getFloorList () {
+      this.$store.dispatch('ReqgetFloor').then(res => {
+        if (res.data.code === 200) {
+          this.floorList = JSON.parse(JSON.stringify(res.data.data))
+          this.floorList.unshift({floorNo: '', floorName: '全部'})
+        }
+      })
+    },
     // 获取当前时间
     getNewTime () {
       this.form.time = this.utilsGetNewDate()
@@ -216,8 +227,31 @@ export default {
     handleChangeIcon () {
       this.showType = !this.showType
     },
-    handleAddDevice () {
-      this.addVisible = true
+    handleSearchData () {
+      let obj = {
+        hospitalNo: this.form.hospitalNo || '',
+        floor: this.form.floor || '',
+        bedNo: this.form.bedNo || '',
+        patientName: this.form.patientName || '',
+        operationName: this.form.operationName || '',
+        surgeon: this.form.surgeon || ''
+      }
+      this.$store.dispatch('ReqgetRoomState', obj).then(res => {
+        if (res.data.code === 200) {
+          this.tableData = res.data.data
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
 
   }
@@ -244,6 +278,9 @@ export default {
         .el-form{
           /deep/.el-form-item{
           margin-bottom: 10px;
+          .el-input__inner {
+            max-width: 178px;
+          }
           .el-select{
             max-width: 178px;
           }

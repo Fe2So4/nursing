@@ -8,7 +8,10 @@
     >
       <div class="file-content">
         <el-scrollbar style="height:100%;">
-          <InfoDetailDocument :show-data="showData" />
+          <InfoDetailDocument
+            ref="userInfo"
+            :show-data="showData"
+          />
         </el-scrollbar>
       </div>
       <span
@@ -19,7 +22,7 @@
           type="primary"
           size="mini"
           v-if="showDayin"
-          @click="handleClose"
+          @click="handleDayin"
         >打 印</el-button>
         <el-button
           type="primary"
@@ -74,6 +77,9 @@ export default {
   methods: {
     handleClose () {
       this.$emit('handleClose')
+    },
+    handleDayin () {
+      this.utilsDebounce(() => { this.$refs.userInfo.printCurrent() }, 1000)
     }
   }
 }
