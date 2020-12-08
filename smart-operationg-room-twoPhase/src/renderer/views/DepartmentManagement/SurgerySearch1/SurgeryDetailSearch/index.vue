@@ -12,8 +12,9 @@
             label="开始日期"
           >
             <el-date-picker
+              :clearable="false"
               style="width:178px"
-              v-model="form.startTime"
+              v-model="form.startDate"
               type="date"
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
@@ -22,7 +23,8 @@
           </el-form-item>
           <el-form-item label="结束日期">
             <el-date-picker
-              v-model="form.endTime"
+              :clearable="false"
+              v-model="form.endDate"
               style="width:178px"
               type="date"
               value-format="yyyy-MM-dd"
@@ -30,22 +32,31 @@
               placeholder="选择日期"
             />
           </el-form-item>
-          <el-form-item label="患者ID">
+          <el-form-item
+            v-show="showType"
+            label="患者ID"
+          >
             <el-input
               clearable
-              v-model="form.input"
+              v-model="form.patientId"
             />
           </el-form-item>
-          <el-form-item label="姓名">
+          <el-form-item
+            v-show="showType"
+            label="姓名"
+          >
             <el-input
               clearable
-              v-model="form.input"
+              v-model="form.patientName"
             />
           </el-form-item>
-          <el-form-item label="麻醉医生">
+          <el-form-item
+            v-show="showType"
+            label="麻醉医生"
+          >
             <el-input
               clearable
-              v-model="form.input"
+              v-model="form.anesDoc"
             />
           </el-form-item>
           <el-form-item
@@ -54,7 +65,7 @@
           >
             <el-input
               clearable
-              v-model="form.input"
+              v-model="form.surgeon"
             />
           </el-form-item>
           <el-form-item
@@ -63,7 +74,7 @@
           >
             <el-input
               clearable
-              v-model="form.input"
+              v-model="form.deptName"
             />
           </el-form-item>
           <el-form-item
@@ -72,7 +83,7 @@
           >
             <el-input
               clearable
-              v-model="form.input"
+              v-model="form.opeRoom"
             />
           </el-form-item>
           <el-form-item
@@ -81,7 +92,7 @@
           >
             <el-input
               clearable
-              v-model="form.input"
+              v-model="form.opeNameAfter"
             />
           </el-form-item>
           <el-form-item
@@ -90,7 +101,7 @@
           >
             <el-input
               clearable
-              v-model="form.input"
+              v-model="form.anesName"
             />
           </el-form-item>
           <el-form-item
@@ -99,10 +110,10 @@
           >
             <el-input
               clearable
-              v-model="form.input"
+              v-model="form.firstOpeNurse"
             />
           </el-form-item>
-          <el-form-item
+          <!-- <el-form-item
             v-show="showType"
             label="特殊器械"
           >
@@ -110,19 +121,19 @@
               clearable
               v-model="form.input"
             />
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item
             v-show="showType"
             style="margin-left:30px"
           >
-            <el-radio-group v-model="radio">
-              <el-radio :label="1">
+            <el-radio-group v-model="form.isEmergencyDetail">
+              <el-radio :label="''">
                 全部
               </el-radio>
-              <el-radio :label="2">
+              <el-radio :label="'急诊'">
                 急诊
               </el-radio>
-              <el-radio :label="3">
+              <el-radio :label="'择期'">
                 择期
               </el-radio>
             </el-radio-group>
@@ -138,13 +149,14 @@
           <el-form-item>
             <el-button
               type="primary"
-              @click="handleSearchTableList"
+              @click="handleSearchTable"
             >
               查 询
             </el-button>
           </el-form-item>
           <el-form-item>
             <el-button
+              @click="exitExcle"
               type="info"
               plain
             >
@@ -169,6 +181,7 @@
     </div>
     <div class="dr-table">
       <vxe-table
+        :loading="loading"
         align="center"
         :data="tableData"
         class="mytable-scrollbar"
@@ -178,147 +191,240 @@
         stripe
       >
         <vxe-table-column
-          field="sex"
+          field="operTime"
           title="手术日期"
         />
         <vxe-table-column
-          field="no"
+          field="opeRoom"
           title="手术间"
         />
         <vxe-table-column
-          field="age1"
+          field="patientId"
           title="住院号"
         />
         <vxe-table-column
-          field="age2"
+          field="bedId"
           title="床号"
         />
         <vxe-table-column
-          field="age3"
+          field="patientName"
           title="患者姓名"
         />
         <vxe-table-column
-          field="age3"
+          field="patientGender"
           title="性别"
         />
         <vxe-table-column
-          field="age3"
+          field="age"
           title="年龄"
         />
         <vxe-table-column
-          field="age3"
+          field="deptName"
           title="手术科室"
         />
         <vxe-table-column
-          field="age3"
+          width="160px"
+          field="opeNameBefore"
           title="拟施手术"
         />
         <vxe-table-column
-          field="age3"
+          width="160px"
+          field="operationName"
           title="手术名称"
         />
         <vxe-table-column
-          field="age3"
+          field="anesName"
           title="麻醉方式"
         />
         <vxe-table-column
-          field="age3"
+          field="isEmergencyDetail"
           title="手术类型"
         />
         <vxe-table-column
-          field="age3"
+          field="notchLevel"
           title="手术级别"
         />
         <vxe-table-column
-          field="age3"
+          field="inOperTime"
           title="入室时间"
         />
         <vxe-table-column
-          field="age3"
+          field="anesStartTime"
           title="麻醉开始时间"
         />
         <vxe-table-column
-          field="age3"
+          field="operStartTime"
           title="手术开始时间"
         />
         <vxe-table-column
-          field="age3"
+          field="operEndTime"
           title="手术结束时间"
         />
         <vxe-table-column
-          field="age3"
+          field="anesEndTime"
           title="麻醉结束时间"
         />
       </vxe-table>
-    </div>
-    <div
-      class="dr-pagination"
-    >
-      <Pagination :distance="'20'" />
     </div>
   </div>
 </template>
 
 <script>
-import Pagination from '@/components/Pagination/pagination'
-
+import {ipcRenderer} from 'electron'
+import config from '@/config/url.js'
 export default {
   name: 'SurgeryDetailSearch',
   data () {
     return {
+      loading: false,
       showType: false,
       form: {
-        startTime: '',
-        endTime: '',
-        input: ''
+        startDate: '',
+        endDate: '',
+        patientId: '',
+        patientName: '',
+        anesDoc: '',
+        surgeon: '',
+        deptName: '',
+        opeRoom: '',
+        opeNameAfter: '',
+        anesName: '',
+        firstOpeNurse: '',
+
+        isEmergencyDetail: ''
       },
-      radio: '',
-      addVisible: false,
-      codeVisible: false,
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
-      tableData: [{sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'}]
+
+      tableData: []
     }
   },
-  components: {
-    Pagination
-  },
+
   mounted () {
     // 获取当前时间
     this.getNewTime()
+    this.handleSearchTable()
   },
   methods: {
     // 获取当前时间
     getNewTime () {
-      this.form.startTime = this.utilsGetNewDate()
-      this.form.endTime = this.utilsGetNewDate()
+      this.form.startDate = this.utilsGetNewDate()
+      this.form.endDate = this.utilsGetNewDate()
     },
     // 点击图标切换显示
     handleChangeIcon () {
       this.showType = !this.showType
     },
-    // 点击查询查询数据
-    handleSearchTableList () {
-      this.addVisible = true
+    // 查询
+    handleSearchTable () {
+      this.loading = true
+      // this.addVisible = true
+      let obj = {
+        startDate: this.form.startDate || '',
+        endDate: this.form.endDate || '',
+        patientId: this.form.patientId || '',
+        patientName: this.form.patientName || '',
+        anesDoc: this.form.anesDoc || '',
+        surgeon: this.form.surgeon || '',
+        deptName: this.form.deptName || '',
+        opeRoom: this.form.opeRoom || '',
+        opeNameAfter: this.form.opeNameAfter || '',
+        anesName: this.form.anesName || '',
+        firstOpeNurse: this.form.firstOpeNurse || '',
+
+        isEmergencyDetail: this.form.isEmergencyDetail || ''
+      }
+      this.$store.dispatch('ReqgetoperationInfoDetal', obj).then(res => {
+        this.loading = false
+        if (res.data.code === 200) {
+          this.tableData = res.data.data
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 导出
+    handleExit () {
+      let obj = {
+        startDate: this.form.startDate || '',
+        endDate: this.form.endDate || '',
+        patientId: this.form.patientId || '',
+        patientName: this.form.patientName || '',
+        anesDoc: this.form.anesDoc || '',
+        surgeon: this.form.surgeon || '',
+        deptName: this.form.deptName || '',
+        opeRoom: this.form.opeRoom || '',
+        opeNameAfter: this.form.opeNameAfter || '',
+        anesName: this.form.anesName || '',
+        firstOpeNurse: this.form.firstOpeNurse || '',
+
+        isEmergencyDetail: this.form.isEmergencyDetail || ''
+      }
+      this.$store.dispatch('reqdownloadOperationInfoDetal', obj).then(res => {
+        this.loading = false
+        if (res.data.code === 200) {
+
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 导出
+    exitExcle () {
+      if (this.IsEmpty(this.form.startDate)) {
+        this.form.startDate = ''
+      }
+
+      if (this.IsEmpty(this.form.endDate)) {
+        this.form.endDate = ''
+      }
+      if (this.IsEmpty(this.form.patientId)) {
+        this.form.patientId = ''
+      }
+      if (this.IsEmpty(this.form.patientName)) {
+        this.form.patientName = ''
+      }
+      if (this.IsEmpty(this.form.anesDoc)) {
+        this.form.anesDoc = ''
+      }
+      if (this.IsEmpty(this.form.surgeon)) {
+        this.form.surgeon = ''
+      }
+      if (this.IsEmpty(this.form.deptName)) {
+        this.form.deptName = ''
+      }
+      if (this.IsEmpty(this.form.opeRoom)) {
+        this.form.opeRoom = ''
+      }
+      if (this.IsEmpty(this.form.opeNameAfter)) {
+        this.form.opeNameAfter = ''
+      }
+      if (this.IsEmpty(this.form.anesName)) {
+        this.form.anesName = ''
+      }
+      if (this.IsEmpty(this.form.firstOpeNurse)) {
+        this.form.firstOpeNurse = ''
+      }
+      if (this.IsEmpty(this.form.isEmergencyDetail)) {
+        this.form.isEmergencyDetail = ''
+      }
+
+      let url = `${config.api.baseURL}/ocis/departmentReport/download/downloadOperationInfoDetal?startDate=${this.form.startDate}&endDate=${this.form.endDate}&patientId=${this.form.patientId}&patientName=${this.form.patientName}&anesDoc=${this.form.anesDoc}&surgeon=${this.form.surgeon}&deptName=${this.form.deptName}&opeRoom=${this.form.opeRoom}&opeNameAfter=${this.form.opeNameAfter}&anesName=${this.form.anesName}&firstOpeNurse=${this.form.firstOpeNurse}&isEmergencyDetail=${this.form.isEmergencyDetail}`
+      // let url = 'http://192.168.1.80:2080/ocis/departmentReport/download/downloadOperationInfoDetal?startDate=2017-11-16&endDate=2020-12-07&patientId=&patientName=&anesDoc=&surgeon=&deptName=&opeRoom=&opeNameAfter=&anesName=&firstOpeNurse=&isEmergencyDetail='
+      this.exportExcel(url)
+    },
+    exportExcel (params) {
+      ipcRenderer.send('download',
+        JSON.stringify({
+          downloadUrl: params
+        }))
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
 
   }

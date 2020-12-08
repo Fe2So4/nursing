@@ -21,7 +21,10 @@
               placeholder="选择日期"
             />
           </el-form-item>
-          <el-form-item label="楼">
+          <el-form-item
+            v-show="showType"
+            label="楼"
+          >
             <el-select
               clearable
               v-model="form.floor"
@@ -36,19 +39,28 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item label="住院号">
+          <el-form-item
+            v-show="showType"
+            label="住院号"
+          >
             <el-input
               clearable
               v-model="form.hospitalNo"
             />
           </el-form-item>
-          <el-form-item label="床号">
+          <el-form-item
+            v-show="showType"
+            label="床号"
+          >
             <el-input
               clearable
               v-model="form.bedNo"
             />
           </el-form-item>
-          <el-form-item label="姓名">
+          <el-form-item
+            v-show="showType"
+            label="姓名"
+          >
             <el-input
               clearable
               v-model="form.patientName"
@@ -105,6 +117,7 @@
     </div>
     <div class="dr-table">
       <vxe-table
+        :loading="loading"
         align="center"
         :data="tableData"
         class="mytable-scrollbar"
@@ -181,6 +194,7 @@ export default {
   name: 'RoomStatusSearch',
   data () {
     return {
+      loading: false,
       showType: false,
       form: {
         time: '',
@@ -195,12 +209,7 @@ export default {
       addVisible: false,
       codeVisible: false,
       floorList: [],
-      tableData: [{sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'}]
+      tableData: []
     }
   },
 
@@ -228,6 +237,7 @@ export default {
       this.showType = !this.showType
     },
     handleSearchData () {
+      this.loading = true
       let obj = {
         hospitalNo: this.form.hospitalNo || '',
         floor: this.form.floor || '',
@@ -237,6 +247,7 @@ export default {
         surgeon: this.form.surgeon || ''
       }
       this.$store.dispatch('ReqgetRoomState', obj).then(res => {
+        this.loading = false
         if (res.data.code === 200) {
           this.tableData = res.data.data
         } else {

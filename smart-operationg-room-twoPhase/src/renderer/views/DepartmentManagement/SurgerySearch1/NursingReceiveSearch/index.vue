@@ -12,8 +12,9 @@
             label="开始时间"
           >
             <el-date-picker
+              :clearable="false"
               style="width:178px"
-              v-model="form.startTime"
+              v-model="form.operationDateStart"
               type="date"
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
@@ -22,7 +23,8 @@
           </el-form-item>
           <el-form-item label="结束时间">
             <el-date-picker
-              v-model="form.endTime"
+              :clearable="false"
+              v-model="form.operationDateEnd"
               style="width:178px"
               type="date"
               format="yyyy-MM-dd"
@@ -30,17 +32,17 @@
               placeholder="选择日期"
             />
           </el-form-item>
-          <el-form-item label=" ">
+          <el-form-item>
             <el-button
               type="primary"
-              @click="handleAddDevice"
+              @click="handleSearchTable"
             >
               查 询
             </el-button>
             <el-button
               type="info"
               plain
-              @click="handleAddDevice"
+              @click="handleSearchTable"
             >
               导 出
             </el-button>
@@ -59,63 +61,67 @@
         stripe
       >
         <vxe-table-column
-          field="no"
+          field="operate_date"
           title="手术日期"
         />
         <vxe-table-column
-          field="age1"
+          field="room_no"
           title="手术间"
         />
         <vxe-table-column
-          field="age2"
+          field="sequence_no"
           title="术序"
         />
         <vxe-table-column
-          field="age2"
+          field="hospital_no"
           title="住院号"
         />
         <vxe-table-column
-          field="age2"
+          field="bed_no"
           title="床号"
         />
         <vxe-table-column
-          field="age2"
+          field="patient_name"
           title="患者姓名"
         />
         <vxe-table-column
-          field="age2"
+          field="patient_gender"
           title="性别"
-        />
+        >
+          <template slot-scope="scope">
+            {{ scope.row.patient_gender === '1' ? '男' : '女' }}
+          </template>
+        </vxe-table-column>
         <vxe-table-column
           field="age2"
           title="病区"
         />
         <vxe-table-column
-          field="age2"
+          field="operation_name"
           title="手术名称"
         />
         <vxe-table-column
-          field="age2"
+          field="surgeon"
           title="手术医生"
         />
         <vxe-table-column
-          field="age2"
+          field="run_nurse_name"
           title="巡回护士"
         />
         <vxe-table-column
-          field="age2"
+          field="wash_nurse_name"
           title="洗手护士"
         />
         <vxe-table-column
-          field="age2"
+          field="arrival_time"
           title="接病人时间"
         />
         <vxe-table-column
-          field="age2"
+          field="pointIn_room_time"
           title="入手术间时间"
         />
         <vxe-table-column
-          field="age2"
+          field="forwing_time"
           title="接病人时长"
         />
       </vxe-table>
@@ -130,57 +136,43 @@ export default {
   data () {
     return {
       form: {
-        startTime: '',
-        endTime: '',
-        input: ''
+        operationDateStart: '',
+        operationDateEnd: ''
       },
-      radio: '',
-      addVisible: false,
-      codeVisible: false,
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
-      tableData: [{sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'}]
+      tableData: []
     }
   },
   mounted () {
     this.getNewTime()
+    this.handleSearchTable()
   },
   methods: {
     // 获取当前时间
     getNewTime () {
-      this.form.startTime = this.utilsGetNewDate()
-      this.form.endTime = this.utilsGetNewDate()
+      this.form.operationDateStart = this.utilsGetNewDate()
+      this.form.operationDateEnd = this.utilsGetNewDate()
     },
-    handleShow () {
-      this.codeVisible = true
+    handleSearchTable () {
+      let obj = {
+        operationDateStart: this.form.operationDateStart,
+        operationDateEnd: this.form.operationDateEnd
+      }
+      this.$store.dispatch('ReqoperationGetPatTimel', obj).then(res => {
+        if (res.data.code === 200) {
+          this.tableData = res.data.data
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
     },
-    handleCloseAddDialog () {
-      this.addVisible = false
-    },
-    handleAddDevice () {
-      this.addVisible = true
-    },
-    handleCloseCode () {
-      this.codeVisible = false
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
   }
 }

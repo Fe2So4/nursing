@@ -20,13 +20,33 @@ export default {
       orgOptions: {}
     }
   },
+  props: {
+    roomNameList: {
+      type: Array,
+      required: true
+    },
+    durationList: {
+      type: Array,
+      required: true
+    },
+    denominator: {
+      type: Number,
+      require: false,
+      default: function () {
+        return 50
+      }
+    }
+  },
   mounted () {
-    this.drawLine()
+
   },
   methods: {
     drawLine () {
+      console.log(this.durationList)
       // 基于准备好的dom，初始化echarts实例
+
       let myChart = echarts.init(document.getElementById('myChart'))
+
       // 绘制图表
       let obj = {
         grid: {
@@ -39,29 +59,38 @@ export default {
         tooltip: {},
         // color: ['#64CDF0', '#F5686F'],
         xAxis: {
-          type: 'value'
-
+          type: 'value',
+          max: (value) => {
+            return this.denominator
+          }
         },
         yAxis: {
           type: 'category',
-          data: ['衬衫', '雪纺衫', '裤子', '高跟鞋', '袜子', '袜子1', '袜2子', '袜子3', '袜子5']
+          data: this.roomNameList
+
         },
         series: [{
-          barWidth: '15%',
-          name: '销量',
+          barWidth: '80%',
+          name: '用时统计',
           type: 'bar',
-          data: [10, 20, 30, 40, 49],
+          data: this.durationList,
           itemStyle: {
             normal: {
               color: function (params) {
                 var colorList = ['#d71345', '#f47920', '#ffe600', '#45b97c', '#009ad6', '#33a3dc', '#585eaa']
                 return colorList[params.dataIndex % 7]
+              },
+              label: {
+                show: true,
+                position: 'top',
+                formatter: '{c}'// 这是关键，在需要的地方加上就行了
               }
             }
+
           }
         }]
       }
-      myChart.setOption(obj)
+      myChart.setOption(obj, true)
     }
   }
 }

@@ -13,7 +13,7 @@
           >
             <el-date-picker
               style="width:178px"
-              v-model="form.startTime"
+              v-model="form.startDate"
               type="date"
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
@@ -25,7 +25,7 @@
           >
             <el-date-picker
               style="width:178px"
-              v-model="form.endTime"
+              v-model="form.endDate"
               type="date"
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
@@ -35,23 +35,30 @@
           <el-form-item
             label="工号"
           >
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.code"
+            />
           </el-form-item>
           <el-form-item
             label="姓名"
           >
-            <el-input v-model="form.input" />
+            <el-input
+              clearable
+              v-model="form.name"
+            />
           </el-form-item>
-          <el-form-item label=" ">
+          <el-form-item>
             <el-button
               type="primary"
-              @click="handleAddDevice"
+              @click="handleSearchTable"
             >
               查 询
             </el-button>
           </el-form-item>
           <el-form-item>
             <el-button
+              @click="exitExcle"
               type="info"
               plain
             >
@@ -63,6 +70,7 @@
     </div>
     <div class="dr-table">
       <vxe-table
+        :loading="loading"
         align="center"
         :data="tableData"
         class="mytable-scrollbar"
@@ -76,27 +84,27 @@
           title="序号"
         />
         <vxe-table-column
-          field="no"
+          field="code"
           title="工号"
         />
         <vxe-table-column
-          field="age1"
+          field="name"
           title="姓名"
         />
         <vxe-table-column
-          field="age2"
+          field="weekdaysOneDuty"
           title="工作日一值班"
         />
         <vxe-table-column
-          field="age3"
+          field="weekdaysTwoDuty"
           title="工作日二值班"
         />
         <vxe-table-column
-          field="age3"
+          field="weekendOneDuty"
           title="周末一值班"
         />
         <vxe-table-column
-          field="age3"
+          field="weekendTwoDuty"
           title="周末二值班"
         />
       </vxe-table>
@@ -105,55 +113,83 @@
 </template>
 
 <script>
-
+import {ipcRenderer} from 'electron'
+import config from '@/config/url.js'
 export default {
   name: 'SurgeryLevelStatistical',
   data () {
     return {
-
+      loading: false,
       form: {
-        startTime: '',
-        endTime: '',
-        input: ''
+        startDate: '',
+        endDate: '',
+        name: '',
+        code: ''
       },
-      radio: '',
-      addVisible: false,
-      codeVisible: false,
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
-      tableData: [{sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'}]
+
+      tableData: []
     }
   },
   mounted () {
     this.getNewTime()
+    this.handleSearchTable()
   },
   methods: {
     // 获取当前时间
     getNewTime () {
-      this.form.startTime = this.utilsGetNewDate()
-      this.form.endTime = this.utilsGetNewDate()
+      this.form.startDate = this.utilsGetNewDate()
+      this.form.endDate = this.utilsGetNewDate()
     },
-    handleAddDevice () {
-      this.addVisible = true
+    // 查询数据
+    handleSearchTable () {
+      this.loading = true
+      let obj = {
+        startDate: this.form.startDate || '',
+        endDate: this.form.endDate || '',
+        name: this.form.name || '',
+        code: this.form.code || ''
+      }
+      this.$store.dispatch('ReqdutyStatistics', obj).then(res => {
+        this.loading = false
+        if (res.data.code === 200) {
+          this.tableData = res.data.data
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 导出
+    exitExcle () {
+      if (this.IsEmpty(this.form.startDate)) {
+        this.form.startDate = ''
+      }
+
+      if (this.IsEmpty(this.form.endDate)) {
+        this.form.endDate = ''
+      }
+      if (this.IsEmpty(this.form.name)) {
+        this.form.name = ''
+      }
+      if (this.IsEmpty(this.form.code)) {
+        this.form.code = ''
+      }
+      let url = `${config.api.baseURL}/ocis/dailyStatistics/download/downloadDutyStatistics?startDate=${this.form.startDate}&endDate=${this.form.endDate}&name=${this.form.name}&code=${this.form.code}`
+      this.exportExcel(url)
+    },
+    exportExcel (params) {
+      ipcRenderer.send('download',
+        JSON.stringify({
+          downloadUrl: params
+        }))
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
 
   }
