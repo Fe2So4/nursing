@@ -112,7 +112,7 @@
 
                   v-for="item in basicequipment"
                 >
-                  <template v-if="item.pkg.length === 0">
+                  <template v-if="item.items.length === 0">
                     <tr :key="item.pId * 2 + 1">
                       <td
                         colspan="6"
@@ -127,7 +127,7 @@
                         />
                       </td>
                     </tr>
-                    <tr :key="item.pId">
+                    <!-- <tr :key="item.pId">
                       <td />
                       <td class="td-text-center">
                         1
@@ -155,7 +155,7 @@
                       <td class="td-text-center">
                         1
                       </td>
-                    </tr>
+                    </tr> -->
                   </template>
                   <template v-else>
                     <template>
@@ -174,7 +174,7 @@
                         </td>
                       </tr>
                     </template>
-                    <template v-for="v in item.pkg">
+                    <template v-for="v in item.items">
                       <tr :key="v.pId">
                         <td class="td-text-center">
                           {{ v.insName }}
@@ -401,79 +401,79 @@ export default {
           this.qianmingList.xhClossQm = wenshuData.xhClossQm
           this.qianmingList.xhAllClossQm = wenshuData.xhAllClossQm
           this.qianmingList.xhFhQm = wenshuData.xhFhQm
+          this.basicequipment = wenshuData.specialEquipment.allList
+          // this.basicEquipmentStr = JSON.parse(wenshuData.specialEquipmentStr)
+          // console.log(this.basicEquipmentStr, '111')
+          // let arr = []
 
-          this.basicEquipmentStr = JSON.parse(wenshuData.specialEquipmentStr)
-          console.log(this.basicEquipmentStr, '111')
-          let arr = []
+          // if (!this.IsEmpty(this.basicEquipmentStr)) {
+          //   this.basicEquipmentStr.forEach(item => {
+          //     let packName = []
 
-          if (!this.IsEmpty(this.basicEquipmentStr)) {
-            this.basicEquipmentStr.forEach(item => {
-              let packName = []
+          //     let pId = item.pId
+          //     let pName = item.pName
 
-              let pId = item.pId
-              let pName = item.pName
-
-              if (item.items.adding.length > 0) {
-                item.items.adding.forEach((pkn, index) => {
-                  let obj = {
-                    insName: pkn.insName
-                  }
-                  item.items.before.forEach(bItem => {
-                    if (bItem.insName === pkn.insName) {
-                      obj.before = bItem.number
-                      return false
-                    }
-                  })
-                  item.items.adding.forEach(bItem => {
-                    if (bItem.insName === pkn.insName) {
-                      obj.adding = bItem.number
-                      return false
-                    }
-                  })
-                  item.items.adding1.forEach(bItem => {
-                    if (bItem.insName === pkn.insName) {
-                      obj.adding1 = bItem.number
-                      return false
-                    }
-                  })
-                  item.items.adding2.forEach(bItem => {
-                    if (bItem.insName === pkn.insName) {
-                      obj.adding2 = bItem.number
-                      return false
-                    }
-                  })
-                  item.items.adding3.forEach(bItem => {
-                    if (bItem.insName === pkn.insName) {
-                      obj.adding3 = bItem.number
-                      return false
-                    }
-                  })
-                  item.items.before2.forEach(bItem => {
-                    if (bItem.insName === pkn.insName) {
-                      obj.before2 = bItem.number
-                      return false
-                    }
-                  })
-                  item.items.after.forEach(bItem => {
-                    if (bItem.insName === pkn.insName) {
-                      obj.after = bItem.number
-                      return false
-                    }
-                  })
-                  item.items.after2.forEach(bItem => {
-                    if (bItem.insName === pkn.insName) {
-                      obj.after2 = bItem.number
-                      return false
-                    }
-                  })
-                  packName.push(obj)
-                })
-              }
-              arr.push({pId, pName, pkg: packName})
-            })
-          }
-          this.basicequipment = arr
-          console.log('特殊器械清单列表', this.basicequipment)
+          //     if (item.items.adding.length > 0) {
+          //       item.items.adding.forEach((pkn, index) => {
+          //         let obj = {
+          //           insName: pkn.insName
+          //         }
+          //         item.items.before.forEach(bItem => {
+          //           if (bItem.insName === pkn.insName) {
+          //             obj.before = bItem.number
+          //             return false
+          //           }
+          //         })
+          //         item.items.adding.forEach(bItem => {
+          //           if (bItem.insName === pkn.insName) {
+          //             obj.adding = bItem.number
+          //             return false
+          //           }
+          //         })
+          //         item.items.adding1.forEach(bItem => {
+          //           if (bItem.insName === pkn.insName) {
+          //             obj.adding1 = bItem.number
+          //             return false
+          //           }
+          //         })
+          //         item.items.adding2.forEach(bItem => {
+          //           if (bItem.insName === pkn.insName) {
+          //             obj.adding2 = bItem.number
+          //             return false
+          //           }
+          //         })
+          //         item.items.adding3.forEach(bItem => {
+          //           if (bItem.insName === pkn.insName) {
+          //             obj.adding3 = bItem.number
+          //             return false
+          //           }
+          //         })
+          //         item.items.before2.forEach(bItem => {
+          //           if (bItem.insName === pkn.insName) {
+          //             obj.before2 = bItem.number
+          //             return false
+          //           }
+          //         })
+          //         item.items.after.forEach(bItem => {
+          //           if (bItem.insName === pkn.insName) {
+          //             obj.after = bItem.number
+          //             return false
+          //           }
+          //         })
+          //         item.items.after2.forEach(bItem => {
+          //           if (bItem.insName === pkn.insName) {
+          //             obj.after2 = bItem.number
+          //             return false
+          //           }
+          //         })
+          //         packName.push(obj)
+          //       })
+          //     }
+          //     arr.push({pId, pName, pkg: packName})
+          //   })
+          // }
+          // this.basicequipment = arr
+          // console.log('特殊器械清单列表', this.basicequipment)
         }
         this.$nextTick(() => {
           this.basicequipment.forEach(item => {
