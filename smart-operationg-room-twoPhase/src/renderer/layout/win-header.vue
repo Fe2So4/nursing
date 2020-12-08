@@ -11,16 +11,6 @@
         alt=""
       >
       <span>Dandelion 智慧手术中心<i />临床护理</span>
-      <!-- <span>
-        <el-radio-group
-          v-model="radio"
-          @change="handleChange"
-        >
-          <el-radio :label="1">大屏</el-radio>
-          <el-radio :label="2">接单</el-radio>
-          <el-radio :label="3">派单</el-radio>
-        </el-radio-group>
-      </span> -->
     </div>
 
     <div class="right">
@@ -29,11 +19,135 @@
           <i class="el-icon-user-solid" />
           {{ '万富贵' }}
         </span>
+        <span
+          class="leave"
+          @click="dialogVisible = true"
+        >
+          <i class="el-icon-edit" />
+          我要请假</span>
       </div>
+
       <div class="caozuo">
         <Operation />
       </div>
     </div>
+    <el-dialog
+      :close-on-click-modal="false"
+      title="请假申请"
+      :visible.sync="dialogVisible"
+      width="400px"
+      :before-close="handleClose"
+    >
+      <el-form
+        class="form"
+        size="mini"
+        label-width="120px"
+      >
+        <el-form-item label="请假人员:">
+          <el-input
+            placeholder="请输入姓名"
+            v-model="form.userName"
+          />
+        </el-form-item>
+        <el-form-item
+          label="请假类型:"
+        >
+          <el-select
+            v-model="form.leaveType"
+            placeholder="请选择"
+            size="mini"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item
+          label="开始日期"
+        >
+          <el-date-picker
+            style="width:178px"
+            v-model="form.startDate"
+            type="date"
+            format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd"
+            placeholder="选择日期"
+          />
+        </el-form-item>
+        <el-form-item
+          label="结束日期"
+        >
+          <el-date-picker
+            style="width:178px"
+            v-model="form.endDate"
+            type="date"
+            format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd"
+            placeholder="选择日期"
+          />
+        </el-form-item>
+        <el-form-item
+          label="请假天数:"
+        >
+          <el-select
+            v-model="form.leaveType"
+            placeholder="请选择"
+            size="mini"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item
+          label="何时离开:"
+        >
+          <el-select
+            v-model="form.leaveType"
+            placeholder="请选择"
+            size="mini"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="请假原因:">
+          <el-input
+            placeholder="请输入姓名"
+            v-model="form.userName"
+          />
+        </el-form-item>
+      </el-form>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          type="primary"
+          size="mini"
+        >保 存</el-button>
+
+        <el-button
+          @click="gotoSearch"
+          type="primary"
+          size="mini"
+        >请假查询</el-button>
+        <el-button
+          @click="handleClose"
+          size="mini"
+        >取 消</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -43,25 +157,16 @@ import Operation from '@/components/win-operation'
 export default {
   data () {
     return {
-      time: '',
-      interval: null,
-      radio: 1
+      form: {
+        userName: '',
+        leaveType: 0
+      },
+      dialogVisible: false,
+      options: [{label: '提前走', value: 0}, {label: '准点走', value: 1}]
 
     }
   },
   methods: {
-
-    updateTime () {
-      var cd = new Date()
-      this.time = this.zeroPadding(cd.getHours(), 2) + ':' + this.zeroPadding(cd.getMinutes(), 2) + ':' + this.zeroPadding(cd.getSeconds(), 2)
-    },
-    zeroPadding (num, digit) {
-      var zero = ''
-      for (var i = 0; i < digit; i++) {
-        zero += '0'
-      }
-      return (zero + num).slice(-digit)
-    },
     handleChange (param) {
       switch (param) {
         case 1:
@@ -74,6 +179,14 @@ export default {
           this.$router.push('/home/client-operation-orders')
       }
     },
+    handleClose () {
+      this.dialogVisible = false
+    },
+    // 跳转请假查询
+    gotoSearch () {
+      this.handleClose()
+      this.$router.push('/personnel/search-leave')
+    },
     backRouter () {
       this.$router.push('/index-tab')
     }
@@ -82,12 +195,10 @@ export default {
     Operation
   },
   mounted () {
-    this.updateTime()
-    this.interval = setInterval(this.updateTime, 1000)
   },
   destroyed () {
-    this.interval = null
   }
+
 }
 </script>
 
@@ -125,13 +236,30 @@ export default {
       font-size: 16px;
       margin-right: 21px;
       .userInfo {
+        font-size: 14px;
         margin-right: 150px;
+        .leave {
+          cursor: pointer;
+          margin-left: 20px;
+          &:hover {
+            font-size: 15px;
+          }
+        }
       }
       .caozuo {
         position: absolute;
         // top: -15px;
         right: 0;
       }
+    }
+    .form {
+      .el-input {
+        width: 178px;
+      }
+      .el-select {
+        width: 178px;
+      }
+
     }
   }
 </style>>

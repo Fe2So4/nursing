@@ -55,10 +55,21 @@
     </div>
     <div class="dr-table">
       <div class="dr-table-left">
-        <Bar />
+        <Bar
+          :denominator="form.denominator"
+          :duration-list="durationList"
+          :room-name-list="roomNameList"
+          ref="bar1"
+        />
       </div>
-      <div class="dr-table-right">
-        <Bar2 />
+      <div
+        class="dr-table-right"
+      >
+        <Bar2
+          ref="bar2"
+          :room-name-list="roomNameList"
+          :percentage-list="percentageList"
+        />
       </div>
     </div>
   </div>
@@ -71,13 +82,18 @@ export default {
   name: 'InteroperativeUtilization',
   data () {
     return {
-
+      obj1: {},
       form: {
         startDate: '',
         endDate: '',
         denominator: 50
       },
-      tableData: []
+      denominator: 50,
+      tableData: [],
+      roomNameList: [],
+      durationList: [],
+      percentageList: []
+
     }
   },
   components: {
@@ -101,9 +117,19 @@ export default {
         denominator: this.form.denominator
       }
       this.$store.dispatch('ReqoperRoomUseStatis', obj).then(res => {
-        console.log(res)
         if (res.data.code === 200) {
           this.tableData = res.data.data
+          this.tableData.forEach(item => {
+            this.roomNameList.push(item.roomName)
+            this.durationList.push(item.duration)
+            this.percentageList.push(item.percentage)
+            this.denominator = this.form.denominator
+          })
+          this.$refs.bar1.drawLine()
+          this.$refs.bar2.drawLine()
+          this.roomNameList = []
+          this.durationList = []
+          this.percentageList = []
         } else {
           this.openToast('error', res.data.msg)
         }

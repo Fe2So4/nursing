@@ -12,18 +12,19 @@
             label="日期"
           >
             <el-date-picker
+              :clearable="false"
               style="width:178px"
-              v-model="form.time"
-              type="date"
-              format="yyyy-MM-dd"
-              value-format="yyyy-MM-dd"
+              v-model="form.date"
+              type="month"
+              format="yyyy-MM"
+              value-format="yyyy-MM"
               placeholder="选择日期"
             />
           </el-form-item>
-          <el-form-item label=" ">
+          <el-form-item>
             <el-button
               type="primary"
-              @click="handleAddDevice"
+              @click="handleSearchTable"
             >
               查 询
             </el-button>
@@ -42,39 +43,39 @@
         stripe
       >
         <vxe-table-column
-          field="no"
+          field="deptName"
           title="科室"
         />
         <vxe-table-column
-          field="age1"
+          field="operLevelOneCount"
           title="手术级别一级"
         />
         <vxe-table-column
-          field="age2"
+          field="operLevelTwoCount"
           title="手术级别二级"
         />
         <vxe-table-column
-          field="age3"
+          field="operLevelThreeCount"
           title="手术级别三级"
         />
         <vxe-table-column
-          field="age3"
+          field="operLevelFourCount"
           title="手术级别四级"
         />
         <vxe-table-column
-          field="age3"
+          field="emergencyTreatmentCount"
           title="手术类型急诊"
         />
         <vxe-table-column
-          field="age3"
+          field="electiveSurgeryCount"
           title="手术类型择期"
         />
         <vxe-table-column
-          field="age3"
+          field="rescueCount"
           title="抢救"
         />
         <vxe-table-column
-          field="age3"
+          field="totalCount"
           title="合计"
         />
       </vxe-table>
@@ -90,46 +91,42 @@ export default {
     return {
 
       form: {
-        time: '',
-        input: ''
+        date: ''
       },
-      radio: '',
-      addVisible: false,
-      codeVisible: false,
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
-      tableData: [{sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'}]
+
+      tableData: []
     }
   },
   mounted () {
     this.getNewTime()
+    this.handleSearchTable()
   },
   methods: {
     // 获取当前时间
     getNewTime () {
-      this.form.time = this.utilsGetNewDate()
+      this.form.date = this.utilsGetMoon()
     },
-    handleAddDevice () {
-      this.addVisible = true
+    // 查询数据
+    handleSearchTable () {
+      let obj = {
+        date: this.form.date || ''
+      }
+      this.$store.dispatch('ReqoperLevelStatis', obj).then(res => {
+        if (res.data.code === 200) {
+          this.tableData = res.data.data
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
 
   }

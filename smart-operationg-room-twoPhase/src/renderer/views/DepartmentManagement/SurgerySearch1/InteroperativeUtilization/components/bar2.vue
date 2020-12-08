@@ -20,11 +20,22 @@ export default {
       orgOptions: {}
     }
   },
+  props: {
+    roomNameList: {
+      type: Array,
+      required: true
+    },
+    percentageList: {
+      type: Array,
+      required: true
+    }
+  },
   mounted () {
-    this.drawLine()
+    // this.drawLine()
   },
   methods: {
     drawLine () {
+      console.log(this.roomNameList)
       // 基于准备好的dom，初始化echarts实例
       let myChart = echarts.init(document.getElementById('myChart2'))
       // 绘制图表
@@ -49,17 +60,22 @@ export default {
           type: 'value',
           axisLabel: {
             formatter: '{value} %'
+          },
+          max: function (value) {
+            return 100
           }
         },
         yAxis: {
           type: 'category',
-          data: ['衬衫', '雪纺衫', '裤子', '高跟鞋', '袜子', '袜子1', '袜2子', '袜子3', '袜子5']
+          data: this.roomNameList
+
         },
         series: [{
-          barWidth: '15%',
+          barWidth: '80%',
           name: 'axis',
           type: 'bar',
-          data: [10, 20, 30, 40, 49],
+          data: this.percentageList,
+
           itemStyle: {
             normal: {
               color: function (params) {
@@ -69,8 +85,9 @@ export default {
               label: {
                 show: true,
                 position: 'top',
-                formatter: '{b}\n{c}%'// 这是关键，在需要的地方加上就行了
+                formatter: '{c}%'// 这是关键，在需要的地方加上就行了
               }
+
             }
           }
         }]

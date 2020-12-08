@@ -59,11 +59,89 @@ export const reqoperRoomUseStatis = (obj) => {
   })
 }
 
+// 手术分级统计
+const reqoperLevelStatisUrl = `${config.default.api.baseURL}/ocis/dailyStatistics/operLevelStatis`
+export const reqoperLevelStatis = (obj) => {
+  return request({
+    url: reqoperLevelStatisUrl + `/${obj.date}`,
+    method: 'get'
+  })
+}
+
 // 收费项目统计手术计费
 const reqoperChargeStatisUrl = `${config.default.api.baseURL}/ocis/dailyStatistics/operChargeStatis`
 export const reqoperChargeStatis = (obj) => {
   return request({
     url: reqoperChargeStatisUrl,
+    method: 'post',
+    data: obj
+  })
+}
+
+// 手术接台间隔时间查询
+const reqgetOperationIntervalTimeUrl = `${config.default.api.baseURL}/ocis/departmentReport/getOperationIntervalTime`
+export const reqgetOperationIntervalTime = (obj) => {
+  return request({
+    url: reqgetOperationIntervalTimeUrl + `/${obj.operationDate}`,
+    method: 'get'
+  })
+}
+
+// 手术状态查询
+const reqgetoperationInfoStateUrl = `${config.default.api.baseURL}/ocis/departmentReport/getoperationInfoState`
+export const reqgetoperationInfoState = (obj) => {
+  return request({
+    url: reqgetoperationInfoStateUrl,
+    method: 'post',
+    params: obj
+  })
+}
+
+// 手术明细查询
+const reqgetoperationInfoDetalUrl = `${config.default.api.baseURL}/ocis/departmentReport/getoperationInfoDetal`
+export const reqgetoperationInfoDetal = (obj) => {
+  return request({
+    url: reqgetoperationInfoDetalUrl,
+    method: 'post',
+    params: obj
+  })
+}
+
+// 手术明细查询导出
+const reqdownloadOperationInfoDetalUrl = `${config.default.api.baseURL}/ocis/departmentReport/download/downloadOperationInfoDetal`
+export const reqdownloadOperationInfoDetal = (obj) => {
+  return request({
+    url: reqdownloadOperationInfoDetalUrl,
+    method: 'get',
+    params: obj
+  })
+}
+
+// 手术接病人时间查询
+const reqoperationGetPatTimelUrl = `${config.default.api.baseURL}/ocis/departmentReport/operationGetPatTime`
+export const reqoperationGetPatTimel = (obj) => {
+  return request({
+    url: reqoperationGetPatTimelUrl,
+    method: 'post',
+    data: obj
+  })
+}
+
+// 一值班二值班
+const reqdutyStatisticsUrl = `${config.default.api.baseURL}/ocis/dailyStatistics/dutyStatistics`
+export const reqdutyStatistics = (obj) => {
+  return request({
+    url: reqdutyStatisticsUrl,
+    method: 'post',
+    data: obj
+  })
+}
+
+// 手术术后信息查询
+const reqgetAfteroperationInfoUrl = `${config.default.api.baseURL}/ocis/departmentReport/getAfteroperationInfo`
+export const reqgetAfteroperationInfo = (obj) => {
+  return request({
+    url: reqgetAfteroperationInfoUrl,
     method: 'post',
     data: obj
   })

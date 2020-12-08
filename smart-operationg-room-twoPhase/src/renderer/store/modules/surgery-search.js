@@ -1,5 +1,7 @@
 import {reqgetTimesOperations, reqgetRoomState, reqgetEveryDayRoomEndTime, reqgetNursingRecordSheet, reqoperNameCountStatis, reqoperRoomUseStatis,
-  reqoperChargeStatis} from '@/api/DepartmentManagement/SurgerySearch1/surgery-search.js'
+  reqoperChargeStatis, reqgetOperationIntervalTime, reqgetoperationInfoState, reqgetoperationInfoDetal, reqoperationGetPatTimel, reqoperLevelStatis, reqdutyStatistics,
+  reqgetAfteroperationInfo, reqdownloadOperationInfoDetal
+} from '@/api/DepartmentManagement/SurgerySearch1/surgery-search.js'
 
 const state = {
   // baseDictDetailLis: []
@@ -43,9 +45,50 @@ const actions = {
     let res = await reqoperRoomUseStatis(query)
     return res
   },
+  // 手术间利用率统计
+  async ReqoperLevelStatis ({ commit }, query) {
+    let res = await reqoperLevelStatis(query)
+    return res
+  },
+
   // 收费项目统计手术计费
   async ReqoperChargeStatis ({ commit }, query) {
     let res = await reqoperChargeStatis(query)
+    return res
+  },
+  // 手术接台间隔时间查询
+  async ReqgetOperationIntervalTime ({ commit }, query) {
+    let res = await reqgetOperationIntervalTime(query)
+    return res
+  },
+  // 手术状态查询
+  async ReqgetoperationInfoState ({ commit }, query) {
+    let res = await reqgetoperationInfoState(query)
+    return res
+  },
+  // 手术明细查询
+  async ReqgetoperationInfoDetal ({ commit }, query) {
+    let res = await reqgetoperationInfoDetal(query)
+    return res
+  },
+  // 手术明细查询导出
+  async ReqdownloadOperationInfoDetal ({ commit }, query) {
+    let res = await reqdownloadOperationInfoDetal(query)
+    return res
+  },
+  // 手术接病人时间查询
+  async ReqoperationGetPatTimel ({ commit }, query) {
+    let res = await reqoperationGetPatTimel(query)
+    return res
+  },
+  // 一值班二值班
+  async ReqdutyStatistics ({ commit }, query) {
+    let res = await reqdutyStatistics(query)
+    return res
+  },
+  // 手术术后信息查询
+  async ReqgetAfteroperationInfo ({ commit }, query) {
+    let res = await reqgetAfteroperationInfo(query)
     return res
   }
 
