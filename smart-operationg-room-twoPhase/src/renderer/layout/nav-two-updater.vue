@@ -455,7 +455,7 @@ export default {
             {
               icon: 'iconfont icon-guanli',
               title: '电子病历首页',
-              path: '/emr/emr-home'
+              path: '/emr/emr-basic'
             }
           ]
         }

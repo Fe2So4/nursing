@@ -150,8 +150,8 @@ const chargeRoutes = {
       component: () => import('@/views/NursingEmr/EmergencyAndDay/index')
     },
     {
-      path: 'emr-home',
-      name: 'EmrHome',
+      path: 'emr-basic',
+      name: 'EmrBasic',
       meta: {
         title: '电子病历主页',
         noNavs: false,
