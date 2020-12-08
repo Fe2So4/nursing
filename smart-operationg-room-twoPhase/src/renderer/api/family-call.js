@@ -8,3 +8,5 @@ export const getTodayCallList = `${config.default.api.baseURL}/ocis/protectwrit/
 export const getCallTemplate = `${config.default.api.baseURL}/ocis/protectwrit/getRelationNoticeModule`
 // 存储家属公告信息
 export const saveRelationNotice = `${config.default.api.baseURL}/ocis/protectwrit/saveRelationNotice`
+// 获取所有楼层
+export const getFloor = `${config.default.api.baseURL}/ocis/dictInfo/getFloor`

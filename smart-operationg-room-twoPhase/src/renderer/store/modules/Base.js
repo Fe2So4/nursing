@@ -1,5 +1,8 @@
 const state = {
-  base: 0
+  base: 0,
+  currentPatient: {
+    operationId: '1010'
+  }
 }
 
 const mutations = {

@@ -7,24 +7,35 @@
       >
         <el-form-item label="日期：">
           <el-date-picker
-            v-model="time"
+            v-model="form.time"
             type="date"
             placeholder="选择日期"
           />
-          <!-- <el-date-picker></el-date-picker> -->
         </el-form-item>
         <el-form-item label="楼栋：">
-          <el-select v-model="select">
-            <el-option value="1">
-              2
-            </el-option>
+          <el-select v-model="form.floor">
+            <el-option
+              v-for="item in floorList"
+              :key="item.floorNo"
+              :value="item.floorNo"
+              :label="item.floorName"
+            />
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-input v-model="input" />
+          <el-input
+            v-model="form.input"
+            style="min-width:462px;"
+            placeholder="请输入患者姓名或住院号或床号或手术名称"
+          />
         </el-form-item>
         <el-form-item>
-          <el-button>查询</el-button>
+          <el-button
+            type="primary"
+            @click="getPatientList"
+          >
+            查询
+          </el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -35,6 +46,7 @@
           align="center"
           :data="tableData"
           highlight-hover-row
+          highlight-current-row
           @cell-click="cellClickEvent"
           size="mini"
           class="mytable-scrollbar"
@@ -70,25 +82,25 @@
               label-width="90px"
             >
               <el-form-item label="病人姓名：">
-                病人姓名
+                {{ currentPatient.patientName ? currentPatient.patientName : '-' }}
               </el-form-item>
               <el-form-item label="年龄：">
-                病人姓名
+                {{ currentPatient.patientAge ? currentPatient.patientAge : '-' }}
               </el-form-item>
               <el-form-item label="住院号：">
-                病人姓名
+                {{ currentPatient.hospitalNo ? currentPatient.hospitalNo : '-' }}
               </el-form-item>
               <el-form-item label="病床号：">
-                病人姓名
+                {{ currentPatient.bedNo ? currentPatient.bedNo : '-' }}
               </el-form-item>
               <el-form-item label="手术名称：">
-                病人姓名
+                {{ currentPatient.operationName ? currentPatient.operationName : '-' }}
               </el-form-item>
               <el-form-item label="术前诊断：">
-                病人姓名
+                {{ currentPatient.diagnose ? currentPatient.diagnose : '-' }}
               </el-form-item>
               <el-form-item label="主刀医生：">
-                病人姓名
+                {{ currentPatient.surgeon ? currentPatient.surgeon : '-' }}
               </el-form-item>
             </el-form>
           </div>
@@ -100,18 +112,24 @@
               <el-input
                 type="textarea"
                 size="mini"
+                v-model="form.noticeArea"
                 rows="5"
               />
             </div>
             <div class="select-info">
               <el-select
-                v-model="select"
+                v-model="form.template"
                 size="mini"
+                clearable
+                @change="handleChange"
                 placeholder="请选择常用句式"
               >
-                <el-option value="1">
-                  1
-                </el-option>
+                <el-option
+                  :value="item.typeName"
+                  :label="item.typeName"
+                  v-for="item in templateList"
+                  :key="item.id"
+                />
               </el-select>
             </div>
             <div class="notice-option">
@@ -122,7 +140,7 @@
                 <span>重复：</span>
                 <span>
                   <el-input-number
-                    v-model="num"
+                    v-model="form.num"
                     :min="1"
                     :controls="false"
                     size="mini"
@@ -135,6 +153,7 @@
                   <el-button
                     type="primary"
                     size="mini"
+                    @click="handleSubmit"
                   >提 交</el-button>
                 </span>
               </span>
@@ -147,10 +166,10 @@
           </div>
           <ul>
             <li
-              v-for="item in 20"
-              :key="item"
+              v-for="(item,index) in todayList"
+              :key="index"
             >
-              精日撒大大大大艾德卡的啦啦啦啦啦啦杜拉拉
+              {{ item.createTime }}{{ item.relationNoticeContent }}
             </li>
           </ul>
         </div>
@@ -162,41 +181,100 @@
 <script>
 import request from '@/utils/request'
 // import {getPatientList, getTodayCallList, getCallTemplate, saveRelationNotice} from '@/api/family-call'
-import {getPatientList} from '@/api/family-call'
+import {getPatientList, getFloor, getTodayCallList, getCallTemplate, saveRelationNotice} from '@/api/family-call'
+import moment from 'moment'
 export default {
   name: 'FamilyCall',
   data () {
     return {
-      select: '',
-      time: '',
-      input: '',
+      form: {
+        select: '',
+        time: moment(new Date()).format('YYYY-MM-DD'),
+        input: '',
+        floor: '',
+        num: 1,
+        noticeArea: '',
+        template: ''
+      },
       tableData: [],
-      num: 1
+      floorList: [],
+      currentPatient: {},
+      todayList: [],
+      templateList: []
     }
   },
   created () {
     this.getPatientList()
+    this.getFloorList()
+    this.getTodayCallList()
   },
   methods: {
-    cellClickEvent () {
-
+    handleChange (val) {
+      this.form.noticeArea = val
+    },
+    cellClickEvent ({row}) {
+      console.log(row)
+      this.currentPatient = row
+      this.getCallTemplate()
+    },
+    handleSubmit () {
+      request({
+        url: saveRelationNotice,
+        method: 'post',
+        data: {
+          createTime: moment(new Date()).format('YYYY-MM-DD HH-mm-ss'),
+          operationId: this.currentPatient.operSchNo,
+          relationNoticeContent: this.form.noticeArea,
+          repeatNum: this.form.num
+        }
+      }).then(res => {
+        if (res.data.code === 200) {
+          this.$message({message: '提交成功', type: 'success'})
+          this.getTodayCallList()
+        }
+      })
+    },
+    getCallTemplate () {
+      request({
+        url: getCallTemplate + '/' + this.currentPatient.floor + '/' + this.currentPatient.roomNo,
+        method: 'get'
+      }).then(res => {
+        this.templateList = res.data.data
+      })
+    },
+    getTodayCallList () {
+      request({
+        url: getTodayCallList,
+        method: 'get'
+      }).then(res => {
+        this.todayList = res.data.data
+      })
+    },
+    getFloorList () {
+      request({
+        url: getFloor,
+        method: 'get'
+      }).then(res => {
+        this.floorList = res.data.data
+      })
     },
     getPatientList () {
       request({
         url: getPatientList,
         method: 'post',
         data: {
-          bedNo: '',
+          // bedNo: '',
           // cureNo: '',
           // diagnose: '',
-          floor: '',
-          hospitalNo: '',
+          floor: this.form.floor,
+          // hospitalNo: '',
           // operSchNo: '',
           operateDate: '2020-08-06',
-          operationName: '',
+          // operationName: '',
           // patientAge: '',
           // patientGender: '',
-          patientName: ''
+          // patientName: '',
+          search: this.form.input
           // roomNo: '',
           // surgeon: ''
         }
