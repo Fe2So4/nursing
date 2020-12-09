@@ -6,6 +6,14 @@
         <el-button
           type="primary"
           size="mini"
+          @click="handleUnlock"
+        >
+          {{ recordForm.disabled ? '解 锁' : '锁 定' }}
+        </el-button>
+        <el-button
+          type="primary"
+          size="mini"
+          @click="handleSubmit"
         >
           保 存
         </el-button>
@@ -20,7 +28,10 @@
                   <div>
                     <p>
                       <span>
-                        <el-radio :label="1">
+                        <el-radio
+                          :label="1"
+                          v-model="recordForm.incision"
+                        >
                           Ⅰ类手术切口（清洁手术）
                         </el-radio>
                       </span>
@@ -31,7 +42,10 @@
                   <div>
                     <p>
                       <span>
-                        <el-radio :label="2">
+                        <el-radio
+                          :label="2"
+                          v-model="recordForm.incision"
+                        >
                           Ⅱ类手术切口（相对清洁手术）
                         </el-radio>
                       </span>
@@ -42,22 +56,28 @@
                   <div>
                     <p>
                       <span>
-                        <el-radio :label="3">
+                        <el-radio
+                          :label="3"
+                          v-model="recordForm.incision"
+                        >
                           Ⅲ类手术切口（清洁-污染手术）
                         </el-radio>
                       </span>
-                      <span>0分</span>
+                      <span>1分</span>
                     </p>
                     <p>开放新鲜且不干净的伤口；前次手术后感染的切口；术中需采取消毒措施的切口。</p>
                   </div>
                   <div>
                     <p>
                       <span>
-                        <el-radio :label="4">
+                        <el-radio
+                          :label="4"
+                          v-model="recordForm.incision"
+                        >
                           Ⅳ类手术切口（污染手术）
                         </el-radio>
                       </span>
-                      <span>0分</span>
+                      <span>1分</span>
                     </p>
                     <p>严重的外伤，手术切口有炎症、组织坏死，或有内脏引流管。</p>
                   </div>
@@ -65,7 +85,10 @@
                     <p class="right">
                       <span>手术医师签名：</span>
                       <span>
-                        <LineInput input-width="150px" />
+                        <LineInput
+                          input-width="150px"
+                          :value.sync="recordForm.opeDoc"
+                        />
                       </span>
                     </p>
                   </div>
@@ -266,6 +289,9 @@
 <script>
 import LineInput from '@/components/LineInput/index'
 import PatientInfo from '@/components/PatientInfoStep/patient-info-step'
+import {saveRecord, getRecord} from '@/api/record'
+import {mapState} from 'vuex'
+import request from '@/utils/request'
 export default {
   name: 'RecordBefore',
   data () {
@@ -273,12 +299,56 @@ export default {
       radio: '',
       input: '无',
       value: '',
-      checkList: []
+      checkList: [],
+      recordForm: {
+        incision: '',
+        opeDoc: ''
+      }
     }
   },
   components: {
     PatientInfo,
     LineInput
+  },
+  computed: {
+    ...mapState('Base', ['currentPatient'])
+  },
+  created () {
+    this.getRecord()
+  },
+  methods: {
+    handleSubmit () {
+      this.saveRecord()
+    },
+    handleUnlock () {
+      this.recordForm.disabled = !this.recordForm.disabled
+    },
+    getRecord () {
+      request({
+        url: getRecord + '/' + this.currentPatient.operationId + '/' + 'W7'
+      }).then(res => {
+        if (res.data.data && res.data.data !== '') {
+          this.recordForm = JSON.parse(res.data.data.protectContent)
+        }
+      })
+    },
+    saveRecord () {
+      this.recordForm.disabled = true
+      request({
+        url: saveRecord,
+        method: 'post',
+        data: {
+          operationId: this.currentPatient.operationId,
+          protectContent: JSON.stringify(this.recordForm),
+          protectWritId: 'W7'
+        }
+      }).then(res => {
+        if (res.data.code === 200) {
+          this.$message({type: 'success', message: '保存成功'})
+          this.getRecord()
+        }
+      })
+    }
   }
 }
 </script>

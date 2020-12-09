@@ -34,7 +34,7 @@
           </thead>
           <tbody>
             <tr
-              v-for="(_item,_index) in item.deviceList"
+              v-for="(_item,_index) in item.items"
               :key="_index"
             >
               <td>

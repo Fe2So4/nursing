@@ -6,6 +6,14 @@
         <el-button
           type="primary"
           size="mini"
+          @click="handleUnlock"
+        >
+          {{ recordForm.disabled ? '解 锁' : '锁 定' }}
+        </el-button>
+        <el-button
+          type="primary"
+          size="mini"
+          @click="handleSubmit"
         >
           保 存
         </el-button>
@@ -24,16 +32,25 @@
                   <span>性别：</span>
                   <span>年龄：</span>
                   <span>
-                    民族：
+                    <span>民族：</span>
+                    <span>
+                      <LineInput
+                        :value.sync="recordForm.basicInfo.nation"
+                        input-width="200px"
+                        :disabled="recordForm.disabled"
+                      />
+                    </span>
                   </span>
                   <span>
                     <span>体重：</span>
                     <span>
                       <LineInput
-                        :value="input"
+                        :value.sync="recordForm.basicInfo.weight"
                         input-width="200px"
+                        :disabled="recordForm.disabled"
                       />
                     </span>
+                    <span>kg</span>
                   </span>
                 </div>
               </td>
@@ -50,8 +67,9 @@
                     <span class="label">诊断：</span>
                     <span>
                       <LineInput
-                        :value="input"
+                        :value.sync="recordForm.clinicalInfo.diagnose"
                         input-width="200px"
+                        :disabled="recordForm.disabled"
                       />
                     </span>
                   </span>
@@ -61,8 +79,9 @@
                     <span class="label">手术名称：</span>
                     <span>
                       <LineInput
-                        :value="input"
+                        :value.sync="recordForm.clinicalInfo.operationName"
                         input-width="200px"
+                        :disabled="recordForm.disabled"
                       />
                     </span>
                   </span>
@@ -70,8 +89,9 @@
                     <span class="label">手术部位：</span>
                     <span>
                       <LineInput
-                        :value="input"
+                        :value.sync="recordForm.clinicalInfo.operationPosition"
                         input-width="200px"
+                        :disabled="recordForm.disabled"
                       />
                     </span>
                   </span>
@@ -79,8 +99,9 @@
                     <span class="label">血型：</span>
                     <span>
                       <LineInput
-                        :value="input"
+                        :value.sync="recordForm.clinicalInfo.bloodType"
                         input-width="200px"
+                        :disabled="recordForm.disabled"
                       />
                     </span>
                   </span>
@@ -88,19 +109,23 @@
                 <div>
                   <span>
                     <span class="label">过敏史：</span>
-                    <el-radio-group v-model="radio">
-                      <el-radio :label="1">
+                    <el-radio-group
+                      v-model="recordForm.clinicalInfo.allergy.status"
+                      :disabled="recordForm.disabled"
+                    >
+                      <el-radio label="无">
                         无
                       </el-radio>
-                      <el-radio :label="2">
+                      <el-radio label="有">
                         有
                       </el-radio>
                     </el-radio-group>
                     <span>（过敏源）：</span>
                     <span>
                       <LineInput
-                        :value="input"
+                        :value.sync="recordForm.clinicalInfo.allergy.origin"
                         input-width="200px"
+                        :disabled="recordForm.disabled"
                       />
                     </span>
                   </span>
@@ -108,18 +133,22 @@
                 <div>
                   <span>
                     <span class="label">既往手术史：</span>
-                    <el-radio-group v-model="radio">
-                      <el-radio :label="1">
+                    <el-radio-group
+                      :disabled="recordForm.disabled"
+                      v-model="recordForm.clinicalInfo.operationHistory.status"
+                    >
+                      <el-radio label="无">
                         无
                       </el-radio>
-                      <el-radio :label="2">
+                      <el-radio label="有">
                         有
                       </el-radio>
                     </el-radio-group>
                     <span>
                       <LineInput
-                        :value="input"
+                        :value.sync="recordForm.clinicalInfo.operationHistory.history"
                         input-width="200px"
+                        :disabled="recordForm.disabled"
                       />
                     </span>
                   </span>
@@ -132,8 +161,9 @@
                     </span>
                     <span>
                       <LineInput
-                        :value="input"
+                        :value.sync="recordForm.clinicalInfo.liver.gbzam"
                         input-width="200px"
+                        :disabled="recordForm.disabled"
                       />
                     </span>
                   </span>
@@ -143,8 +173,9 @@
                     </span>
                     <span>
                       <LineInput
-                        :value="input"
+                        :value.sync="recordForm.clinicalInfo.liver.zdhs"
                         input-width="200px"
+                        :disabled="recordForm.disabled"
                       />
                     </span>
                   </span>
@@ -154,8 +185,9 @@
                     </span>
                     <span>
                       <LineInput
-                        :value="input"
+                        :value.sync="recordForm.clinicalInfo.liver.lxmysj"
                         input-width="200px"
+                        :disabled="recordForm.disabled"
                       />
                     </span>
                   </span>
@@ -164,7 +196,10 @@
                   各类化验检查确认：
                 </div>
                 <div>
-                  <el-checkbox-group v-model="checkList">
+                  <el-checkbox-group
+                    v-model="recordForm.clinicalInfo.testCheck.checkList1"
+                    :disabled="recordForm.disabled"
+                  >
                     <el-checkbox label="梅毒、艾滋病毒" />
                     <el-checkbox label="MRI" />
                     <el-checkbox label="三大常规" />
@@ -172,45 +207,58 @@
                   </el-checkbox-group>
                 </div>
                 <div>
-                  <el-checkbox-group v-model="checkList">
+                  <el-checkbox-group
+                    v-model="recordForm.clinicalInfo.testCheck.checkList2"
+                    :disabled="recordForm.disabled"
+                  >
                     <el-checkbox label="凝血功能" />
                     <el-checkbox label="内窥镜" />
                     <el-checkbox label="胸片" />
-                    <el-checkbox label="">
+                    <el-checkbox :label="recordForm.clinicalInfo.testCheck.label1">
                       <LineInput
-                        :value="input"
+                        :value.sync="recordForm.clinicalInfo.testCheck.label1"
                         input-width="100px"
+                        :disabled="recordForm.disabled"
                       />
                     </el-checkbox>
                   </el-checkbox-group>
                 </div>
                 <div>
-                  <el-checkbox-group v-model="checkList">
+                  <el-checkbox-group
+                    v-model="recordForm.clinicalInfo.testCheck.checkList3"
+                    :disabled="recordForm.disabled"
+                  >
                     <el-checkbox label="血型鉴定" />
                     <el-checkbox label="B超" />
                     <el-checkbox label="心电图" />
-                    <el-checkbox label="">
+                    <el-checkbox :label="recordForm.clinicalInfo.testCheck.label2">
                       <LineInput
-                        :value="input"
+                        :value.sync="recordForm.clinicalInfo.testCheck.label2"
                         input-width="100px"
+                        :disabled="recordForm.disabled"
                       />
                     </el-checkbox>
                   </el-checkbox-group>
                 </div>
                 <div>
-                  <el-checkbox-group v-model="checkList">
+                  <el-checkbox-group
+                    v-model="recordForm.clinicalInfo.testCheck.checkList4"
+                    :disabled="recordForm.disabled"
+                  >
                     <el-checkbox label="生化指标" />
                     <el-checkbox label="三对半" />
-                    <el-checkbox label="">
+                    <el-checkbox :label="recordForm.clinicalInfo.testCheck.label3">
                       <LineInput
-                        :value="input"
+                        :value.sync="recordForm.clinicalInfo.testCheck.label3"
                         input-width="100px"
+                        :disabled="recordForm.disabled"
                       />
                     </el-checkbox>
-                    <el-checkbox label="">
+                    <el-checkbox :label="recordForm.clinicalInfo.testCheck.label4">
                       <LineInput
-                        :value="input"
+                        :value.sync="recordForm.clinicalInfo.testCheck.label4"
                         input-width="100px"
+                        :disabled="recordForm.disabled"
                       />
                     </el-checkbox>
                   </el-checkbox-group>
@@ -221,188 +269,219 @@
               <td class="left">
                 <div>
                   <span>T <LineInput
-                    :value="input"
+                    :value.sync="recordForm.clinicalInfo.sign.t"
                     input-width="100px"
+                    :disabled="recordForm.disabled"
                   />℃</span>
                   <span>
-                    P<LineInput
-                      :value="input"
+                    P <LineInput
+                      :value.sync="recordForm.clinicalInfo.sign.p"
                       input-width="100px"
+                      :disabled="recordForm.disabled"
                     />次/分
                   </span>
                   <span>
                     R <LineInput
-                      :value="input"
+                      :value.sync="recordForm.clinicalInfo.sign.r"
                       input-width="100px"
+                      :disabled="recordForm.disabled"
                     />次/分
                   </span>
                   <span>
                     BP <LineInput
-                      :value="input"
+                      :value.sync="recordForm.clinicalInfo.sign.bp"
                       input-width="100px"
+                      :disabled="recordForm.disabled"
                     />mmHg
                   </span>
                   <span>
                     瞳孔(mm)左 <LineInput
-                      :value="input"
+                      :value.sync="recordForm.clinicalInfo.sign.eyeLeft"
                       input-width="100px"
+                      :disabled="recordForm.disabled"
                     />右 <LineInput
-                      :value="input"
+                      :value.sync="recordForm.clinicalInfo.sign.eyeRight"
                       input-width="100px"
+                      :disabled="recordForm.disabled"
                     />
                   </span>
                 </div>
                 <div>
                   <span class="label">神志：</span>
-                  <el-radio-group v-model="radio">
-                    <el-radio :label="1">
+                  <el-radio-group
+                    v-model="recordForm.clinicalInfo.mind.status"
+                    :disabled="recordForm.disabled"
+                  >
+                    <el-radio label="清醒">
                       清醒
                     </el-radio>
-                    <el-radio :label="2">
+                    <el-radio label="嗜睡">
                       嗜睡
                     </el-radio>
-                    <el-radio :label="3">
+                    <el-radio label="烦躁">
                       烦躁
                     </el-radio>
-                    <el-radio :label="4">
+                    <el-radio label="昏迷">
                       昏迷
                     </el-radio>
-                    <el-radio :label="5">
+                    <el-radio label="其他">
                       其他
                     </el-radio>
                   </el-radio-group>
                   <span><LineInput
-                    :value="input"
+                    :value.sync="recordForm.clinicalInfo.mind.other"
                     input-width="300px"
+                    :disabled="recordForm.disabled"
                   /></span>
                 </div>
                 <div>
                   <span class="label">语言沟通：</span>
-                  <el-radio-group v-model="radio">
-                    <el-radio :label="1">
+                  <el-radio-group
+                    v-model="recordForm.clinicalInfo.language.status"
+                    :disabled="recordForm.disabled"
+                  >
+                    <el-radio label="正常">
                       正常
                     </el-radio>
-                    <el-radio :label="2">
+                    <el-radio label="障碍">
                       障碍
                     </el-radio>
                   </el-radio-group>
                   <span><LineInput
-                    :value="input"
+                    :value.sync="recordForm.clinicalInfo.language.other"
                     input-width="300px"
+                    :disabled="recordForm.disabled"
                   /></span>
                 </div>
                 <div>
                   <span class="label">活动：</span>
-                  <el-radio-group v-model="radio">
-                    <el-radio :label="1">
+                  <el-radio-group
+                    v-model="recordForm.clinicalInfo.activity.status"
+                    :disabled="recordForm.disabled"
+                  >
+                    <el-radio label="正常">
                       正常
                     </el-radio>
-                    <el-radio :label="2">
+                    <el-radio label="全瘫">
                       全瘫
                     </el-radio>
-                    <el-radio :label="3">
+                    <el-radio label="截瘫">
                       截瘫
                     </el-radio>
-                    <el-radio :label="4">
+                    <el-radio label="偏瘫">
                       偏瘫
                     </el-radio>
-                    <el-radio :label="5">
+                    <el-radio label="其他">
                       其他
                     </el-radio>
                   </el-radio-group>
                   <span><LineInput
-                    :value="input"
+                    :value.sync="recordForm.clinicalInfo.activity.other"
                     input-width="300px"
+                    :disabled="recordForm.disabled"
                   /></span>
                 </div>
                 <div>
                   <span class="label">皮肤：</span>
-                  <el-radio-group v-model="radio">
-                    <el-radio :label="1">
+                  <el-radio-group
+                    v-model="recordForm.clinicalInfo.skin.status"
+                    :disabled="recordForm.disabled"
+                  >
+                    <el-radio label="完整">
                       完整
                     </el-radio>
-                    <el-radio :label="2">
+                    <el-radio label="不完整">
                       不完整（部位及大小）
                     </el-radio>
                   </el-radio-group>
                   <span><LineInput
-                    :value="input"
+                    :value.sync="recordForm.clinicalInfo.skin.position"
                     input-width="600px"
+                    :disabled="recordForm.disabled"
                   /></span>
                 </div>
                 <div>
                   <span class="label">引流管：</span>
-                  <el-radio-group v-model="radio">
-                    <el-radio :label="1">
+                  <el-radio-group
+                    v-model="recordForm.clinicalInfo.drainageTube.status"
+                    :disabled="recordForm.disabled"
+                  >
+                    <el-radio label="无">
                       无
                     </el-radio>
-                    <el-radio :label="2">
+                    <el-radio label="有">
                       有
                     </el-radio>
                   </el-radio-group>
                   <span><LineInput
-                    :value="input"
+                    :value.sync="recordForm.clinicalInfo.drainageTube.tube"
                     input-width="600px"
+                    :disabled="recordForm.disabled"
                   /></span>
                 </div>
                 <div>
                   <span class="label">体型：</span>
-                  <el-radio-group v-model="radio">
-                    <el-radio :label="1">
+                  <el-radio-group
+                    v-model="recordForm.clinicalInfo.shape"
+                    :disabled="recordForm.disabled"
+                  >
+                    <el-radio label="标准">
                       标准
                     </el-radio>
-                    <el-radio :label="2">
+                    <el-radio label="肥胖">
                       肥胖
                     </el-radio>
-                    <el-radio :label="3">
+                    <el-radio label="消瘦">
                       消瘦
                     </el-radio>
                   </el-radio-group>
-                  <span><LineInput
-                    :value="input"
-                    input-width="600px"
-                  /></span>
                 </div>
                 <div>
                   <span class="label">心理状况：</span>
-                  <el-radio-group v-model="radio">
-                    <el-radio :label="1">
+                  <el-radio-group
+                    v-model="recordForm.clinicalInfo.psychology"
+                    :disabled="recordForm.disabled"
+                  >
+                    <el-radio label="正常">
                       正常
                     </el-radio>
-                    <el-radio :label="2">
+                    <el-radio label="紧张">
                       紧张
                     </el-radio>
-                    <el-radio :label="3">
+                    <el-radio label="恐惧">
                       恐惧
                     </el-radio>
-                    <el-radio :label="4">
+                    <el-radio label="焦虑">
                       焦虑
                     </el-radio>
                   </el-radio-group>
-                  <span><LineInput
-                    :value="input"
+                  <!-- <span><LineInput
+                    :value.sync="recordForm.clinicalInfo.psychology"
                     input-width="600px"
-                  /></span>
+                  /></span> -->
                 </div>
                 <div>
                   <span class="label">疼痛程度：</span>
-                  <el-radio-group v-model="radio">
-                    <el-radio :label="1">
+                  <el-radio-group
+                    v-model="recordForm.clinicalInfo.arch"
+                    :disabled="recordForm.disabled"
+                  >
+                    <el-radio label="无痛">
                       无痛
                     </el-radio>
-                    <el-radio :label="2">
+                    <el-radio label="有点痛">
                       有点痛
                     </el-radio>
-                    <el-radio :label="3">
+                    <el-radio label="稍痛">
                       稍痛
                     </el-radio>
-                    <el-radio :label="4">
+                    <el-radio label="更痛">
                       更痛
                     </el-radio>
-                    <el-radio :label="5">
+                    <el-radio label="很痛">
                       很痛
                     </el-radio>
-                    <el-radio :label="5">
+                    <el-radio label="最痛">
                       最痛
                     </el-radio>
                   </el-radio-group>
@@ -410,8 +489,9 @@
                 <div>
                   <span class="label">肠道准备：</span>
                   <span><LineInput
-                    :value="input"
+                    :value.sync="recordForm.clinicalInfo.intestine"
                     input-width="800px"
+                    :disabled="recordForm.disabled"
                   /></span>
                 </div>
               </td>
@@ -438,8 +518,9 @@
                   <span>评估日期：</span>
                   <span>
                     <LineInput
-                      :value="input"
+                      :value.sync="recordForm.assess.time"
                       input-width="100px"
+                      :disabled="recordForm.disabled"
                     />
                   </span>
                 </div>
@@ -447,8 +528,9 @@
                   <span>术前评估护士签名：</span>
                   <span>
                     <LineInput
-                      :value="input"
+                      :value.sync="recordForm.assess.nurseSign"
                       input-width="100px"
+                      :disabled="recordForm.disabled"
                     />
                   </span>
                 </div>
@@ -456,8 +538,9 @@
                   <span>患者/家属签名：</span>
                   <span>
                     <LineInput
-                      :value="input"
+                      :value.sync="recordForm.assess.familySign"
                       input-width="100px"
+                      :disabled="recordForm.disabled"
                     />
                   </span>
                 </div>
@@ -473,6 +556,9 @@
 <script>
 import LineInput from '@/components/LineInput/index'
 import PatientInfo from '@/components/PatientInfoStep/patient-info-step'
+import {saveRecord, getRecord} from '@/api/record'
+import {mapState} from 'vuex'
+import request from '@/utils/request'
 export default {
   name: 'RecordBefore',
   data () {
@@ -492,12 +578,124 @@ export default {
         '在麻醉后，我们会根据手术需要放置各种体位。可能有些体位会使您感到不适，请及时提出。我们会在手术允许的情况下，尽量为您调整。手术过程中，如您有不适，可向麻醉师或护士提出，以便我们及时处理。',
         '手术后我们会及时护理您的伤口，固定好引流管，并为您保暖。',
         '手术时间较长的，因骶尾骨、足部等部位受压时间过长，会引起发红。希望您能听从病区护士的劝导，定时翻身或采取其他预防受压措施。'
-      ]
+      ],
+      recordForm: {
+        basicInfo: {
+          weight: ''
+        },
+        assess: {
+          time: '',
+          nurseSign: '',
+          familySign: ''
+        },
+        clinicalInfo: {
+          diagnose: '',
+          operationName: '',
+          operationPosition: '',
+          bloodType: '',
+          allergy: {
+            status: '',
+            origin: ''
+          },
+          operationHistory: {
+            history: '',
+            status: ''
+          },
+          liver: {
+            gbzam: '',
+            zdhs: '',
+            lxmysj: ''
+          },
+          testCheck: {
+            label1: '',
+            label2: '',
+            label3: '',
+            label4: '',
+            checkList1: [],
+            checkList2: [],
+            checkList3: [],
+            checkList4: []
+          },
+          sign: {
+            t: '',
+            p: '',
+            r: '',
+            bp: '',
+            eyeLeft: '',
+            eyeRight: ''
+          },
+          arch: '',
+          intestine: '',
+          psychology: '',
+          shape: '',
+          drainageTube: {
+            status: '',
+            tube: ''
+          },
+          skin: {
+            status: '',
+            position: ''
+          },
+          activity: {
+            status: '',
+            other: ''
+          },
+          language: {
+            status: '',
+            other: ''
+          },
+          mind: {
+            status: '',
+            other: ''
+          }
+        },
+        disabled: false
+      }
     }
   },
   components: {
     PatientInfo,
     LineInput
+  },
+  computed: {
+    ...mapState('Base', ['currentPatient'])
+  },
+  created () {
+    this.getRecord()
+  },
+  methods: {
+    handleSubmit () {
+      this.saveRecord()
+    },
+    handleUnlock () {
+      this.recordForm.disabled = !this.recordForm.disabled
+    },
+    getRecord () {
+      request({
+        url: getRecord + '/' + this.currentPatient.operationId + '/' + 'W10'
+      }).then(res => {
+        if (res.data.data && res.data.data !== '') {
+          this.recordForm = JSON.parse(res.data.data.protectContent)
+        }
+      })
+    },
+    saveRecord () {
+      this.recordForm.disabled = true
+      request({
+        url: saveRecord,
+        method: 'post',
+        data: {
+          operationId: this.currentPatient.operationId,
+          protectContent: JSON.stringify(this.recordForm),
+          protectWritId: 'W10'
+        }
+      }).then(res => {
+        if (res.data.code === 200) {
+          this.$message({type: 'success', message: '保存成功'})
+          this.getRecord()
+        }
+      })
+    }
   }
 }
 </script>

@@ -151,16 +151,61 @@ export default {
     },
     handleEnsure (item) {
       item.isEnsure = true
-      this.recordForm.specialEquipment.before.forEach(_item => {
-        if (_item.pId === item.pId) {
-          _item.isEnsure = true
-        }
-      })
+      // this.packageList.forEach(_item => {
+      //   if (_item.pId === item.pId) {
+      //     _item.isEnsure = true
+      //   }
+      // })
     },
     handleDelete (id) {
       this.packageList.forEach((item, index) => {
         if (item.pId === id) {
           this.packageList.splice(index, 1)
+        }
+      })
+      this.recordForm.specialEquipment.before.forEach((item, index) => {
+        if (item.pId === id) {
+          this.recordForm.specialEquipment.before.splice(index, 1)
+        }
+      })
+      this.recordForm.specialEquipment.adding.forEach((item, index) => {
+        if (item.pId === id) {
+          this.recordForm.specialEquipment.adding.splice(index, 1)
+        }
+      })
+      this.recordForm.specialEquipment.adding1.forEach((item, index) => {
+        if (item.pId === id) {
+          this.recordForm.specialEquipment.adding1.splice(index, 1)
+        }
+      })
+      this.recordForm.specialEquipment.adding2.forEach((item, index) => {
+        if (item.pId === id) {
+          this.recordForm.specialEquipment.adding2.splice(index, 1)
+        }
+      })
+      this.recordForm.specialEquipment.adding3.forEach((item, index) => {
+        if (item.pId === id) {
+          this.recordForm.specialEquipment.adding3.splice(index, 1)
+        }
+      })
+      this.recordForm.specialEquipment.before2.forEach((item, index) => {
+        if (item.pId === id) {
+          this.recordForm.specialEquipment.before2.splice(index, 1)
+        }
+      })
+      this.recordForm.specialEquipment.after.forEach((item, index) => {
+        if (item.pId === id) {
+          this.recordForm.specialEquipment.after.splice(index, 1)
+        }
+      })
+      this.recordForm.specialEquipment.after2.forEach((item, index) => {
+        if (item.pId === id) {
+          this.recordForm.specialEquipment.after2.splice(index, 1)
+        }
+      })
+      this.recordForm.specialEquipment.allList.forEach((item, index) => {
+        if (item.pId === id) {
+          this.recordForm.specialEquipment.allList.splice(index, 1)
         }
       })
     },
@@ -256,31 +301,31 @@ export default {
           this.recordForm.specialEquipment = JSON.parse(JSON.parse(JSON.stringify(data.specialEquipmentStr)))
           switch (this.active) {
             case 0:
-              this.packageList = this.recordForm.specialEquipment.before
+              this.packageList = JSON.parse(JSON.stringify(this.recordForm.specialEquipment.before))
               this.state = this.recordForm.beforeStatus
               this.sign1 = this.recordForm.xsSqQm
               this.sign2 = this.recordForm.xhSqQm
               break
             case 1:
-              this.packageList = this.recordForm.specialEquipment.adding
+              this.packageList = JSON.parse(JSON.stringify(this.recordForm.specialEquipment.adding))
               this.state = this.recordForm.addingOne
               this.sign1 = this.recordForm.xsTwoQm
               this.sign2 = this.recordForm.xhTwoQm
               break
             case 2:
-              this.packageList = this.recordForm.specialEquipment.adding1
+              this.packageList = JSON.parse(JSON.stringify(this.recordForm.specialEquipment.adding1))
               this.state = this.recordForm.addingTwo
               this.sign1 = this.recordForm.xsThreeQm
               this.sign2 = this.recordForm.xhThreeQm
               break
             case 3:
-              this.packageList = this.recordForm.specialEquipment.adding2
+              this.packageList = JSON.parse(JSON.stringify(this.recordForm.specialEquipment.adding2))
               this.state = this.recordForm.addingThree
               this.sign1 = this.recordForm.xsFourQm
               this.sign2 = this.recordForm.xhFourQm
               break
             case 4:
-              this.packageList = this.recordForm.specialEquipment.adding3
+              this.packageList = JSON.parse(JSON.stringify(this.recordForm.specialEquipment.adding3))
               this.state = this.recordForm.addingFour
               break
             case 5:
@@ -323,6 +368,8 @@ export default {
           this.packageList.forEach(item => {
             item.submit = '1'
           })
+        } else {
+          this.packageList = []
         }
       }
       )
@@ -449,7 +496,12 @@ export default {
             })
             break
         }
-        // this.packageList.push(obj)
+        this.packageList.push({pId: obj.pId,
+          pName: obj.pName,
+          code: data.code,
+          submit: '0',
+          isEnsure: obj.isEnsure,
+          items: data.packageDetail})
       })
     },
     onClickRight () {
@@ -468,6 +520,7 @@ export default {
       switch (this.active) {
         case 0:
           obj.tsBeforeStatus = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
+          obj.specialEquipment.before = this.packageList
           obj.specialEquipment.before.forEach(item => {
             item.items.forEach(_item => {
               _item.before = _item.number
@@ -482,6 +535,7 @@ export default {
           break
         case 1:
           obj.tsAddingOne = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
+          obj.specialEquipment.adding = this.packageList
           obj.specialEquipment.adding.forEach(item => {
             item.items.forEach(_item => {
               _item.adding = _item.number
@@ -496,6 +550,7 @@ export default {
           break
         case 2:
           obj.tsAddingTwo = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
+          obj.specialEquipment.adding1 = this.packageList
           obj.specialEquipment.adding1.forEach(item => {
             item.items.forEach(_item => {
               _item.adding1 = _item.number
@@ -510,6 +565,7 @@ export default {
           break
         case 3:
           obj.tsAddingThree = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
+          obj.specialEquipment.adding2 = this.packageList
           obj.specialEquipment.adding2.forEach(item => {
             item.items.forEach(_item => {
               _item.adding2 = _item.number
@@ -524,6 +580,7 @@ export default {
           break
         case 4:
           obj.tsAddingFour = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
+          obj.specialEquipment.adding3 = this.packageList
           obj.specialEquipment.adding3.forEach(item => {
             item.items.forEach(_item => {
               _item.adding3 = _item.number
@@ -538,6 +595,7 @@ export default {
           break
         case 5:
           obj.tsClossBefore = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
+          // obj.specialEquipment.before2 = this.packageList
           obj.specialEquipment.before2.forEach(item => {
             item.items.forEach(_item => {
               _item.before2 = _item.number
@@ -557,6 +615,7 @@ export default {
           break
         case 6:
           obj.tsClossAfter = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
+          // obj.specialEquipment.after = this.packageList
           obj.specialEquipment.after.forEach(item => {
             item.items.forEach(_item => {
               _item.after = _item.number
@@ -576,6 +635,7 @@ export default {
           break
         case 7:
           obj.tsSutureAfter = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
+          // obj.specialEquipment.after2 = this.packageList
           obj.specialEquipment.after2.forEach(item => {
             item.items.forEach(_item => {
               _item.after2 = _item.number
@@ -620,8 +680,9 @@ export default {
       this.getPackageList()
     },
     handleDeviceCode (code) {
+      alert(code)
       if (this.active === 5 || this.active === 6 || this.active === 7) {
-        console.log('不允许扫码操作')
+        // console.log('不允许扫码操作')
         return
       }
       // 器械包条码
@@ -646,7 +707,7 @@ export default {
     }
   },
   async mounted () {
-    // this.getPackageList()
+    this.getPackageList()
     $bus.$on('handleDeviceCode', this.handleDeviceCode)
   },
   beforeDestroy () {
