@@ -2,9 +2,10 @@
   <div class="line-input">
     <input
       type="text"
-      v-model="value"
+      v-model="input"
       :style="{'width':inputWidth}"
       :disabled="disabled"
+      @input="handleInput"
     >
   </div>
 </template>
@@ -29,6 +30,11 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    }
+  },
+  methods: {
+    handleInput () {
+      this.$emit('update:value', this.input)
     }
   }
 }
