@@ -31,7 +31,7 @@
             <el-button
               type="info"
               plain
-              @click="handleExitExcel"
+              @click="exitExcle"
             >
               导 出
             </el-button>
@@ -79,7 +79,8 @@
 </template>
 
 <script>
-
+import {ipcRenderer} from 'electron'
+import config from '@/config/url.js'
 export default {
   name: 'DailyEndTimeSearch',
   data () {
@@ -113,7 +114,20 @@ export default {
       })
     },
     // 导出
-    handleExitExcel () {},
+    exitExcle () {
+      if (this.IsEmpty(this.form.date)) {
+        this.form.date = ''
+      }
+
+      let url = `${config.api.baseURL}/ocis/departmentReport/download/downloadEveryDayRoomEndTime?date=${this.form.date}`
+      this.exportExcel(url)
+    },
+    exportExcel (params) {
+      ipcRenderer.send('download',
+        JSON.stringify({
+          downloadUrl: params
+        }))
+    },
     // 提示方法
     openToast (type, mesg) {
       this.$message({

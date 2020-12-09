@@ -146,3 +146,12 @@ export const reqgetAfteroperationInfo = (obj) => {
     data: obj
   })
 }
+
+// 病区字典
+const reqgetWardDictUrl = `${config.default.api.baseURL}/ocis/dictInfo/getWardDict`
+export const reqgetWardDict = (obj) => {
+  return request({
+    url: reqgetWardDictUrl,
+    method: 'get'
+  })
+}

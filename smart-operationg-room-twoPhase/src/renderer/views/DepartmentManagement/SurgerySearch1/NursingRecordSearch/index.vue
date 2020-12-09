@@ -122,6 +122,7 @@
           </el-form-item>
           <el-form-item>
             <el-button
+              @click="exitExcle"
               type="info"
               plain
             >
@@ -254,7 +255,8 @@
 </template>
 
 <script>
-
+import {ipcRenderer} from 'electron'
+import config from '@/config/url.js'
 export default {
   name: 'NursingRecordSearch',
   data () {
@@ -343,6 +345,48 @@ export default {
           this.openToast('error', res.data.msg)
         }
       })
+    },
+    // 导出
+    exitExcle () {
+      if (this.IsEmpty(this.form.operationDateStart)) {
+        this.form.operationDateStart = ''
+      }
+
+      if (this.IsEmpty(this.form.operationDateEnd)) {
+        this.form.operationDateEnd = ''
+      }
+      if (this.IsEmpty(this.form.bedNo)) {
+        this.form.bedNo = ''
+      }
+      if (this.IsEmpty(this.form.deptName)) {
+        this.form.deptName = ''
+      }
+      if (this.IsEmpty(this.form.hospitalNo)) {
+        this.form.hospitalNo = ''
+      }
+      if (this.IsEmpty(this.form.operationName)) {
+        this.form.operationName = ''
+      }
+      if (this.IsEmpty(this.form.patientName)) {
+        this.form.patientName = ''
+      }
+      if (this.IsEmpty(this.form.runNurseName1)) {
+        this.form.runNurseName1 = ''
+      }
+      if (this.IsEmpty(this.form.surgeon)) {
+        this.form.surgeon = ''
+      }
+      if (this.IsEmpty(this.form.washNurseName1)) {
+        this.form.washNurseName1 = ''
+      }
+      let url = `${config.api.baseURL}/ocis/departmentReport/download/downloadNursingRecordSheet?operationDateStart=${this.form.operationDateStart}&operationDateEnd=${this.form.operationDateEnd}&bedNo=${this.form.bedNo}&deptName=${this.form.deptName}&hospitalNo=${this.form.hospitalNo}&operationName=${this.form.operationName}&patientName=${this.form.patientName}&runNurseName1=${this.form.runNurseName1}&surgeon=${this.form.surgeon}&washNurseName1=${this.form.washNurseName1}`
+      this.exportExcel(url)
+    },
+    exportExcel (params) {
+      ipcRenderer.send('download',
+        JSON.stringify({
+          downloadUrl: params
+        }))
     },
     // 提示方法
     openToast (type, mesg) {
