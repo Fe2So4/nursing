@@ -170,6 +170,16 @@ const personnelRoutes = {
         parent: 'Personnel'
       },
       component: () => import('@/views/PersonnelManagement/SearchLeave/index')
+    },
+    {
+      path: 'search-leave-approval',
+      name: 'SearchLeaveApproval',
+      meta: {
+        title: '请假审批',
+        noNavs: false,
+        parent: 'Personnel'
+      },
+      component: () => import('@/views/PersonnelManagement/SearchLeaveApproval/index')
     }
   ]
 }

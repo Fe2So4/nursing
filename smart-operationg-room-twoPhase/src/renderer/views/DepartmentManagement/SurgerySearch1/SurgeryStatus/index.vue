@@ -44,9 +44,9 @@
             >
               <el-option
                 v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                :key="item"
+                :label="item"
+                :value="item"
               />
             </el-select>
           </el-form-item>
@@ -150,6 +150,7 @@
           </el-form-item>
           <el-form-item>
             <el-button
+              @click="exitExcle"
               type="info"
               plain
             >
@@ -258,7 +259,8 @@
 </template>
 
 <script>
-
+import {ipcRenderer} from 'electron'
+import config from '@/config/url.js'
 export default {
   name: 'SurgeryStatus',
   data () {
@@ -291,22 +293,14 @@ export default {
         value: '术后',
         label: '术后'
       }],
-      options: [{
-        value: '6',
-        label: '6病区'
-      }, {
-        value: '7',
-        label: '7病区'
-      }, {
-        value: '8',
-        label: '8病区'
-      }],
+      options: [],
       tableData: []
     }
   },
   mounted () {
     this.getNewTime()
     this.handleSearchTable()
+    this.getWardDict()
   },
   methods: {
     // 获取当前时间
@@ -314,6 +308,17 @@ export default {
       this.form.startDate = this.utilsGetNewDate()
       this.form.endDate = this.utilsGetNewDate()
     },
+    getWardDict () {
+      let obj = {
+
+      }
+      this.$store.dispatch('ReqgetWardDict', obj).then(res => {
+        if (res.data.code === 200) {
+          this.options = res.data.data
+        }
+      })
+    },
+
     // 点击图标切换显示
     handleChangeIcon () {
       this.showType = !this.showType
@@ -341,6 +346,51 @@ export default {
           this.openToast('error', res.data.msg)
         }
       })
+    },
+    // 导出
+    exitExcle () {
+      if (this.IsEmpty(this.form.startDate)) {
+        this.form.startDate = ''
+      }
+
+      if (this.IsEmpty(this.form.endDate)) {
+        this.form.endDate = ''
+      }
+      if (this.IsEmpty(this.form.inpatientWard)) {
+        this.form.inpatientWard = ''
+      }
+      if (this.IsEmpty(this.form.operationStateName)) {
+        this.form.operationStateName = ''
+      }
+      if (this.IsEmpty(this.form.patientId)) {
+        this.form.patientId = ''
+      }
+      if (this.IsEmpty(this.form.bedId)) {
+        this.form.bedId = ''
+      }
+      if (this.IsEmpty(this.form.patientName)) {
+        this.form.patientName = ''
+      }
+      if (this.IsEmpty(this.form.opeNameAfter)) {
+        this.form.opeNameAfter = ''
+      }
+      if (this.IsEmpty(this.form.deptName)) {
+        this.form.deptName = ''
+      }
+      if (this.IsEmpty(this.form.surgeon)) {
+        this.form.surgeon = ''
+      }
+      if (this.IsEmpty(this.form.firstOpeNurse)) {
+        this.form.firstOpeNurse = ''
+      }
+      let url = `${config.api.baseURL}/ocis/departmentReport/download/downloadOperationInfoState?startDate=${this.form.startDate}&endDate=${this.form.endDate}&inpatientWard=${this.form.inpatientWard}&operationStateName=${this.form.operationStateName}&patientId=${this.form.patientId}&bedId=${this.form.bedId}&patientName=${this.form.patientName}&opeNameAfter=${this.form.opeNameAfter}&surgeon=${this.form.surgeon}&deptName=${this.form.deptName}&firstOpeNurse=${this.form.firstOpeNurse}`
+      this.exportExcel(url)
+    },
+    exportExcel (params) {
+      ipcRenderer.send('download',
+        JSON.stringify({
+          downloadUrl: params
+        }))
     },
     // 提示方法
     openToast (type, mesg) {

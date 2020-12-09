@@ -1,5 +1,5 @@
 <template>
-  <!-- 手术接台间隔时间 -->
+  <!-- 手术接台间隔时间查询 -->
   <div class="nursing-recieive-search">
     <div class="dr-top">
       <div class="dr-top-left">
@@ -31,7 +31,7 @@
             <el-button
               type="info"
               plain
-              @click="handleSearchTable"
+              @click="exitExcle"
             >
               导 出
             </el-button>
@@ -82,7 +82,7 @@
           </template>
         </vxe-table-column>
         <vxe-table-column
-          field="wardName"
+          field="ward_name"
           title="病区"
         />
         <vxe-table-column
@@ -119,7 +119,8 @@
 </template>
 
 <script>
-
+import {ipcRenderer} from 'electron'
+import config from '@/config/url.js'
 export default {
   name: 'SurgeryIntervalSearch',
   data () {
@@ -154,6 +155,25 @@ export default {
           this.openToast('error', res.data.msg)
         }
       })
+    },
+    // 导出
+    exitExcle () {
+      if (this.IsEmpty(this.form.operationDateStart)) {
+        this.form.operationDateStart = ''
+      }
+
+      if (this.IsEmpty(this.form.operationDateEnd)) {
+        this.form.operationDateEnd = ''
+      }
+
+      let url = `${config.api.baseURL}/ocis/departmentReport/download/downloadOperationGetPatTime?operationDateStart=${this.form.operationDateStart}&operationDateEnd=${this.form.operationDateEnd}`
+      this.exportExcel(url)
+    },
+    exportExcel (params) {
+      ipcRenderer.send('download',
+        JSON.stringify({
+          downloadUrl: params
+        }))
     },
     // 提示方法
     openToast (type, mesg) {

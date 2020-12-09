@@ -10,3 +10,11 @@ export const login = (obj) => {
     data: obj
   })
 }
+// 登录成功获取信息
+const reqgetLoginUserInfoUrl = `${config.default.api.baseURL}/ocis/dictInfo/getLoginUserInfo`
+export const reqgetLoginUserInfo = (obj) => {
+  return request({
+    url: reqgetLoginUserInfoUrl,
+    method: 'get'
+  })
+}

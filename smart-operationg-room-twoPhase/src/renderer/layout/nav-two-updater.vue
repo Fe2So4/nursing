@@ -114,6 +114,11 @@ export default {
               icon: 'iconfont icon-gongneng',
               title: '请假查询',
               path: '/personnel/search-leave'
+            },
+            {
+              icon: 'iconfont icon-gongneng',
+              title: '请假审批',
+              path: '/personnel/search-leave-approval'
             }
           ]
         },

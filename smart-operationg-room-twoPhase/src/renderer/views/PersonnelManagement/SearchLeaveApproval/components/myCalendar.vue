@@ -68,22 +68,31 @@
                   {{ key.day }}
                 </div>
               </div>
-              <div
-                class="item-type"
-                v-for="(item,index) in 6"
-                :key="index"
-              >
-                {{ item }}
-              </div>
+              <template v-if="key.day">
+                <div
+                  @click="showSearchLeaveDetail(key.date)"
+                  class="item-type"
+                  v-for="(v,index) in 6"
+                  :key="index"
+                >
+                  {{ v }}
+                </div>
+              </template>
             </div>
           </td>
         </tr>
       </table>
     </el-scrollbar>
+    <SearchLeaveDetail
+      @handleClose="handleClose"
+      :select-day="selectDay"
+      :dialog-visible="dialogVisible"
+    />
   </div>
 </template>
 
 <script>
+import SearchLeaveDetail from './SearchLeaveDetail'
 export default {
   mounted () {
     this.backToday()
@@ -96,6 +105,8 @@ export default {
   },
   data () {
     return {
+      selectDay: '', // 点击选中的时间
+      dialogVisible: false,
       calLoading: false,
       calendar: {
         // 日历
@@ -109,6 +120,9 @@ export default {
         isDay: '' // 判断是否是'今天'
       }
     }
+  },
+  components: {
+    SearchLeaveDetail
   },
   methods: {
     initDate (val) {
@@ -259,6 +273,15 @@ export default {
       that.calendar.month = that.initDate(d.getMonth() + 1)
       that.currentDay()
       that.getmonthDays()
+    },
+    // 点击显示详情
+    showSearchLeaveDetail (item) {
+      this.dialogVisible = true
+      this.selectDay = item
+      console.log(item)
+    },
+    handleClose () {
+      this.dialogVisible = false
     }
   }
 }

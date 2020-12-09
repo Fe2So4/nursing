@@ -1,6 +1,6 @@
 import {reqgetTimesOperations, reqgetRoomState, reqgetEveryDayRoomEndTime, reqgetNursingRecordSheet, reqoperNameCountStatis, reqoperRoomUseStatis,
   reqoperChargeStatis, reqgetOperationIntervalTime, reqgetoperationInfoState, reqgetoperationInfoDetal, reqoperationGetPatTimel, reqoperLevelStatis, reqdutyStatistics,
-  reqgetAfteroperationInfo, reqdownloadOperationInfoDetal
+  reqgetAfteroperationInfo, reqdownloadOperationInfoDetal, reqgetWardDict
 } from '@/api/DepartmentManagement/SurgerySearch1/surgery-search.js'
 
 const state = {
@@ -89,6 +89,11 @@ const actions = {
   // 手术术后信息查询
   async ReqgetAfteroperationInfo ({ commit }, query) {
     let res = await reqgetAfteroperationInfo(query)
+    return res
+  },
+  // 病区字典
+  async ReqgetWardDict ({ commit }, query) {
+    let res = await reqgetWardDict(query)
     return res
   }
 
