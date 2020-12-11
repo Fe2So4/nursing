@@ -4,6 +4,17 @@
       <div class="cal-YM">
         <div class="YM-text ovh">
           <div
+            style="position: absolute;
+             left: 20px;font-size:12px"
+          >
+            <div style="display:flex;align-items:center">
+              <span style="width:10px;height:10px;background-color: red;border-radius: 10px;" />
+              <span style="margin-left:10px">请假未审批</span>
+              <span style="width:10px;height:10px;background-color: blue;margin-left:20px;border-radius: 10px;" />
+              <span style="margin-left:10px">撤销未审批</span>
+            </div>
+          </div>
+          <div
             title="上一月"
             class="cal-left hand fl"
             @click="getPrevMonth"
@@ -90,8 +101,19 @@
                   v-for="(v,index) in key.timeList"
                   :key="index"
                 >
-                  <div class="item-type-left">
-                    {{ v.leavePersonnelName }}
+                  <div
+                    class="item-type-left"
+                    style="display:flex;align-items:center"
+                  >
+                    <span
+                      v-if="v.approvalStatusStr === '撤销未审批'"
+                      style="width:10px;height:10px;background-color: red;margin-right:10px;border-radius: 10px;"
+                    />
+                    <span
+                      v-else
+                      style="width:10px;height:10px;background-color: blue;margin-right:10px;border-radius: 10px;"
+                    />
+                    <span>{{ v.leavePersonnelName }}</span>
                     <!-- 管理员 -->
                     <!-- 1 -->
                   </div>
@@ -527,7 +549,7 @@ export default {
   padding: 5px;
   font-size: 14px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 80%;
   text-align: left;
   // border-left: 1px solid #366FE2;
