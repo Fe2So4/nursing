@@ -6,6 +6,14 @@
         <el-button
           type="primary"
           size="mini"
+          @click="handleUnlock"
+        >
+          {{ recordForm.disabled ? '解 锁' : '锁 定' }}
+        </el-button>
+        <el-button
+          type="primary"
+          size="mini"
+          @click="handleSubmit"
         >
           保 存
         </el-button>
@@ -20,7 +28,11 @@
                   <div>
                     <p>
                       <span>
-                        <el-radio :label="1">
+                        <el-radio
+                          :label="1"
+                          v-model="recordForm.incision"
+                          :disabled="recordForm.disabled"
+                        >
                           Ⅰ类手术切口（清洁手术）
                         </el-radio>
                       </span>
@@ -31,7 +43,11 @@
                   <div>
                     <p>
                       <span>
-                        <el-radio :label="2">
+                        <el-radio
+                          :label="2"
+                          v-model="recordForm.incision"
+                          :disabled="recordForm.disabled"
+                        >
                           Ⅱ类手术切口（相对清洁手术）
                         </el-radio>
                       </span>
@@ -42,22 +58,30 @@
                   <div>
                     <p>
                       <span>
-                        <el-radio :label="3">
+                        <el-radio
+                          :label="3"
+                          v-model="recordForm.incision"
+                          :disabled="recordForm.disabled"
+                        >
                           Ⅲ类手术切口（清洁-污染手术）
                         </el-radio>
                       </span>
-                      <span>0分</span>
+                      <span>1分</span>
                     </p>
                     <p>开放新鲜且不干净的伤口；前次手术后感染的切口；术中需采取消毒措施的切口。</p>
                   </div>
                   <div>
                     <p>
                       <span>
-                        <el-radio :label="4">
+                        <el-radio
+                          :label="4"
+                          v-model="recordForm.incision"
+                          :disabled="recordForm.disabled"
+                        >
                           Ⅳ类手术切口（污染手术）
                         </el-radio>
                       </span>
-                      <span>0分</span>
+                      <span>1分</span>
                     </p>
                     <p>严重的外伤，手术切口有炎症、组织坏死，或有内脏引流管。</p>
                   </div>
@@ -65,7 +89,11 @@
                     <p class="right">
                       <span>手术医师签名：</span>
                       <span>
-                        <LineInput input-width="150px" />
+                        <LineInput
+                          input-width="150px"
+                          :value.sync="recordForm.opeDoc"
+                          :disabled="recordForm.disabled"
+                        />
                       </span>
                     </p>
                   </div>
@@ -80,7 +108,11 @@
                   </p>
                   <div>
                     <span>
-                      <el-radio :label="1">
+                      <el-radio
+                        :label="1"
+                        v-model="recordForm.asa"
+                        :disabled="recordForm.disabled"
+                      >
                         P1:正常的患者；除局部病变外，无系统性疾病。
                       </el-radio>
                     </span>
@@ -88,7 +120,11 @@
                   </div>
                   <div>
                     <span>
-                      <el-radio :label="2">
+                      <el-radio
+                        :label="2"
+                        v-model="recordForm.asa"
+                        :disabled="recordForm.disabled"
+                      >
                         P2:患者有轻微的临床症状；有轻度或中度系统性疾病。
                       </el-radio>
                     </span>
@@ -96,39 +132,58 @@
                   </div>
                   <div>
                     <span>
-                      <el-radio :label="3">
+                      <el-radio
+                        :label="3"
+                        v-model="recordForm.asa"
+                        :disabled="recordForm.disabled"
+                      >
                         P3:有严重系统性疾病；日常活动受限，但未丧失工作能力。
                       </el-radio>
                     </span>
-                    <span>0分</span>
+                    <span>1分</span>
                   </div>
                   <div>
                     <span>
-                      <el-radio :label="4">
+                      <el-radio
+                        :label="4"
+                        v-model="recordForm.asa"
+                        :disabled="recordForm.disabled"
+                      >
                         P4:有严重系统性疾病；已丧失工作能力，威胁生命安全。
                       </el-radio>
                     </span>
-                    <span>0分</span>
+                    <span>1分</span>
                   </div>
                   <div>
                     <span>
-                      <el-radio :label="5">
+                      <el-radio
+                        :label="5"
+                        v-model="recordForm.asa"
+                        :disabled="recordForm.disabled"
+                      >
                         P5:病情危重，生命难以维持的濒死患者。
                       </el-radio>
                     </span>
-                    <span>0分</span>
+                    <span>1分</span>
                   </div>
                   <div>
                     <span>
-                      <el-radio :label="6">
+                      <el-radio
+                        :label="6"
+                        v-model="recordForm.asa"
+                        :disabled="recordForm.disabled"
+                      >
                         P6:脑死亡患者。
                       </el-radio>
                     </span>
-                    <span>0分</span>
+                    <span>1分</span>
                   </div>
                   <p>手术类别</p>
                   <div>
-                    <el-radio-group v-model="radio">
+                    <el-radio-group
+                      v-model="recordForm.opeType"
+                      :disabled="recordForm.disabled"
+                    >
                       <el-radio :label="1">
                         浅层手术组织
                       </el-radio>
@@ -138,11 +193,14 @@
                     </el-radio-group>
                   </div>
                   <div>
-                    <el-radio-group v-model="radio">
-                      <el-radio :label="1">
+                    <el-radio-group
+                      v-model="recordForm.opeType"
+                      :disabled="recordForm.disabled"
+                    >
+                      <el-radio :label="3">
                         深部组织手术
                       </el-radio>
-                      <el-radio :label="2">
+                      <el-radio :label="4">
                         腔隙手术
                       </el-radio>
                     </el-radio-group>
@@ -152,7 +210,8 @@
                     <span>
                       <LineInput
                         input-width="150px"
-                        :value="value"
+                        :value.sync="recordForm.anaesDoc"
+                        :disabled="recordForm.disabled"
                       />
                     </span>
                   </div>
@@ -167,7 +226,11 @@
                   </p>
                   <div>
                     <span>
-                      <el-radio :label="1">
+                      <el-radio
+                        :label="1"
+                        v-model="recordForm.continueTime"
+                        :disabled="recordForm.disabled"
+                      >
                         T1:手术在3小时内完成
                       </el-radio>
                     </span>
@@ -175,7 +238,11 @@
                   </div>
                   <div>
                     <span>
-                      <el-radio :label="2">
+                      <el-radio
+                        :label="2"
+                        v-model="recordForm.continueTime"
+                        :disabled="recordForm.disabled"
+                      >
                         T2:完成手术，超过3小时
                       </el-radio>
                     </span>
@@ -183,7 +250,11 @@
                   </div>
                   <div>
                     <span>
-                      <el-radio :label="3">
+                      <el-radio
+                        :label="3"
+                        v-model="recordForm.continueTime"
+                        :disabled="recordForm.disabled"
+                      >
                         T3:急诊手术
                       </el-radio>
                     </span>
@@ -194,7 +265,8 @@
                     <span>
                       <LineInput
                         input-width="150px"
-                        :value="value"
+                        :value.sync="recordForm.nurse"
+                        :disabled="recordForm.disabled"
                       />
                     </span>
                   </div>
@@ -210,14 +282,16 @@
                     <span>
                       <LineInput
                         input-width="150px"
-                        :value="value"
+                        :value.sync="recordForm.riskAssessment.clean"
+                        :disabled="recordForm.disabled"
                       />
                     </span>
                     <span>分+麻醉ASA分级</span>
                     <span>
                       <LineInput
                         input-width="150px"
-                        :value="value"
+                        :value.sync="recordForm.riskAssessment.asaLevel"
+                        :disabled="recordForm.disabled"
                       />
                     </span>
                     <span>
@@ -226,7 +300,8 @@
                     <span>
                       <LineInput
                         input-width="150px"
-                        :value="value"
+                        :value.sync="recordForm.riskAssessment.continueTime1"
+                        :disabled="recordForm.disabled"
                       />
                     </span>
                     <span>
@@ -235,7 +310,8 @@
                     <span>
                       <LineInput
                         input-width="150px"
-                        :value="value"
+                        :value.sync="recordForm.riskAssessment.continueTime2"
+                        :disabled="recordForm.disabled"
                       />
                     </span>
                     <span>
@@ -245,7 +321,10 @@
                   <p>
                     <span>NNIS分级：</span>
                     <span>
-                      <el-radio-group v-model="radio">
+                      <el-radio-group
+                        v-model="recordForm.nnis"
+                        :disabled="recordForm.disabled"
+                      >
                         <el-radio :label="0">0</el-radio>
                         <el-radio :label="1">1</el-radio>
                         <el-radio :label="2">2</el-radio>
@@ -266,6 +345,9 @@
 <script>
 import LineInput from '@/components/LineInput/index'
 import PatientInfo from '@/components/PatientInfoStep/patient-info-step'
+import {saveRecord, getRecord} from '@/api/record'
+import {mapState} from 'vuex'
+import request from '@/utils/request'
 export default {
   name: 'RecordBefore',
   data () {
@@ -273,12 +355,67 @@ export default {
       radio: '',
       input: '无',
       value: '',
-      checkList: []
+      checkList: [],
+      recordForm: {
+        incision: '',
+        opeDoc: '',
+        asa: '',
+        opeType: '',
+        anaesDoc: '',
+        continueTime: '',
+        nurse: '',
+        riskAssessment: {
+          clean: '',
+          asaLevel: '',
+          continueTime: ''
+        },
+        nnis: ''
+      }
     }
   },
   components: {
     PatientInfo,
     LineInput
+  },
+  computed: {
+    ...mapState('Base', ['currentPatient'])
+  },
+  created () {
+    this.getRecord()
+  },
+  methods: {
+    handleSubmit () {
+      this.saveRecord()
+    },
+    handleUnlock () {
+      this.recordForm.disabled = !this.recordForm.disabled
+    },
+    getRecord () {
+      request({
+        url: getRecord + '/' + this.currentPatient.operationId + '/' + 'W3'
+      }).then(res => {
+        if (res.data.data && res.data.data !== '') {
+          this.recordForm = JSON.parse(res.data.data.protectContent)
+        }
+      })
+    },
+    saveRecord () {
+      this.recordForm.disabled = true
+      request({
+        url: saveRecord,
+        method: 'post',
+        data: {
+          operationId: this.currentPatient.operationId,
+          protectContent: JSON.stringify(this.recordForm),
+          protectWritId: 'W3'
+        }
+      }).then(res => {
+        if (res.data.code === 200) {
+          this.$message({type: 'success', message: '保存成功'})
+          this.getRecord()
+        }
+      })
+    }
   }
 }
 </script>

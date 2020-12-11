@@ -727,10 +727,6 @@ export default {
   name: 'RecordBefore',
   data () {
     return {
-      radio: '',
-      input: '无',
-      checkList: [],
-      id: '',
       recordForm: {
         // 睡眠
         sleep: {

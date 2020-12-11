@@ -34,7 +34,7 @@
           </thead>
           <tbody>
             <tr
-              v-for="(_item,_index) in item.deviceList"
+              v-for="(_item,_index) in item.items"
               :key="_index"
             >
               <td>
@@ -44,7 +44,16 @@
                 {{ _item.before }}
               </td>
               <td>
-                {{ _item.adding + _item.adding1 + _item.adding2 + _item.adding3 }}
+                {{ _item.adding }}
+              </td>
+              <td>
+                {{ _item.adding1 }}
+              </td>
+              <td>
+                {{ _item.adding2 }}
+              </td>
+              <td>
+                {{ _item.adding3 }}
               </td>
               <td>
                 {{ _item.before2 }}
@@ -57,12 +66,12 @@
               </td>
               <td>
                 <i
-                  v-if="_item.before===0||_item.adding===0||_item.adding1===0||_item.adding2===0||_item.adding3===0||_item.before2===0||_item.after===0||_item.after2===0"
-                  :class="{'el-icon-close':true,'red':true}"
+                  v-if="_item[_item.type] === _item.before2 && _item[_item.type] === _item.after && _item[_item.type] === _item.after2"
+                  :class="{'el-icon-check':true}"
                 />
                 <i
                   v-else
-                  :class="{'el-icon-check':true}"
+                  :class="{'el-icon-close':true,'red':true}"
                 />
               </td>
             </tr>

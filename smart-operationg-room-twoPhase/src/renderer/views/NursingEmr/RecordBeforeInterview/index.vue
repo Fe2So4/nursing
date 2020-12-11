@@ -6,6 +6,14 @@
         <el-button
           type="primary"
           size="mini"
+          @click="handleUnlock"
+        >
+          {{ recordForm.disabled ? '解 锁' : '锁 定' }}
+        </el-button>
+        <el-button
+          type="primary"
+          size="mini"
+          @click="handleSubmit"
         >
           保 存
         </el-button>
@@ -21,11 +29,14 @@
                 一、访视自我介绍
               </td>
               <td class="left">
-                <el-radio-group v-model="radio">
-                  <el-radio :label="1">
+                <el-radio-group
+                  v-model="recordForm.introduce"
+                  :disabled="recordForm.disabled"
+                >
+                  <el-radio label="无">
                     无
                   </el-radio>
-                  <el-radio :label="2">
+                  <el-radio label="有">
                     有
                   </el-radio>
                 </el-radio-group>
@@ -42,25 +53,29 @@
             <tr>
               <td>1.意识活动</td>
               <td class="left">
-                <el-radio-group v-model="radio">
-                  <el-radio :label="1">
+                <el-radio-group
+                  v-model="recordForm.consciousness.status"
+                  :disabled="recordForm.disabled"
+                >
+                  <el-radio label="清醒">
                     清醒
                   </el-radio>
-                  <el-radio :label="2">
+                  <el-radio label="嗜睡">
                     嗜睡
                   </el-radio>
-                  <el-radio :label="3">
+                  <el-radio label="烦躁">
                     烦躁
                   </el-radio>
-                  <el-radio :label="4">
+                  <el-radio label="昏迷">
                     昏迷
                   </el-radio>
-                  <el-radio :label="5">
+                  <el-radio label="其他">
                     其他
                   </el-radio>
                 </el-radio-group>
                 <span><LineInput
-                  :value="input"
+                  :value.sync="recordForm.consciousness.other"
+                  :disabled="recordForm.disabled"
                   input-width="300px"
                 /></span>
               </td>
@@ -68,11 +83,14 @@
             <tr>
               <td>2.四肢活动</td>
               <td class="left">
-                <el-radio-group v-model="radio">
-                  <el-radio :label="1">
+                <el-radio-group
+                  v-model="recordForm.limb.status"
+                  :disabled="recordForm.disabled"
+                >
+                  <el-radio label="正常">
                     正常
                   </el-radio>
-                  <el-radio :label="2">
+                  <el-radio label="障碍">
                     障碍
                   </el-radio>
                 </el-radio-group>
@@ -80,24 +98,29 @@
                   （
                   <span>部位：</span>
                   <span><LineInput
-                    :value="input"
+                    :value.sync="recordForm.limb.position"
                     input-width="300px"
+                    :disabled="recordForm.disabled"
                   /></span>
                   <span>性质：</span>
-                  <el-radio-group v-model="radio">
-                    <el-radio :label="1">
+                  <el-radio-group
+                    v-model="recordForm.limb.nature"
+                    :disabled="recordForm.disabled"
+                  >
+                    <el-radio label="瘫痪">
                       瘫痪
                     </el-radio>
-                    <el-radio :label="2">
+                    <el-radio label="畸形">
                       畸形
                     </el-radio>
-                    <el-radio :label="3">
+                    <el-radio label="其他">
                       其他
                     </el-radio>
                   </el-radio-group>
                   <span><LineInput
-                    :value="input"
+                    :value.sync="recordForm.limb.other"
                     input-width="300px"
+                    :disabled="recordForm.disabled"
                   /></span>
                   ）
                 </span>
@@ -106,11 +129,14 @@
             <tr>
               <td>3.皮肤</td>
               <td class="left">
-                <el-radio-group v-model="radio">
-                  <el-radio :label="1">
+                <el-radio-group
+                  v-model="recordForm.skin.status"
+                  :disabled="recordForm.disabled"
+                >
+                  <el-radio label="正常">
                     正常
                   </el-radio>
-                  <el-radio :label="2">
+                  <el-radio label="破损">
                     破损
                   </el-radio>
                 </el-radio-group>
@@ -118,8 +144,9 @@
                   （
                   <span>部位：</span>
                   <span><LineInput
-                    :value="input"
+                    :value.sync="recordForm.skin.position"
                     input-width="300px"
+                    :disabled="recordForm.disabled"
                   /></span>
                   ）
                 </span>
@@ -128,18 +155,22 @@
             <tr>
               <td>4.患者过敏史</td>
               <td class="left">
-                <el-radio-group v-model="radio">
-                  <el-radio :label="1">
+                <el-radio-group
+                  v-model="recordForm.allergy.status"
+                  :disabled="recordForm.disabled"
+                >
+                  <el-radio label="无">
                     无
                   </el-radio>
-                  <el-radio :label="2">
+                  <el-radio label="有">
                     有
                   </el-radio>
                 </el-radio-group>
                 <span>
                   <span><LineInput
-                    :value="input"
+                    :value.sync="recordForm.allergy.description"
                     input-width="300px"
+                    :disabled="recordForm.disabled"
                   /></span>
                 </span>
               </td>
@@ -147,18 +178,22 @@
             <tr>
               <td>5.患者手术史</td>
               <td class="left">
-                <el-radio-group v-model="radio">
-                  <el-radio :label="1">
+                <el-radio-group
+                  v-model="recordForm.operationHistory.status"
+                  :disabled="recordForm.disabled"
+                >
+                  <el-radio label="无">
                     无
                   </el-radio>
-                  <el-radio :label="2">
+                  <el-radio label="有">
                     有
                   </el-radio>
                 </el-radio-group>
                 <span>
                   <span><LineInput
-                    :value="input"
+                    :values.sync="recordForm.operationHistory.description"
                     input-width="300px"
+                    :disabled="recordForm.disabled"
                   /></span>
                 </span>
               </td>
@@ -167,28 +202,35 @@
               <td>6.传染病或感染情况</td>
               <td class="left">
                 <span>乙肝两对半：</span>
-                <el-radio-group v-model="radio">
-                  <el-radio :label="1">
+                <el-radio-group
+                  v-model="recordForm.contagion.hepatitisB"
+                  :disabled="recordForm.disabled"
+                >
+                  <el-radio label="阴性">
                     阴性
                   </el-radio>
-                  <el-radio :label="2">
+                  <el-radio label="阳性">
                     阳性
                   </el-radio>
                 </el-radio-group>
-                <span>乙肝两对半：</span>
-                <el-radio-group v-model="radio">
-                  <el-radio :label="1">
+                <span>HIV：</span>
+                <el-radio-group
+                  v-model="recordForm.contagion.hiv"
+                  :disabled="recordForm.disabled"
+                >
+                  <el-radio label="阴性">
                     阴性
                   </el-radio>
-                  <el-radio :label="2">
+                  <el-radio label="阳性">
                     阳性
                   </el-radio>
                 </el-radio-group>
                 <span>
                   <span>其他</span>
                   <span><LineInput
-                    :value="input"
+                    :value.sync="recordForm.contagion.other"
                     input-width="300px"
+                    :disabled="recordForm.disabled"
                   /></span>
                 </span>
               </td>
@@ -196,19 +238,23 @@
             <tr>
               <td>7.金属植入物</td>
               <td class="left">
-                <el-radio-group v-model="radio">
-                  <el-radio :label="1">
+                <el-radio-group
+                  v-model="recordForm.implants.status"
+                  :disabled="recordForm.disabled"
+                >
+                  <el-radio label="无">
                     无
                   </el-radio>
-                  <el-radio :label="2">
+                  <el-radio label="有">
                     有
                   </el-radio>
                 </el-radio-group>
                 <span>
                   （部位：
                   <LineInput
-                    :value="input"
+                    :value.sync="recordForm.implants.position"
                     input-width="300px"
+                    :disabled="recordForm.disabled"
                   />）
                 </span>
               </td>
@@ -216,26 +262,29 @@
             <tr>
               <td>8.术前心理</td>
               <td class="left">
-                <el-radio-group v-model="radio">
-                  <el-radio :label="1">
+                <el-radio-group
+                  v-model="recordForm.psychology"
+                  :disabled="recordForm.disabled"
+                >
+                  <el-radio label="平静、稳定">
                     平静、稳定
                   </el-radio>
-                  <el-radio :label="2">
+                  <el-radio label="开朗">
                     开朗
                   </el-radio>
-                  <el-radio :label="3">
+                  <el-radio label="焦虑">
                     焦虑
                   </el-radio>
-                  <el-radio :label="4">
+                  <el-radio label="恐惧">
                     恐惧
                   </el-radio>
-                  <el-radio :label="5">
+                  <el-radio label="悲哀">
                     悲哀
                   </el-radio>
-                  <el-radio :label="6">
+                  <el-radio label="压抑">
                     压抑
                   </el-radio>
-                  <el-radio :label="7">
+                  <el-radio label="孤独">
                     孤独
                   </el-radio>
                 </el-radio-group>
@@ -246,15 +295,17 @@
                 <span>
                   <span>访视护士：</span>
                   <span><LineInput
-                    :value="input"
+                    :value.sync="recordForm.nurseInterview.nurse"
                     input-width="300px"
+                    :disabled="recordForm.disabled"
                   /></span>
                 </span>
                 <span>
                   <span>访视日期：</span>
                   <span><LineInput
-                    :value="input"
+                    :value.sync="recordForm.nurseInterview.time"
                     input-width="300px"
+                    :disabled="recordForm.disabled"
                   /></span>
                 </span>
               </td>
@@ -269,15 +320,17 @@
                 <span>
                   <span>患者或家属签名：</span>
                   <span><LineInput
-                    :value="input"
+                    :value.sync="recordForm.familyEnsure.family"
                     input-width="300px"
+                    :disabled="recordForm.disabled"
                   /></span>
                 </span>
                 <span>
                   <span>访视日期：</span>
                   <span><LineInput
-                    :value="input"
+                    :value.sync="recordForm.familyEnsure.time"
                     input-width="300px"
+                    :disabled="recordForm.disabled"
                   /></span>
                 </span>
               </td>
@@ -292,6 +345,9 @@
 <script>
 import LineInput from '@/components/LineInput/index'
 import PatientInfo from '@/components/PatientInfoStep/patient-info-step'
+import {saveRecord, getRecord} from '@/api/record'
+import {mapState} from 'vuex'
+import request from '@/utils/request'
 export default {
   name: 'RecordBefore',
   data () {
@@ -311,12 +367,96 @@ export default {
         '在麻醉后，我们会根据手术需要放置各种体位。可能有些体位会使您感到不适，请及时提出。我们会在手术允许的情况下，尽量为您调整。手术过程中，如您有不适，可向麻醉师或护士提出，以便我们及时处理。',
         '手术后我们会及时护理您的伤口，固定好引流管，并为您保暖。',
         '手术时间较长的，因骶尾骨、足部等部位受压时间过长，会引起发红。希望您能听从病区护士的劝导，定时翻身或采取其他预防受压措施。'
-      ]
+      ],
+      recordForm: {
+        introduce: '',
+        skin: {
+          status: '',
+          position: ''
+        },
+        consciousness: {
+          status: '',
+          other: ''
+        },
+        limb: {
+          status: '',
+          position: '',
+          nature: '',
+          other: ''
+        },
+        allergy: {
+          status: '',
+          description: ''
+        },
+        operationHistory: {
+          status: '',
+          description: ''
+        },
+        contagion: {
+          hiv: '',
+          other: '',
+          hepatitisB: ''
+        },
+        implants: {
+          status: '',
+          position: ''
+        },
+        psychology: '',
+        nurseInterview: {
+          nurse: '',
+          time: ''
+        },
+        familyEnsure: {
+          family: '',
+          time: ''
+        },
+        disabled: false
+      }
     }
   },
   components: {
     PatientInfo,
     LineInput
+  },
+  computed: {
+    ...mapState('Base', ['currentPatient'])
+  },
+  created () {
+    this.getRecord()
+  },
+  methods: {
+    handleSubmit () {
+      this.saveRecord()
+    },
+    handleUnlock () {
+      this.recordForm.disabled = !this.recordForm.disabled
+    },
+    getRecord () {
+      request({
+        url: getRecord + '/' + this.currentPatient.operationId + '/' + 'W9'
+      }).then(res => {
+        if (res.data.data && res.data.data !== '') {
+          this.recordForm = JSON.parse(res.data.data.protectContent)
+        }
+      })
+    },
+    saveRecord () {
+      this.recordForm.disabled = true
+      request({
+        url: saveRecord,
+        method: 'post',
+        data: {
+          operationId: this.currentPatient.operationId,
+          protectContent: JSON.stringify(this.recordForm),
+          protectWritId: 'W9'
+        }
+      }).then(res => {
+        if (res.data.code === 200) {
+          this.$message({type: 'success', message: '保存成功'})
+          this.getRecord()
+        }
+      })
+    }
   }
 }
 </script>

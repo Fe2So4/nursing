@@ -6,6 +6,14 @@
         <el-button
           type="primary"
           size="mini"
+          @click="handleUnlock"
+        >
+          {{ recordForm.disabled ? '解 锁' : '锁 定' }}
+        </el-button>
+        <el-button
+          type="primary"
+          size="mini"
+          @click="handleSubmit"
         >
           保 存
         </el-button>
@@ -21,17 +29,20 @@
           <tbody>
             <tr>
               <td
-                style="width:638px;"
+                style="width:500px;"
                 class="left"
               >
                 心理疏导
               </td>
               <td>
-                <el-radio-group>
-                  <el-radio :label="1">
+                <el-radio-group
+                  v-model="recordForm.dredge"
+                  :disabled="recordForm.disabled"
+                >
+                  <el-radio label="无">
                     无
                   </el-radio>
-                  <el-radio :label="2">
+                  <el-radio label="有">
                     有
                   </el-radio>
                 </el-radio-group>
@@ -39,24 +50,27 @@
             </tr>
             <tr>
               <td
-                style="width:138px;"
                 class="left"
               >
                 观察皮肤
               </td>
               <td>
-                <el-radio-group>
-                  <el-radio :label="1">
+                <el-radio-group
+                  v-model="recordForm.skin.status"
+                  :disabled="recordForm.disabled"
+                >
+                  <el-radio label="正常">
                     正常
                   </el-radio>
-                  <el-radio :label="2">
+                  <el-radio label="破损">
                     破损
                   </el-radio>
                 </el-radio-group>
                 <span>（部位：
                   <LineInput
-                    :value="input"
+                    :value.sync="recordForm.skin.position"
                     input-width="300px"
+                    :disabled="recordForm.disabled"
                   />
                   并协助解决）
                 </span>
@@ -64,31 +78,33 @@
             </tr>
             <tr>
               <td
-                style="width:138px;"
                 class="left"
               >
                 解释病人提出的护理问题
               </td>
               <td>
-                <el-radio-group>
-                  <el-radio :label="1">
+                <el-radio-group
+                  v-model="recordForm.question.status"
+                  :disabled="recordForm.disabled"
+                >
+                  <el-radio label="无">
                     无
                   </el-radio>
-                  <el-radio :label="2">
+                  <el-radio label="有">
                     有
                   </el-radio>
                 </el-radio-group>
                 <span>
                   <LineInput
-                    :value="input"
+                    :value.sync="recordForm.question.description"
                     input-width="300px"
+                    :disabled="recordForm.disabled"
                   />
                 </span>
               </td>
             </tr>
             <tr>
               <td
-                style="width:138px;"
                 colspan="2"
                 class="left"
               >
@@ -97,26 +113,28 @@
             </tr>
             <tr>
               <td
-                style="width:138px;"
                 class="left"
               >
                 1.您认为访视护士的服务态度
               </td>
               <td>
-                <el-radio-group>
-                  <el-radio :label="1">
+                <el-radio-group
+                  v-model="recordForm.service"
+                  :disabled="recordForm.disabled"
+                >
+                  <el-radio label="满意">
                     满意
                   </el-radio>
-                  <el-radio :label="2">
+                  <el-radio label="较满意">
                     较满意
                   </el-radio>
-                  <el-radio :label="3">
+                  <el-radio label="一般">
                     一般
                   </el-radio>
-                  <el-radio :label="4">
+                  <el-radio label="较差">
                     较差
                   </el-radio>
-                  <el-radio :label="5">
+                  <el-radio label="差">
                     差
                   </el-radio>
                 </el-radio-group>
@@ -124,26 +142,28 @@
             </tr>
             <tr>
               <td
-                style="width:138px;"
                 class="left"
               >
                 2.您对访视护士术前宣教的是否满意
               </td>
               <td>
-                <el-radio-group>
-                  <el-radio :label="1">
+                <el-radio-group
+                  v-model="recordForm.education"
+                  :disabled="recordForm.disabled"
+                >
+                  <el-radio label="满意">
                     满意
                   </el-radio>
-                  <el-radio :label="2">
+                  <el-radio label="较满意">
                     较满意
                   </el-radio>
-                  <el-radio :label="3">
+                  <el-radio label="一般">
                     一般
                   </el-radio>
-                  <el-radio :label="4">
+                  <el-radio label="较差">
                     较差
                   </el-radio>
-                  <el-radio :label="5">
+                  <el-radio label="差">
                     差
                   </el-radio>
                 </el-radio-group>
@@ -151,22 +171,23 @@
             </tr>
             <tr>
               <td
-                style="width:138px;"
                 colspan="2"
               >
                 <span>
                   <span>访视护士</span>
                   <span><LineInput
-                    :value="input"
+                    :value.sync="recordForm.interview.nurse"
                     input-width="300px"
+                    :disabled="recordForm.disabled"
                   /></span>
                 </span>
                 <span>
                   <span>患者或家属签名</span>
                   <span>
                     <LineInput
-                      :value="input"
+                      :value.sync="recordForm.interview.family"
                       input-width="300px"
+                      :disabled="recordForm.disabled"
                     />
                   </span>
                 </span>
@@ -174,8 +195,9 @@
                   <span>访视日期</span>
                   <span>
                     <LineInput
-                      :value="input"
+                      :value.sync="recordForm.interview.time"
                       input-width="300px"
+                      :disabled="recordForm.disabled"
                     />
                   </span>
                 </span>
@@ -191,17 +213,79 @@
 <script>
 import LineInput from '@/components/LineInput/index'
 import PatientInfo from '@/components/PatientInfoStep/patient-info-step'
+import {saveRecord, getRecord} from '@/api/record'
+import {mapState} from 'vuex'
+import request from '@/utils/request'
 export default {
   name: 'RecordBefore',
   data () {
     return {
       radio: '',
       input: '无',
-      checkList: []
+      checkList: [],
+      recordForm: {
+        dredge: '',
+        disabled: false,
+        skin: {
+          status: '',
+          position: ''
+        },
+        question: {
+          status: '',
+          description: ''
+        },
+        service: '',
+        education: '',
+        interview: {
+          nurse: '',
+          family: '',
+          time: ''
+        }
+      }
     }
   },
   components: {
     PatientInfo, LineInput
+  },
+  computed: {
+    ...mapState('Base', ['currentPatient'])
+  },
+  created () {
+    this.getRecord()
+  },
+  methods: {
+    handleSubmit () {
+      this.saveRecord()
+    },
+    handleUnlock () {
+      this.recordForm.disabled = !this.recordForm.disabled
+    },
+    getRecord () {
+      request({
+        url: getRecord + '/' + this.currentPatient.operationId + '/' + 'W7'
+      }).then(res => {
+        if (res.data.data && res.data.data !== '') {
+          this.recordForm = JSON.parse(res.data.data.protectContent)
+        }
+      })
+    },
+    saveRecord () {
+      this.recordForm.disabled = true
+      request({
+        url: saveRecord,
+        method: 'post',
+        data: {
+          operationId: this.currentPatient.operationId,
+          protectContent: JSON.stringify(this.recordForm),
+          protectWritId: 'W7'
+        }
+      }).then(res => {
+        if (res.data.code === 200) {
+          this.$message({type: 'success', message: '保存成功'})
+          this.getRecord()
+        }
+      })
+    }
   }
 }
 </script>

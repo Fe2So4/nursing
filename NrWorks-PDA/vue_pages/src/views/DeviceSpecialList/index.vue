@@ -56,6 +56,23 @@
         </div>
       </div>
     </div>
+    <van-dialog v-model="confirmDialog" title="提示" show-cancel-button @confirm="handleConfirm" @cancel="handleCancel">
+      <div class="clearBox">
+        <ul>
+          <li style="text-align:center;line-height:60px;">以下器械清点数量不匹配，是否继续？</li>
+          <li v-for="(item,index) in clearList" :key="index">
+            <p class="packageName">包名：<span>{{item.pName}}</span></p>
+            <div class="clearItem">
+              <p v-for="_item in item.list" :key="_item.name">
+                <span>器械：<span style="color:#3377FF;">{{_item.name}}</span></span>
+                <span>数量：<span style="color:#3377FF;">{{_item.clear}}</span></span>
+                <span>已清点：<span style="color:red;">{{_item.number}}</span></span>
+              </p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </van-dialog>
   </div>
 </template>
 
@@ -78,6 +95,8 @@ export default {
       code: null,
       active: 0,
       activeName: [],
+      confirmDialog: false,
+      clearList: [],
       state: 0, // 清点状态
       stepper: '',
       items: [{ text: '术前', active: 0 }, { text: '术中(一)', active: 1 },
@@ -151,16 +170,61 @@ export default {
     },
     handleEnsure (item) {
       item.isEnsure = true
-      this.recordForm.specialEquipment.before.forEach(_item => {
-        if (_item.pId === item.pId) {
-          _item.isEnsure = true
-        }
-      })
+      // this.packageList.forEach(_item => {
+      //   if (_item.pId === item.pId) {
+      //     _item.isEnsure = true
+      //   }
+      // })
     },
     handleDelete (id) {
       this.packageList.forEach((item, index) => {
         if (item.pId === id) {
           this.packageList.splice(index, 1)
+        }
+      })
+      this.recordForm.specialEquipment.before.forEach((item, index) => {
+        if (item.pId === id) {
+          this.recordForm.specialEquipment.before.splice(index, 1)
+        }
+      })
+      this.recordForm.specialEquipment.adding.forEach((item, index) => {
+        if (item.pId === id) {
+          this.recordForm.specialEquipment.adding.splice(index, 1)
+        }
+      })
+      this.recordForm.specialEquipment.adding1.forEach((item, index) => {
+        if (item.pId === id) {
+          this.recordForm.specialEquipment.adding1.splice(index, 1)
+        }
+      })
+      this.recordForm.specialEquipment.adding2.forEach((item, index) => {
+        if (item.pId === id) {
+          this.recordForm.specialEquipment.adding2.splice(index, 1)
+        }
+      })
+      this.recordForm.specialEquipment.adding3.forEach((item, index) => {
+        if (item.pId === id) {
+          this.recordForm.specialEquipment.adding3.splice(index, 1)
+        }
+      })
+      this.recordForm.specialEquipment.before2.forEach((item, index) => {
+        if (item.pId === id) {
+          this.recordForm.specialEquipment.before2.splice(index, 1)
+        }
+      })
+      this.recordForm.specialEquipment.after.forEach((item, index) => {
+        if (item.pId === id) {
+          this.recordForm.specialEquipment.after.splice(index, 1)
+        }
+      })
+      this.recordForm.specialEquipment.after2.forEach((item, index) => {
+        if (item.pId === id) {
+          this.recordForm.specialEquipment.after2.splice(index, 1)
+        }
+      })
+      this.recordForm.specialEquipment.allList.forEach((item, index) => {
+        if (item.pId === id) {
+          this.recordForm.specialEquipment.allList.splice(index, 1)
         }
       })
     },
@@ -252,77 +316,97 @@ export default {
       }).then(res => {
         if (!this.IsEmpty(JSON.parse(res.data.data.specialEquipmentStr))) {
           let data = res.data.data
-          this.recordForm = data
-          this.recordForm.specialEquipment = JSON.parse(JSON.parse(JSON.stringify(data.specialEquipmentStr)))
+          data.specialEquipment = JSON.parse(JSON.parse(JSON.stringify(data.specialEquipmentStr)))
+          data.tsXsSqQm = data.xsSqQm
+          data.tsXhSqQm = data.xhSqQm
+          data.tsXsOneQm = data.xsOneQm
+          data.tsXhOneQm = data.xhOneQm
+          data.tsXsTwoQm = data.xsTwoQm
+          data.tsXhTwoQm = data.xhTwoQm
+          data.tsXsThreeQm = data.xsThreeQm
+          data.tsXhThreeQm = data.xhThreeQm
+          data.tsXsFourQm = data.xsFourQm
+          data.tsXhFourQm = data.xhFourQm
+          data.tsXsClossQm = data.xsCloseQm
+          data.tsXhClossQm = data.xhCloseQm
+          data.tsXsAllClossQm = data.xsAllClossQm
+          data.tsXhAllClossQm = data.xhAllClossQm
+          data.tsXsFhQm = data.xsFhQm
+          data.tsXhFhQm = data.xhFhQm
           switch (this.active) {
             case 0:
-              this.packageList = this.recordForm.specialEquipment.before
-              this.state = this.recordForm.beforeStatus
-              this.sign1 = this.recordForm.xsSqQm
-              this.sign2 = this.recordForm.xhSqQm
+              this.packageList = JSON.parse(JSON.stringify(data.specialEquipment.before))
+              this.state = data.beforeStatus
+              this.sign1 = data.xsSqQm
+              this.sign2 = data.xhSqQm
               break
             case 1:
-              this.packageList = this.recordForm.specialEquipment.adding
-              this.state = this.recordForm.addingOne
-              this.sign1 = this.recordForm.xsTwoQm
-              this.sign2 = this.recordForm.xhTwoQm
+              this.packageList = JSON.parse(JSON.stringify(data.specialEquipment.adding))
+              this.state = data.addingOne
+              this.sign1 = data.xsOneQm
+              this.sign2 = data.xhOneQm
               break
             case 2:
-              this.packageList = this.recordForm.specialEquipment.adding1
-              this.state = this.recordForm.addingTwo
-              this.sign1 = this.recordForm.xsThreeQm
-              this.sign2 = this.recordForm.xhThreeQm
+              this.packageList = JSON.parse(JSON.stringify(data.specialEquipment.adding1))
+              this.state = data.addingTwo
+              this.sign1 = data.xsTwoQm
+              this.sign2 = data.xhTwoQm
               break
             case 3:
-              this.packageList = this.recordForm.specialEquipment.adding2
-              this.state = this.recordForm.addingThree
-              this.sign1 = this.recordForm.xsFourQm
-              this.sign2 = this.recordForm.xhFourQm
+              this.packageList = JSON.parse(JSON.stringify(data.specialEquipment.adding2))
+              this.state = data.addingThree
+              this.sign1 = data.xsThreeQm
+              this.sign2 = data.xhThreeQm
               break
             case 4:
-              this.packageList = this.recordForm.specialEquipment.adding3
-              this.state = this.recordForm.addingFour
+              this.packageList = JSON.parse(JSON.stringify(data.specialEquipment.adding3))
+              this.state = data.addingFour
+              this.sign1 = data.xsFourQm
+              this.sign2 = data.xhFourQm
               break
             case 5:
-              let before2 = this.recordForm.specialEquipment.before2
+              let before2 = data.specialEquipment.before2
               before2.forEach(item => {
                 item.items.forEach(_item => {
                   _item.number = _item.before2
                 })
               })
               this.packageList = before2
-              this.state = this.recordForm.clossBefore
-              this.sign1 = this.recordForm.xsClossQm
-              this.sign2 = this.recordForm.xhClossQm
+              this.state = data.clossBefore
+              this.sign1 = data.xsClossQm
+              this.sign2 = data.xhClossQm
               break
             case 6:
-              let after = this.recordForm.specialEquipment.after
+              let after = data.specialEquipment.after
               after.forEach(item => {
                 item.items.forEach(_item => {
                   _item.number = _item.after
                 })
               })
               this.packageList = after
-              this.state = this.recordForm.clossAfter
-              this.sign1 = this.recordForm.xsAllClossQm
-              this.sign2 = this.recordForm.xhAllClossQm
+              this.state = data.clossAfter
+              this.sign1 = data.xsAllClossQm
+              this.sign2 = data.xhAllClossQm
               break
             case 7:
-              let after2 = this.recordForm.specialEquipment.after2
+              let after2 = data.specialEquipment.after2
               after2.forEach(item => {
                 item.items.forEach(_item => {
                   _item.number = _item.after2
                 })
               })
               this.packageList = after2
-              this.state = this.recordForm.sutureAfter
-              this.sign1 = this.recordForm.xsFhQm
-              this.sign2 = this.recordForm.xhFhQm
+              this.state = data.sutureAfter
+              this.sign1 = data.xsFhQm
+              this.sign2 = data.xhFhQm
               break
           }
+          this.recordForm = data
           this.packageList.forEach(item => {
             item.submit = '1'
           })
+        } else {
+          this.packageList = []
         }
       }
       )
@@ -449,25 +533,61 @@ export default {
             })
             break
         }
-        // this.packageList.push(obj)
+        this.packageList.push({pId: obj.pId,
+          pName: obj.pName,
+          code: data.code,
+          submit: '0',
+          isEnsure: obj.isEnsure,
+          items: data.packageDetail})
       })
     },
+    handleConfirm () {
+      this.handleSubmit()
+    },
+    handleCancel () {
+      this.confirmDialog = false
+    },
     onClickRight () {
-      let obj = this.recordForm
-      this.packageList.forEach(item => {
-        if (!item.isEnsure) {
-          this.$dialog.alert({
-            title: '提示',
-            message: '请先完成数量确认'
-          }).then(() => {
-            // on close
+      if (this.active === 0 || this.active === 1 || this.active === 2 || this.active === 3 || this.active === 4) {
+        this.packageList.forEach(item => {
+          if (!item.isEnsure) {
+            this.$dialog.alert({
+              title: '提示',
+              message: '请先完成数量确认'
+            }).then(() => {
+              // on close
+            })
+            return false
+          }
+        })
+        this.handleSubmit()
+      } else if (this.active === 5 || this.active === 6 || this.active === 7) {
+        let arr = []
+        let items = []
+        this.packageList.forEach(item => {
+          item.items.forEach(_item => {
+            if (_item.number !== _item[_item.type]) {
+              items.push({ name: _item.insName, number: _item.number, clear: _item[_item.type] })
+            }
           })
-          return false
+          arr.push({pName: item.pName, list: items})
         }
-      })
+        )
+        console.log(arr)
+        if (arr.length > 0) {
+          this.confirmDialog = true
+          this.clearList = arr
+        } else {
+          this.handleSubmit()
+        }
+      }
+    },
+    handleSubmit () {
+      let obj = this.recordForm
       switch (this.active) {
         case 0:
           obj.tsBeforeStatus = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
+          obj.specialEquipment.before = this.packageList
           obj.specialEquipment.before.forEach(item => {
             item.items.forEach(_item => {
               _item.before = _item.number
@@ -482,6 +602,7 @@ export default {
           break
         case 1:
           obj.tsAddingOne = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
+          obj.specialEquipment.adding = this.packageList
           obj.specialEquipment.adding.forEach(item => {
             item.items.forEach(_item => {
               _item.adding = _item.number
@@ -496,6 +617,7 @@ export default {
           break
         case 2:
           obj.tsAddingTwo = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
+          obj.specialEquipment.adding1 = this.packageList
           obj.specialEquipment.adding1.forEach(item => {
             item.items.forEach(_item => {
               _item.adding1 = _item.number
@@ -510,6 +632,7 @@ export default {
           break
         case 3:
           obj.tsAddingThree = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
+          obj.specialEquipment.adding2 = this.packageList
           obj.specialEquipment.adding2.forEach(item => {
             item.items.forEach(_item => {
               _item.adding2 = _item.number
@@ -524,6 +647,7 @@ export default {
           break
         case 4:
           obj.tsAddingFour = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
+          obj.specialEquipment.adding3 = this.packageList
           obj.specialEquipment.adding3.forEach(item => {
             item.items.forEach(_item => {
               _item.adding3 = _item.number
@@ -538,6 +662,7 @@ export default {
           break
         case 5:
           obj.tsClossBefore = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
+          // obj.specialEquipment.before2 = this.packageList
           obj.specialEquipment.before2.forEach(item => {
             item.items.forEach(_item => {
               _item.before2 = _item.number
@@ -557,6 +682,7 @@ export default {
           break
         case 6:
           obj.tsClossAfter = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
+          // obj.specialEquipment.after = this.packageList
           obj.specialEquipment.after.forEach(item => {
             item.items.forEach(_item => {
               _item.after = _item.number
@@ -576,6 +702,7 @@ export default {
           break
         case 7:
           obj.tsSutureAfter = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
+          // obj.specialEquipment.after2 = this.packageList
           obj.specialEquipment.after2.forEach(item => {
             item.items.forEach(_item => {
               _item.after2 = _item.number
@@ -620,8 +747,9 @@ export default {
       this.getPackageList()
     },
     handleDeviceCode (code) {
+      alert(code)
       if (this.active === 5 || this.active === 6 || this.active === 7) {
-        console.log('不允许扫码操作')
+        // console.log('不允许扫码操作')
         return
       }
       // 器械包条码
@@ -636,7 +764,6 @@ export default {
       var key = window.event.keyCode
       if (key === 13) {
         if (this.active === 5 || this.active === 6 || this.active === 7) {
-          console.log('不允许扫码操作')
           return
         }
         setTimeout(() => {
@@ -646,7 +773,7 @@ export default {
     }
   },
   async mounted () {
-    // this.getPackageList()
+    this.getPackageList()
     $bus.$on('handleDeviceCode', this.handleDeviceCode)
   },
   beforeDestroy () {
@@ -858,6 +985,27 @@ export default {
         }
         &::after{
           width: 3px;
+        }
+      }
+    }
+    .clearBox{
+      height: 400px;
+      overflow-y: auto;
+      ul{
+        height: 100%;
+        .packageName{
+          padding:0 40px;
+          span{
+            color: #3377FF;
+          }
+        }
+        .clearItem{
+          padding:0 40px;
+          p{
+            display: flex;
+            line-height: 60px;
+            justify-content: space-between;
+          }
         }
       }
     }

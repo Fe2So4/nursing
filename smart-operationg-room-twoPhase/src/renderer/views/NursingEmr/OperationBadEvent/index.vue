@@ -6,6 +6,14 @@
         <el-button
           type="primary"
           size="mini"
+          @click="handleUnlock"
+        >
+          {{ recordForm.disabled ? '解 锁' : '锁 定' }}
+        </el-button>
+        <el-button
+          type="primary"
+          size="mini"
+          @click="handleSubmit"
         >
           保 存
         </el-button>
@@ -21,12 +29,12 @@
                 上报日期
               </td>
               <td colspan="3">
-                1
+                {{ recordForm.reportTime }}
               </td>
               <td>上报科室</td>
-              <td>2</td>
+              <td>{{ recordForm.reportDept }}</td>
               <td>上报人</td>
-              <td>3</td>
+              <td>{{ recordForm.reportPerson }}</td>
             </tr>
             <tr>
               <td class="center">
@@ -35,57 +43,101 @@
               <td colspan="7">
                 <div>
                   <p>
-                    <el-checkbox v-model="checkList">
+                    <el-checkbox
+                      v-model="recordForm.eventType"
+                      :disabled="recordForm.disabled"
+                      :label="1"
+                    >
                       1类，不良治疗：包括给药错误、输血错误、医疗感染爆发、手术身份部位识别错误、体内遗留手术器械、输液输血反应；重复给药；
                     </el-checkbox>
                   </p>
                   <p>
-                    <el-checkbox v-model="checkList">
+                    <el-checkbox
+                      v-model="recordForm.eventType"
+                      :label="2"
+                      :disabled="recordForm.disabled"
+                    >
                       2类，意外事件：包括跌倒、坠床、走失、烫伤、烧伤、自残、自杀、火灾、失窃、咬破体温表、约束不良；
                     </el-checkbox>
                   </p>
                   <p>
-                    <el-checkbox v-model="checkList">
+                    <el-checkbox
+                      v-model="recordForm.eventType"
+                      :disabled="recordForm.disabled"
+                      :label="3"
+                    >
                       3类，医患沟通事件：包括医患争吵、身体攻击、打架、暴力行为等；
                     </el-checkbox>
                   </p>
                   <p>
-                    <el-checkbox v-model="checkList">
+                    <el-checkbox
+                      v-model="recordForm.eventType"
+                      :disabled="recordForm.disabled"
+                      :label="4"
+                    >
                       4类，饮食、皮肤护理不良事件：包括误吸/窒息、咽入异物、院内压疮、医源性皮肤损伤；
                     </el-checkbox>
                   </p>
                   <p>
-                    <el-checkbox v-model="checkList">
+                    <el-checkbox
+                      v-model="recordForm.eventType"
+                      :disabled="recordForm.disabled"
+                      :label="5"
+                    >
                       5类，不良辅助诊查、病人转运事件；含身份识别错误、标本丢失、检查或运送中或后病情突变或出现意外；
                     </el-checkbox>
                   </p>
                   <p>
-                    <el-checkbox v-model="checkList">
+                    <el-checkbox
+                      v-model="recordForm.eventType"
+                      :disabled="recordForm.disabled"
+                      :label="6"
+                    >
                       6类，管道护理不良事件；含管道滑脱、病人自拔；
                     </el-checkbox>
                   </p>
                   <p>
-                    <el-checkbox v-model="checkList">
+                    <el-checkbox
+                      v-model="recordForm.eventType"
+                      :disabled="recordForm.disabled"
+                      :label="7"
+                    >
                       7类，职业暴露：含针刺伤、割伤；
                     </el-checkbox>
                   </p>
                   <p>
-                    <el-checkbox v-model="checkList">
+                    <el-checkbox
+                      v-model="recordForm.eventType"
+                      :disabled="recordForm.disabled"
+                      :label="8"
+                    >
                       8类，公共设施事件：包括医院建筑损毁、病房设施故障、蓄意破坏、有害物质泄露；
                     </el-checkbox>
                   </p>
                   <p>
-                    <el-checkbox v-model="checkList">
+                    <el-checkbox
+                      v-model="recordForm.eventType"
+                      :disabled="recordForm.disabled"
+                      :label="9"
+                    >
                       9类，医疗设备器械事件：包括医疗材料故障、仪器故障、器械不符合无菌要求；
                     </el-checkbox>
                   </p>
                   <p>
-                    <el-checkbox v-model="checkList">
+                    <el-checkbox
+                      v-model="recordForm.eventType"
+                      :disabled="recordForm.disabled"
+                      :label="10"
+                    >
                       10类，供应室不良事件：包括消毒物品未达要求、热源试验阳性、操作中发现器械包器械物品不符。
                     </el-checkbox>
                   </p>
                   <p>
-                    <el-checkbox v-model="checkList">
+                    <el-checkbox
+                      v-model="recordForm.eventType"
+                      :disabled="recordForm.disabled"
+                      :label="11"
+                    >
                       其他，医护信息传递错误
                     </el-checkbox>
                   </p>
@@ -97,30 +149,39 @@
                 发生地点
               </td>
               <td colspan="7">
-                <el-checkbox-group>
-                  <el-checkbox>
+                <el-checkbox-group
+                  v-model="recordForm.place"
+                  :disabled="recordForm.disabled"
+                >
+                  <el-checkbox label="bf">
                     病房
                   </el-checkbox>
-                  <el-checkbox>
+                  <el-checkbox label="zls">
                     治疗室
                   </el-checkbox>
-                  <el-checkbox>
+                  <el-checkbox label="hys">
                     换药室
                   </el-checkbox>
-                  <el-checkbox>
+                  <el-checkbox label="czs">
                     处置室
                   </el-checkbox>
-                  <el-checkbox>
+                  <el-checkbox label="zl">
                     走廊
                   </el-checkbox>
-                  <el-checkbox>
+                  <el-checkbox label="cs">
                     厕所
                   </el-checkbox>
-                  <el-checkbox>
+                  <el-checkbox label="bqw">
                     病区外
                   </el-checkbox>
-                  <el-checkbox>
-                    其他：
+                  <el-checkbox label="qt">
+                    其他：<span>
+                      <LineInput
+                        input-width="150px"
+                        :value.sync="recordForm.placeOther"
+                        :disabled="recordForm.disabled"
+                      />
+                    </span>
                   </el-checkbox>
                 </el-checkbox-group>
               </td>
@@ -136,7 +197,8 @@
                     <span>
                       <LineInput
                         input-width="150px"
-                        :value="value"
+                        :value.sync="recordForm.eventCourse.time"
+                        :disabled="recordForm.disabled"
                       />
                     </span>
                   </p>
@@ -145,7 +207,8 @@
                     <span>
                       <LineInput
                         input-width="150px"
-                        :value="value"
+                        :value.sync="recordForm.eventCourse.place"
+                        :disabled="recordForm.disabled"
                       />
                     </span>
                   </p>
@@ -154,7 +217,8 @@
                     <span>
                       <LineInput
                         input-width="150px"
-                        :value="value"
+                        :value.sync="recordForm.eventCourse.event"
+                        :disabled="recordForm.disabled"
                       />
                     </span>
                   </p>
@@ -168,43 +232,52 @@
               <td colspan="7">
                 <div>
                   <p>
-                    <el-checkbox-group v-model="checkList">
-                      <el-checkbox>
+                    <el-checkbox-group
+                      v-model="recordForm.emergency.checkList"
+                      :disabled="recordForm.disabled"
+                    >
+                      <el-checkbox label="ljtz">
                         立即通知
                       </el-checkbox>
-                      <el-checkbox>
+                      <el-checkbox label="qthlry">
                         其他护理人员
                       </el-checkbox>
-                      <el-checkbox>
+                      <el-checkbox label="bfhsz">
                         病房护士长/责任组长
                       </el-checkbox>
-                      <el-checkbox>
+                      <el-checkbox label="zbhsz">
                         值班护士长
                       </el-checkbox>
-                      <el-checkbox>
+                      <el-checkbox label="hlb">
                         护理部
                       </el-checkbox>
-                      <el-checkbox>
+                      <el-checkbox label="ys">
                         医生
                       </el-checkbox>
-                      <el-checkbox>
+                      <el-checkbox label="js">
                         家属
                       </el-checkbox>
-                      <el-checkbox>
+                      <el-checkbox label="qtry">
                         其他人员
                       </el-checkbox>
                     </el-checkbox-group>
                   </p>
                   <p>
-                    <el-checkbox-group v-model="checkList">
-                      <el-checkbox>
+                    <el-checkbox-group
+                      v-model="recordForm.emergency.checkList"
+                      :disabled="recordForm.disabled"
+                    >
+                      <el-checkbox label="mqgcsmtz">
                         密切观察生命体征
                       </el-checkbox>
                     </el-checkbox-group>
                   </p>
                   <p>
-                    <el-checkbox-group v-model="checkList">
-                      <el-checkbox>
+                    <el-checkbox-group
+                      v-model="recordForm.emergency.checkList"
+                      :disabled="recordForm.disabled"
+                    >
+                      <el-checkbox label="ylhlcs">
                         医疗或护理措施
                       </el-checkbox>
                     </el-checkbox-group>
@@ -212,7 +285,8 @@
                   <p>
                     <LineInput
                       input-width="600px"
-                      :value="value"
+                      :value.sync="recordForm.emergency.patientStatus"
+                      :disabled="recordForm.disabled"
                     />
                   </p>
                 </div>
@@ -225,7 +299,8 @@
               <td>
                 <LineInput
                   input-width="150px"
-                  :value="value"
+                  :value.sync="recordForm.audit.auditSign"
+                  :disabled="recordForm.disabled"
                 />
               </td>
               <td>
@@ -234,7 +309,8 @@
               <td>
                 <LineInput
                   input-width="150px"
-                  :value="value"
+                  :value.sync="recordForm.audit.nurse"
+                  :disabled="recordForm.disabled"
                 />
               </td>
               <td>
@@ -243,7 +319,8 @@
               <td>
                 <LineInput
                   input-width="150px"
-                  :value="value"
+                  :value.sync="recordForm.audit.dNurse"
+                  :disabled="recordForm.disabled"
                 />
               </td>
               <td>
@@ -252,7 +329,8 @@
               <td>
                 <LineInput
                   input-width="150px"
-                  :value="value"
+                  :value.sync="recordForm.audit.department"
+                  :disabled="recordForm.disabled"
                 />
               </td>
             </tr>
@@ -266,6 +344,9 @@
 <script>
 import LineInput from '@/components/LineInput/index'
 import PatientInfo from '@/components/PatientInfoStep/patient-info-step'
+import {saveRecord, getRecord} from '@/api/record'
+import {mapState} from 'vuex'
+import request from '@/utils/request'
 export default {
   name: 'RecordBefore',
   data () {
@@ -273,12 +354,76 @@ export default {
       radio: '',
       input: '无',
       value: '',
-      checkList: []
+      checkList: [],
+      recordForm: {
+        disabled: false,
+        reportTime: '',
+        reportPerson: '',
+        reportDept: '',
+        eventType: [],
+        place: [],
+        placeOther: '',
+        eventCourse: {
+          time: '',
+          place: '',
+          event: ''
+        },
+        emergency: {
+          checkList: [],
+          patientStatus: ''
+        },
+        audit: {
+          auditSign: '',
+          nurse: '',
+          dNurse: '',
+          department: ''
+        }
+      }
     }
   },
   components: {
     PatientInfo,
     LineInput
+  },
+  computed: {
+    ...mapState('Base', ['currentPatient'])
+  },
+  created () {
+    this.getRecord()
+  },
+  methods: {
+    handleSubmit () {
+      this.saveRecord()
+    },
+    handleUnlock () {
+      this.recordForm.disabled = !this.recordForm.disabled
+    },
+    getRecord () {
+      request({
+        url: getRecord + '/' + this.currentPatient.operationId + '/' + 'W4'
+      }).then(res => {
+        if (res.data.data && res.data.data !== '') {
+          this.recordForm = JSON.parse(res.data.data.protectContent)
+        }
+      })
+    },
+    saveRecord () {
+      this.recordForm.disabled = true
+      request({
+        url: saveRecord,
+        method: 'post',
+        data: {
+          operationId: this.currentPatient.operationId,
+          protectContent: JSON.stringify(this.recordForm),
+          protectWritId: 'W4'
+        }
+      }).then(res => {
+        if (res.data.code === 200) {
+          this.$message({type: 'success', message: '保存成功'})
+          this.getRecord()
+        }
+      })
+    }
   }
 }
 </script>
