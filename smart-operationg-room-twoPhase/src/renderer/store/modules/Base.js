@@ -1,5 +1,7 @@
 const state = {
   base: 0,
+  userName: '',
+  userCode: '',
   currentPatient: {
     operationId: '1010'
   }
@@ -11,6 +13,10 @@ const mutations = {
   },
   INCREMENT_MAIN_COUNTER (state) {
     state.base++
+  },
+  SAVE_LOGIN_USERINFO (state, data) {
+    state.userName = data.userName
+    state.userCode = data.userCode
   }
 }
 

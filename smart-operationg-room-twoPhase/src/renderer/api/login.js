@@ -18,3 +18,13 @@ export const reqgetLoginUserInfo = (obj) => {
     method: 'get'
   })
 }
+
+// 请假申请
+const reqleaveApplicationUrl = `${config.default.api.baseURL}/ocis/leave/leaveApplication`
+export const reqleaveApplication = (obj) => {
+  return request({
+    url: reqleaveApplicationUrl,
+    method: 'post',
+    data: obj
+  })
+}

@@ -27,6 +27,18 @@
           >
             <span> <i class="el-icon-arrow-right" /> </span>
           </div>
+          <div
+            style="position: absolute;
+             right: 20px;"
+          >
+            <el-button
+              @click="backToday"
+              size="mini"
+              type="primary"
+            >
+              刷新
+            </el-button>
+          </div>
         </div>
       </div>
       <div class="cal-week-wrap ovh">
@@ -55,35 +67,57 @@
           :key="itemIndex"
         >
           <td
+            style="width:240px"
             v-for="key in item"
             :key="key.date"
             :class="{ 'bg-grey': key.disable }"
           >
-            <div
-              class="cal-item"
-              :class="{ 'cal-active': calendar.isDay == key.date }"
-            >
-              <div style="height:44px">
-                <div class="item-day">
-                  {{ key.day }}
+            <template v-if="key.day">
+              <div
+                @click="showSearchLeaveDetail(key)"
+                class="cal-item"
+                :class="{ 'cal-active': calendar.isDay == key.date }"
+              >
+                <div style="height:44px;background-color: #d6d6d6">
+                  <div class="item-day">
+                    {{ key.day }}
+                  </div>
                 </div>
-              </div>
-              <template v-if="key.day">
+
                 <div
-                  @click="showSearchLeaveDetail(key.date)"
+
                   class="item-type"
-                  v-for="(v,index) in 6"
+                  v-for="(v,index) in key.timeList"
                   :key="index"
                 >
-                  {{ v }}
+                  <div class="item-type-left">
+                    {{ v.leavePersonnelName }}
+                    <!-- 管理员 -->
+                    <!-- 1 -->
+                  </div>
+                  <div class="item-type-right">
+                    {{ v.leaveType }}
+                    <!-- 病假 -->
+                    <!-- 1 -->
+                  </div>
                 </div>
-              </template>
-            </div>
+                <div
+                  style="position: absolute;
+                  bottom: 0;
+                  left: 50%;
+                  transform: translateX(-50%);"
+                  v-if="key.timeList.length > 3"
+                >
+                  ...
+                </div>
+              </div>
+            </template>
           </td>
         </tr>
       </table>
     </el-scrollbar>
     <SearchLeaveDetail
+      @getmonthDays="getmonthDays"
       @handleClose="handleClose"
       :select-day="selectDay"
       :dialog-visible="dialogVisible"
@@ -94,9 +128,7 @@
 <script>
 import SearchLeaveDetail from './SearchLeaveDetail'
 export default {
-  mounted () {
-    this.backToday()
-  },
+
   props: {
     showToday: {
       type: Boolean,
@@ -105,7 +137,12 @@ export default {
   },
   data () {
     return {
-      selectDay: '', // 点击选中的时间
+      ApprovalList: [],
+      selectDay: {
+        date: '',
+        day: '',
+        timeList: []
+      }, // 点击选中的时间
       dialogVisible: false,
       calLoading: false,
       calendar: {
@@ -124,13 +161,36 @@ export default {
   components: {
     SearchLeaveDetail
   },
+  mounted () {
+    this.backToday()
+  },
   methods: {
+    // 初始化数据
     initDate (val) {
       if (val < 10) {
         return '0' + val
       } else {
         return val
       }
+    },
+    // 获取审核列表
+    getApprovalLeaveData (date) {
+      let obj = {
+        month: date
+      }
+      this.$store.dispatch('ReqgetLeaveReviewList', obj).then(res => {
+        if (res.data.code === 200) {
+          let obj = res.data.data
+          this.ApprovalList = []
+          for (let i in obj) {
+            let o = {}
+            o[i] = obj[i]
+            this.ApprovalList.push(o[i])
+          }
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
     },
     getLastDate (year, month) {
       return new Date(year, month, 0)
@@ -140,6 +200,10 @@ export default {
       let that = this
       let y = that.calendar.year
       let m = that.calendar.month
+      let date = y + '-' + m
+
+      // 获取当前月事件
+      // this.getApprovalLeaveData(date)
       let preYear // 上一年
       let preMonth // 上一月
       let nextYear // 下一年
@@ -188,6 +252,32 @@ export default {
         })
       }
       that.calendar.dayList = []
+      let obj = {
+        month: date
+      }
+      this.$store.dispatch('ReqgetLeaveReviewList', obj).then(res => {
+        if (res.data.code === 200) {
+          let obj = res.data.data
+          this.ApprovalList = []
+          for (let i in obj) {
+            let o = {
+              date: i,
+              arr: obj[i]
+            }
+
+            this.ApprovalList.push(o)
+          }
+          that.calendar.current.forEach(item => {
+            this.ApprovalList.forEach(v => {
+              if (v.date === item.date) {
+                item.timeList = [...v.arr]
+              }
+            })
+          })
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
 
       // 数组合并
       let tempArr = that.calendar.prev.concat(
@@ -228,7 +318,7 @@ export default {
     },
     getPrevMonth () {
       // 上一月
-      console.log(this.calendar.month)
+
       if (this.calendar.month !== '01') {
         this.calendar.month = this.initDate(--this.calendar.month)
       } else {
@@ -276,12 +366,22 @@ export default {
     },
     // 点击显示详情
     showSearchLeaveDetail (item) {
-      this.dialogVisible = true
-      this.selectDay = item
-      console.log(item)
+      if (item.timeList.length > 0) {
+        this.dialogVisible = true
+        this.selectDay = item
+      }
     },
     handleClose () {
       this.dialogVisible = false
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
   }
 }
@@ -330,6 +430,7 @@ export default {
   border-left: 1px solid #ccc;
 }
 .cal-week-wrap {
+  font-weight: bold;
   display: table;
   width: 100%;
   border-bottom: none;
@@ -423,16 +524,21 @@ export default {
   font-size: 16px;
 }
 .cal-item .item-type {
-  width: 60%;
+  padding: 5px;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-around;
+  width: 80%;
   text-align: left;
-  border-left: 1px solid #366FE2;
+  // border-left: 1px solid #366FE2;
   /* padding-left: 0 20px; */
   margin: 0 15px;
-  background-color: #DEE9FF;
+  // background-color: #DEE9FF;
   padding-left: 10px;
   margin-bottom: 5px;
 }
 .cal-active .item-day {
+    // font-size: 14px;
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -463,9 +569,10 @@ export default {
 .item-day {
   font-weight: 600;
   padding: 10px;
+  // padding: 10px 10px 0 10px;
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  /* background-color: #ccc; */
+  background-color: #d6d6d6
 }
 </style>>
