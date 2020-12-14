@@ -1,4 +1,5 @@
 <template>
+  <!-- 基础字典维护 -->
   <div class="basic-dictionary-maintain">
     <div
       v-show="showFlag"
@@ -36,14 +37,14 @@
           </vxe-table-column>
         </vxe-table>
       </div>
-      <div class="bdm-option">
+      <!-- <div class="bdm-option">
         <el-button
           type="primary"
           size="mini"
         >
           导出EXCEL
         </el-button>
-      </div>
+      </div> -->
     </div>
     <div
       v-show="!showFlag"
@@ -299,6 +300,7 @@ export default {
         }
       })
     },
+
     handleClose () {
       this.dialogVisible = false
     },

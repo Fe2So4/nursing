@@ -12,6 +12,7 @@
             label="开始日期"
           >
             <el-date-picker
+              :clearable="false"
               style="width:178px"
               v-model="form.startTime"
               type="date"
@@ -22,6 +23,7 @@
           </el-form-item>
           <el-form-item label="结束日期">
             <el-date-picker
+              :clearable="false"
               v-model="form.endTime"
               style="width:178px"
               type="date"
@@ -31,23 +33,30 @@
             />
           </el-form-item>
           <el-form-item label="人员">
-            <el-input v-model="form.input" />
+            <el-input
+              style="width:178px"
+              clearable
+              v-model="form.input"
+            />
           </el-form-item>
           <el-form-item label="分类">
             <el-select
+              clearable
               v-model="form.input"
               placeholder="请选择"
             >
               <el-option
+
                 v-for="item in deptList"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                :key="item.typeName"
+                :label="item.typeName"
+                :value="item.typeName"
               />
             </el-select>
           </el-form-item>
           <el-form-item label="审批状态">
             <el-select
+              clearable
               v-model="form.input"
               placeholder="请选择"
             >
@@ -109,14 +118,18 @@
             field="age1"
             title="开始日期"
           />
-
+          <vxe-table-column
+            field="age3"
+            title="休假开始时间"
+          />
           <vxe-table-column
             field="age2"
             title="结束日期"
           />
+
           <vxe-table-column
             field="age3"
-            title="休假时间"
+            title="休假结束时间"
           />
           <vxe-table-column
             field="age3"
@@ -153,20 +166,26 @@ export default {
       addVisible: false,
       codeVisible: false,
       options: [{
-        value: '选项1',
-        label: '黄金糕'
+        value: '',
+        label: '全部'
       }, {
-        value: '选项2',
-        label: '双皮奶'
+        value: 0,
+        label: '待审核'
       }, {
-        value: '选项3',
-        label: '蚵仔煎'
+        value: 1,
+        label: '通过'
       }, {
-        value: '选项4',
-        label: '龙须面'
+        value: 2,
+        label: '未通过'
       }, {
-        value: '选项5',
-        label: '北京烤鸭'
+        value: 3,
+        label: '撤销待审批 '
+      }, {
+        value: 4,
+        label: '撤销通过 '
+      }, {
+        value: 5,
+        label: '撤销未通过 '
       }],
       tableData: [{sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
         {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
@@ -186,13 +205,21 @@ export default {
       this.form.startTime = this.utilsGetNewDate()
       this.form.endTime = this.utilsGetNewDate()
     },
-    // 点击图标切换显示
-    handleChangeIcon () {
-      this.showType = !this.showType
-    },
+
     // 点击查询查询数据
     handleSearchTableList () {
-      this.addVisible = true
+      let obj = {
+        startTime: this.form.startTime || '',
+        endTime: this.form.endTime || ''
+      }
+      this.$store.dispatch('ReqgetTimesOperations', obj).then(res => {
+        console.log(res)
+        if (res.data.code === 200) {
+          this.tableData = res.data.data
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
     },
     // 获取数据字典列表
     getSelectList (num) {
