@@ -14,8 +14,9 @@
           size="mini"
           type="info"
           plain
+          @click="exportDataEvent"
         >
-          导出Excel
+          导 出
         </el-button>
       </div>
     </div>
@@ -26,7 +27,8 @@
         height="auto"
         auto-resize
         stripe
-        ref="xTable"
+        ref="xTable1"
+        :export-config="{}"
         class="mytable-scrollbar"
         highlight-current-row
         highlight-hover-row
@@ -126,6 +128,10 @@ export default {
     this.getTableList()
   },
   methods: {
+    exportDataEvent () {
+      this.$refs.xTable1.exportData({ type: 'csv', filename: this.dayTitle + '排班结果' })
+    },
+
     getTableList () {
       let obj = {
         selectTime: this.nowDay

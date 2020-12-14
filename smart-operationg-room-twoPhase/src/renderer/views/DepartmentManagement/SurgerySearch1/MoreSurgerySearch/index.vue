@@ -11,8 +11,8 @@
           <el-form-item
             label="开始时间"
           >
+            <!-- readonly -->
             <el-date-picker
-              readonly
               style="width:178px"
               v-model="form.startTime"
               type="date"
@@ -60,11 +60,11 @@
           title="序号"
         />
         <vxe-table-column
-          field="no"
+          field="patient_name"
           title="病患姓名"
         />
         <vxe-table-column
-          field="age1"
+          field="hospital_no"
           title="病患住院号"
         />
         <vxe-table-column
