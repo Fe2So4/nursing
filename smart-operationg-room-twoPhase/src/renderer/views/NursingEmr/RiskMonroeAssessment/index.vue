@@ -13,6 +13,7 @@
         <el-button
           type="primary"
           size="mini"
+          @click="handleSubmit"
         >
           保 存
         </el-button>
@@ -47,7 +48,7 @@
               <td>2</td>
               <td>3</td>
               <td
-                style="width:80px;"
+                style="width:100px;"
               >
                 总分
               </td>
@@ -58,24 +59,27 @@
               </td>
               <td class="left">
                 <el-radio
-                  :value="1"
+                  :label="1"
                   v-model="recordForm.before.activity"
+                  :disabled="recordForm.disabled"
                 >
                   无受限或轻微受限，可自主活动
                 </el-radio>
               </td>
               <td class="left">
                 <el-radio
-                  :value="2"
+                  :label="2"
                   v-model="recordForm.before.activity"
+                  :disabled="recordForm.disabled"
                 >
                   非常受限需协助移动有功能性限制
                 </el-radio>
               </td>
               <td class="left">
                 <el-radio
-                  :value="3"
+                  :label="3"
                   v-model="recordForm.before.activity"
+                  :disabled="recordForm.disabled"
                 >
                   完全受限，需完全依靠他人
                 </el-radio>
@@ -88,24 +92,27 @@
               </td>
               <td class="left">
                 <el-radio
-                  :value="1"
+                  :label="1"
                   v-model="recordForm.before.emptyTime"
+                  :disabled="recordForm.disabled"
                 >
                   ≤12h
                 </el-radio>
               </td>
               <td class="left">
                 <el-radio
-                  :value="2"
+                  :label="2"
                   v-model="recordForm.before.emptyTime"
+                  :disabled="recordForm.disabled"
                 >
                   12h
                 </el-radio>
               </td>
               <td class="left">
                 <el-radio
-                  :value="3"
+                  :label="3"
                   v-model="recordForm.before.emptyTime"
+                  :disabled="recordForm.disabled"
                 >
                   ≥24h
                 </el-radio>
@@ -118,24 +125,27 @@
               </td>
               <td class="left">
                 <el-radio
-                  :value="1"
+                  :label="1"
                   v-model="recordForm.before.bmi"
+                  :disabled="recordForm.disabled"
                 >
                   &lt;30kg/m^2
                 </el-radio>
               </td>
               <td class="left">
                 <el-radio
-                  :value="2"
+                  :label="2"
                   v-model="recordForm.before.bmi"
+                  :disabled="recordForm.disabled"
                 >
                   30kg/m2-35kg/m2
                 </el-radio>
               </td>
               <td class="left">
                 <el-radio
-                  :value="3"
+                  :label="3"
                   v-model="recordForm.before.bmi"
+                  :disabled="recordForm.disabled"
                 >
                   &gt;35kg/m2
                 </el-radio>
@@ -148,24 +158,27 @@
               </td>
               <td class="left">
                 <el-radio
-                  :value="1"
+                  :label="1"
                   v-model="recordForm.before.weight"
+                  :disabled="recordForm.disabled"
                 >
                   ≤7.4%，无改变或不知道
                 </el-radio>
               </td>
               <td class="left">
                 <el-radio
-                  :value="2"
+                  :label="2"
                   v-model="recordForm.before.weight"
+                  :disabled="recordForm.disabled"
                 >
                   7.5%-9.9%
                 </el-radio>
               </td>
               <td class="left">
                 <el-radio
-                  :value="3"
+                  :label="3"
                   v-model="recordForm.before.weight"
+                  :disabled="recordForm.disabled"
                 >
                   ≥10%
                 </el-radio>
@@ -178,24 +191,27 @@
               </td>
               <td class="left">
                 <el-radio
-                  :value="1"
+                  :label="1"
                   v-model="recordForm.before.age"
+                  :disabled="recordForm.disabled"
                 >
                   ≤39岁
                 </el-radio>
               </td>
               <td class="left">
                 <el-radio
-                  :value="2"
+                  :label="2"
                   v-model="recordForm.before.age"
+                  :disabled="recordForm.disabled"
                 >
                   40-59岁
                 </el-radio>
               </td>
               <td class="left">
                 <el-radio
-                  :value="3"
+                  :label="3"
                   v-model="recordForm.before.age"
+                  :disabled="recordForm.disabled"
                 >
                   ≥60岁
                 </el-radio>
@@ -227,6 +243,7 @@
               <td>
                 <el-checkbox
                   v-model="recordForm.before.badList"
+                  :disabled="recordForm.disabled"
                   :label="1"
                 />
               </td>
@@ -241,6 +258,7 @@
               <td>
                 <el-checkbox
                   v-model="recordForm.before.badList"
+                  :disabled="recordForm.disabled"
                   :label="2"
                 />
               </td>
@@ -255,6 +273,7 @@
               <td>
                 <el-checkbox
                   v-model="recordForm.before.badList"
+                  :disabled="recordForm.disabled"
                   :label="3"
                 />
               </td>
@@ -269,6 +288,7 @@
               <td>
                 <el-checkbox
                   v-model="recordForm.before.badList"
+                  :disabled="recordForm.disabled"
                   :label="4"
                 />
               </td>
@@ -283,6 +303,7 @@
               <td>
                 <el-checkbox
                   v-model="recordForm.before.badList"
+                  :disabled="recordForm.disabled"
                   :label="5"
                 />
               </td>
@@ -297,6 +318,7 @@
               <td>
                 <el-checkbox
                   v-model="recordForm.before.badList"
+                  :disabled="recordForm.disabled"
                   :label="6"
                 />
               </td>
@@ -315,7 +337,7 @@
               <td>7-14=中度风险</td>
               <td>≥15=高风险</td>
               <td>风险程度</td>
-              <td>低风险</td>
+              <td>{{ beforeRiskGrade }}</td>
             </tr>
             <tr>
               <td class="left">
@@ -325,6 +347,7 @@
                 <LineInput
                   input-width="150px"
                   :value.sync="recordForm.before.assessSign"
+                  :disabled="recordForm.disabled"
                 />
               </td>
               <td>
@@ -332,6 +355,7 @@
                 <LineInput
                   input-width="150px"
                   :value.sync="recordForm.before.date1"
+                  :disabled="recordForm.disabled"
                 />
               </td>
               <td>
@@ -339,6 +363,7 @@
                 <LineInput
                   input-width="150px"
                   :value.sync="recordForm.before.time1"
+                  :disabled="recordForm.disabled"
                 />
               </td>
               <td />
@@ -349,6 +374,7 @@
                 <LineInput
                   input-width="150px"
                   :value.sync="recordForm.before.successor"
+                  :disabled="recordForm.disabled"
                 />
               </td>
               <td>
@@ -356,6 +382,7 @@
                 <LineInput
                   input-width="150px"
                   :value.sync="recordForm.before.date2"
+                  :disabled="recordForm.disabled"
                 />
               </td>
               <td>
@@ -363,6 +390,7 @@
                 <LineInput
                   input-width="150px"
                   :value.sync="recordForm.before.time2"
+                  :disabled="recordForm.disabled"
                 />
               </td>
               <td />
@@ -380,137 +408,225 @@
               <td>总分</td>
             </tr>
             <tr>
-              <td>身体状态/麻醉评分（由临床医生/麻醉医生/病史室提供）</td>
               <td class="left">
-                <el-radio :label="1">
+                身体状态/麻醉评分（由临床医生/麻醉医生/病史室提供）
+              </td>
+              <td class="left">
+                <el-radio
+                  :label="1"
+                  v-model="recordForm.intraoperative.healthy"
+                  :disabled="recordForm.disabled"
+                >
                   健康或轻度系统疾病，无功能性限制
                 </el-radio>
               </td>
               <td class="left">
-                <el-radio :label="2">
+                <el-radio
+                  :label="2"
+                  v-model="recordForm.intraoperative.healthy"
+                  :disabled="recordForm.disabled"
+                >
                   中、重度的系统疾病，有功能性限制
                 </el-radio>
               </td>
               <td class="left">
-                <el-radio :label="3">
+                <el-radio
+                  :label="3"
+                  v-model="recordForm.intraoperative.healthy"
+                  :disabled="recordForm.disabled"
+                >
                   中、重度的系统疾病，严重功能受限，甚至威胁生命，或麻醉评分&gt;3分
                 </el-radio>
               </td>
-              <td>1</td>
+              <td>{{ recordForm.intraoperative.healthy }}</td>
             </tr>
             <tr>
-              <td>麻醉类型</td>
               <td class="left">
-                <el-radio :label="1">
+                麻醉类型
+              </td>
+              <td class="left">
+                <el-radio
+                  :label="1"
+                  v-model="recordForm.intraoperative.anaesType"
+                  :disabled="recordForm.disabled"
+                >
                   监护局麻/局麻
                 </el-radio>
               </td>
               <td class="left">
-                <el-radio :label="2">
+                <el-radio
+                  :label="2"
+                  v-model="recordForm.intraoperative.anaesType"
+                  :disabled="recordForm.disabled"
+                >
                   神经阻滞
                 </el-radio>
               </td>
               <td class="left">
-                <el-radio :label="3">
+                <el-radio
+                  :label="3"
+                  v-model="recordForm.intraoperative.anaesType"
+                  :disabled="recordForm.disabled"
+                >
                   全麻
                 </el-radio>
               </td>
-              <td>3</td>
+              <td>{{ recordForm.intraoperative.anaesType }}</td>
             </tr>
             <tr>
               <td>体温（根据体温监测提供）</td>
               <td class="left">
-                <el-radio :label="1">
+                <el-radio
+                  :label="1"
+                  v-model="recordForm.intraoperative.temp"
+                  :disabled="recordForm.disabled"
+                >
                   36.1*-37.8*体温保持横温
                 </el-radio>
               </td>
               <td class="left">
-                <el-radio :label="2">
+                <el-radio
+                  :label="2"
+                  v-model="recordForm.intraoperative.temp"
+                  :disabled="recordForm.disabled"
+                >
                   &lt;36.1*或者&gt;37.8*(体温变化±2*之间)
                 </el-radio>
               </td>
               <td class="left">
-                <el-radio :label="3">
+                <el-radio
+                  :label="3"
+                  v-model="recordForm.intraoperative.temp"
+                  :disabled="recordForm.disabled"
+                >
                   &lt;36.1*或者&gt;37.8*(体温变化±2*)
                 </el-radio>
               </td>
-              <td>3</td>
+              <td>{{ recordForm.intraoperative.temp }}</td>
             </tr>
             <tr>
               <td>低血压（根据血压监测提供收缩压）</td>
               <td class="left">
-                <el-radio :label="1">
+                <el-radio
+                  :label="1"
+                  v-model="recordForm.intraoperative.presure"
+                  :disabled="recordForm.disabled"
+                >
                   没有或≤10%的血压变化
                 </el-radio>
               </td>
               <td class="left">
-                <el-radio :label="2">
+                <el-radio
+                  :label="2"
+                  v-model="recordForm.intraoperative.presure"
+                  :disabled="recordForm.disabled"
+                >
                   11%&lt;血压变化&lt;20%
                 </el-radio>
               </td>
               <td class="left">
-                <el-radio :label="3">
+                <el-radio
+                  :label="3"
+                  v-model="recordForm.intraoperative.presure"
+                  :disabled="recordForm.disabled"
+                >
                   血压变化21%-50%/持续性
                 </el-radio>
               </td>
-              <td>3</td>
+              <td>{{ recordForm.intraoperative.presure }}</td>
             </tr>
             <tr>
               <td>潮湿程度（病人皮肤下）</td>
               <td class="left">
-                <el-radio :label="1">
+                <el-radio
+                  :label="1"
+                  v-model="recordForm.intraoperative.wet"
+                  :disabled="recordForm.disabled"
+                >
                   保持干燥
                 </el-radio>
               </td>
               <td class="left">
-                <el-radio :label="2">
+                <el-radio
+                  :label="2"
+                  v-model="recordForm.intraoperative.wet"
+                  :disabled="recordForm.disabled"
+                >
                   有一些潮湿
                 </el-radio>
               </td>
               <td class="left">
-                <el-radio :label="3">
+                <el-radio
+                  :label="3"
+                  v-model="recordForm.intraoperative.wet"
+                  :disabled="recordForm.disabled"
+                >
                   汇聚潮湿
                 </el-radio>
               </td>
-              <td>3</td>
+              <td>{{ recordForm.intraoperative.wet }}</td>
             </tr>
             <tr>
               <td>体位协助物/加温毯/体位改变</td>
               <td class="left">
-                <el-radio :label="1">
+                <el-radio
+                  :label="1"
+                  v-model="recordForm.intraoperative.position"
+                  :disabled="recordForm.disabled"
+                >
                   未使用体位协助物/患者体表覆盖加温毯
                 </el-radio>
               </td>
               <td class="left">
-                <el-radio :label="2">
+                <el-radio
+                  :label="2"
+                  v-model="recordForm.intraoperative.position"
+                  :disabled="recordForm.disabled"
+                >
                   使用体位协助物/加温毯垫于患者身下
                 </el-radio>
               </td>
               <td class="left">
-                <el-radio :label="3">
+                <el-radio
+                  :label="3"
+                  v-model="recordForm.intraoperative.position"
+                  :disabled="recordForm.disabled"
+                >
                   剪切力/加压力/改变体位
                 </el-radio>
               </td>
-              <td>3</td>
+              <td>{{ recordForm.intraoperative.position }}</td>
             </tr>
             <tr>
               <td>体位（根据手术）</td>
               <td class="left">
-                <el-radio :label="1">
+                <el-radio
+                  :label="1"
+                  v-model="recordForm.intraoperative.posture"
+                  :disabled="recordForm.disabled"
+                >
                   膀胱结石位
                 </el-radio>
               </td>
               <td class="left">
-                <el-radio :label="2">
+                <el-radio
+                  :label="2"
+                  v-model="recordForm.intraoperative.posture"
+                  :disabled="recordForm.disabled"
+                >
                   侧卧位
                 </el-radio>
               </td>
               <td class="left">
-                <el-radio :label="3">
+                <el-radio
+                  :label="3"
+                  v-model="recordForm.intraoperative.posture"
+                  :disabled="recordForm.disabled"
+                >
                   平卧位/俯卧位
                 </el-radio>
               </td>
-              <td>3</td>
+              <td>{{ recordForm.intraoperative.posture }}</td>
             </tr>
             <tr>
               <td
@@ -519,7 +635,7 @@
               >
                 术中部分门罗评分总计：
               </td>
-              <td>3</td>
+              <td>{{ intraoperativeGrade }}</td>
             </tr>
             <tr>
               <td
@@ -528,7 +644,7 @@
               >
                 术前部分门罗评分总计：
               </td>
-              <td>3</td>
+              <td>{{ beforeGrade }}</td>
             </tr>
             <tr>
               <td
@@ -537,7 +653,7 @@
               >
                 目前（术前部分+术中部分）门罗评分总计：
               </td>
-              <td>3</td>
+              <td>{{ beforeGrade + intraoperativeGrade }}</td>
             </tr>
             <tr>
               <td>
@@ -551,7 +667,7 @@
                 风险程度：
               </td>
               <td>
-                低风险
+                {{ allRiskGrade }}
               </td>
             </tr>
             <tr>
@@ -560,22 +676,25 @@
               </td>
               <td>
                 <LineInput
-                  :value="value"
+                  :value.sync="recordForm.intraoperative.assessSign"
                   input-width="150px"
+                  :disabled="recordForm.disabled"
                 />
               </td>
               <td>
                 <span>日期：</span>
                 <LineInput
-                  :value="value"
+                  :value.sync="recordForm.intraoperative.date1"
                   input-width="150px"
+                  :disabled="recordForm.disabled"
                 />
               </td>
               <td>
                 <span>时间：</span>
                 <LineInput
-                  :value="value"
+                  :value.sync="recordForm.intraoperative.time1"
                   input-width="150px"
+                  :disabled="recordForm.disabled"
                 />
               </td>
               <td />
@@ -586,22 +705,25 @@
               </td>
               <td>
                 <LineInput
-                  :value="value"
+                  :value.sync="recordForm.intraoperative.successor"
                   input-width="150px"
+                  :disabled="recordForm.disabled"
                 />
               </td>
               <td>
                 <span>日期：</span>
                 <LineInput
-                  :value="value"
+                  :value.sync="recordForm.intraoperative.date2"
                   input-width="150px"
+                  :disabled="recordForm.disabled"
                 />
               </td>
               <td>
                 <span>时间：</span>
                 <LineInput
-                  :value="value"
+                  :value.sync="recordForm.intraoperative.time2"
                   input-width="150px"
+                  :disabled="recordForm.disabled"
                 />
               </td>
               <td />
@@ -629,11 +751,11 @@ export default {
       recordForm: {
         disabled: false,
         before: {
-          activity: null,
-          emptyTime: null,
-          bmi: null,
-          weight: null,
-          age: null,
+          activity: '',
+          emptyTime: '',
+          bmi: '',
+          weight: '',
+          age: '',
           badList: [],
           assessSign: '',
           date1: '',
@@ -641,6 +763,21 @@ export default {
           successor: '',
           date2: '',
           time2: ''
+        },
+        intraoperative: {
+          healthy: '',
+          anaesType: '',
+          temp: '',
+          presure: '',
+          wet: '',
+          position: '',
+          posture: '',
+          assessSign: '',
+          successor: '',
+          time1: '',
+          date1: '',
+          time2: '',
+          date2: ''
         }
       }
     }
@@ -660,6 +797,28 @@ export default {
       parseInt(this.recordForm.before.age) +
       this.recordForm.before.badList.length
       return grade
+    },
+    intraoperativeGrade () {
+      return 3
+    },
+    beforeRiskGrade () {
+      if (this.beforeGrade <= 6) {
+        return '低风险'
+      } else if (this.beforeGrade <= 14) {
+        return '中度风险'
+      } else {
+        return '高风险'
+      }
+    },
+    allRiskGrade () {
+      let grade = parseInt(this.beforeGrade) + parseInt(this.intraoperativeGrade)
+      if (grade <= 13) {
+        return '低风险'
+      } else if (grade <= 24) {
+        return '中度风险'
+      } else {
+        return '高风险'
+      }
     }
   },
   created () {
@@ -757,8 +916,11 @@ export default {
                     // padding: unset;
                   }
                 }
-                &:nth-last-child(){
-
+                &:nth-last-child(1){
+                  /deep/ .el-checkbox__label{
+                    // padding: unset;
+                    display:none;
+                  }
                 }
               }
             }

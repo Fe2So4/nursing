@@ -24,6 +24,12 @@ export const getPatientList = `${config.default.api.baseURL}/ocis/operCharge/get
 // 计费审核 保存/修改 收费项目
 export const saveChargeItem = `${config.default.api.baseURL}/ocis/operCharge/saveChargeExamine`
 
+// 计费审核，关键字获取计费项列表
+export const getChargeItem = `${config.default.api.baseURL}/ocis/operCharge/queryConsumablesDrugCharge`
+
+// 计费审核，修改审核状态
+export const changeChargeStatus = `${config.default.api.baseURL}/ocis/operCharge/chargeExamine`
+
 // 限制耗材药品计费 新增/修改限制耗材
 export const saveConsumablesDrug = `${config.default.api.baseURL}/ocis/operCharge/saveConsumablesDrug`
 
@@ -38,6 +44,9 @@ export const getDictCharge = `${config.default.api.baseURL}/ocis/operCharge/getD
 
 // 关键字获取计费项列表
 export const getChargeItemNameList = `${config.default.api.baseURL}/ocis/operCharge/queryCharge`
+
+// 获取患者
+export const getPatientInfo = `${config.default.api.baseURL}/ocis/dictInfo/getPatientAndOperInfo`
 
 // 限制耗材
 // export const exportExcel = `${config.default.api.baseURL}/ocis/operCharge/download/downloadConsumablesDrugList`

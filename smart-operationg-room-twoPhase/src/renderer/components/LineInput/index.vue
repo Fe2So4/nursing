@@ -47,6 +47,9 @@ export default {
       border: unset;
       border-bottom: 1px solid #e8e8e8;
       outline: unset;
+      &:disabled{
+        background-color: unset;
+      }
     }
   }
 </style>

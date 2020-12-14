@@ -8,7 +8,7 @@
         <el-row>
           <el-col :span="4">
             <span class="label">患者：</span>
-            <span>撸啊死    女    74岁</span>
+            <span>{{ patientInfo.patientName }}    {{ patientInfo.patientGender }}    {{ patientInfo.patientAge }}岁</span>
             <!-- 四个空格 -->
           </el-col>
           <el-col :span="12">
@@ -17,7 +17,7 @@
                 class="label"
                 style="width:110px;"
               >住院/门诊号：</span>
-              <span>656821 妇科 1050n</span>
+              <span>{{ patientInfo.cureNo }} {{ patientInfo.deptName }} {{ patientInfo.bedNo }}</span>
             </span>
           </el-col>
           <el-col :span="4">
@@ -28,7 +28,7 @@
         <el-row>
           <el-col :span="4">
             <span class="label">日期：</span>
-            <span style="color:#F83838;">2020-09-28</span>
+            <span style="color:#F83838;">{{ patientInfo.operateDate }}</span>
             <!-- 四个空格 -->
           </el-col>
           <el-col :span="20">
@@ -37,14 +37,14 @@
                 class="label"
                 style="width:110px;"
               >已行：</span>
-              <span>改良子宫根治性切除术+双附件切除术+大网膜切除术+复杂肠粘连松解术+盆腔肿块切除术（女性...</span>
+              <span>{{ patientInfo.operationName }}</span>
             </span>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="4">
             <span class="label">术者：</span>
-            <span>杨杰</span>
+            <span>{{ patientInfo.surgeon }}</span>
             <!-- 四个空格 -->
           </el-col>
           <el-col :span="6">
@@ -53,18 +53,18 @@
                 class="label"
                 style="width:110px;"
               >洗手护士：</span>
-              <span>朱敏</span>
+              <span>{{ patientInfo.washNurseName1 + ',' + patientInfo.washNurseName2 }}</span>
             </span>
           </el-col>
           <el-col :span="6">
             <span>
               <span class="label">巡回护士：</span>
-              <span>朱敏</span>
+              <span>{{ patientInfo.runNurseName1 + ',' + patientInfo.runNurseName2 }}</span>
             </span>
           </el-col>
           <el-col :span="4">
             <span class="label">麻醉医师：</span>
-            <span>方怡交</span>
+            <span>{{ patientInfo.anesDoc }}</span>
           </el-col>
         </el-row>
       </div>
@@ -87,6 +87,10 @@
 </template>
 
 <script>
+import {getPatientInfo} from '@/api/charge'
+import request from '@/utils/request'
+import moment from 'moment'
+import {mapState} from 'vuex'
 export default {
   name: 'PatientInfoStep',
   data () {
@@ -127,7 +131,28 @@ export default {
           time: '12:23',
           status: 'error'
         }
-      ]
+      ],
+      patientInfo: {
+
+      }
+    }
+  },
+  created () {
+    this.getPatientInfo()
+  },
+  computed: {
+    ...mapState('Base', ['currentPatient'])
+  },
+  methods: {
+    getPatientInfo () {
+      request({
+        url: getPatientInfo + '/' + this.currentPatient.cureNo,
+        method: 'get'
+      }).then(res => {
+        let data = res.data.data
+        data.operateDate = moment(data.operateDate).format('YYYY-MM-DD HH:mm')
+        this.patientInfo = data
+      })
     }
   }
 }

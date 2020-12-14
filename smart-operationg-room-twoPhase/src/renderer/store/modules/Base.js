@@ -1,7 +1,8 @@
 const state = {
   base: 0,
   currentPatient: {
-    operationId: '1010'
+    operationId: '1010',
+    cureNo: '1010'
   }
 }
 

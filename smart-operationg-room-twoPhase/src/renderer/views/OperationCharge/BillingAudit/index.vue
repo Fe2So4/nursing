@@ -9,6 +9,8 @@
           <el-date-picker
             v-model="form.opeTime"
             type="date"
+            value-format="YYYY-mm-dd"
+            format="YYYY-mm-dd"
             placeholder="选择日期"
           />
         </el-form-item>
@@ -22,15 +24,18 @@
           <el-input v-model="form.name" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary">
+          <el-button
+            type="primary"
+            @click="getPatientList"
+          >
             查 询
           </el-button>
-          <el-button
+          <!-- <el-button
             type="info"
             plain
           >
             新 增
-          </el-button>
+          </el-button> -->
         </el-form-item>
       </el-form>
     </div>
@@ -41,8 +46,11 @@
           align="center"
           :data="patientList"
           size="mini"
+          highlight-current-row
+          highlight-hover-row
           class="mytable-scrollbar"
           height="280px"
+          @cell-click="handleSeleceCurrentPatient"
           auto-resize
         >
           <vxe-table-column
@@ -127,7 +135,7 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="6">
+          <el-col :span="8">
             <span class="label">洗手护士</span>
             <span class="value">{{ patientDetail.washNurseName }}</span>
           </el-col>
@@ -137,7 +145,7 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="6">
+          <el-col :span="8">
             <span class="label">术者</span>
             <span class="value">{{ patientDetail.surgeon }}</span>
           </el-col>
@@ -160,12 +168,16 @@
           <el-form-item>
             <el-select
               v-model="form.search"
+              clearable
+              @change="handleChangeCharge"
               placeholder="输入关键字查询新增项目"
             >
-              <el-option>1</el-option>
-              <el-option>2</el-option>
-              <el-option>3</el-option>
-              <el-option>4</el-option>
+              <el-option
+                v-for="item in chargeList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.code"
+              />
             </el-select>
           </el-form-item>
         </el-form>
@@ -176,6 +188,7 @@
           align="center"
           :data="tableData"
           highlight-hover-row
+          highlight-current-row
           @cell-click="cellClickEvent"
           size="mini"
           class="mytable-scrollbar"
@@ -248,16 +261,22 @@
             <el-checkbox>已修改</el-checkbox>
           </el-form-item>
           <el-form-item>
-            共7条计费项目
+            共{{ tableData.length }}条计费项目
           </el-form-item>
           <el-form-item>
-            计费总计 4296.59元
+            计费总计 {{ patientDetail.totalPrice }}元
           </el-form-item>
           <el-form-item>
             <el-checkbox>标记为已审核</el-checkbox>
           </el-form-item>
         </el-form>
         <div class="button">
+          <el-button
+            type="primary"
+            size="mini"
+          >
+            退 费
+          </el-button>
           <el-button
             type="primary"
             size="mini"
@@ -272,30 +291,68 @@
 
 <script>
 import request from '@/utils/request'
-import {getPatientList, getPatientDetail} from '@/api/charge'
+import {getPatientList, getPatientDetail, getChargeItem, changeChargeStatus} from '@/api/charge'
+// import moment from 'moment'
 export default {
   name: 'BillingAudit',
   data () {
     return {
       form: {
-        opeTime: '',
+        // opeTime: moment(new Date()).format('YYYY-MM-DD'),
+        opeTime: '2020-08-06',
         name: '',
         opeHosNo: '',
         opeRoom: '',
         search: ''
       },
       patientList: [],
-      tableData: [{time: '2012'}],
-      patientDetail: {}
+      tableData: [],
+      patientDetail: {},
+      chargeList: []
     }
   },
   created () {
     this.getPatientList()
+    this.getChargeItem()
   },
   methods: {
+    cellClickEvent ({row}) {
+      console.log(row)
+    },
     // 单击表格选中患者
-    cellClickEvent () {
+    handleSeleceCurrentPatient ({row}) {
+      this.getPatientInfo({hospitalNo: row.hospitalNo, cureNo: row.cureNo})
+    },
+    changeChargeStatus () {
+      request({
+        method: 'post',
+        url: changeChargeStatus,
+        data: {
+          cureNo: this.patientDetail.cureNo,
+          hospitalNo: this.patientDetail.hospitalNo,
+          id: ''
+        }
+      }).then(res => {
 
+      })
+    },
+    handleChangeCharge (item) {
+      this.chargeList.forEach(_item => {
+        if (_item.code === item) {
+          console.log(item)
+        }
+      })
+    },
+    getChargeItem () {
+      request({
+        method: 'get',
+        url: getChargeItem,
+        params: {
+          keyword: this.form.search
+        }
+      }).then(res => {
+        this.chargeList = res.data.data
+      })
     },
     getPatientList () {
       request({
@@ -304,8 +361,8 @@ export default {
         data: {
           hospitalNo: this.form.opeHosNo,
           operateDate: this.form.opeTime,
-          patientName: this.form.patientName,
-          roomNo: this.opeRoom
+          patientName: this.form.name,
+          roomNo: this.form.opeRoom
         }
       }).then(res => {
         this.patientList = res.data.data
@@ -313,7 +370,7 @@ export default {
     },
     getPatientInfo (obj) {
       request({
-        url: getPatientDetail + '/' + this.obj.hospitalNo + '/' + this.obj.cureNo,
+        url: getPatientDetail + '/' + obj.hospitalNo + '/' + obj.cureNo,
         method: 'get'
       }).then(res => {
         this.patientDetail = res.data.data
@@ -349,6 +406,7 @@ export default {
     .icon-status{
       color: #0CD1AA;
       font-size: 20px;
+      cursor: pointer;
     }
     .ba-top{
       background: #FFFFFF;

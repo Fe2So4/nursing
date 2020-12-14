@@ -36,6 +36,7 @@
               prefix-icon="el-icon-s-custom"
               v-model="form.username"
               placeholder="请输入用户名"
+              @keydown.enter.native="handleInputPass"
             />
           </el-form-item>
           <el-form-item prop="password">
@@ -43,6 +44,7 @@
               prefix-icon="el-icon-lock"
               placeholder="请输入密码"
               v-model="form.password"
+              ref="password"
               @keydown.native="enter"
               show-password
             />
@@ -119,7 +121,10 @@ export default {
     }
   },
   methods: {
-    jumpHome () {},
+    handleInputPass () {
+      let pass = this.$refs.password
+      pass.focus()
+    },
     login () {
       this.$refs.form.validate((valid) => {
         if (valid) {
