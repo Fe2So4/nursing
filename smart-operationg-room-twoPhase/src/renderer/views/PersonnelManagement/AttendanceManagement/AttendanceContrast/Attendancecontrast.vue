@@ -1,4 +1,5 @@
 <template>
+  <!-- 业务带教班次管理 -->
   <div class="attendance-contarst-container">
     <div class="container-left">
       <div class="left-top">
@@ -23,10 +24,10 @@
         </el-scrollbar>
       </div>
       <div class="left-content">
+        <div class="contarst-title">
+          班次名称
+        </div>
         <el-scrollbar style="height:100%">
-          <div class="contarst-title">
-            班次名称
-          </div>
           <div class="contarst-content">
             <el-checkbox-group
               v-model="selectCheckList"
@@ -75,7 +76,10 @@
                 @click="changeRowInfo('1',row)"
                 type="text"
               >
-                <i class="el-icon-top" />
+                <i
+                  class="el-icon-top"
+                  style="color:#3377FF;font-weight:600"
+                />
               </el-button>
               <span class="option-line" />
               <el-button
@@ -83,7 +87,10 @@
                 style="color:#74A2FF;font-size:16px"
                 type="text"
               >
-                <i class="el-icon-bottom" />
+                <i
+                  class="el-icon-bottom"
+                  style="color:#74A2FF;font-weight:600"
+                />
               </el-button>
             </template>
           </vxe-table-column>
@@ -95,7 +102,7 @@
         size="mini"
         height="auto"
         auto-resize
-        stripe
+
         ref="xTable"
         class="mytable-scrollbar"
         highlight-current-row
@@ -363,6 +370,14 @@ export default {
 /deep/ .vxe-table .vxe-table--border-line {
   border: none;
 }
+/deep/ .vxe-table--header-wrapper.body--wrapper {
+  box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15) !important;
+  border-radius: 5px !important;
+}
+/deep/.vxe-table--body-wrapper.body--wrapper {
+  box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15) !important;
+  border-radius: 5px !important;
+}
 .attendance-contarst-container {
   width:100%;
   height: 100%;
@@ -386,17 +401,18 @@ export default {
         font-size: 14px;
       }
       .contarst-content {
+        margin-top: 10px;
         display: flex;
         align-items: center;
         flex: 6;
       }
     }
     .left-content {
+      box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15);
+      border-radius: 5px;
       display: flex;
       flex-direction: column;
       background-color: #fff;
-      box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15);
-      border-radius: 5px;
       margin-top: 20px;
       padding: 10px;
       min-height: 230px;
@@ -407,6 +423,7 @@ export default {
         font-size: 14px;
       }
       .contarst-content {
+        margin-top: 10px;
         // display: flex;
         // align-items: center;
         flex: 9;
@@ -423,7 +440,7 @@ export default {
     }
   }
   .container-right {
-    padding: 0 5px;
+    // padding: 0 5px;
     background-color: #fff;
     box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15);
     border-radius: 5px;

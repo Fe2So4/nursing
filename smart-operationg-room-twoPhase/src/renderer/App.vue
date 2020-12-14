@@ -41,6 +41,26 @@ export default {
 </script>
 
 <style>
+.el-dialog {
+  border-radius: 5px !important;
+}
 /* CSS */
-
+.el-button--info.is-plain {
+  /* background-color: #E9EDF7 !important; */
+  color: #303133;
+  font-weight: 600;
+}
+.el-dialog__footer {
+  padding: 10px 20px 10px !important;
+}
+.el-dialog__title {
+  font-size: 16px;
+  color: #444444;
+  font-weight: 600;
+}
+/* .el-button--info.is-plain:hover {
+    color: #909399;
+    background: #f4f4f5;
+    border-color: #d3d4d6;
+} */
 </style>

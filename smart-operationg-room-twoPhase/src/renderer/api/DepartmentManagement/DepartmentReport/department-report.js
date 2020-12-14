@@ -62,3 +62,13 @@ export const reqstatisNurseChargeDetail = (obj) => {
     data: obj
   })
 }
+
+// 科室人员休假统计
+const reqstatisLeaveUrl = `${config.default.api.baseURL}/ocis/departmentReport/statisLeave`
+export const reqstatisLeave = (obj) => {
+  return request({
+    url: reqstatisLeaveUrl,
+    method: 'post',
+    data: obj
+  })
+}

@@ -279,7 +279,7 @@ export default {
   .container-header {
     flex: 1;
     position: relative;
-    padding-top: 20px;
+    // padding-top: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -291,7 +291,7 @@ export default {
     }
   }
   .container-table{
-    flex: 9;
+    flex: 12;
   }
 }
 </style>

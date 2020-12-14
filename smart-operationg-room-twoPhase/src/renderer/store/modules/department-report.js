@@ -1,5 +1,5 @@
 import {reqstatisOperChargeByDept, reqstatisOperCountByNurse, reqstatisOperCountByDept, reqstatisOperCountBySurgeon, reqgetDictByType, reqstatisNurseCharge,
-  reqstatisNurseChargeDetail} from '@/api/DepartmentManagement/DepartmentReport/department-report.js'
+  reqstatisNurseChargeDetail, reqstatisLeave} from '@/api/DepartmentManagement/DepartmentReport/department-report.js'
 
 const state = {
   // baseDictDetailLis: []
@@ -47,8 +47,13 @@ const actions = {
   async ReqstatisNurseChargeDetail ({ commit }, query) {
     let res = await reqstatisNurseChargeDetail(query)
     return res
+  },
+  // 科室人员休假统计
+  async ReqstatisLeave ({ commit }, query) {
+    let res = await reqstatisLeave(query)
+    // let res = await reqstatisLeaveUrl(query)
+    return res
   }
-
 }
 
 export default {

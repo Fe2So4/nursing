@@ -10,8 +10,8 @@
         <!-- <NavTwo v-else /> -->
         <NavNew v-else />
       </el-aside>
-      <el-main>
-        <BreadCrumb />
+      <el-main :class="{'el-main-mystyle':$route.path.includes('index-tab')?true:false}">
+        <BreadCrumb v-if="!$route.path.includes('index-tab')" />
         <router-view />
         <div class="copyright">
           Copyright©2011-{{ time }}上海仝佥信息技术有限公司
@@ -56,6 +56,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  // /deep/ .el-main-mystyle {
+  //   background-color: red !important;
+  //       // padding: 0 0 34px 0 !important;
+  //       // padding: none;
+  // }
   .el-container{
     height: 100%;
     width: 100%;
@@ -75,6 +80,7 @@ export default {
       flex-direction: column;
       box-sizing: border-box;
       height: 100%;
+      padding:  10px 20px 34px 20px;
       .copyright{
         position: absolute;
         color: #929498;
@@ -83,6 +89,16 @@ export default {
         bottom: 0;
         right: 20px;
       }
+      &.el-main-mystyle {
+        background-color: #3D434C !important;
+        padding: 0 0 34px 0 !important;
+            // padding: none;
+      }
+      // &.el-main-mystyle {
+      //   background-color: red !important;
+      //   // padding: 0 0 34px 0 !important;
+      //   // padding: none;
+      // }
     }
   }
 </style>>

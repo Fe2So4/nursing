@@ -12,7 +12,7 @@
       <div style="position: absolute;right: 20px;">
         <el-input
           clearable
-          style="width:140px;margin-right:15px"
+          style="width:180px;margin-right:15px"
           size="mini"
           type="text"
           v-model="codeOrName"
@@ -603,7 +603,7 @@ export default {
   .container-header {
     flex: 1;
     position: relative;
-    padding-top: 20px;
+    // padding-top: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -615,7 +615,7 @@ export default {
     }
   }
   .container-table{
-    flex: 9;
+    flex: 12;
   }
 }
 </style>

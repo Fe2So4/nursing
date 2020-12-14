@@ -4,6 +4,7 @@
       <div class="title">
         何时何月何校发给毕业证书（中专以上学历）
         <el-button
+          style="color:#333333"
           type="text"
           size="mini"
           icon="el-icon-plus"
@@ -479,6 +480,7 @@ export default {
         color: #333333;
         text-align: center;
         font-size: 14px;
+        font-weight: 600;
         line-height: 30px;
         position: relative;
         .el-button{
