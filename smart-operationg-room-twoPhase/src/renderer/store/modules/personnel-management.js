@@ -2,7 +2,8 @@ import {reqGetPersonnelScheduling, reqgetBaseDictDetailList, reqUpdatePersionSch
   reqDeleteClassTimeInfo, reqaddClassTimeInfo, reqUpdateClassTimeInfo, reqGetTransactionGroupShow, reqGetNurseDicttwo,
   reqGetTransactionGroupTeachResult, reqgetTransactionGroup, reqGetTransactionGroupTeach, reqAddTransactionGroupTeach,
   reqDeleteTransactionGroupTeach, reqUpdateTransactionGroupTeach, reqGetBaseDictCategoryList, reqAddBaseDictDetailList,
-  reqUpdateBaseDictDetailList, reqDeleteBaseDictDetail} from '@/api/personnel-management/personnel-management.js'
+  reqUpdateBaseDictDetailList, reqDeleteBaseDictDetail, reqgetLeaveReviewList, reqLeaveReview, reqgetLeaveQueryList, reqmessageTips, reqsetMessageRead,
+  reqgetUserLeaveList, reqcancelLeave} from '@/api/personnel-management/personnel-management.js'
 
 const state = {
   baseDictDetailLis: []
@@ -125,6 +126,41 @@ const actions = {
   // 删除基础字典分类信息列表
   async ReqDeleteBaseDictDetail ({ commit }, query) {
     let res = await reqDeleteBaseDictDetail(query)
+    return res
+  },
+  // 请假审核列表
+  async ReqgetLeaveReviewList ({ commit }, query) {
+    let res = await reqgetLeaveReviewList(query)
+    return res
+  },
+  // 请假审核
+  async ReqLeaveReview ({ commit }, query) {
+    let res = await reqLeaveReview(query)
+    return res
+  },
+  // 请假列表
+  async ReqgetLeaveQueryList ({ commit }, query) {
+    let res = await reqgetLeaveQueryList(query)
+    return res
+  },
+  // 请假/待审核 消息提示
+  async ReqmessageTips ({ commit }, query) {
+    let res = await reqmessageTips(query)
+    return res
+  },
+  // 设置消息已读
+  async ReqsetMessageRead ({ commit }, query) {
+    let res = await reqsetMessageRead(query)
+    return res
+  },
+  // 获取当前登录用户的请假列表
+  async ReqgetUserLeaveList ({ commit }, query) {
+    let res = await reqgetUserLeaveList(query)
+    return res
+  },
+  // 获取当前登录用户的请假列表
+  async ReqcancelLeave ({ commit }, query) {
+    let res = await reqcancelLeave(query)
     return res
   }
 

@@ -142,7 +142,7 @@ export default {
                     userName: res.data.data.userName,
                     userCode: res.data.data.userCode
                   }
-                  this.$store.commit('SAVE_LOGIN_USERINFO', obj)
+                  this.$store.commit('Base/SAVE_LOGIN_USERINFO', obj)
                 }
               })
               // ipcRenderer.send('login-window')

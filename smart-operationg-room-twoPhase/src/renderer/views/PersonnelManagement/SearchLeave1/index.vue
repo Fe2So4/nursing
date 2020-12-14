@@ -1,6 +1,6 @@
 
 <template>
-  <!-- 请假审批 -->
+  <!-- 请假查询 -->
   <div class="search-leave-container">
     <div class="search-leave">
       <myCalendar />

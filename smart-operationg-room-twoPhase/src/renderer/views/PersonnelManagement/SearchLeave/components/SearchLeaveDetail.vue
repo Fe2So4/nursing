@@ -45,18 +45,6 @@
             field="restEndTime"
             title="结束时间"
           />
-          <vxe-table-column
-            title="操作"
-          >
-            <template v-slot="{row}">
-              <el-button
-                @click="handleApproval(row)"
-                type="text"
-              >
-                审批
-              </el-button>
-            </template>
-          </vxe-table-column>
         </vxe-table>
       </div>
       <span
@@ -70,16 +58,11 @@
         >关 闭</el-button>
       </span>
     </el-dialog>
-    <ApprovalLeave
-      :select-row="selectRow"
-      @handleSearchLeave="handleSearchLeave"
-      :approval-visible="approvalVisible"
-    />
   </div>
 </template>
 
 <script>
-import ApprovalLeave from './ApprovalLeave'
+
 export default {
   props: {
     dialogVisible: {
@@ -105,9 +88,7 @@ export default {
       }
     }
   },
-  components: {
-    ApprovalLeave
-  },
+
   methods: {
     handleClose () {
       this.$emit('handleClose')
@@ -116,7 +97,6 @@ export default {
     handleSearchLeave () {
       this.approvalVisible = false
       this.$emit('handleClose')
-      this.$emit('getmonthDays')
     },
     handleApproval (row) {
       this.approvalVisible = true

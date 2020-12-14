@@ -174,3 +174,69 @@ export const reqDeleteBaseDictDetail = (obj) => {
     data: obj
   })
 }
+
+// 获取请假列表
+const reqgetLeaveQueryListUrl = `${config.default.api.baseURL}/ocis/leave/getLeaveQueryList`
+export const reqgetLeaveQueryList = (obj) => {
+  return request({
+    url: reqgetLeaveQueryListUrl + `/${obj.month}`,
+    method: 'get'
+  })
+}
+
+// 获取请假审核列表
+const reqgetLeaveReviewListUrl = `${config.default.api.baseURL}/ocis/leave/getLeaveReviewList`
+export const reqgetLeaveReviewList = (obj) => {
+  return request({
+    url: reqgetLeaveReviewListUrl + `/${obj.month}`,
+    method: 'get'
+  })
+}
+
+// 请假审批
+const reqLeaveReviewUrl = `${config.default.api.baseURL}/ocis/leave/LeaveReview`
+export const reqLeaveReview = (obj) => {
+  return request({
+    url: reqLeaveReviewUrl,
+    method: 'post',
+    data: obj
+  })
+}
+
+// 请假/待审核 消息提示
+const reqmessageTipsUrl = `${config.default.api.baseURL}/ocis/leave/messageTips`
+export const reqmessageTips = (obj) => {
+  return request({
+    url: reqmessageTipsUrl,
+    method: 'get'
+  })
+}
+
+// 设置消息已读
+const reqsetMessageReadUrl = `${config.default.api.baseURL}/ocis/leave/setMessageRead`
+export const reqsetMessageRead = (obj) => {
+  return request({
+    url: reqsetMessageReadUrl,
+    method: 'post',
+    data: obj
+  })
+}
+
+// 获取当前登录用户的请假列表
+const reqgetUserLeaveListUrl = `${config.default.api.baseURL}/ocis/leave/getUserLeaveList`
+export const reqgetUserLeaveList = (obj) => {
+  return request({
+    url: reqgetUserLeaveListUrl,
+    method: 'get'
+  })
+}
+
+// 获取当前登录用户的请假列表
+const reqcancelLeaveUrl = `${config.default.api.baseURL}/ocis/leave/cancelLeave`
+export const reqcancelLeave = (obj) => {
+  return request({
+    url: reqcancelLeaveUrl,
+    method: 'post',
+    data: obj
+  })
+}
