@@ -84,7 +84,7 @@ export default {
   },
   computed: {
     'userName': function () {
-      return this.$store.state['Base'].userName
+      return localStorage.getItem('userName')
     }
   }
 }
