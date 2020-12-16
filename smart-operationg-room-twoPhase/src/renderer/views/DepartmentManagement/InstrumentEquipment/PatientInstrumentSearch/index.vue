@@ -33,6 +33,7 @@
             />
           </el-form-item>
           <el-form-item
+            label-width="120px"
             label="住院号/床号"
           >
             <el-input v-model="form.input" />

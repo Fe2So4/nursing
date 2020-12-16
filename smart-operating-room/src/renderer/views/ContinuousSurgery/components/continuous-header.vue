@@ -99,6 +99,7 @@ export default {
     initParams () {
       this.formData.startDate = this.utilsGetNewDate()
       this.formData.endDate = this.utilsGetNewDate()
+      this.search()
     },
     search () {
       this.$parent.isShow = 0

@@ -1,4 +1,5 @@
 <template>
+  <!-- 班次时段维护 -->
   <div class="attendance-maintenance-container">
     <div class="btm-btn">
       <div class="btm-btn">
@@ -72,7 +73,6 @@
           title="二段结束时间"
         />
         <vxe-table-column
-          field="useState"
           title="操作"
         >
           <template v-slot="{row}">

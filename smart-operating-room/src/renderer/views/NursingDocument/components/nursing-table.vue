@@ -56,11 +56,12 @@ export default {
     }
   },
   mounted () {
+    this.onceGetData()
     Bus.$on('searchNursing-document-table', res => {
       this.pageItem = res
       this.tableData = []
       // this.getTableData(this.pageItem)
-      this.utilsDebounce(() => { this.load() }, 1000)
+      this.utilsDebounce(() => { this.load() }, 300)
     })
     this.addScrollHandle()
   },
@@ -86,6 +87,17 @@ export default {
     },
     load () {
       this.getTableData(this.pageItem)
+    },
+    // 第一次进入时获取数据
+    onceGetData () {
+      let obj = {
+        startTime: this.utilsGetNewDate(),
+        endTime: this.utilsGetNewDate(),
+        hospitalNoOrName: '',
+        pageIndex: 1,
+        pageSize: 20
+      }
+      this.getTableData(obj)
     },
     // 获取数据
     getTableData (res) {

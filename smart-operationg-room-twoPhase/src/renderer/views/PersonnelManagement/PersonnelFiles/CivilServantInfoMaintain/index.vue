@@ -1,5 +1,5 @@
 <template>
-  <!-- 公务员信息维护 -->
+  <!-- 工务员信息维护 -->
   <div class="civil-servant-info-maintain">
     <div class="csim-top">
       <el-form
@@ -40,7 +40,11 @@
           >
             查 询
           </el-button>
-          <el-button @click="addTableItem">
+          <el-button
+            type="info"
+            plain
+            @click="addTableItem"
+          >
             新 增
           </el-button>
         </el-form-item>

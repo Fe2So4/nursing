@@ -249,18 +249,22 @@
           title="入室时间"
         />
         <vxe-table-column
+          width="100px"
           field="anesStartTime"
           title="麻醉开始时间"
         />
         <vxe-table-column
+          width="100px"
           field="operStartTime"
           title="手术开始时间"
         />
         <vxe-table-column
+          width="100px"
           field="operEndTime"
           title="手术结束时间"
         />
         <vxe-table-column
+          width="100px"
           field="anesEndTime"
           title="麻醉结束时间"
         />
@@ -438,7 +442,7 @@ export default {
     flex-direction: column;
     .dr-top{
       position: relative;
-      padding: 20px 30px 0px 40px;
+      padding: 20px 30px 10px 40px;
       background: #FFFFFF;
       box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
       border-radius: 5px;
@@ -482,7 +486,7 @@ export default {
         border-radius: 50%;
         position: absolute;
         right: 30px;
-        bottom: 15px;
+        bottom: 25px;
       }
     }
     .dr-table{

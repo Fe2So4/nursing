@@ -104,7 +104,7 @@
                 <div
 
                   class="item-type"
-                  v-for="(v,index) in key.timeList"
+                  v-for="(v,index) in key.timeList.slice(0,3)"
                   :key="index"
                 >
                   <span

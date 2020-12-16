@@ -147,7 +147,7 @@ export default {
     height: 100%;
     flex-direction: column;
     .dr-top{
-      padding: 20px 30px 0 40px;
+      padding: 20px 30px 7px 40px;
       background: #FFFFFF;
       box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
       border-radius: 5px;

@@ -147,11 +147,11 @@
     </div>
     <div class="dr-table">
       <div class="dr-table-top">
-        <!-- <div class="top-list">
+        <div class="top-list">
           <span class="top-list-title">腔镜直线型切割吻合器及钉匣(吻合器F12S)</span>
           <span class="top-list-number">(20)</span>
           <span class="top-list-icon"> <i class="el-icon-close" /> </span>
-        </div> -->
+        </div>
         <div
           :key="index"
           v-for="(item,index) in options"
@@ -317,28 +317,34 @@ export default {
           this.tableData = res.data.data.dataList
           this.options.forEach(item => {
             if (item.name === '所属科室') {
-              item.dataList = res.data.data.deptList
-              item.dataList.forEach(v => {
-                v.typeName = v.deptName
-              })
+              item.dataList = res.data.data.deptList || []
+              if (item.dataList.length > 0) {
+                item.dataList.forEach(v => {
+                  v.typeName = v.deptName
+                })
+              }
             }
             if (item.name === '主刀医生') {
-              item.dataList = res.data.data.surgeonList
-              item.dataList.forEach(v => {
-                v.typeName = v.surgeonName
-              })
+              item.dataList = res.data.data.surgeonList || []
+              if (item.dataList.length > 0) {
+                item.dataList.forEach(v => {
+                  v.typeName = v.surgeonName
+                })
+              }
             }
             if (item.name === '手术房间') {
-              item.dataList = res.data.data.roomList
-              item.dataList.forEach(v => {
-                v.typeName = v.roomName
-              })
+              item.dataList = res.data.data.roomList || []
+              if (item.dataList.length > 0) {
+                item.dataList.forEach(v => {
+                  v.typeName = v.roomName
+                })
+              }
             }
             if (item.name === '麻醉方式') {
-              item.dataList = res.data.data.operationNameList
-              item.dataList.forEach(v => {
-                v.typeName = v.operationName
-              })
+              item.dataList = res.data.data.operationNameList || []
+              if (item.dataList.length > 0) {
+
+              }
             }
           })
         } else {
@@ -409,7 +415,7 @@ export default {
     flex-direction: column;
     .dr-top{
       position: relative;
-      padding: 20px 30px 0 40px;
+      padding: 20px 30px 7px 40px;
       background: #FFFFFF;
       box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
       border-radius: 5px;
@@ -459,7 +465,7 @@ export default {
         border-radius: 50%;
         position: absolute;
         right: 30px;
-        bottom: 15px;
+        bottom: 22px;
       }
     }
     .dr-table{

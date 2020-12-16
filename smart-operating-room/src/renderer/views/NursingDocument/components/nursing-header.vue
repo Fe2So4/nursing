@@ -74,6 +74,7 @@ export default {
         pageIndex: 1,
         pageSize: 20
       }
+      // this.$parent.$refs.getTableData.getTableData(obj)
       Bus.$emit('searchNursing-document-table', obj)
     }
   }

@@ -53,6 +53,7 @@
       >
 
         <el-button
+          type="primary"
           @click="handleClose"
           size="mini"
         >关 闭</el-button>

@@ -9,7 +9,10 @@
           :collapse="isCollapse"
           router
         >
-          <menu-tree :menu-data="menuList" />
+          <menu-tree
+
+            :menu-data="menuList"
+          />
         </el-menu>
       </el-scrollbar>
     </div>
@@ -28,6 +31,7 @@ export default {
   name: 'Navs',
   data () {
     return {
+
       isCollapse: false,
       fold: 'el-icon-s-fold',
       activeIndex: '手术派单',
@@ -54,7 +58,7 @@ export default {
                 },
                 {
                   icon: 'iconfont icon-guanli',
-                  title: '公务员信息维护',
+                  title: '工务员信息维护',
                   path: '/personnel/personnel-file/civil-servant-info-maintain'
                 }
               ]
@@ -479,9 +483,9 @@ export default {
     }
   },
   mounted () {
-
   },
   methods: {
+
     handleOpen (index) {
       this.activeIndex = index
     },

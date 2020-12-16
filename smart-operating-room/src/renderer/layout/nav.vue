@@ -57,7 +57,7 @@ export default {
         },
         {
           icon: 'iconfont icon-wenjuan',
-          title: '护理列表',
+          title: '护理记录',
           path: '/home/client-nursing-document'
         },
         {

@@ -49,7 +49,7 @@ router = new Router({
           name: 'PathologicalApplication',
           component: () => import('@/views/NursingDocument/index'),
           meta: {
-            title: '护理列表',
+            title: '护理记录',
             noNavs: false,
             parent: 'Home'
           }
