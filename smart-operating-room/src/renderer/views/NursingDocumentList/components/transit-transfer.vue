@@ -400,51 +400,51 @@
           <span>物品：</span>
           <span>
 
-            <IsSelect :myselect="goodsJson.goods === '1' ? true : false" />
+            <IsSelect :myselect="goodsJson.goods.includes('1') ? true : false" />
             <span>输液</span>
           </span>
           <span
             class="input-div"
             style="marginLeft:15px"
           >
-            <div class="input-div-context-noborder-40">{{ goodsJson.goods === '1'?goodsJson.number:'' }}</div>
+            <div class="input-div-context-noborder-40">{{ goodsJson.goods.includes('1') ?goodsJson.number:'' }}</div>
             <span>瓶/袋</span>
           </span>
           <span style="marginLeft:20px">
-            <IsSelect :myselect="goodsJson.goods === '2' ? true : false" />
+            <IsSelect :myselect="goodsJson.goods.includes('2') ? true : false" />
             <span>X片</span>
           </span>
           <span
             class="input-div"
             style="marginLeft:15px"
           >
-            <div class="input-div-context-noborder-40">{{ goodsJson.goods === '2'?goodsJson.number:'' }}</div>
+            <div class="input-div-context-noborder-40">{{ goodsJson.goods.includes('2') ?goodsJson.number:'' }}</div>
             <span>张</span>
           </span>
           <span style="marginLeft:20px">
-            <IsSelect :myselect="goodsJson.goods === '3' ? true : false" />
+            <IsSelect :myselect="goodsJson.goods.includes('3') ? true : false" />
             <span>CT片</span>
           </span>
           <span
             class="input-div"
             style="marginLeft:15px"
           >
-            <div class="input-div-context-noborder-40">{{ goodsJson.goods === '3'?goodsJson.number:'' }}</div>
+            <div class="input-div-context-noborder-40">{{ goodsJson.goods.includes('3') ?goodsJson.number:'' }}</div>
             <span>张</span>
           </span>
           <span style="marginLeft:20px">
-            <IsSelect :myselect="goodsJson.goods === '4' ? true : false" />
+            <IsSelect :myselect="goodsJson.goods.includes('4') ? true : false" />
             <span>磁共振片</span>
           </span>
           <span
             class="input-div"
             style="marginLeft:15px"
           >
-            <div class="input-div-context-noborder-40">{{ goodsJson.goods === '4'?goodsJson.number:'' }}</div>
+            <div class="input-div-context-noborder-40">{{ goodsJson.goods.includes('4') ?goodsJson.number:'' }}</div>
             <span>张</span>
           </span>
           <span style="marginLeft:20px">
-            <IsSelect :myselect="goodsJson.goods === '5' ? true : false" />
+            <IsSelect :myselect="goodsJson.goods.includes('5') ? true : false" />
             <span>其他</span>
           </span>
         </div>
@@ -1296,8 +1296,8 @@ export default {
     },
     getWenShuData () {
       let obj = {
-        // hospitalNo: 666,
-        // cureNo: 1010
+        // hospitalNo: 555,
+        // cureNo: 1018
         cureNo: this.$store.state['nursing-document-list'].cureNo,
 
         hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
