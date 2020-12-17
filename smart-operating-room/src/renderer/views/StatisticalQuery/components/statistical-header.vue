@@ -190,6 +190,7 @@ export default {
   },
   mounted () {
     this.initQueryParams()
+    this.search()
   },
   methods: {
     // 初始化参数

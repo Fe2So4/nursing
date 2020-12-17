@@ -22,14 +22,17 @@
               <span>{{ item.transactionGroupName }}</span>
               <span>
                 <i
+                  style="color:#3377FF;font-weight:600"
                   class="el-icon-edit-outline"
                   @click="handleEditGroup(item)"
                 />
                 <i
+                  style="color:#3377FF;font-weight:600"
                   @click="handleDeleteGroup(item)"
                   class="el-icon-delete"
                 />
                 <i
+                  style="color:#3377FF;font-weight:600"
                   class="el-icon-plus"
                   @click="handleAddGroup(item)"
                 />
@@ -79,10 +82,12 @@
                   <template v-slot="{row}">
                     <span class="sort">
                       <i
+                        style="color:#3377FF;font-weight:600;font-size: 14px;"
                         class="el-icon-top"
                         @click="changeRowInfo('1',row,item)"
                       />
                       <i
+                        style="color:#74A2FF;font-weight:600;font-size: 14px;"
                         class="el-icon-bottom"
                         @click="changeRowInfo('2',row,item)"
                       />
@@ -96,6 +101,7 @@
                   <template v-slot="{row}">
                     <span class="sort">
                       <i
+                        style="font-weight:600;font-size: 14px;"
                         class="el-icon-delete"
                         @click="itemDelete(item,row)"
                       />

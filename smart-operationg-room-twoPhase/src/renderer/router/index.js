@@ -23,11 +23,7 @@ export default new Router({
       path: '*',
       redirect: '/'
     },
-    {
-      path: '/index-tab',
-      name: 'indexTab',
-      component: () => import('@/views/indexTab/indexTab.vue')
-    },
+
     Personnel,
     Device,
     Charge,
@@ -45,6 +41,16 @@ export default new Router({
           component: () => import('@/views/LargeScreen/index'),
           meta: {
             title: '术中大屏',
+            noNavs: true,
+            parent: 'Home'
+          }
+        },
+        {
+          path: '/index-tab',
+          name: 'indexTab',
+          component: () => import('@/views/indexTab/indexTab.vue'),
+          meta: {
+            title: '护理中心',
             noNavs: true,
             parent: 'Home'
           }

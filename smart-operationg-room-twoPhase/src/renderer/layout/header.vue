@@ -78,7 +78,7 @@ export default {
     justify-content: space-between;
     line-height: 60px;
     .left{
-      font-size: 20px;
+      font-size: 16px;
       img{
         vertical-align: middle;
       }

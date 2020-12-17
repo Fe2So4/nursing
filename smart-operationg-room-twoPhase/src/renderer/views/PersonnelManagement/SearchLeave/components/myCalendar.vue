@@ -8,9 +8,9 @@
              left: 20px;font-size:12px"
           >
             <div style="display:flex;align-items:center">
-              <span style="width:10px;height:10px;background-color: red;border-radius: 10px;" />
+              <span style="width:2px;height:15px;background-color: #ff3366;" />
               <span style="margin-left:10px">请假未审批</span>
-              <span style="width:10px;height:10px;background-color: blue;margin-left:20px;border-radius: 10px;" />
+              <span style="width:2px;height:15px;background-color: #366FE2;margin-left:20px;" />
               <span style="margin-left:10px">撤销未审批</span>
             </div>
           </div>
@@ -19,7 +19,10 @@
             class="cal-left hand fl"
             @click="getPrevMonth"
           >
-            <span> <i class="el-icon-arrow-left" /></span>
+            <span> <i
+              class="el-icon-arrow-left"
+              style="color:#366FE2;font-weight: 600"
+            /></span>
           </div>
           <div class="titleDay">
             {{ calendar.year }}年{{ calendar.month }}月
@@ -36,7 +39,10 @@
             class="cal-right hand fr"
             @click="getNextMonth"
           >
-            <span> <i class="el-icon-arrow-right" /> </span>
+            <span> <i
+              class="el-icon-arrow-right"
+              style="color:#366FE2;font-weight: 600;"
+            /> </span>
           </div>
           <div
             style="position: absolute;
@@ -89,7 +95,7 @@
                 class="cal-item"
                 :class="{ 'cal-active': calendar.isDay == key.date }"
               >
-                <div style="height:44px;background-color: #d6d6d6">
+                <div style="height:30px">
                   <div class="item-day">
                     {{ key.day }}
                   </div>
@@ -98,29 +104,34 @@
                 <div
 
                   class="item-type"
-                  v-for="(v,index) in key.timeList"
+                  v-for="(v,index) in key.timeList.slice(0,3)"
                   :key="index"
                 >
+                  <span
+                    v-if="v.approvalStatusStr === '撤销未审批'"
+                    style="width:2px;background-color: #ff3366;margin-right:10px;"
+                  />
+                  <span
+                    v-else
+                    style="width:2px;background-color: #366FE2;margin-right:10px;"
+                  />
                   <div
-                    class="item-type-left"
-                    style="display:flex;align-items:center"
+                    style="display:flex;flex: 1;
+                      justify-content: space-between;padding: 5px;"
                   >
-                    <span
-                      v-if="v.approvalStatusStr === '撤销未审批'"
-                      style="width:10px;height:10px;background-color: red;margin-right:10px;border-radius: 10px;"
-                    />
-                    <span
-                      v-else
-                      style="width:10px;height:10px;background-color: blue;margin-right:10px;border-radius: 10px;"
-                    />
-                    <span>{{ v.leavePersonnelName }}</span>
+                    <div
+                      class="item-type-left"
+                      style="display:flex;align-items:center"
+                    >
+                      <span>{{ v.leavePersonnelName }}</span>
                     <!-- 管理员 -->
                     <!-- 1 -->
-                  </div>
-                  <div class="item-type-right">
-                    {{ v.leaveType }}
+                    </div>
+                    <div class="item-type-right">
+                      {{ v.leaveType }}
                     <!-- 病假 -->
                     <!-- 1 -->
+                    </div>
                   </div>
                 </div>
                 <div
@@ -411,7 +422,9 @@ export default {
 /deep/ .el-scrollbar__wrap{
   overflow-x: hidden !important;
 }
-
+/deep/ .el-scrollbar .el-scrollbar__bar.is-vertical {
+  width: 0px !important;
+}
 /deep/ .el-scrollbar {
  height: calc(100% - 93px);
 }
@@ -457,7 +470,7 @@ export default {
   border-bottom: none;
   background: #FFFFFF;
   box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15);
-  border-radius: 5px;
+  border-radius: 5px 5px 0 0;
 }
 .cal-week {
   box-sizing: border-box;
@@ -545,17 +558,17 @@ export default {
   font-size: 16px;
 }
 .cal-item .item-type {
-  padding: 5px;
+  background-color: #DEE9FF;
+  padding: 0px 5px 0px 0;
   font-size: 14px;
   display: flex;
   justify-content: space-between;
-  width: 80%;
+  width: 65%;
   text-align: left;
   // border-left: 1px solid #366FE2;
   /* padding-left: 0 20px; */
   margin: 0 15px;
   // background-color: #DEE9FF;
-  padding-left: 10px;
   margin-bottom: 5px;
 }
 .cal-active .item-day {
@@ -588,12 +601,13 @@ export default {
   overflow: hidden;
 }
 .item-day {
+  font-size: 18px;
+  color: #303133;
   font-weight: 600;
-  padding: 10px;
+  padding: 5px;
   // padding: 10px 10px 0 10px;
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  background-color: #d6d6d6
 }
 </style>>

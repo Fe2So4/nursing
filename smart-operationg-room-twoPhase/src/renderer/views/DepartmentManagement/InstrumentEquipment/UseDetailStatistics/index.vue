@@ -1,5 +1,5 @@
 <template>
-  <!-- 术中器械补包查询 -->
+  <!-- 器械包使用明细统计 -->
   <div class="roomstatus-search">
     <div class="dr-top">
       <div class="dr-top-left">
@@ -33,11 +33,13 @@
             />
           </el-form-item>
           <el-form-item
+            label-width="120px"
             label="住院号/床号"
           >
             <el-input v-model="form.input" />
           </el-form-item>
           <el-form-item
+            label-width="120px"
             label="器械包号/名称"
           >
             <el-input v-model="form.input" />
@@ -47,7 +49,12 @@
           >
             <el-input v-model="form.input" />
           </el-form-item>
-          <el-form-item label=" ">
+        </el-form>
+        <el-form
+          size="mini"
+          style="display:flex"
+        >
+          <el-form-item style="margin-right:20px">
             <el-button
               type="primary"
               @click="handleAddDevice"
@@ -210,6 +217,7 @@ export default {
         flex: 1;
         display: flex;
         flex-wrap: wrap;
+        justify-content: space-between;
         .el-form{
           /deep/.el-form-item{
           margin-bottom: 10px;

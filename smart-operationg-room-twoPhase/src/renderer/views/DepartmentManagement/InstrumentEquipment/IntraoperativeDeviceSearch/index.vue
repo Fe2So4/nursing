@@ -33,11 +33,13 @@
             />
           </el-form-item>
           <el-form-item
+            label-width="120px"
             label="住院号/床号"
           >
             <el-input v-model="form.input" />
           </el-form-item>
           <el-form-item
+            label-width="120px"
             label="器械包号/名称"
           >
             <el-input v-model="form.input" />
@@ -47,7 +49,12 @@
           >
             <el-input v-model="form.input" />
           </el-form-item>
-          <el-form-item label=" ">
+        </el-form>
+        <el-form
+          size="mini"
+          style="display:flex"
+        >
+          <el-form-item style="margin-right:20px">
             <el-button
               type="primary"
               @click="handleAddDevice"
@@ -207,6 +214,7 @@ export default {
       display: flex;
       justify-content: space-between;
       .dr-top-left{
+        justify-content: space-between;
         flex: 1;
         display: flex;
         flex-wrap: wrap;

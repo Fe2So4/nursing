@@ -18,6 +18,24 @@ router = new Router({
       path: '*',
       redirect: '/'
     },
+    // {
+    //   path: '/home',
+    //   name: 'Home',
+    //   component: Layout,
+    //   redirect: '/home/receiving-orders',
+    //   children: [
+    //     {
+    //       path: 'receiving-orders',
+    //       name: 'ReceivingOrders',
+    //       component: () => import('@/views/ReceivingOrders'),
+    //       meta: {
+    //         title: '接单中心',
+    //         noNavs: true,
+    //         parent: 'Home'
+    //       }
+    //     }
+    //   ]
+    // },
     {
       path: '/home',
       name: 'Home',
@@ -49,7 +67,7 @@ router = new Router({
           name: 'PathologicalApplication',
           component: () => import('@/views/NursingDocument/index'),
           meta: {
-            title: '护理列表',
+            title: '护理记录',
             noNavs: false,
             parent: 'Home'
           }

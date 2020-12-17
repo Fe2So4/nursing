@@ -60,9 +60,10 @@ export default {
       this.pageItem = res
       this.tableData = []
       // this.getTableData(this.pageItem)
-      this.utilsDebounce(() => { this.load() }, 1000)
+      this.utilsDebounce(() => { this.load() }, 300)
     })
     this.addScrollHandle()
+    this.onceGetData()
   },
   methods: {
     // 添加滚动事件
@@ -86,6 +87,19 @@ export default {
     },
     load () {
       this.getTableData(this.pageItem)
+    },
+    // 第一次进入时获取数据
+    onceGetData () {
+      this.tableData = []
+      let obj = {
+        startTime: this.utilsGetNewDate(),
+        endTime: this.utilsGetNewDate(),
+        hospitalNoOrName: '',
+        pageIndex: 1,
+        pageSize: 20
+      }
+      this.pageItem = JSON.parse(JSON.stringify(obj))
+      this.getTableData(obj)
     },
     // 获取数据
     getTableData (res) {

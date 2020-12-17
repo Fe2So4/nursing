@@ -548,7 +548,7 @@ export default {
     line-height: 60px;
     .left{
       cursor: pointer;
-      font-size: 20px;
+      font-size: 16px;
       img{
         vertical-align: middle;
       }

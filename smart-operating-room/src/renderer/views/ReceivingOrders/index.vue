@@ -153,17 +153,20 @@
 </template>
 
 <script>
+import io from 'socket.io-client'
 import PatientList from './components/patient-list'
 import Bus from '@/utils/bus.js'
 import PathologyList from './components/pathology-list'
 import DetailDrawer from './components/detail-drawer'
 import {receiveOrderList, floorList, roomList} from '@/api/receiving-orders'
 import request from '@/utils/request2'
+const config = require('@/config/url.js')
 const { BrowserWindow } = require('electron').remote
 export default {
   name: 'ReceivingOrders',
   data () {
     return {
+      socket: '',
       time: '',
       selectOrder: '1',
       roomList: [],
@@ -207,7 +210,41 @@ export default {
         }
       })
     },
+    initSocket () {
+      if (this.socket) {
+        this.socket = null
+      }
 
+      this.socket = io(config.default.api.socketURL, {
+        query: 'sendName=' + 'ReceivingOrders'
+      })
+      this.socket.on('connect', () => {
+        console.log('socket.io connected')
+        this.connect = true
+      })
+      this.socket.on('reconnect_error', e => {
+        console.error(e)
+      })
+      this.socket.on('disconnect', () => {
+        console.log('socket.io disconnect')
+        this.connect = false
+      })
+      this.socket.on('push_event_all', (data) => {
+        if (data) {
+          console.log(data)
+          if (this.detailVisible === true && this.selectRow.hoshospitalNo === data.object.hospitalNo) {
+            this.detailVisible = false
+            this.openToast('warning', '该订单状态已改变，请重新选择')
+          }
+          this.shuaxin()
+          // let arr = []
+          // this.socket.emit('text', arr)
+        }
+      })
+      this.socket.on('push_event_screen', (data) => {
+
+      })
+    },
     // 点击切换楼层列表
     changeFloor () {
       this.getRoomList()
@@ -317,6 +354,7 @@ export default {
       this.detailVisible = false
       this.utilsDebounce(() => { this.getReceiveOrders() }, 1000)
     })
+    this.initSocket()
   },
   computed: {
     // 监听房间切换

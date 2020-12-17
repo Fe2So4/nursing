@@ -6,6 +6,7 @@
       <div class="title">
         科室轮转情况
         <el-button
+          style="color:#333333"
           type="text"
           size="mini"
           icon="el-icon-plus"
@@ -116,6 +117,7 @@
       <div class="title">
         手术室科室轮转情况
         <el-button
+          style="color:#333333"
           type="text"
           size="mini"
           icon="el-icon-plus"
@@ -713,6 +715,7 @@ export default {
       display: flex;
       flex-direction: column;
       .title{
+        font-weight: 600;
         background:#C5D3F1;
         color: #333333;
         text-align: center;

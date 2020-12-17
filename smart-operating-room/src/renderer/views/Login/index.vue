@@ -143,6 +143,8 @@ export default {
                     userCode: res.data.data.userCode
                   }
                   this.$store.commit('SAVE_LOGIN_USERINFO', obj)
+                  localStorage.setItem('userName', obj.userName)
+                  localStorage.setItem('userCode', obj.userCode)
                 }
               })
 

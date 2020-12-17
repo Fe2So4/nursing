@@ -14,7 +14,7 @@
             <el-date-picker
               :clearable="false"
               style="width:178px"
-              v-model="form.startTime"
+              v-model="form.startDate"
               type="date"
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
@@ -24,7 +24,7 @@
           <el-form-item label="结束日期">
             <el-date-picker
               :clearable="false"
-              v-model="form.endTime"
+              v-model="form.endDate"
               style="width:178px"
               type="date"
               format="yyyy-MM-dd"
@@ -36,13 +36,13 @@
             <el-input
               style="width:178px"
               clearable
-              v-model="form.input"
+              v-model="form.userName"
             />
           </el-form-item>
           <el-form-item label="分类">
             <el-select
               clearable
-              v-model="form.input"
+              v-model="form.leaveType"
               placeholder="请选择"
             >
               <el-option
@@ -57,7 +57,7 @@
           <el-form-item label="审批状态">
             <el-select
               clearable
-              v-model="form.input"
+              v-model="form.approvalStatus"
               placeholder="请选择"
             >
               <el-option
@@ -78,6 +78,7 @@
           </el-form-item>
           <el-form-item>
             <el-button
+              @click="exitExcle"
               type="info"
               plain
             >
@@ -103,44 +104,44 @@
             title="序号"
           />
           <vxe-table-column
-            field="sex"
+            field="applicationDate"
             title="申请日期"
           />
           <vxe-table-column
-            field="no"
+            field="leavePersonnelName"
             title="人员"
           />
           <vxe-table-column
-            field="age1"
+            field="leaveType"
             title="假别"
           />
           <vxe-table-column
-            field="age1"
+            field="restStartDate"
             title="开始日期"
           />
           <vxe-table-column
-            field="age3"
+            field="restStartTime"
             title="休假开始时间"
           />
           <vxe-table-column
-            field="age2"
+            field="restEndDate"
             title="结束日期"
           />
 
           <vxe-table-column
-            field="age3"
+            field="restEndTime"
             title="休假结束时间"
           />
           <vxe-table-column
-            field="age3"
+            field="leaveReason"
             title="请假原因"
           />
           <vxe-table-column
-            field="age3"
+            field="approvalStatusStr"
             title="审批状态"
           />
           <vxe-table-column
-            field="age3"
+            field="approvedBy"
             title="审批人"
           />
         </vxe-table>
@@ -150,7 +151,8 @@
 </template>
 
 <script>
-
+import {ipcRenderer} from 'electron'
+import config from '@/config/url.js'
 export default {
   name: 'NursingRecordSearch',
   data () {
@@ -158,9 +160,11 @@ export default {
       deptList: [],
       showType: false,
       form: {
-        startTime: '',
-        endTime: '',
-        input: ''
+        approvalStatus: '',
+        endDate: '',
+        leaveType: '',
+        startDate: '',
+        userName: ''
       },
       radio: '',
       addVisible: false,
@@ -187,32 +191,57 @@ export default {
         value: 5,
         label: '撤销未通过 '
       }],
-      tableData: [{sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'}]
+      tableData: []
     }
   },
   mounted () {
     this.getNewTime()
     this.getSelectList('007')
+    this.handleSearchTableList()
   },
   methods: {
     // 获取当前时间
     getNewTime () {
-      this.form.startTime = this.utilsGetNewDate()
-      this.form.endTime = this.utilsGetNewDate()
+      this.form.startDate = this.utilsGetNewDate()
+      this.form.endDate = this.utilsGetNewDate()
     },
+    // 导出
+    exitExcle () {
+      if (this.IsEmpty(this.form.startDate)) {
+        this.form.startDate = ''
+      }
 
+      if (this.IsEmpty(this.form.endDate)) {
+        this.form.endDate = ''
+      }
+      if (this.IsEmpty(this.form.userName)) {
+        this.form.userName = ''
+      }
+      if (this.IsEmpty(this.form.approvalStatus)) {
+        this.form.approvalStatus = ''
+      }
+      if (this.IsEmpty(this.form.leaveType)) {
+        this.form.leaveType = ''
+      }
+      let url = `${config.api.baseURL}/ocis/departmentReport/download/downloadStatisLeave?startDate=${this.form.startDate}&endDate=${this.form.endDate}&userName=${this.form.userName}&leaveType=${this.form.leaveType}&approvalStatus=${this.form.approvalStatus}`
+      this.exportExcel(url)
+    },
+    exportExcel (params) {
+      ipcRenderer.send('download',
+        JSON.stringify({
+          downloadUrl: params
+        }))
+    },
     // 点击查询查询数据
     handleSearchTableList () {
       let obj = {
-        startTime: this.form.startTime || '',
-        endTime: this.form.endTime || ''
+        approvalStatus: this.form.approvalStatus,
+        endDate: this.form.startDate,
+        leaveType: this.form.leaveType,
+        startDate: this.form.startDate,
+        userName: this.form.userName
       }
-      this.$store.dispatch('ReqgetTimesOperations', obj).then(res => {
+      this.$store.dispatch('ReqstatisLeave', obj).then(res => {
         console.log(res)
         if (res.data.code === 200) {
           this.tableData = res.data.data

@@ -4,7 +4,7 @@
       <nursing-header />
     </div>
     <div class="nursing-container-body">
-      <nursing-table />
+      <nursing-table ref="getTableData" />
     </div>
   </div>
 </template>

@@ -8,16 +8,16 @@
         alt=""
       >
       <span>Dandelion 智慧手术中心<i />临床护理</span>
-      <!-- <span>
-        <el-radio-group
+      <span>
+        <!-- <el-radio-group
           v-model="radio"
           @change="handleChange"
         >
           <el-radio :label="1">大屏</el-radio>
           <el-radio :label="2">接单</el-radio>
           <el-radio :label="3">派单</el-radio>
-        </el-radio-group>
-      </span> -->
+        </el-radio-group> -->
+      </span>
     </div>
 
     <div class="right">
@@ -84,7 +84,7 @@ export default {
   },
   computed: {
     'userName': function () {
-      return this.$store.state['Base'].userName
+      return localStorage.getItem('userName')
     }
   }
 }

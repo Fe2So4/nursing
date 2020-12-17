@@ -413,7 +413,7 @@ export default {
     flex-direction: column;
     .dr-top{
       position: relative;
-      padding: 20px 30px 0 40px;
+      padding: 20px 30px 10px 40px;
       background: #FFFFFF;
       box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
       border-radius: 5px;
@@ -460,7 +460,7 @@ export default {
         border-radius: 50%;
         position: absolute;
         right: 30px;
-        bottom: 15px;
+        bottom: 25px;
       }
     }
     .dr-table{

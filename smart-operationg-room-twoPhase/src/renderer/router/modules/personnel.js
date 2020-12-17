@@ -45,7 +45,7 @@ const personnelRoutes = {
           name: 'CivilServantInfoMaintain',
           component: () => import('@/views/PersonnelManagement/PersonnelFiles/CivilServantInfoMaintain/index'),
           meta: {
-            title: '公务员信息维护',
+            title: '工务员信息维护',
             noNavs: false,
             parent: 'PersonnelFile'
           }

@@ -56,19 +56,21 @@
         stripe
       >
         <vxe-table-column
+          width="80px"
           type="seq"
           title="序号"
         />
         <vxe-table-column
+          width="200px"
           field="patient_name"
           title="病患姓名"
         />
         <vxe-table-column
+          width="200px"
           field="hospital_no"
           title="病患住院号"
         />
         <vxe-table-column
-
           title="手术申请/护理记录单明细"
         >
           <template v-slot="{row}">
@@ -76,7 +78,10 @@
               @click="handleShowDio(row)"
               type="text"
             >
-              {{ row.sort }}
+              <div>手术申请:{{ row.operate_date }} {{ row.diagnosis }}</div>
+              <div>
+                护理记录单:<span style="text-decoration:underline">{{ row.start_time }}-{{ row.specific_time }}, 实际手术:{{ row.operation_name }}</span>
+              </div>
             </el-button>
           </template>
         </vxe-table-column>
@@ -95,7 +100,7 @@
 </template>
 
 <script>
-import NursingRecordSheet from './components/NursingRecordSheet'
+import NursingRecordSheet from '@/views/NursingEmr/RecordNursing/index'
 export default {
   name: 'MoreSurgerySearch',
   data () {
@@ -171,7 +176,7 @@ export default {
     height: 100%;
     flex-direction: column;
     .dr-top{
-      padding: 20px 30px 0 40px;
+      padding: 20px 30px 10px 40px;
       background: #FFFFFF;
       box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
       border-radius: 5px;
