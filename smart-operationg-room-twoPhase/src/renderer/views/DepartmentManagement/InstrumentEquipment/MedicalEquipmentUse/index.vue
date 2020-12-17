@@ -12,23 +12,14 @@
             label="年份"
           >
             <el-date-picker
-              v-model="form.input"
-              type="year"
-              format="yyyy"
-              value-format="yyyy"
-              placeholder="选择年"
-            />
-          </el-form-item>
-          <el-form-item label="月份">
-            <el-date-picker
+              v-model="form.date"
+              type="month"
               format="yyyy-MM"
               value-format="yyyy-MM"
-              v-model="form.input"
-              type="month"
-              placeholder="选择月"
+              placeholder="选择年月"
             />
           </el-form-item>
-          <el-form-item label=" ">
+          <el-form-item>
             <el-button
               type="primary"
               @click="handleSearchTableList"
@@ -40,7 +31,7 @@
             <el-button
               type="info"
               plain
-              @click="handleSearchTableList"
+              @click="exitExcle"
             >
               导 出
             </el-button>
@@ -64,31 +55,31 @@
             title="序号"
           />
           <vxe-table-column
-            field="sex"
+            field="deviceNo"
             title="设备编号"
           />
           <vxe-table-column
-            field="no"
+            field="deviceName"
             title="设备名称"
           />
           <vxe-table-column
-            field="age1"
+            field="deviceModel"
             title="型号"
           />
           <vxe-table-column
-            field="age1"
+            field="devicePosition"
             title="设备位置"
           />
           <vxe-table-column
-            field="age1"
+            field="useFrequency"
             title="使用频次"
           />
           <vxe-table-column
-            field="age1"
+            field="useDuration"
             title="手术使用时长"
           />
           <vxe-table-column
-            field="age1"
+            field="utilizationRate"
             title="使用率"
           />
         </vxe-table>
@@ -98,60 +89,65 @@
 </template>
 
 <script>
-
+import {ipcRenderer} from 'electron'
+import config from '@/config/url.js'
 export default {
   name: 'NursingRecordSearch',
   data () {
     return {
-      showType: false,
       form: {
-        startTime: '',
-        endTime: '',
-        input: ''
+        date: ''
       },
-      radio: '',
-      addVisible: false,
-      codeVisible: false,
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
-      tableData: [{sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'}]
+      tableData: []
     }
   },
   mounted () {
     this.getNewTime()
+    this.handleSearchTableList()
   },
   methods: {
     // 获取当前时间
     getNewTime () {
-      this.form.startTime = this.utilsGetNewDate()
-      this.form.endTime = this.utilsGetNewDate()
-    },
-    // 点击图标切换显示
-    handleChangeIcon () {
-      this.showType = !this.showType
+      this.form.date = this.utilsGetMoon()
     },
     // 点击查询查询数据
     handleSearchTableList () {
-      this.addVisible = true
+      this.loading = true
+      let obj = {
+        date: this.form.date
+      }
+      this.$store.dispatch('ReqequipmentUseStatis', obj).then(res => {
+        this.loading = false
+        if (res.data.code === 200) {
+          this.tableData = res.data.data
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 导出
+    exitExcle () {
+      if (this.IsEmpty(this.form.date)) {
+        this.form.date = ''
+      }
+
+      let url = `${config.api.baseURL}/ocis/departmentReport/download/downloadEquipmentUseStatis?date=${this.form.date}`
+      this.exportExcel(url)
+    },
+    exportExcel (params) {
+      ipcRenderer.send('download',
+        JSON.stringify({
+          downloadUrl: params
+        }))
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
 
   }

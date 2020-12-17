@@ -1,5 +1,5 @@
 import {reqstatisOperChargeByDept, reqstatisOperCountByNurse, reqstatisOperCountByDept, reqstatisOperCountBySurgeon, reqgetDictByType, reqstatisNurseCharge,
-  reqstatisNurseChargeDetail, reqstatisLeave} from '@/api/DepartmentManagement/DepartmentReport/department-report.js'
+  reqstatisNurseChargeDetail, reqstatisLeave, reqroomEquipmentUseRegis, reqequipmentUseStatis} from '@/api/DepartmentManagement/DepartmentReport/department-report.js'
 
 const state = {
   // baseDictDetailLis: []
@@ -53,7 +53,20 @@ const actions = {
     let res = await reqstatisLeave(query)
     // let res = await reqstatisLeaveUrl(query)
     return res
+  },
+  // 房间设备使用登记
+  async ReqroomEquipmentUseRegis ({ commit }, query) {
+    let res = await reqroomEquipmentUseRegis(query)
+    // let res = await reqstatisLeaveUrl(query)
+    return res
+  },
+  // 医疗设备使用统计
+  async ReqequipmentUseStatis ({ commit }, query) {
+    let res = await reqequipmentUseStatis(query)
+    // let res = await reqstatisLeaveUrl(query)
+    return res
   }
+
 }
 
 export default {

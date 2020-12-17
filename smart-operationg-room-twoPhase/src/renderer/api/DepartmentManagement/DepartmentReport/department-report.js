@@ -72,3 +72,22 @@ export const reqstatisLeave = (obj) => {
     data: obj
   })
 }
+
+// 房间设备使用登记
+const reqroomEquipmentUseRegisUrl = `${config.default.api.baseURL}/ocis/departmentReport/roomEquipmentUseRegis`
+export const reqroomEquipmentUseRegis = (obj) => {
+  return request({
+    url: reqroomEquipmentUseRegisUrl,
+    method: 'post',
+    data: obj
+  })
+}
+
+// 医疗设备使用统计
+const reqequipmentUseStatisUrl = `${config.default.api.baseURL}/ocis/departmentReport/equipmentUseStatis`
+export const reqequipmentUseStatis = (obj) => {
+  return request({
+    url: reqequipmentUseStatisUrl + `/${obj.date}`,
+    method: 'get'
+  })
+}

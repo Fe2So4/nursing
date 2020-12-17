@@ -368,6 +368,9 @@ export default {
         this.getReceiveOrders()
       }
     }
+  },
+  beforeDestroy () {
+    this.socket = null
   }
 }
 </script>
