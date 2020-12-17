@@ -32,14 +32,13 @@
               v-model="voiceSwitch"
               active-color="#13ce66"
               inactive-color="#ff4949"
-              @change="handleChangeSwitch"
             />
           </span>
         </el-col>
       </el-row>
       <el-row style="margin-top:20px;">
         <el-col :span="8">
-          手术信息：<span class="value">{{ patientBasicInfo.operationName }} {{ patientInfo.anesMethodName }}</span>
+          手术信息：<span class="value">{{ patientBasicInfo.operationName }} {{ patientBasicInfo.anesMethodName }}</span>
         </el-col>
         <el-col :span="6">
           第一助手：<span class="value">{{ patientBasicInfo.opaSsisName1 }}</span>
@@ -49,6 +48,16 @@
         </el-col>
         <el-col :span="4">
           洗手护士：<span class="value">{{ patientBasicInfo.washNurseName1 }}</span>
+        </el-col>
+        <el-col
+          :span="2"
+          style="text-align:right;padding-right:20px;"
+        >
+          <span
+            class="security-voice"
+            :class="voiceIcon"
+            @click="handleSpeak"
+          />
         </el-col>
       </el-row>
       <div
@@ -71,6 +80,7 @@ import { mapActions, mapState } from 'vuex'
 import request from '@/utils/request2'
 import { getPatientInfo } from '@/api/large-screen'
 import $bus from '@/utils/busScreen'
+import { startSpeak } from '@/utils/voiceSpeak'
 import { getCurrentRoom } from '@/utils/storage'
 export default {
   name: 'PatientCard',
@@ -79,14 +89,16 @@ export default {
       roomVisible: false,
       voice: true,
       interval: null,
-      patientBasicInfo: {}
+      patientBasicInfo: {},
+      voiceIcon: 'el-icon-microphone',
+      voiceSwitch: true
     }
   },
   components: {
     ChangeRoom
   },
   computed: {
-    ...mapState('LargeScreen', ['voiceSwitch', 'patientInfo', 'currentRoom'])
+    ...mapState('LargeScreen', ['patientInfo', 'currentRoom'])
   },
   created () {
     this.getCurrentRoomFromStorage()
@@ -100,7 +112,7 @@ export default {
     this.interval = null
   },
   methods: {
-    ...mapActions('LargeScreen', ['setVoiceSwitch', 'setCurrentRoom']),
+    ...mapActions('LargeScreen', ['setCurrentRoom']),
     handleChangeRoom () {
       if (!this.currentRoom) {
         this.roomVisible = true
@@ -123,11 +135,20 @@ export default {
         }).then(res => {
           if (res.data.code === 200) {
             this.patientBasicInfo = res.data.data
-            // 大屏启动后5秒刷新一次数据
-            // this.intervalRefresh()
+            if (this.voiceSwitch) {
+              this.handleSpeak()
+            }
+            // 大屏启动后10秒刷新一次数据
+            this.intervalRefresh()
           }
         })
       }
+    },
+    handleSpeak () {
+      let text = `患者：${this.patientBasicInfo.patientName},${this.patientBasicInfo.patientAge}岁,${this.patientBasicInfo.wardName}病区,${this.patientBasicInfo.bedNo}床,住院号：${this.patientBasicInfo.hospitalNo} 
+            手术名称：${this.patientBasicInfo.operationName},麻醉方式：${this.patientBasicInfo.anesMethodName},主刀医师：${this.patientBasicInfo.surgeon},麻醉医师：${this.patientBasicInfo.anesDoc} 
+            第一助手：${this.patientBasicInfo.opaSsisName1},洗手护士：${this.patientBasicInfo.washNurseName1},巡回护士：${this.patientBasicInfo.runNurseName1}`
+      startSpeak(text)
     },
     intervalRefresh () {
       if (this.interval) {
@@ -150,17 +171,17 @@ export default {
         $bus.$emit('getSignData')
         // 术中病理
         $bus.$emit('getPathology')
-      }, 5000)
+      }, 10000)
     },
     handleClose () {
       this.roomVisible = false
     },
     handleShowStep () {
       this.$emit('handleShowStep')
-    },
-    handleChangeSwitch () {
-      this.setVoiceSwitch()
     }
+    // handleChangeSwitch () {
+    //   this.setVoiceSwitch()
+    // }
   }
 }
 </script>
@@ -173,6 +194,18 @@ export default {
     box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
     border-radius: 5px;
     display: flex;
+    .security-voice{
+        // position: absolute;
+        // right: 0;
+        // top: 0;
+        // bottom: 0;
+        // margin: auto;
+        // line-height: 58px;
+        font-size: 20px;
+        &::before{
+          cursor: pointer;
+        }
+      }
     .left{
       overflow:hidden;
       text-align: center;

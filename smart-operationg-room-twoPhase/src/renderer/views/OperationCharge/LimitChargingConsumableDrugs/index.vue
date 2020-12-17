@@ -108,7 +108,7 @@
               <el-button
                 type="text"
               >
-                更多
+                删除
               </el-button>
             </template>
           </vxe-table-column>
@@ -147,9 +147,7 @@ export default {
       configVisible: false,
       deptList: [],
       dialogTitle: '手术止血耗材配置',
-      tableData: [
-        {userCode: '1'}
-      ],
+      tableData: [],
       showData: {},
       pageSize: 20,
       currentPage: 1,

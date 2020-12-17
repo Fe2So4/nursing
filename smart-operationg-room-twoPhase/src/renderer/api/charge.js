@@ -12,8 +12,11 @@ export const deleteTreeNode = `${config.default.api.baseURL}/ocis/operCharge/del
 // 新增模板详情
 export const addTemplateDetail = `${config.default.api.baseURL}/ocis/operCharge/saveChargeTemplateDetail`
 
+// 新增模板详情
+export const getTemplateDetail = `${config.default.api.baseURL}/ocis/operCharge/getChargeTemplateDetail`
+
 // 计费审核删除收费项目
-export const deleteChargeItem = `${config.default.api.baseURL}/ocis/operCharge/delChargeById`
+export const deleteChargeItem = `${config.default.api.baseURL}/ocis/operCharge/delChargeTemplateDetail`
 
 // 计费审核 获取病人详情
 export const getPatientDetail = `${config.default.api.baseURL}/ocis/operCharge/getPatientDetail`

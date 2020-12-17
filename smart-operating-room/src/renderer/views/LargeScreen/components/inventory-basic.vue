@@ -52,7 +52,7 @@
           </td>
           <td>
             <i
-              v-if="item.before===0||item.adding===0||item.adding1===0||item.adding2===0||item.adding3===0||item.before2===0||item.after===0||item.after2===0"
+              v-if="item.before2!==item.all||item.after!==item.all||item.after2!==item.all"
               :class="{'el-icon-close':true,'red':true}"
             />
             <i
@@ -164,12 +164,17 @@ export default {
               }
             }
           })
+          this.deviceList.forEach(item => {
+            item.all = item.before + item.adding + item.adding1 + item.adding2 + item.adding3
+          })
         }
       })
     }
   },
-  mounted () {
+  created () {
     this.getOrdinaryData()
+  },
+  mounted () {
     $bus.$on('getOrdinaryData', this.getOrdinaryData)
   },
   beforeDestroy () {

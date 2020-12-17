@@ -1,7 +1,7 @@
 <template>
   <div class="menu">
-    <van-popup v-model="showMenu" position="left" :style="{ width: '40%',height: '100%' }" closeable
-    close-icon-position="top-right" @close="handleClose" @click-overlay="handleClose">
+    <van-popup v-model="show" position="left" :style="{ width: '40%',height: '100%' }" closeable
+    close-icon-position="top-right" close="handleClose" click-overlay="handleClose">
       <div class="menu-list">
         <ul>
           <li>
@@ -23,7 +23,7 @@
 export default {
   data () {
     return {
-
+      show: this.showMenu
     }
   },
   props: {
@@ -32,9 +32,18 @@ export default {
       required: true
     }
   },
+  watch: {
+    showMenu: {
+      handler (val) {
+        this.show = this.showMenu
+      },
+      imediate: true
+    }
+  },
   methods: {
     handleClose () {
-      this.$emit('handleClose')
+      this.show = false
+      // this.$emit('update', false)
     },
     handleExit () {
       navigator.app.exitApp()
@@ -48,10 +57,10 @@ export default {
     .menu-list{
       overflow: hidden;
       ul{
-        margin-top: 60px;
+        margin-top: 80px;
         border-top: 1PX solid #e2e2e2;
         li{
-          line-height: 60px;
+          line-height: 80px;
           border-bottom: 1PX solid #e2e2e2;
           text-indent: 15px;
           cursor: pointer;
