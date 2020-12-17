@@ -77,6 +77,7 @@
             <el-button
               type="info"
               plain
+              @click="clearAllItem"
             >
               清 空
             </el-button>
@@ -87,6 +88,7 @@
             <el-button
               type="info"
               plain
+              @click="handleSave"
             >
               保 存
             </el-button>
@@ -100,72 +102,92 @@
           size="mini"
           height="auto"
           auto-resize
+          keep-source
           stripe
           ref="xTable"
         >
           <vxe-table-column
-            field="sort"
+            type="seq"
             title="序号"
+            width="60"
           />
           <vxe-table-column
-            field="sex"
+            field="categoryId"
             title="类别"
           />
           <vxe-table-column
-            field="sex"
+            field="category"
             title="类别名称"
           />
           <vxe-table-column
-            field="no"
+            field="code"
             title="项目编码"
           />
           <vxe-table-column
-            field="no"
+            field="basicId"
             title="项目名称"
           >
             <template v-slot="{ row }">
-              <el-input
-                v-model="row.name"
+              <el-select
                 size="mini"
-              />
+                v-model="row.basicId"
+                @change="handleChangeItem(row)"
+              >
+                <el-option
+                  v-for="item in chargeList"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                />
+              </el-select>
             </template>
           </vxe-table-column>
           <vxe-table-column
-            field="age1"
+            field="specifications"
             title="规格"
+            width="60"
           />
           <vxe-table-column
-            field="age1"
+            field="unit"
             title="单位"
+            width="60"
           />
           <vxe-table-column
-            field="age2"
+            field="count"
             title="用量"
+            width="60"
           >
             <template v-slot="{ row }">
               <el-input-number
                 size="mini"
-                v-model="row.age"
+                v-model="row.count"
                 :controls="false"
               />
             </template>
           </vxe-table-column>
           <vxe-table-column
-            field="age1"
+            field="price"
             title="单价(元)"
+            width="80"
           />
           <vxe-table-column
-            field="age2"
+            field="totalPrice"
             title="费用(元)"
-          />
+            width="80"
+          >
+            <template v-slot="{row}">
+              <span>{{ countPrice(row) }}</span>
+            </template>
+          </vxe-table-column>
           <vxe-table-column
-            field="age1"
+            field="sort"
             title="排序号"
+            width="60"
           >
             <template v-slot="{ row }">
               <el-input-number
                 size="mini"
-                v-model="row.age"
+                v-model="row.sort"
                 :controls="false"
               />
             </template>
@@ -173,8 +195,11 @@
           <vxe-table-column
             title="操作"
           >
-            <template>
-              <el-button type="text">
+            <template v-slot="{row}">
+              <el-button
+                type="text"
+                @click="deleteChargeItem(row)"
+              >
                 删除
               </el-button>
             </template>
@@ -195,13 +220,14 @@
 <script>
 import AddGroup from './components/add-group'
 import request from '@/utils/request'
-import {getTreeData, deleteTreeNode, addTemplateDetail, getDictCharge} from '@/api/charge'
+import {getTreeData, deleteTreeNode, addTemplateDetail, getDictCharge, getTemplateDetail, getChargeItem, deleteChargeItem} from '@/api/charge'
 export default {
   name: 'TemplateMaintain',
   data () {
     return {
       form: {
-        value: ''
+        value: '',
+        search: ''
       },
       treeProps: {
         label: 'name',
@@ -210,11 +236,13 @@ export default {
       filterText: '',
       addVisible: false,
       treeData: [],
-      tableData: [{name: 'd'}],
+      tableData: [],
       dialogTitle: '新增模板',
       treeObj: {},
       defaultActive: '',
-      categoryList: []
+      categoryList: [],
+      chargeList: [],
+      templateId: null
     }
   },
   watch: {
@@ -228,8 +256,50 @@ export default {
   created () {
     this.getTreeData()
     this.getChargeCategoryList()
+    this.getChargeItem()
+  },
+  beforeDestroy () {
+    this.templateId = null
   },
   methods: {
+    // 计算总价
+    countPrice (row) {
+      row.totalPrice = row.price * row.count
+      return row.price * row.count
+    },
+    handleChangeItem (row) {
+      this.chargeList.forEach(item => {
+        if (item.id === row.basicId) {
+          row.category = item.category
+          row.categoryId = item.categoryId
+          row.code = item.code
+          row.price = item.price
+          row.specifications = item.specifications
+          row.totalPrice = item.totalPrice
+          row.unit = item.unit
+        }
+      })
+    },
+    getChargeItem () {
+      request({
+        method: 'get',
+        url: getChargeItem,
+        params: {
+          keyword: ''
+        }
+        // this.form.search
+      }).then(res => {
+        this.chargeList = res.data.data
+      })
+    },
+    getTemplateDetail () {
+      request({
+        url: getTemplateDetail + '/' + this.templateId,
+        method: 'get'
+      }).then(res => {
+        this.tableData = res.data.data
+      })
+    },
     getTreeData () {
       request({
         url: getTreeData,
@@ -245,18 +315,84 @@ export default {
         this.treeData = data
       })
     },
+    clearAllItem () {
+      let arr = []
+      this.tableData.forEach(item => {
+        arr.push(item.id)
+      })
+      this.$confirm('确认清空当前所有收费项目', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        iconClass: 'el-icon-question'
+      }).then(() => {
+        request({
+          url: deleteChargeItem,
+          method: 'post',
+          data: arr
+        }).then(res => {
+          if (res.data.code === 200) {
+            this.$message({type: 'success', message: '清空成功'})
+            this.getTemplateDetail()
+          }
+        })
+      }).catch(() => {
+      })
+    },
+    deleteChargeItem (row) {
+      if (!row.id) {
+        this.$refs.xTable.remove(row)
+        return false
+      }
+      this.$confirm('确认删除当前收费项目', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        iconClass: 'el-icon-question'
+      }).then(() => {
+        request({
+          url: deleteChargeItem,
+          method: 'post',
+          data: [row.id]
+        }).then(res => {
+          if (res.data.code === 200) {
+            this.$message({type: 'success', message: '删除成功'})
+            this.getTemplateDetail()
+          }
+        })
+      }).catch(() => {
+      })
+    },
     handleSave () {
+      if (!this.templateId) {
+        this.$message({type: 'warning', message: '请先选中模板'})
+        return false
+      }
+      const { insertRecords } = this.$refs.xTable.getRecordset()
+      let arr = [...insertRecords, ...this.tableData]
+      let detail = []
+      arr.forEach(item => {
+        detail.push({
+          basicId: item.basicId,
+          count: item.count,
+          sort: item.sort,
+          templateId: this.templateId,
+          totalPrice: item.count * item.price
+        })
+      })
       request({
         method: 'post',
         url: addTemplateDetail,
         data: {
-
+          detail,
+          templateId: this.templateId
         }
       }).then(res => {
         if (res.data.code === 200) {
-          this.$emit({type: 'success', message: '保存成功'})
+          this.$message({type: 'success', message: '保存成功'})
+          this.getTemplateDetail()
         } else {
-          this.$emit({type: 'error', message: res.data.msg})
+          this.$message({type: 'error', message: res.data.msg})
         }
       })
     },
@@ -271,16 +407,21 @@ export default {
       })
     },
     handleAddItem () {
+      if (!this.templateId) {
+        this.$message({type: 'warning', message: '请先选中模板'})
+        return false
+      }
       let record = {
-        // deviceNo: '',
-        // dictNameId: data.dictNameId,
-        // dictPositionId: data.dictPositionId,
-        // groupId: data.groupId,
-        // model: data.model,
-        // name: data.name,
-        // position: data.position,
-        // serialNo: data.serialNo,
-        // sort: data.sort
+        category: '',
+        categoryId: '',
+        code: '',
+        count: 1,
+        basicId: '',
+        price: '',
+        sort: 0,
+        specifications: '',
+        totalPrice: '',
+        unit: ''
       }
       this.$refs.xTable.insertAt(record)
     },
@@ -289,6 +430,8 @@ export default {
     },
     handleTreeClick (nodeObj) {
       this.defaultActive = nodeObj.id
+      this.templateId = nodeObj.id
+      this.getTemplateDetail()
       // this.getDeviceGroupData()
     },
     handleDeleteTree (id) {

@@ -56,16 +56,16 @@
         </div>
       </div>
     </div>
-    <van-dialog v-model="confirmDialog" title="提示" show-cancel-button @confirm="handleConfirm" @cancel="handleCancel">
+    <van-dialog v-model="confirmDialog" title="提示" :show-cancel-button="false" @confirm="handleConfirm">
       <div class="clearBox">
         <ul>
-          <li style="text-align:center;line-height:60px;">以下器械清点数量不匹配，是否继续？</li>
+          <li style="text-align:center;line-height:60px;">以下器械清点数量不匹配，请重新核对！</li>
           <li v-for="(item,index) in clearList" :key="index">
             <p class="packageName">包名：<span>{{item.pName}}</span></p>
             <div class="clearItem">
               <p v-for="_item in item.list" :key="_item.name">
-                <span>器械：<span style="color:#3377FF;">{{_item.name}}</span></span>
-                <span>数量：<span style="color:#3377FF;">{{_item.clear}}</span></span>
+                <span style="flex:1;">器械：<span style="color:red;">{{_item.name}}</span></span>
+                <span style="margin:0 40px;">数量：<span style="color:#3377FF;">{{_item.clear}}</span></span>
                 <span>已清点：<span style="color:red;">{{_item.number}}</span></span>
               </p>
             </div>
@@ -542,9 +542,6 @@ export default {
       })
     },
     handleConfirm () {
-      this.handleSubmit()
-    },
-    handleCancel () {
       this.confirmDialog = false
     },
     onClickRight () {
@@ -570,10 +567,11 @@ export default {
               items.push({ name: _item.insName, number: _item.number, clear: _item[_item.type] })
             }
           })
-          arr.push({pName: item.pName, list: items})
+          if (items.length) {
+            arr.push({pName: item.pName, list: items})
+          }
         }
         )
-        console.log(arr)
         if (arr.length > 0) {
           this.confirmDialog = true
           this.clearList = arr

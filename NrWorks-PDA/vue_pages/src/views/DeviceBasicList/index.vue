@@ -26,9 +26,12 @@
           </div>
           <ul v-if="packageList.length>0">
             <li v-for="item in packageList" :key="item.insName">
-              <van-cell :title="item.insName" value="已清点" title-class="first-cell" border>
+              <van-cell :title="item.insName" value="已清点" :title-class="{'first-cell':true,'un-ensure':changeColor(item)}" border>
                 <template #right-icon>
-                  <van-stepper v-model="item.number" theme="round" min='0'/>
+                  <div class="stepper-content" style="display:flex;justify-content:flex-end;">
+                    <span class="all-number" v-if="active === 5 || active === 6 || active === 7">{{ item.count }}</span>
+                    <van-stepper v-model="item.number" theme="round" min='0'/>
+                  </div>
                 </template>
               </van-cell>
             </li>
@@ -47,6 +50,23 @@
         </div>
       </div>
     </div>
+      <van-dialog v-model="confirmDialog" title="提示" :show-cancel-button="false" @confirm="handleConfirm">
+      <div class="clearBox">
+        <ul>
+          <li style="text-align:center;line-height:60px;">以下器械清点数量不匹配，请重新核对！</li>
+          <li v-for="(item,index) in clearList" :key="index">
+            <!-- <p class="packageName">包名：<span>{{item.pName}}</span></p> -->
+            <div class="clearItem">
+              <p>
+                <span style="flex:1;">器械：<span style="color:red;">{{item.name}}</span></span>
+                <span style="margin:0 40px;">数量：<span style="color:#3377FF;">{{item.clear}}</span></span>
+                <span>已清点：<span style="color:red;">{{item.number}}</span></span>
+              </p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </van-dialog>
   </div>
 </template>
 
@@ -67,34 +87,36 @@ export default {
       sign2: '',
       value1: '',
       active: 0,
+      confirmDialog: false,
+      clearList: [],
       stepper: '',
       items: [{ text: '术前', active: 0 }, { text: '术中(一)', active: 1 },
         { text: '术中(二)', active: 2 }, { text: '术中(三)', active: 3 }, { text: '术中(四)', active: 4 },
         { text: '体腔关闭前', active: 5 }, { text: '体腔关闭后', active: 6 }, { text: '皮肤缝合后', active: 7 }],
       packageList: [
-        { insName: '腔脑室外引流管', number: 0 },
-        { insName: '小纱布', number: 0 },
-        { insName: '腔镜纱布', number: 0 },
-        { insName: '纱布', number: 0 },
-        { insName: '纱布垫', number: 0 },
-        { insName: '脑棉', number: 0 },
-        { insName: '纱条', number: 0 },
-        { insName: '缝针', number: 0 },
-        { insName: '刀片', number: 0 },
-        { insName: '切口保护器', number: 0 },
-        { insName: '长电刀头', number: 0 },
-        { insName: '红色尿管', number: 0 },
-        { insName: '皮片', number: 0 },
-        { insName: '彩带', number: 0 },
-        { insName: '临时阻断夹', number: 0 },
-        { insName: '花生米', number: 0 },
-        { insName: '穿刺针', number: 0 },
-        { insName: '纱带', number: 0 },
-        { insName: '线团', number: 0 },
-        { insName: '血管夹', number: 0 },
-        { insName: '长针头', number: 0 },
-        { insName: '清洁片', number: 0 },
-        { insName: '电刀头', number: 0 }
+        { insName: '腔脑室外引流管', number: 0, count: 0 },
+        { insName: '小纱布', number: 0, count: 0 },
+        { insName: '腔镜纱布', number: 0, count: 0 },
+        { insName: '纱布', number: 0, count: 0 },
+        { insName: '纱布垫', number: 0, count: 0 },
+        { insName: '脑棉', number: 0, count: 0 },
+        { insName: '纱条', number: 0, count: 0 },
+        { insName: '缝针', number: 0, count: 0 },
+        { insName: '刀片', number: 0, count: 0 },
+        { insName: '切口保护器', number: 0, count: 0 },
+        { insName: '长电刀头', number: 0, count: 0 },
+        { insName: '红色尿管', number: 0, count: 0 },
+        { insName: '皮片', number: 0, count: 0 },
+        { insName: '彩带', number: 0, count: 0 },
+        { insName: '临时阻断夹', number: 0, count: 0 },
+        { insName: '花生米', number: 0, count: 0 },
+        { insName: '穿刺针', number: 0, count: 0 },
+        { insName: '纱带', number: 0, count: 0 },
+        { insName: '线团', number: 0, count: 0 },
+        { insName: '血管夹', number: 0, count: 0 },
+        { insName: '长针头', number: 0, count: 0 },
+        { insName: '清洁片', number: 0, count: 0 },
+        { insName: '电刀头', number: 0, count: 0 }
       ],
       recordForm: {
         basicEquipment: {
@@ -135,8 +157,33 @@ export default {
     ...mapState('Patient', ['patientInfo', 'opePeopleInfo'])
   },
   methods: {
+    changeColor (item) {
+      switch (this.active) {
+        case 5:
+          if (item.number === item.count) {
+            return false
+          } else {
+            return true
+          }
+        case 6:
+          if (item.number === item.count) {
+            return false
+          } else {
+            return true
+          }
+        case 7:
+          if (item.number === item.count) {
+            return false
+          } else {
+            return true
+          }
+      }
+    },
     onClickLeft () {
       this.$router.go(-1)
+    },
+    handleConfirm () {
+      this.confirmDialog = false
     },
     handleSign1 () {
       this.$dialog.confirm({
@@ -307,48 +354,484 @@ export default {
       // }
     },
     onClickRight () {
-      let obj = JSON.parse(JSON.stringify(this.recordForm))
-      let state = 0
-      for (let i = 0; i < this.packageList.length; i++) {
-        if (this.packageList[i].number === 0) {
-          state = 0
-          break
+      if (this.active === 0 || this.active === 1 || this.active === 2 || this.active === 3 || this.active === 4) {
+        this.handleSubmit()
+      } else if (this.active === 5 || this.active === 6 || this.active === 7) {
+        let arr = []
+        // let items = []
+        this.packageList.forEach(item => {
+          // item.items.forEach(_item => {
+          if (item.number !== item.count) {
+            arr.push({ name: item.insName, number: item.number, clear: item.count })
+          }
+          // })
+          // if (arr.length) {
+          //   arr.push({pName: item.pName, list: items})
+          // }
+        }
+        )
+        if (arr.length > 0) {
+          this.confirmDialog = true
+          this.clearList = arr
         } else {
-          state = 1
+          this.handleSubmit()
         }
       }
+    },
+    handleSubmit () {
+      let obj = JSON.parse(JSON.stringify(this.recordForm))
       switch (this.active) {
         case 0:
           obj.basicEquipment.before = this.packageList
-          obj.beforeStatus = state
+          obj.beforeStatus = this.sign1 === '' || this.sign2 === '' ? 0 : 1
+          obj.basicEquipment.before2.forEach(item => {
+            item.count = 0
+            obj.basicEquipment.before.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding1.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding2.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding3.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+          })
+          obj.basicEquipment.after.forEach(item => {
+            item.count = 0
+            obj.basicEquipment.before.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding1.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding2.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding3.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+          })
+          obj.basicEquipment.after2.forEach(item => {
+            item.count = 0
+            obj.basicEquipment.before.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding1.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding2.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding3.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+          })
           break
         case 1:
           obj.basicEquipment.adding = this.packageList
-          obj.addingOne = state
+          obj.addingOne = this.sign1 === '' || this.sign2 === '' ? 0 : 1
+          obj.basicEquipment.before2.forEach(item => {
+            item.count = 0
+            obj.basicEquipment.before.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding1.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding2.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding3.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+          })
+          obj.basicEquipment.after.forEach(item => {
+            item.count = 0
+            obj.basicEquipment.before.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding1.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding2.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding3.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+          })
+          obj.basicEquipment.after2.forEach(item => {
+            item.count = 0
+            obj.basicEquipment.before.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding1.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding2.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding3.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+          })
           break
         case 2:
           obj.basicEquipment.adding1 = this.packageList
-          obj.addingTwo = state
+          obj.addingTwo = this.sign1 === '' || this.sign2 === '' ? 0 : 1
+          obj.basicEquipment.before2.forEach(item => {
+            item.count = 0
+            obj.basicEquipment.before.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding1.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding2.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding3.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+          })
+          obj.basicEquipment.after.forEach(item => {
+            item.count = 0
+            obj.basicEquipment.before.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding1.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding2.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding3.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+          })
+          obj.basicEquipment.after2.forEach(item => {
+            item.count = 0
+            obj.basicEquipment.before.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding1.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding2.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding3.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+          })
           break
         case 3:
           obj.basicEquipment.adding2 = this.packageList
-          obj.addingThree = state
+          obj.addingThree = this.sign1 === '' || this.sign2 === '' ? 0 : 1
+          obj.basicEquipment.before2.forEach(item => {
+            item.count = 0
+            obj.basicEquipment.before.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding1.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding2.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding3.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+          })
+          obj.basicEquipment.after.forEach(item => {
+            item.count = 0
+            obj.basicEquipment.before.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding1.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding2.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding3.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+          })
+          obj.basicEquipment.after2.forEach(item => {
+            item.count = 0
+            obj.basicEquipment.before.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding1.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding2.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding3.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+          })
           break
         case 4:
           obj.basicEquipment.adding3 = this.packageList
-          obj.addingFour = state
+          obj.addingFour = this.sign1 === '' || this.sign2 === '' ? 0 : 1
+          obj.basicEquipment.before2.forEach(item => {
+            item.count = 0
+            obj.basicEquipment.before.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding1.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding2.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding3.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+          })
+          obj.basicEquipment.after.forEach(item => {
+            item.count = 0
+            obj.basicEquipment.before.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding1.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding2.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding3.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+          })
+          obj.basicEquipment.after2.forEach(item => {
+            item.count = 0
+            obj.basicEquipment.before.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding1.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding2.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+            obj.basicEquipment.adding3.forEach(_item => {
+              if (item.insName === _item.insName) {
+                item.count = item.count + _item.number
+              }
+            })
+          })
           break
         case 5:
           obj.basicEquipment.before2 = this.packageList
-          obj.clossBefore = state
+          obj.clossBefore = this.sign1 === '' || this.sign2 === '' ? 0 : 1
           break
         case 6:
           obj.basicEquipment.after = this.packageList
-          obj.clossAfter = state
+          obj.clossAfter = this.sign1 === '' || this.sign2 === '' ? 0 : 1
           break
         case 7:
           obj.basicEquipment.after2 = this.packageList
-          obj.sutureAfter = state
+          obj.sutureAfter = this.sign1 === '' || this.sign2 === '' ? 0 : 1
       }
       obj.basicEquipment = JSON.stringify(obj.basicEquipment)
       obj.hospitalNo = this.patientInfo.hospitalNo
@@ -456,6 +939,9 @@ export default {
             li{
               background: #ffffff;
               border-bottom:1PX solid #e2e2e2;
+              &:nth-last-child(2){
+                // border-top:1PX solid #e2e2e2;
+              }
             }
             .sign-class{
               color: #10C15B;
@@ -481,6 +967,13 @@ export default {
       }
       .first-cell{
         flex: unset;
+        &.un-ensure{
+          color: red;
+        }
+      }
+      .all-number{
+        color: #3377ff !important;
+        margin-right:60px;
       }
       .left-title{
         flex: unset;
@@ -535,6 +1028,27 @@ export default {
         }
         &::after{
           width: 3px;
+        }
+      }
+    }
+    .clearBox{
+      height: 400px;
+      overflow-y: auto;
+      ul{
+        height: 100%;
+        .packageName{
+          padding:0 40px;
+          span{
+            color: #3377FF;
+          }
+        }
+        .clearItem{
+          padding:0 40px;
+          p{
+            display: flex;
+            line-height: 60px;
+            justify-content: space-between;
+          }
         }
       }
     }

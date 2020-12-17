@@ -22,7 +22,26 @@
       </ul>
     </div>
     <Loading v-if="showLoading"/>
-    <Menu v-if="showMenu" :showMenu="showMenu" @handleClose="handleClose"></Menu>
+    <!-- <Menu :showMenu.sync="showMenu" @handleClose="handleClose"></Menu> -->
+    <van-popup v-model="showMenu" position="left" :style="{ width: '40%',height: '100%' }" closeable
+    close-icon-position="top-right" close="handleClose" click-overlay="handleClose">
+      <div class="menu-list">
+        <ul>
+          <li style="color:#3478ff;">
+            PDA
+          </li>
+          <li>
+            帮助
+          </li>
+          <li>
+            关于
+          </li>
+          <li @click="handleExitApp">
+            退出
+          </li>
+        </ul>
+      </div>
+    </van-popup>
   </div>
 </template>
 
@@ -53,7 +72,6 @@ export default {
   methods: {
     ...mapActions('Patient', ['getPatient']),
     onClickLeft () {
-      // this.$router.go(-1)
       this.showMenu = true
     },
     handleClose () {
@@ -61,8 +79,17 @@ export default {
     },
     handleExitApp () {
       // 关闭app
-      // var that = this
-      navigator.app.exitApp()
+      this.$dialog.confirm({
+        title: '提示',
+        message: '是否退出当前应用?'
+      })
+        .then(() => {
+          // on confirm
+          navigator.app.exitApp()
+        })
+        .catch(() => {
+          // on cancel
+        })
     },
     onClickRight () {
 
@@ -234,6 +261,19 @@ export default {
               }
             }
           }
+        }
+      }
+    }
+    .menu-list{
+      overflow: hidden;
+      ul{
+        // margin-top: 80px;
+        border-top: 1PX solid #e2e2e2;
+        li{
+          line-height: 80px;
+          border-bottom: 1PX solid #e2e2e2;
+          text-indent: 15px;
+          cursor: pointer;
         }
       }
     }

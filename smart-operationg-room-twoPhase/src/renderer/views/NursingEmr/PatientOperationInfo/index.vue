@@ -8,22 +8,22 @@
         label-width="100px"
       >
         <el-form-item label="患者">
-          <el-input v-model="form.input" />
+          <el-input v-model="form.patientName" />
         </el-form-item>
         <el-form-item label="性别">
-          <el-input v-model="form.input" />
+          <el-input v-model="form.patientGender" />
         </el-form-item>
         <el-form-item label="年龄">
-          <el-input v-model="form.input" />
+          <el-input v-model="form.patientAge" />
         </el-form-item>
         <el-form-item label="住院/门诊号">
-          <el-input v-model="form.input" />
+          <el-input v-model="form.hospitalNo" />
         </el-form-item>
         <el-form-item label="科室">
-          <el-input v-model="form.input" />
+          <el-input v-model="form.deptName" />
         </el-form-item>
         <el-form-item label="床号">
-          <el-input v-model="form.input" />
+          <el-input v-model="form.bedNo" />
         </el-form-item>
       </el-form>
       <el-form
@@ -32,10 +32,10 @@
         label-width="100px"
       >
         <el-form-item label="手术日期">
-          <el-input v-model="form.input" />
+          <el-input v-model="form.operateDate" />
         </el-form-item>
         <el-form-item label="手术间">
-          <el-input v-model="form.input" />
+          <el-input v-model="form.roomNo" />
         </el-form-item>
         <el-form-item label="台次">
           <el-input v-model="form.input" />
@@ -68,7 +68,7 @@
           <el-input v-model="form.input" />
         </el-form-item>
         <el-form-item label="手术体位">
-          <el-input v-model="form.input" />
+          <el-input v-model="form.bodyPosition" />
         </el-form-item>
         <el-form-item label="抢救">
           <el-input v-model="form.input" />
@@ -80,7 +80,7 @@
         label-width="100px"
       >
         <el-form-item label="术前诊断">
-          <el-input v-model="form.input" />
+          <el-input v-model="form.diagnose" />
         </el-form-item>
         <el-form-item label="术后诊断">
           <el-input v-model="form.input" />
@@ -133,18 +133,18 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="洗手护士">
-              <el-input v-model="form.input" />
+              <el-input v-model="form.washNurseName1" />
             </el-form-item>
             <el-form-item label="第二洗手">
-              <el-input v-model="form.input" />
+              <el-input v-model="form.washNurseName2" />
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="巡回护士">
-              <el-input v-model="form.input" />
+              <el-input v-model="form.runNurseName1" />
             </el-form-item>
             <el-form-item label="第二巡回">
-              <el-input v-model="form.input" />
+              <el-input v-model="form.runNurseName2" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -157,7 +157,7 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="主麻医生">
-              <el-input v-model="form.input" />
+              <el-input v-model="form.surgeon" />
             </el-form-item>
             <el-form-item label="麻助一">
               <el-input v-model="form.input" />
@@ -219,6 +219,10 @@
 
 <script>
 import PatientStep from '@/components/PatientInfoStep/patient-step'
+import {getPatientInfo} from '@/api/charge'
+import request from '@/utils/request'
+import moment from 'moment'
+import {mapState} from 'vuex'
 export default {
   data () {
     return {
@@ -230,8 +234,26 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState('Base', ['currentPatient'])
+  },
   components: {
     PatientStep
+  },
+  created () {
+    this.getPatientInfo()
+  },
+  methods: {
+    getPatientInfo () {
+      request({
+        url: getPatientInfo + '/' + this.currentPatient.cureNo,
+        method: 'get'
+      }).then(res => {
+        let data = res.data.data
+        data.operateDate = moment(data.operateDate).format('YYYY-MM-DD HH:mm')
+        this.form = data
+      })
+    }
   }
 }
 </script>

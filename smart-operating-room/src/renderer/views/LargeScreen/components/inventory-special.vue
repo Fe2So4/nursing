@@ -25,10 +25,10 @@
             <tr>
               <th>名称</th>
               <th>术前</th>
-              <th>术中一</th>
-              <th>术中二</th>
-              <th>术中三</th>
-              <th>术中四</th>
+              <th>术中1</th>
+              <th>术中2</th>
+              <th>术中3</th>
+              <th>术中4</th>
               <th>关闭前</th>
               <th>关闭后</th>
               <th>缝合后</th>
@@ -168,13 +168,22 @@ export default {
       thead{
         background: #F2F2F2;
         border-radius: 5px;
-        font-size: 18px;
+        font-size: 16px;
         tr{
           border-radius: 5px;
           th{
             line-height: 55px;
             color: #929498;
             font-weight: lighter;
+            min-width: 60px;
+            &:first-child{
+              border-radius: 5px 0 0 5px;
+            }
+            &:last-child{
+              border-radius: 0 5px 5px 0;
+              min-width: unset;
+              width: 30px;
+            }
           }
         }
       }
@@ -196,9 +205,11 @@ export default {
             font-size: 16px;
             &:first-child{
               padding-left: 10px;
+              border-radius: 5px 0 0 5px;
             }
             &:last-child{
               padding-right: 10px;
+              border-radius: 0 5px 5px 0;
               i{
                 display: inline-block;
                 height: 20px;

@@ -15,9 +15,9 @@
         </van-cell>
         <van-cell v-show="transferType === 0" title="病房交接" value="" title-class="first-cell" style="background:#e2e2e2;">
         </van-cell>
-        <van-cell v-show="transferType === 0" title="转运起始时间：" :value="recordForm.startTime" @click="hanldeShowTime('startTime')"></van-cell>
-        <van-cell v-show="transferType === 2" title="术后到达病区(监护室)时间：" title-class="first-cell" :value="recordForm.startTime" @click="hanldeShowTime('startTime')"></van-cell>
-        <van-cell title="评估时间：" v-show="transferType === 1" :value="recordForm.startTime" @click="hanldeShowTime('startTime')">
+        <van-cell v-show="transferType === 0" title="转运起始时间：" :value="formatTime(recordForm.startTime)" @click="hanldeShowTime('startTime')"></van-cell>
+        <van-cell v-show="transferType === 2" title="术后到达病区(监护室)时间：" title-class="first-cell" :value="formatTime(recordForm.startTime)" @click="hanldeShowTime('startTime')"></van-cell>
+        <van-cell title="评估时间：" v-show="transferType === 1" :value="formatTime(recordForm.startTime)" @click="hanldeShowTime('startTime')">
         </van-cell>
         <van-cell v-show="transferType === 0" title="住院/转院区：" value="内容">
           <template #right-icon>
@@ -129,24 +129,23 @@
             <!-- <van-icon name="play"/> -->
           </template>
         </van-cell>
-        <van-cell v-show="transferType === 0 && recordForm.catheter.length>0" title="留置时间：" :value="this.recordForm.conduitTime" @click="hanldeShowTime('conduitTime')">
+        <van-cell v-show="transferType === 0 && recordForm.catheter.length>0" title="留置时间：" :value="formatTime(recordForm.conduitTime)" @click="hanldeShowTime('conduitTime')">
         </van-cell>
         <van-cell title-class="left-title" value-class="right-value multipul-select" v-show="transferType === 1" title="留置导管固定畅通：" value="内容" @click="handleShowDialog({list:'lzdgOptions',model:'conduit',title:'留置导管固定畅通'})">
           <template #right-icon>
             <div style="display:flex;">
               <span class="mul-ellipsis">{{handleFilterLabel({list:'lzdgOptions',value:'conduit'})}}</span>
-              <!-- <van-icon name="play"/> -->
             </div>
           </template>
         </van-cell>
-        <van-cell v-show="transferType === 0" title="物品：" value="内容">
+        <van-cell v-show="transferType === 0" title-class="left-title" value-class="right-value multipul-select" title="物品：" value="内容" @click="handleShowDialog({list:'wpOptions',model:'goodsJson',title:'物品'})">
           <template #right-icon>
-            <van-dropdown-menu active-color="#3478FF">
-              <van-dropdown-item v-model="recordForm.goodsJson" :options="wpOptions" />
-            </van-dropdown-menu>
+            <!-- <div style="display:flex;"> -->
+              <span class="mul-ellipsis">{{handleFilterLabel({list:'wpOptions',value:'goodsJson'})}}</span>
+            <!-- </div> -->
           </template>
         </van-cell>
-         <van-cell v-show="transferType === 0" title="备注：" value="内容" title-class="left-title" value-class="right-value">
+         <van-cell v-show="transferType === 0" title="数量：" value="内容" title-class="left-title" value-class="right-value">
           <template #right-icon>
             <van-field v-model="recordForm.number" label="" placeholder="" />
           </template>
@@ -207,7 +206,7 @@ export default {
       input: '',
       currentTime: null,
       showFullSkin: false,
-      currentDate: moment(new Date()).format('YYYY-MM-DD HH:mm'),
+      currentDate: new Date(),
       timeVisible: false,
       value1: '',
       transferType: 0,
@@ -217,15 +216,15 @@ export default {
       checkBoxList: null,
       dialogTitle: '',
       recordForm: {
-        startTime: '', // 转运起始时间
+        startTime: new Date(), // 转运起始时间
         suggest: '', // 建议
         department: '', // 手术/监护室/透析室
         inpatientWard: '', // 住院/转病区
         // 导管
         catheter: [],
-        conduitTime: '', // 留置时间
+        conduitTime: new Date(), // 留置时间
         // 物品
-        goodsJson: '',
+        goodsJson: [],
         number: '', // 备注数量
         time: '', // 出手术室时间，入手术室时间
         // 皮肤
@@ -268,7 +267,7 @@ export default {
         {text: 'PICC', value: 'picc'},
         {text: '其他', value: 'qita'},
         {text: '无', value: 'wu'}],
-      wpOptions: [{text: '输液', value: '1'}, {text: 'X片', value: '2'}, {text: 'CT片', value: '3'}, {text: '磁共振片', value: '4'}, {text: '其它', value: '5'}, {text: '', value: ''}]
+      wpOptions: [{text: '输液', value: '1'}, {text: 'X片', value: '2'}, {text: 'CT片', value: '3'}, {text: '磁共振片', value: '4'}, {text: '其它', value: '5'}]
     }
   },
   components: {
@@ -283,6 +282,9 @@ export default {
   watch: {
   },
   methods: {
+    formatTime (time) {
+      return moment(time).format('YYYY-MM-DD HH:mm')
+    },
     handleFilterLabel (obj) {
       let str = ''
       var reg = /,$/gi
@@ -311,8 +313,10 @@ export default {
           let data = res.data.data
           switch (this.transferTitle) {
             case '病房交接':
-              this.recordForm.goodsJson = data.goodsJson[0].goods
-              this.recordForm.number = data.goodsJson[0].number
+              if (data.goodsJson.length) {
+                this.recordForm.goodsJson = data.goodsJson[0].goods
+                this.recordForm.number = data.goodsJson[0].number
+              }
               this.recordForm.inpatientWard = data.inpatientWard
               this.recordForm.startTime = data.startTime
               this.recordForm.signatureImage2 = data.carrier
@@ -445,10 +449,13 @@ export default {
         case '留置导管固定畅通':
           this.recordForm.conduit = this.result
           break
+        case '物品':
+          this.recordForm.goodsJson = this.result
       }
     },
     hanldeShowTime (param) {
-      this.currentDate = this.recordForm[param]
+      this.currentDate = moment(this.recordForm[param]).toDate()
+      console.log(this.recordForm[param], this.currentDate)
       this.currentTime = param
       this.timeVisible = true
     },
@@ -581,6 +588,7 @@ export default {
       }).then(res => {
         if (res.data.code === 200) {
           // this.$router.push('/transfer-handover')
+          this.$notify({type: 'success', message: '提交成功'})
           if (this.transferTitle === '病房交接') {
             this.changeApplyStatus()
           }
@@ -595,8 +603,8 @@ export default {
     //   // this.currentDate = moment(value).format('YYYY-MM-DD HH:mm')
     // },
     handleConfirm (value) {
-      this.currentDate = moment(value).format('YYYY-MM-DD HH:mm')
-      this.recordForm[this.currentTime] = this.currentDate
+      this.currentDate = value
+      this.recordForm[this.currentTime] = moment(value).format('YYYY-MM-DD HH:mm')
       this.timeVisible = false
     },
     handleShowSignature () {

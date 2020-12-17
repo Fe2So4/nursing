@@ -4,12 +4,13 @@
       <el-form
         :inline="true"
         size="mini"
-        label-width="100px"
+        label-width="80px"
       >
         <el-form-item label="开始日期">
           <el-date-picker
             v-model="form.startTime"
             type="date"
+            style="width:154px"
             placeholder="选择日期"
           />
         </el-form-item>
@@ -17,26 +18,55 @@
           <el-date-picker
             v-model="form.endTime"
             type="date"
+            style="width:154px"
             placeholder="选择日期"
           />
         </el-form-item>
         <el-form-item label="手术状态">
-          <el-select v-model="form.status">
-            <el-option>1</el-option>
-            <el-option>2</el-option>
+          <el-select
+            v-model="form.status"
+            style="width:154px"
+          >
+            <el-option
+              value="术前"
+              label="术前"
+            />
+            <el-option
+              value="术中"
+              label="术中"
+            />
+            <el-option
+              value="术后"
+              label="术后"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="急诊择期">
-          <el-select v-model="form.emergency">
-            <el-option>1</el-option>
-            <el-option>2</el-option>
+          <el-select
+            v-model="form.emergency"
+            style="width:154px"
+          >
+            <el-option
+              label="急诊"
+              value="急诊"
+            />
+            <el-option
+              label="择期"
+              value="择期"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="ID">
-          <el-input v-model="form.id" />
+          <el-input
+            v-model="form.id"
+            style="width:154px"
+          />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary">
+          <el-button
+            type="primary"
+            @click="getPatientList"
+          >
             搜 索
           </el-button>
         </el-form-item>
@@ -44,28 +74,40 @@
       <el-form
         :inline="true"
         size="mini"
-        label-width="100px"
+        label-width="80px"
       >
         <el-form-item label="手术间">
-          <el-input v-model="form.room" />
+          <el-input
+            v-model="form.room"
+            style="width:154px"
+          />
         </el-form-item>
         <el-form-item label="姓名">
-          <el-input v-model="form.ptName" />
-        </el-form-item>
-        <el-form-item>
           <el-input
+            v-model="form.ptName"
+            style="width:154px"
+          />
+        </el-form-item>
+        <el-form-item label=" ">
+          <el-input
+            style="width:154px"
             v-model="form.wristband"
             placeholder="扫描或输入腕带号"
           />
         </el-form-item>
-        <el-form-item>
+        <el-form-item label=" ">
           <el-input
+            style="width:154px"
             v-model="form.ptCode"
             placeholder="扫描或输入接病人条码"
           />
         </el-form-item>
-        <el-form-item>
-          <el-checkbox v-model="form.us">
+        <el-form-item label=" ">
+          <el-checkbox
+            v-model="form.us"
+            true-label="1"
+            false-label="0"
+          >
             本人的
           </el-checkbox>
         </el-form-item>
@@ -75,9 +117,9 @@
       <div>
         <div class="title">
           <span>术中</span>
-          <span>
+          <!-- <span>
             <el-button type="text">更多</el-button>
-          </span>
+          </span> -->
         </div>
         <div class="content clearfix">
           <PatientCard
@@ -90,9 +132,9 @@
       <div>
         <div class="title">
           <span>术前</span>
-          <span>
+          <!-- <span>
             <el-button type="text">更多</el-button>
-          </span>
+          </span> -->
         </div>
         <div class="content clearfix">
           <PatientCard
@@ -105,9 +147,9 @@
       <div>
         <div class="title">
           <span>术后</span>
-          <span>
+          <!-- <span>
             <el-button type="text">更多</el-button>
-          </span>
+          </span> -->
         </div>
         <div class="content clearfix">
           <PatientCard
@@ -123,6 +165,8 @@
 
 <script>
 import PatientCard from './components/patient-card'
+import { getPatientList } from '@/api/electronic-medical-record'
+import request from '@/utils/request'
 export default {
   name: 'EmrHome',
   data () {
@@ -130,24 +174,48 @@ export default {
       form: {
         id: '',
         emergency: '',
-        endTime: '',
-        startTime: '',
+        endTime: '2020-08-06',
+        startTime: '2020-08-06',
         room: '',
+        status: '',
         ptName: '',
         wristband: '',
         ptCode: '',
         us: ''
       },
-      beforeList: [{status: '1'}, {status: '1'}, {status: '1'}, {status: '1'}, {status: '1'}, {status: '1'}, {status: '1'}],
-      inList: [{status: '2'}, {status: '2'}, {status: '2'}, {status: '2'}, {status: '2'}, {status: '2'}],
-      afterList: [{status: '3'}, {status: '3'}, {status: '3'}, {status: '3'}, {status: '3'}, {status: '3'}]
+      beforeList: [],
+      inList: [],
+      afterList: []
     }
   },
   components: {
     PatientCard
   },
+  created () {
+    this.getPatientList()
+  },
   methods: {
-
+    getPatientList () {
+      request({
+        url: getPatientList,
+        method: 'post',
+        data: {
+          endTime: this.form.endTime,
+          hospitalNo: this.form.id,
+          isEmergency: this.form.emergency,
+          isPersonal: this.form.us,
+          operTimeState: this.form.status,
+          patientName: this.form.ptName,
+          roomNo: this.form.roomNo,
+          startTime: this.form.startTime
+        }
+      }).then(res => {
+        let data = res.data.data
+        this.beforeList = data[0].beforeOperList
+        this.inList = data[1].inOperList
+        this.afterList = data[2].afterOperList
+      })
+    }
   }
 }
 </script>

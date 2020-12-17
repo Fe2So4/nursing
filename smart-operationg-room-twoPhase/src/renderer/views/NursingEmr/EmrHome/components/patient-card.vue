@@ -1,42 +1,42 @@
 <template>
   <div
     class="patient-card"
-    :class="patientInfo.status==='1'?'op-before':patientInfo.status==='3'?'op-after':''"
+    :class="patientInfo.operTimeState==='术前'?'op-before':patientInfo.operTimeState==='术后'?'op-after':''"
   >
     <div
       class="pc-title"
-      :class="patientInfo.status==='1'?'op-before':patientInfo.status==='3'?'op-after':''"
+      :class="patientInfo.operTimeState==='术前'?'op-before':patientInfo.operTimeState==='术后'?'op-after':''"
     >
       <span>
         <i
           class="line"
-          :class="patientInfo.status==='1'?'op-before':patientInfo.status==='3'?'op-after':''"
+          :class="patientInfo.operTimeState==='术前'?'op-before':patientInfo.operTimeState==='术后'?'op-after':''"
         />
-        <span class="el-icon-male avater" />
+        <span :class="[patientInfo.patientGender === '男' ? 'el-icon-male avater' : 'el-icon-female avater']" />
         <!-- el-icon-female -->
-        <span>镊的卷</span>
+        <span>{{ patientInfo.patientName }}</span>
       </span>
-      <span>54岁</span>
+      <span>{{ patientInfo.patientAge }}岁</span>
     </div>
     <div class="pc-content">
       <p>
         <span>
-          <span>201</span>
-          <span>乳腺外科</span>
+          <span>{{ patientInfo.roomNo }}</span>
+          <span>{{ patientInfo.deptName }}</span>
         </span>
-        <span class="bedId">1901</span>
+        <span class="bedId">{{ patientInfo.bedNo }}床</span>
       </p>
-      <p>右胸腔镜下右中肺叶切除术+右上胸...</p>
-      <p>全麻</p>
+      <p>{{ patientInfo.operationName }}</p>
+      <p>{{ patientInfo.anesMethod }}</p>
       <p>
-        <span>术者：侯一封</span>
+        <span>术者：{{ patientInfo.surgeon }}</span>
         <span>
-          606544
+          {{ patientInfo.hospitalNo }}
         </span>
       </p>
-      <p>2020-09-28</p>
-      <p :class="patientInfo.status==='1'?'op-before':patientInfo.status==='3'?'op-after':''">
-        术中
+      <p>{{ patientInfo.operateDate }}</p>
+      <p :class="patientInfo.operTimeState==='术前'?'op-before':patientInfo.operTimeState==='术后'?'op-after':''">
+        {{ patientInfo.operTimeState }}
       </p>
     </div>
   </div>
@@ -90,9 +90,11 @@ export default {
     }
     .pc-title{
       line-height: 40px;
+      height: 40px;
       border-bottom:1px solid;
       border-color: #FFD8D8;
       display: flex;
+      box-sizing: border-box;
       justify-content: space-between;
       align-items: center;
       padding: 0 10px 0 5px;
@@ -104,10 +106,16 @@ export default {
       }
       span{
         display: inline-block;
+        vertical-align: middle;
         .avater{
           width: 20px;
           height: 20px;
           color: #3377FF;
+          &:before{
+            height: 100%;
+            // font-size: 20px;
+            // width: 100%;
+          }
         }
         .line{
           display: inline-block;

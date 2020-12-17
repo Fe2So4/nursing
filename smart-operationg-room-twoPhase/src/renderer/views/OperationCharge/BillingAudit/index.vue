@@ -73,11 +73,11 @@
             field="chargeExamineStatus"
             title="状态"
           >
-            <template>
+            <!-- class="el-icon-success icon-status" -->
+            <template v-slot="{ row }">
               <i
-                class="el-icon-success icon-status"
+                :class="[row.chargeExamineStatus==='1' ? 'el-icon-success icon-status' : 'el-icon-error icon-status-close']"
               />
-              <!-- el-icon-circle-close -->
             </template>
           </vxe-table-column>
         </vxe-table>
@@ -164,7 +164,10 @@
     </div>
     <div class="ba-bottom">
       <div class="ba-b-search">
-        <el-form size="mini">
+        <el-form
+          size="mini"
+          :inline="true"
+        >
           <el-form-item>
             <el-select
               v-model="form.search"
@@ -176,9 +179,17 @@
                 v-for="item in chargeList"
                 :key="item.id"
                 :label="item.name"
-                :value="item.code"
+                :value="item.id"
               />
             </el-select>
+          </el-form-item>
+          <el-form-item>
+            <el-button
+              type="primary"
+              @click="handleSubmitCharge"
+            >
+              添加收费项目
+            </el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -198,13 +209,14 @@
           <vxe-table-column
             type="seq"
             title="序号"
+            width="60"
           />
           <vxe-table-column
-            field="userName"
+            field="categoryId"
             title="类别"
           />
           <vxe-table-column
-            field="workDepartmentName"
+            field="category"
             title="类别名称"
           />
           <vxe-table-column
@@ -214,6 +226,7 @@
           <vxe-table-column
             field="barCode"
             title="条形码"
+            width="80"
           />
           <vxe-table-column
             field="specifications"
@@ -222,18 +235,31 @@
           <vxe-table-column
             field="unit"
             title="单位"
+            width="60"
           />
           <vxe-table-column
             field="count"
             title="用量"
-          />
+          >
+            <template v-slot="{row}">
+              <el-input-number
+                v-model="row.count"
+                size="mini"
+                controls
+                :disabled="row.status===1 ? true : false "
+                controls-position="right"
+              />
+            </template>
+          </vxe-table-column>
           <vxe-table-column
             field="price"
             title="单价(元)"
+            width="80"
           />
           <vxe-table-column
             field="totalPrice"
             title="费用(元)"
+            width="80"
           />
           <vxe-table-column
             field="enteredBy"
@@ -245,12 +271,14 @@
           />
           <vxe-table-column
             title="操作"
+            width="80"
           >
-            <template>
+            <template v-slot="{row}">
               <i
-                class="el-icon-success icon-status"
-                @click="handleDelete"
+                :class="[row.status===1 ? 'el-icon-success icon-status':'el-icon-error icon-status-close']"
+                @click="handleDelete(row)"
               />
+              <!-- @click="changeChargeStatus(row.id)" -->
             </template>
           </vxe-table-column>
         </vxe-table>
@@ -261,25 +289,34 @@
             <el-checkbox>已修改</el-checkbox>
           </el-form-item>
           <el-form-item>
-            共{{ tableData.length }}条计费项目
+            共 {{ tableData.length }} 条计费项目
           </el-form-item>
           <el-form-item>
-            计费总计 {{ patientDetail.totalPrice }}元
+            计费总计 {{ patientDetail.totalPrice ? patientDetail.totalPrice : 0 }} 元
           </el-form-item>
           <el-form-item>
-            <el-checkbox>标记为已审核</el-checkbox>
+            <el-checkbox
+              v-model="checked"
+              :disabled="currentCharge.status===1?true:false"
+              @change="handleChangeCheckBox"
+            >
+              <!-- :checked="currentCharge.checked===1?true:false" -->
+              {{ currentCharge.status === 1 ? '已审核' : '标记为已审核' }}
+            </el-checkbox>
           </el-form-item>
         </el-form>
         <div class="button">
-          <el-button
+          <!-- <el-button
             type="primary"
             size="mini"
           >
             退 费
-          </el-button>
+          </el-button> -->
           <el-button
             type="primary"
             size="mini"
+            @click="handleSubmitEdit"
+            v-show="currentCharge.status === 0"
           >
             提 交
           </el-button>
@@ -291,7 +328,7 @@
 
 <script>
 import request from '@/utils/request'
-import {getPatientList, getPatientDetail, getChargeItem, changeChargeStatus} from '@/api/charge'
+import {getPatientList, getPatientDetail, getChargeItem, changeChargeStatus, deleteChargeItem, saveChargeItem} from '@/api/charge'
 // import moment from 'moment'
 export default {
   name: 'BillingAudit',
@@ -305,10 +342,20 @@ export default {
         opeRoom: '',
         search: ''
       },
+      checked: false,
       patientList: [],
       tableData: [],
       patientDetail: {},
-      chargeList: []
+      chargeList: [],
+      currentCharge: {}
+    }
+  },
+  watch: {
+    currentCharge: {
+      handler (val) {
+        return val
+      },
+      deep: true
     }
   },
   created () {
@@ -316,25 +363,77 @@ export default {
     this.getChargeItem()
   },
   methods: {
+    // 选中当前收费
     cellClickEvent ({row}) {
-      console.log(row)
+      // console.log(row)
+      this.currentCharge = row
+      this.checked = row.checked
+    },
+    handleSubmitEdit () {
+      if (this.currentCharge.checked) {
+        this.changeChargeStatus(this.currentCharge.id)
+      } else {
+        request(
+          {
+            url: saveChargeItem,
+            method: 'post',
+            data: {
+              chargeBasicId: this.currentCharge.chargeBasicId,
+              count: this.currentCharge.count,
+              cureNo: this.patientDetail.cureNo,
+              hospitalNo: this.patientDetail.hospitalNo,
+              id: this.currentCharge.id
+            }
+          }
+        ).then(res => {
+          if (res.data.code === 200) {
+            this.$message({message: '修改成功', type: 'success'})
+            this.getPatientInfo({hospitalNo: this.patientDetail.hospitalNo, cureNo: this.patientDetail.cureNo})
+          }
+        })
+      }
+    },
+    handleSubmitCharge () {
+      request(
+        {
+          url: saveChargeItem,
+          method: 'post',
+          data: {
+            chargeBasicId: this.form.search,
+            count: 0,
+            cureNo: this.patientDetail.cureNo,
+            hospitalNo: this.patientDetail.hospitalNo
+          }
+        }
+      ).then(res => {
+        if (res.data.code === 200) {
+          this.$message({message: '新增成功', type: 'success'})
+          this.getPatientInfo({hospitalNo: this.patientDetail.hospitalNo, cureNo: this.patientDetail.cureNo})
+        }
+      })
     },
     // 单击表格选中患者
     handleSeleceCurrentPatient ({row}) {
       this.getPatientInfo({hospitalNo: row.hospitalNo, cureNo: row.cureNo})
     },
-    changeChargeStatus () {
+    changeChargeStatus (id) {
       request({
         method: 'post',
         url: changeChargeStatus,
         data: {
           cureNo: this.patientDetail.cureNo,
           hospitalNo: this.patientDetail.hospitalNo,
-          id: ''
+          id: id
         }
       }).then(res => {
-
+        if (res.data.code === 200) {
+          // this.$message({message: '审核成功', type: 'success'})
+          this.getPatientInfo({hospitalNo: this.patientDetail.hospitalNo, cureNo: this.patientDetail.cureNo})
+        }
       })
+    },
+    handleChangeCheckBox (val) {
+      this.currentCharge.checked = val
     },
     handleChangeCharge (item) {
       this.chargeList.forEach(_item => {
@@ -373,27 +472,42 @@ export default {
         url: getPatientDetail + '/' + obj.hospitalNo + '/' + obj.cureNo,
         method: 'get'
       }).then(res => {
-        this.patientDetail = res.data.data
+        this.patientDetail = {cureNo: obj.cureNo, ...res.data.data}
         this.tableData = res.data.data.chargeList
+        this.tableData.forEach(item => {
+          item.num = item.count
+          if (item.status === 1) {
+            item.checked = true
+          } else {
+            item.checked = false
+          }
+        })
       })
     },
-    handleDelete () {
-      this.$confirm('是否确认删除[自粘性外科敷料(美敷)9*10cm]?', '询问', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-        iconClass: 'el-icon-question'
-      }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
+    handleDelete (row) {
+      if (row.status !== 1) {
+        let text = '是否确认删除[' + row.name + ']?'
+        this.$confirm(text, '询问', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          iconClass: 'el-icon-question'
+        }).then(() => {
+          request({
+            url: deleteChargeItem + '/' + row.id,
+            method: 'get'
+          }).then(res => {
+            if (res.data.code === 200) {
+              this.getPatientInfo({hospitalNo: this.patientDetail.hospitalNo, cureNo: this.patientDetail.cureNo})
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              })
+            }
+          })
+        }).catch(() => {
         })
-      }).catch(() => {
-        // this.$message({
-        //   type: 'info',
-        //   message: '已取消删除'
-        // })
-      })
+      }
     }
   }
 }
@@ -405,6 +519,11 @@ export default {
     flex-direction: column;
     .icon-status{
       color: #0CD1AA;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .icon-status-close{
+      color: #FF5454;
       font-size: 20px;
       cursor: pointer;
     }
@@ -468,11 +587,11 @@ export default {
       .ba-b-search{
         padding-top: 20px;
         padding-left: 20px;
-        max-width: 580px;
         .el-form-item{
           margin-bottom: 10px;
           .el-select{
-            width: 100%;
+            // width: 100%;
+            min-width: 580px;
           }
         }
       }
@@ -491,6 +610,8 @@ export default {
         .button{
           text-align: center;
           padding: 20px 0;
+          height: 68px;
+          box-sizing: border-box;
         }
       }
     }

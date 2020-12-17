@@ -475,6 +475,7 @@ export default {
       background: #ffffff;
       box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
       border-radius: 10px;
+      padding: 0 30px;
       .van-button{
         line-height: 60px;
         height: 60px;
@@ -510,13 +511,15 @@ export default {
       .title{
         color: #7e7e7e;
         font-size: 26px;
-        text-indent: 10px;
+        text-indent: 5px;
         line-height: 2em;
+        padding-top: 20px;
       }
       .van-steps{
         .van-steps__items{
           .van-step{
             line-height: 40px;
+            height: 150px;
             position: relative;
             /deep/ .van-step__title{
               text-indent: 10px;
@@ -557,6 +560,7 @@ export default {
         }
         /deep/ .van-step--finish .van-step__line{
           background-color: #3377FF;
+          width: 1PX;
         }
         /deep/ .van-step__icon--active, .van-step__title--active{
           color: #3377FF;

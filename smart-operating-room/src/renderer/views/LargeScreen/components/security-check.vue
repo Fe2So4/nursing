@@ -105,19 +105,9 @@ export default {
     }
   },
   watch: {
-    voiceSwitch: {
-      handler (newValue, old) {
-        if (newValue === true) {
-          this.voiceIcon = 'el-icon-microphone'
-        } else {
-          this.voiceIcon = 'el-icon-turn-off-microphone'
-        }
-      },
-      immediate: true
-    }
   },
   computed: {
-    ...mapState('LargeScreen', ['voiceSwitch', 'patientInfo'])
+    ...mapState('LargeScreen', ['patientInfo'])
   },
   components: {
     CheckDetail,
@@ -180,7 +170,6 @@ export default {
       })
     },
     handleChange (tab) {
-      console.log(tab.name)
       switch (tab.name) {
         case 'first':
           this.getSignInInfo()
@@ -217,66 +206,66 @@ export default {
       }
     },
     handleSpeakSummary () {
-      if (this.voiceSwitch) {
-        let text = `安全核查：概览`
-        if (this.stateList.signIn === '2') {
-          text += `Sign In 麻醉实施前核查 完成`
-        } else {
-          text += `Sign In 麻醉实施前核查 未完成`
-        }
-        if (this.stateList.timeOut === '2') {
-          text += `Time out 手术开始前核查 完成`
-        } else {
-          text += `Time out 手术开始前核查 未完成`
-        }
-        if (this.stateList.signOut === '2') {
-          text += `Sign Out 离开手术前核查 完成`
-        } else {
-          text += `Sign Out 离开手术前核查 未完成`
-        }
-        startSpeak(text)
+      // if (this.voiceSwitch) {
+      let text = `安全核查：概览`
+      if (this.stateList.signIn === '2') {
+        text += `Sign In 麻醉实施前核查 完成`
       } else {
-        startSpeak('请先打开语音播报按钮')
+        text += `Sign In 麻醉实施前核查 未完成`
       }
+      if (this.stateList.timeOut === '2') {
+        text += `Time out 手术开始前核查 完成`
+      } else {
+        text += `Time out 手术开始前核查 未完成`
+      }
+      if (this.stateList.signOut === '2') {
+        text += `Sign Out 离开手术前核查 完成`
+      } else {
+        text += `Sign Out 离开手术前核查 未完成`
+      }
+      startSpeak(text)
+      // } else {
+      //   startSpeak('请先打开语音播报按钮')
+      // }
     },
     handleSpeakSignIn () {
-      if (this.voiceSwitch) {
-        let text = `安全核查：Sign In 麻醉实施前核查`
-        if (this.state !== '0') {
-          text += this.voiceTextFormat('signIn')
-        } else {
-          text += '无'
-        }
-        startSpeak(text)
+      // if (this.voiceSwitch) {
+      let text = `安全核查：Sign In 麻醉实施前核查`
+      if (this.state !== '0') {
+        text += this.voiceTextFormat('signIn')
       } else {
-        startSpeak('请先打开语音播报按钮')
+        text += '无'
       }
+      startSpeak(text)
+      // } else {
+      //   startSpeak('请先打开语音播报按钮')
+      // }
     },
     handleSpeakTimeOut () {
-      if (this.voiceSwitch) {
-        let text = `安全核查：Time out 手术开始前核查`
-        if (this.state !== '0') {
-          text += this.voiceTextFormat('timeOut')
-        } else {
-          text += '无'
-        }
-        startSpeak(text)
+      // if (this.voiceSwitch) {
+      let text = `安全核查：Time out 手术开始前核查`
+      if (this.state !== '0') {
+        text += this.voiceTextFormat('timeOut')
       } else {
-        startSpeak('请先打开语音播报按钮')
+        text += '无'
       }
+      startSpeak(text)
+      // } else {
+      //   startSpeak('请先打开语音播报按钮')
+      // }
     },
     handleSpeakSignOut () {
-      if (this.voiceSwitch) {
-        let text = `安全核查：Sign Out 离开手术前核查`
-        if (this.state !== '0') {
-          text += this.voiceTextFormat('signOut')
-        } else {
-          text += '无'
-        }
-        startSpeak(text)
+      // if (this.voiceSwitch) {
+      let text = `安全核查：Sign Out 离开手术前核查`
+      if (this.state !== '0') {
+        text += this.voiceTextFormat('signOut')
       } else {
-        startSpeak('请先打开语音播报按钮')
+        text += '无'
       }
+      startSpeak(text)
+      // } else {
+      //   startSpeak('请先打开语音播报按钮')
+      // }
     },
     voiceTextFormat (param) {
       switch (param) {
