@@ -22,9 +22,14 @@
             title="姓名"
           />
           <vxe-table-column
-            field="leaveType"
+            v-
             title="类型"
-          />
+          >
+            <template v-slot="{row}">
+              <span v-if="row.leaveType === '1'">撤销未审批</span>
+              <span v-else>请假未审批</span>
+            </template>
+          </vxe-table-column>
           <vxe-table-column
             field="leaveReason"
             title="请假原因"

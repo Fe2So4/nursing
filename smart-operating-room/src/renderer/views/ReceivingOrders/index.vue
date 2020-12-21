@@ -233,8 +233,13 @@ export default {
         if (data) {
           console.log(data)
           if (this.detailVisible === true && this.selectRow.hoshospitalNo === data.object.hospitalNo) {
-            this.detailVisible = false
-            this.openToast('warning', '该订单状态已改变，请重新选择')
+            if (data.object.status === 1) {
+              this.selectRow.orderState = 1
+              this.openToast('success', '订单已接单，可进行打印手术通知单或瓶贴')
+            } else {
+              this.detailVisible = false
+              this.openToast('warning', '该订单状态已改变，请重新选择')
+            }
           }
           this.shuaxin()
           // let arr = []
@@ -368,6 +373,9 @@ export default {
         this.getReceiveOrders()
       }
     }
+  },
+  beforeDestroy () {
+    this.socket = null
   }
 }
 </script>

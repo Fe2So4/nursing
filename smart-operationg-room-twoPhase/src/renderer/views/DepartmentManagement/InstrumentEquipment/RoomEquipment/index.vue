@@ -12,8 +12,9 @@
             label="开始时间"
           >
             <el-date-picker
+              :clearable="false"
               style="width:178px"
-              v-model="form.startTime"
+              v-model="form.startDate"
               type="date"
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
@@ -24,8 +25,9 @@
             label="结束时间"
           >
             <el-date-picker
+              :clearable="false"
               style="width:178px"
-              v-model="form.endTime"
+              v-model="form.endDate"
               type="date"
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
@@ -35,23 +37,32 @@
           <el-form-item
             label="房间"
           >
-            <el-input v-model="form.input" />
+            <el-input
+              style="width:178px"
+              clearable
+              v-model="form.roomNo"
+            />
           </el-form-item>
           <el-form-item
             label="设备名称"
           >
-            <el-input v-model="form.input" />
+            <el-input
+              style="width:178px"
+              clearable
+              v-model="form.deviceName"
+            />
           </el-form-item>
-          <el-form-item label=" ">
+          <el-form-item>
             <el-button
               type="primary"
-              @click="handleAddDevice"
+              @click="handleSearchTable"
             >
               查 询
             </el-button>
           </el-form-item>
           <el-form-item>
             <el-button
+              @click="exitExcle"
               type="info"
               plain
             >
@@ -63,6 +74,7 @@
     </div>
     <div class="dr-table">
       <vxe-table
+        :loading="loading"
         align="center"
         :data="tableData"
         class="mytable-scrollbar"
@@ -76,43 +88,43 @@
           title="序号"
         />
         <vxe-table-column
-          field="no"
+          field="opreDate"
           title="手术日期"
         />
         <vxe-table-column
-          field="age1"
+          field="hospitalNo"
           title="住院号"
         />
         <vxe-table-column
-          field="age2"
+          field="bedNo"
           title="床号"
         />
         <vxe-table-column
-          field="age3"
+          field="patientName"
           title="姓名"
         />
         <vxe-table-column
-          field="age3"
+          field="diagnose"
           title="诊断"
         />
         <vxe-table-column
-          field="age3"
+          field="operationName"
           title="手术名称"
         />
         <vxe-table-column
-          field="age3"
+          field="deviceName"
           title="设备名称"
         />
         <vxe-table-column
-          field="age3"
+          field="deviceStatus"
           title="设备状态"
         />
         <vxe-table-column
-          field="age3"
+          field="deviceNo"
           title="设备编号"
         />
         <vxe-table-column
-          field="age3"
+          field="runNurseName"
           title="巡回护士"
         />
       </vxe-table>
@@ -121,55 +133,81 @@
 </template>
 
 <script>
-
+import {ipcRenderer} from 'electron'
+import config from '@/config/url.js'
 export default {
   name: 'SurgeryLevelStatistical',
   data () {
     return {
-
+      loading: false,
       form: {
-        startTime: '',
-        endTime: '',
-        input: ''
+        startDate: '',
+        endDate: '',
+        deviceName: '',
+        roomNo: ''
       },
-      radio: '',
-      addVisible: false,
-      codeVisible: false,
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
-      tableData: [{sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'},
-        {sort: '1', no: '显示器 | 5007949'}, {sort: '2', no: '显示器 | 5007949 | TYPE 2202 摄像主机 | 7844053 | 3DV-190 光源主机 | 78408'}]
+      tableData: []
     }
   },
   mounted () {
     this.getNewTime()
+    this.handleSearchTable()
   },
   methods: {
     // 获取当前时间
     getNewTime () {
-      this.form.startTime = this.utilsGetNewDate()
-      this.form.endTime = this.utilsGetNewDate()
+      this.form.startDate = this.utilsGetNewDate()
+      this.form.endDate = this.utilsGetNewDate()
     },
-    handleAddDevice () {
-      this.addVisible = true
+    // 导出
+    exitExcle () {
+      if (this.IsEmpty(this.form.startDate)) {
+        this.form.startDate = ''
+      }
+
+      if (this.IsEmpty(this.form.endDate)) {
+        this.form.endDate = ''
+      }
+      if (this.IsEmpty(this.form.deviceName)) {
+        this.form.deviceName = ''
+      }
+      if (this.IsEmpty(this.form.roomNo)) {
+        this.form.roomNo = ''
+      }
+      let url = `${config.api.baseURL}/ocis/departmentReport/download/downRoomEquipmentUseRegis?startDate=${this.form.startDate}&endDate=${this.form.endDate}&deviceName=${this.form.deviceName}&roomNo=${this.form.roomNo}`
+      this.exportExcel(url)
+    },
+    exportExcel (params) {
+      ipcRenderer.send('download',
+        JSON.stringify({
+          downloadUrl: params
+        }))
+    },
+    handleSearchTable () {
+      this.loading = true
+      let obj = {
+        deviceName: this.form.deviceName || '',
+        roomNo: this.form.roomNo || '',
+        endDate: this.form.endDate,
+        startDate: this.form.startDate
+      }
+      this.$store.dispatch('ReqroomEquipmentUseRegis', obj).then(res => {
+        this.loading = false
+        if (res.data.code === 200) {
+          this.tableData = res.data.data
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
+      })
     }
 
   }

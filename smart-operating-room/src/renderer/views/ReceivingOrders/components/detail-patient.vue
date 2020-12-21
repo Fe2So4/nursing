@@ -68,7 +68,7 @@
       >
         <span>手术通知单</span>
         <span>房间号：{{ selectRow.roomNo }}</span>
-        <span>序号：{{ selectRow.sequenceNo }}</span>
+        <span>台次：{{ selectRow.sequenceNo }}</span>
         <span>拟手术时间：{{ selectRow.operateDate }}</span>
       </div>
       <div
@@ -128,7 +128,7 @@
             </el-col>
           </el-row>
         </div>
-        <p v-if="selectRow.orderState === '1'">
+        <p>
           <el-button
             @click="dayin"
             class="el-icon-printer"
@@ -217,7 +217,16 @@ export default {
   },
   methods: {
     dayin () {
-      Bus.$emit('detail-patient', this.selectRow)
+      // selectRow.orderState
+      console.log(this.selectRow.orderState)
+      if (this.selectRow.orderState === 1 || this.selectRow.orderState === '1') {
+        Bus.$emit('detail-patient', this.selectRow)
+      } else {
+        this.$alert('请先扫描工勤人员二维码进行接单')
+        return false
+      }
+      // return false
+
       // this.utilsDebounce(() => { this.printCurrent() }, 1000)
     },
     handleFocus () {
@@ -283,8 +292,8 @@ export default {
         }
       }).then(res => {
         if (res.data.code === 200) {
-          this.openToast('success', res.data.msg)
-          Bus.$emit('shuaxinPatient', '3')
+          // this.openToast('success', res.data.msg)
+          // Bus.$emit('shuaxinPatient', '3')
         } else {
           this.openToast('error', res.data.msg)
         }
