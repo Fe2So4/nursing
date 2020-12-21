@@ -1,0 +1,30 @@
+{
+  "id": "2282119",
+  "name": "pda",
+  "font_family": "iconfont",
+  "css_prefix_text": "my-icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "15203142",
+      "name": "菜单",
+      "font_class": "caidan",
+      "unicode": "e69b",
+      "unicode_decimal": 59035
+    },
+    {
+      "icon_id": "2834503",
+      "name": "退出app",
+      "font_class": "tuichuapp",
+      "unicode": "e6ce",
+      "unicode_decimal": 59086
+    },
+    {
+      "icon_id": "18551493",
+      "name": "密 码",
+      "font_class": "mima",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    }
+  ]
+}

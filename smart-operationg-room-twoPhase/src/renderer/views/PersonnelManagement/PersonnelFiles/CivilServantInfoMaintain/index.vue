@@ -179,7 +179,6 @@ export default {
     // 点击查询调用获取数据接口
     getTable () {
       this.$refs.pagination.currentPage = 1
-      console.log(this.$refs.pagination.currentPage)
       let params = {
         currentPage: 1,
         pageSize: this.pageSize

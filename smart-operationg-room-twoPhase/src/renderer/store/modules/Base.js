@@ -4,7 +4,9 @@ const state = {
   userCode: '',
   currentPatient: {
     operationId: '1010',
-    cureNo: '1010'
+    cureNo: '1010',
+    operSchNum: '3332211',
+    hospitalNo: '666'
   }
 }
 

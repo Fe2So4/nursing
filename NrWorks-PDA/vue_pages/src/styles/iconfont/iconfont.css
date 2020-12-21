@@ -1,0 +1,29 @@
+@font-face {font-family: "my-icon";
+  src: url('iconfont.eot?t=1608517487398'); /* IE9 */
+  src: url('iconfont.eot?t=1608517487398#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAQUAAsAAAAACDwAAAPFAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDHAqDfIM3ATYCJAMQCwoABCAFhG0HQxskB1GUDkqL7GOh3LiypYwiOTHwjoyHr7H2/u7eOaJJNTJUsUxiukkqJDxaalRKIHsJzPfbagijYDPYq3DzqyJQB204xIuoNC4yvu75x/3UpXg+X7hEFXWff9oNcBStA4sOkAFvgLhh7IKWuJlA04h+kK380logVZi9AnFp1NNAmtEoDamhLlQrJhZxA0Tq6Qq9DrgOfh9/EkJKUsnMgbvHeTqQ+en39iY22jtaq4cC3OlMYNPIWAIU4rTSsg+L/EswTbU5bgVQV5eYqm7Z25teL+IdRVK3JIb+8RJRZSa3wTIMZD79HE4iXQZVAkpvwiQJPsiEOpp4AsA7MBVD0xyUVDo7OiZUPj4qxSaig5y2DVm2tQexfnPIki1Wf9D20Tu6k9OOhY/Z2UhMPRySQSsWW7eVdr+tH+NpWLRgwfwApxO4XHUeQDXGXb9w4aJFgR8CnK+bpy5EsDGLpi0A6Oj5wzacCEUXH+9GbDyJYMtO9WSJ804KXePKIy95umJr3cy0Kzf2AKBExuw7da3B6awFKmSMG7+3depWBBmzbdqWQDB/s3zBwFtBX4KTT3W6Op+I5c/eHL66+qf65+qrwbHy4J9h/QPVr3B8qMjL23ENJwj8mqn+WEWe7vnx6LrC9IrtNH7037+jrhCnTHgkXb6tMKOW3P69tiKv7pgRv0YQ157Jtsr2Sbf5bZPCxUB8vPP5ZKJOteR28O0tUXXE5OdBZhZEnuoqVZ0KUd0JvlNVFVkX+cAiZZcH5IwumlpNlxXeBzGFDDp5cmK2vt0a17UxN7exW9x/Mpec65MTnYgSiCQfwDGb5lf0PfC/Oj/PnUFwfd6ADfi/nTx+7BjTQab+kSqeL+dD3ItF1v/VBXSTgp/E7cz9m9yOaUXjm9pSFIHD0ZOLHSJei6hp6fmHYXo9nUI20DmZUDeQQFIzDFndFLrgl6CiZRmq6lahaVHB9JY+PEyUBhZMABC67YKk0xtk3W6gC/4JVAz6AlXdgUHTXvgv2DITRnkOD2kB6ijNEMqoZW2MrRfkYWo11DssNJ/mB4R6yNuNLipeHZcPFUAb5KcYYh+oTxAEhmJ41krlg+2gxcJSHM+aoFZQGwSBS46NZarepNayViC3iQfRBJAORWMIipEWy4bxsgvkhe9Xg/QcLGh8A6LKWA/i2Rkbp8RTi+uALpDYOiFu5Rq7gfQSCAQMCoPHsqLkAxNksfwsClfdzgTSEqgZBng5yWJRJqarRL28zPqGS6DJfEGJFDlKVFQPaKOOtskEh1FrcNAch1uNVhoAAAAA') format('woff2'),
+  url('iconfont.woff?t=1608517487398') format('woff'),
+  url('iconfont.ttf?t=1608517487398') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1608517487398#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.my-icon {
+  font-family: "my-icon" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.my-icon-caidan:before {
+  content: "\e69b";
+}
+
+.my-icon-tuichuapp:before {
+  content: "\e6ce";
+}
+
+.my-icon-mima:before {
+  content: "\e612";
+}
+

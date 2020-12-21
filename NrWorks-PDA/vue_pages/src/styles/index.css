@@ -221,3 +221,8 @@ body /deep/ .van-notify{
   vertical-align: middle;
   display: inline-block;
 }
+
+#app /deep/ .van-field__left-icon .my-icon{
+  line-height: inherit;
+  height: 100%;
+}

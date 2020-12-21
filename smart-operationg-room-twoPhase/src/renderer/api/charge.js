@@ -39,6 +39,9 @@ export const saveConsumablesDrug = `${config.default.api.baseURL}/ocis/operCharg
 // 限制耗材药品计费 分页获取耗材列表
 export const getConsumablesDrugData = `${config.default.api.baseURL}/ocis/operCharge/getConsumablesDrugList`
 
+// 删除耗材药品计费
+export const deleteConsumablesDrugData = `${config.default.api.baseURL}/ocis/operCharge/delConsumablesDrug`
+
 // 限制耗材-导出excel
 export const exportExcel = `${config.default.api.baseURL}/ocis/operCharge/download/downloadConsumablesDrugList`
 

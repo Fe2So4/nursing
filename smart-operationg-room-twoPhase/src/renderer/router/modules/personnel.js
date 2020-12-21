@@ -27,7 +27,7 @@ const personnelRoutes = {
           meta: {
             title: '档案信息查询',
             noNavs: false,
-            parent: 'PersonnelFile'
+            parent: 'PersonnelManagement'
           }
         },
         {
@@ -37,7 +37,7 @@ const personnelRoutes = {
           meta: {
             title: '档案信息维护',
             noNavs: false,
-            parent: 'PersonnelFile'
+            parent: 'PersonnelManagement'
           }
         },
         {
@@ -47,7 +47,7 @@ const personnelRoutes = {
           meta: {
             title: '工务员信息维护',
             noNavs: false,
-            parent: 'PersonnelFile'
+            parent: 'PersonnelManagement'
           }
         }
       ]
@@ -90,17 +90,17 @@ const personnelRoutes = {
               meta: {
                 title: '班次时段维护',
                 noNavs: false,
-                parent: 'attendanceManagement'
+                parent: 'maintenance'
               }
             },
             {
               path: 'attendance-management',
-              name: 'attendanceMaintenance',
+              name: 'attendance',
               component: () => import('@/views/PersonnelManagement/AttendanceManagement/AttendanceManagement/index.vue'),
               meta: {
                 title: '业务分组管理',
                 noNavs: false,
-                parent: 'attendanceManagement'
+                parent: 'maintenance'
               }
             },
             {
@@ -110,7 +110,7 @@ const personnelRoutes = {
               meta: {
                 title: '业务带教班次对照',
                 noNavs: false,
-                parent: 'attendanceManagement'
+                parent: 'maintenance'
               }
             }
 
@@ -134,7 +134,7 @@ const personnelRoutes = {
               meta: {
                 title: '人员排班日常维护',
                 noNavs: false,
-                parent: 'attendanceManagement'
+                parent: 'maintenance1'
               }
             },
             {
@@ -144,21 +144,21 @@ const personnelRoutes = {
               meta: {
                 title: '排班结果展示发布',
                 noNavs: false,
-                parent: 'attendanceManagement'
+                parent: 'maintenance1'
               }
             }
           ]
-        },
-        {
-          path: 'files-info-maintain',
-          name: 'FilesInfoMaintain',
-          component: () => import('@/views/PersonnelManagement/PersonnelFiles/FilesInfoMaintain/index'),
-          meta: {
-            title: '档案信息维护',
-            noNavs: false,
-            parent: 'PersonnelFile'
-          }
         }
+        // {
+        //   path: 'files-info-maintain',
+        //   name: 'FilesInfoMaintain',
+        //   component: () => import('@/views/PersonnelManagement/PersonnelFiles/FilesInfoMaintain/index'),
+        //   meta: {
+        //     title: '档案信息维护',
+        //     noNavs: false,
+        //     parent: 'attendanceManagement'
+        //   }
+        // }
       ]
     },
     {
