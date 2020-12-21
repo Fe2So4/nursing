@@ -68,7 +68,7 @@
         <el-row>
           <el-col><span>固定液：</span><span class="dp-value">{{ selectRow.fixed }}</span></el-col>
         </el-row>
-        <p v-if="selectRow.orderState === '1'">
+        <p>
           <el-button
             @click="gotoThree"
             class="el-icon-printer"
@@ -123,7 +123,7 @@
 <script>
 import {changeReceiveOrderList} from '@/api/receiving-orders'
 import request from '@/utils/request2'
-import Bus from '@/utils/bus.js'
+// import Bus from '@/utils/bus.js'
 export default {
   name: 'DetailPathology',
   props: {
@@ -154,8 +154,13 @@ export default {
       this.codeInputFocus = false
     },
     gotoThree () {
-      let url = 'http://128.0.16.55:8009'
-      this.$electron.shell.openExternal(url)
+      if (this.selectRow.orderState === 1 || this.selectRow.orderState === '1') {
+        let url = 'http://128.0.16.55:8009'
+        this.$electron.shell.openExternal(url)
+      } else {
+        this.$alert('请先扫描工勤人员二维码进行接单')
+        return false
+      }
     },
     // 取消接单
     exitJiedan () {
@@ -198,7 +203,7 @@ export default {
           status: type
         }
       }).then(res => {
-        Bus.$emit('shuaxinPatient', '3')
+        // Bus.$emit('shuaxinPatient', '3')
       })
     },
     // 自动聚焦

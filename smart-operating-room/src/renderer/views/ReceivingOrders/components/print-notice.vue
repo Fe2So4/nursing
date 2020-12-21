@@ -59,7 +59,7 @@
             style="text-align:left;
           bold;"
           >
-            序号:{{ selectRow.sequenceNo }}
+            台次:{{ selectRow.sequenceNo }}
           </td>
           <td
             colspan="3"
