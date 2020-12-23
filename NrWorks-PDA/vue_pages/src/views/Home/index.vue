@@ -5,8 +5,8 @@
     >
       <!-- @click-left="onClickLeft"
       @click-right="onClickRight" -->
-      <van-icon name="wap-nav" slot="left" size="34" color="#ffffff" @click="onClickLeft"/>
-      <van-icon name="exchange" slot="right" size="34" color="#ffffff" @click="handleExitApp"/>
+      <van-icon class-prefix="my-icon" name="caidan" slot="left" size="34" color="#ffffff" @click="onClickLeft"/>
+      <van-icon class-prefix="my-icon" name="tuichuapp" slot="right" size="34" color="#ffffff" @click="handleExitApp"/>
     </van-nav-bar>
     <div class="list">
       <ul>
@@ -28,7 +28,10 @@
       <div class="menu-list">
         <ul>
           <li style="color:#3478ff;">
-            PDA
+            <span style="display:inline-block;height:40px;width:40px;">
+              <van-image :src="avater" />
+            </span>
+            <span>{{opePeopleInfo.userName}}</span>
           </li>
           <li>
             帮助
@@ -133,6 +136,23 @@ export default {
         }
       })
     },
+    getPatientDataUpdate () {
+      this.showLoading = true
+      request({
+        url: getPatientInfo + '/' + this.cureNo,
+        method: 'get'
+      }).then(res => {
+        if (res) {
+          if (res.data.code === 200) {
+            this.getPatient(res.data.data)
+          } else {
+
+          }
+        } else {
+
+        }
+      })
+    },
     handleJump () {
       if (this.cureNo) {
         this.$router.push('/patient-home')
@@ -193,11 +213,13 @@ export default {
       })
     }
     $bus.$on('handleScan', this.handleScan)
+    $bus.$on('getPatientDataUpdate', this.getPatientDataUpdate)
   },
   beforeDetroy () {
     // eslint-disable-next-line no-undef
     this.showLoading = false
     $bus.$off('handleScan')
+    $bus.$off('getPatientDataUpdate')
     // 移除 <div> 事件句柄
     document.removeEventListener('deviceready')
   }

@@ -1,12 +1,41 @@
 <template>
   <div class="device-info">
     <div class="option">
-      <el-button
-        type="primary"
-        size="mini"
-      >
-        解 锁
-      </el-button>
+      <span>
+        <el-select
+          v-model="deviceNo"
+          size="mini"
+          filterable
+          clearable
+          remote
+          :remote-method="remoteMethod"
+          @keyup.enter.native="remoteMethod"
+          placeholder="扫描或输入设备条码回车"
+        >
+          <!-- :remote-method="remoteMethod" -->
+          <el-option
+            v-for="item in deviceList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          />
+        </el-select>
+      </span>
+      <span>
+        <el-button
+          type="primary"
+          size="mini"
+          @click="addDevice"
+        >
+          添 加
+        </el-button>
+        <!-- <el-button
+          type="primary"
+          size="mini"
+        >
+          解 锁
+        </el-button> -->
+      </span>
     </div>
     <vxe-table
       stripe
@@ -20,35 +49,131 @@
       auto-resize
     >
       <vxe-table-column
-        type="seq"
+        field="name"
         title="设备名称"
       />
       <vxe-table-column
-        field="userName"
+        field="barCode"
         title="条码"
       />
       <vxe-table-column
-        field="userName"
+        field="deviceNoAndModel"
         title="设备编号|型号"
       />
       <vxe-table-column
-        field="userName"
+        field="position"
         title="位置"
       />
       <vxe-table-column
-        field="workDepartmentName"
+        field="status"
         title="位置状态"
       />
+      <vxe-table-column
+        title="操作"
+      >
+        <template v-slot="{row}">
+          <el-button
+            type="text"
+            style="color:#ff5454;"
+            @click="deleteDevice(row)"
+          >
+            删除
+          </el-button>
+        </template>
+      </vxe-table-column>
     </vxe-table>
   </div>
 </template>
 
 <script>
+import {deleteDevice, getDevice, getDeviceList, addDevice} from '@/api/record'
+import request from '@/utils/request'
+import {mapState} from 'vuex'
 export default {
   name: 'NursingInfo',
   data () {
     return {
-      tableData: []
+      tableData: [],
+      deviceNo: '',
+      deviceList: []
+    }
+  },
+  computed: {
+    ...mapState('Base', ['currentPatient'])
+  },
+  created () {
+    this.getDeviceList()
+  },
+  methods: {
+    remoteMethod (query) {
+      if (query !== '') {
+        this.getDevice(query)
+      }
+    },
+    cellClickEvent () {
+
+    },
+    deleteDevice (row) {
+      let text = '是否确认删除[' + row.name + ']?'
+      this.$confirm(text, '询问', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        iconClass: 'el-icon-question'
+      }).then(() => {
+        request(
+          {
+            url: deleteDevice + '/' + row.id,
+            method: 'get'
+          }
+        ).then(res => {
+          if (res.data.code === 200) {
+            this.$message({message: '删除成功', type: 'success'})
+            this.getDeviceList()
+          }
+        })
+      }).catch(() => {
+      })
+    },
+    addDevice () {
+      request({
+        url: addDevice,
+        method: 'post',
+        data: {
+          cureNo: this.currentPatient.cureNo,
+          hospitalNo: this.currentPatient.hospitalNo,
+          medicalEquipmentId: this.deviceNo,
+          operSchNum: this.currentPatient.operSchNum
+          // returnTime: '',
+          // usageTime: '',
+          // useDuration: ''
+        }
+      }).then(res => {
+        if (res.data.code === 200) {
+          this.$message({type: 'success', message: '新增成功'})
+          this.getDeviceList()
+        } else {
+          this.$message({type: 'error', message: res.data.msg})
+        }
+      })
+    },
+    getDevice (query) {
+      request({
+        url: getDevice + '/' + query,
+        method: 'get'
+      }).then(res => {
+        let arr = []
+        arr.push(res.data.data)
+        this.deviceList = arr
+      })
+    },
+    getDeviceList () {
+      request({
+        url: getDeviceList + '/' + this.currentPatient.cureNo + '/' + this.currentPatient.hospitalNo,
+        method: 'get'
+      }).then(res => {
+        this.tableData = res.data.data
+      })
     }
   }
 }
@@ -57,9 +182,18 @@ export default {
 <style lang="scss" scoped>
   .device-info{
     .option{
-      text-align: right;
+      display: flex;
+      justify-content: space-between;
       padding-right: 20px;
       padding-bottom: 20px;
+      span{
+        &:nth-child(1){
+          flex: 0.3;
+          .el-select{
+            width: 100%;
+          }
+        }
+      }
     }
     table{
       width: 100%;

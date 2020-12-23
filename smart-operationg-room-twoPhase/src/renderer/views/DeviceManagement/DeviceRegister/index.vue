@@ -133,7 +133,11 @@
       </vxe-table>
     </div>
     <div class="dr-pagination">
-      <Pagination :children-data="paginationData" />
+      <Pagination
+        ref="pag"
+        :children-data="paginationData"
+        @searchTableList="getDeviceList"
+      />
     </div>
     <AddDevice
       :add-visible="addVisible"
@@ -175,13 +179,10 @@ export default {
       positionList: [],
       statusList: [],
       deviceTitle: '新增设备',
-      currentPage: 1,
-      totalPages: 0,
-      pageSize: 20,
       codeData: null,
       paginationData: {
-        total: null,
-        pages: null
+        total: 0,
+        pages: 0
       },
       editData: {}
     }
@@ -204,6 +205,8 @@ export default {
   created () {
     this.getDeviceStatus()
     this.getDevicePosition()
+  },
+  mounted () {
     this.getDeviceList()
   },
   methods: {
@@ -236,8 +239,8 @@ export default {
           nameOrModel: this.form.name,
           position: position,
           status: status,
-          pageIndex: this.currentPage,
-          pageSize: this.pageSize
+          pageIndex: this.$refs.pag.currentPage,
+          pageSize: this.$refs.pag.pageSize
         },
         method: 'post'
       }).then(res => {

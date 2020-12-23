@@ -7,7 +7,7 @@
         <p>
           <!-- 围手术期临床信息系统 -->
           <span>智能护理</span>
-          <span>v1.0.0</span>
+          <span>1.0.0</span>
         </p>
         <img
           src="../../assets/welcome.png"
@@ -119,6 +119,9 @@ export default {
     if (win) {
       win.unmaximize()
     }
+  },
+  mounted () {
+
   },
   methods: {
     handleInputPass () {

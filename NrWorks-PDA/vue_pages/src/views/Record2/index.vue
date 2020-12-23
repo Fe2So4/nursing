@@ -422,6 +422,7 @@ import PatientCard from '@/components/PatientCard'
 import request from '@/utils/request'
 import {submitRecord, getRecordData} from '@/api/nursing-record'
 import {mapState} from 'vuex'
+import $bus from '@/utils/bus'
 import moment from 'moment'
 export default {
   name: 'Record2',
@@ -687,7 +688,8 @@ export default {
       }).then(res => {
         if (res.data.code === 200) {
           this.$notify({type: 'success', message: '保存成功'})
-          this.recordForm.anesthesiaMode = this.recordForm.anesthesiaMode.split(',')
+          // this.recordForm.anesthesiaMode = this.recordForm.anesthesiaMode.split(',')
+          $bus.$emit('getPatientDataUpdate')
           this.getData()
         }
       })

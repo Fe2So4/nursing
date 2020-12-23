@@ -8,7 +8,7 @@
       size="mini"
     >
       <el-form-item>
-        共 {{ childrenData.total }} 条
+        共 {{ childrenData.totalPages }} 条
       </el-form-item>
       <el-form-item>
         <el-select
@@ -28,9 +28,9 @@
         <el-pagination
           :page-size="pageSize"
           @current-change="handleCurrentChange"
-          :current-page.sync="currentPage"
+          :current-page.sync="childrenData.currentPage"
           layout="prev, pager, next"
-          :total="childrenData.total"
+          :total="childrenData.totalPages"
         />
       </el-form-item>
       <el-form-item style="margin-right:unset;">
@@ -43,7 +43,7 @@
           @keyup.enter.native="gotoPage"
           style="width:64px;"
           :min="1"
-          :max="childrenData.pages"
+          :max="childrenData.totalPages"
           label="描述文字"
         />
       </el-form-item>

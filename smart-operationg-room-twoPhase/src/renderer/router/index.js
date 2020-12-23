@@ -77,7 +77,7 @@ export default new Router({
         },
         {
           path: 'client-pathological-application',
-          name: 'PathologicalApplication',
+          name: 'PathologicalApplication1',
           component: () => import('@/views/PathologicalApplication/index'),
           meta: {
             title: '病理申请',
@@ -87,7 +87,7 @@ export default new Router({
         },
         {
           path: 'client-nursing-document',
-          name: 'PathologicalApplication',
+          name: 'PathologicalApplication2',
           component: () => import('@/views/NursingDocument/index'),
           meta: {
             title: '护理列表',
@@ -105,16 +105,6 @@ export default new Router({
             parent: 'Home'
           }
         },
-        // {
-        //   path: 'statistical-query-running',
-        //   name: 'StatisticalQueryRunning',
-        //   component: () => import('@/views/StatisticalQueryRunning/index'),
-        //   meta: {
-        //     title: '统计查询报表',
-        //     noNavs: false,
-        //     parent: 'Home'
-        //   }
-        // },
         {
           path: 'client-continuous-surgery',
           name: 'ContinuousSurgery',
@@ -125,16 +115,6 @@ export default new Router({
             parent: 'Home'
           }
         },
-        // {
-        //   path: 'surgery-listing',
-        //   name: 'SurgeryListing',
-        //   component: () => import('@/views/SurgeryListing/index'),
-        //   meta: {
-        //     title: '连台手术清单',
-        //     noNavs: false,
-        //     parent: 'Home'
-        //   }
-        // },
         {
           path: 'client-nursing-document-list',
           name: 'NursingDocumentList',

@@ -13,13 +13,14 @@
           </div>
         </div>
         <div class="notice">
-          账户密码登录
+          账户登录
         </div>
         <div class="underline"></div>
         <van-form @submit="onSubmit">
             <van-field
               v-model="username"
               name="用户名"
+              type="number"
               label=""
               style="border: 1px solid #8496B6;"
               left-icon="user-o"
@@ -30,7 +31,8 @@
               v-model="password"
               type="password"
               name="密码"
-              left-icon="user-o"
+              icon-prefix="my-icon"
+              left-icon="mima"
               style="border: 1px solid #8496B6;"
               label=""
               placeholder="请输入密码"
@@ -339,8 +341,10 @@ export default {
         /deep/ .van-field__left-icon{
           // width: 25px;
           // height: 30px;
+          height: 70px;
           i{
             font-size: 30px;
+            color: #9DA6B0;
           }
         }
         /deep/ .van-field__control{

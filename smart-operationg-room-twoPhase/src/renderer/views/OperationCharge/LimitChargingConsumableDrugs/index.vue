@@ -107,6 +107,7 @@
               <span class="option-line">|</span>
               <el-button
                 type="text"
+                @click="handleDelete(row)"
               >
                 删除
               </el-button>
@@ -114,7 +115,11 @@
           </vxe-table-column>
         </vxe-table>
       </div>
-      <Pagination />
+      <Pagination
+        ref="pag"
+        :children-data="paginationData"
+        @searchTableList="getConsumablesDrugData"
+      />
     </div>
     <ConfigDrug
       :config-visible="configVisible"
@@ -131,7 +136,7 @@
 import Pagination from '@/components/Pagination/pagination'
 import ConfigDrug from './components/config-drug'
 import request from '@/utils/request'
-import {getConsumablesDrugData, exportExcel} from '@/api/charge'
+import {getConsumablesDrugData, exportExcel, deleteConsumablesDrugData} from '@/api/charge'
 export default {
   name: 'LimitDrugs',
   data () {
@@ -149,16 +154,17 @@ export default {
       dialogTitle: '手术止血耗材配置',
       tableData: [],
       showData: {},
-      pageSize: 20,
-      currentPage: 1,
+      paginationData: {
+        total: 0,
+        pages: 0
+      },
       editData: {}
     }
   },
   mounted () {
-
+    this.getConsumablesDrugData()
   },
   created () {
-    this.getConsumablesDrugData()
   },
   methods: {
     handleAddNew () {
@@ -182,6 +188,29 @@ export default {
         }
       })
     },
+    handleDelete (row) {
+      let text = '是否确认删除[' + row.chargeName + ']?'
+      this.$confirm(text, '询问', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        iconClass: 'el-icon-question'
+      }).then(() => {
+        request({
+          url: deleteConsumablesDrugData + '/' + row.id,
+          method: 'get'
+        }).then(res => {
+          if (res.data.code === 200) {
+            this.getConsumablesDrugData()
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+          }
+        })
+      }).catch(() => {
+      })
+    },
     getConsumablesDrugData () {
       request({
         url: getConsumablesDrugData,
@@ -189,12 +218,14 @@ export default {
         data: {
           chargeBasicName: this.form.orderItem,
           dictDeptName: this.form.department,
-          pageIndex: this.currentPage,
-          pageSize: this.pageSize
+          pageIndex: this.$refs.pag.currentPage,
+          pageSize: this.$refs.pag.pageSize
         }
       }).then(res => {
         let data = res.data.data
         this.tableData = data.list
+        this.paginationData.pages = res.data.data.pages
+        this.paginationData.total = res.data.data.total
       })
     }
   },
