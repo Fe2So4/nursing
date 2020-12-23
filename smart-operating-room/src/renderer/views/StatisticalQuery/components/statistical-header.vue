@@ -37,7 +37,6 @@
             style="width:96px"
             v-model="formData.employeeType"
             placeholder=""
-            clearable
           >
             <vxe-option
               v-for="item in typeList"
@@ -47,7 +46,7 @@
             />
           </vxe-select>
         </vxe-form-item>
-        <vxe-form-item field="timeType">
+        <!-- <vxe-form-item field="timeType">
           <vxe-select
             style="width:96px"
             v-model="formData.timeType"
@@ -60,7 +59,7 @@
               :label="item.label"
             />
           </vxe-select>
-        </vxe-form-item>
+        </vxe-form-item> -->
         <vxe-form-item
           title="开始"
           field="startTime"
