@@ -6,7 +6,6 @@
       @click-right="onClickRight"
       left-arrow
     >
-      <!-- right-text="大屏同步" -->
     </van-nav-bar>
     <PatiendCard/>
     <div class="operation-content">
@@ -54,6 +53,7 @@
 <script>
 import PatiendCard from '@/components/PatientCard.vue'
 import {mapState} from 'vuex'
+import $bus from '@/utils/bus'
 export default {
   data () {
     return {
@@ -69,9 +69,27 @@ export default {
   components: {
     PatiendCard
   },
+  mounted(){
+    $bus.$on('handleOpeRoomCode',this.handleScanCode)
+  },
+  beforeDestory(){
+    $bus.$off('handleOpeRoomCode')
+  },
   methods: {
     onClickLeft () {
       this.$router.push('/home')
+    },
+
+    // 扫码入手术室、出手术室、入诱导、出诱导
+    handleScanCode(code){
+      let codeStr = ''
+      if (code.indexOf('OpeRoom') !== -1) {
+          codeStr = code.replace('OpeRoom=', '')
+          // this.cureNo = OpsRQCode
+      }else if(code.indexOf('InductionRoom') !== -1){
+          codeStr = code.replace('InductionRoom=', '') 
+      }
+      console.log(codeStr)
     },
     onClickRight () {
 
@@ -85,7 +103,9 @@ export default {
           }).then(() => {
             this.$router.push('/sign-in')
           }
-          )
+          ).catch(error=>{
+
+          })
           break
         case 2:
           this.$dialog.confirm({
@@ -94,7 +114,9 @@ export default {
           }).then(() => {
             this.$router.push('/time-out')
           }
-          )
+          ).catch(error=>{
+            
+          })
           break
         case 3:
           this.$dialog.confirm({
@@ -103,7 +125,9 @@ export default {
           }).then(() => {
             this.$router.push('/sign-out')
           }
-          )
+          ).catch(error=>{
+            
+          })
           break
         case 4:
           this.$router.push('/transfer-handover')
@@ -247,18 +271,27 @@ export default {
       }
       .options{
         display: flex;
+        background: #FFFFFF;
+        padding:15px 0;
+        box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
         .van-button{
           flex: 1;
           height: 100px;
           line-height: 100px;
-          background-color: #D5DDF1;
+          background-color: #FFFFFF;
+          // background-color: #D5DDF1;
           font-size: 36px;
           color: #303234;
+          font-weight:bold;
           padding: 0;
-          box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.3);
-          border-radius: 5px;
+          box-shadow: unset;
+          border-radius: unset;
+          border:unset;
           &:nth-child(2){
-            margin:0 35px;
+            // margin:0 35px;
+            border-right:1PX solid #D1D1D1;
+            border-left:1PX solid #D1D1D1;
           }
         }
       }

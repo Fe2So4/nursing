@@ -1,46 +1,75 @@
 <template>
   <div class="home">
-    <van-nav-bar
-      title="手术室移动工作平台"
-    >
-      <!-- @click-left="onClickLeft"
-      @click-right="onClickRight" -->
-      <van-icon class-prefix="my-icon" name="caidan" slot="left" size="34" color="#ffffff" @click="onClickLeft"/>
-      <van-icon class-prefix="my-icon" name="tuichuapp" slot="right" size="34" color="#ffffff" @click="handleExitApp"/>
+    <van-nav-bar title="手术室移动工作平台">
+      <van-icon
+        class-prefix="my-icon"
+        name="caidan"
+        slot="left"
+        size="34"
+        color="#ffffff"
+        @click="onClickLeft"
+      />
+      <van-icon
+        class-prefix="my-icon"
+        name="tuichuapp"
+        slot="right"
+        size="34"
+        color="#ffffff"
+        @click="handleExitApp"
+      />
     </van-nav-bar>
     <div class="list">
       <ul>
-        <li @keyup.enter.native="handleJump">
+        <li @keyup.enter="handleJump">
           <div class="li-left">
             <van-image :src="avater" />
           </div>
           <div class="li-right">
-            <p>{{opePeopleInfo.userName}}</p>
+            <p>{{ opePeopleInfo.userName }}</p>
             <p>手术室-复旦大学附属华山医院</p>
           </div>
         </li>
       </ul>
     </div>
-    <Loading v-if="showLoading"/>
+    <Loading v-if="showLoading" />
     <!-- <Menu :showMenu.sync="showMenu" @handleClose="handleClose"></Menu> -->
-    <van-popup v-model="showMenu" position="left" :style="{ width: '40%',height: '100%' }" closeable
-    close-icon-position="top-right" close="handleClose" click-overlay="handleClose">
+    <van-popup
+      v-model="showMenu"
+      position="left"
+      :style="{ width: '46.7%', height: '100%' }"
+      closeable
+      close-icon-position="top-right"
+      close="handleClose"
+      click-overlay="handleClose"
+    >
       <div class="menu-list">
+        <div class="menu-title">
+          <div class="mt-left">
+            <van-image :src="avater" />
+          </div>
+          <div class="mt-right">
+            <p>{{ opePeopleInfo.userName }}</p>
+            <p>手术室-复...</p>
+            <!--<p>{{opePeopleInfo.userName}}</p>-->
+            <!--<p>手术室-复旦大学附属华山医院</p>-->
+          </div>
+        </div>
         <ul>
-          <li style="color:#3478ff;">
-            <span style="display:inline-block;height:40px;width:40px;">
-              <van-image :src="avater" />
-            </span>
-            <span>{{opePeopleInfo.userName}}</span>
+          <li>
+            <van-icon name="setting-o" />
+            <span>设置</span>
           </li>
           <li>
-            帮助
+            <van-icon name="info-o" />
+            <span>关于</span>
           </li>
           <li>
-            关于
+            <van-icon name="question-o" />
+            <span>帮助</span>
           </li>
           <li @click="handleExitApp">
-            退出
+            <van-icon class-prefix="my-icon" name="tuichuapp" />
+            <span>退出</span>
           </li>
         </ul>
       </div>
@@ -49,255 +78,306 @@
 </template>
 
 <script>
-import request from '../../utils/request'
-import {getPatientInfo, bindingPatPushScreen} from '@/api/patient-info'
-import Loading from '@/components/Loading'
+import request from "../../utils/request";
+import { getPatientInfo, bindingPatPushScreen } from "@/api/patient-info";
+import Loading from "@/components/Loading";
 // import {getOpePeople} from '@/api/device-package'
-import def from '@/assets/def.png'
-import $bus from '@/utils/bus'
-import Menu from '@/components/Menu'
-import {mapActions, mapState} from 'vuex'
+import def from "@/assets/def.png";
+import $bus from "@/utils/bus";
+import Menu from "@/components/Menu";
+import { mapActions, mapState } from "vuex";
 export default {
-  data () {
+  data() {
     return {
-      cureNo: '',
+      cureNo: "",
       avater: def,
       showLoading: false,
-      showMenu: false
-    }
+      showMenu: false,
+    };
   },
   computed: {
-    ...mapState('Patient', ['opePeopleInfo'])
+    ...mapState("Patient", ["opePeopleInfo"]),
   },
   components: {
-    Loading, Menu
+    Loading,
+    Menu,
   },
   methods: {
-    ...mapActions('Patient', ['getPatient']),
-    onClickLeft () {
-      this.showMenu = true
+    ...mapActions("Patient", ["getPatient"]),
+    onClickLeft() {
+      this.showMenu = true;
     },
-    handleClose () {
-      this.showMenu = false
+    handleClose() {
+      this.showMenu = false;
     },
-    handleExitApp () {
+    handleExitApp() {
       // 关闭app
-      this.$dialog.confirm({
-        title: '提示',
-        message: '是否退出当前应用?'
-      })
+      this.$dialog
+        .confirm({
+          title: "提示",
+          message: "是否退出当前应用?",
+        })
         .then(() => {
           // on confirm
-          navigator.app.exitApp()
+          navigator.app.exitApp();
         })
         .catch(() => {
           // on cancel
-        })
+        });
     },
-    onClickRight () {
-
-    },
+    onClickRight() {},
     // 绑定患者
-    bindingPatPushScreen () {
+    bindingPatPushScreen() {
       request({
         url: bindingPatPushScreen,
-        method: 'post',
+        method: "post",
         params: {
-          cureNo: this.cureNo
-        }
-      }).then(res => {
+          cureNo: this.cureNo,
+        },
+      }).then((res) => {
         if (res.data.code === 200) {
-          this.handleJump()
+          this.handleJump();
         }
-      })
+      });
     },
-    getPatientData () {
-      this.showLoading = true
+    getPatientData() {
+      this.showLoading = true;
       request({
-        url: getPatientInfo + '/' + this.cureNo,
-        method: 'get'
-      }).then(res => {
+        url: getPatientInfo + "/" + this.cureNo,
+        method: "get",
+      }).then((res) => {
         if (res) {
           if (res.data.code === 200) {
-            this.getPatient(res.data.data)
+            this.getPatient(res.data.data);
             setTimeout(() => {
-              this.bindingPatPushScreen()
-              this.showLoading = false
-            }, 2000)
+              this.bindingPatPushScreen();
+              this.showLoading = false;
+            }, 2000);
           } else {
             setTimeout(() => {
-              this.showLoading = false
-            }, 2000)
+              this.showLoading = false;
+            }, 2000);
           }
         } else {
           setTimeout(() => {
-            this.showLoading = false
-          }, 2000)
+            this.showLoading = false;
+          }, 2000);
         }
-      })
+      });
     },
-    getPatientDataUpdate () {
-      this.showLoading = true
+    getPatientDataUpdate() {
+      this.showLoading = true;
       request({
-        url: getPatientInfo + '/' + this.cureNo,
-        method: 'get'
-      }).then(res => {
+        url: getPatientInfo + "/" + this.cureNo,
+        method: "get",
+      }).then((res) => {
         if (res) {
           if (res.data.code === 200) {
-            this.getPatient(res.data.data)
+            this.getPatient(res.data.data);
           } else {
-
           }
         } else {
-
         }
-      })
+      });
     },
-    handleJump () {
+    handleJump() {
       if (this.cureNo) {
-        this.$router.push('/patient-home')
+        this.$router.push("/patient-home");
       }
     },
-    handleScan (code) {
+    handleScan(code) {
       // 患者腕带条码
       if (parseInt(code)) {
-        this.cureNo = code
-        this.getPatientData()
+        this.cureNo = code;
+        this.getPatientData();
         // this.subjectOfPatientWristband.next(code)
       }
       // 手术通知单二维码
-      if (code.indexOf('OpsQRCode') !== -1) {
+      if (code.indexOf("OpsQRCode") !== -1) {
         // var jsonStr
-        if (code.indexOf('OpsSchNo') !== -1) {
-          var codelist = code.split(',')
-          var OpsRQCode = codelist[0].replace('OpsQRCode=', '')
-          var OpsSchNo = codelist[1].replace('OpsSchNo=', '')
-          this.cureNo = OpsRQCode
-          this.operateNo = OpsSchNo
+        if (code.indexOf("OpsSchNo") !== -1) {
+          var codelist = code.split(",");
+          var OpsRQCode = codelist[0].replace("OpsQRCode=", "");
+          var OpsSchNo = codelist[1].replace("OpsSchNo=", "");
+          this.cureNo = OpsRQCode;
+          this.operateNo = OpsSchNo;
           // jsonStr = JSON.stringify({ cureno: OpsRQCode, operateno: OpsSchNo })
         } else {
-          this.cureNo = code.replace('OpsQRCode=', '')
+          this.cureNo = code.replace("OpsQRCode=", "");
           // jsonStr = JSON.stringify({ cureno: code.replace('OpsQRCode=', '') })
         }
-        this.getPatientData()
+        this.getPatientData();
         // this.subjectOfPatientNoticeForm.next(jsonStr)
       }
-    }
+    },
   },
-  created () {
+  created() {
     document.onkeydown = (e) => {
-      var key = window.event.keyCode
+      var key = window.event.keyCode;
       if (key === 13) {
-        this.handleScan('1018')
+        this.handleScan("17268712");
       }
-    }
+    };
   },
-  mounted () {
+  mounted() {
     // this.getPatientData()
-    document.addEventListener('deviceready', onDeviceReady, false)
-    let that = this
-    function onDeviceReady () {
+    document.addEventListener("deviceready", onDeviceReady, false);
+    let that = this;
+    function onDeviceReady() {
       // eslint-disable-next-line no-undef
-      cordova.ScanCode.getCode('12', e => {
+      cordova.ScanCode.getCode("12", (e) => {
         if (e) {
-          if (that.$route.path === '/home') {
-            that.handleScan(e)
-          } else if (that.$route.path === '/transfer') {
+          if (that.$route.path === "/home") {
+            that.handleScan(e);
+          } else if (that.$route.path === "/transfer") {
             // alert('/transfer')
-            $bus.$emit('handleCode', e)
-          } else if (that.$route.path === '/device-special') {
+            $bus.$emit("handleCode", e);
+          } else if (that.$route.path === "/device-special") {
             // alert('/device-special', e)
-            $bus.$emit('handleDeviceCode', e)
+            $bus.$emit("handleDeviceCode", e);
+          } else if (that.$route.path === "/patient-home") {
+            $bus.$emit("handleOpeRoomCode", e);
           }
         }
-      })
+      });
     }
-    $bus.$on('handleScan', this.handleScan)
-    $bus.$on('getPatientDataUpdate', this.getPatientDataUpdate)
+    $bus.$on("handleScan", this.handleScan);
+    $bus.$on("getPatientDataUpdate", this.getPatientDataUpdate);
   },
-  beforeDetroy () {
+  beforeDetroy() {
     // eslint-disable-next-line no-undef
-    this.showLoading = false
-    $bus.$off('handleScan')
-    $bus.$off('getPatientDataUpdate')
+    this.showLoading = false;
+    $bus.$off("handleScan");
+    $bus.$off("getPatientDataUpdate");
     // 移除 <div> 事件句柄
-    document.removeEventListener('deviceready')
-  }
-}
+    document.removeEventListener("deviceready");
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-  .home{
-    height: 100%;
-    .van-nav-bar{
-      height: 100px;
-      background: linear-gradient(90deg, #666666, #303030);
-      /deep/ .van-nav-bar__title{
-        color:#ffffff;
-        font-size: 34px;
-        line-height: 100px;
-      }
+.home {
+  height: 100%;
+  .van-nav-bar {
+    height: 100px;
+    background: linear-gradient(90deg, #666666, #303030);
+    /deep/ .van-nav-bar__title {
+      color: #ffffff;
+      font-size: 34px;
+      line-height: 100px;
     }
-    .list{
-      height: calc(100% - 100px);
-      overflow-y: auto;
-      ul{
-        padding:20px 15px 0;
-        li{
-          background: #FFFFFF;
-          box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.15);
-          border-radius: 10px;
-          height: 120px;
-          margin-bottom:20px;
+    /deep/ .van-nav-bar__content {
+      height: 100%;
+    }
+  }
+  .list {
+    height: calc(100% - 100px);
+    overflow-y: auto;
+    ul {
+      padding: 20px 15px 0;
+      li {
+        background: #ffffff;
+        box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.15);
+        border-radius: 10px;
+        height: 120px;
+        margin-bottom: 20px;
+        display: flex;
+        .li-left {
           display: flex;
-          .li-left{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 0 20px;
-            .van-image{
-              width: 80px;
-              height: 80px;
+          justify-content: center;
+          align-items: center;
+          padding: 0 20px;
+          .van-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            img {
               border-radius: 50%;
-              overflow: hidden;
-              img{
-                border-radius: 50%;
-                // width: 100%;
-                // height: 100%;
-              }
-            }
-          }
-          .li-right{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            p{
-              &:first-child{
-                color:#2E2E2E;
-                font-size: 30px;
-              }
-              &:last-child{
-                color:#7F7F7F;
-                margin-top: 20px;
-                font-size: 26px;
-              }
+              // width: 100%;
+              // height: 100%;
             }
           }
         }
-      }
-    }
-    .menu-list{
-      overflow: hidden;
-      ul{
-        // margin-top: 80px;
-        border-top: 1PX solid #e2e2e2;
-        li{
-          line-height: 80px;
-          border-bottom: 1PX solid #e2e2e2;
-          text-indent: 15px;
-          cursor: pointer;
+        .li-right {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          p {
+            &:first-child {
+              color: #2e2e2e;
+              font-size: 30px;
+            }
+            &:last-child {
+              color: #7f7f7f;
+              margin-top: 20px;
+              font-size: 26px;
+            }
+          }
         }
       }
     }
   }
+  .menu-list {
+    overflow: hidden;
+    .menu-title {
+      padding: 100px 0 40px 0;
+      display: flex;
+      border-bottom: 1px solid #dadada;
+      .mt-left {
+        height: 80px;
+        width: 80px;
+        margin: 0 30px;
+      }
+      .mt-right {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        p {
+          &:nth-child(1) {
+            color: #2e2e2e;
+            font-size: 34px;
+            font-weight: 500;
+          }
+          &:nth-child(2) {
+            font-size: 30px;
+            color: #7f7f7f;
+          }
+        }
+      }
+    }
+    ul {
+      // margin-top: 80px;
+      // border-top: 1PX solid #e2e2e2;
+      li {
+        line-height: 80px;
+        border-bottom: 1px solid #e2e2e2;
+        // text-indent: 15px;
+        cursor: pointer;
+        color: #7f7f7f;
+        font-size: 30px;
+        &.active {
+          background-color: #d1d7e2;
+        }
+        span {
+          vertical-align: middle;
+        }
+        i {
+          // display:inline-block;
+          vertical-align: middle;
+          height: 100%;
+          color: #819cbb;
+          margin: 0 30px;
+        }
+        .my-icon {
+          height: 30px;
+          width: 30px;
+          font-size: 28px;
+          color: #819cbb;
+          // font-weight:600;
+        }
+      }
+    }
+  }
+}
 </style>

@@ -16,7 +16,8 @@
         <li>
           <div class="li-top">
             <i />
-            <span>术前-进手术室之前</span>
+            <span>术前</span>
+            // <span>术前-进手术室之前</span>
           </div>
           <div class="li-bottom">
             <p>患者病史摘要、当前有效医嘱、化验报告/危急值</p>
@@ -27,23 +28,25 @@
         <li>
           <div class="li-top">
             <i />
-            <span>术中-进手术室之后</span>
+            <span>术中</span>
+            // <span>术中-进手术室之后</span>
           </div>
           <div class="li-bottom">
             <p>安全核查：Sign In、Time Out、Sign Out</p>
             <p>手术器械清点</p>
-            <p>护理记录单2、术中病理</p>
+            <p>护理记录单二、术中病理</p>
           </div>
         </li>
         <li>
           <div class="li-top">
             <i />
-            <span>术后-离开手术室</span>
+            <span>术后</span>
+            // <span>术后-离开手术室</span>
           </div>
           <div class="li-bottom">
             <p>安全核查：Sign In、Time Out、Sign Out</p>
             <p>手术器械清点</p>
-            <p>护理记录单2、术中病理</p>
+            <p>护理记录单二、术中病理</p>
           </div>
         </li>
       </ul>

@@ -1,6 +1,5 @@
 <template>
   <div class="login" ref="login">
-    <!-- <h3>上海仝佥信息有限公司</h3> -->
     <div class="login-box">
       <div class="login-content">
         <div class="title">
@@ -12,43 +11,43 @@
             <p>手术室移动工作平台</p>
           </div>
         </div>
-        <div class="notice">
-          账户登录
-        </div>
+        <div class="notice">账户登录</div>
         <div class="underline"></div>
         <van-form @submit="onSubmit">
-            <van-field
-              v-model="username"
-              name="用户名"
-              type="number"
-              label=""
-              style="border: 1px solid #8496B6;"
-              left-icon="user-o"
-              placeholder="请输入用户名"
-            />
-              <!-- :rules="[{ required: true, message: '请填写用户名' }]" -->
-            <van-field
-              v-model="password"
-              type="password"
-              name="密码"
-              icon-prefix="my-icon"
-              left-icon="mima"
-              style="border: 1px solid #8496B6;"
-              label=""
-              placeholder="请输入密码"
-            />
-              <!-- :rules="[{ required: true, message: '请填写密码' }]" -->
-            <van-checkbox v-model="isRemember" shape="square">记住我</van-checkbox>
-            <div class="login-submit">
-              <van-button block type="info" native-type="submit">
-                登  录
-              </van-button>
-            </div>
+          <van-field
+            v-model="username"
+            name="用户名"
+            type="number"
+            label=""
+            style="border: 1px solid #8496b6"
+            left-icon="user-o"
+            placeholder="请输入用户名"
+          />
+          <!-- :rules="[{ required: true, message: '请填写用户名' }]" -->
+          <van-field
+            v-model="password"
+            type="password"
+            name="密码"
+            icon-prefix="my-icon"
+            left-icon="mima"
+            style="border: 1px solid #8496b6"
+            label=""
+            placeholder="请输入密码"
+          />
+          <!-- :rules="[{ required: true, message: '请填写密码' }]" -->
+          <van-checkbox v-model="isRemember" shape="square"
+            >记住我</van-checkbox
+          >
+          <div class="login-submit">
+            <van-button block type="info" native-type="submit">
+              登 录
+            </van-button>
+          </div>
         </van-form>
       </div>
       <div class="copyright">
         <p>复旦大学附属华山医院</p>
-        <p>©2011-2020仝佥信息版权所有</p>
+        <p>©{{ time }}蓝想数科版权所有</p>
         <p>Dandelion智慧手术中心临床护理信息系统 v1.0.0</p>
       </div>
     </div>
@@ -56,88 +55,97 @@
 </template>
 
 <script>
-import {login} from '@/api/login'
-import request from '@/utils/request'
-import logo from '@/assets/login-logo.png'
-import {getOpePeople} from '@/api/device-package'
-import {mapActions} from 'vuex'
-import {setUserToken, setCurrentAccount, getCurrentAccount, clearCurrentAccount} from '../../utils/storage'
+import { login } from "@/api/login";
+import request from "@/utils/request";
+import moment from "moment";
+import logo from "@/assets/login-logo.png";
+import { getOpePeople } from "@/api/device-package";
+import { mapActions } from "vuex";
+import {
+  setUserToken,
+  setCurrentAccount,
+  getCurrentAccount,
+  clearCurrentAccount,
+} from "../../utils/storage";
 export default {
-  name: 'Login',
-  data () {
+  name: "Login",
+  data() {
     return {
-      username: '',
-      password: '',
-      version: '',
-      newVersion: '2.0.0',
-      oldVersion: '1.0.0',
-      fileName: 'PDA',
-      path: '',
+      username: "",
+      password: "",
+      version: "",
+      newVersion: "2.0.0",
+      oldVersion: "1.0.0",
+      fileName: "PDA",
+      path: "",
+      time: moment(new Date()),
       progress: 0,
       imgUrl: logo,
-      isRemember: false
-    }
+      isRemember: false,
+    };
   },
   methods: {
-    ...mapActions('Patient', ['setOpePeopleInfo']),
-    getOpePeople () {
+    ...mapActions("Patient", ["setOpePeopleInfo"]),
+    getOpePeople() {
       request({
-        method: 'get',
-        url: getOpePeople
-      }).then(res => {
-        console.log(res.data.data)
-        this.setOpePeopleInfo(res.data.data)
-      })
+        method: "get",
+        url: getOpePeople,
+      }).then((res) => {
+        console.log(res.data.data);
+        this.setOpePeopleInfo(res.data.data);
+      });
     },
     // 获取当前用户名和密码
-    getAccount () {
-      let res = getCurrentAccount()
+    getAccount() {
+      let res = getCurrentAccount();
       if (res) {
-        let obj = JSON.parse(res)
-        this.username = obj.username
-        this.password = obj.password
-        this.isRemember = obj.isRemember
+        let obj = JSON.parse(res);
+        this.username = obj.username;
+        this.password = obj.password;
+        this.isRemember = obj.isRemember;
       }
     },
     // 存储用户名和密码
-    storageAccount () {
-      let obj = JSON.stringify({username: this.username, password: this.password, isRemember: this.isRemember})
-      setCurrentAccount(obj)
+    storageAccount() {
+      let obj = JSON.stringify({
+        username: this.username,
+        password: this.password,
+        isRemember: this.isRemember,
+      });
+      setCurrentAccount(obj);
     },
-    onSubmit (values) {
-      if (this.username === '') {
-        this.$notify('用户名不能为空')
-        return
+    onSubmit(values) {
+      if (this.username === "") {
+        this.$notify("用户名不能为空");
+        return;
       }
-      if (this.password === '') {
-        this.$notify('密码不能为空')
-        return
+      if (this.password === "") {
+        this.$notify("密码不能为空");
+        return;
       }
-      request(
-        {
-          url: login,
-          method: 'post',
-          data: {
-            loginName: this.username,
-            loginPwd: this.password
-          }
-        }
-      ).then(res => {
-        if (res.data.code === '0') {
-          setUserToken(res.data.data)
+      request({
+        url: login,
+        method: "post",
+        data: {
+          loginName: this.username,
+          loginPwd: this.password,
+        },
+      }).then((res) => {
+        if (res.data.code === "0") {
+          setUserToken(res.data.data);
           if (this.isRemember) {
-            this.storageAccount()
+            this.storageAccount();
           } else {
-            clearCurrentAccount()
+            clearCurrentAccount();
           }
           if (res.data.data) {
-            this.getOpePeople()
-            this.$router.push('/home')
+            this.getOpePeople();
+            this.$router.push("/home");
           }
         }
-      })
+      });
       // this.$router.push('/signature')
-    }
+    },
     // openFile () {
     //   var url = '/sdcard/tencent/MicroMsg/Download/pda.apk'
     //   cordova.plugins.fileOpener2.open(url,
@@ -218,10 +226,10 @@ export default {
     //   // })
     // }
   },
-  created () {
-    this.getAccount()
+  created() {
+    this.getAccount();
   },
-  mounted () {
+  mounted() {
     // document.addEventListener('deviceready', onDeviceReady, false)
     // function onDeviceReady () {
     //   console.log('console.log works well')
@@ -232,152 +240,152 @@ export default {
     //   me.msg = 'cordova is ready'
     //   me.init()
     // }
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-  .login{
-    background: url('../../assets/login-bg.png') no-repeat center;
-    background-size: 100% 100%;
-    position: fixed;
-    top: 0;
-    bottom: 0;
+.login {
+  background: url("../../assets/login-bg.png") no-repeat center;
+  background-size: 100% 100%;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  // height: 1280px;
+  // min-height: 1280px;
+}
+.login-box {
+  padding: 0 65px;
+  height: 100%;
+  display: flex;
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  // justify-content: center;
+  // flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  // z-index: 666;
+  .login-content {
+    background: #ffffff;
+    overflow: hidden;
+    z-index: 999;
+    // margin-top: 218px;
+    box-shadow: 15px 15px 19px 2px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 0 46px;
+    .title {
+      display: flex;
+      margin-top: 100px;
+      .title-left {
+        margin-left: 35px;
+        margin-right: 25px;
+        width: 58px;
+        height: 86px;
+      }
+      .title-right {
+        flex: 1;
+        p {
+          font-weight: bold;
+          font-size: 30px;
+          color: #ffffff;
+          text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+          background: linear-gradient(0deg, #165ae5 0%, #7dc1ff 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          &:last-child {
+            font-size: 36px;
+          }
+        }
+      }
+    }
+    .notice {
+      text-align: center;
+      color: #9c9c9c;
+      font-weight: bold;
+      font-size: 32px;
+      margin-top: 35px;
+      margin-bottom: 10px;
+    }
+    .underline {
+      width: 110px;
+      height: 4px;
+      background: #0078ff;
+      border-radius: 2px;
+      margin: 0 auto;
+    }
+    .van-form {
+      margin-top: 20px;
+      .van-field {
+        line-height: 70px;
+        padding-top: 0;
+        padding-bottom: 0;
+        &:nth-child(2) {
+          margin-top: 36px;
+        }
+      }
+      .van-checkbox {
+        margin-top: 20px;
+        /deep/ .van-checkbox__icon {
+          height: 30px;
+          line-height: 30px;
+          i {
+            height: 30px;
+            width: 30px;
+            line-height: 30px;
+            // border:1PX solid #8396B6 /*no*/
+            border: 1px solid #8396b6;
+          }
+        }
+        /deep/ .van-checkbox__label {
+          line-height: 30px;
+          font-size: 24px;
+        }
+      }
+      /deep/ .van-field__left-icon {
+        // width: 25px;
+        // height: 30px;
+        height: 70px;
+        i {
+          font-size: 30px;
+          color: #9da6b0;
+        }
+      }
+      /deep/ .van-field__control {
+        font-size: 30px;
+        color: #9da6b1;
+      }
+      .login-submit {
+        margin: 40px 0 70px 0;
+      }
+      .van-button {
+        // margin-top: 20px;
+        width: 100%;
+        line-height: 80px;
+        height: 80px;
+        font-size: 40px;
+      }
+    }
+  }
+  .copyright {
+    position: absolute;
+    bottom: 37px;
     left: 0;
     right: 0;
-    margin: auto;
-    // height: 1280px;
-    // min-height: 1280px;
-  }
-  .login-box{
-    padding: 0 65px;
-    height: 100%;
-    display: flex;
-    width: 100%;
-    position: relative;
-    box-sizing: border-box;
-    // justify-content: center;
-    // flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    // z-index: 666;
-    .login-content{
-      background: #FFFFFF;
-      overflow: hidden;
-      z-index: 999;
-      // margin-top: 218px;
-      box-shadow: 15px 15px 19px 2px rgba(0, 0, 0, 0.5);
-      border-radius: 10px;
-      padding: 0 46px;
-      .title{
-        display: flex;
-        margin-top: 100px;
-        .title-left{
-          margin-left: 35px;
-          margin-right: 25px;
-          width: 58px;
-          height: 86px;
-        }
-        .title-right{
-          flex: 1;
-          p{
-            font-weight: bold;
-            font-size: 30px;
-            color: #FFFFFF;
-            text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
-            background: linear-gradient(0deg, #165AE5 0%, #7DC1FF 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            &:last-child{
-              font-size: 36px;
-            }
-          }
-        }
-      }
-      .notice{
-        text-align: center;
-        color: #9C9C9C;
-        font-weight: bold;
-        font-size: 32px;
-        margin-top: 35px;
-        margin-bottom: 10px;
-      }
-      .underline{
-        width: 110px;
-        height: 4px;
-        background: #0078FF;
-        border-radius: 2px;
-        margin: 0 auto;
-      }
-      .van-form{
-        margin-top: 20px;
-        .van-field{
-          line-height: 70px;
-          padding-top: 0 ;
-          padding-bottom: 0 ;
-          &:nth-child(2){
-            margin-top: 36px;
-          }
-        }
-        .van-checkbox{
-          margin-top: 20px;
-          /deep/ .van-checkbox__icon{
-            height: 30px;
-            line-height: 30px;
-            i{
-              height: 30px;
-              width: 30px;
-              line-height: 30px;
-              // border:1PX solid #8396B6 /*no*/
-              border:1PX solid #8396B6
-            }
-          }
-          /deep/ .van-checkbox__label{
-            line-height: 30px;
-            font-size: 24px;
-          }
-        }
-        /deep/ .van-field__left-icon{
-          // width: 25px;
-          // height: 30px;
-          height: 70px;
-          i{
-            font-size: 30px;
-            color: #9DA6B0;
-          }
-        }
-        /deep/ .van-field__control{
-          font-size: 30px;
-          color: #9DA6B1;
-        }
-        .login-submit{
-          margin: 40px 0 70px 0;
-        }
-        .van-button{
-          // margin-top: 20px;
-          width: 100%;
-          line-height: 80px;
-          height: 80px;
-          font-size: 40px;
-        }
-      }
-    }
-    .copyright{
-      position: absolute;
-      bottom: 37px;
-      left: 0;
-      right: 0;
-      text-align: center;
-      p{
-        font-size: 20px;
-        font-weight: 400;
-        color: #FFFFFF;
-        opacity: 0.75;
-        &:nth-child(2){
-          margin: 12px 0;
-        }
+    text-align: center;
+    p {
+      font-size: 20px;
+      font-weight: 400;
+      color: #ffffff;
+      opacity: 0.75;
+      &:nth-child(2) {
+        margin: 12px 0;
       }
     }
   }
+}
 </style>
