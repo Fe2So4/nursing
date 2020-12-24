@@ -69,10 +69,10 @@ export default {
   components: {
     PatiendCard
   },
-  mounted(){
-    $bus.$on('handleOpeRoomCode',this.handleScanCode)
+  mounted () {
+    $bus.$on('handleOpeRoomCode', this.handleScanCode)
   },
-  beforeDestory(){
+  beforeDestory () {
     $bus.$off('handleOpeRoomCode')
   },
   methods: {
@@ -81,13 +81,13 @@ export default {
     },
 
     // 扫码入手术室、出手术室、入诱导、出诱导
-    handleScanCode(code){
+    handleScanCode (code) {
       let codeStr = ''
       if (code.indexOf('OpeRoom') !== -1) {
-          codeStr = code.replace('OpeRoom=', '')
-          // this.cureNo = OpsRQCode
-      }else if(code.indexOf('InductionRoom') !== -1){
-          codeStr = code.replace('InductionRoom=', '') 
+        codeStr = code.replace('OpeRoom=', '')
+        // this.cureNo = OpsRQCode
+      } else if (code.indexOf('InductionRoom') !== -1) {
+        codeStr = code.replace('InductionRoom=', '')
       }
       console.log(codeStr)
     },
@@ -103,7 +103,8 @@ export default {
           }).then(() => {
             this.$router.push('/sign-in')
           }
-          ).catch(error=>{
+          // eslint-disable-next-line handle-callback-err
+          ).catch(error => {
 
           })
           break
@@ -114,8 +115,9 @@ export default {
           }).then(() => {
             this.$router.push('/time-out')
           }
-          ).catch(error=>{
-            
+          // eslint-disable-next-line handle-callback-err
+          ).catch(error => {
+
           })
           break
         case 3:
@@ -125,8 +127,9 @@ export default {
           }).then(() => {
             this.$router.push('/sign-out')
           }
-          ).catch(error=>{
-            
+          // eslint-disable-next-line handle-callback-err
+          ).catch(error => {
+
           })
           break
         case 4:
