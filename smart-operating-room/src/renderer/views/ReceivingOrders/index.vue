@@ -245,7 +245,7 @@ export default {
             this.detailVisible === true &&
             this.selectRow.hospitalNo === data.object.hospitalNo
           ) {
-            if (data.object.status === 1) {
+            if (data.object.state === 1) {
               this.selectRow.orderState = 1
               this.openToast(
                 'success',
