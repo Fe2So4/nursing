@@ -11,7 +11,10 @@
         >
           刷新<i class="el-icon-refresh-right" />
         </el-button>
-        <span style="vertical-align:middle;margin-left:18px;">数据更新时间: <span style="color:#388FF7;font-weight:600;">{{ time }}</span></span>
+        <span
+          style="vertical-align:middle;margin-left:18px;"
+        >数据更新时间:
+          <span style="color:#388FF7;font-weight:600;">{{ time }}</span></span>
       </div>
     </div>
     <div class="order-list">
@@ -45,9 +48,15 @@
           </el-radio-group>
         </div>
         <div class="lo-right">
-          <span style="color:#FF8B45;">未接单 <strong>{{ receivedOrderCount || 0 }}</strong></span>
-          <span style="color:#02CB4E;">进行中 <strong>{{ haveInHandOrderCount || 0 }}</strong></span>
-          <span style="color:#3478FF;">已完成 <strong>{{ completeOrderCount || 0 }}</strong></span>
+          <span
+            style="color:#FF8B45;"
+          >未接单 <strong>{{ receivedOrderCount || 0 }}</strong></span>
+          <span
+            style="color:#02CB4E;"
+          >进行中 <strong>{{ haveInHandOrderCount || 0 }}</strong></span>
+          <span
+            style="color:#3478FF;"
+          >已完成 <strong>{{ completeOrderCount || 0 }}</strong></span>
         </div>
       </div>
       <div class="list-content">
@@ -67,23 +76,23 @@
               <span>
                 <em
                   class="el-icon-caret-top"
-                  :class="{'blue': selectOrder === '1' ? true : false}"
+                  :class="{ blue: selectOrder === '1' ? true : false }"
                 />
                 <em
                   class="el-icon-caret-bottom"
-                  :class="{'blue': selectOrder === '2' ? true : false}"
+                  :class="{ blue: selectOrder === '2' ? true : false }"
                 />
               </span>
             </div>
           </h3>
           <ul>
             <li
-              v-for="(item,index) in receivedOrder"
+              v-for="(item, index) in receivedOrder"
               :key="index"
               @click="handleShowDetail(item)"
             >
               <patient-list
-                v-if="item.orderType===0"
+                v-if="item.orderType === 0"
                 :pt-data="item"
               />
               <pathology-list
@@ -102,12 +111,12 @@
           </h3>
           <ul>
             <li
-              v-for="(item,index) in haveInHandOrder"
+              v-for="(item, index) in haveInHandOrder"
               :key="index"
               @click="handleShowDetail(item)"
             >
               <patient-list
-                v-if="item.orderType===0"
+                v-if="item.orderType === 0"
                 :pt-data="item"
               />
               <pathology-list
@@ -126,11 +135,11 @@
           </h3>
           <ul>
             <li
-              v-for="(item,index) in completeOrder"
-              :key="index "
+              v-for="(item, index) in completeOrder"
+              :key="index"
             >
               <patient-list
-                v-if="item.orderType===0"
+                v-if="item.orderType === 0"
                 :pt-data="item"
               />
               <pathology-list
@@ -158,7 +167,7 @@ import PatientList from './components/patient-list'
 import Bus from '@/utils/bus.js'
 import PathologyList from './components/pathology-list'
 import DetailDrawer from './components/detail-drawer'
-import {receiveOrderList, floorList, roomList} from '@/api/receiving-orders'
+import { receiveOrderList, floorList, roomList } from '@/api/receiving-orders'
 import request from '@/utils/request2'
 const config = require('@/config/url.js')
 const { BrowserWindow } = require('electron').remote
@@ -181,13 +190,13 @@ export default {
       completeOrderCount: 0,
       detailVisible: false,
       detailStatus: null,
-      selectRow: {
-
-      }
+      selectRow: {}
     }
   },
   components: {
-    PatientList, PathologyList, DetailDrawer
+    PatientList,
+    PathologyList,
+    DetailDrawer
   },
   created () {
     const win = BrowserWindow.getFocusedWindow()
@@ -229,13 +238,19 @@ export default {
         console.log('socket.io disconnect')
         this.connect = false
       })
-      this.socket.on('push_event_all', (data) => {
+      this.socket.on('push_event_all', data => {
         if (data) {
           console.log(data)
-          if (this.detailVisible === true && this.selectRow.hoshospitalNo === data.object.hospitalNo) {
+          if (
+            this.detailVisible === true &&
+            this.selectRow.hospitalNo === data.object.hospitalNo
+          ) {
             if (data.object.status === 1) {
               this.selectRow.orderState = 1
-              this.openToast('success', '订单已接单，可进行打印手术通知单或瓶贴')
+              this.openToast(
+                'success',
+                '订单已接单，可进行打印手术通知单或瓶贴'
+              )
             } else {
               this.detailVisible = false
               this.openToast('warning', '该订单状态已改变，请重新选择')
@@ -246,9 +261,7 @@ export default {
           // this.socket.emit('text', arr)
         }
       })
-      this.socket.on('push_event_screen', (data) => {
-
-      })
+      this.socket.on('push_event_screen', data => {})
     },
     // 点击切换楼层列表
     changeFloor () {
@@ -257,7 +270,7 @@ export default {
     // 获取房间列表
     getRoomList () {
       this.room = ''
-      let text = this.floor.replace(/楼/ig, '')
+      let text = this.floor.replace(/楼/gi, '')
       request({
         url: roomList,
         method: 'get',
@@ -269,7 +282,7 @@ export default {
         this.roomList.forEach(item => {
           item.label = item.roomCode
         })
-        this.roomList.unshift({roomCode: '', label: '全部'})
+        this.roomList.unshift({ roomCode: '', label: '全部' })
         if (this.roomList.length > 0) {
           this.room = this.roomList[0].label
           this.getReceiveOrders()
@@ -281,7 +294,7 @@ export default {
 
     // 获取表单
     getReceiveOrders () {
-      let text = this.floor.replace(/楼/ig, '')
+      let text = this.floor.replace(/楼/gi, '')
       let room = ''
       if (this.room === '全部') {
         room = ''
@@ -336,10 +349,10 @@ export default {
       this.time = this.Moment().format('a h:mm:ss')
       console.log(this.time)
       if (this.time.includes('am')) {
-        this.time = this.time.replace(/am/ig, '上午')
+        this.time = this.time.replace(/am/gi, '上午')
       }
       if (this.time.includes('pm')) {
-        this.time = this.time.replace(/pm/ig, '下午')
+        this.time = this.time.replace(/pm/gi, '下午')
       }
     },
     // 提示方法
@@ -357,7 +370,9 @@ export default {
     this.getFloorList()
     Bus.$on('shuaxinPatient', res => {
       this.detailVisible = false
-      this.utilsDebounce(() => { this.getReceiveOrders() }, 1000)
+      this.utilsDebounce(() => {
+        this.getReceiveOrders()
+      }, 1000)
     })
     this.initSocket()
   },
@@ -381,161 +396,164 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .receiving-orders{
-    height: 100%;
-    .order-option{
+.receiving-orders {
+  height: 100%;
+  .order-option {
+    display: flex;
+    justify-content: space-between;
+    height: 56px;
+    line-height: 56px;
+    background: #ffffff;
+    padding: 0 20px;
+    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+    border-radius: 5px;
+    .option-left {
+      color: #444444;
+      font-weight: 600;
+    }
+  }
+  .order-list {
+    margin-top: 20px;
+    padding: 20px;
+    height: calc(100% - 76px);
+    background: #ffffff;
+    box-shadow: 0px 0px 5px 0px rgba(5, 26, 51, 0.05);
+    border-radius: 5px;
+    .list-option {
       display: flex;
       justify-content: space-between;
-      height: 56px;
-      line-height: 56px;
-      background: #ffffff;
-      padding: 0 20px;
-      box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
-      border-radius: 5px;
-      .option-left{
-        color:#444444;
-        font-weight: 600;
+      box-sizing: border-box;
+      .lo-left {
+        font-size: 18px;
+        line-height: 36px;
+        .label {
+          color: #929498;
+          margin-right: 14px;
+        }
       }
-    }
-    .order-list{
-      margin-top: 20px;
-      padding: 20px;
-      height: calc(100% - 76px);
-      background: #FFFFFF;
-      box-shadow: 0px 0px 5px 0px rgba(5, 26, 51, 0.05);
-      border-radius: 5px;
-      .list-option{
-        display: flex;
-        justify-content: space-between;
-        box-sizing: border-box;
-        .lo-left{
-          font-size: 18px;
-          line-height: 36px;
-          .label{
-            color: #929498;
+      .lo-right {
+        font-size: 20px;
+        line-height: 36px;
+        span {
+          &:first-child,
+          &:nth-child(2) {
             margin-right: 14px;
           }
         }
-        .lo-right{
-          font-size: 20px;
-          line-height: 36px;
-          span{
-            &:first-child,&:nth-child(2){
-              margin-right: 14px;
-            }
-          }
-          strong{
-            color: #444444;
-          }
+        strong {
+          color: #444444;
         }
       }
-      .list-content{
-        margin-top: 20px;
-        height: calc(100% - 76px);
-        display: flex;
-        // display: grid;
-        // grid-template-columns: 1fr 1fr 1fr;
-        .list-wait{
-          flex: 1;
-          .room-filter{
-            position:absolute;
-            font-weight: lighter;
-            text-indent: 9px;
-            color: #444444;
-            right: 20px;
-            top:0;
-            bottom:0;
-            margin:auto;
-            width: 70px;
-            height: 32px;
-            line-height: 32px;
-            font-size: 18px;
-            background: #F4F7FD;
-            border: 1px solid #E5E5E5;
-            border-radius: 3px;
-            display: flex;
-            span{
-              &:last-child{
-                margin-left: 4px;
-                display: flex;
-                text-indent:0;
-                flex-direction: column;
-                justify-content: center;
-                em{
-                  font-size: 16px;
-                  color: #D3D8E1;
-                  cursor: pointer;
-                  width: 15px;
-                  height: 15px;
-                  &:last-child{
-                    margin-top:-5px;
-                  }
+    }
+    .list-content {
+      margin-top: 20px;
+      height: calc(100% - 76px);
+      display: flex;
+      // display: grid;
+      // grid-template-columns: 1fr 1fr 1fr;
+      .list-wait {
+        flex: 1;
+        .room-filter {
+          position: absolute;
+          font-weight: lighter;
+          text-indent: 9px;
+          color: #444444;
+          right: 20px;
+          top: 0;
+          bottom: 0;
+          margin: auto;
+          width: 70px;
+          height: 32px;
+          line-height: 32px;
+          font-size: 18px;
+          background: #f4f7fd;
+          border: 1px solid #e5e5e5;
+          border-radius: 3px;
+          display: flex;
+          span {
+            &:last-child {
+              margin-left: 4px;
+              display: flex;
+              text-indent: 0;
+              flex-direction: column;
+              justify-content: center;
+              em {
+                font-size: 16px;
+                color: #d3d8e1;
+                cursor: pointer;
+                width: 15px;
+                height: 15px;
+                &:last-child {
+                  margin-top: -5px;
                 }
               }
             }
           }
         }
-        .list-process{
-          flex: 1;
-          margin:0 20px;
-        }
-        .list-finish{
-          flex: 1;
-        }
-        .list-common{
-          background: #FFFFFF;
-          box-shadow: 0px 0px 5px 0px rgba(5, 26, 51, 0.15);
-          border-radius: 10px;
-          // width: 100%;
-          height: 100%;
-          .title{
-            line-height: 58px;
-            text-indent: 34px;
-            position: relative;
-            font-size: 20px;
-            border-bottom: 1px solid #E9ECF4;
-            vertical-align: middle;
-            span{
-              vertical-align: center;
-            }
-            i{
-              position: absolute;
-              vertical-align: middle;
-              width: 4px;
-              height: 18px;
-              background: #3478FF;
-              border-radius: 2px;
-              left:20px;
-              top:0;
-              bottom:0;
-              margin:auto;
-            }
+      }
+      .list-process {
+        flex: 1;
+        margin: 0 20px;
+      }
+      .list-finish {
+        flex: 1;
+      }
+      .list-common {
+        background: #ffffff;
+        box-shadow: 0px 0px 5px 0px rgba(5, 26, 51, 0.15);
+        border-radius: 10px;
+        // width: 100%;
+        height: 100%;
+        .title {
+          line-height: 58px;
+          text-indent: 34px;
+          position: relative;
+          font-size: 20px;
+          border-bottom: 1px solid #e9ecf4;
+          vertical-align: middle;
+          span {
+            vertical-align: center;
           }
-          ul{
-            overflow-y: auto;
-            padding: 0 20px;
-            padding-bottom: 10px;
-            height: calc(100% - 58px);
-            &::-webkit-scrollbar{
-              display: none;
-            }
-            li{
-              margin:0 auto;
-              height: 110px;
-              background: #F4F7FD;
-              border-radius: 5px;
-              margin-top: 10px;
-              cursor: pointer;
-            }
+          i {
+            position: absolute;
+            vertical-align: middle;
+            width: 4px;
+            height: 18px;
+            background: #3478ff;
+            border-radius: 2px;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+          }
+        }
+        ul {
+          overflow-y: auto;
+          padding: 0 20px;
+          padding-bottom: 10px;
+          height: calc(100% - 58px);
+          &::-webkit-scrollbar {
+            display: none;
+          }
+          li {
+            margin: 0 auto;
+            height: 110px;
+            background: #f4f7fd;
+            border-radius: 5px;
+            margin-top: 10px;
+            cursor: pointer;
           }
         }
       }
     }
   }
-.blue{
-  color: #3478FF !important;
 }
-/deep/ .vxe-button--content, .vxe-button--icon, .vxe-button--loading-icon {
+.blue {
+  color: #3478ff !important;
+}
+/deep/ .vxe-button--content,
+.vxe-button--icon,
+.vxe-button--loading-icon {
   vertical-align: unset;
-}
-</style>>
+}</style
+>>

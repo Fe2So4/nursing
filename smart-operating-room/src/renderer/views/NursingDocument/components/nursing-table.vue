@@ -1,8 +1,6 @@
 <template>
   <div class="nursing-table">
-    <div
-      class="table-conten"
-    >
+    <div class="table-conten">
       <vxe-table
         stripe
         highlight-current-row
@@ -33,7 +31,7 @@
         />
         <vxe-table-column
           field="createTime"
-          title="创建时间"
+          title="手术日期"
         />
       </vxe-table>
     </div>
@@ -47,9 +45,7 @@ export default {
   data () {
     return {
       loading: false,
-      tableData: [
-
-      ],
+      tableData: [],
       pageItem: {},
       busy: true,
       currentRow: {}
@@ -60,7 +56,9 @@ export default {
       this.pageItem = res
       this.tableData = []
       // this.getTableData(this.pageItem)
-      this.utilsDebounce(() => { this.load() }, 300)
+      this.utilsDebounce(() => {
+        this.load()
+      }, 300)
     })
     this.addScrollHandle()
     this.onceGetData()
@@ -70,7 +68,7 @@ export default {
     addScrollHandle () {
       this.dom = this.$refs.xTable.elemStore['main-body-wrapper']
       this.dom.addEventListener('scroll', () => {
-      // 滚动距离
+        // 滚动距离
         let scrollTop = this.dom.scrollTop
         // 变量windowHeight是可视区的高度
         let windowHeight = this.dom.clientHeight || this.dom.clientHeight
@@ -108,6 +106,7 @@ export default {
         this.loading = false
         if (result.data.data.list.length === 0) {
           this.openToast('warning', '暂无更多数据')
+          return false
         }
         this.tableData.push(...result.data.data.list)
         this.pageItem.pageIndex++
@@ -118,7 +117,7 @@ export default {
       this.currentRow = val
     },
 
-    dbSelected ({row}) {
+    dbSelected ({ row }) {
       console.log(row)
       this.$store.commit('SAVE_HOSNO', row.hospitalNo)
       this.$store.commit('SAVE_PATLENTNAME', row.patientName)
@@ -142,24 +141,24 @@ export default {
 
 <style scoped lang="scss">
 /deep/ .table-conten .vxe-table .vxe-body--row.row--current {
-    background-color:#D6DCE8 !important;
+  background-color: #d6dce8 !important;
 }
 .table-conten {
   height: 100%;
 }
 .nursing-table {
-    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
-    border-radius: 5px;
-    padding-left: 5px;
-    padding-right: 5px;
-    background-color: #fff;
-    width: 100%;
-    height: 100%;
+  box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+  border-radius: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
 }
 /deep/ th {
   color: #333333;
 }
 /deep/ .vxe-table .vxe-body--row.row--stripe {
-      background-color: #f9fafc;
+  background-color: #f9fafc;
 }
 </style>

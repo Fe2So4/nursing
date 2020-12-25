@@ -1,7 +1,10 @@
 <template>
   <div class="detail-patient">
     <div class="dp-info-title">
-      接送患者详情 {{ selectRow.patientName }} 患者位置 {{ selectRow.deptName }} {{ selectRow.wardName }}\{{ selectRow.bedNo }}\{{ selectRow.hospitalNo }}
+      接送患者详情 {{ selectRow.patientName }} 患者位置
+      {{ selectRow.deptName }} {{ selectRow.wardName }}\{{ selectRow.bedNo }}\{{
+        selectRow.hospitalNo
+      }}
     </div>
     <div class="dp-info-basic">
       <el-row>
@@ -11,7 +14,9 @@
         </el-col>
         <el-col :span="3">
           <span>性别：</span>
-          <span class="dp-value">{{ selectRow.patientGender | formatGender }}</span>
+          <span class="dp-value">{{
+            selectRow.patientGender | formatGender
+          }}</span>
         </el-col>
         <el-col :span="3">
           <span>年龄：</span>
@@ -42,7 +47,7 @@
         />
       </p> -->
       <p
-        :class="{'code-input':true,'active':codeInputFocus}"
+        :class="{ 'code-input': true, active: codeInputFocus }"
         @click="handleFocus"
       >
         <el-input
@@ -52,7 +57,7 @@
           @blur="handleBlurCodeInput"
         />
         {{ optas }}
-      <!-- <el-input
+        <!-- <el-input
         ref="inputs"
         readonly
         v-model="codeInput"
@@ -147,19 +152,15 @@
         :space="100"
       >
         <!-- :active="1" -->
-        <el-step
-          title="手术排班"
-        />
+        <el-step title="手术排班" />
         <el-step title="工勤人员接单">
           <template slot="description">
             <div class="time">
               {{ selectRow.specificTime }}
             </div>
-            <div v-show="exitType === '1'? true : false">
+            <div v-show="exitType === '1' ? true : false">
               <span class="name">{{ selectRow.workerName }}</span>
-              <span
-                class="cancel"
-              >点"取消接单"按钮，再扫码即可取消接单</span>
+              <span class="cancel">点"取消接单"按钮，再扫码即可取消接单</span>
             </div>
           </template>
         </el-step>
@@ -171,9 +172,7 @@
       </p>
     </div>
     <div v-show="false">
-      <PrintNotice
-        :select-row="selectRow"
-      />
+      <PrintNotice :select-row="selectRow" />
     </div>
   </div>
 </template>
@@ -183,7 +182,7 @@ import QRCode from 'qrcodejs2'
 
 import Bus from '@/utils/bus.js'
 import PrintNotice from './print-notice'
-import {changeReceiveOrderList} from '@/api/receiving-orders'
+import { changeReceiveOrderList } from '@/api/receiving-orders'
 import request from '@/utils/request2'
 export default {
   name: 'DetailPatient',
@@ -219,7 +218,10 @@ export default {
     dayin () {
       // selectRow.orderState
       console.log(this.selectRow.orderState)
-      if (this.selectRow.orderState === 1 || this.selectRow.orderState === '1') {
+      if (
+        this.selectRow.orderState === 1 ||
+        this.selectRow.orderState === '1'
+      ) {
         Bus.$emit('detail-patient', this.selectRow)
       } else {
         this.$alert('请先扫描工勤人员二维码进行接单')
@@ -315,7 +317,8 @@ export default {
     },
     // 自动聚焦
     changfouce () {
-      this.$nextTick((x) => { // 正确写法
+      this.$nextTick(x => {
+        // 正确写法
         this.$refs.inputs.focus()
       })
     }
@@ -334,13 +337,16 @@ export default {
     console.log(this.selectRow)
   },
   watch: {
-    'codeInput': function (newVal) {
+    codeInput: function (newVal) {
       if (this.codeInput.length % 2 !== 0) {
         this.timearr[0] = new Date().getTime()
       } else {
         this.timearr[1] = new Date().getTime()
       }
-      if (this.codeInput.length > 1 && Math.abs(this.timearr[1] - this.timearr[0]) > 40) {
+      if (
+        this.codeInput.length > 1 &&
+        Math.abs(this.timearr[1] - this.timearr[0]) > 40
+      ) {
         this.codeInput = ''
       }
       this.utilsDebounce(() => {
@@ -359,171 +365,171 @@ export default {
 </script>
 
 <style scoped lang="scss">
-   .detail-patient{
-    font-size:18px;
-    color:#92949A;
-    height: 100%;
-    padding: 0 20px;
-    // overflow-y: auto;
-    background: #F3F5FA;
-    .dp-value{
-      color:#444444;
-    }
-    .dp-info-title{
-      position: relative;
-      left: -20px;
-      width: calc(100% + 40px);
-      height: 60px;
-      background: linear-gradient(90deg, #666666, #303030);
-      line-height: 60px;
-      color: #ffffff;
-      margin-bottom:20px;
+.detail-patient {
+  font-size: 18px;
+  color: #92949a;
+  height: 100%;
+  padding: 0 20px;
+  // overflow-y: auto;
+  background: #f3f5fa;
+  .dp-value {
+    color: #444444;
+  }
+  .dp-info-title {
+    position: relative;
+    left: -20px;
+    width: calc(100% + 40px);
+    height: 60px;
+    background: linear-gradient(90deg, #666666, #303030);
+    line-height: 60px;
+    color: #ffffff;
+    margin-bottom: 20px;
+    font-size: 16px;
+    text-indent: 20px;
+  }
+  .dp-info-basic {
+    background: #ffffff;
+    box-shadow: 0px 0px 5px 0px rgba(5, 26, 51, 0.05);
+    border-radius: 5px;
+    padding: 20px 20px 13px;
+    p {
+      // text-align: center;
+      padding-right: 20px;
+      text-indent: 10px;
+      margin-top: 13px;
+      height: 40px;
+      background: #ffffff;
       font-size: 16px;
-      text-indent: 20px;
-    }
-    .dp-info-basic{
-      background: #FFFFFF;
-      box-shadow: 0px 0px 5px 0px rgba(5, 26, 51, 0.05);
+      line-height: 40px;
+      // border: 1px solid #E4E4E4;
       border-radius: 5px;
-      padding:20px 20px 13px;
-      p{
-        // text-align: center;
-        padding-right: 20px;
-        text-indent: 10px;
-        margin-top: 13px;
-        height: 40px;
-        background: #FFFFFF;
-        font-size: 16px;
-        line-height: 40px;
-        // border: 1px solid #E4E4E4;
-        border-radius: 5px;
-      }
-       .code-input{
-        line-height: 40px;
-        position: relative;
-        border: 1px solid #E4E4E4;
-        height: 40px;
-        .el-input{
-          position: absolute;
-          z-index: -666;
-          left: 0;
-          top: 0;
-        }
-        &.active{
-          border-color: rgb(64,153,240);
-        }
     }
-    }
-    .dp-info-notice{
-      border: 1px solid #E0E0E0;
-      border-radius: 5px;
-      // padding-bottom: 40px;
-      margin:10px 0;
-      background: #ffffff;
-      .dp-title{
-        cursor: pointer;
-        padding-left: 10px;
-        background: #E0E0E0;
-        height: 40px;
-        line-height: 40px;
-        span{
-          display: inline-block;
-          color: #444444;
-          margin-right: 14px;
-          &:first-child{
-            font-weight: bold;
-          }
-        }
-      }
-      .dp-content{
-        padding-left: 20px;
-        line-height: 36px;
-        padding-bottom: 40px;
-        .dp-content-left{
-          float: left;
-          margin-right: 60px;
-          .qrcode{
-            margin-top:20px;
-          }
-        }
-        .dp-content-right{
-          float: left;
-          width: calc(100% - 220px);
-          span{
-            display: inline-block;
-            &:first-child{
-              width: 90px;
-              text-align: right;
-            }
-          }
-        }
-      }
-      p{
-        text-align: center;
-        .el-button{
-          width: 114px;
-          font-size: 18px;
-          background: #E5E5E5;
-          border: 1px solid #E5E5E5;
-          &:before{
-            color:#AAB6CC;
-          }
-        }
-      }
-    }
-    .dp-info-step{
-      background: #ffffff;
+    .code-input {
+      line-height: 40px;
       position: relative;
-      // height: 200px;
-      padding:20px;
-      box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
-      border-radius: 5px;
-      p{
-        text-align: center;
-        margin-top: 10px;
+      border: 1px solid #e4e4e4;
+      height: 40px;
+      .el-input {
+        position: absolute;
+        z-index: -666;
+        left: 0;
+        top: 0;
       }
-      .time{
-        color:#444444;
-        font-size: 18px;
-        margin:10px 0;
-      }
-      .name{
-        font-size: 18px;
-        color:#444444;
-      }
-      .cancel{
-        font-size: 18px;
-        color:#3377FF;
-      }
-      /deep/ .el-step__title{
-        font-size: 18px;
-        line-height: 28px;
-        &.is-wait{
-          color: unset;
-        }
-      }
-      /deep/ .el-step__line{
-        top: 25px;
-        left: 4px;
-        background: #3377FF;
-      }
-      /deep/ .el-step__icon{
-        background: #3377FF;
-        width:10px;
-        height: 10px;
-        border: unset;
-        .el-step__icon-inner{
-          display: none;
-        }
-      }
-      /deep/ .el-step.is-vertical .el-step__head{
-        width: 10px;
-      }
-      /deep/ .el-button{
-        font-size: 18px;
-        background: #E5E5E5;
-        border: 1px solid #E5E5E5;
+      &.active {
+        border-color: rgb(64, 153, 240);
       }
     }
   }
+  .dp-info-notice {
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    // padding-bottom: 40px;
+    margin: 10px 0;
+    background: #ffffff;
+    .dp-title {
+      cursor: pointer;
+      padding-left: 10px;
+      background: #e0e0e0;
+      height: 40px;
+      line-height: 40px;
+      span {
+        display: inline-block;
+        color: #444444;
+        margin-right: 14px;
+        &:first-child {
+          font-weight: bold;
+        }
+      }
+    }
+    .dp-content {
+      padding-left: 20px;
+      line-height: 36px;
+      padding-bottom: 40px;
+      .dp-content-left {
+        float: left;
+        margin-right: 60px;
+        .qrcode {
+          margin-top: 20px;
+        }
+      }
+      .dp-content-right {
+        float: left;
+        width: calc(100% - 220px);
+        span {
+          display: inline-block;
+          &:first-child {
+            width: 90px;
+            text-align: right;
+          }
+        }
+      }
+    }
+    p {
+      text-align: center;
+      .el-button {
+        width: 114px;
+        font-size: 18px;
+        background: #e5e5e5;
+        border: 1px solid #e5e5e5;
+        &:before {
+          color: #aab6cc;
+        }
+      }
+    }
+  }
+  .dp-info-step {
+    background: #ffffff;
+    position: relative;
+    // height: 200px;
+    padding: 20px;
+    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+    border-radius: 5px;
+    p {
+      text-align: center;
+      margin-top: 10px;
+    }
+    .time {
+      color: #444444;
+      font-size: 18px;
+      margin: 10px 0;
+    }
+    .name {
+      font-size: 18px;
+      color: #444444;
+    }
+    .cancel {
+      font-size: 18px;
+      color: #3377ff;
+    }
+    /deep/ .el-step__title {
+      font-size: 18px;
+      line-height: 28px;
+      &.is-wait {
+        color: unset;
+      }
+    }
+    /deep/ .el-step__line {
+      top: 25px;
+      left: 4px;
+      background: #3377ff;
+    }
+    /deep/ .el-step__icon {
+      background: #3377ff;
+      width: 10px;
+      height: 10px;
+      border: unset;
+      .el-step__icon-inner {
+        display: none;
+      }
+    }
+    /deep/ .el-step.is-vertical .el-step__head {
+      width: 10px;
+    }
+    /deep/ .el-button {
+      font-size: 18px;
+      background: #e5e5e5;
+      border: 1px solid #e5e5e5;
+    }
+  }
+}
 </style>
