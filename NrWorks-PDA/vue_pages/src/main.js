@@ -15,6 +15,7 @@ import store from './store'
 import { Popup, Collapse, CollapseItem, Loading, DatetimePicker, Step, Steps, Stepper, TreeSelect, ActionSheet, Checkbox, CheckboxGroup, DropdownMenu, DropdownItem, Switch, Cell, CellGroup, Image, Button, Dialog, Grid, GridItem, Field, Form, Notify, NavBar, Icon } from 'vant'
 // import VueSignaturePad from 'vue-signature-pad'
 import vueEsign from 'vue-esign'
+// import './utils/autoFont'
 Vue.prototype.IsEmpty = IsEmpty
 Vue.use(vueEsign)
 Vue.use(Popup)

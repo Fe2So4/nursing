@@ -11,7 +11,7 @@
       <el-main>
         <router-view />
         <div class="copyright">
-          Copyright©2011-{{ time }}上海仝佥信息技术有限公司
+          Copyright©2011-{{ time }}上海蓝想数科有限公司
         </div>
       </el-main>
     </el-container>
