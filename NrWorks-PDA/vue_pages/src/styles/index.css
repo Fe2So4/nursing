@@ -227,3 +227,7 @@ body /deep/ .van-notify{
   line-height: inherit;
   height: 100%;
 }
+
+#app /deep/ .van-nav-bar__content{
+  height: 100%;
+}

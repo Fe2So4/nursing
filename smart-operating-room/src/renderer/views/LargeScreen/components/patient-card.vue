@@ -12,7 +12,7 @@
           患者信息：<span class="value"
             >{{ patientBasicInfo.patientName }}
             {{ patientBasicInfo.patientAge }}岁
-            {{ patientBasicInfo.wardName }}病区/{{ patientBasicInfo.bedNo }}床
+            {{ patientBasicInfo.wardName }}/{{ patientBasicInfo.bedNo }}床
             {{ patientBasicInfo.hospitalNo }}</span
           >
         </el-col>
@@ -60,6 +60,10 @@
             :class="voiceIcon"
             @click="handleSpeak"
           />
+          <span
+            class="security-voice el-icon-turn-off-microphone"
+            @click="handleStopSpeak"
+          />
         </el-col>
       </el-row>
       <div class="pc-option" @click="handleShowStep">
@@ -76,7 +80,7 @@ import { mapActions, mapState } from "vuex";
 import request from "@/utils/request2";
 import { getPatientInfo } from "@/api/large-screen";
 import $bus from "@/utils/busScreen";
-import { startSpeak } from "@/utils/voiceSpeak";
+import { startSpeak, cancelSpeak } from "@/utils/voiceSpeak";
 import { getCurrentRoom } from "@/utils/storage";
 export default {
   name: "PatientCard",
@@ -113,6 +117,9 @@ export default {
       // if (!this.currentRoom) {
       this.roomVisible = true;
       // }
+    },
+    handleStopSpeak() {
+      cancelSpeak();
     },
     getCurrentRoomFromStorage() {
       let room = getCurrentRoom();
