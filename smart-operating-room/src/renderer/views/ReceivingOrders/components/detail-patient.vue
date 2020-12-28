@@ -133,7 +133,7 @@
             </el-col>
           </el-row>
         </div>
-        <p>
+        <p v-if="selectRow.orderState === '1' || selectRow.orderState === 1">
           <el-button
             @click="dayin"
             class="el-icon-printer"
@@ -145,7 +145,7 @@
     </div>
     <div
       class="dp-info-step"
-      v-if="selectRow.orderState === '1'"
+      v-if="selectRow.orderState === '1' || selectRow.orderState === 1"
     >
       <el-steps
         direction="vertical"
@@ -319,6 +319,7 @@ export default {
     changfouce () {
       this.$nextTick(x => {
         // 正确写法
+        this.codeInputFocus = true
         this.$refs.inputs.focus()
       })
     }
