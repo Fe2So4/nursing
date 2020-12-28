@@ -76,14 +76,14 @@
             <!-- <van-icon name="play"/> -->
           </template>
         </van-cell>
-        <van-cell title="约束带：" value="内容">
+        <van-cell title="约束带：" value="">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
               <van-dropdown-item v-model="recordForm.constraints" :options="constraintOptions" />
             </van-dropdown-menu>
           </template>
         </van-cell>
-        <van-cell title="导尿管：" value="内容">
+        <van-cell title="导尿管：" value="">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
               <van-dropdown-item v-model="recordForm.catheter.catheterName" :options="catheterOptions" />
@@ -91,12 +91,12 @@
           </template>
         </van-cell>
         <div v-show="recordForm.catheter.catheterName==='2' || recordForm.catheter.catheterName==='3'">
-          <van-cell title="型号：" value="内容" title-class="left-title" value-class="right-value">
+          <van-cell title="型号：" value="" title-class="left-title" value-class="right-value">
             <template #right-icon>
               <van-field v-model="recordForm.catheter.catheterType"/>
             </template>
           </van-cell>
-          <van-cell title="尿液性质：" value="内容" title-class="left-title" value-class="right-value">
+          <van-cell title="尿液性质：" value="" title-class="left-title" value-class="right-value">
             <template #right-icon>
               <van-field v-model="recordForm.catheter.catheterNature"/>
             </template>
@@ -108,35 +108,35 @@
             </div>
           </div>
         </div>
-        <van-cell title="电刀：" value="内容">
+        <van-cell title="电刀：" value="">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
               <van-dropdown-item v-model="recordForm.electrotome.electrotomeName" :options="constraintOptions" />
             </van-dropdown-menu>
           </template>
         </van-cell>
-        <van-cell title="电切功率：" value="内容" v-show="recordForm.electrotome.electrotomeName==='2'">
+        <van-cell title="电切功率：" value="" v-show="recordForm.electrotome.electrotomeName==='2'">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
               <van-dropdown-item v-model="recordForm.electrotome.electrotomeDQ" :options="wOptions" />
             </van-dropdown-menu>
           </template>
         </van-cell>
-        <van-cell title="电凝功率：" value="内容" v-show="recordForm.electrotome.electrotomeName==='2'">
+        <van-cell title="电凝功率：" value="" v-show="recordForm.electrotome.electrotomeName==='2'">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF" >
               <van-dropdown-item v-model="recordForm.electrotome.electrotomeDN" :options="wOptions" />
             </van-dropdown-menu>
           </template>
         </van-cell>
-        <van-cell title="电极板位置：" value="内容">
+        <van-cell title="电极板位置：" value="">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
               <van-dropdown-item v-model="recordForm.equipment.electrotomeLocation" :options="djbOptions" />
             </van-dropdown-menu>
           </template>
         </van-cell>
-        <van-cell title="气囊止血机：" value="内容">
+        <van-cell title="气囊止血机：" value="">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
               <van-dropdown-item v-model="recordForm.bhMachine.bhMachineName" :options="constraintOptions" />
@@ -196,35 +196,35 @@
             </div>
           </template>
         </div>
-        <van-cell title="术中冲洗：" title-class="left-title" value-class="right-value multipul-select" value="内容" @click="handleShowDialog({list:'szcxOptions',model:'rinseList',title:'术中冲洗'})">
+        <van-cell title="术中冲洗：" title-class="left-title" value-class="right-value multipul-select" value="" @click="handleShowDialog({list:'szcxOptions',model:'rinseList',title:'术中冲洗'})">
           <template #right-icon>
             <span class="mul-ellipsis">{{handleFilterLabel({list:'szcxOptions',value:'rinseList'})}}</span>
             <!-- <van-icon name="play"/> -->
           </template>
         </van-cell>
         <div v-show="recordForm.rinse.rinseList.indexOf('3')!==-1">
-          <van-cell title="药液1：" value="内容" title-class="left-title" value-class="right-value">
+          <van-cell title="药液1：" value="" title-class="left-title" value-class="right-value">
             <template #right-icon>
               <van-field v-model="recordForm.rinse.liquidMedicine1"/>
             </template>
           </van-cell>
-          <van-cell title="药液2：" value="内容" title-class="left-title" value-class="right-value">
+          <van-cell title="药液2：" value="" title-class="left-title" value-class="right-value">
             <template #right-icon>
               <van-field v-model="recordForm.rinse.liquidMedicine2"/>
             </template>
           </van-cell>
-          <van-cell title="药液3：" value="内容" title-class="left-title" value-class="right-value">
+          <van-cell title="药液3：" value="" title-class="left-title" value-class="right-value">
             <template #right-icon>
               <van-field v-model="recordForm.rinse.liquidMedicine3"/>
             </template>
           </van-cell>
-          <van-cell title="药液4：" value="内容" title-class="left-title" value-class="right-value">
+          <van-cell title="药液4：" value="" title-class="left-title" value-class="right-value">
             <template #right-icon>
               <van-field v-model="recordForm.rinse.liquidMedicine4"/>
             </template>
           </van-cell>
         </div>
-        <van-cell title="腰穿留置：" value="内容">
+        <van-cell title="腰穿留置：" value="">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
               <van-dropdown-item v-model="recordForm.waistPuncture.waistPunctureName" :options="constraintOptions" />
@@ -262,19 +262,19 @@
             </div>
           </div>
         </div>
-        <van-cell title="术中特殊交班：" value="内容">
+        <van-cell title="术中特殊交班：" value="">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
               <van-dropdown-item v-model="recordForm.handOver.handOverName" :options="constraintOptions" />
             </van-dropdown-menu>
           </template>
         </van-cell>
-        <van-cell title="特殊交班备注：" value="内容" v-show="recordForm.handOver.handOverName==='2'" >
+        <van-cell title="特殊交班备注：" value="" v-show="recordForm.handOver.handOverName==='2'" >
           <template #right-icon>
             <van-field v-model="recordForm.handOver.handOverRemarks" />
           </template>
         </van-cell>
-        <van-cell title="术中冰冻：" value="内容">
+        <van-cell title="术中冰冻：" value="">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
               <van-dropdown-item v-model="recordForm.frozen.frozenName" :options="constraintOptions" />
@@ -304,7 +304,7 @@
             </div>
           </template>
         </div>
-        <van-cell title="病理：" value="内容">
+        <van-cell title="病理：" value="">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
               <van-dropdown-item v-model="recordForm.pathology.pathologyName" :options="constraintOptions" />
@@ -327,7 +327,7 @@
             <img :src="recordForm.pathology.sendDoc" alt="" class="signatureImage">
           </div>
         </div>
-        <van-cell title="植入物：" value="内容">
+        <van-cell title="植入物：" value="">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
               <van-dropdown-item v-model="recordForm.implants" :options="constraintOptions" />
@@ -337,14 +337,14 @@
         <van-cell title="术中可观察的受压部位皮肤：" style="background:#E8E8E8;">
         </van-cell>
         <template v-for="(item,index) in recordForm.compressedSkin">
-          <van-cell :title="(2+index*2)+'小时'" value="内容" :key="'hour'+index">
+          <van-cell :title="(2+index*2)+'小时'" value="" :key="'hour'+index">
             <template #right-icon>
               <van-dropdown-menu active-color="#3478FF">
                 <van-dropdown-item v-model="item.isFull" :options="skinOptions" />
               </van-dropdown-menu>
             </template>
           </van-cell>
-          <van-cell v-show="item.isFull === '2'" title="皮损情况：" :key="'hour'+item" value="内容" title-class="left-title" value-class="right-value">
+          <van-cell v-show="item.isFull === '2'" title="皮损情况：" :key="'hour'+item" value="" title-class="left-title" value-class="right-value">
             <template #right-icon>
               <van-field v-model="item.skinStatus"/>
             </template>

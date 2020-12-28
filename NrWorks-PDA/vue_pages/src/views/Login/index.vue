@@ -55,97 +55,97 @@
 </template>
 
 <script>
-import { login } from "@/api/login";
-import request from "@/utils/request";
-import moment from "moment";
-import logo from "@/assets/login-logo.png";
-import { getOpePeople } from "@/api/device-package";
-import { mapActions } from "vuex";
+import { login } from '@/api/login'
+import request from '@/utils/request'
+import moment from 'moment'
+import logo from '@/assets/login-logo.png'
+import { getOpePeople } from '@/api/device-package'
+import { mapActions } from 'vuex'
 import {
   setUserToken,
   setCurrentAccount,
   getCurrentAccount,
-  clearCurrentAccount,
-} from "../../utils/storage";
+  clearCurrentAccount
+} from '../../utils/storage'
 export default {
-  name: "Login",
-  data() {
+  name: 'Login',
+  data () {
     return {
-      username: "",
-      password: "",
-      version: "",
-      newVersion: "2.0.0",
-      oldVersion: "1.0.0",
-      fileName: "PDA",
-      path: "",
+      username: '',
+      password: '',
+      version: '',
+      newVersion: '2.0.0',
+      oldVersion: '1.0.0',
+      fileName: 'PDA',
+      path: '',
       time: moment(new Date()),
       progress: 0,
       imgUrl: logo,
-      isRemember: false,
-    };
+      isRemember: false
+    }
   },
   methods: {
-    ...mapActions("Patient", ["setOpePeopleInfo"]),
-    getOpePeople() {
+    ...mapActions('Patient', ['setOpePeopleInfo']),
+    getOpePeople () {
       request({
-        method: "get",
-        url: getOpePeople,
+        method: 'get',
+        url: getOpePeople
       }).then((res) => {
-        console.log(res.data.data);
-        this.setOpePeopleInfo(res.data.data);
-      });
+        console.log(res.data.data)
+        this.setOpePeopleInfo(res.data.data)
+      })
     },
     // 获取当前用户名和密码
-    getAccount() {
-      let res = getCurrentAccount();
+    getAccount () {
+      let res = getCurrentAccount()
       if (res) {
-        let obj = JSON.parse(res);
-        this.username = obj.username;
-        this.password = obj.password;
-        this.isRemember = obj.isRemember;
+        let obj = JSON.parse(res)
+        this.username = obj.username
+        this.password = obj.password
+        this.isRemember = obj.isRemember
       }
     },
     // 存储用户名和密码
-    storageAccount() {
+    storageAccount () {
       let obj = JSON.stringify({
         username: this.username,
         password: this.password,
-        isRemember: this.isRemember,
-      });
-      setCurrentAccount(obj);
+        isRemember: this.isRemember
+      })
+      setCurrentAccount(obj)
     },
-    onSubmit(values) {
-      if (this.username === "") {
-        this.$notify("用户名不能为空");
-        return;
+    onSubmit (values) {
+      if (this.username === '') {
+        this.$notify('用户名不能为空')
+        return
       }
-      if (this.password === "") {
-        this.$notify("密码不能为空");
-        return;
+      if (this.password === '') {
+        this.$notify('密码不能为空')
+        return
       }
       request({
         url: login,
-        method: "post",
+        method: 'post',
         data: {
           loginName: this.username,
-          loginPwd: this.password,
-        },
+          loginPwd: this.password
+        }
       }).then((res) => {
-        if (res.data.code === "0") {
-          setUserToken(res.data.data);
+        if (res.data.code === '0') {
+          setUserToken(res.data.data)
           if (this.isRemember) {
-            this.storageAccount();
+            this.storageAccount()
           } else {
-            clearCurrentAccount();
+            clearCurrentAccount()
           }
           if (res.data.data) {
-            this.getOpePeople();
-            this.$router.push("/home");
+            this.getOpePeople()
+            this.$router.push('/home')
           }
         }
-      });
+      })
       // this.$router.push('/signature')
-    },
+    }
     // openFile () {
     //   var url = '/sdcard/tencent/MicroMsg/Download/pda.apk'
     //   cordova.plugins.fileOpener2.open(url,
@@ -226,10 +226,10 @@ export default {
     //   // })
     // }
   },
-  created() {
-    this.getAccount();
+  created () {
+    this.getAccount()
   },
-  mounted() {
+  mounted () {
     // document.addEventListener('deviceready', onDeviceReady, false)
     // function onDeviceReady () {
     //   console.log('console.log works well')
@@ -240,8 +240,8 @@ export default {
     //   me.msg = 'cordova is ready'
     //   me.init()
     // }
-  },
-};
+  }
+}
 </script>
 
 <style lang="scss" scoped>

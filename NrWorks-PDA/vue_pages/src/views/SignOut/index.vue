@@ -11,42 +11,42 @@
     <PatientCard></PatientCard>
     <div class="list">
       <van-cell-group>
-        <van-cell title="患者姓名、住院号、性别、年龄正确：" value="内容" value-class="first-cell van-cell-center">
+        <van-cell title="患者姓名、住院号、性别、年龄正确：" value="" value-class="first-cell van-cell-center">
           <template #right-icon>
             <van-switch v-model="recordForm[0].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="实际手术方式确认：" value="内容" value-class="van-cell-center">
+        <van-cell title="实际手术方式确认：" value="" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="recordForm[1].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="手术部位、体位、标识正确：" value="内容" value-class="first-cell van-cell-center">
+        <van-cell title="手术部位、体位、标识正确：" value="" value-class="first-cell van-cell-center">
           <template #right-icon>
             <van-switch v-model="recordForm[2].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="手术用药、输血、冰冻报告的核查正确：" value="内容" title-class="first-cell" value-class="van-cell-center">
+        <van-cell title="手术用药、输血、冰冻报告的核查正确：" value="" title-class="first-cell" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="recordForm[3].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="病理标本：" value="内容" value-class="van-cell-center">
+        <van-cell title="病理标本：" value="" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="recordForm[4].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="病理标本号核对正确：" value="内容" value-class="van-cell-center">
+        <van-cell title="病理标本号核对正确：" value="" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="recordForm[15].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="手术用物清点正确：" value="内容" value-class="van-cell-center">
+        <van-cell title="手术用物清点正确：" value="" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="recordForm[5].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="皮肤是否完整：" value="内容" value-class="van-cell-center">
+        <van-cell title="皮肤是否完整：" value="" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="recordForm[6].value" active-color="#3478FF" inactive-color="#E8E8E8" @change="handleChange"/>
           </template>
@@ -63,14 +63,14 @@
             </template>
           </van-cell>
         </van-cell-group>
-        <van-cell title="其它：" value="内容" title-class="left-title" value-class="right-value">
+        <van-cell title="其它：" value="" title-class="left-title" value-class="right-value">
           <template #right-icon>
             <van-field v-model="recordForm[7].value" label="" placeholder="请输入其它：" />
           </template>
         </van-cell>
       </van-cell-group>
       <van-cell-group style="margin-top:15px;">
-        <van-cell title="患者去向：" value="内容">
+        <van-cell title="患者去向：" value="">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
               <van-dropdown-item v-model="recordForm[8].value" :options="option" />
@@ -79,32 +79,32 @@
         </van-cell>
         <van-cell title="各种管路：" value="" value-class="van-cell-center">
         </van-cell>
-        <van-cell title="动脉通路：" value="内容" value-class="van-cell-center">
+        <van-cell title="动脉通路：" value="" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="recordForm[9].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="静脉通路：" value="内容" value-class="van-cell-center">
+        <van-cell title="静脉通路：" value="" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="recordForm[10].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="气管插管：" value="内容" value-class="van-cell-center">
+        <van-cell title="气管插管：" value="" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="recordForm[11].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="伤口引流：" value="内容" value-class="van-cell-center">
+        <van-cell title="伤口引流：" value="" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="recordForm[12].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="胃管：" value="内容" value-class="van-cell-center">
+        <van-cell title="胃管：" value="" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="recordForm[13].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="尿管：" value="内容" value-class="van-cell-center">
+        <van-cell title="尿管：" value="" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="recordForm[14].value" active-color="#3478FF" inactive-color="#E8E8E8" @change="handleChange"/>
           </template>

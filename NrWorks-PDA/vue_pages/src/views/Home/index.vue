@@ -3,7 +3,6 @@
     <van-nav-bar title="手术室移动工作平台">
       <van-icon
         class-prefix="my-icon"
-        name="caidan"
         slot="left"
         size="34"
         color="#ffffff"
@@ -78,181 +77,181 @@
 </template>
 
 <script>
-import request from "../../utils/request";
-import { getPatientInfo, bindingPatPushScreen } from "@/api/patient-info";
-import Loading from "@/components/Loading";
+import request from '../../utils/request'
+import { getPatientInfo, bindingPatPushScreen } from '@/api/patient-info'
+import Loading from '@/components/Loading'
 // import {getOpePeople} from '@/api/device-package'
-import def from "@/assets/def.png";
-import $bus from "@/utils/bus";
-import Menu from "@/components/Menu";
-import { mapActions, mapState } from "vuex";
+import def from '@/assets/def.png'
+import $bus from '@/utils/bus'
+import Menu from '@/components/Menu'
+import { mapActions, mapState } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
-      cureNo: "",
+      cureNo: '',
       avater: def,
       showLoading: false,
-      showMenu: false,
-    };
+      showMenu: false
+    }
   },
   computed: {
-    ...mapState("Patient", ["opePeopleInfo"]),
+    ...mapState('Patient', ['opePeopleInfo'])
   },
   components: {
     Loading,
-    Menu,
+    Menu
   },
   methods: {
-    ...mapActions("Patient", ["getPatient"]),
-    onClickLeft() {
-      this.showMenu = true;
+    ...mapActions('Patient', ['getPatient']),
+    onClickLeft () {
+      this.showMenu = true
     },
-    handleClose() {
-      this.showMenu = false;
+    handleClose () {
+      this.showMenu = false
     },
-    handleExitApp() {
+    handleExitApp () {
       // 关闭app
       this.$dialog
         .confirm({
-          title: "提示",
-          message: "是否退出当前应用?",
+          title: '提示',
+          message: '是否退出当前应用?'
         })
         .then(() => {
           // on confirm
-          navigator.app.exitApp();
+          navigator.app.exitApp()
         })
         .catch(() => {
           // on cancel
-        });
+        })
     },
-    onClickRight() {},
+    onClickRight () {},
     // 绑定患者
-    bindingPatPushScreen() {
+    bindingPatPushScreen () {
       request({
         url: bindingPatPushScreen,
-        method: "post",
+        method: 'post',
         params: {
-          cureNo: this.cureNo,
-        },
+          cureNo: this.cureNo
+        }
       }).then((res) => {
         if (res.data.code === 200) {
-          this.handleJump();
+          this.handleJump()
         }
-      });
+      })
     },
-    getPatientData() {
-      this.showLoading = true;
+    getPatientData () {
+      this.showLoading = true
       request({
-        url: getPatientInfo + "/" + this.cureNo,
-        method: "get",
+        url: getPatientInfo + '/' + this.cureNo,
+        method: 'get'
       }).then((res) => {
         if (res) {
           if (res.data.code === 200) {
-            this.getPatient(res.data.data);
+            this.getPatient(res.data.data)
             setTimeout(() => {
-              this.bindingPatPushScreen();
-              this.showLoading = false;
-            }, 2000);
+              this.bindingPatPushScreen()
+              this.showLoading = false
+            }, 2000)
           } else {
             setTimeout(() => {
-              this.showLoading = false;
-            }, 2000);
+              this.showLoading = false
+            }, 2000)
           }
         } else {
           setTimeout(() => {
-            this.showLoading = false;
-          }, 2000);
+            this.showLoading = false
+          }, 2000)
         }
-      });
+      })
     },
-    getPatientDataUpdate() {
-      this.showLoading = true;
+    getPatientDataUpdate () {
+      this.showLoading = true
       request({
-        url: getPatientInfo + "/" + this.cureNo,
-        method: "get",
+        url: getPatientInfo + '/' + this.cureNo,
+        method: 'get'
       }).then((res) => {
         if (res) {
           if (res.data.code === 200) {
-            this.getPatient(res.data.data);
+            this.getPatient(res.data.data)
           } else {
           }
         } else {
         }
-      });
+      })
     },
-    handleJump() {
+    handleJump () {
       if (this.cureNo) {
-        this.$router.push("/patient-home");
+        this.$router.push('/patient-home')
       }
     },
-    handleScan(code) {
+    handleScan (code) {
       // 患者腕带条码
       if (parseInt(code)) {
-        this.cureNo = code;
-        this.getPatientData();
+        this.cureNo = code
+        this.getPatientData()
         // this.subjectOfPatientWristband.next(code)
       }
       // 手术通知单二维码
-      if (code.indexOf("OpsQRCode") !== -1) {
+      if (code.indexOf('OpsQRCode') !== -1) {
         // var jsonStr
-        if (code.indexOf("OpsSchNo") !== -1) {
-          var codelist = code.split(",");
-          var OpsRQCode = codelist[0].replace("OpsQRCode=", "");
-          var OpsSchNo = codelist[1].replace("OpsSchNo=", "");
-          this.cureNo = OpsRQCode;
-          this.operateNo = OpsSchNo;
+        if (code.indexOf('OpsSchNo') !== -1) {
+          var codelist = code.split(',')
+          var OpsRQCode = codelist[0].replace('OpsQRCode=', '')
+          var OpsSchNo = codelist[1].replace('OpsSchNo=', '')
+          this.cureNo = OpsRQCode
+          this.operateNo = OpsSchNo
           // jsonStr = JSON.stringify({ cureno: OpsRQCode, operateno: OpsSchNo })
         } else {
-          this.cureNo = code.replace("OpsQRCode=", "");
+          this.cureNo = code.replace('OpsQRCode=', '')
           // jsonStr = JSON.stringify({ cureno: code.replace('OpsQRCode=', '') })
         }
-        this.getPatientData();
+        this.getPatientData()
         // this.subjectOfPatientNoticeForm.next(jsonStr)
       }
-    },
+    }
   },
-  created() {
+  created () {
     document.onkeydown = (e) => {
-      var key = window.event.keyCode;
+      var key = window.event.keyCode
       if (key === 13) {
-        this.handleScan("17268712");
+        this.handleScan('1018')
       }
-    };
+    }
   },
-  mounted() {
+  mounted () {
     // this.getPatientData()
-    document.addEventListener("deviceready", onDeviceReady, false);
-    let that = this;
-    function onDeviceReady() {
+    document.addEventListener('deviceready', onDeviceReady, false)
+    let that = this
+    function onDeviceReady () {
       // eslint-disable-next-line no-undef
-      cordova.ScanCode.getCode("12", (e) => {
+      cordova.ScanCode.getCode('12', (e) => {
         if (e) {
-          if (that.$route.path === "/home") {
-            that.handleScan(e);
-          } else if (that.$route.path === "/transfer") {
+          if (that.$route.path === '/home') {
+            that.handleScan(e)
+          } else if (that.$route.path === '/transfer') {
             // alert('/transfer')
-            $bus.$emit("handleCode", e);
-          } else if (that.$route.path === "/device-special") {
+            $bus.$emit('handleCode', e)
+          } else if (that.$route.path === '/device-special') {
             // alert('/device-special', e)
-            $bus.$emit("handleDeviceCode", e);
-          } else if (that.$route.path === "/patient-home") {
-            $bus.$emit("handleOpeRoomCode", e);
+            $bus.$emit('handleDeviceCode', e)
+          } else if (that.$route.path === '/patient-home') {
+            $bus.$emit('handleOpeRoomCode', e)
           }
         }
-      });
+      })
     }
-    $bus.$on("handleScan", this.handleScan);
-    $bus.$on("getPatientDataUpdate", this.getPatientDataUpdate);
+    $bus.$on('handleScan', this.handleScan)
+    $bus.$on('getPatientDataUpdate', this.getPatientDataUpdate)
   },
-  beforeDetroy() {
+  beforeDetroy () {
     // eslint-disable-next-line no-undef
-    this.showLoading = false;
-    $bus.$off("handleScan");
-    $bus.$off("getPatientDataUpdate");
+    this.showLoading = false
+    $bus.$off('handleScan')
+    $bus.$off('getPatientDataUpdate')
     // 移除 <div> 事件句柄
-    document.removeEventListener("deviceready");
-  },
-};
+    document.removeEventListener('deviceready')
+  }
+}
 </script>
 
 <style lang="scss" scoped>

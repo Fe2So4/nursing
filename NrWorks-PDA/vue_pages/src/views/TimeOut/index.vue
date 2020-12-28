@@ -11,27 +11,27 @@
     <PatientCard></PatientCard>
     <div class="list">
       <van-cell-group>
-        <van-cell title="患者姓名、住院号、性别、年龄正确：" value="内容" value-class="first-cell van-cell-center">
+        <van-cell title="患者姓名、住院号、性别、年龄正确：" value="" value-class="first-cell van-cell-center">
           <template #right-icon>
             <van-switch v-model="recordForm[0].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="手术方式确认" value="内容" value-class="van-cell-center">
+        <van-cell title="手术方式确认" value="" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="recordForm[1].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="手术部位、标识、体位正确：" value="内容" title-class="first-cell" value-class="van-cell-center">
+        <van-cell title="手术部位、标识、体位正确：" value="" title-class="first-cell" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="recordForm[2].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="是否需要相关影像资料：" value="内容" value-class="van-cell-center">
+        <van-cell title="是否需要相关影像资料：" value="" value-class="van-cell-center">
           <template #right-icon>
             <van-switch v-model="recordForm[3].value" active-color="#3478FF" inactive-color="#E8E8E8"/>
           </template>
         </van-cell>
-        <van-cell title="其它：" value="内容" title-class="left-title" value-class="right-value">
+        <van-cell title="其它：" value="" title-class="left-title" value-class="right-value">
           <template #right-icon>
             <van-field v-model="recordForm[4].value" label="" placeholder="请输入其它：" />
           </template>
