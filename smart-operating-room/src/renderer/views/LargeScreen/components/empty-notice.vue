@@ -2,22 +2,22 @@
   <div class="empty-notice">
     <div class="top">
       <i class="el-icon-warning-outline" />
-      <span>{{ currentRoom ? '目前未绑定患者，请在PDA中进行操作！' : '请先选择手术房间' }}</span>
+      <span>{{
+        currentRoom ? "目前未绑定患者，请在PDA中进行操作！" : "请先选择手术房间"
+      }}</span>
       <span
-        style="position:absolute;right:50px;cursor:pointer;"
+        style="position: absolute; right: 50px; cursor: pointer"
         @click="handleShowHistory"
-      >历史患者</span>
+        >历史患者</span
+      >
     </div>
-    <div
-      class="bottom"
-      v-if="currentRoom"
-    >
+    <div class="bottom" v-if="currentRoom">
       <ul>
         <li>
           <div class="li-top">
             <i />
             <span>术前</span>
-            // <span>术前-进手术室之前</span>
+            <!-- <span>术前-进手术室之前</span> -->
           </div>
           <div class="li-bottom">
             <p>患者病史摘要、当前有效医嘱、化验报告/危急值</p>
@@ -29,7 +29,7 @@
           <div class="li-top">
             <i />
             <span>术中</span>
-            // <span>术中-进手术室之后</span>
+            <!-- <span>术中-进手术室之后</span> -->
           </div>
           <div class="li-bottom">
             <p>安全核查：Sign In、Time Out、Sign Out</p>
@@ -41,7 +41,7 @@
           <div class="li-top">
             <i />
             <span>术后</span>
-            // <span>术后-离开手术室</span>
+            <!-- <span>术后-离开手术室</span> -->
           </div>
           <div class="li-bottom">
             <p>安全核查：Sign In、Time Out、Sign Out</p>
@@ -55,84 +55,80 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import { mapState } from "vuex";
 export default {
-  data () {
-    return {
-
-    }
+  data() {
+    return {};
   },
   computed: {
-    ...mapState('LargeScreen', ['currentRoom'])
+    ...mapState("LargeScreen", ["currentRoom"]),
   },
   methods: {
-    handleShowHistory () {
-      this.$emit('handleShowHistory')
-    }
+    handleShowHistory() {
+      this.$emit("handleShowHistory");
+    },
   },
-  mounted () {
-
-  }
-}
+  mounted() {},
+};
 </script>
 
 <style lang="scss" scoped>
-  .empty-notice{
-    .top{
-      height: 70px;
-      background: #FFFFFF;
-      box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15);
-      border-radius: 5px;
-      color: #303133;
-      font-size: 24px;
-      line-height: 70px;
-      padding-left: 20px;
-      vertical-align: middle;
-      border-top: 5px solid #3377ff;
-      i{
-        color:#3377FF;
-        font-weight: bold;
-      }
+.empty-notice {
+  .top {
+    height: 70px;
+    background: #ffffff;
+    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15);
+    border-radius: 5px;
+    color: #303133;
+    font-size: 24px;
+    line-height: 70px;
+    padding-left: 20px;
+    vertical-align: middle;
+    border-top: 5px solid #3377ff;
+    i {
+      color: #3377ff;
+      font-weight: bold;
     }
-    .bottom{
-      margin-top: 20px;
-      ul{
-        display: flex;
-        li{
-          flex: 1;
-          box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15);
-          border-radius: 10px;
-          .li-top{
-            color:#303133;
-            padding-left: 20px;
-            i{
-              width: 4px;
-              display: inline-block;
-              height: 18px;
-              background: #3377FF;
-              border-radius: 2px;
-              vertical-align: middle;
-              margin-right: 4px;
-            }
-            span{
-              display: inline-block;
-              vertical-align: middle;
-            }
-            line-height: 58px;
+  }
+  .bottom {
+    margin-top: 20px;
+    ul {
+      display: flex;
+      li {
+        flex: 1;
+        box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15);
+        border-radius: 10px;
+        .li-top {
+          color: #303133;
+          padding-left: 20px;
+          i {
+            width: 4px;
+            display: inline-block;
+            height: 18px;
+            background: #3377ff;
+            border-radius: 2px;
+            vertical-align: middle;
+            margin-right: 4px;
           }
-          .li-bottom{
-            color: #919398;
-            padding-left: 20px;
-            border-top: 1px solid #E9EBF4;
-            p{
-              line-height: 40px;
-            }
+          span {
+            display: inline-block;
+            vertical-align: middle;
           }
-          &:nth-child(2){
-            margin: 0 25px;
+          line-height: 58px;
+        }
+        .li-bottom {
+          color: #919398;
+          padding-left: 20px;
+          border-top: 1px solid #e9ebf4;
+          p {
+            line-height: 40px;
           }
+        }
+        &:nth-child(2) {
+          margin: 0 25px;
         }
       }
     }
   }
+}
 </style>

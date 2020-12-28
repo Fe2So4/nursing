@@ -83,25 +83,25 @@ export default {
 
 <style scoped lang="scss">
 .btnBlue {
-    background-color:#EAEEF7;
-    width: 90px;
-    // background-color:#3377FF;
-    // color: #fff;
-    margin-left: 20px;
+  background-color: #eaeef7;
+  width: 90px;
+  // background-color:#3377FF;
+  // color: #fff;
+  margin-left: 20px;
 }
 
 .header-content {
-    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
-    border-radius: 5px;
-    background-color: #fff;
-    padding: 20px;
-    .header-content-form {
-        display: flex;
-        align-items: center;
-    }
+  box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+  border-radius: 5px;
+  background-color: #fff;
+  padding: 20px;
+  .header-content-form {
+    display: flex;
+    align-items: center;
+  }
 }
 .vxe-button.size--mini.type--button:hover {
-  background-color: #3377FF;
-  color: #FFFFFF;
+  background-color: #3377ff;
+  color: #ffffff;
 }
 </style>

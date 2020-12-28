@@ -310,7 +310,7 @@ export default {
             &:last-child {
               color: #7f7f7f;
               margin-top: 20px;
-              font-size: 26px;
+              font-size: 30px;
             }
           }
         }

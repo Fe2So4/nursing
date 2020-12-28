@@ -10,7 +10,7 @@
     >
       <detail-pathology
         :select-row="selectRow"
-        v-if="detailStatus===1"
+        v-if="detailStatus === 1"
       />
       <detail-patient
         :select-row="selectRow"
@@ -44,7 +44,7 @@ export default {
       immediate: true
     }
   },
-  components: {DetailPatient, DetailPathology},
+  components: { DetailPatient, DetailPathology },
   props: {
     detailVisible: {
       type: Boolean,
@@ -75,6 +75,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+/deep/ .el-drawer.rtl {
+  overflow-y: scroll;
+}
 </style>
