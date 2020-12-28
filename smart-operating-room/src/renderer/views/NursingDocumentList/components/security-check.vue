@@ -3,9 +3,7 @@
     class="content-wenben-container"
     id="security-check"
   >
-    <div
-      class="wenben-content"
-    >
+    <div class="wenben-content">
       <div class="wenben-content-title">
         <span>复旦大学附属华山医院</span>
       </div>
@@ -59,7 +57,7 @@
                 <el-form-item label="麻醉方式:">
                   <el-input
                     disabled
-                    v-model="formData.operationMethodName"
+                    v-model="formData.anesthesiaMethod"
                   />
                 </el-form-item>
               </el-col>
@@ -150,7 +148,7 @@
                 style="width:115px"
               >麻醉方式:</span>
               <div class="row-text">
-                {{ formData.operationMethodName }}
+                {{ formData.anesthesiaMethod }}
               </div>
             </div>
             <div class="col">
@@ -171,6 +169,7 @@
               >手术方式:</span>
               <div
                 class="row-text"
+                style="text-align: left;"
               >
                 {{ formData.operationName }}
               </div>
@@ -359,7 +358,9 @@
                 justify-content: flex-end;"
               >
                 <span class="info-left padl3">其它</span>
-                <span class="zidingyi">{{ opeeBeforeCheck.isSelect3_4qita }}</span>
+                <span class="zidingyi">{{
+                  opeeBeforeCheck.isSelect3_4qita
+                }}</span>
               </span>
             </div>
             <div class="info-one">
@@ -375,7 +376,9 @@
                 justify-content: flex-end;"
               >
                 <span class="info-left padl3">其它</span>
-                <span class="zidingyi">{{ opeeBeforeCheck.isSelect4_2qita }}</span>
+                <span class="zidingyi">{{
+                  opeeBeforeCheck.isSelect4_2qita
+                }}</span>
               </span>
             </div>
             <div class="info-one padb10">
@@ -399,7 +402,9 @@
                 justify-content: flex-end;"
               >
                 <span class="info-left padl3">其它</span>
-                <span class="zidingyi">{{ opeeBeforeCheck.isSelect5_4qita }}</span>
+                <span class="zidingyi">{{
+                  opeeBeforeCheck.isSelect5_4qita
+                }}</span>
               </span>
             </div>
             <InfoList
@@ -482,7 +487,9 @@
               </span>
             </div>
             <div class="info-one">
-              <span class="info-left padl5">手术用药,输血,冰冻报告的检查正确：</span>
+              <span
+                class="info-left padl5"
+              >手术用药,输血,冰冻报告的检查正确：</span>
               <span class="info-right-one">
                 <InfoList
                   :myselect="beforeLeaveRoomCheck.isSelect3"
@@ -553,7 +560,9 @@
               </span>
               <span class="info-right-one guanluqita">
                 <div class="info-left padl3">其他：</div>
-                <span class="zidingyi">{{ beforeLeaveRoomCheck.isSelect7_6qita }}</span>
+                <span class="zidingyi">{{
+                  beforeLeaveRoomCheck.isSelect7_6qita
+                }}</span>
               </span>
             </div>
             <div class="info-one padb10">
@@ -636,7 +645,7 @@
 
 <script>
 // import {reqSecurityCheck} from '@/api/NursingDocumentApi/security-check.js'
-import {ipcRenderer} from 'electron'
+import { ipcRenderer } from 'electron'
 import Bus from '@/utils/bus.js'
 import InfoList from './components/info-list'
 import IsSelect from './components/isSelect'
@@ -650,7 +659,7 @@ export default {
         patientName: '',
         gender: '',
         hospitalNo: '',
-        operationMethodName: ''
+        anesthesiaMethod: ''
       },
       anesBeforeCheckTable: [],
       anesBeforeCheck: {
@@ -729,11 +738,17 @@ export default {
     this.searchData()
     Bus.$on('clickShuaXinSecurity', res => {
       if (res === '1') {
-        this.utilsDebounce(() => { this.searchData() }, 1000)
+        this.utilsDebounce(() => {
+          this.searchData()
+        }, 1000)
       } else if (res === '2') {
-        this.utilsDebounce(() => { this.dayin() }, 1000)
+        this.utilsDebounce(() => {
+          this.dayin()
+        }, 1000)
       } else if (res === '3') {
-        this.htmlTitle = this.$store.state['nursing-document-list'].patientName + '安全核查记录单'
+        this.htmlTitle =
+          this.$store.state['nursing-document-list'].patientName +
+          '安全核查记录单'
         this.utilsDebounce(() => {
           // this.getPdf('security-check')
           this.daochuPDF()
@@ -757,7 +772,12 @@ export default {
       const options = { silent: false }
       // options = JSON.stringify(options)
       this.utilsDebounce(() => {
-        ipcRenderer.send('printpdfChannel', printHtml, 'security-check.css', options)
+        ipcRenderer.send(
+          'printpdfChannel',
+          printHtml,
+          'security-check.css',
+          options
+        )
       }, 1000)
     },
     // 查询数据
@@ -781,7 +801,7 @@ export default {
           this.formData.patientName = wenshuData.patientName
           this.formData.gender = wenshuData.gender
           this.formData.hospitalNo = wenshuData.hospitalNo
-          this.formData.operationMethodName = wenshuData.operationMethodName
+          this.formData.anesthesiaMethod = wenshuData.anesthesiaMethod
           this.formData.patientAge = wenshuData.patientAge
           this.formData.operationDate = wenshuData.operationDate
           this.formData.operatorName = wenshuData.operatorName
@@ -794,75 +814,158 @@ export default {
           this.anesBeforeCheck.anesBeforeChkTime = wenshuData.anesBeforeChkTime
           this.anesBeforeCheckTable = wenshuData.anesBeforeCheck
           if (!this.IsEmpty(wenshuData.anesBeforeCheck)) {
-            this.anesBeforeCheck.isSelect0 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[0].value)
-            this.anesBeforeCheck.isSelect1 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[1].value)
-            this.anesBeforeCheck.isSelect2 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[2].value)
-            this.anesBeforeCheck.isSelect3 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[3].value)
-            this.anesBeforeCheck.isSelect4 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[4].value)
-            this.anesBeforeCheck.isSelect5 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[5].value)
-            this.anesBeforeCheck.isSelect6 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[6].value)
+            this.anesBeforeCheck.isSelect0 = this.changeIsTrueOrFalse(
+              this.anesBeforeCheckTable[0].value
+            )
+            this.anesBeforeCheck.isSelect1 = this.changeIsTrueOrFalse(
+              this.anesBeforeCheckTable[1].value
+            )
+            this.anesBeforeCheck.isSelect2 = this.changeIsTrueOrFalse(
+              this.anesBeforeCheckTable[2].value
+            )
+            this.anesBeforeCheck.isSelect3 = this.changeIsTrueOrFalse(
+              this.anesBeforeCheckTable[3].value
+            )
+            this.anesBeforeCheck.isSelect4 = this.changeIsTrueOrFalse(
+              this.anesBeforeCheckTable[4].value
+            )
+            this.anesBeforeCheck.isSelect5 = this.changeIsTrueOrFalse(
+              this.anesBeforeCheckTable[5].value
+            )
+            this.anesBeforeCheck.isSelect6 = this.changeIsTrueOrFalse(
+              this.anesBeforeCheckTable[6].value
+            )
             this.anesBeforeCheck.pifu_buwei = this.anesBeforeCheckTable[6].items[0].value
             this.anesBeforeCheck.pifu_chengdu = this.anesBeforeCheckTable[6].items[1].value
-            this.anesBeforeCheck.isSelect7 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[7].value)
-            this.anesBeforeCheck.isSelect8 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[8].value)
-            this.anesBeforeCheck.isSelect9 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[9].value)
-            this.anesBeforeCheck.isSelect10 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[10].value)
-            this.anesBeforeCheck.isSelect11 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[11].value)
-            this.anesBeforeCheck.isSelect12 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[12].value)
-            this.anesBeforeCheck.isSelect13 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[13].value)
-            this.anesBeforeCheck.isSelect14 = this.changeIsTrueOrFalse(this.anesBeforeCheckTable[14].value)
+            this.anesBeforeCheck.isSelect7 = this.changeIsTrueOrFalse(
+              this.anesBeforeCheckTable[7].value
+            )
+            this.anesBeforeCheck.isSelect8 = this.changeIsTrueOrFalse(
+              this.anesBeforeCheckTable[8].value
+            )
+            this.anesBeforeCheck.isSelect9 = this.changeIsTrueOrFalse(
+              this.anesBeforeCheckTable[9].value
+            )
+            this.anesBeforeCheck.isSelect10 = this.changeIsTrueOrFalse(
+              this.anesBeforeCheckTable[10].value
+            )
+            this.anesBeforeCheck.isSelect11 = this.changeIsTrueOrFalse(
+              this.anesBeforeCheckTable[11].value
+            )
+            this.anesBeforeCheck.isSelect12 = this.changeIsTrueOrFalse(
+              this.anesBeforeCheckTable[12].value
+            )
+            this.anesBeforeCheck.isSelect13 = this.changeIsTrueOrFalse(
+              this.anesBeforeCheckTable[13].value
+            )
+            this.anesBeforeCheck.isSelect14 = this.changeIsTrueOrFalse(
+              this.anesBeforeCheckTable[14].value
+            )
             this.anesBeforeCheck.qita = this.anesBeforeCheckTable[15].value
           }
 
           // 手术开始前检查
-          this.opeeBeforeCheck.beforeOperAnesDoctorTwo = wenshuData.beforeOperAnesDoctorTwo
+          this.opeeBeforeCheck.beforeOperAnesDoctorTwo =
+            wenshuData.beforeOperAnesDoctorTwo
           this.opeeBeforeCheck.beforeOperDocTwo = wenshuData.beforeOperDocTwo
           this.opeeBeforeCheck.beforeOperNurse = wenshuData.beforeOperNurse
           this.opeeBeforeCheck.beforeOperChkTime = wenshuData.beforeOperChkTime
           this.opeeBeforeCheckTable = wenshuData.opeeBeforeCheck
           if (!this.IsEmpty(wenshuData.opeeBeforeCheck)) {
-            this.opeeBeforeCheck.isSelect0 = this.changeIsTrueOrFalse(this.opeeBeforeCheckTable[0].value)
-            this.opeeBeforeCheck.isSelect1 = this.changeIsTrueOrFalse(this.opeeBeforeCheckTable[1].value)
-            this.opeeBeforeCheck.isSelect2 = this.changeIsTrueOrFalse(this.opeeBeforeCheckTable[2].value)
-            this.opeeBeforeCheck.isSelect6 = this.changeIsTrueOrFalse(this.opeeBeforeCheckTable[3].value)
+            this.opeeBeforeCheck.isSelect0 = this.changeIsTrueOrFalse(
+              this.opeeBeforeCheckTable[0].value
+            )
+            this.opeeBeforeCheck.isSelect1 = this.changeIsTrueOrFalse(
+              this.opeeBeforeCheckTable[1].value
+            )
+            this.opeeBeforeCheck.isSelect2 = this.changeIsTrueOrFalse(
+              this.opeeBeforeCheckTable[2].value
+            )
+            this.opeeBeforeCheck.isSelect6 = this.changeIsTrueOrFalse(
+              this.opeeBeforeCheckTable[3].value
+            )
             this.opeeBeforeCheck.isSelect3_4qita = this.opeeBeforeCheckTable[4].value
-            this.opeeBeforeCheck.isSelect3_1 = this.changeIsTrue(this.opeeBeforeCheckTable[5].value)
-            this.opeeBeforeCheck.isSelect3_2 = this.changeIsTrue(this.opeeBeforeCheckTable[6].value)
-            this.opeeBeforeCheck.isSelect3_3 = this.changeIsTrue(this.opeeBeforeCheckTable[7].value)
+            this.opeeBeforeCheck.isSelect3_1 = this.changeIsTrue(
+              this.opeeBeforeCheckTable[5].value
+            )
+            this.opeeBeforeCheck.isSelect3_2 = this.changeIsTrue(
+              this.opeeBeforeCheckTable[6].value
+            )
+            this.opeeBeforeCheck.isSelect3_3 = this.changeIsTrue(
+              this.opeeBeforeCheckTable[7].value
+            )
 
             this.opeeBeforeCheck.isSelect4_2qita = this.opeeBeforeCheckTable[8].value
-            this.opeeBeforeCheck.isSelect4_1 = this.changeIsTrue(this.opeeBeforeCheckTable[9].value)
+            this.opeeBeforeCheck.isSelect4_1 = this.changeIsTrue(
+              this.opeeBeforeCheckTable[9].value
+            )
 
             this.opeeBeforeCheck.isSelect5_4qita = this.opeeBeforeCheckTable[10].value
-            this.opeeBeforeCheck.isSelect5_1 = this.changeIsTrue(this.opeeBeforeCheckTable[11].value)
-            this.opeeBeforeCheck.isSelect5_2 = this.changeIsTrue(this.opeeBeforeCheckTable[12].value)
-            this.opeeBeforeCheck.isSelect5_3 = this.changeIsTrue(this.opeeBeforeCheckTable[13].value)
+            this.opeeBeforeCheck.isSelect5_1 = this.changeIsTrue(
+              this.opeeBeforeCheckTable[11].value
+            )
+            this.opeeBeforeCheck.isSelect5_2 = this.changeIsTrue(
+              this.opeeBeforeCheckTable[12].value
+            )
+            this.opeeBeforeCheck.isSelect5_3 = this.changeIsTrue(
+              this.opeeBeforeCheckTable[13].value
+            )
 
             this.opeeBeforeCheck.qita = this.opeeBeforeCheckTable[14].value
           }
 
           // 患者离开前
-          this.beforeLeaveRoomCheck.leaveBeforeAnesDoc = wenshuData.leaveBeforeAnesDoc
-          this.beforeLeaveRoomCheck.leaveBeforeOperDoc = wenshuData.leaveBeforeOperDoc
-          this.beforeLeaveRoomCheck.leaveBeforeOperNurse = wenshuData.leaveBeforeOperNurse
-          this.beforeLeaveRoomCheck.leaveBeforeChkTime = wenshuData.leaveBeforeChkTime
+          this.beforeLeaveRoomCheck.leaveBeforeAnesDoc =
+            wenshuData.leaveBeforeAnesDoc
+          this.beforeLeaveRoomCheck.leaveBeforeOperDoc =
+            wenshuData.leaveBeforeOperDoc
+          this.beforeLeaveRoomCheck.leaveBeforeOperNurse =
+            wenshuData.leaveBeforeOperNurse
+          this.beforeLeaveRoomCheck.leaveBeforeChkTime =
+            wenshuData.leaveBeforeChkTime
           this.beforeLeaveRoomCheckTable = wenshuData.beforeLeaveRoomCheck
           if (!this.IsEmpty(wenshuData.beforeLeaveRoomCheck)) {
-            this.beforeLeaveRoomCheck.isSelect0 = this.changeIsTrueOrFalse(this.beforeLeaveRoomCheckTable[0].value)
-            this.beforeLeaveRoomCheck.isSelect1 = this.changeIsTrueOrFalse(this.beforeLeaveRoomCheckTable[1].value)
-            this.beforeLeaveRoomCheck.isSelect2 = this.changeIsTrueOrFalse(this.beforeLeaveRoomCheckTable[2].value)
-            this.beforeLeaveRoomCheck.isSelect3 = this.changeIsTrueOrFalse(this.beforeLeaveRoomCheckTable[3].value)
-            this.beforeLeaveRoomCheck.isSelect4 = this.changeIsTrueOrFalse(this.beforeLeaveRoomCheckTable[4].value)
+            this.beforeLeaveRoomCheck.isSelect0 = this.changeIsTrueOrFalse(
+              this.beforeLeaveRoomCheckTable[0].value
+            )
+            this.beforeLeaveRoomCheck.isSelect1 = this.changeIsTrueOrFalse(
+              this.beforeLeaveRoomCheckTable[1].value
+            )
+            this.beforeLeaveRoomCheck.isSelect2 = this.changeIsTrueOrFalse(
+              this.beforeLeaveRoomCheckTable[2].value
+            )
+            this.beforeLeaveRoomCheck.isSelect3 = this.changeIsTrueOrFalse(
+              this.beforeLeaveRoomCheckTable[3].value
+            )
+            this.beforeLeaveRoomCheck.isSelect4 = this.changeIsTrueOrFalse(
+              this.beforeLeaveRoomCheckTable[4].value
+            )
 
-            this.beforeLeaveRoomCheck.isSelect5 = this.changeIsTrueOrFalse(this.beforeLeaveRoomCheckTable[5].value)
-            this.beforeLeaveRoomCheck.isSelect6 = this.changeIsTrueOrFalse(this.beforeLeaveRoomCheckTable[6].value)
+            this.beforeLeaveRoomCheck.isSelect5 = this.changeIsTrueOrFalse(
+              this.beforeLeaveRoomCheckTable[5].value
+            )
+            this.beforeLeaveRoomCheck.isSelect6 = this.changeIsTrueOrFalse(
+              this.beforeLeaveRoomCheckTable[6].value
+            )
             this.beforeLeaveRoomCheck.isSelect7_6qita = this.beforeLeaveRoomCheckTable[7].value
-            this.beforeLeaveRoomCheck.isSelect7_1 = this.changeIsTrue(this.beforeLeaveRoomCheckTable[9].value)
-            this.beforeLeaveRoomCheck.isSelect7_2 = this.changeIsTrue(this.beforeLeaveRoomCheckTable[10].value)
-            this.beforeLeaveRoomCheck.isSelect7_3 = this.changeIsTrue(this.beforeLeaveRoomCheckTable[11].value)
-            this.beforeLeaveRoomCheck.isSelect7_4 = this.changeIsTrue(this.beforeLeaveRoomCheckTable[12].value)
-            this.beforeLeaveRoomCheck.isSelect7_5 = this.changeIsTrue(this.beforeLeaveRoomCheckTable[13].value)
-            this.beforeLeaveRoomCheck.isSelect7_6 = this.changeIsTrue(this.beforeLeaveRoomCheckTable[14].value)
+            this.beforeLeaveRoomCheck.isSelect7_1 = this.changeIsTrue(
+              this.beforeLeaveRoomCheckTable[9].value
+            )
+            this.beforeLeaveRoomCheck.isSelect7_2 = this.changeIsTrue(
+              this.beforeLeaveRoomCheckTable[10].value
+            )
+            this.beforeLeaveRoomCheck.isSelect7_3 = this.changeIsTrue(
+              this.beforeLeaveRoomCheckTable[11].value
+            )
+            this.beforeLeaveRoomCheck.isSelect7_4 = this.changeIsTrue(
+              this.beforeLeaveRoomCheckTable[12].value
+            )
+            this.beforeLeaveRoomCheck.isSelect7_5 = this.changeIsTrue(
+              this.beforeLeaveRoomCheckTable[13].value
+            )
+            this.beforeLeaveRoomCheck.isSelect7_6 = this.changeIsTrue(
+              this.beforeLeaveRoomCheckTable[14].value
+            )
             if (this.beforeLeaveRoomCheckTable[8].value === 0) {
               this.beforeLeaveRoomCheck.isSelect8_1 = true
             }
@@ -881,7 +984,9 @@ export default {
             }
             this.beforeLeaveRoomCheck.pifu_buwei = this.beforeLeaveRoomCheckTable[6].items[0].value
             this.beforeLeaveRoomCheck.pifu_chengdu = this.beforeLeaveRoomCheckTable[6].items[1].value
-            this.beforeLeaveRoomCheck.isSelect4_1 = this.changeIsTrueOrFalse(this.beforeLeaveRoomCheckTable[15].value)
+            this.beforeLeaveRoomCheck.isSelect4_1 = this.changeIsTrueOrFalse(
+              this.beforeLeaveRoomCheckTable[15].value
+            )
             // this.beforeLeaveRoomCheck.qita = this.beforeLeaveRoomCheckTable[9].value
           }
         }
@@ -964,7 +1069,7 @@ export default {
       }
     }
     .wenben-content-context {
-      margin-top: 5px;
+      margin-top: 25px;
       border: 1px solid #000;
       display: flex;
       .before-anesthesia {
