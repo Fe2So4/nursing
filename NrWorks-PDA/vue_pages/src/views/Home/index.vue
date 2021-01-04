@@ -215,7 +215,7 @@ export default {
     document.onkeydown = (e) => {
       var key = window.event.keyCode;
       if (key === 13) {
-        this.handleScan("19046394");
+        this.handleScan("19057263");
       }
     };
   },

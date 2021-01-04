@@ -348,20 +348,20 @@ export default {
       let arr = JSON.parse(JSON.stringify(this.recordForm));
       let state = "";
       for (let i = 0; i < arr.length; i++) {
-        // if (arr[i].key === '其它' || arr[i].key === '核查时间') {
-        // } else {
-        if (
-          !arr[i].value ||
-          this.anesBeforeAnesDoc === "" ||
-          this.anesBeforeOperDoc === "" ||
-          this.anesBeforeNurse === ""
-        ) {
-          state = "1";
-          break;
+        if (arr[i].key === "其它") {
         } else {
-          state = "2";
+          if (
+            !arr[i].value ||
+            this.anesBeforeAnesDoc === "" ||
+            this.anesBeforeOperDoc === "" ||
+            this.anesBeforeNurse === ""
+          ) {
+            state = "1";
+            break;
+          } else {
+            state = "2";
+          }
         }
-        // }
       }
       arr.forEach((item) => {
         if (item.key === "其它" || item.key === "核查时间") {
