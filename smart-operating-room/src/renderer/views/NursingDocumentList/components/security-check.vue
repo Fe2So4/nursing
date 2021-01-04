@@ -803,7 +803,10 @@ export default {
           this.formData.hospitalNo = wenshuData.hospitalNo
           this.formData.anesthesiaMethod = wenshuData.anesthesiaMethod
           this.formData.patientAge = wenshuData.patientAge
-          this.formData.operationDate = wenshuData.operationDate
+          if (!this.IsEmpty(wenshuData.operationDate)) {
+            this.formData.operationDate = wenshuData.operationDate.split(' ')[0]
+          }
+
           this.formData.operatorName = wenshuData.operatorName
           this.formData.operationName = wenshuData.operationName
 

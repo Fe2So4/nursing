@@ -202,10 +202,10 @@ export default {
         this.$alert('请先双击选中一条数据')
         return false
       }
-      if (this.selectData[0].sendOrderStatus === 1) {
-        this.$alert('该病理已派单,不可撤销')
-        return false
-      }
+      // if (this.selectData[0].sendOrderStatus === 1) {
+      //   this.$alert('该病理已派单,不可撤销')
+      //   return false
+      // }
       console.log(this.selectData)
       this.exitdialogVisible = true
     },
@@ -233,10 +233,10 @@ export default {
         this.$alert('请先双击选中一条数据')
         return false
       }
-      if (this.selectData[0].sendOrderStatus === 1) {
-        this.$alert('该病理已派单,请勿重复提交')
-        return false
-      }
+      // if (this.selectData[0].sendOrderStatus === 1) {
+      //   this.$alert('该病理已派单,请勿重复提交')
+      //   return false
+      // }
       this.getDayinStatus()
       // this.senddialogVisible = true
     },

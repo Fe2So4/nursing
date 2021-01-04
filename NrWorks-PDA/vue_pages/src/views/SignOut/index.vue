@@ -11,11 +11,7 @@
     <PatientCard></PatientCard>
     <div class="list">
       <van-cell-group>
-        <van-cell
-          title="患者姓名、住院号、性别、年龄正确："
-          value=""
-          value-class="first-cell van-cell-center"
-        >
+        <van-cell title="患者姓名、住院号、性别、年龄正确：" value="" value-class="first-cell van-cell-center">
           <template #right-icon>
             <van-switch
               v-model="recordForm[0].value"
@@ -24,11 +20,7 @@
             />
           </template>
         </van-cell>
-        <van-cell
-          title="实际手术方式确认："
-          value=""
-          value-class="van-cell-center"
-        >
+        <van-cell title="实际手术方式确认：" value="" value-class="van-cell-center">
           <template #right-icon>
             <van-switch
               v-model="recordForm[1].value"
@@ -37,11 +29,7 @@
             />
           </template>
         </van-cell>
-        <van-cell
-          title="手术部位、体位、标识正确："
-          value=""
-          value-class="first-cell van-cell-center"
-        >
+        <van-cell title="手术部位、体位、标识正确：" value="" value-class="first-cell van-cell-center">
           <template #right-icon>
             <van-switch
               v-model="recordForm[2].value"
@@ -50,12 +38,7 @@
             />
           </template>
         </van-cell>
-        <van-cell
-          title="手术用药、输血、冰冻报告的核查正确："
-          value=""
-          title-class="first-cell"
-          value-class="van-cell-center"
-        >
+        <van-cell title="手术用药、输血、冰冻报告的核查正确：" value="" title-class="first-cell" value-class="van-cell-center">
           <template #right-icon>
             <van-switch
               v-model="recordForm[3].value"
@@ -73,11 +56,7 @@
             />
           </template>
         </van-cell>
-        <van-cell
-          title="病理标本号核对正确："
-          value=""
-          value-class="van-cell-center"
-        >
+        <van-cell title="病理标本号核对正确：" value="" value-class="van-cell-center">
           <template #right-icon>
             <van-switch
               v-model="recordForm[15].value"
@@ -86,11 +65,7 @@
             />
           </template>
         </van-cell>
-        <van-cell
-          title="手术用物清点正确："
-          value=""
-          value-class="van-cell-center"
-        >
+        <van-cell title="手术用物清点正确：" value="" value-class="van-cell-center">
           <template #right-icon>
             <van-switch
               v-model="recordForm[5].value"
@@ -141,12 +116,7 @@
             </template>
           </van-cell>
         </van-cell-group>
-        <van-cell
-          title="其它："
-          value=""
-          title-class="left-title"
-          value-class="right-value"
-        >
+        <van-cell title="其它：" value="" title-class="left-title" value-class="right-value">
           <template #right-icon>
             <van-field
               v-model="recordForm[7].value"
@@ -156,7 +126,7 @@
           </template>
         </van-cell>
       </van-cell-group>
-      <van-cell-group style="margin-top: 15px">
+      <van-cell-group style="margin-top:15px;">
         <van-cell title="患者去向：" value="">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
@@ -266,96 +236,96 @@
 
 <script>
 // import Signature from '../Signature/index'
-import Signature from "@/components/Signature";
-import PatientCard from "@/components/PatientCard";
-import { submitSignOut, getSignOut } from "@/api/check";
-import request from "@/utils/request";
-import moment from "moment";
-import { mapState } from "vuex";
+import Signature from '@/components/Signature'
+import PatientCard from '@/components/PatientCard'
+import { submitSignOut, getSignOut } from '@/api/check'
+import request from '@/utils/request'
+import moment from 'moment'
+import { mapState } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
-      time: moment(new Date()).format("YYYY-MM-DD HH:mm"),
+      time: moment(new Date()).format('YYYY-MM-DD HH:mm'),
       checked: true,
-      input: "",
+      input: '',
       showFullSkin: false,
-      value1: "",
+      value1: '',
       visible: false,
       currentSign: null,
-      anesBeforeAnesDoc: "",
-      anesBeforeOperDoc: "",
-      anesBeforeNurse: "",
-      anesBeforeState: "",
+      anesBeforeAnesDoc: '',
+      anesBeforeOperDoc: '',
+      anesBeforeNurse: '',
+      anesBeforeState: '',
       option: [
-        { text: "PACU", value: 0 },
-        { text: "病房", value: 1 },
-        { text: "ICU病房", value: 2 },
-        { text: "急诊", value: 3 },
-        { text: "离院", value: 4 },
-        { text: "", value: "" },
+        { text: 'PACU', value: 0 },
+        { text: '病房', value: 1 },
+        { text: 'ICU病房', value: 2 },
+        { text: '急诊', value: 3 },
+        { text: '离院', value: 4 },
+        { text: '', value: '' }
       ],
       recordForm: [
-        { key: "患者姓名，住院号，性别，年龄正确", value: false, sort: "1" },
-        { key: "实际手术方式确认", value: false, sort: "2" },
-        { key: "手术部位、体位、标识正确", value: false, sort: "3" },
-        { key: "手术用药、输血、冰冻报告的核查正确", value: false, sort: "4" },
-        { key: "病理标本", value: false, sort: "5" },
-        { key: "手术用物清点正确", value: false, sort: "6" },
+        { key: '患者姓名，住院号，性别，年龄正确', value: false, sort: '1' },
+        { key: '实际手术方式确认', value: false, sort: '2' },
+        { key: '手术部位、体位、标识正确', value: false, sort: '3' },
+        { key: '手术用药、输血、冰冻报告的核查正确', value: false, sort: '4' },
+        { key: '病理标本', value: false, sort: '5' },
+        { key: '手术用物清点正确', value: false, sort: '6' },
         {
-          key: "皮肤是否完整",
+          key: '皮肤是否完整',
           value: false,
-          sort: "7",
+          sort: '7',
           items: [
-            { key: "部位", value: "" },
-            { key: "程度", value: "" },
-          ],
+            { key: '部位', value: '' },
+            { key: '程度', value: '' }
+          ]
         },
-        { key: "其它", value: "", sort: "15" },
-        { key: "患者去向", value: "", sort: "8" },
-        { key: "动脉通路", value: false, sort: "9" },
-        { key: "静脉通路", value: "", sort: "10" },
-        { key: "气管插管", value: false, sort: "11" },
-        { key: "伤口引流", value: false, sort: "12" },
-        { key: "胃管", value: false, sort: "13" },
-        { key: "尿管", value: "", sort: "14" },
-        { key: "病理标本号核对正确", value: false, sort: "16" },
-      ],
-    };
+        { key: '其它', value: '', sort: '15' },
+        { key: '患者去向', value: '', sort: '8' },
+        { key: '动脉通路', value: false, sort: '9' },
+        { key: '静脉通路', value: '', sort: '10' },
+        { key: '气管插管', value: false, sort: '11' },
+        { key: '伤口引流', value: false, sort: '12' },
+        { key: '胃管', value: false, sort: '13' },
+        { key: '尿管', value: '', sort: '14' },
+        { key: '病理标本号核对正确', value: false, sort: '16' }
+      ]
+    }
   },
   components: {
     Signature,
-    PatientCard,
+    PatientCard
   },
   computed: {
-    ...mapState("Patient", ["patientInfo"]),
+    ...mapState('Patient', ['patientInfo'])
   },
   methods: {
-    onClickLeft() {
-      this.$router.go(-1);
+    onClickLeft () {
+      this.$router.go(-1)
     },
-    onClickRight() {
-      let arr = JSON.parse(JSON.stringify(this.recordForm));
+    onClickRight () {
+      let arr = JSON.parse(JSON.stringify(this.recordForm))
       arr.forEach((item) => {
-        if (item.key === "其它" || item.key === "患者去向") {
+        if (item.key === '其它' || item.key === '患者去向') {
         } else {
           if (item.value === true) {
-            item.value = "是";
+            item.value = '是'
           } else {
-            item.value = "否";
+            item.value = '否'
           }
         }
-      });
-      let state = "";
+      })
+      let state = ''
       for (var i = 0; i < arr.length; i++) {
-        if (arr[i].value === "否") {
-          state = "1";
-          break;
+        if (arr[i].value === '否') {
+          state = '1'
+          break
         } else {
-          state = "2";
+          state = '2'
         }
       }
       request({
-        method: "post",
+        method: 'post',
         url: submitSignOut,
         data: {
           leaveBeforeAnesDoc: this.anesBeforeAnesDoc,
@@ -363,80 +333,80 @@ export default {
           leaveBeforeNurse: this.anesBeforeNurse,
           leaveBeforeOperDoc: this.anesBeforeOperDoc,
           leaveBeforeState: state,
-          cureNo: this.patientInfo.cureNo,
-        },
+          cureNo: this.patientInfo.cureNo
+        }
       }).then((res) => {
         if (res.data.code === 200) {
-          this.$notify({ message: "保存成功", type: "success" });
-          this.getData();
+          this.$notify({ message: '保存成功', type: 'success' })
+          this.getData()
         }
-      });
+      })
     },
-    handleChange() {
-      this.showFullSkin = !this.showFullSkin;
+    handleChange () {
+      this.showFullSkin = !this.showFullSkin
     },
-    handleSubmitImage(image) {
+    handleSubmitImage (image) {
       switch (this.currentSign) {
         case 1:
-          this.anesBeforeAnesDoc = image;
-          break;
+          this.anesBeforeAnesDoc = image
+          break
         case 2:
-          this.anesBeforeOperDoc = image;
-          break;
+          this.anesBeforeOperDoc = image
+          break
         case 3:
-          this.anesBeforeNurse = image;
+          this.anesBeforeNurse = image
       }
     },
-    getData() {
+    getData () {
       request({
-        method: "get",
+        method: 'get',
         url:
           getSignOut +
-          "/" +
+          '/' +
           this.patientInfo.hospitalNo +
-          "/" +
-          this.patientInfo.cureNo,
+          '/' +
+          this.patientInfo.cureNo
       }).then((res) => {
         if (res.data.code === 200) {
-          let data = res.data.data;
-          this.time = data.leaveBeforeChkTime;
+          let data = res.data.data
+          this.time = data.leaveBeforeChkTime
           if (data.leaveBeforeAnesDoc) {
-            this.anesBeforeAnesDoc = data.leaveBeforeAnesDoc;
+            this.anesBeforeAnesDoc = data.leaveBeforeAnesDoc
           }
           if (data.leaveBeforeOperDoc) {
-            this.anesBeforeOperDoc = data.leaveBeforeOperDoc;
+            this.anesBeforeOperDoc = data.leaveBeforeOperDoc
           }
           if (data.leaveBeforeNurse) {
-            this.anesBeforeNurse = data.leaveBeforeNurse;
+            this.anesBeforeNurse = data.leaveBeforeNurse
           }
           if (data.beforeLeaveRoomCheck.length > 0) {
             data.beforeLeaveRoomCheck.forEach((item) => {
-              if (item.key === "其它" || item.key === "患者去向") {
+              if (item.key === '其它' || item.key === '患者去向') {
               } else {
-                if (item.value === "是") {
-                  item.value = true;
+                if (item.value === '是') {
+                  item.value = true
                 } else {
-                  item.value = false;
+                  item.value = false
                 }
               }
-            });
-            this.recordForm = data.beforeLeaveRoomCheck;
+            })
+            this.recordForm = data.beforeLeaveRoomCheck
           }
         }
-      });
+      })
     },
-    handleShowSignature(param) {
-      this.visible = true;
-      this.currentSign = param;
+    handleShowSignature (param) {
+      this.visible = true
+      this.currentSign = param
     },
-    handleCloseSignature() {
-      this.visible = false;
-    },
+    handleCloseSignature () {
+      this.visible = false
+    }
   },
-  mounted() {
-    this.getData();
-  },
-};
+  mounted () {
+    this.getData()
+  }
+}
 </script>
 
 <style lang="scss" scoped>

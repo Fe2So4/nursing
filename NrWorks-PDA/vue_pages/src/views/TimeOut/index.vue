@@ -24,11 +24,7 @@
             />
           </template>
         </van-cell>
-        <van-cell
-          title="手术方式确认"
-          value="内容"
-          value-class="van-cell-center"
-        >
+        <van-cell title="手术方式确认" value="" value-class="van-cell-center">
           <template #right-icon>
             <van-switch
               v-model="recordForm[1].value"
@@ -39,7 +35,7 @@
         </van-cell>
         <van-cell
           title="手术部位、标识、体位正确："
-          value="内容"
+          value=""
           title-class="first-cell"
           value-class="van-cell-center"
         >
@@ -53,7 +49,7 @@
         </van-cell>
         <van-cell
           title="是否需要相关影像资料："
-          value="内容"
+          value=""
           value-class="van-cell-center"
         >
           <template #right-icon>
@@ -66,7 +62,7 @@
         </van-cell>
         <van-cell
           title="其它："
-          value="内容"
+          value=""
           title-class="left-title"
           value-class="right-value"
         >
