@@ -9,6 +9,9 @@ export const startSpeak = (text) => {
   // 继续
   // window.speechSynthesis.resume();
   window.speechSynthesis.speak(msg)
+  msg.onend = (event) => {
+    console.log(123)
+  }
 }
 export const pauseSpeak = () => {
   // 暂停
@@ -23,4 +26,9 @@ export const resumeSpeak = () => {
 export const cancelSpeak = () => {
   // 停止
   window.speechSynthesis.cancel()
+}
+
+export const isSpeaking = () => {
+  // 当前正在播放
+  return window.speechSynthesis.speaking
 }
