@@ -164,13 +164,19 @@ export default {
   },
   mounted () {
     Bus.$on('sub-pathological-hologyType', res => {
-      this.utilsDebounce(() => { this.hologyType = res }, 300)
+      this.utilsDebounce(() => {
+        this.hologyType = res
+      }, 300)
     })
     Bus.$on('user-info-initData', res => {
-      this.utilsDebounce(() => { this.selectData = [] }, 300)
+      this.utilsDebounce(() => {
+        this.selectData = []
+      }, 300)
     })
     Bus.$on('user-info-getData', res => {
-      this.utilsDebounce(() => { this.selectData = [] }, 300)
+      this.utilsDebounce(() => {
+        this.selectData = []
+      }, 300)
     })
   },
   methods: {
@@ -178,9 +184,7 @@ export default {
       let item = this.hologyTypeList.find(item => item.value === cellValue)
       return item ? item.label : ''
     },
-    handleClose () {
-
-    },
+    handleClose () {},
     // 获取高亮行
     getCurrentEvent () {
       this.$XModal.alert(JSON.stringify(this.$refs.xTable.getCurrentRecord()))
@@ -188,7 +192,7 @@ export default {
     // currentChangeEvent ({ row }) {
 
     // },
-    dbClickTable ({row}) {
+    dbClickTable ({ row }) {
       this.selectData = []
       this.selectData.push(row)
       Bus.$emit('pathological-table', row)
@@ -213,15 +217,17 @@ export default {
     exitPathological () {
       let obj = {
         pathologyId: this.selectData[0].pathologyId,
-        checkCode: this.selectData[0].checkCode
-        // checkCode: '9797'
+        // checkCode: this.selectData[0].checkCode
+        checkCode: '9797'
       }
-      console.log(this.selectData[0], obj)
       this.$store.dispatch('ReqdeleteFastPathologic', obj).then(res => {
         this.exitdialogVisible = false
         if (res.data.code === 200) {
           this.openToast('success', res.data.msg)
-          Bus.$emit('sub-pathological-success', '1')
+          Bus.$emit(
+            'sub-pathological-success',
+            this.$store.state['pathological-table'].userInfo.operSchNo
+          )
         } else {
           this.openToast('error', res.data.msg)
         }
@@ -271,7 +277,10 @@ export default {
         this.senddialogVisible = false
         if (res.data.code === 200) {
           this.openToast('success', res.data.msg)
-          Bus.$emit('sub-pathological-success', '1')
+          Bus.$emit(
+            'sub-pathological-success',
+            this.$store.state['pathological-table'].userInfo.operSchNo
+          )
         } else {
           this.openToast('error', res.data.msg)
         }
@@ -290,12 +299,12 @@ export default {
   // 获取表格数据
   computed: {
     ListeningTableData () {
-      return this.$store.state['pathological-table'].userInfo
+      return this.$store.state['pathological-table'].pathologicalTable
     }
   },
   watch: {
     ListeningTableData: function (newd) {
-      this.tableData = newd.pathologys
+      this.tableData = newd
       if (this.IsEmpty(this.tableData)) {
         this.selectData = []
       }
@@ -306,43 +315,43 @@ export default {
 
 <style scoped lang="scss">
 /deep/ .table-content .vxe-table .vxe-body--row.row--current {
-    background-color:#D6DCE8 !important;
+  background-color: #d6dce8 !important;
 }
 
 /deep/ .vxe-header--row {
-    background-color: #fff;
+  background-color: #fff;
 }
-.el-scrollbar__wrap{
+.el-scrollbar__wrap {
   overflow-x: hidden;
 }
 .btn {
-    width: 90px;
-    background-color:#E9EDF7
+  width: 90px;
+  background-color: #e9edf7;
 }
 .btnBlue {
-    width: 90px;
-    background-color:#3377FF;
-    color: #fff;
+  width: 90px;
+  background-color: #3377ff;
+  color: #fff;
 }
 .table-container {
+  box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+  border-radius: 5px;
+  // height: 100%;
+  width: 100%;
+  .table-content {
+    padding: 5px 0 0 0;
+    background-color: #fff;
     box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
     border-radius: 5px;
-    // height: 100%;
-    width: 100%;
-    .table-content {
-        padding: 5px 0 0 0;
-        background-color: #fff;
-        box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
-        border-radius: 5px;
-        // padding-left: 20px;
-    }
-    .button-content {
-        box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
-        border-radius: 5px;
-        text-align: right;
-        background-color: #fff;
-        padding: 35px 15px 15px 15px;
-    }
+    // padding-left: 20px;
+  }
+  .button-content {
+    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+    border-radius: 5px;
+    text-align: right;
+    background-color: #fff;
+    padding: 35px 15px 15px 15px;
+  }
 }
 .dialog-body-span {
   display: flex;
@@ -351,7 +360,7 @@ export default {
   .icon-gantanghao {
     font-size: 26px;
     width: 40px;
-    color: #3377FF;
+    color: #3377ff;
   }
 }
 .dialog-footer-div {
@@ -359,12 +368,14 @@ export default {
   justify-content: center;
 }
 /deep/ .vxe-table .vxe-body--row.row--stripe {
-      background-color: #f9fafc;
+  background-color: #f9fafc;
 }
 /deep/ th {
   color: #333333;
 }
-/deep/ .vxe-button--content, .vxe-button--icon, .vxe-button--loading-icon {
+/deep/ .vxe-button--content,
+.vxe-button--icon,
+.vxe-button--loading-icon {
   vertical-align: unset;
 }
 </style>

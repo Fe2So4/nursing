@@ -76,3 +76,13 @@ export const reqprintBottleToStick = (obj) => {
     params: obj
   })
 }
+
+// 根据手术排班号获取病理信息
+const reqgetPathologyByOperSchNoUrl = `${config.default.api.baseURL}/ocis/pathology/getPathologyByOperSchNo`
+export const reqgetPathologyByOperSchNo = (obj) => {
+  return request({
+    url: reqgetPathologyByOperSchNoUrl,
+    method: 'get',
+    params: obj
+  })
+}
