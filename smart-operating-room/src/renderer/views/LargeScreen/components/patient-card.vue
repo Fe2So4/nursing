@@ -9,8 +9,8 @@
     <div class="right" v-if="patientInfo.cureNo">
       <el-row>
         <el-col :span="8">
-          患者信息：<span class="value"
-            >{{ patientBasicInfo.patientName }}
+          患者信息：<span class="value">
+            {{ patientBasicInfo.patientName }}
             {{ patientBasicInfo.patientAge }}岁
             {{ patientBasicInfo.wardName }}/{{ patientBasicInfo.bedNo }}床
             {{ patientBasicInfo.hospitalNo }}</span

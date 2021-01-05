@@ -11,7 +11,11 @@
     <PatientCard></PatientCard>
     <div class="list">
       <van-cell-group :border="false">
-        <van-cell title="患者姓名、住院号、性别、年龄正确：" value="" value-class="first-cell van-cell-center">
+        <van-cell
+          title="患者姓名、住院号、性别、年龄正确："
+          value=""
+          value-class="first-cell van-cell-center"
+        >
           <template #right-icon>
             <van-switch
               v-model="recordForm[0].value"
@@ -29,7 +33,11 @@
             />
           </template>
         </van-cell>
-        <van-cell title="手术部位与标识正确：" value="" value-class="van-cell-center">
+        <van-cell
+          title="手术部位与标识正确："
+          value=""
+          value-class="van-cell-center"
+        >
           <template #right-icon>
             <van-switch
               v-model="recordForm[2].value"
@@ -38,7 +46,11 @@
             />
           </template>
         </van-cell>
-        <van-cell title="手术知情同意书：" value="" value-class="van-cell-center">
+        <van-cell
+          title="手术知情同意书："
+          value=""
+          value-class="van-cell-center"
+        >
           <template #right-icon>
             <van-switch
               v-model="recordForm[3].value"
@@ -47,7 +59,11 @@
             />
           </template>
         </van-cell>
-        <van-cell title="麻醉知情同意书：" value="" value-class="van-cell-center">
+        <van-cell
+          title="麻醉知情同意书："
+          value=""
+          value-class="van-cell-center"
+        >
           <template #right-icon>
             <van-switch
               v-model="recordForm[4].value"
@@ -56,7 +72,11 @@
             />
           </template>
         </van-cell>
-        <van-cell title="麻醉设备安全检查完成：" value="" value-class="van-cell-center">
+        <van-cell
+          title="麻醉设备安全检查完成："
+          value=""
+          value-class="van-cell-center"
+        >
           <template #right-icon>
             <van-switch
               v-model="recordForm[5].value"
@@ -107,7 +127,11 @@
             </template>
           </van-cell>
         </div>
-        <van-cell title="术野皮肤准备正确：" value="" value-class="van-cell-center">
+        <van-cell
+          title="术野皮肤准备正确："
+          value=""
+          value-class="van-cell-center"
+        >
           <template #right-icon>
             <van-switch
               v-model="recordForm[7].value"
@@ -116,7 +140,11 @@
             />
           </template>
         </van-cell>
-        <van-cell title="静脉通道建立完成：" value="" value-class="van-cell-center">
+        <van-cell
+          title="静脉通道建立完成："
+          value=""
+          value-class="van-cell-center"
+        >
           <template #right-icon>
             <van-switch
               v-model="recordForm[8].value"
@@ -125,7 +153,11 @@
             />
           </template>
         </van-cell>
-        <van-cell title="患者是否有过敏史：" value="" value-class="van-cell-center">
+        <van-cell
+          title="患者是否有过敏史："
+          value=""
+          value-class="van-cell-center"
+        >
           <template #right-icon>
             <van-switch
               v-model="recordForm[9].value"
@@ -134,7 +166,11 @@
             />
           </template>
         </van-cell>
-        <van-cell title="抗菌药物皮试结果：" value="" value-class="van-cell-center">
+        <van-cell
+          title="抗菌药物皮试结果："
+          value=""
+          value-class="van-cell-center"
+        >
           <template #right-icon>
             <van-switch
               v-model="recordForm[10].value"
@@ -179,7 +215,12 @@
             />
           </template>
         </van-cell>
-        <van-cell title="其它：" value="" title-class="left-title" value-class="right-value">
+        <van-cell
+          title="其它："
+          value=""
+          title-class="left-title"
+          value-class="right-value"
+        >
           <template #right-icon>
             <van-field
               v-model="recordForm[15].value"
@@ -229,113 +270,113 @@
 </template>
 
 <script>
-import Signature from '@/components/Signature'
-import PatientCard from '@/components/PatientCard'
-import { submitSignIn, getSignIn } from '@/api/check'
-import request from '@/utils/request'
-import { mapState } from 'vuex'
-import moment from 'moment'
+import Signature from "@/components/Signature";
+import PatientCard from "@/components/PatientCard";
+import { submitSignIn, getSignIn } from "@/api/check";
+import request from "@/utils/request";
+import { mapState } from "vuex";
+import moment from "moment";
 export default {
-  data () {
+  data() {
     return {
       checked: true,
       currentSign: null,
       showFullSkin: true,
       visible: false,
       // time: moment(new Date()).format('YYYY-MM-DD HH:mm'),
-      anesBeforeAnesDoc: '',
-      anesBeforeOperDoc: '',
-      anesBeforeNurse: '',
-      anesBeforeState: '',
+      anesBeforeAnesDoc: "",
+      anesBeforeOperDoc: "",
+      anesBeforeNurse: "",
+      anesBeforeState: "",
       recordForm: [
-        { key: '患者姓名，性别，年龄正确', value: false, sort: '1' },
-        { key: '手术方式确认', value: false, sort: '2' },
-        { key: '手术部位与标识正确', value: false, sort: '3' },
-        { key: '手术知情同意书', value: false, sort: '4' },
-        { key: '麻醉知情同意书', value: false, sort: '5' },
-        { key: '麻醉设备安全检查完成', value: false, sort: '6' },
+        { key: "患者姓名，性别，年龄正确", value: false, sort: "1" },
+        { key: "手术方式确认", value: false, sort: "2" },
+        { key: "手术部位与标识正确", value: false, sort: "3" },
+        { key: "手术知情同意书", value: false, sort: "4" },
+        { key: "麻醉知情同意书", value: false, sort: "5" },
+        { key: "麻醉设备安全检查完成", value: false, sort: "6" },
         {
-          key: '皮肤是否完整',
+          key: "皮肤是否完整",
           value: false,
-          sort: '7',
+          sort: "7",
           items: [
-            { key: '部位', value: '' },
-            { key: '程度', value: '' }
-          ]
+            { key: "部位", value: "" },
+            { key: "程度", value: "" },
+          ],
         },
-        { key: '术野皮肤准备正确', value: false, sort: '8' },
-        { key: '静脉通道建立完成', value: false, sort: '9' },
-        { key: '患者是否有过敏史', value: false, sort: '10' },
-        { key: '抗菌药物皮试结果', value: false, sort: '11' },
-        { key: '术前备血', value: false, sort: '12' },
-        { key: '影像学资料', value: false, sort: '13' },
-        { key: '假体', value: false, sort: '14' },
-        { key: '体内植入物', value: false, sort: '15' },
-        { key: '其它', value: '', sort: '16' },
+        { key: "术野皮肤准备正确", value: false, sort: "8" },
+        { key: "静脉通道建立完成", value: false, sort: "9" },
+        { key: "患者是否有过敏史", value: false, sort: "10" },
+        { key: "抗菌药物皮试结果", value: false, sort: "11" },
+        { key: "术前备血", value: false, sort: "12" },
+        { key: "影像学资料", value: false, sort: "13" },
+        { key: "假体", value: false, sort: "14" },
+        { key: "体内植入物", value: false, sort: "15" },
+        { key: "其它", value: "", sort: "16" },
         {
-          key: '核查时间',
-          value: moment(new Date()).format('YYYY-MM-DD HH:mm'),
-          sort: '17'
-        }
-      ]
-    }
+          key: "核查时间",
+          value: moment(new Date()).format("YYYY-MM-DD HH:mm"),
+          sort: "17",
+        },
+      ],
+    };
   },
   components: {
     Signature,
-    PatientCard
+    PatientCard,
   },
   computed: {
-    ...mapState('Patient', ['patientInfo'])
+    ...mapState("Patient", ["patientInfo"]),
   },
   methods: {
-    onClickLeft () {
-      this.$router.go(-1)
+    onClickLeft() {
+      this.$router.go(-1);
     },
-    handleSubmitImage (image) {
+    handleSubmitImage(image) {
       switch (this.currentSign) {
         case 1:
-          this.anesBeforeAnesDoc = image
-          break
+          this.anesBeforeAnesDoc = image;
+          break;
         case 2:
-          this.anesBeforeOperDoc = image
-          break
+          this.anesBeforeOperDoc = image;
+          break;
         case 3:
-          this.anesBeforeNurse = image
+          this.anesBeforeNurse = image;
       }
     },
-    onClickRight () {
-      let arr = JSON.parse(JSON.stringify(this.recordForm))
-      let state = ''
+    onClickRight() {
+      let arr = JSON.parse(JSON.stringify(this.recordForm));
+      let state = "";
       for (let i = 0; i < arr.length; i++) {
-        // if (arr[i].key === '其它' || arr[i].key === '核查时间') {
-        // } else {
-        if (
-          !arr[i].value ||
-          this.anesBeforeAnesDoc === '' ||
-          this.anesBeforeOperDoc === '' ||
-          this.anesBeforeNurse === ''
-        ) {
-          state = '1'
-          break
+        if (arr[i].key === "其它") {
         } else {
-          state = '2'
-        }
-        // }
-      }
-      arr.forEach((item) => {
-        if (item.key === '其它' || item.key === '核查时间') {
-        } else {
-          if (item.value === true) {
-            item.value = '是'
+          if (
+            !arr[i].value ||
+            this.anesBeforeAnesDoc === "" ||
+            this.anesBeforeOperDoc === "" ||
+            this.anesBeforeNurse === ""
+          ) {
+            state = "1";
+            break;
           } else {
-            item.value = '否'
+            state = "2";
           }
         }
-      })
+      }
+      arr.forEach((item) => {
+        if (item.key === "其它" || item.key === "核查时间") {
+        } else {
+          if (item.value === true) {
+            item.value = "是";
+          } else {
+            item.value = "否";
+          }
+        }
+      });
       // console.log(arr, state)
       // return false
       request({
-        method: 'post',
+        method: "post",
         url: submitSignIn,
         data: {
           anesBeforeAnesDoc: this.anesBeforeAnesDoc,
@@ -343,69 +384,69 @@ export default {
           anesBeforeNurse: this.anesBeforeNurse,
           anesBeforeOperDoc: this.anesBeforeOperDoc,
           anesBeforeState: state,
-          cureNo: this.patientInfo.cureNo
-        }
+          cureNo: this.patientInfo.cureNo,
+        },
       }).then((res) => {
         if (res.data.code === 200) {
-          this.$notify({ message: '保存成功', type: 'success' })
-          this.getData()
+          this.$notify({ message: "保存成功", type: "success" });
+          this.getData();
         }
-      })
+      });
     },
 
-    handleChange () {
-      this.showFullSkin = !this.showFullSkin
+    handleChange() {
+      this.showFullSkin = !this.showFullSkin;
     },
-    handleShowSignature (param) {
-      this.currentSign = param
-      this.visible = true
+    handleShowSignature(param) {
+      this.currentSign = param;
+      this.visible = true;
     },
-    getData () {
+    getData() {
       request({
-        method: 'get',
+        method: "get",
         url:
           getSignIn +
-          '/' +
+          "/" +
           this.patientInfo.hospitalNo +
-          '/' +
-          this.patientInfo.cureNo
+          "/" +
+          this.patientInfo.cureNo,
       }).then((res) => {
         if (res.data.code === 200) {
-          let data = res.data.data
+          let data = res.data.data;
           if (data.anesBeforeAnesDoc) {
-            this.anesBeforeAnesDoc = data.anesBeforeAnesDoc
+            this.anesBeforeAnesDoc = data.anesBeforeAnesDoc;
           }
           if (data.anesBeforeAnesDoc) {
-            this.anesBeforeOperDoc = data.anesBeforeOperDoc
+            this.anesBeforeOperDoc = data.anesBeforeOperDoc;
           }
           if (data.anesBeforeNurse) {
-            this.anesBeforeNurse = data.anesBeforeNurse
+            this.anesBeforeNurse = data.anesBeforeNurse;
           }
-          this.time = data.anesBeforeChkTime
+          this.time = data.anesBeforeChkTime;
           if (data.anesBeforeCheck.length > 0) {
             data.anesBeforeCheck.forEach((item) => {
-              if (item.key === '其它' || item.key === '核查时间') {
+              if (item.key === "其它" || item.key === "核查时间") {
               } else {
-                if (item.value === '是') {
-                  item.value = true
+                if (item.value === "是") {
+                  item.value = true;
                 } else {
-                  item.value = false
+                  item.value = false;
                 }
               }
-            })
-            this.recordForm = data.anesBeforeCheck
+            });
+            this.recordForm = data.anesBeforeCheck;
           }
         }
-      })
+      });
     },
-    handleCloseSignature () {
-      this.visible = false
-    }
+    handleCloseSignature() {
+      this.visible = false;
+    },
   },
-  mounted () {
-    this.getData()
-  }
-}
+  mounted() {
+    this.getData();
+  },
+};
 </script>
 
 <style lang="scss" scoped>

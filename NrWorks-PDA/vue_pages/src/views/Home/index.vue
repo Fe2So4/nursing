@@ -214,7 +214,11 @@ export default {
     document.onkeydown = (e) => {
       var key = window.event.keyCode
       if (key === 13) {
+<<<<<<< HEAD
+        this.handleScan("19057263");
+=======
         this.handleScan('1018')
+>>>>>>> c271200de9c66d392f20fcf7736c467ca6b1e677
       }
     }
   },
