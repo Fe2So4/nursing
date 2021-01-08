@@ -614,7 +614,9 @@ export default {
           "/" +
           this.patientInfo.hospitalNo +
           "/" +
-          this.patientInfo.cureNo,
+          this.patientInfo.cureNo +
+          "/" +
+          this.patientInfo.operSchNo,
       }).then((res) => {
         if (res.data.code === 200) {
           let data = res.data.data;
@@ -789,6 +791,7 @@ export default {
       let obj = {
         cureNo: this.patientInfo.cureNo,
         hospitalNo: this.patientInfo.hospitalNo,
+        operSchNo: this.patientInfo.operSchNo,
       };
       let submitUrl = "";
       switch (this.transferTitle) {

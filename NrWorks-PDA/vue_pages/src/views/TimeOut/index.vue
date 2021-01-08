@@ -231,92 +231,92 @@
 
 <script>
 // import Signature from '../Signature/index'
-import Signature from "@/components/Signature";
-import PatientCard from "@/components/PatientCard";
-import { submitTimeout, getTimeout } from "@/api/check";
-import request from "@/utils/request";
-import { mapState } from "vuex";
-import moment from "moment";
+import Signature from '@/components/Signature'
+import PatientCard from '@/components/PatientCard'
+import { submitTimeout, getTimeout } from '@/api/check'
+import request from '@/utils/request'
+import { mapState } from 'vuex'
+import moment from 'moment'
 export default {
-  data() {
+  data () {
     return {
       checked: true,
-      input: "",
-      time: moment(new Date()).format("YYYY-MM-DD HH:mm"),
+      input: '',
+      time: moment(new Date()).format('YYYY-MM-DD HH:mm'),
       currentSign: null,
       visible: false,
-      anesBeforeAnesDoc: "",
-      anesBeforeOperDoc: "",
-      anesBeforeNurse: "",
-      anesBeforeState: "",
+      anesBeforeAnesDoc: '',
+      anesBeforeOperDoc: '',
+      anesBeforeNurse: '',
+      anesBeforeState: '',
       recordForm: [
-        { key: "患者姓名，住院号，性别，年龄正确", value: false, sort: "1" },
-        { key: "手术方式确认", value: false, sort: "2" },
-        { key: "手术部位、体位、标识正确", value: false, sort: "3" },
-        { key: "是否需要相关影像资料", value: false, sort: "4" },
-        { key: "其它", value: "", sort: "12" },
-        { key: "预计手术时间", value: false, sort: "5" },
-        { key: "预计失血量", value: false, sort: "6" },
-        { key: "手术关注点", value: false, sort: "7" },
-        { key: "其它", value: "", sort: "13" },
-        { key: "麻醉关注点", value: false, sort: "8" },
-        { key: "其它", value: "", sort: "14" },
-        { key: "物品灭菌合格", value: false, sort: "9" },
-        { key: "仪器设备、植入物", value: false, sort: "10" },
-        { key: "术前术中特殊用药情况", value: false, sort: "11" },
-        { key: "其它", value: "", sort: "15" },
-      ],
-    };
+        { key: '患者姓名，住院号，性别，年龄正确', value: false, sort: '1' },
+        { key: '手术方式确认', value: false, sort: '2' },
+        { key: '手术部位、体位、标识正确', value: false, sort: '3' },
+        { key: '是否需要相关影像资料', value: false, sort: '4' },
+        { key: '其它', value: '', sort: '12' },
+        { key: '预计手术时间', value: false, sort: '5' },
+        { key: '预计失血量', value: false, sort: '6' },
+        { key: '手术关注点', value: false, sort: '7' },
+        { key: '其它', value: '', sort: '13' },
+        { key: '麻醉关注点', value: false, sort: '8' },
+        { key: '其它', value: '', sort: '14' },
+        { key: '物品灭菌合格', value: false, sort: '9' },
+        { key: '仪器设备、植入物', value: false, sort: '10' },
+        { key: '术前术中特殊用药情况', value: false, sort: '11' },
+        { key: '其它', value: '', sort: '15' }
+      ]
+    }
   },
   components: {
     Signature,
-    PatientCard,
+    PatientCard
   },
   computed: {
-    ...mapState("Patient", ["patientInfo"]),
+    ...mapState('Patient', ['patientInfo'])
   },
   methods: {
-    onClickLeft() {
-      this.$router.go(-1);
+    onClickLeft () {
+      this.$router.go(-1)
     },
-    handleSubmitImage(image) {
+    handleSubmitImage (image) {
       switch (this.currentSign) {
         case 1:
-          this.anesBeforeAnesDoc = image;
-          break;
+          this.anesBeforeAnesDoc = image
+          break
         case 2:
-          this.anesBeforeOperDoc = image;
-          break;
+          this.anesBeforeOperDoc = image
+          break
         case 3:
-          this.anesBeforeNurse = image;
+          this.anesBeforeNurse = image
       }
     },
-    onClickRight() {
-      let arr = JSON.parse(JSON.stringify(this.recordForm));
-      let state = "";
+    onClickRight () {
+      let arr = JSON.parse(JSON.stringify(this.recordForm))
+      let state = ''
       for (var i = 0; i < arr.length; i++) {
-        if (arr[i].key === "其它") {
+        if (arr[i].key === '其它') {
         } else {
           if (!arr[i].value) {
-            state = "1";
-            break;
+            state = '1'
+            break
           } else {
-            state = "2";
+            state = '2'
           }
         }
       }
       arr.forEach((item) => {
-        if (item.key === "其它") {
+        if (item.key === '其它') {
         } else {
           if (item.value === true) {
-            item.value = "是";
+            item.value = '是'
           } else {
-            item.value = "否";
+            item.value = '否'
           }
         }
-      });
+      })
       request({
-        method: "post",
+        method: 'post',
         url: submitTimeout,
         data: {
           operBeforeAnesDoc: this.anesBeforeAnesDoc,
@@ -325,63 +325,64 @@ export default {
           operBeforeOperDoc: this.anesBeforeOperDoc,
           operBeforeState: state,
           cureNo: this.patientInfo.cureNo,
-        },
+          operSchNo: this.patientInfo.operSchNo
+        }
       }).then((res) => {
         if (res.data.code === 200) {
-          this.$notify({ message: "保存成功", type: "success" });
-          this.getData();
+          this.$notify({ message: '保存成功', type: 'success' })
+          this.getData()
         }
-      });
+      })
     },
-    handleShowSignature(param) {
-      this.visible = true;
-      this.currentSign = param;
+    handleShowSignature (param) {
+      this.visible = true
+      this.currentSign = param
     },
-    getData() {
+    getData () {
       request({
-        method: "get",
+        method: 'get',
         url:
           getTimeout +
-          "/" +
+          '/' +
           this.patientInfo.hospitalNo +
-          "/" +
-          this.patientInfo.cureNo,
+          '/' +
+          this.patientInfo.cureNo + '/' + this.patientInfo.operSchNo
       }).then((res) => {
         if (res.data.code === 200) {
-          let data = res.data.data;
+          let data = res.data.data
           if (data.beforeOperAnesDoctorTwo) {
-            this.anesBeforeAnesDoc = data.beforeOperAnesDoctorTwo;
+            this.anesBeforeAnesDoc = data.beforeOperAnesDoctorTwo
           }
-          this.time = data.beforeOperChkTime;
+          this.time = data.beforeOperChkTime
           if (data.beforeOperDocTwo) {
-            this.anesBeforeOperDoc = data.beforeOperDocTwo;
+            this.anesBeforeOperDoc = data.beforeOperDocTwo
           }
           if (data.beforeOperNurse) {
-            this.anesBeforeNurse = data.beforeOperNurse;
+            this.anesBeforeNurse = data.beforeOperNurse
           }
           if (data.opeeBeforeCheck.length > 0) {
             data.opeeBeforeCheck.forEach((item) => {
-              if (item.key !== "其它") {
-                if (item.value === "是") {
-                  item.value = true;
+              if (item.key !== '其它') {
+                if (item.value === '是') {
+                  item.value = true
                 } else {
-                  item.value = false;
+                  item.value = false
                 }
               }
-            });
-            this.recordForm = data.opeeBeforeCheck;
+            })
+            this.recordForm = data.opeeBeforeCheck
           }
         }
-      });
+      })
     },
-    handleCloseSignature() {
-      this.visible = false;
-    },
+    handleCloseSignature () {
+      this.visible = false
+    }
   },
-  mounted() {
-    this.getData();
-  },
-};
+  mounted () {
+    this.getData()
+  }
+}
 </script>
 
 <style lang="scss" scoped>

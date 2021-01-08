@@ -193,7 +193,6 @@
                 <vxe-button
                   class="btnRed"
                   size="mini"
-
                   @click="deleteSpecimen(item)"
                 >
                   删 除
@@ -246,7 +245,6 @@
             label="用户名"
           >
             <el-input
-
               prefix-icon="el-icon-s-custom"
               placeholder="请输入用户名"
               v-model="form.username"
@@ -258,7 +256,6 @@
             label="密码"
           >
             <el-input
-
               prefix-icon="el-icon-lock"
               placeholder="请输入密码"
               v-model="form.password"
@@ -273,7 +270,6 @@
         class="dialog-footer"
       >
         <div class="dialog-footer-btn">
-
           <vxe-button
             class="btn"
             size="mini"
@@ -298,7 +294,7 @@
 
 <script>
 import Bus from '@/utils/bus.js'
-import {reqsaveFastPathologic} from '@/api/client-api/pathological-application.js'
+import { reqsaveFastPathologic } from '@/api/client-api/pathological-application.js'
 import { reqcheckSendDoctor } from '@/api/login'
 export default {
   name: 'SubPathological',
@@ -320,6 +316,7 @@ export default {
       }, 1000)
     }
     return {
+      operSchNo: '',
       userInfo: {}, // 查询的用户信息
       selectItem: {}, // 选中的表格
       form: {
@@ -327,12 +324,8 @@ export default {
         password: ''
       },
       rules: {
-        username: [
-          { validator: changeUserName, trigger: 'blur' }
-        ],
-        password: [
-          { validator: changePassWord, trigger: 'blur' }
-        ]
+        username: [{ validator: changeUserName, trigger: 'blur' }],
+        password: [{ validator: changePassWord, trigger: 'blur' }]
       },
       formData: {
         hologyType: '0',
@@ -469,7 +462,7 @@ export default {
       }
     },
     yishilogin () {
-      this.$refs.form.validate((valid) => {
+      this.$refs.form.validate(valid => {
         console.log(valid)
         if (valid) {
           let obj = {
@@ -528,10 +521,11 @@ export default {
       if (!this.type) {
         return false
       }
-
+      console.log(this.$store.state)
       this.userInfo = this.$store.state['pathological-table'].userInfo
       let time = this.utilsNewTime()
-      let historyDetails = this.$store.state['pathological-table'].historyDetails || ''
+      let historyDetails =
+        this.$store.state['pathological-table'].historyDetails || ''
       let obj = {
         admitNo: this.userInfo.hospitalNo,
         checkCode: this.loginCode,
@@ -554,13 +548,16 @@ export default {
         pathologySpecimen: this.formData.specimenList,
         recAddress: this.userInfo.recAddress,
         remarks: this.formData.remarks,
-        roomNo: this.userInfo.roomNo
+        roomNo: this.userInfo.roomNo,
+        operSchNo: this.userInfo.operSchNo
       }
       console.log(obj)
       reqsaveFastPathologic(obj).then(res => {
         if (res.data.code === 200) {
           this.openToast('success', res.data.msg)
-          Bus.$emit('sub-pathological-success', '1')
+          Bus.$emit('sub-pathological-success', this.userInfo.operSchNo)
+        } else {
+          this.openToast('error', res.data.msg)
         }
       })
     },
@@ -625,103 +622,100 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 .btn {
-    border: none;
-    color: #303133;
-    width: 90px;
-    background-color:#E9EDF7
+  border: none;
+  color: #303133;
+  width: 90px;
+  background-color: #e9edf7;
 }
 .vxe-button.size--mini.type--button:hover {
-  background-color: #3377FF;
-  color: #FFFFFF;
+  background-color: #3377ff;
+  color: #ffffff;
 }
 .btnRed {
-    color: #fff;
-    width: 90px;
-    background-color:#FE5353;
-
+  color: #fff;
+  width: 90px;
+  background-color: #fe5353;
 }
 .btnRed:hover {
-  background-color:#FE5353 !important;
+  background-color: #fe5353 !important;
 }
 .mgl15 {
-    margin-left: 15px;
+  margin-left: 15px;
 }
 .radio {
-    font-weight: normal;
-    vertical-align: 0;
+  font-weight: normal;
+  vertical-align: 0;
 }
 .mgl30 {
-    margin-left: 30px;
+  margin-left: 30px;
 }
 .red {
-    color: #FF3232;
+  color: #ff3232;
 }
 
 .btnForm {
-    text-align: right;
+  text-align: right;
 }
 .subP-container {
-    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
-    border-radius: 5px;
-    height: 350px;
-    background-color: #fff;
-    padding: 10px 20px;
-    .container-content {
-        .subP-container-body {
-            display: flex;
-            .body-left {
-                flex: 3;
-            }
-            .body-right {
-                text-align: right;
-                flex: 2;
-            }
-        }
-        .subP-container-list {
-            margin-top: 20px;
-            .list-item {
-                display: flex;
-                .list-item-right {
-                    margin-left: 20px;
-                    flex: 1;
-                    display: flex;
-                    .note {
-                        width: 100%;
-                    }
-                }
-            }
-        }
-
+  box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+  border-radius: 5px;
+  height: 350px;
+  background-color: #fff;
+  padding: 10px 20px;
+  .container-content {
+    .subP-container-body {
+      display: flex;
+      .body-left {
+        flex: 3;
+      }
+      .body-right {
+        text-align: right;
+        flex: 2;
+      }
     }
+    .subP-container-list {
+      margin-top: 20px;
+      .list-item {
+        display: flex;
+        .list-item-right {
+          margin-left: 20px;
+          flex: 1;
+          display: flex;
+          .note {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
 }
 .dialog-div {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    .dialog-div-title {
-        color: #303133;
-        font-weight: 600;
-        font-size: 24px;
-    }
-    .dialog-div-form {
-        width: 65%;
-        margin-top: 30px;
-    }
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  .dialog-div-title {
+    color: #303133;
+    font-weight: 600;
+    font-size: 24px;
+  }
+  .dialog-div-form {
+    width: 65%;
+    margin-top: 30px;
+  }
 }
 .dialog-footer-btn {
-    padding-bottom: 10px;
-    display: flex;
-    justify-content: center;
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: center;
 }
 /deep/.red .vxe-radio--label {
-  color: #FF3232 !important
+  color: #ff3232 !important;
 }
 
 /deep/.el-dialog__header {
-  border-bottom: 1px solid #EBEBEB;
+  border-bottom: 1px solid #ebebeb;
   padding: 10px 20px 10px;
 }
 /deep/.el-dialog__title {
@@ -731,11 +725,13 @@ export default {
 /deep/ .el-dialog__headerbtn {
   top: 15px;
 }
-/deep/ .vxe-button--content, .vxe-button--icon, .vxe-button--loading-icon {
+/deep/ .vxe-button--content,
+.vxe-button--icon,
+.vxe-button--loading-icon {
   vertical-align: unset;
 }
 /deep/ .vxe-button.btnRed.type--button:not(.is--disabled):focus {
-  border-color: #FF3232;
-  box-shadow: 0 0 0.25em 0 #FF3232;
+  border-color: #ff3232;
+  box-shadow: 0 0 0.25em 0 #ff3232;
 }
 </style>

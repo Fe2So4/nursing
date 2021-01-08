@@ -77,11 +77,12 @@ export default {
     getStep () {
       request({
         method: 'get',
-        url: getDeviceStep + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`
+        url: getDeviceStep + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}/${this.patientInfo.operSchNo}`
       }).then(res => {
         this.stepList = res.data.data
       })
     },
+    // 弃用
     getData () {
       let deviceId = '123456'
       request({
@@ -94,7 +95,7 @@ export default {
     getPackageList () {
       request({
         method: 'get',
-        url: getPackageData + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`
+        url: getPackageData + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}/${this.patientInfo.operSchNo}`
       }).then(res => {
         console.log(res.data.data)
       })

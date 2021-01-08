@@ -95,7 +95,7 @@ export default {
     },
     getStep () {
       request({
-        url: handoverStep + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`,
+        url: handoverStep + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}/${this.patientInfo.operSchNo}`,
         method: 'get'
       }).then(res => {
         this.step = res.data.data

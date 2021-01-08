@@ -12,7 +12,7 @@ import './styles/iconfont/iconfont.css'
 import './utils/rem'
 import IsEmpty from './utils/isEmpty'
 import store from './store'
-import { Popup, Collapse, CollapseItem, Loading, DatetimePicker, Step, Steps, Stepper, TreeSelect, ActionSheet, Checkbox, CheckboxGroup, DropdownMenu, DropdownItem, Switch, Cell, CellGroup, Image, Button, Dialog, Grid, GridItem, Field, Form, Notify, NavBar, Icon } from 'vant'
+import { RadioGroup, Radio, Popup, Collapse, CollapseItem, Loading, DatetimePicker, Step, Steps, Stepper, TreeSelect, ActionSheet, Checkbox, CheckboxGroup, DropdownMenu, DropdownItem, Switch, Cell, CellGroup, Image, Button, Dialog, Grid, GridItem, Field, Form, Notify, NavBar, Icon } from 'vant'
 // import VueSignaturePad from 'vue-signature-pad'
 import vueEsign from 'vue-esign'
 // import './utils/autoFont'
@@ -46,6 +46,8 @@ Vue.use(Checkbox)
 Vue.use(CheckboxGroup)
 Vue.use(ActionSheet)
 Vue.use(Stepper)
+Vue.use(Radio)
+Vue.use(RadioGroup)
 // Vue.use(VueSignaturePad)
 
 Vue.config.productionTip = false

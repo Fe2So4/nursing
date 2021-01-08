@@ -177,6 +177,55 @@
         </vxe-form-item>
       </div>
     </vxe-form>
+    <el-dialog
+      title="请选择手术房间"
+      :close-on-click-modal="false"
+      :visible.sync="selectRoom"
+      top="30vh"
+      width="320px"
+      :before-close="handleClose"
+    >
+      <div class="dialog-body-span">
+        <span>手术房间:</span>
+        <vxe-select
+          size="mini"
+          clearable
+          style="width:120px"
+          v-model="selectRoomNo"
+          placeholder="选择房间"
+        >
+          <vxe-option
+            v-for="item in roomList"
+            :key="item.roomNo"
+            :value="item.roomNo"
+            :label="item.roomNo"
+          />
+        </vxe-select>
+      </div>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <div class="dialog-footer-div">
+          <vxe-button
+            class="btn"
+            size="mini"
+            status="my-purple"
+            @click="selectRoomNoVal"
+          >
+            确定
+          </vxe-button>
+
+          <vxe-button
+            class="btn"
+            size="mini"
+            @click="selectRoom = false"
+          >
+            取消
+          </vxe-button>
+        </div>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -187,6 +236,9 @@ export default {
   name: 'UserName',
   data () {
     return {
+      roomList: [],
+      selectRoomNo: '',
+      selectRoom: false,
       formData1: {
         hospitalNo: '', // 住院号
         patientName: '', // 患者名称,
@@ -206,11 +258,16 @@ export default {
   mounted () {
     Bus.$on('sub-pathological-success', res => {
       this.utilsDebounce(() => {
-        this.searchUserInfo()
+        console.log(res)
+        this.searchPathologyByOperSchNo(res)
       }, 1000)
     })
   },
   methods: {
+    handleClose () {
+      this.selectRoom = false
+    },
+
     // 根据住院号获取数据
     searchUserInfo () {
       Bus.$emit('user-info-initData', '1')
@@ -240,19 +297,24 @@ export default {
               }
               this.$store.commit('SAVE_USERINFOHISTORYDETAILS', '')
             } else {
-              Bus.$emit('user-info-getData', '1')
-              let userInfoData = res.data.data
-              this.formData1.patientName = userInfoData.patientName
-              this.formData1.patientGender = userInfoData.patientGender
-              this.formData1.patientAge = userInfoData.patientAge
-              this.formData1.beaNo = userInfoData.beaNo
-              this.formData1.categpry = userInfoData.categpry
-              this.formData1.historyDetails = userInfoData.historyDetails
-              this.$store.commit('SAVE_USERINFOHISTORYDETAILS', userInfoData.historyDetails || '')
-              this.formData1.roomNo = userInfoData.roomNo
-              this.formData1.opsName = userInfoData.opsName
-              this.formData1.clinicalDiagnosis = userInfoData.clinicalDiagnosis
-              this.formData1.pathologys = userInfoData.pathologys
+              // Bus.$emit('user-info-getData', '1')
+              this.roomList = res.data.data
+              this.selectRoom = true
+              this.selectRoomNo = this.roomList[0].roomNo
+              // this.formData1.patientName = userInfoData.patientName
+              // this.formData1.patientGender = userInfoData.patientGender
+              // this.formData1.patientAge = userInfoData.patientAge
+              // this.formData1.beaNo = userInfoData.beaNo
+              // this.formData1.categpry = userInfoData.categpry
+              // this.formData1.historyDetails = userInfoData.historyDetails
+              // this.$store.commit(
+              //   'SAVE_USERINFOHISTORYDETAILS',
+              //   userInfoData.historyDetails || ''
+              // )
+              // this.formData1.roomNo = userInfoData.roomNo
+              // this.formData1.opsName = userInfoData.opsName
+              // this.formData1.clinicalDiagnosis = userInfoData.clinicalDiagnosis
+              // this.formData1.pathologys = userInfoData.pathologys
             }
           } else {
             this.openToast('error', this.res.statusText)
@@ -261,6 +323,53 @@ export default {
       } else {
         this.openToast('warning', '请输入正确的住院号')
       }
+    },
+    // 选择房间号
+    selectRoomNoVal () {
+      console.log(this.selectRoomNo)
+      this.handleClose()
+      this.roomList.forEach(item => {
+        if (item.roomNo === this.selectRoomNo) {
+          Bus.$emit('user-info-getData', '1')
+          let userInfoData = item
+          this.formData1.patientName = userInfoData.patientName
+          this.formData1.patientGender = userInfoData.patientGender
+          this.formData1.patientAge = userInfoData.patientAge
+          this.formData1.beaNo = userInfoData.beaNo
+          this.formData1.categpry = userInfoData.categpry
+          this.formData1.historyDetails = userInfoData.historyDetails
+          this.$store.commit(
+            'SAVE_USERINFOHISTORYDETAILS',
+            userInfoData.historyDetails || ''
+          )
+
+          this.$store.commit('SAVE_USERINFO', userInfoData || {})
+          this.formData1.roomNo = userInfoData.roomNo
+          this.formData1.opsName = userInfoData.opsName
+          this.formData1.clinicalDiagnosis = userInfoData.clinicalDiagnosis
+          // this.formData1.pathologys = userInfoData.pathologys
+          this.searchPathologyByOperSchNo(userInfoData.operSchNo)
+        }
+        return false
+      })
+    },
+    // 根据手术申请号获取病理列表
+    searchPathologyByOperSchNo (operSchNo) {
+      this.$store.commit('CLEAR_SELECTTABLEITEM')
+      this.$store.commit('SAVE_SELECTTABLEITEM', [])
+
+      let obj = {
+        operSchNo: operSchNo
+      }
+      this.$store.dispatch('ReqgetPathologyByOperSchNo', obj).then(res => {
+        if (res.data.code === 200) {
+          Bus.$emit('user-info-initData')
+
+          this.$store.commit('SAVE_PATHOLOGICAL_TABLELIST', res.data.data)
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+      })
     },
     resetEvent () {
       this.formData1.historyDetails = ''
@@ -288,7 +397,6 @@ export default {
     ListeningHospitalNo () {
       return this.formData1.hospitalNo
     }
-
   },
   watch: {
     ListeningPathologyId: function (newd) {
@@ -308,6 +416,7 @@ export default {
       if (newd === '') {
         Bus.$emit('user-info-getData', '0')
         this.$store.commit('CLEAR_USERINFO')
+        this.$store.commit('SAVE_PATHOLOGICAL_TABLELIST', [])
         this.formData1 = {
           hospitalNo: '', // 住院号
           patientName: '', // 患者名称,
@@ -317,6 +426,7 @@ export default {
           categpry: '', // 科别
           roomNo: '', // 房间号
           historyDetails: '', // 历史摘要及临床检查所见
+          operSchNo: '',
           opsName: '', // 手术名称及手术所见
           clinicalDiagnosis: '', // 临床诊断
           pathologyId: '',
@@ -329,38 +439,46 @@ export default {
 </script>
 
 <style scoped lang="scss">
-    .user-info-container {
-        box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
-        border-radius: 5px;
-        padding: 20px;
-        width: 100%;
-        // height: 132px;
-        background-color: #fff;
-        .container-title {
-            color: #444;
-            font-size: 14px;
-        }
-        .container-content {
-            display: flex;
-            .content-left {
-                flex: 3;
-                min-width: 900px;
-            }
-            .content-right {
-                flex: 2;
-                display: flex;
-                align-items: flex-end;
-                justify-content: space-between;
-            }
-        }
-    }
-.btn {
-    border: none;
-    color: #303133;
-    width: 90px;
-    background-color:#E9EDF7
+.dialog-body-span {
+  text-align: center;
 }
-/deep/ .vxe-button--content, .vxe-button--icon, .vxe-button--loading-icon {
+.dialog-footer-div {
+  text-align: center;
+}
+.user-info-container {
+  box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+  border-radius: 5px;
+  padding: 20px;
+  width: 100%;
+  // height: 132px;
+  background-color: #fff;
+  .container-title {
+    color: #444;
+    font-size: 14px;
+  }
+  .container-content {
+    display: flex;
+    .content-left {
+      flex: 3;
+      min-width: 900px;
+    }
+    .content-right {
+      flex: 2;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+  }
+}
+.btn {
+  border: none;
+  color: #303133;
+  width: 90px;
+  background-color: #e9edf7;
+}
+/deep/ .vxe-button--content,
+.vxe-button--icon,
+.vxe-button--loading-icon {
   vertical-align: unset;
 }
 </style>
