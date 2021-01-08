@@ -3,6 +3,7 @@
     <van-nav-bar title="手术室移动工作平台">
       <van-icon
         class-prefix="my-icon"
+        name="caidan"
         slot="left"
         size="34"
         color="#ffffff"
@@ -48,9 +49,9 @@
           </div>
           <div class="mt-right">
             <p>{{ opePeopleInfo.userName }}</p>
-            <p>手术室-复...</p>
+            <!-- <p>手术室-复...</p> -->
             <!--<p>{{opePeopleInfo.userName}}</p>-->
-            <!--<p>手术室-复旦大学附属华山医院</p>-->
+            <p>手术室-复旦大学附属华山医院</p>
           </div>
         </div>
         <ul>
@@ -70,9 +71,26 @@
             <van-icon class-prefix="my-icon" name="tuichuapp" />
             <span>退出</span>
           </li>
+          <li @click="changeTheme">
+            <van-icon name="flower-o" />
+            <span>换肤</span>
+          </li>
         </ul>
       </div>
     </van-popup>
+    <van-dialog v-model="showPtSelect" title="提示" show-cancel-button @confirm="handleConfirm">
+      <!-- <img src="https://img.yzcdn.cn/vant/apple-3.jpg" /> -->
+      <div class="pt-select-title">当前患者有{{patientList.length}}台手术，请选择！</div>
+      <van-radio-group v-model="radio">
+        <van-cell-group>
+          <van-cell v-for="item in patientList" :key="item.operSchNo" :title="item.roomNo" clickable>
+            <template #right-icon>
+              <van-radio :name="item.operSchNo" />
+            </template>
+          </van-cell>
+        </van-cell-group>
+      </van-radio-group>
+    </van-dialog>
   </div>
 </template>
 
@@ -82,6 +100,7 @@ import { getPatientInfo, bindingPatPushScreen } from '@/api/patient-info'
 import Loading from '@/components/Loading'
 // import {getOpePeople} from '@/api/device-package'
 import def from '@/assets/def.png'
+import {getTheme, setTheme} from '@/utils/storage'
 import $bus from '@/utils/bus'
 import Menu from '@/components/Menu'
 import { mapActions, mapState } from 'vuex'
@@ -91,11 +110,14 @@ export default {
       cureNo: '',
       avater: def,
       showLoading: false,
-      showMenu: false
+      showMenu: false,
+      showPtSelect: false,
+      patientList: [],
+      radio: ''
     }
   },
   computed: {
-    ...mapState('Patient', ['opePeopleInfo'])
+    ...mapState('Patient', ['opePeopleInfo', 'patientInfo'])
   },
   components: {
     Loading,
@@ -124,14 +146,24 @@ export default {
           // on cancel
         })
     },
-    onClickRight () {},
+    onClickRight () {
+    },
+    handleConfirm () {
+      this.patientList.forEach(item => {
+        if (item.operSchNo === this.radio) {
+          this.getPatient(item)
+          this.bindingPatPushScreen()
+        }
+      })
+    },
     // 绑定患者
     bindingPatPushScreen () {
       request({
         url: bindingPatPushScreen,
         method: 'post',
         params: {
-          cureNo: this.cureNo
+          cureNo: this.cureNo,
+          operSchNo: this.patientInfo.operSchNo
         }
       }).then((res) => {
         if (res.data.code === 200) {
@@ -140,29 +172,54 @@ export default {
       })
     },
     getPatientData () {
-      this.showLoading = true
+      // this.showLoading = true
       request({
         url: getPatientInfo + '/' + this.cureNo,
         method: 'get'
       }).then((res) => {
         if (res) {
           if (res.data.code === 200) {
-            this.getPatient(res.data.data)
-            setTimeout(() => {
+            if (res.data.data.length > 1) {
+              this.showPtSelect = true
+              this.patientList = res.data.data
+            } else {
+              this.getPatient(res.data.data[0])
               this.bindingPatPushScreen()
-              this.showLoading = false
-            }, 2000)
+            }
+            // setTimeout(() => {
+            //   this.showLoading = false
+            // }, 2000)
           } else {
-            setTimeout(() => {
-              this.showLoading = false
-            }, 2000)
+            // setTimeout(() => {
+            //   this.showLoading = false
+            // }, 2000)
           }
         } else {
-          setTimeout(() => {
-            this.showLoading = false
-          }, 2000)
+          // setTimeout(() => {
+          //   this.showLoading = false
+          // }, 2000)
         }
       })
+    },
+    // 换主题
+    theme (type) {
+      this.$store.commit('upDate', {themeType: type})
+      window.document.documentElement.setAttribute('data-theme', type)
+    },
+    changeTheme () {
+      let theme = getTheme()
+      let type = 'light'
+      if (theme) {
+        if (theme === 'dark') {
+          type = 'light'
+        } else {
+          type = 'dark'
+        }
+      } else {
+        type = 'dark'
+      }
+      setTheme(type)
+      window.document.documentElement.setAttribute('data-theme', type)
     },
     getPatientDataUpdate () {
       this.showLoading = true
@@ -214,13 +271,10 @@ export default {
     document.onkeydown = (e) => {
       var key = window.event.keyCode
       if (key === 13) {
-<<<<<<< HEAD
-        this.handleScan("19057263");
-=======
-        this.handleScan('1018')
->>>>>>> c271200de9c66d392f20fcf7736c467ca6b1e677
+        this.handleScan('19069000')
       }
     }
+    this.changeTheme()
   },
   mounted () {
     // this.getPatientData()
@@ -259,6 +313,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/themes/_handle.scss";
 .home {
   height: 100%;
   .van-nav-bar {
@@ -279,7 +334,8 @@ export default {
     ul {
       padding: 20px 15px 0;
       li {
-        background: #ffffff;
+        // background: #ffffff;
+        @include background_color("bg_home");
         box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.15);
         border-radius: 10px;
         height: 120px;
@@ -378,6 +434,43 @@ export default {
           font-size: 28px;
           color: #819cbb;
           // font-weight:600;
+        }
+      }
+    }
+  }
+  .pt-select-title{
+    padding:10px 16px;
+  }
+  .van-cell {
+    line-height: 94px;
+    color: #2e2e2e;
+    font-size: 30px;
+    &::after {
+      border-color: #e2e2e2;
+    }
+    &.presure {
+      height: 104px !important;
+    }
+    .first-cell {
+      flex: unset;
+    }
+    .left-title {
+      flex: unset;
+    }
+    .van-radio{
+      height: 100%;
+      justify-content: flex-end;
+      /deep/ .van-radio__icon{
+        height: 40px;
+        line-height: 40px;
+        font-size: 30px;
+        .van-icon{
+          width: 40px;
+          height: 40px;
+          font-size: unset;
+          &:before{
+            height: 100%;
+          }
         }
       }
     }

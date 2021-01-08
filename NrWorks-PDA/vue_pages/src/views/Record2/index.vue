@@ -853,552 +853,553 @@
 </template>
 
 <script>
-import Signature from "@/components/Signature";
-import PatientCard from "@/components/PatientCard";
-import request from "@/utils/request";
-import { submitRecord, getRecordData } from "@/api/nursing-record";
-import { mapState } from "vuex";
-import $bus from "@/utils/bus";
-import moment from "moment";
+import Signature from '@/components/Signature'
+import PatientCard from '@/components/PatientCard'
+import request from '@/utils/request'
+import { submitRecord, getRecordData } from '@/api/nursing-record'
+import { mapState } from 'vuex'
+import $bus from '@/utils/bus'
+import moment from 'moment'
 export default {
-  name: "Record2",
-  data() {
+  name: 'Record2',
+  data () {
     return {
       checked: true,
-      currentTime: "",
-      currentDate: moment(new Date()).format("YYYY-MM-DD HH:mm"),
+      currentTime: '',
+      currentDate: moment(new Date()).format('YYYY-MM-DD HH:mm'),
       visible: false,
       timeVisible: false,
-      input: "",
+      input: '',
       checkBoxList: [],
-      dialogTitle: "",
+      dialogTitle: '',
       showDialog: false,
       showFullSkin: false,
-      currenSign: "",
-      value1: "",
+      currenSign: '',
+      value1: '',
       option: [
-        { text: "PACU", value: "1" },
-        { text: "病房", value: "2" },
-        { text: "ICU病房", value: "3" },
-        { text: "急诊", value: "4" },
-        { text: "离院", value: "5" },
+        { text: 'PACU', value: '1' },
+        { text: '病房', value: '2' },
+        { text: 'ICU病房', value: '3' },
+        { text: '急诊', value: '4' },
+        { text: '离院', value: '5' }
       ],
       result: [],
       // 电极板
       djbOptions: [
-        { text: "大腿", value: "1" },
-        { text: "小腿", value: "2" },
-        { text: "臀部", value: "3" },
-        { text: "其它", value: "4" },
-        { text: "负极返回路垫", value: "5" },
-        { text: "无", value: "6" },
-        { text: "", value: "" },
+        { text: '大腿', value: '1' },
+        { text: '小腿', value: '2' },
+        { text: '臀部', value: '3' },
+        { text: '其它', value: '4' },
+        { text: '负极返回路垫', value: '5' },
+        { text: '无', value: '6' },
+        { text: '', value: '' }
       ],
       wOptions: [],
       // 术中冲洗
       szcxOptions: [
-        { text: "0.9%氯化钠溶液", value: "1" },
-        { text: "灭菌注射用水", value: "2" },
-        { text: "药液", value: "3" },
+        { text: '0.9%氯化钠溶液', value: '1' },
+        { text: '灭菌注射用水', value: '2' },
+        { text: '药液', value: '3' }
       ],
       // 病理数量
       pathologyList: [
-        { text: "1", value: "1" },
-        { text: "2", value: "2" },
-        { text: "3", value: "3" },
-        { text: "4", value: "4" },
-        { text: "5", value: "5" },
-        { text: "6", value: "6" },
-        { text: "7", value: "7" },
-        { text: "8", value: "8" },
-        { text: "9", value: "9" },
-        { text: "10", value: "10" },
-        { text: "", value: "" },
+        { text: '1', value: '1' },
+        { text: '2', value: '2' },
+        { text: '3', value: '3' },
+        { text: '4', value: '4' },
+        { text: '5', value: '5' },
+        { text: '6', value: '6' },
+        { text: '7', value: '7' },
+        { text: '8', value: '8' },
+        { text: '9', value: '9' },
+        { text: '10', value: '10' },
+        { text: '', value: '' }
       ],
       catheterOptions: [
-        { text: "无", value: "1" },
-        { text: "病房带入", value: "2" },
-        { text: "手术室插入", value: "3" },
-        { text: "", value: "" },
+        { text: '无', value: '1' },
+        { text: '病房带入', value: '2' },
+        { text: '手术室插入', value: '3' },
+        { text: '', value: '' }
       ],
       constraintOptions: [
-        { value: "1", text: "无" },
-        { value: "2", text: "有" },
-        { value: "", text: "" },
+        { value: '1', text: '无' },
+        { value: '2', text: '有' },
+        { value: '', text: '' }
       ], // 约束带
       bodyOptions: [
-        { text: "仰卧位", value: "1" },
-        { text: "俯卧位", value: "2" },
-        { text: "左侧卧位", value: "3" },
-        { text: "右侧卧位", value: "4" },
-        { text: "左侧俯卧位", value: "5" },
-        { text: "右侧俯卧位", value: "6" },
-        { text: "坐位", value: "7" },
-        { text: "俯卧位", value: "8" },
+        { text: '仰卧位', value: '1' },
+        { text: '俯卧位', value: '2' },
+        { text: '左侧卧位', value: '3' },
+        { text: '右侧卧位', value: '4' },
+        { text: '左侧俯卧位', value: '5' },
+        { text: '右侧俯卧位', value: '6' },
+        { text: '坐位', value: '7' },
+        { text: '俯卧位', value: '8' }
       ],
       presureValueList: [],
       presureOptions: [
-        { text: "kPa", value: "kPa" },
-        { text: "mmHg", value: "mmHg" },
-        { text: "", value: "" },
+        { text: 'kPa', value: 'kPa' },
+        { text: 'mmHg', value: 'mmHg' },
+        { text: '', value: '' }
       ],
       deviceOptions: [
-        { text: "肩垫", value: "1" },
-        { text: "腋垫", value: "2" },
-        { text: "胸垫", value: "3" },
-        { text: "背垫", value: "4" },
-        { text: "腰垫", value: "5" },
-        { text: "肘垫", value: "6" },
-        { text: "两脚间垫", value: "7" },
-        { text: "膝垫", value: "8" },
-        { text: "后跟垫", value: "9" },
-        { text: "其他", value: "10" },
-        { text: "无", value: "11" },
+        { text: '肩垫', value: '1' },
+        { text: '腋垫', value: '2' },
+        { text: '胸垫', value: '3' },
+        { text: '背垫', value: '4' },
+        { text: '腰垫', value: '5' },
+        { text: '肘垫', value: '6' },
+        { text: '两脚间垫', value: '7' },
+        { text: '膝垫', value: '8' },
+        { text: '后跟垫', value: '9' },
+        { text: '其他', value: '10' },
+        { text: '无', value: '11' }
       ],
       anesMethodOptions: [
-        { text: "全麻", value: "1" },
-        { text: "臂丛麻醉", value: "2" },
-        { text: "硬膜外麻醉", value: "3" },
-        { text: "丛麻醉", value: "4" },
-        { text: "跟阻麻醉", value: "5" },
-        { text: "静脉麻醉", value: "6" },
-        { text: "腰麻", value: "7" },
-        { text: "颈从麻醉", value: "8" },
-        { text: "局麻监护", value: "9" },
-        { text: "局麻", value: "10" },
-        { text: "唤醒麻醉", value: "11" },
+        { text: '全麻', value: '1' },
+        { text: '臂丛麻醉', value: '2' },
+        { text: '硬膜外麻醉', value: '3' },
+        { text: '丛麻醉', value: '4' },
+        { text: '跟阻麻醉', value: '5' },
+        { text: '静脉麻醉', value: '6' },
+        { text: '腰麻', value: '7' },
+        { text: '颈从麻醉', value: '8' },
+        { text: '局麻监护', value: '9' },
+        { text: '局麻', value: '10' },
+        { text: '唤醒麻醉', value: '11' }
       ],
       typeOptions: [
         {
-          text: "择期",
-          value: "1",
+          text: '择期',
+          value: '1'
         },
         {
-          text: "非择期",
-          value: "2",
+          text: '非择期',
+          value: '2'
         },
         {
-          text: "急诊",
-          value: "3",
+          text: '急诊',
+          value: '3'
         },
         {
-          text: "",
-          value: "",
-        },
+          text: '',
+          value: ''
+        }
       ],
       skinOptions: [
-        { text: "完整", value: "1" },
-        { text: "不完整", value: "2" },
-        { text: "", value: "" },
+        { text: '完整', value: '1' },
+        { text: '不完整', value: '2' },
+        { text: '', value: '' }
       ],
       locationOptions: [
-        { text: "左上肢", value: "1" },
-        { text: "左下肢", value: "2" },
-        { text: "右上肢", value: "3" },
-        { text: "右下肢", value: "4" },
-        { text: "", value: "" },
+        { text: '左上肢', value: '1' },
+        { text: '左下肢', value: '2' },
+        { text: '右上肢', value: '3' },
+        { text: '右下肢', value: '4' },
+        { text: '', value: '' }
       ],
       consciousnessOptions: [
-        { text: "清醒", value: "1" },
-        { text: "烦躁", value: "2" },
-        { text: "昏迷", value: "3" },
-        { text: "", value: "" },
+        { text: '清醒', value: '1' },
+        { text: '烦躁', value: '2' },
+        { text: '昏迷', value: '3' },
+        { text: '', value: '' }
       ],
       recordForm: {
         anesthesiaMode: [],
         catheter: {
           // 导管
-          catheterName: "", // 插管类型
-          catheterSign: "", // 插管人姓名
-          catheterType: "",
-          catheterNature: "",
+          catheterName: '', // 插管类型
+          catheterSign: '', // 插管人姓名
+          catheterType: '',
+          catheterNature: ''
         },
         // 电刀
         electrotome: {
-          electrotomeDQ: "", // 电切功率
-          electrotomeDN: "", // 电凝功率
-          electrotomeName: "",
+          electrotomeDQ: '', // 电切功率
+          electrotomeDN: '', // 电凝功率
+          electrotomeName: ''
         }, // 电刀名称
         bhMachine: {
-          bhMachineName: "",
+          bhMachineName: '',
           bhMachineList: [
             {
-              presure: "",
-              presureValue: "",
-              locateName: "",
+              presure: '',
+              presureValue: '',
+              locateName: '',
               cqTime: new Date(),
               cqSign: new Date(),
               fqTime: new Date(),
-              fqSign: new Date(),
+              fqSign: new Date()
             },
             {
-              presure: "",
-              presureValue: "",
-              locateName: "",
+              presure: '',
+              presureValue: '',
+              locateName: '',
               cqTime: new Date(),
               cqSign: new Date(),
               fqTime: new Date(),
-              fqSign: new Date(),
+              fqSign: new Date()
             },
             {
-              presure: "",
-              presureValue: "",
-              locateName: "",
+              presure: '',
+              presureValue: '',
+              locateName: '',
               cqTime: new Date(),
               cqSign: new Date(),
               fqTime: new Date(),
-              fqSign: new Date(),
-            },
-          ],
+              fqSign: new Date()
+            }
+          ]
         },
         compressedSkin: [], // 受压皮肤
-        consciousness: "",
-        constraints: "",
-        cureNo: "",
-        deptName: "",
+        consciousness: '',
+        constraints: '',
+        cureNo: '',
+        deptName: '',
         device: [], // 体位装置
-        diagnosis: "",
+        diagnosis: '',
         equipment: {
           // 电极板位置
-          electrotomeLocation: "",
+          electrotomeLocation: ''
         },
         frozen: {
-          frozenName: "",
+          frozenName: '',
           frozenList: [
-            { sendDoc: "", receiveDoc: "" },
-            { sendDoc: "", receiveDoc: "" },
-            { sendDoc: "", receiveDoc: "" },
-            { sendDoc: "", receiveDoc: "" },
-            { sendDoc: "", receiveDoc: "" },
-          ],
+            { sendDoc: '', receiveDoc: '' },
+            { sendDoc: '', receiveDoc: '' },
+            { sendDoc: '', receiveDoc: '' },
+            { sendDoc: '', receiveDoc: '' },
+            { sendDoc: '', receiveDoc: '' }
+          ]
         },
         handOver: {
-          handOverName: "",
-          handOverRemarks: "",
+          handOverName: '',
+          handOverRemarks: ''
         },
-        implants: "",
-        nursesSignature: "",
+        implants: '',
+        nursesSignature: '',
         opsChange: {
-          opsChangeName: "",
+          opsChangeName: '',
           opsChangeList: [
             {
-              time: moment(new Date()).format("YYYY-MM-DD HH:mm"),
-              jiaobrSign: "",
-              jiebrSign: "",
+              time: moment(new Date()).format('YYYY-MM-DD HH:mm'),
+              jiaobrSign: '',
+              jiebrSign: ''
             },
             {
-              time: moment(new Date()).format("YYYY-MM-DD HH:mm"),
-              jiaobrSign: "",
-              jiebrSign: "",
-            },
-          ],
+              time: moment(new Date()).format('YYYY-MM-DD HH:mm'),
+              jiaobrSign: '',
+              jiebrSign: ''
+            }
+          ]
         },
-        opsMode: "",
-        opsType: "",
+        opsMode: '',
+        opsType: '',
         pathology: {
-          pathologyName: "",
-          pathologyCount: "",
-          sendDoc: "",
+          pathologyName: '',
+          pathologyCount: '',
+          sendDoc: ''
         },
-        patientName: "",
+        patientName: '',
         position: [],
         rinse: {
-          rinseName: "",
+          rinseName: '',
           rinseList: [],
-          liquidMedicine1: "",
-          liquidMedicine2: "",
-          liquidMedicine3: "",
-          liquidMedicine4: "",
+          liquidMedicine1: '',
+          liquidMedicine2: '',
+          liquidMedicine3: '',
+          liquidMedicine4: ''
         },
         skin: {
-          skinName: "",
-          skinLocate: "",
-          skinDegree: "",
+          skinName: '',
+          skinLocate: '',
+          skinDegree: ''
         },
         waistPuncture: {
-          waistPunctureName: "",
-          operationDoc: "",
+          waistPunctureName: '',
+          operationDoc: '',
           needleHeartTime: new Date(),
           needleTime: new Date(),
-          needleSign: "",
-          needleHeartSign: "",
-        },
-      },
-    };
+          needleSign: '',
+          needleHeartSign: ''
+        }
+      }
+    }
   },
   computed: {
-    ...mapState("Patient", ["patientInfo"]),
+    ...mapState('Patient', ['patientInfo'])
   },
   components: {
     Signature,
-    PatientCard,
+    PatientCard
   },
-  created() {
-    this.handleOpenConstraint();
+  created () {
+    this.handleOpenConstraint()
     for (let i = 1; i <= 8; i++) {
-      this.recordForm.compressedSkin.push({ isFull: "", skinStatus: "" });
+      this.recordForm.compressedSkin.push({ isFull: '', skinStatus: '' })
     }
   },
-  mounted() {
-    this.getData();
+  mounted () {
+    this.getData()
   },
   methods: {
-    formatTime(time) {
-      return moment(time).format("YYYY-MM-DD HH:mm");
+    formatTime (time) {
+      return moment(time).format('YYYY-MM-DD HH:mm')
     },
-    handleFilterLabel(obj) {
-      let str = "";
-      var reg = /,$/gi;
+    handleFilterLabel (obj) {
+      let str = ''
+      var reg = /,$/gi
       // setTimeout(() => {
-      if (this.recordForm[obj.value] !== "" && obj.value !== "rinseList") {
+      if (this.recordForm[obj.value] !== '' && obj.value !== 'rinseList') {
         this[obj.list].forEach((item) => {
           this.recordForm[obj.value].forEach((_item) => {
             if (item.value === _item) {
-              str = str + item.text + ",";
+              str = str + item.text + ','
             }
-          });
-        });
-        return str.replace(reg, "");
+          })
+        })
+        return str.replace(reg, '')
       } else if (
-        this.recordForm.rinse[obj.value] !== "" &&
-        obj.value === "rinseList"
+        this.recordForm.rinse[obj.value] !== '' &&
+        obj.value === 'rinseList'
       ) {
         this[obj.list].forEach((item) => {
           this.recordForm.rinse.rinseList.forEach((_item) => {
             if (item.value === _item) {
-              str = str + item.text + ",";
+              str = str + item.text + ','
             }
-          });
-        });
-        return str.replace(reg, "");
+          })
+        })
+        return str.replace(reg, '')
       } else {
-        return "";
+        return ''
       }
       // }, 10)
     },
-    handleShowTime(param) {
-      if (param.indexOf("opsChangeList") !== -1) {
-        let index = parseInt(param.substr(param.length - 1, 1));
+    handleShowTime (param) {
+      if (param.indexOf('opsChangeList') !== -1) {
+        let index = parseInt(param.substr(param.length - 1, 1))
         this.currentDate = moment(
           this.recordForm.opsChange.opsChangeList[index].time
-        ).toDate();
-      } else if (param.indexOf("cqTime") !== -1) {
-        let index = parseInt(param.substr(param.length - 1, 1));
+        ).toDate()
+      } else if (param.indexOf('cqTime') !== -1) {
+        let index = parseInt(param.substr(param.length - 1, 1))
         this.currentDate = moment(
           this.recordForm.bhMachine.bhMachineList[index].cqTime
-        ).toDate();
-      } else if (param.indexOf("fqTime") !== -1) {
-        let index = parseInt(param.substr(param.length - 1, 1));
+        ).toDate()
+      } else if (param.indexOf('fqTime') !== -1) {
+        let index = parseInt(param.substr(param.length - 1, 1))
         this.currentDate = moment(
           this.recordForm.bhMachine.bhMachineList[index].fqTime
-        ).toDate();
+        ).toDate()
       } else {
         this.currentDate = moment(
           this.recordForm.waistPuncture[param]
-        ).toDate();
+        ).toDate()
       }
-      this.currentTime = param;
-      this.timeVisible = true;
+      this.currentTime = param
+      this.timeVisible = true
     },
-    handleConfirm(value) {
-      if (this.currentTime.indexOf("opsChangeList") !== -1) {
+    handleConfirm (value) {
+      if (this.currentTime.indexOf('opsChangeList') !== -1) {
         let index = parseInt(
           this.currentTime.substr(this.currentTime.length - 1, 1)
-        );
+        )
         this.recordForm.opsChange.opsChangeList[index].time = moment(
           value
-        ).format("YYYY-MM-DD HH:mm");
-      } else if (this.currentTime.indexOf("cqTime") !== -1) {
+        ).format('YYYY-MM-DD HH:mm')
+      } else if (this.currentTime.indexOf('cqTime') !== -1) {
         let index = parseInt(
           this.currentTime.substr(this.currentTime.length - 1, 1)
-        );
+        )
         this.recordForm.bhMachine.bhMachineList[index].cqTime = moment(
           value
-        ).format("YYYY-MM-DD HH:mm");
-      } else if (this.currentTime.indexOf("fqTime") !== -1) {
+        ).format('YYYY-MM-DD HH:mm')
+      } else if (this.currentTime.indexOf('fqTime') !== -1) {
         let index = parseInt(
           this.currentTime.substr(this.currentTime.length - 1, 1)
-        );
+        )
         this.recordForm.bhMachine.bhMachineList[index].fqTime = moment(
           value
-        ).format("YYYY-MM-DD HH:mm");
+        ).format('YYYY-MM-DD HH:mm')
       } else {
         this.recordForm.waistPuncture[this.currentTime] = moment(value).format(
-          "YYYY-MM-DD HH:mm"
-        );
+          'YYYY-MM-DD HH:mm'
+        )
       }
-      this.timeVisible = false;
+      this.timeVisible = false
     },
-    handleCancel() {
-      this.timeVisible = false;
+    handleCancel () {
+      this.timeVisible = false
     },
-    onClickLeft() {
-      this.$router.go(-1);
+    onClickLeft () {
+      this.$router.go(-1)
     },
-    onClickRight() {
-      var reg = /,$/gi;
-      this.recordForm.equipment.electrotome = this.recordForm.electrotome;
+    onClickRight () {
+      var reg = /,$/gi
+      this.recordForm.equipment.electrotome = this.recordForm.electrotome
       // this.recordForm.equipment.electrotomeLocation = this.recordForm.electrotomeLocation
-      this.recordForm.equipment.bhMachine = this.recordForm.bhMachine;
-      this.recordForm.admitNo = this.patientInfo.admitNo;
-      this.recordForm.cureNo = this.patientInfo.cureNo;
-      this.recordForm.skin = this.recordForm.skin;
-      this.recordForm.hospitalNo = this.patientInfo.hospitalNo;
-      this.recordForm.recordTwoState = "2";
+      this.recordForm.equipment.bhMachine = this.recordForm.bhMachine
+      this.recordForm.admitNo = this.patientInfo.admitNo
+      this.recordForm.cureNo = this.patientInfo.cureNo
+      this.recordForm.operSchNo = this.patientInfo.operSchNo
+      this.recordForm.skin = this.recordForm.skin
+      this.recordForm.hospitalNo = this.patientInfo.hospitalNo
+      this.recordForm.recordTwoState = '2'
       this.recordForm.device =
         this.recordForm.device.length > 0
-          ? this.recordForm.device.join(",").replace(reg, "")
-          : "";
+          ? this.recordForm.device.join(',').replace(reg, '')
+          : ''
       this.recordForm.position = this.recordForm.position
-        .join(",")
-        .replace(reg, "");
+        .join(',')
+        .replace(reg, '')
       this.recordForm.anesthesiaMode = this.recordForm.anesthesiaMode
-        .join(",")
-        .replace(reg, "");
+        .join(',')
+        .replace(reg, '')
       request({
-        method: "post",
+        method: 'post',
         url: submitRecord,
-        data: this.recordForm,
+        data: this.recordForm
       }).then((res) => {
         if (res.data.code === 200) {
-          this.$notify({ type: "success", message: "保存成功" });
+          this.$notify({ type: 'success', message: '保存成功' })
           // this.recordForm.anesthesiaMode = this.recordForm.anesthesiaMode.split(',')
-          $bus.$emit("getPatientDataUpdate");
-          this.getData();
+          $bus.$emit('getPatientDataUpdate')
+          this.getData()
         }
-      });
+      })
     },
-    getData() {
+    getData () {
       request({
         url:
           getRecordData +
-          `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`,
-        method: "get",
+          `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}/${this.patientInfo.operSchNo}`,
+        method: 'get'
       }).then((res) => {
-        let data = res.data.data;
-        if (data.recordTwoState !== "0") {
+        let data = res.data.data
+        if (data.recordTwoState !== '0') {
           if (!this.IsEmpty(data.equipment)) {
-            data.electrotome = data.equipment.electrotome;
+            data.electrotome = data.equipment.electrotome
             // this.recordForm.electrotomeLocation = JSON.parse(JSON.stringify(this.recordForm.equipment.electrotomeLocation))
-            data.bhMachine = data.equipment.bhMachine;
+            data.bhMachine = data.equipment.bhMachine
           }
-          data.anesthesiaMode = data.anesthesiaMode.split(",");
-          data.position = data.position.split(",");
-          data.device = data.device.split(",");
-          this.recordForm = data;
+          data.anesthesiaMode = data.anesthesiaMode.split(',')
+          data.position = data.position.split(',')
+          data.device = data.device.split(',')
+          this.recordForm = data
         }
-      });
+      })
     },
-    handleOpenConstraint() {
-      let arr = [];
+    handleOpenConstraint () {
+      let arr = []
       for (var i = 20; i <= 160; i++) {
-        arr.push({ text: i, value: i });
+        arr.push({ text: i, value: i })
       }
       for (var j = 200; j <= 300; j++) {
-        this.presureValueList.push({ text: j, value: j });
+        this.presureValueList.push({ text: j, value: j })
       }
-      this.presureValueList.push({ text: "", value: "" });
-      arr.push({ text: "", value: "" });
-      this.wOptions = arr;
+      this.presureValueList.push({ text: '', value: '' })
+      arr.push({ text: '', value: '' })
+      this.wOptions = arr
     },
-    handleShowSignature(param) {
-      this.currenSign = param;
-      this.visible = true;
+    handleShowSignature (param) {
+      this.currenSign = param
+      this.visible = true
     },
-    handleCloseSignature() {
-      this.visible = false;
+    handleCloseSignature () {
+      this.visible = false
     },
-    handleCloseDialog(action, done) {
-      done();
+    handleCloseDialog (action, done) {
+      done()
     },
-    handleDialogConfirm() {
+    handleDialogConfirm () {
       switch (this.dialogTitle) {
-        case "导管":
-          this.recordForm.catheter = this.result;
-          break;
-        case "留置导管固定畅通":
-          this.recordForm.conduit = this.result;
-          break;
-        case "术中冲洗":
-          this.recordForm.rinse.rinseList = this.result;
-          break;
-        case "手术体位":
-          this.recordForm.position = this.result;
-          break;
-        case "麻醉方式":
-          this.recordForm.anesthesiaMode = this.result;
-          break;
-        case "体位装置":
-          this.recordForm.device = this.result;
-          break;
+        case '导管':
+          this.recordForm.catheter = this.result
+          break
+        case '留置导管固定畅通':
+          this.recordForm.conduit = this.result
+          break
+        case '术中冲洗':
+          this.recordForm.rinse.rinseList = this.result
+          break
+        case '手术体位':
+          this.recordForm.position = this.result
+          break
+        case '麻醉方式':
+          this.recordForm.anesthesiaMode = this.result
+          break
+        case '体位装置':
+          this.recordForm.device = this.result
+          break
       }
     },
-    handleSubmitImage(image) {
+    handleSubmitImage (image) {
       if (
-        this.currenSign.indexOf("jiebrSign") !== -1 ||
-        this.currenSign.indexOf("jiaobrSign") !== -1
+        this.currenSign.indexOf('jiebrSign') !== -1 ||
+        this.currenSign.indexOf('jiaobrSign') !== -1
       ) {
         let index = parseInt(
           this.currenSign.substr(this.currenSign.length - 1, 1)
-        );
-        if (this.currenSign.indexOf("jiebrSign") !== -1) {
-          this.recordForm.opsChange.opsChangeList[index].jiebrSign = image;
+        )
+        if (this.currenSign.indexOf('jiebrSign') !== -1) {
+          this.recordForm.opsChange.opsChangeList[index].jiebrSign = image
         } else {
-          this.recordForm.opsChange.opsChangeList[index].jiaobrSign = image;
+          this.recordForm.opsChange.opsChangeList[index].jiaobrSign = image
         }
       } else if (
-        this.currenSign.indexOf("cq") !== -1 ||
-        this.currenSign.indexOf("fq") !== -1
+        this.currenSign.indexOf('cq') !== -1 ||
+        this.currenSign.indexOf('fq') !== -1
       ) {
         let index = parseInt(
           this.currenSign.substr(this.currenSign.length - 1, 1)
-        );
-        if (this.currenSign.indexOf("cq") !== -1) {
-          this.recordForm.bhMachine.bhMachineList[index].cqSign = image;
+        )
+        if (this.currenSign.indexOf('cq') !== -1) {
+          this.recordForm.bhMachine.bhMachineList[index].cqSign = image
         } else {
-          this.recordForm.bhMachine.bhMachineList[index].fqSign = image;
+          this.recordForm.bhMachine.bhMachineList[index].fqSign = image
         }
-      } else if (this.currenSign === "catheterSign") {
-        this.recordForm.catheter.catheterSign = image;
-      } else if (this.currenSign === "operationDoc") {
-        this.recordForm.waistPuncture.operationDoc = image;
-      } else if (this.currenSign === "needleHeartSign") {
-        this.recordForm.waistPuncture.needleHeartSign = image;
-      } else if (this.currenSign === "needleSign") {
-        this.recordForm.waistPuncture.needleSign = image;
-      } else if (this.currenSign === "sendDoc") {
-        this.recordForm.pathology.sendDoc = image;
+      } else if (this.currenSign === 'catheterSign') {
+        this.recordForm.catheter.catheterSign = image
+      } else if (this.currenSign === 'operationDoc') {
+        this.recordForm.waistPuncture.operationDoc = image
+      } else if (this.currenSign === 'needleHeartSign') {
+        this.recordForm.waistPuncture.needleHeartSign = image
+      } else if (this.currenSign === 'needleSign') {
+        this.recordForm.waistPuncture.needleSign = image
+      } else if (this.currenSign === 'sendDoc') {
+        this.recordForm.pathology.sendDoc = image
       } else if (
-        this.currenSign.indexOf("receiveDoc") !== -1 ||
-        this.currenSign.indexOf("sendTestDoc") !== -1
+        this.currenSign.indexOf('receiveDoc') !== -1 ||
+        this.currenSign.indexOf('sendTestDoc') !== -1
       ) {
         let index = parseInt(
           this.currenSign.substr(this.currenSign.length - 1, 1)
-        );
-        if (this.currenSign.indexOf("receiveDoc") !== -1) {
-          this.recordForm.frozen.frozenList[index].receiveDoc = image;
+        )
+        if (this.currenSign.indexOf('receiveDoc') !== -1) {
+          this.recordForm.frozen.frozenList[index].receiveDoc = image
         } else {
-          this.recordForm.frozen.frozenList[index].sendDoc = image;
+          this.recordForm.frozen.frozenList[index].sendDoc = image
         }
       } else {
-        this.recordForm[this.currenSign] = image;
+        this.recordForm[this.currenSign] = image
       }
     },
-    handleChange() {
-      this.showFullSkin = !this.showFullSkin;
+    handleChange () {
+      this.showFullSkin = !this.showFullSkin
     },
-    handleShowDialog(obj) {
-      this.dialogTitle = obj.title;
-      if (obj.title === "术中冲洗") {
-        this.result = this.recordForm.rinse.rinseList;
+    handleShowDialog (obj) {
+      this.dialogTitle = obj.title
+      if (obj.title === '术中冲洗') {
+        this.result = this.recordForm.rinse.rinseList
       } else {
-        this.result = this.recordForm[obj.model];
+        this.result = this.recordForm[obj.model]
       }
-      this.checkBoxList = this[obj.list];
-      this.showDialog = true;
-    },
-  },
-};
+      this.checkBoxList = this[obj.list]
+      this.showDialog = true
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
