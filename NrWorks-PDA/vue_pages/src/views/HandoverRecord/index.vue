@@ -625,7 +625,9 @@ export default {
                 this.recordForm.number = data.goodsJson[0].number;
               }
               this.recordForm.inpatientWard = data.inpatientWard;
-              this.recordForm.startTime = data.startTime;
+              if (data.startTime !== "") {
+                this.recordForm.startTime = data.startTime;
+              }
               this.recordForm.signatureImage2 = data.carrier;
               this.recordForm.suggest = data.suggest;
               this.recordForm.department = data.department;
