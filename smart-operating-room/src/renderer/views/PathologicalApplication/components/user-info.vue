@@ -13,14 +13,16 @@
       <div class="content-left">
         <div class="left-top">
           <vxe-form-item
-            title="姓名"
-            field="patientName"
+            title="住院号"
+            field="hospitalNo"
           >
             <template v-slot>
               <vxe-input
+                @keyup.enter.native="searchUserInfo"
                 style="width:150px"
-                v-model="formData1.patientName"
-                readonly
+                placeholder="输入住院号带出信息"
+                v-model="formData1.hospitalNo"
+                clearable
               />
             </template>
           </vxe-form-item>
@@ -62,20 +64,21 @@
               />
             </template>
           </vxe-form-item>
+
           <vxe-form-item
-            span="3"
-            title="床位号"
             title-width="60"
-            field="beaNo"
+            title="姓名"
+            field="patientName"
           >
             <template v-slot>
               <vxe-input
-                readonly
                 style="width:120px"
-                v-model="formData1.beaNo"
+                v-model="formData1.patientName"
+                readonly
               />
             </template>
           </vxe-form-item>
+
           <vxe-form-item
             span="3"
             title="病理检验号"
@@ -93,17 +96,34 @@
         </div>
         <div class="left-bottom">
           <vxe-form-item
-            title="住院号"
-            field="hospitalNo"
+            span="3"
+            title="房间号"
+            title-width="80"
+            field="roomNo"
           >
             <template v-slot>
-              <vxe-input
-                @keyup.enter.native="searchUserInfo"
+              <!-- <vxe-input
+                readonly
                 style="width:150px"
-                placeholder="输入住院号带出信息"
-                v-model="formData1.hospitalNo"
+                v-model="formData1.roomNo"
+              /> -->
+              <el-select
+                style="width:150px"
+                size="mini"
                 clearable
-              />
+                filterable
+                allow-create
+                default-first-option
+                v-model="formData1.roomNo"
+                placeholder="选择房间"
+              >
+                <el-option
+                  v-for="item in roomList"
+                  :key="item.roomNo"
+                  :value="item.roomNo"
+                  :label="item.roomNo"
+                />
+              </el-select>
             </template>
           </vxe-form-item>
           <vxe-form-item
@@ -132,15 +152,15 @@
           </vxe-form-item>
           <vxe-form-item
             span="3"
-            title="房间号"
+            title="床位号"
             title-width="60"
-            field="roomNo"
+            field="beaNo"
           >
             <template v-slot>
               <vxe-input
                 readonly
                 style="width:120px"
-                v-model="formData1.roomNo"
+                v-model="formData1.beaNo"
               />
             </template>
           </vxe-form-item>
@@ -187,20 +207,23 @@
     >
       <div class="dialog-body-span">
         <span>手术房间:</span>
-        <vxe-select
+        <el-select
           size="mini"
           clearable
+          filterable
+          allow-create
+          default-first-option
           style="width:120px"
           v-model="selectRoomNo"
           placeholder="选择房间"
         >
-          <vxe-option
+          <el-option
             v-for="item in roomList"
             :key="item.roomNo"
             :value="item.roomNo"
             :label="item.roomNo"
           />
-        </vxe-select>
+        </el-select>
       </div>
       <span
         slot="footer"
@@ -270,6 +293,7 @@ export default {
 
     // 根据住院号获取数据
     searchUserInfo () {
+      Bus.$emit('pathological-table-dayinBtn')
       Bus.$emit('user-info-initData', '1')
       if (!this.IsEmpty(this.formData1.hospitalNo)) {
         let obj = {
@@ -297,24 +321,28 @@ export default {
               }
               this.$store.commit('SAVE_USERINFOHISTORYDETAILS', '')
             } else {
-              // Bus.$emit('user-info-getData', '1')
+              Bus.$emit('user-info-getData', '1')
               this.roomList = res.data.data
-              this.selectRoom = true
+              // this.selectRoom = true
               this.selectRoomNo = this.roomList[0].roomNo
-              // this.formData1.patientName = userInfoData.patientName
-              // this.formData1.patientGender = userInfoData.patientGender
-              // this.formData1.patientAge = userInfoData.patientAge
-              // this.formData1.beaNo = userInfoData.beaNo
-              // this.formData1.categpry = userInfoData.categpry
-              // this.formData1.historyDetails = userInfoData.historyDetails
-              // this.$store.commit(
-              //   'SAVE_USERINFOHISTORYDETAILS',
-              //   userInfoData.historyDetails || ''
-              // )
-              // this.formData1.roomNo = userInfoData.roomNo
-              // this.formData1.opsName = userInfoData.opsName
-              // this.formData1.clinicalDiagnosis = userInfoData.clinicalDiagnosis
+              let userInfoData = this.roomList[0]
+
+              this.formData1.patientName = userInfoData.patientName
+              this.formData1.patientGender = userInfoData.patientGender
+              this.formData1.patientAge = userInfoData.patientAge
+              this.formData1.beaNo = userInfoData.beaNo
+              this.formData1.categpry = userInfoData.categpry
+              this.formData1.historyDetails = userInfoData.historyDetails
+              this.$store.commit(
+                'SAVE_USERINFOHISTORYDETAILS',
+                userInfoData.historyDetails || ''
+              )
+              this.$store.commit('SAVE_USERINFO', userInfoData || {})
+              this.formData1.roomNo = userInfoData.roomNo
+              this.formData1.opsName = userInfoData.opsName
+              this.formData1.clinicalDiagnosis = userInfoData.clinicalDiagnosis
               // this.formData1.pathologys = userInfoData.pathologys
+              this.searchPathologyByOperSchNo(userInfoData.operSchNo)
             }
           } else {
             this.openToast('error', this.res.statusText)
@@ -364,7 +392,6 @@ export default {
       this.$store.dispatch('ReqgetPathologyByOperSchNo', obj).then(res => {
         if (res.data.code === 200) {
           Bus.$emit('user-info-initData')
-
           this.$store.commit('SAVE_PATHOLOGICAL_TABLELIST', res.data.data)
         } else {
           this.openToast('error', res.data.msg)

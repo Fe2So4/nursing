@@ -37,15 +37,21 @@
                   <div class="context1">
                     <span class="input-div ">
                       <span>手术日期</span>
-                      <div class="input-div-context-120">{{ form.operateDate }}</div>
+                      <div class="input-div-context-120">
+                        {{ form.operateDate }}
+                      </div>
                     </span>
                     <span class="input-div">
                       <span>姓名</span>
-                      <div class="input-div-context-120">{{ form.patientName }}</div>
+                      <div class="input-div-context-120">
+                        {{ form.patientName }}
+                      </div>
                     </span>
                     <span class="input-div">
                       <span>住院号</span>
-                      <div class="input-div-context-120">{{ form.hospitalNo }}</div>
+                      <div class="input-div-context-120">
+                        {{ form.hospitalNo }}
+                      </div>
                     </span>
                     <span class="input-div">
                       <span>病床号</span>
@@ -58,7 +64,9 @@
                       <div
                         class="input-div-context-long"
                         style="textAlign:center"
-                      >{{ form.diagnosis }}</div>
+                      >
+                        {{ form.diagnosis }}
+                      </div>
                     </span>
                   </div>
                   <div
@@ -79,14 +87,10 @@
                     评估
                   </div>
                 </th>
-                <th
-                  rowspan="2"
-                >
+                <th rowspan="2">
                   手术前数量
                 </th>
-                <th
-                  colspan="4"
-                >
+                <th colspan="4">
                   术中添加数
                 </th>
                 <th rowspan="2">
@@ -348,7 +352,7 @@
 
 <script>
 // import isSelect from './components/isSelect'
-import {ipcRenderer} from 'electron'
+import { ipcRenderer } from 'electron'
 
 import Bus from '@/utils/bus.js'
 export default {
@@ -390,11 +394,17 @@ export default {
     this.search()
     Bus.$on('clickShuaXinJiChu', res => {
       if (res === '1') {
-        this.utilsDebounce(() => { this.search() }, 300)
+        this.utilsDebounce(() => {
+          this.search()
+        }, 300)
       } else if (res === '2') {
-        this.utilsDebounce(() => { this.dayin() }, 300)
+        this.utilsDebounce(() => {
+          this.dayin()
+        }, 300)
       } else if (res === '3') {
-        this.htmlTitle = this.$store.state['nursing-document-list'].patientName + '护理记录单单据(基础)'
+        this.htmlTitle =
+          this.$store.state['nursing-document-list'].patientName +
+          '护理记录单单据(基础)'
         this.utilsDebounce(() => {
           // this.getPdf('nursing-document-jichu')
           // console.log(this.htmlTitle)
@@ -412,17 +422,29 @@ export default {
     },
     // 打印
     printCurrent () {
-      const printHtml = document.getElementById('nursing-document-jichu').outerHTML
+      const printHtml = document.getElementById('nursing-document-jichu')
+        .outerHTML
       const options = { silent: true }
       // options = JSON.stringify(options)
-      ipcRenderer.send('printChannel', printHtml, 'nursing-document-jichu.css', options)
+      ipcRenderer.send(
+        'printChannel',
+        printHtml,
+        'nursing-document-jichu.css',
+        options
+      )
     },
     daochuPDF () {
-      const printHtml = document.getElementById('nursing-document-jichu').outerHTML
+      const printHtml = document.getElementById('nursing-document-jichu')
+        .outerHTML
       const options = { silent: false }
       // options = JSON.stringify(options)
       this.utilsDebounce(() => {
-        ipcRenderer.send('printpdfChannel', printHtml, 'nursing-document-jichu.css', options)
+        ipcRenderer.send(
+          'printpdfChannel',
+          printHtml,
+          'nursing-document-jichu.css',
+          options
+        )
       }, 1000)
     },
     // 查询数据
@@ -431,7 +453,8 @@ export default {
         // cureNo: 1010,
         cureNo: this.$store.state['nursing-document-list'].cureNo,
         // hospitalNo: 666
-        hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
+        hospitalNo: this.$store.state['nursing-document-list'].hospitalNo,
+        operSchNo: this.$store.state['nursing-document-list'].operSchNo
       }
       this.$store.dispatch('ReqNursingDocumentJiChu', obj).then(res => {
         console.log(res)
@@ -569,17 +592,17 @@ export default {
     margin: 0 70px;
   }
   .wenben-content-info {
-      font-size: 16px;
-      display: flex;
-      flex-direction: column;
-      .info-content-title {
-        text-align: center;
-        font-weight: 600;
-        // font-size: 16px;
-      }
-      .info-content-form {
-        padding-left: 15px;
-      }
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    .info-content-title {
+      text-align: center;
+      font-weight: 600;
+      // font-size: 16px;
+    }
+    .info-content-form {
+      padding-left: 15px;
+    }
   }
   .info-content-container {
     padding-left: 20px;
@@ -592,19 +615,19 @@ export default {
             overflow: hidden;
             width: 85px;
             .table-th-time {
-                  width: 40px;
-                  position: relative;
-                  left: 40px;
+              width: 40px;
+              position: relative;
+              left: 40px;
             }
             .table-th-xiangmu {
               width: 40px;
             }
           }
           tr {
-            td{
+            td {
               width: 85px;
               height: 25px;
-            // padding-left: 3px;
+              // padding-left: 3px;
             }
           }
           td {
@@ -683,28 +706,27 @@ img {
   width: 140px;
   height: 1px;
   background-color: #000;
-  transform:  rotate(-155deg);
+  transform: rotate(-155deg);
   // width: 110px;
 }
 .line {
   width: 250px;
   height: 1px;
   background-color: #000;
-
 }
 .td-div {
   display: flex;
 }
 .td-center {
-    width:60px;
-    margin-left: 50%;
-    transform: translateX(-50%);
+  width: 60px;
+  margin-left: 50%;
+  transform: translateX(-50%);
 }
 .td-text-center {
   text-align: center;
 }
 .border-right1 {
-  border-right: 1px solid grey
+  border-right: 1px solid grey;
 }
 
 table thead tr th,

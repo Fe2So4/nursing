@@ -78,6 +78,14 @@ export const reqsendOrderAction = (obj) => {
   })
 }
 
+// 派单前判断是否重复派单
+const reqrepeatOrderMsgTipsUrl = `${config.default.api.baseURL}/ocis/sendOrder/repeatOrderMsgTips`
+export const reqrepeatOrderMsgTips = (obj) => {
+  return request({
+    url: reqrepeatOrderMsgTipsUrl + `/${obj.cureNo}` + `/${obj.hospitalNo}`,
+    method: 'get',
+  })
+}
 // 同步排班信息
 const reqsyncOperScheduleInfoUrl = `${config.default.api.baseURL}/ocis/sendOrder/syncOperScheduleInfo`
 export const reqsyncOperScheduleInfo = (obj) => {

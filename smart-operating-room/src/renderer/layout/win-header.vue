@@ -1,10 +1,8 @@
 <template>
-  <div
-    class="layout-header"
-  >
+  <div class="layout-header">
     <div class="left">
       <img
-        src="../assets/logo-tq.png"
+        src="../assets/logo-tq1.png"
         alt=""
       >
       <span>Dandelion 智慧手术中心<i />临床护理</span>
@@ -43,14 +41,17 @@ export default {
       time: '',
       interval: null,
       radio: 1
-
     }
   },
   methods: {
-
     updateTime () {
       var cd = new Date()
-      this.time = this.zeroPadding(cd.getHours(), 2) + ':' + this.zeroPadding(cd.getMinutes(), 2) + ':' + this.zeroPadding(cd.getSeconds(), 2)
+      this.time =
+        this.zeroPadding(cd.getHours(), 2) +
+        ':' +
+        this.zeroPadding(cd.getMinutes(), 2) +
+        ':' +
+        this.zeroPadding(cd.getSeconds(), 2)
     },
     zeroPadding (num, digit) {
       var zero = ''
@@ -83,7 +84,7 @@ export default {
     this.interval = null
   },
   computed: {
-    'userName': function () {
+    userName: function () {
       return localStorage.getItem('userName')
     }
   }
@@ -91,45 +92,52 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .layout-header{
+.layout-header {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #666666, #303030);
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  line-height: 60px;
+  .left {
+    font-size: 20px;
     height: 100%;
-    width: 100%;
-    background: linear-gradient(90deg, #666666, #303030);
-    color: #fff;
+    margin-left: 5px;
     display: flex;
-    justify-content: space-between;
-    line-height: 60px;
-    .left{
-      font-size: 20px;
-      img{
-        vertical-align: middle;
-      }
-      span{
-        margin-left:19px;
-        i{
-          display: inline-block;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          vertical-align: middle;
-          background: #fff;
-          margin:0 4px;
-        }
-      }
+    align-items: center;
+    padding: 5px 0;
+
+    img {
+      vertical-align: middle;
+      max-height: 100%;
     }
-    .right{
-      position: relative;
-      display: flex;
-      font-size: 16px;
-      margin-right: 21px;
-      .userInfo {
-        margin-right: 150px;
-      }
-      .caozuo {
-        position: absolute;
-        // top: -15px;
-        right: 0;
+    span {
+      margin-left: 19px;
+      i {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        vertical-align: middle;
+        background: #fff;
+        margin: 0 4px;
       }
     }
   }
-</style>>
+  .right {
+    position: relative;
+    display: flex;
+    font-size: 16px;
+    margin-right: 21px;
+    .userInfo {
+      margin-right: 150px;
+    }
+    .caozuo {
+      position: absolute;
+      // top: -15px;
+      right: 0;
+    }
+  }
+}</style
+>>

@@ -4,8 +4,7 @@ const reqTransitTransferUrl = `${config.default.api.baseURL}/ocis/forwardingRepo
 
 export const reqTransitTransfer = (obj) => {
   return request({
-    url: reqTransitTransferUrl + `/${obj.hospitalNo}` + `/${obj.cureNo}`,
+    url: reqTransitTransferUrl + `/${obj.hospitalNo}` + `/${obj.cureNo}` + `/${obj.operSchNo}`,
     method: 'get'
-
   })
 }

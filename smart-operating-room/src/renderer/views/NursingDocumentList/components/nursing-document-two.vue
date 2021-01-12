@@ -993,7 +993,8 @@ export default {
     getWenShuData () {
       let obj = {
         cureNo: this.$store.state['nursing-document-list'].cureNo,
-        hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
+        hospitalNo: this.$store.state['nursing-document-list'].hospitalNo,
+        operSchNo: this.$store.state['nursing-document-list'].operSchNo
 
         // hospitalNo: 666,
         // cureNo: 1010

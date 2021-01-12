@@ -15,20 +15,6 @@
           <template v-slot>
             <vxe-radio
               name="n1"
-              class="red radio"
-              v-model="formData.hologyType"
-              label="0"
-              content="术中冰冻"
-            />
-          </template>
-        </vxe-form-item>
-        <vxe-form-item
-          class="mgl15"
-          field="name"
-        >
-          <template v-slot>
-            <vxe-radio
-              name="n1"
               class="radio"
               v-model="formData.hologyType"
               label="1"
@@ -36,6 +22,22 @@
             />
           </template>
         </vxe-form-item>
+
+        <vxe-form-item
+          class="mgl15"
+          field="name"
+        >
+          <template v-slot>
+            <vxe-radio
+              name="n1"
+              class="red radio"
+              v-model="formData.hologyType"
+              label="0"
+              content="术中冰冻"
+            />
+          </template>
+        </vxe-form-item>
+
         <vxe-form-item
           v-if="formData.hologyType === '1'"
           class="mgl30"
@@ -91,16 +93,6 @@
         </div>
 
         <div class="body-right">
-          <vxe-form-item>
-            <vxe-button
-              class="btn"
-              size="mini"
-              status="my-purple"
-              @click="addSpecimen"
-            >
-              新增标本
-            </vxe-button>
-          </vxe-form-item>
           <!-- <vxe-form-item>
             <vxe-button
               class="btn"
@@ -111,7 +103,7 @@
               送检单
             </vxe-button>
           </vxe-form-item> -->
-          <vxe-form-item>
+          <vxe-form-item v-if="dayinBtn">
             <vxe-button
               @click="dayinPingTie"
               class="btn"
@@ -135,7 +127,7 @@
           >
             <div class="list-item-left">
               <vxe-form-item
-                title="标本"
+                title="标本名称"
                 field="sampleName"
               >
                 <template v-slot>
@@ -149,7 +141,7 @@
               </vxe-form-item>
               <vxe-form-item
                 style="marginLeft:20px"
-                title="部位"
+                title="采取部位"
                 field="takePartName"
               >
                 <template v-slot>
@@ -161,7 +153,7 @@
                   />
                 </template>
               </vxe-form-item>
-              <vxe-form-item>
+              <vxe-form-item title="数量">
                 <template v-slot>
                   <vxe-input
                     size="mini"
@@ -200,24 +192,35 @@
               </vxe-form-item>
             </div>
           </div>
+          <vxe-button
+            v-if="!dayinBtn"
+            class="btn"
+            size="mini"
+            status="my-purple"
+            @click="addSpecimen"
+          >
+            新增标本
+          </vxe-button>
         </div>
       </el-scrollbar>
     </vxe-form>
     <div class="btnFormDiv">
       <vxe-form
         class="btnForm"
-        title-align="right"
+        title-align="center"
         size="mini"
       >
         <vxe-form-item>
-          <vxe-button
+          <el-button
+            :loading="btnLoad"
+            :disabled="dayinBtn"
             class="btn"
-            size="mini"
-            status="my-purple"
+            style="width:120px;height:35px;font-size:16px;font-weight:bold"
+            type="primary"
             @click="submitApplication"
           >
             提交申请
-          </vxe-button>
+          </el-button>
         </vxe-form-item>
       </vxe-form>
     </div>
@@ -316,6 +319,8 @@ export default {
       }, 1000)
     }
     return {
+      btnLoad: false,
+      dayinBtn: false,
       operSchNo: '',
       userInfo: {}, // 查询的用户信息
       selectItem: {}, // 选中的表格
@@ -328,7 +333,8 @@ export default {
         password: [{ validator: changePassWord, trigger: 'blur' }]
       },
       formData: {
-        hologyType: '0',
+        fixed: '10%福尔马林',
+        hologyType: '1',
         specimenList: [
           {
             totalId: '0',
@@ -351,6 +357,7 @@ export default {
   },
   mounted () {
     Bus.$on('pathological-table', res => {
+      this.dayinBtn = true
       this.utilsDebounce(() => {
         this.selectItem = res
         let obj = {
@@ -359,7 +366,11 @@ export default {
         this.searchBiaobenData(obj)
       }, 300)
     })
-
+    Bus.$on('pathological-table-dayinBtn', res => {
+      setTimeout(() => {
+        this.dayinBtn = false
+      }, 300)
+    })
     Bus.$on('user-info-getData', res => {
       this.initialValue()
       this.userInfoGetType = res
@@ -373,6 +384,7 @@ export default {
       this.$forceUpdate()
     },
     initialValue () {
+      this.setTimeCloseBtnLoad()
       this.loginType = '0'
       this.loginName = ''
       this.loginCode = ''
@@ -389,7 +401,7 @@ export default {
           takePartName: ''
         }
       ]
-      this.hologyType = '0'
+      this.hologyType = '1'
       this.userInfo = {}
       this.selectItem = {}
     },
@@ -485,35 +497,52 @@ export default {
         }
       })
     },
-    // 提交申请
+    // 节流提交申请
     submitApplication () {
+      this.btnLoad = true
+      this.timeSubApplication()
+    },
+    setTimeCloseBtnLoad () {
+      setTimeout(() => {
+        this.btnLoad = false
+      }, 500)
+    },
+
+    // 提交申请
+    timeSubApplication () {
       this.type = true
       if (this.loginType !== '1') {
         this.$alert('请先进行送验医师验证', '提示')
+        this.setTimeCloseBtnLoad()
         return false
       }
       if (this.userInfoGetType === '0') {
         this.$alert('请先输入住院号', '提示')
+        this.setTimeCloseBtnLoad()
         return false
       }
 
       if (this.selectItem.sendOrderStatus === 1) {
         this.$alert('该病理已派单，无法修改标本信息', '提示')
+        this.setTimeCloseBtnLoad()
         return false
       }
       this.formData.specimenList.forEach(item => {
         if (this.IsEmpty(item.sampleName)) {
           this.$alert('标本名不能为空')
+          this.setTimeCloseBtnLoad()
           this.type = false
           return false
         }
         if (this.IsEmpty(item.takePartName)) {
           this.$alert('标本部位不能为空')
+          this.setTimeCloseBtnLoad()
           this.type = false
           return false
         }
         if (item.sampleNum <= 0) {
           this.$alert('数量错误')
+          this.setTimeCloseBtnLoad()
           this.type = false
           return false
         }
@@ -521,7 +550,6 @@ export default {
       if (!this.type) {
         return false
       }
-      console.log(this.$store.state)
       this.userInfo = this.$store.state['pathological-table'].userInfo
       let time = this.utilsNewTime()
       let historyDetails =
@@ -551,7 +579,6 @@ export default {
         roomNo: this.userInfo.roomNo,
         operSchNo: this.userInfo.operSchNo
       }
-      console.log(obj)
       reqsaveFastPathologic(obj).then(res => {
         if (res.data.code === 200) {
           this.openToast('success', res.data.msg)
@@ -655,7 +682,7 @@ export default {
 }
 
 .btnForm {
-  text-align: right;
+  text-align: center;
 }
 .subP-container {
   box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);

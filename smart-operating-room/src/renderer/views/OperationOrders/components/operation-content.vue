@@ -14,7 +14,7 @@
           @click="selectItem(item)"
           :key="item.id"
           class="card"
-          :class="{active: isSelectIndex == item.id}"
+          :class="{ active: isSelectIndex == item.id }"
         >
           <div class="header">
             <div class="header-img" />
@@ -65,7 +65,9 @@
                   :content="item.operationName"
                   placement="top-start"
                 >
-                  <span class="mgl10 text-one-row">{{ item.operationName }}</span>
+                  <span class="mgl10 text-one-row">{{
+                    item.operationName
+                  }}</span>
                 </el-tooltip>
               </div>
             </div>
@@ -136,13 +138,12 @@
       >
         <div class="dialog-footer-div">
           <el-button
-
+            :loading="btnLoad"
             size="mini"
             class="btn"
-            @click="sendOrder"
+            @click="OrderMsgTipsTimeOut"
           >是(Y)</el-button>
           <el-button
-
             size="mini"
             class="btn mgl40"
             @click="dbdialogVisible = false"
@@ -169,7 +170,8 @@
           <el-button
             size="mini"
             class="btn"
-            @click="exitOrder"
+            :loading="btnLoad"
+            @click="clickExitOrderTimeOut"
           >是(Y)</el-button>
           <el-button
             size="mini"
@@ -356,9 +358,10 @@
       >
         <div class="dialog-footer-div">
           <el-button
+            :loading="btnLoad"
             size="mini"
             class="btn"
-            @click="changeInfo"
+            @click="changeInfoTimeOut"
           >修 改</el-button>
           <el-button
             size="mini"
@@ -377,14 +380,15 @@ export default {
   name: 'OperationContent',
   data () {
     return {
-      cardList: [
-
-      ],
+      btnLoad: false,
+      cardList: [],
       isSend: '', // 判断哪个退单  0未  1已
       value: '',
       dbdialogVisible: false, // 派单
       exitdialogVisible: false, // 退单
-      isSelectItem: [{floor: '', roomNo: '', runNurseCode: '', washNurseCode: ''}],
+      isSelectItem: [
+        { floor: '', roomNo: '', runNurseCode: '', washNurseCode: '' }
+      ],
       isSelectIndex: 0,
       selectDialogVisible: false, // 修改
       floorList: [], // 楼层列表
@@ -400,7 +404,6 @@ export default {
         floorNo: '',
         date: ''
       }
-
     }
   },
   mounted () {
@@ -412,7 +415,9 @@ export default {
       this.searchCardParams.isOrder = res.isOrder
       this.searchCardParams.condition = res.condition
       this.searchCardParams.floorNo = res.floorNo
-      this.utilsDebounce(() => { this.getCardList() }, 1000)
+      this.utilsDebounce(() => {
+        this.getCardList()
+      }, 1000)
     })
     // 监听同步按钮
     Bus.$on('operation-header-synchronous', res => {
@@ -420,7 +425,9 @@ export default {
       this.searchCardParams.isOrder = res.isOrder
       this.searchCardParams.condition = res.condition
       this.searchCardParams.floorNo = res.floorNo
-      this.utilsDebounce(() => { this.getTongbuCardList() }, 1000)
+      this.utilsDebounce(() => {
+        this.getTongbuCardList()
+      }, 1000)
     })
     // 获取护士列表
     this.getNurseList()
@@ -436,6 +443,12 @@ export default {
     // }
   },
   methods: {
+    // 定时关闭btnLoad
+    setTimeCloseBtnLoad () {
+      setTimeout(() => {
+        this.btnLoad = false
+      }, 300)
+    },
     // 初始化查询参数
     initSearchCardParams () {
       this.searchCardParams.date = this.utilsGetNewDate()
@@ -445,16 +458,18 @@ export default {
     },
     // 获取内容列表
     getCardList () {
-      this.$store.dispatch('ReqOperationOrders', this.searchCardParams).then(res => {
-        if (res.data.code === 200) {
-          if (res.data.data.length === 0) {
-            this.openToast('warning', '暂无数据')
+      this.$store
+        .dispatch('ReqOperationOrders', this.searchCardParams)
+        .then(res => {
+          if (res.data.code === 200) {
+            if (res.data.data.length === 0) {
+              this.openToast('warning', '暂无数据')
+            }
+            this.cardList = res.data.data
+          } else {
+            this.openToast('error', res.data.msg)
           }
-          this.cardList = res.data.data
-        } else {
-          this.openToast('error', res.data.msg)
-        }
-      })
+        })
     },
     // 获取同步内容列表
     getTongbuCardList () {
@@ -509,6 +524,12 @@ export default {
       this.isSend = isSend
       this.exitdialogVisible = true
     },
+    clickExitOrderTimeOut () {
+      this.btnLoad = true
+      this.utilsDebounce(() => {
+        this.exitOrder()
+      }, 300)
+    },
     // 退单
     exitOrder () {
       if (this.isSend === '1') {
@@ -516,37 +537,46 @@ export default {
           operSchNo: this.isSelectItem[0].operSchNo,
           cureNo: this.isSelectItem[0].cureNo,
           hospitalNo: this.isSelectItem[0].hospitalNo
-        // operSchNo: 'sdfjkadcnxjkzhuierhkjsdhcakhcisdh'
+          // operSchNo: 'sdfjkadcnxjkzhuierhkjsdhcakhcisdh'
         }
 
         this.$store.dispatch('ReqapplicationForRefund', obj).then(res => {
+          this.exitdialogVisible = false
+
           if (res.data.code === 200) {
             this.openToast('success', '退单成功')
-            this.isSelectItem = [{floor: '', roomNo: '', runNurseName: '', washNurseCode: ''}]
+            this.isSelectItem = [
+              { floor: '', roomNo: '', runNurseName: '', washNurseCode: '' }
+            ]
             this.isSelectIndex = 0
           } else {
             this.openToast('error', res.data.msg)
           }
-          this.exitdialogVisible = false
+
           this.getCardList()
+          this.setTimeCloseBtnLoad()
         })
       } else {
         let obj = {
           operSchNo: this.isSelectItem[0].operSchNo
-        // operSchNo: 'sdfjkadcnxjkzhuierhkjsdhcakhcisdh'
+          // operSchNo: 'sdfjkadcnxjkzhuierhkjsdhcakhcisdh'
         }
 
         this.$store.dispatch('ReqcancelOrderAction', obj).then(res => {
-          console.log(res)
+          this.exitdialogVisible = false
+
           if (res.data.code === 200) {
             this.openToast('success', '退单成功')
-            this.isSelectItem = [{floor: '', roomNo: '', runNurseName: '', washNurseCode: ''}]
+            this.isSelectItem = [
+              { floor: '', roomNo: '', runNurseName: '', washNurseCode: '' }
+            ]
             this.isSelectIndex = 0
           } else {
             this.openToast('error', res.data.msg)
           }
-          this.exitdialogVisible = false
+
           this.getCardList()
+          this.setTimeCloseBtnLoad()
         })
       }
     },
@@ -558,6 +588,7 @@ export default {
     },
     // 显示派单弹窗
     operationCard (item) {
+      this.btnLoad = false
       let isSend = this.searchCardParams.isOrder
       if (isSend === '0') {
         this.dbdialogVisible = true
@@ -575,14 +606,52 @@ export default {
         if (res.data.code === 200) {
           this.openToast('success', '派单成功')
           this.isSelectIndex = 0
-          this.isSelectItem = [{floor: '', roomNo: '', runNurseName: '', washNurseCode: ''}]
+          this.isSelectItem = [
+            { floor: '', roomNo: '', runNurseName: '', washNurseCode: '' }
+          ]
         } else {
           this.openToast('error', res.data.msg)
         }
         this.dbdialogVisible = false
         this.getCardList()
+        this.setTimeCloseBtnLoad()
       })
     },
+    OrderMsgTipsTimeOut () {
+      this.btnLoad = true
+      this.utilsDebounce(() => {
+        this.searchrepeatOrderMsgTips()
+      }, 300)
+    },
+    // 判断数据是否两条派单重复提交
+    searchrepeatOrderMsgTips () {
+      let obj = {
+        cureNo: this.isSelectItem[0].cureNo,
+        hospitalNo: this.isSelectItem[0].hospitalNo
+      }
+      this.$store.dispatch('ReqrepeatOrderMsgTips', obj).then(res => {
+        if (res.data.data === 0) {
+          this.sendOrder()
+        } else {
+          this.$confirm('该患者已派单,是否继续派单', '重复派单提醒', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+            loading: this.btnLoad,
+            callback: action => {
+              if (action === 'confirm') {
+                this.sendOrder()
+              } else {
+                this.dbdialogVisible = false
+                this.getCardList()
+                this.setTimeCloseBtnLoad()
+              }
+            }
+          })
+        }
+      })
+    },
+
     // 点击选中一条记录
     selectItem (item) {
       this.isSelectItem = []
@@ -596,10 +665,17 @@ export default {
       this.selectFloor = item.floor
       this.selectRoom = item.roomNo
     },
+    changeInfoTimeOut () {
+      this.btnLoad = true
+      this.utilsDebounce(() => {
+        this.changeInfo()
+      }, 300)
+    },
     // 点击修改
     changeInfo () {
       if (this.IsEmpty(this.selectRoom)) {
         this.openToast('error', '请选择房间号')
+        this.setTimeCloseBtnLoad()
         return false
       }
       this.nurseList.forEach(item => {
@@ -610,9 +686,7 @@ export default {
           this.runNurseName = item.nurseName
         }
       })
-      let params = {
-
-      }
+      let params = {}
       params = {
         floor: this.selectFloor,
         roomNo: this.selectRoom,
@@ -622,7 +696,15 @@ export default {
         washNurseCode1: this.washNurseCode,
         washNurseName1: this.washNurseName
       }
-      console.log(this.selectRoom, this.selectFloor, this.isSelectItem[0].operSchNo, this.washNurseName, this.washNurseCode, this.runNurseCode, this.runNurseName)
+      console.log(
+        this.selectRoom,
+        this.selectFloor,
+        this.isSelectItem[0].operSchNo,
+        this.washNurseName,
+        this.washNurseCode,
+        this.runNurseCode,
+        this.runNurseName
+      )
       this.$store.dispatch('ReqchangeOperScheduleInfo', params).then(res => {
         if (res.data.code === 200) {
           this.openToast('success', '修改成功')
@@ -630,29 +712,37 @@ export default {
           this.openToast('error', res.data.msg)
         }
         this.isSelectIndex = 0
-        this.isSelectItem = [{floor: '', roomNo: '', runNurseName: '', washNurseCode: ''}]
+        this.isSelectItem = [
+          { floor: '', roomNo: '', runNurseName: '', washNurseCode: '' }
+        ]
         this.selectDialogVisible = false
         this.getCardList()
+        this.setTimeCloseBtnLoad()
       })
     },
     // 清空点击选中
     clearSelect (val) {
       console.log(val)
-      this.isSelectItem = [{floor: '', roomNo: '', runNurseName: '', washNurseCode: ''}]
+      this.isSelectItem = [
+        { floor: '', roomNo: '', runNurseName: '', washNurseCode: '' }
+      ]
       this.isSelectIndex = -1
       this.searchCardParams.isOrder = val
       this.getCardList()
+      this.setTimeCloseBtnLoad()
     },
     // 排班修改取消
     quxiaoPaiban () {
       this.selectFloor = this.isSelectItem[0].floor
       this.selectRoom = this.isSelectItem[0].roomNo
       this.selectDialogVisible = false
+      this.setTimeCloseBtnLoad()
     },
     handleCloseRoomChange () {
       this.selectFloor = this.isSelectItem[0].floor
       this.selectRoom = this.isSelectItem[0].roomNo
       this.selectDialogVisible = false
+      this.setTimeCloseBtnLoad()
     },
     // 提示方法
     openToast (type, mesg) {
@@ -697,30 +787,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-scrollbar__wrap{
+.el-scrollbar__wrap {
   overflow-x: hidden;
 }
 .btn {
   width: 90px;
   // height: 30px;
   color: #303133;
-  background-color: #E9EDF7;
+  background-color: #e9edf7;
 }
 .btn:hover {
   color: #fff;
-  background-color: #3478FF;
+  background-color: #3478ff;
 }
 .mgl5 {
-    margin-left: 5px;
+  margin-left: 5px;
 }
 .mgl10 {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 .mgl15 {
-    margin-left: 15px;
+  margin-left: 15px;
 }
 .mgl20 {
-    margin-left: 20px;
+  margin-left: 20px;
 }
 .mgl40 {
   margin-left: 40px !important;
@@ -732,74 +822,74 @@ export default {
   margin-bottom: 15px;
 }
 .operation-body-container {
-    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+  box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+  border-radius: 5px;
+  // display: flex;
+  // flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 262px);
+  // grid-template-rows: 250px;
+  grid-row-gap: 20px;
+  grid-column-gap: 20px;
+  width: 100%;
+  .card {
+    cursor: pointer;
+    background-color: #fff;
     border-radius: 5px;
-    // display: flex;
-    // flex-wrap: wrap;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, 262px);
-    // grid-template-rows: 250px;
-    grid-row-gap: 20px;
-    grid-column-gap: 20px;
-    width: 100%;
-    .card {
-      cursor: pointer;
-      background-color: #fff;
-      border-radius: 5px;
-      width: 262px;
-      height: 250px;
-      // margin-bottom: 20px;
-      // margin-left: 20px;
-      .header {
+    width: 262px;
+    height: 250px;
+    // margin-bottom: 20px;
+    // margin-left: 20px;
+    .header {
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      height: 36px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      background-color: #3770e2;
+      padding: 10px;
+      .header-img {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 8px;
+        background-color: #55deff;
         border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-        height: 36px;
-        position: relative;
-        display: flex;
-        align-items: center;
-        background-color: #3770E2;
-        padding: 10px;
-        .header-img {
-          position: absolute;
-          left: 0;
-          top: 0;
-          height: 100%;
-          width: 8px;
-          background-color: #55DEFF;
-          border-top-left-radius: 5px;
-        }
-        .fontCss {
-          color: #fff;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-        }
       }
-      .body {
-        padding: 15px 18px;
-        .boxFlex {
-          align-items: center;
-          margin-bottom: 8px;
-          display: flex;
-          div {
-            flex: 1;
-            span{
-              font-size: 14px;
-            }
-            .tltle-span{
-              color: #888888;
-            }
-            .blue {
-              color: #3478FF;
-            }
-            .red {
-              font-weight: bold;
-              color: #FF3131;
-            }
+      .fontCss {
+        color: #fff;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+    .body {
+      padding: 15px 18px;
+      .boxFlex {
+        align-items: center;
+        margin-bottom: 8px;
+        display: flex;
+        div {
+          flex: 1;
+          span {
+            font-size: 14px;
+          }
+          .tltle-span {
+            color: #888888;
+          }
+          .blue {
+            color: #3478ff;
+          }
+          .red {
+            font-weight: bold;
+            color: #ff3131;
           }
         }
       }
     }
+  }
 }
 .dialog-footer-div {
   display: flex;
@@ -812,7 +902,7 @@ export default {
   .icon-gantanghao {
     font-size: 26px;
     width: 40px;
-    color: #3377FF;
+    color: #3377ff;
   }
 }
 .vxe-input.is--suffix .vxe-input--inner {
@@ -829,25 +919,25 @@ export default {
   text-align: right;
 }
 .active {
-  background-color: #E9EFF9 !important;
+  background-color: #e9eff9 !important;
 }
-/deep/ .el-scrollbar__view{
+/deep/ .el-scrollbar__view {
   height: 100%;
 }
 .noneDate {
-    text-align: center;
-    font-size: 14px;
-    color: #606266;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    // margin-top: 15%;
-    // margin-bottom: 20px
+  text-align: center;
+  font-size: 14px;
+  color: #606266;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  // margin-top: 15%;
+  // margin-bottom: 20px
 }
 .text-one-row {
   overflow: hidden;
-  text-overflow: ellipsis
+  text-overflow: ellipsis;
 }
 .flexNoWarp {
   display: flex;
@@ -858,14 +948,14 @@ export default {
 .mgl0 {
   margin-left: 0;
 }
-.tangchuChange{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100%;
+.tangchuChange {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
 }
 /deep/.el-dialog__header {
-  border-bottom: 1px solid #EBEBEB;
+  border-bottom: 1px solid #ebebeb;
   padding: 10px 20px 10px;
 }
 /deep/.el-dialog__title {
