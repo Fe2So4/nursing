@@ -22,6 +22,14 @@ export function setUserToken (val) {
   return localStorage.setItem(token, val)
 }
 
+export function getTheme () {
+  return localStorage.getItem('PDA_THEME')
+}
+
+export function setTheme (val) {
+  return localStorage.setItem('PDA_THEME', val)
+}
+
 export function getUserToken () {
   return localStorage.getItem(token)
 }

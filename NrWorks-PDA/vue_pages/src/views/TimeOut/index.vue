@@ -13,7 +13,7 @@
       <van-cell-group>
         <van-cell
           title="患者姓名、住院号、性别、年龄正确："
-          value="内容"
+          value=""
           value-class="first-cell van-cell-center"
         >
           <template #right-icon>
@@ -325,6 +325,7 @@ export default {
           operBeforeOperDoc: this.anesBeforeOperDoc,
           operBeforeState: state,
           cureNo: this.patientInfo.cureNo,
+          operSchNo: this.patientInfo.operSchNo,
         },
       }).then((res) => {
         if (res.data.code === 200) {
@@ -345,7 +346,9 @@ export default {
           "/" +
           this.patientInfo.hospitalNo +
           "/" +
-          this.patientInfo.cureNo,
+          this.patientInfo.cureNo +
+          "/" +
+          this.patientInfo.operSchNo,
       }).then((res) => {
         if (res.data.code === 200) {
           let data = res.data.data;

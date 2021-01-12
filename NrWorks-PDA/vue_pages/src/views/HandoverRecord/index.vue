@@ -614,7 +614,9 @@ export default {
           "/" +
           this.patientInfo.hospitalNo +
           "/" +
-          this.patientInfo.cureNo,
+          this.patientInfo.cureNo +
+          "/" +
+          this.patientInfo.operSchNo,
       }).then((res) => {
         if (res.data.code === 200) {
           let data = res.data.data;
@@ -625,7 +627,9 @@ export default {
                 this.recordForm.number = data.goodsJson[0].number;
               }
               this.recordForm.inpatientWard = data.inpatientWard;
-              this.recordForm.startTime = data.startTime;
+              if (data.startTime !== "") {
+                this.recordForm.startTime = data.startTime;
+              }
               this.recordForm.signatureImage2 = data.carrier;
               this.recordForm.suggest = data.suggest;
               this.recordForm.department = data.department;
@@ -787,6 +791,7 @@ export default {
       let obj = {
         cureNo: this.patientInfo.cureNo,
         hospitalNo: this.patientInfo.hospitalNo,
+        operSchNo: this.patientInfo.operSchNo,
       };
       let submitUrl = "";
       switch (this.transferTitle) {

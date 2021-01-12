@@ -333,7 +333,8 @@ export default {
           leaveBeforeNurse: this.anesBeforeNurse,
           leaveBeforeOperDoc: this.anesBeforeOperDoc,
           leaveBeforeState: state,
-          cureNo: this.patientInfo.cureNo
+          cureNo: this.patientInfo.cureNo,
+          operSchNo: this.patientInfo.operSchNo
         }
       }).then((res) => {
         if (res.data.code === 200) {
@@ -365,7 +366,7 @@ export default {
           '/' +
           this.patientInfo.hospitalNo +
           '/' +
-          this.patientInfo.cureNo
+          this.patientInfo.cureNo + '/' + this.patientInfo.operSchNo
       }).then((res) => {
         if (res.data.code === 200) {
           let data = res.data.data

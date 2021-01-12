@@ -10,7 +10,7 @@ html,body{
 }
 
 
-body .van-dialog{
+/* body .van-dialog{
   font-size: 30px;
   width: 80%;
 }
@@ -25,8 +25,6 @@ body .van-dialog__content{
 body .van-dialog__message{
   font-size: 30px;
   line-height: 100px;
-  /* padding: 50px 0; */
-  /* min-height: 60px; */
 }
 body .van-dialog__footer{
 }
@@ -113,15 +111,10 @@ body /deep/ .van-notify{
   width: 1PX;
 }
 
- /* 时间选择器 */
 #app /deep/ .van-picker__toolbar{
   height: 80px;
   border-bottom:1PX solid #E2E2E2;
 }
-/* #app /deep/ .van-picker-column__item{
-  height: 60px !important;
-  line-height: 60px !important;
-} */
 #app /deep/ .van-picker__frame{
   height: 60px !important;
 }
@@ -154,12 +147,9 @@ body /deep/ .van-notify{
   line-height: 0;
 }
 #app /deep/ .van-cell__value .van-icon-play::after{
-  /* font-size: 30px; */
   line-height: 0;
 }
 #app /deep/ .van-cell__value{
-  /* background-color: purple; */
-  /* height: 100%; */
 }
 #app /deep/ .multipul-select{
   padding-right: 30px;
@@ -191,8 +181,6 @@ body /deep/ .van-notify{
   margin-top: -5px !important;
 }
 #app /deep/ .van-dropdown-menu{
-  /* background-color: green; */
-  /* height: 100%; */
   height: 94px;
 }
 #app /deep/ .van-dropdown-menu__bar{
@@ -201,12 +189,9 @@ body /deep/ .van-notify{
 #app /deep/ .van-dropdown-menu__title{
   font-size: 30px;
   line-height: 94px;
-  /* background-color: red; */
-  /* line-height: unset; */
   padding-right: 30px;
   height:100%;
 }
-/* .van-dropdown-menu__title:after */
 #app /deep/ .van-dropdown-menu__title::after{
   border-color: transparent transparent #7f7f7f #7f7f7f;
   border-width: 9px;
@@ -230,4 +215,4 @@ body /deep/ .van-notify{
 
 #app /deep/ .van-nav-bar__content{
   height: 100%;
-}
+} */

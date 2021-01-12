@@ -384,6 +384,7 @@ export default {
         data: {
           cureNo: this.patientInfo.cureNo,
           hospitalNo: this.patientInfo.hospitalNo,
+          operSchNo: this.patientInfo.operSchNo,
           mark: mark,
           status: this.code,
           statusList: arr,
@@ -402,7 +403,9 @@ export default {
           "/" +
           this.patientInfo.hospitalNo +
           "/" +
-          this.patientInfo.cureNo,
+          this.patientInfo.cureNo +
+          "/" +
+          this.patientInfo.operSchNo,
         method: "get",
       }).then((res) => {
         switch (this.$route.query.title) {
@@ -545,22 +548,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/themes/_handle.scss";
 .transfer {
   height: 100%;
   .van-nav-bar {
     height: 100px;
-    background: linear-gradient(90deg, #666666, #303030);
     /deep/ .van-nav-bar__title {
-      color: #ffffff;
       font-size: 34px;
       line-height: 100px;
     }
     /deep/ .van-nav-bar__text {
-      color: #ffffff;
       font-size: 30px;
     }
     /deep/ .van-icon-arrow-left {
-      color: #ffffff;
       font-size: 36px;
     }
   }
@@ -568,10 +568,9 @@ export default {
     padding: 20px 15px;
     box-sizing: border-box;
     height: calc(100% - 100px);
-    // background: #ffffff;
     .step-content {
       height: 100%;
-      background: #ffffff;
+      @include background_color("bg_cell");
       box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
       border-radius: 10px;
       padding: 0 30px;
@@ -608,13 +607,14 @@ export default {
         }
       }
       .title {
-        color: #7e7e7e;
+        @include font_color("bg_popup_option");
         font-size: 26px;
         text-indent: 5px;
         line-height: 2em;
         padding-top: 20px;
       }
       .van-steps {
+        @include background_color("bg_cell");
         .van-steps__items {
           .van-step {
             line-height: 40px;
@@ -652,7 +652,8 @@ export default {
           background-color: #c9c9c9;
         }
         /deep/ .van-step__circle {
-          background: #3377ff;
+          // background: #3377ff;
+          @include background_color("bg_circle");
         }
         /deep/ .van-step__title--active {
           color: #2e2e2e;

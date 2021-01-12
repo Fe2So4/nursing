@@ -1,0 +1,43 @@
+$themes:(
+  light:(
+    // 文字颜色
+    bg_popup_title:#2E2E2E,
+    bg_popup_option:#7F7F7F,
+    bg_button_title:#303133,
+    bg_nav_title:#ffffff,
+    bg_dialog_message:#BABABA,
+    bg_dialog_title: #000000,
+    bg_cell_title: #2E2E2E,
+
+    // 背景色
+    bg_app:#f2f2f2,
+    bg_home:#ffffff,
+    bg_popup:#ffffff,
+    bg_nav_bar: linear-gradient(90deg, #666666, #303030),
+    bg_room: #3377FF,
+    bg_cell: #ffffff,
+    bg_circle:#3377FF,
+    // 边框颜色
+
+  ),
+  dark:(
+    // 文字颜色
+    bg_popup_title:#FAFAFA,
+    bg_popup_option:#BABABA,
+    bg_button_title:#BABABA,
+    bg_nav_title: #BABABA,
+    bg_dialog_message:#646566,
+    bg_dialog_title:#FAFAFA,
+    bg_cell_title: #BABABA,
+
+    // 背景色
+    bg_app:#1E1F22,
+    bg_home:#474747,
+    bg_popup:#2D2D33,
+    bg_nav_bar:#353537,
+    bg_room: linear-gradient(120deg, #59AEF6, #0764E2),
+    bg_cell:#353537,
+    bg_circle:#FB6716,
+    // 边框颜色
+  )
+)
