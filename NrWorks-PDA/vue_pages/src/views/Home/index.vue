@@ -6,7 +6,6 @@
         name="caidan"
         slot="left"
         size="34"
-        color="#ffffff"
         @click="onClickLeft"
       />
       <van-icon
@@ -14,7 +13,6 @@
         name="tuichuapp"
         slot="right"
         size="34"
-        color="#ffffff"
         @click="handleExitApp"
       />
     </van-nav-bar>
@@ -217,6 +215,14 @@ export default {
       this.$store.commit("upDate", { themeType: type });
       window.document.documentElement.setAttribute("data-theme", type);
     },
+    setTheme() {
+      let theme = getTheme();
+      let type = "light";
+      if (theme) {
+        type = theme;
+      }
+      window.document.documentElement.setAttribute("data-theme", type);
+    },
     changeTheme() {
       let theme = getTheme();
       let type = "light";
@@ -285,7 +291,7 @@ export default {
         this.handleScan("19069000");
       }
     };
-    this.changeTheme();
+    this.setTheme();
   },
   mounted() {
     // this.getPatientData()
@@ -329,9 +335,8 @@ export default {
   height: 100%;
   .van-nav-bar {
     height: 100px;
-    background: linear-gradient(90deg, #666666, #303030);
+    // background: linear-gradient(90deg, #666666, #303030);
     /deep/ .van-nav-bar__title {
-      color: #ffffff;
       font-size: 34px;
       line-height: 100px;
     }
@@ -375,11 +380,11 @@ export default {
           justify-content: center;
           p {
             &:first-child {
-              color: #2e2e2e;
+              @include font_color("bg_popup_title");
               font-size: 30px;
             }
             &:last-child {
-              color: #7f7f7f;
+              @include font_color("bg_popup_option");
               margin-top: 20px;
               font-size: 30px;
             }
@@ -405,13 +410,13 @@ export default {
         justify-content: space-between;
         p {
           &:nth-child(1) {
-            color: #2e2e2e;
+            @include font_color("bg_popup_title");
             font-size: 34px;
             font-weight: 500;
           }
           &:nth-child(2) {
             font-size: 30px;
-            color: #7f7f7f;
+            @include font_color("bg_popup_option");
           }
         }
       }

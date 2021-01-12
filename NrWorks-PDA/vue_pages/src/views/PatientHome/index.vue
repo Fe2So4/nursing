@@ -7,28 +7,28 @@
       left-arrow
     >
     </van-nav-bar>
-    <PatiendCard/>
+    <PatiendCard />
     <div class="operation-content">
       <div class="operation-info">
-          <p>
-            <span>
-              <span class="label">手术室</span>
-              <span class="value">{{patientInfo.roomNo}}室</span>
-            </span>
-            <span>
-              <span class="label">台次</span>
-              <span class="value">第{{patientInfo.sequenceNo}}台</span>
-            </span>
-          </p>
-          <p>
-            <span class="label">诊断</span>
-            <span class="value">{{patientInfo.diagnose}}</span>
-          </p>
-          <p>
-            <span class="label">麻醉方式</span>
-            <span class="value">{{patientInfo.anesMethod}}</span>
-          </p>
-        </div>
+        <p>
+          <span>
+            <span class="label">手术室</span>
+            <span class="value">{{ patientInfo.roomNo }}室</span>
+          </span>
+          <span>
+            <span class="label">台次</span>
+            <span class="value">第{{ patientInfo.sequenceNo }}台</span>
+          </span>
+        </p>
+        <p>
+          <span class="label">诊断</span>
+          <span class="value">{{ patientInfo.diagnose }}</span>
+        </p>
+        <p>
+          <span class="label">麻醉方式</span>
+          <span class="value">{{ patientInfo.anesMethod }}</span>
+        </p>
+      </div>
     </div>
     <div class="list">
       <h3>安全核查</h3>
@@ -51,253 +51,253 @@
 </template>
 
 <script>
-import PatiendCard from '@/components/PatientCard.vue'
-import {mapState} from 'vuex'
-import $bus from '@/utils/bus'
+import PatiendCard from "@/components/PatientCard.vue";
+import { mapState } from "vuex";
+import $bus from "@/utils/bus";
 export default {
-  data () {
+  data() {
     return {
       checked: true,
-      input: '',
+      input: "",
       showFullSkin: false,
-      visible: false
-    }
+      visible: false,
+    };
   },
   computed: {
-    ...mapState('Patient', ['patientInfo'])
+    ...mapState("Patient", ["patientInfo"]),
   },
   components: {
-    PatiendCard
+    PatiendCard,
   },
-  mounted () {
-    $bus.$on('handleOpeRoomCode', this.handleScanCode)
+  mounted() {
+    $bus.$on("handleOpeRoomCode", this.handleScanCode);
   },
-  beforeDestory () {
-    $bus.$off('handleOpeRoomCode')
+  beforeDestory() {
+    $bus.$off("handleOpeRoomCode");
   },
   methods: {
-    onClickLeft () {
-      this.$router.push('/home')
+    onClickLeft() {
+      this.$router.push("/home");
     },
 
     // 扫码入手术室、出手术室、入诱导、出诱导
-    handleScanCode (code) {
-      let codeStr = ''
-      if (code.indexOf('OpeRoom') !== -1) {
-        codeStr = code.replace('OpeRoom=', '')
+    handleScanCode(code) {
+      let codeStr = "";
+      if (code.indexOf("OpeRoom") !== -1) {
+        codeStr = code.replace("OpeRoom=", "");
         // this.cureNo = OpsRQCode
-      } else if (code.indexOf('InductionRoom') !== -1) {
-        codeStr = code.replace('InductionRoom=', '')
+      } else if (code.indexOf("InductionRoom") !== -1) {
+        codeStr = code.replace("InductionRoom=", "");
       }
-      console.log(codeStr)
+      console.log(codeStr);
     },
-    onClickRight () {
-
-    },
-    handleJump (param) {
+    onClickRight() {},
+    handleJump(param) {
       switch (param) {
         case 1:
-          this.$dialog.confirm({
-            title: '安全核查',
-            message: '确定要进行安全核查吗？'
-          }).then(() => {
-            this.$router.push('/sign-in')
-          }
-          // eslint-disable-next-line handle-callback-err
-          ).catch(error => {
-
-          })
-          break
+          this.$dialog
+            .confirm({
+              title: "安全核查",
+              message: "确定要进行安全核查吗？",
+            })
+            .then(
+              () => {
+                this.$router.push("/sign-in");
+              }
+              // eslint-disable-next-line handle-callback-err
+            )
+            .catch((error) => {});
+          break;
         case 2:
-          this.$dialog.confirm({
-            title: '安全核查',
-            message: '确定要进行安全核查吗？'
-          }).then(() => {
-            this.$router.push('/time-out')
-          }
-          // eslint-disable-next-line handle-callback-err
-          ).catch(error => {
-
-          })
-          break
+          this.$dialog
+            .confirm({
+              title: "安全核查",
+              message: "确定要进行安全核查吗？",
+            })
+            .then(
+              () => {
+                this.$router.push("/time-out");
+              }
+              // eslint-disable-next-line handle-callback-err
+            )
+            .catch((error) => {});
+          break;
         case 3:
-          this.$dialog.confirm({
-            title: '安全核查',
-            message: '确定要进行安全核查吗？'
-          }).then(() => {
-            this.$router.push('/sign-out')
-          }
-          // eslint-disable-next-line handle-callback-err
-          ).catch(error => {
-
-          })
-          break
+          this.$dialog
+            .confirm({
+              title: "安全核查",
+              message: "确定要进行安全核查吗？",
+            })
+            .then(
+              () => {
+                this.$router.push("/sign-out");
+              }
+              // eslint-disable-next-line handle-callback-err
+            )
+            .catch((error) => {});
+          break;
         case 4:
-          this.$router.push('/transfer-handover')
-          break
+          this.$router.push("/transfer-handover");
+          break;
         case 5:
-          this.$router.push('/record2')
-          break
+          this.$router.push("/record2");
+          break;
         case 6:
-          this.$router.push('/record3')
+          this.$router.push("/record3");
       }
     },
-    handleChange () {
-      this.showFullSkin = !this.showFullSkin
+    handleChange() {
+      this.showFullSkin = !this.showFullSkin;
     },
-    handleShowSignature () {
-      this.visible = true
+    handleShowSignature() {
+      this.visible = true;
     },
-    handleCloseSignature () {
-      this.visible = false
-    }
-  }
-}
+    handleCloseSignature() {
+      this.visible = false;
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-  .patient-home{
-    height: 100%;
-    .van-nav-bar{
-      height: 100px;
-      background: linear-gradient(90deg, #666666, #303030);
-      /deep/ .van-nav-bar__title{
-        color:#ffffff;
-        font-size: 34px;
-        line-height: 100px;
-      }
-      /deep/ .van-nav-bar__text{
-        color: #ffffff;
-        font-size: 30px;
-      }
-      /deep/ .van-icon-arrow-left{
-        color: #ffffff;
-        font-size: 36px;
-      }
+@import "@/themes/_handle.scss";
+.patient-home {
+  height: 100%;
+  .van-nav-bar {
+    height: 100px;
+    /deep/ .van-nav-bar__title {
+      font-size: 34px;
+      line-height: 100px;
     }
-    .patient-card{
-      padding: 15px 20px;
-      .content{
-        background: #ffffff;
-        display: flex;
-        height: 194px;
-        box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
-        border-radius: 10px 10px 0 0;
-        box-sizing: border-box;
-        overflow: hidden;
-        .left{
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          span{
-            width: 140px;
-            height: 80px;
-            background: #3478FF;
-            box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.15);
-            border-radius: 0px 40px 40px 0px;
-            line-height: 80px;
-            text-align: center;
-            font-size: 42px;
-            font-weight: bold;
-            color: #ffffff;
-          }
-        }
-        .right{
-          flex: 1;
-          margin-left: 30px;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          p{
-            font-size: 26px;
-            color: #7F7F7F;
-            &:nth-child(1){
-              font-size: 30px;
-              color: #2E2E2E;
-            }
-            &:nth-child(2){
-              margin:30px 0;
-            }
-          }
-        }
-      }
+    /deep/ .van-nav-bar__text {
+      font-size: 30px;
     }
-    .operation-content{
-      padding: 0 20px;
-      margin-top: -15px;
-      .operation-info{
-        background: #ffffff;
+    /deep/ .van-icon-arrow-left {
+      font-size: 36px;
+    }
+  }
+  .patient-card {
+    padding: 15px 20px;
+    .content {
+      @include background_color("bg_home");
+      display: flex;
+      height: 194px;
+      box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
+      border-radius: 10px 10px 0 0;
+      box-sizing: border-box;
+      overflow: hidden;
+      .left {
         display: flex;
         justify-content: center;
-        flex-direction: column;
-        height: 184px;
-        box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
-        border-radius: 0 0 10px 10px;
-        box-sizing: border-box;
-        padding-left: 32px;
-        p{
-          // text-indent: 32px;
-          font-size: 30px;
-          &:first-child{
-            display: flex;
-            span{
-              flex: 1;
-            }
-          }
-          &:nth-child(2){
-            margin:20px 0;
-          }
-          .label{
-            color: #7F7F7F;
-            display: inline-block;
-            text-align: left;
-            // text-indent: unset !important;
-            width: 140px;
-          }
-          .value{
-            color: #2E2E2E;
-          }
+        align-items: center;
+        span {
+          width: 140px;
+          height: 80px;
+          background: #3478ff;
+          box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.15);
+          border-radius: 0px 40px 40px 0px;
+          line-height: 80px;
+          text-align: center;
+          font-size: 42px;
+          font-weight: bold;
+          color: #ffffff;
         }
       }
-    }
-    .list{
-      padding: 0 40px;
-      h3{
-        color: #7F7F7F;
-        font-size: 30px;
-        font-weight: lighter;
-        margin-bottom: 20px;
-        margin-top: 60px;
-        &:nth-child(1){
-          margin-top: 40px;
-        }
-      }
-      .options{
+      .right {
+        flex: 1;
+        margin-left: 30px;
         display: flex;
-        background: #FFFFFF;
-        padding:15px 0;
-        box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
-        border-radius: 10px;
-        .van-button{
-          flex: 1;
-          height: 100px;
-          line-height: 100px;
-          background-color: #FFFFFF;
-          // background-color: #D5DDF1;
-          font-size: 36px;
-          color: #303234;
-          font-weight:bold;
-          padding: 0;
-          box-shadow: unset;
-          border-radius: unset;
-          border:unset;
-          &:nth-child(2){
-            // margin:0 35px;
-            border-right:1PX solid #D1D1D1;
-            border-left:1PX solid #D1D1D1;
+        flex-direction: column;
+        justify-content: center;
+        p {
+          font-size: 26px;
+          color: #7f7f7f;
+          &:nth-child(1) {
+            font-size: 30px;
+            color: #2e2e2e;
+          }
+          &:nth-child(2) {
+            margin: 30px 0;
           }
         }
       }
     }
   }
+  .operation-content {
+    padding: 0 20px;
+    margin-top: -15px;
+    .operation-info {
+      @include background_color("bg_home");
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      height: 184px;
+      box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
+      border-radius: 0 0 10px 10px;
+      box-sizing: border-box;
+      padding-left: 32px;
+      p {
+        // text-indent: 32px;
+        font-size: 30px;
+        &:first-child {
+          display: flex;
+          span {
+            flex: 1;
+          }
+        }
+        &:nth-child(2) {
+          margin: 20px 0;
+        }
+        .label {
+          @include font_color("bg_popup_option");
+          display: inline-block;
+          text-align: left;
+          width: 140px;
+        }
+        .value {
+          @include font_color("bg_popup_title");
+        }
+      }
+    }
+  }
+  .list {
+    padding: 0 40px;
+    h3 {
+      @include font_color("bg_popup_option");
+      font-size: 30px;
+      font-weight: lighter;
+      margin-bottom: 20px;
+      margin-top: 60px;
+      &:nth-child(1) {
+        margin-top: 40px;
+      }
+    }
+    .options {
+      display: flex;
+      @include background_color("bg_popup");
+      padding: 15px 0;
+      box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      .van-button {
+        flex: 1;
+        height: 100px;
+        line-height: 100px;
+        @include background_color("bg_popup");
+        // background-color: #D5DDF1;
+        font-size: 36px;
+        @include font_color("bg_button_title");
+        font-weight: bold;
+        padding: 0;
+        box-shadow: unset;
+        border-radius: unset;
+        border: unset;
+        &:nth-child(2) {
+          // margin:0 35px;
+          border-right: 1px solid #d1d1d1;
+          border-left: 1px solid #d1d1d1;
+        }
+      }
+    }
+  }
+}
 </style>

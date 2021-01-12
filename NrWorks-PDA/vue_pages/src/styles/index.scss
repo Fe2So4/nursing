@@ -1,0 +1,255 @@
+@import "@/themes/_handle.scss";
+  body .van-dialog{
+    font-size: 30px;
+    width: 80%;
+    @include background_color("bg_popup")
+  }
+  body .van-dialog__header{
+    line-height: 40px;
+    @include font_color("bg_dialog_title")
+  }
+  body .van-dialog__content{
+    font-size: 30px;
+    border-bottom: 1PX solid #e2e2e2;
+    box-sizing: border-box;
+  }
+  body .van-dialog__message{
+    font-size: 30px;
+    line-height: 100px;
+    @include font_color("bg_dialog_message")
+    /* padding: 50px 0; */
+    /* min-height: 60px; */
+  }
+  // body .van-dialog__footer{
+  //   /deep/ .van-button{
+  //   }
+  // }
+  body .van-dialog__footer .van-button{
+    height: 80px;
+    line-height: 80px;
+    font-size: 30px;
+    @include background_color("bg_popup");
+    &.van-dialog__cancel{
+      @include font_color("bg_dialog_title")
+    }
+  }
+  body .van-dialog__footer .van-button:last-child{
+    border-left: 1PX solid #e2e2e2;
+  }
+  #app /deep/ .van-popup{
+    @include background_color("bg_popup");
+  }
+
+  #app /deep/ .van-cell{
+    @include background_color("bg_cell");
+    .van-cell__title{
+      @include font_color("bg_cell_title");
+    }
+  }
+
+  #app /deep/ .van-cell::after{
+    border-bottom: 1PX solid #E2E2E2 !important;
+    transform: unset;
+  }
+  
+  #app .van-cell-center{
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+  }
+  
+  #app /deep/ .van-switch{
+    width: 80px;
+    height: 40px;
+  }
+  
+  #app /deep/ .van-switch__node{
+    width: 40px;
+    height: 40px;
+  }
+  
+  #app /deep/ .van-switch--on .van-switch__node{
+    transform: translateX(40px)
+  }
+  
+  #app /deep/ .van-checkbox__icon i{
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+    border:1PX solid #8396B6
+  }
+  
+  body /deep/ .van-notify{
+    height: 80px;
+    font-size: 30px;
+  }
+  
+  #app /deep/ .dialog-checkbox{
+    overflow-y: auto;
+    max-height: 60vh;
+  }
+  #app /deep/ .van-dialog{
+    font-size: 30px;
+    top: 50%;
+    // @include background_color("bg_popup")
+  } 
+  #app /deep/ .signatureImage{
+    height: 300px;
+    margin: 0 auto;
+  }
+  #app /deep/ .signatureImage-content{
+    padding: 0 16px;
+    border-bottom: 1PX solid #E2E2E2;
+    text-align: center;
+  }
+  
+  #app /deep/ .van-loading{
+    height: 80px;
+    width: 80px;
+  }
+  
+  #app /deep/ .van-loading__spinner{
+    width: 100%;
+    height: 100%;
+  }
+  
+  #app /deep/ .van-loading__spinner--spinner i::before{
+    width: 1PX;
+  }
+  
+   /* 时间选择器 */
+  #app /deep/ .van-picker__toolbar{
+    height: 80px;
+    border-bottom:1PX solid #E2E2E2;
+  }
+  /* #app /deep/ .van-picker-column__item{
+    height: 60px !important;
+    line-height: 60px !important;
+  } */
+  #app /deep/ .van-picker__frame{
+    height: 60px !important;
+  }
+  #app /deep/ .van-picker__frame::after{
+    border-color: #E2E2E2;
+    border-width: 1PX;
+  }
+  #app /deep/ .van-picker__toolbar{
+    height: 60px;
+  }
+  #app /deep/ .van-picker__cancel{
+    font-size: 30px;
+  }
+  #app /deep/ .van-picker__confirm{
+    font-size: 30px;
+  }
+  #app /deep/ .van-picker__title{
+    font-size: 30px;
+    line-height: 60px;
+  }
+  #app /deep/ .van-picker__columns .van-picker-column{
+      font-size: 26px;
+      line-height: 60px;
+  }
+  #app /deep/ .van-overlay{
+    background-color: rgba(0,0,0,0.5);
+  }
+  #app /deep/ .van-cell__value .van-icon-play{
+    font-size: 30px;
+    line-height: 0;
+  }
+  #app /deep/ .van-cell__value .van-icon-play::after{
+    /* font-size: 30px; */
+    line-height: 0;
+  }
+  #app /deep/ .van-cell__value{
+    /* background-color: purple; */
+    /* height: 100%; */
+  }
+  #app /deep/ .multipul-select{
+    padding-right: 30px;
+  }
+  #app /deep/ .multipul-select::after{
+    position: absolute;
+    top: 50%;
+    margin-top: -12px;
+    border: 9px solid;
+    right: 5px;
+    border-color: transparent transparent #7f7f7f #7f7f7f;
+    transform: rotate(-45deg);
+    opacity: .8;
+    content: '';
+  }
+  #app /deep/ .van-dropdown-menu__title--active::after{
+    margin-top: -5px !important;
+  }
+  #app /deep/ .van-dropdown-menu__item{
+    height:100%;
+  }
+  #app /deep/ .van-dropdown-item__option{
+    height: 80px;
+  }
+  #app /deep/ .van-dropdown-menu__title_top .van-dropdown-menu__title.van-dropdown-menu__title--active::after{
+    margin-top: -12px !important;
+  }
+  #app /deep/ .van-dropdown-menu__title_top .van-dropdown-menu__title::after{
+    margin-top: -5px !important;
+  }
+  #app /deep/ .van-dropdown-menu{
+    /* background-color: green; */
+    /* height: 100%; */
+    height: 94px;
+  }
+  #app /deep/ .van-dropdown-menu__bar{
+    background-color: unset;
+  }
+  #app /deep/ .van-dropdown-menu__title{
+    font-size: 30px;
+    line-height: 94px;
+    /* background-color: red; */
+    /* line-height: unset; */
+    padding-right: 30px;
+    height:100%;
+  }
+  /* .van-dropdown-menu__title:after */
+  #app /deep/ .van-dropdown-menu__title::after{
+    border-color: transparent transparent #7f7f7f #7f7f7f;
+    border-width: 9px;
+    margin-top: -12px;
+    right: 5px;
+  }
+  
+  #app /deep/ .mul-ellipsis{
+    width: 500px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    vertical-align: middle;
+    display: inline-block;
+  }
+  
+  #app /deep/ .van-field__left-icon .my-icon{
+    line-height: inherit;
+    height: 100%;
+  }
+  
+  #app /deep/ .van-nav-bar{
+    @include background_color("bg_nav_bar");
+    /deep/ .van-nav-bar__title {
+      @include font_color("bg_nav_title")
+    }
+    /deep/ .van-icon-arrow-left {
+      @include font_color("bg_nav_title")
+    }
+    /deep/ .van-icon-arrow-right {
+      @include font_color("bg_nav_title")
+    }
+    /deep/ .van-nav-bar__right {
+      @include font_color("bg_nav_title")
+    }
+    /deep/ .van-nav-bar__left {
+      @include font_color("bg_nav_title")
+    }
+  }
+  #app /deep/ .van-nav-bar__content{
+    height: 100%;
+  }
