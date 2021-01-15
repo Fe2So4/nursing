@@ -18,6 +18,10 @@
           width="80"
         />
         <vxe-table-column
+          field="realRoomNo"
+          title="房间号"
+        />
+        <vxe-table-column
           field="pathologyId"
           title="病理号"
         />
@@ -198,8 +202,12 @@ export default {
       this.selectData = []
       this.selectData.push(row)
       Bus.$emit('pathological-table', row)
+      console.log(row.historyDetails)
+      this.$store.commit(
+        'SAVE_USERINFOHISTORYDETAILS',
+        row.historyDetails || ''
+      )
       this.$store.commit('SAVE_SELECTTABLEITEM', this.selectData)
-      this.$store.commit('CLEAR_USERINFOHISTORYDETAILS')
     },
     // 撤销派单
     exitOrder () {
@@ -276,7 +284,8 @@ export default {
     sendPathological () {
       let obj = {
         orderId: this.selectData[0].pathologyId,
-        roomCode: this.$store.state['pathological-table'].userInfo.roomNo
+        roomCode: this.selectData[0].realRoomNo,
+        realRoomCode: this.selectData[0].realRoomNo
       }
 
       this.$store.dispatch('ReqsendPathologicOrder', obj).then(res => {

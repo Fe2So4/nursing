@@ -61,14 +61,6 @@
           content="修 改"
           @click="changeItem(2)"
         />
-        <vxe-button
-          status="my-purple"
-          size="mini"
-          v-if="formData2.isSend === '2'"
-          class="btn"
-          content="撤 销"
-          @click="changeItem(3)"
-        />
       </div>
     </div>
 

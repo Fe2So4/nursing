@@ -371,6 +371,36 @@
         </div>
       </span>
     </el-dialog>
+    <el-dialog
+      title="提示"
+      :visible.sync="cancleVisible"
+      top="30vh"
+      width="520px"
+      :before-close="handleCloseCancle"
+    >
+      <div class="dialog-body-span">
+        <i class="el-icon-warning icon-gantanghao" />
+        <span>是否撤销退单？</span>
+      </div>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <div class="dialog-footer-div">
+          <el-button
+            size="mini"
+            class="btn"
+            :loading="btnLoad"
+            @click="clickCancleOrderTimeOut"
+          >是(Y)</el-button>
+          <el-button
+            size="mini"
+            class="btn mgl40"
+            @click="cancleVisible = false"
+          >否(N)</el-button>
+        </div>
+      </span>
+    </el-dialog>
   </el-scrollbar>
 </template>
 
@@ -386,6 +416,7 @@ export default {
       value: '',
       dbdialogVisible: false, // 派单
       exitdialogVisible: false, // 退单
+      cancleVisible: false, // 撤销
       isSelectItem: [
         { floor: '', roomNo: '', runNurseCode: '', washNurseCode: '' }
       ],
@@ -416,7 +447,11 @@ export default {
       this.searchCardParams.condition = res.condition
       this.searchCardParams.floorNo = res.floorNo
       this.utilsDebounce(() => {
-        this.getCardList()
+        if (this.searchCardParams.isOrder !== '2') {
+          this.getCardList()
+        } else {
+          this.getExitCardList()
+        }
       }, 1000)
     })
     // 监听同步按钮
@@ -471,6 +506,22 @@ export default {
           }
         })
     },
+    // 获取退单内容列表
+    getExitCardList () {
+      this.$store
+        .dispatch('ReqCancelOrderInfo', this.searchCardParams)
+        .then(res => {
+          if (res.data.code === 200) {
+            if (res.data.data.length === 0) {
+              this.openToast('warning', '暂无数据')
+            }
+            this.cardList = res.data.data
+          } else {
+            this.openToast('error', res.data.msg)
+          }
+        })
+    },
+
     // 获取同步内容列表
     getTongbuCardList () {
       let endTime = this.utilsGetNewDate()
@@ -481,7 +532,9 @@ export default {
       this.$store.dispatch('ReqsyncOperScheduleInfo', obj).then(res => {
         if (res.data.code === 200) {
           this.openToast('success', res.data.data)
-          this.getCardList()
+          if (this.searchCardParams.isOrder !== '2') {
+            this.getCardList()
+          }
         } else {
           this.openToast('error', res.data.msg)
         }
@@ -524,11 +577,38 @@ export default {
       this.isSend = isSend
       this.exitdialogVisible = true
     },
+
     clickExitOrderTimeOut () {
       this.btnLoad = true
       this.utilsDebounce(() => {
         this.exitOrder()
       }, 300)
+    },
+    clickCancleOrderTimeOut () {
+      this.btnLoad = true
+      this.utilsDebounce(() => {
+        this.cancleOrder()
+      }, 300)
+    },
+    // 撤销退单
+    cancleOrder () {
+      let obj = {
+        operSchNo: this.isSelectItem[0].operSchNo
+      }
+      this.$store.dispatch('ReqBackCancelOrder', obj).then(res => {
+        this.cancleVisible = false
+        if (res.data.code === 200) {
+          this.openToast('success', '撤销成功')
+          this.isSelectItem = [
+            { floor: '', roomNo: '', runNurseName: '', washNurseCode: '' }
+          ]
+          this.isSelectIndex = 0
+        } else {
+          this.openToast('error', res.data.msg)
+        }
+        this.getExitCardList()
+        this.setTimeCloseBtnLoad()
+      })
     },
     // 退单
     exitOrder () {
@@ -586,12 +666,17 @@ export default {
     handleCloseOperation () {
       this.dbdialogVisible = false
     },
+    handleCloseCancle () {
+      this.cancleVisible = false
+    },
     // 显示派单弹窗
     operationCard (item) {
       this.btnLoad = false
       let isSend = this.searchCardParams.isOrder
       if (isSend === '0') {
         this.dbdialogVisible = true
+      } else if (isSend === '2') {
+        this.cancleDialogShow()
       } else {
         return false
       }
@@ -722,13 +807,17 @@ export default {
     },
     // 清空点击选中
     clearSelect (val) {
-      console.log(val)
+      console.log(val, '1111111')
       this.isSelectItem = [
         { floor: '', roomNo: '', runNurseName: '', washNurseCode: '' }
       ]
       this.isSelectIndex = -1
       this.searchCardParams.isOrder = val
-      this.getCardList()
+      if (val !== '2') {
+        this.getCardList()
+      } else {
+        this.getExitCardList()
+      }
       this.setTimeCloseBtnLoad()
     },
     // 排班修改取消
@@ -743,6 +832,10 @@ export default {
       this.selectRoom = this.isSelectItem[0].roomNo
       this.selectDialogVisible = false
       this.setTimeCloseBtnLoad()
+    },
+    // 显示撤销弹窗
+    cancleDialogShow () {
+      this.cancleVisible = true
     },
     // 提示方法
     openToast (type, mesg) {

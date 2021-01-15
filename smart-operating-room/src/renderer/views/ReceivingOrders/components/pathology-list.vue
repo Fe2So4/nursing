@@ -26,18 +26,21 @@
         <span
           class="pt-info"
         >{{ ptData.floor }}号楼手术室{{ ptData.roomNo }}</span><span
-          v-if="ptData.orderState === '1'"
+          v-if="ptData.orderState === '1' || ptData.orderState === '2'"
           style="font-weight:600;"
-        >{{
-          ptData.workerName
-        }}</span>
+        >{{ ptData.workerName }}</span>
       </p>
       <p v-if="ptData.orderState === '1'">
-        <span>{{ ptData.workerName }}</span><span>接单时间：{{ ptData.updateTime }}</span>
+        <span>接单时间：{{ ptData.updateTime }}</span>
       </p>
-      <p v-if="ptData.orderState === '2'">
-        到达时间：{{ ptData.endTime }}
-      </p>
+      <div v-if="ptData.orderState === '2'">
+        <div>
+          <span style="color:#929498">接单时间：{{ ptData.updateTime }}</span>
+        </div>
+        <div>
+          <span style="color:#929498">到达时间：{{ ptData.endTime }}</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>

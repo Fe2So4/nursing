@@ -511,6 +511,12 @@ export default {
     // 提交申请
     timeSubApplication () {
       this.type = true
+      this.userInfo = this.$store.state['pathological-table'].userInfo
+      if (this.userInfo.roomNo === '') {
+        this.$alert('请先选择房间号', '提示')
+        this.setTimeCloseBtnLoad()
+        return false
+      }
       if (this.loginType !== '1') {
         this.$alert('请先进行送验医师验证', '提示')
         this.setTimeCloseBtnLoad()
@@ -550,7 +556,7 @@ export default {
       if (!this.type) {
         return false
       }
-      this.userInfo = this.$store.state['pathological-table'].userInfo
+
       let time = this.utilsNewTime()
       let historyDetails =
         this.$store.state['pathological-table'].historyDetails || ''
@@ -577,6 +583,7 @@ export default {
         recAddress: this.userInfo.recAddress,
         remarks: this.formData.remarks,
         roomNo: this.userInfo.roomNo,
+        realRoomNo: this.userInfo.roomNo,
         operSchNo: this.userInfo.operSchNo
       }
       reqsaveFastPathologic(obj).then(res => {
@@ -584,6 +591,7 @@ export default {
           this.openToast('success', res.data.msg)
           Bus.$emit('sub-pathological-success', this.userInfo.operSchNo)
         } else {
+          this.setTimeCloseBtnLoad()
           this.openToast('error', res.data.msg)
         }
       })

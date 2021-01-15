@@ -1,4 +1,4 @@
-import { reqOperationOrders, reqgetFloor, reqgetRoomByFloor, reqgetNurseDict, reqchangeOperScheduleInfo, reqcancelOrderAction, reqsendOrderAction, reqrepeatOrderMsgTips, reqsyncOperScheduleInfo, reqapplicationForRefund } from '@/api/operation-orders/operation-orders.js'
+import { reqOperationOrders, reqCancelOrderInfo, reqBackCancelOrder, reqgetFloor, reqgetRoomByFloor, reqgetNurseDict, reqchangeOperScheduleInfo, reqcancelOrderAction, reqsendOrderAction, reqrepeatOrderMsgTips, reqsyncOperScheduleInfo, reqapplicationForRefund } from '@/api/operation-orders/operation-orders.js'
 
 const state = {
   floor: [],
@@ -33,6 +33,17 @@ const actions = {
     let res = await reqOperationOrders(query)
     return res
   },
+  // 获取退单内容列表
+  async ReqCancelOrderInfo({ commit }, query) {
+    let res = await reqCancelOrderInfo(query)
+    return res
+  },
+  // 撤销退单
+  async ReqBackCancelOrder({ commit }, query) {
+    let res = await reqBackCancelOrder(query)
+    return res
+  },
+
   // 获取护士列表
   async ReqgetNurseDict({ commit }) {
     let res = await reqgetNurseDict()

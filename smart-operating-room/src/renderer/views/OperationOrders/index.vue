@@ -80,6 +80,7 @@ export default {
         } else if (data.type === 2) {
           this.$refs.OperationContent.changeDialogShow()
         } else {
+          // this.$refs.OperationContent.cancleDialogShow()
         }
       })
     },

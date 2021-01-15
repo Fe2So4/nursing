@@ -197,7 +197,7 @@
         </vxe-form-item>
       </div>
     </vxe-form>
-    <el-dialog
+    <!-- <el-dialog
       title="请选择手术房间"
       :close-on-click-modal="false"
       :visible.sync="selectRoom"
@@ -248,7 +248,7 @@
           </vxe-button>
         </div>
       </span>
-    </el-dialog>
+    </el-dialog> -->
   </div>
 </template>
 
@@ -261,8 +261,11 @@ export default {
     return {
       roomList: [],
       selectRoomNo: '',
+      realType: false,
       selectRoom: false,
       formData1: {
+        cureNo: '',
+        recAddress: '',
         hospitalNo: '', // 住院号
         patientName: '', // 患者名称,
         patientGender: '', // 性别
@@ -275,7 +278,8 @@ export default {
         clinicalDiagnosis: '', // 临床诊断
         pathologyId: '',
         pathologys: [] // table列表:
-      }
+      },
+      copyFormData: {}
     }
   },
   mounted () {
@@ -306,6 +310,8 @@ export default {
             if (this.IsEmpty(res.data.data)) {
               this.openToast('warning', '暂无更多数据')
               this.formData1 = {
+                recAddress: '',
+                cureNo: '',
                 hospitalNo: '', // 住院号
                 patientName: '', // 患者名称,
                 patientGender: '', // 性别
@@ -323,26 +329,30 @@ export default {
             } else {
               Bus.$emit('user-info-getData', '1')
               this.roomList = res.data.data
-              // this.selectRoom = true
-              this.selectRoomNo = this.roomList[0].roomNo
               let userInfoData = this.roomList[0]
 
-              this.formData1.patientName = userInfoData.patientName
-              this.formData1.patientGender = userInfoData.patientGender
-              this.formData1.patientAge = userInfoData.patientAge
-              this.formData1.beaNo = userInfoData.beaNo
-              this.formData1.categpry = userInfoData.categpry
-              this.formData1.historyDetails = userInfoData.historyDetails
-              this.$store.commit(
-                'SAVE_USERINFOHISTORYDETAILS',
-                userInfoData.historyDetails || ''
-              )
-              this.$store.commit('SAVE_USERINFO', userInfoData || {})
-              this.formData1.roomNo = userInfoData.roomNo
-              this.formData1.opsName = userInfoData.opsName
-              this.formData1.clinicalDiagnosis = userInfoData.clinicalDiagnosis
-              // this.formData1.pathologys = userInfoData.pathologys
-              this.searchPathologyByOperSchNo(userInfoData.operSchNo)
+              if (this.roomList.length > 1) {
+                this.realType = false
+                this.roomList.forEach(item => {
+                  if (!this.IsEmpty(item.realRoomNo)) {
+                    this.formData1.roomNo = item.realRoomNo
+                    this.getUserInfoShow(item)
+                    this.realType = true
+                  }
+                })
+                if (this.realType !== true) {
+                  this.formData1.roomNo = ''
+                  this.getUserInfoShow(userInfoData)
+                  this.$alert('此患者存在多条订单,请先选择房间号')
+                }
+              } else {
+                if (!this.IsEmpty(userInfoData.realRoomNo)) {
+                  this.formData1.roomNo = userInfoData.realRoomNo
+                } else {
+                  this.formData1.roomNo = userInfoData.roomNo
+                }
+                this.getUserInfoShow(userInfoData)
+              }
             }
           } else {
             this.openToast('error', this.res.statusText)
@@ -352,35 +362,51 @@ export default {
         this.openToast('warning', '请输入正确的住院号')
       }
     },
-    // 选择房间号
-    selectRoomNoVal () {
-      console.log(this.selectRoomNo)
-      this.handleClose()
-      this.roomList.forEach(item => {
-        if (item.roomNo === this.selectRoomNo) {
-          Bus.$emit('user-info-getData', '1')
-          let userInfoData = item
-          this.formData1.patientName = userInfoData.patientName
-          this.formData1.patientGender = userInfoData.patientGender
-          this.formData1.patientAge = userInfoData.patientAge
-          this.formData1.beaNo = userInfoData.beaNo
-          this.formData1.categpry = userInfoData.categpry
-          this.formData1.historyDetails = userInfoData.historyDetails
-          this.$store.commit(
-            'SAVE_USERINFOHISTORYDETAILS',
-            userInfoData.historyDetails || ''
-          )
-
-          this.$store.commit('SAVE_USERINFO', userInfoData || {})
-          this.formData1.roomNo = userInfoData.roomNo
-          this.formData1.opsName = userInfoData.opsName
-          this.formData1.clinicalDiagnosis = userInfoData.clinicalDiagnosis
-          // this.formData1.pathologys = userInfoData.pathologys
-          this.searchPathologyByOperSchNo(userInfoData.operSchNo)
-        }
-        return false
-      })
+    // 渲染显示用户信息
+    getUserInfoShow (userInfoData) {
+      this.formData1.patientName = userInfoData.patientName
+      this.formData1.patientGender = userInfoData.patientGender
+      this.formData1.patientAge = userInfoData.patientAge
+      this.formData1.beaNo = userInfoData.beaNo
+      this.formData1.categpry = userInfoData.categpry
+      this.formData1.historyDetails = userInfoData.historyDetails
+      this.formData1.opsName = userInfoData.opsName
+      this.formData1.clinicalDiagnosis = userInfoData.clinicalDiagnosis
+      this.formData1.cureNo = userInfoData.cureNo
+      this.formData1.recAddress = userInfoData.recAddress
+      this.formData1.operSchNo = userInfoData.operSchNo
+      this.$store.commit('SAVE_USERINFO', userInfoData || {})
+      this.copyFormData = JSON.parse(JSON.stringify(this.formData1))
     },
+    // // 选择房间号
+    // selectRoomNoVal () {
+    //   console.log(this.selectRoomNo)
+    //   this.handleClose()
+    //   this.roomList.forEach(item => {
+    //     if (item.roomNo === this.selectRoomNo) {
+    //       Bus.$emit('user-info-getData', '1')
+    //       let userInfoData = item
+    //       this.formData1.patientName = userInfoData.patientName
+    //       this.formData1.patientGender = userInfoData.patientGender
+    //       this.formData1.patientAge = userInfoData.patientAge
+    //       this.formData1.beaNo = userInfoData.beaNo
+    //       this.formData1.categpry = userInfoData.categpry
+    //       this.formData1.historyDetails = userInfoData.historyDetails
+    //       this.$store.commit(
+    //         'SAVE_USERINFOHISTORYDETAILS',
+    //         userInfoData.historyDetails || ''
+    //       )
+
+    //       this.$store.commit('SAVE_USERINFO', userInfoData || {})
+    //       this.formData1.roomNo = userInfoData.roomNo
+    //       this.formData1.opsName = userInfoData.opsName
+    //       this.formData1.clinicalDiagnosis = userInfoData.clinicalDiagnosis
+    //       // this.formData1.pathologys = userInfoData.pathologys
+    //       this.searchPathologyByOperSchNo(userInfoData.operSchNo)
+    //     }
+    //     return false
+    //   })
+    // },
     // 根据手术申请号获取病理列表
     searchPathologyByOperSchNo (operSchNo) {
       this.$store.commit('CLEAR_SELECTTABLEITEM')
@@ -419,6 +445,7 @@ export default {
       return this.formData1.historyDetails
     },
     ListeningStoreHistoryDetails () {
+      console.log(this.$store.state['pathological-table'].historyDetails)
       return this.$store.state['pathological-table'].historyDetails
     },
     ListeningHospitalNo () {
@@ -457,9 +484,16 @@ export default {
           opsName: '', // 手术名称及手术所见
           clinicalDiagnosis: '', // 临床诊断
           pathologyId: '',
-          pathologys: [] // table列表:
+          pathologys: [], // table列表:
+          recAddress: ''
         }
       }
+    },
+    'formData1.roomNo' (newVal) {
+      this.copyFormData.roomNo = newVal
+      this.$store.commit('CLEAR_USERINFO')
+      this.$store.commit('SAVE_USERINFO', this.copyFormData || {})
+      this.searchPathologyByOperSchNo(this.formData1.operSchNo)
     }
   }
 }

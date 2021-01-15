@@ -38,6 +38,25 @@ export const reqOperationOrders = (obj) => {
   })
 }
 
+// 获取退单列表
+const reqCancelOrderInfoUrl = `${config.default.api.baseURL}/ocis/sendOrder/getCancelOrderInfo`
+export const reqCancelOrderInfo = (obj) => {
+  return request({
+    url: reqCancelOrderInfoUrl,
+    method: 'post',
+    params: obj
+  })
+}
+// 获取退单列表
+const reqBackCancelOrderUrl = `${config.default.api.baseURL}/ocis/sendOrder/backCancelOrder`
+export const reqBackCancelOrder = (obj) => {
+  return request({
+    url: reqBackCancelOrderUrl,
+    method: 'post',
+    params: obj
+  })
+}
+
 // 修改派单信息接口
 const reqchangeOperScheduleInfoUrl = `${config.default.api.baseURL}/ocis/sendOrder/changeOperScheduleInfo`
 export const reqchangeOperScheduleInfo = (obj) => {
