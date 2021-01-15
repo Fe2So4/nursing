@@ -5,7 +5,7 @@ const reqNursingDocumentTeShuUrl = `${config.default.api.baseURL}/ocis/nursingRe
 export const reqNursingDocumentTeShu = (obj) => {
   console.log(obj)
   return request({
-    url: reqNursingDocumentTeShuUrl + `/${obj.hospitalNo}` + `/${obj.cureNo}`,
+    url: reqNursingDocumentTeShuUrl + `/${obj.hospitalNo}` + `/${obj.cureNo}` + `/${obj.operSchNo}`,
     method: 'get'
   })
 }

@@ -785,7 +785,9 @@ export default {
       let obj = {
         // cureNo: 1010,
         cureNo: this.$store.state['nursing-document-list'].cureNo,
-        hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
+        hospitalNo: this.$store.state['nursing-document-list'].hospitalNo,
+        operSchNo: this.$store.state['nursing-document-list'].operSchNo
+
         // hospitalNo: 666
       }
       this.$store.dispatch('reqSecurityCheckTable', obj).then(res => {

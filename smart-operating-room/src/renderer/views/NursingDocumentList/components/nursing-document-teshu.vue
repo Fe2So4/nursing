@@ -35,19 +35,27 @@
                     <div class="context1">
                       <span class="input-div ">
                         <span>手术日期</span>
-                        <div class="input-div-context-120">{{ form.operateDate }}</div>
+                        <div class="input-div-context-120">
+                          {{ form.operateDate }}
+                        </div>
                       </span>
                       <span class="input-div">
                         <span>姓名</span>
-                        <div class="input-div-context-120">{{ form.patientName }}</div>
+                        <div class="input-div-context-120">
+                          {{ form.patientName }}
+                        </div>
                       </span>
                       <span class="input-div">
                         <span>住院号</span>
-                        <div class="input-div-context-120">{{ form.hospitalNo }}</div>
+                        <div class="input-div-context-120">
+                          {{ form.hospitalNo }}
+                        </div>
                       </span>
                       <span class="input-div">
                         <span>病床号</span>
-                        <div class="input-div-context-120">{{ form.bedNo }}</div>
+                        <div class="input-div-context-120">
+                          {{ form.bedNo }}
+                        </div>
                       </span>
                     </div>
                     <div class="context1 mgt20">
@@ -56,7 +64,9 @@
                         <div
                           class="input-div-context-long"
                           style="textAlign:center"
-                        >{{ form.diagnosis }}</div>
+                        >
+                          {{ form.diagnosis }}
+                        </div>
                       </span>
                     </div>
                     <div class="context1">
@@ -77,9 +87,7 @@
                   <th rowspan="2">
                     <div>手术前数量</div>
                   </th>
-                  <th
-                    colspan="4"
-                  >
+                  <th colspan="4">
                     术中添加数
                   </th>
                   <th rowspan="2">
@@ -93,13 +101,19 @@
                   </th>
                 </tr>
                 <tr>
-                  <td style="height:20px;borderRight:1px solid #000;textAlign:center">
+                  <td
+                    style="height:20px;borderRight:1px solid #000;textAlign:center"
+                  >
                     第一次
                   </td>
-                  <td style="height:20px;borderRight:1px solid #000;textAlign:center">
+                  <td
+                    style="height:20px;borderRight:1px solid #000;textAlign:center"
+                  >
                     第二次
                   </td>
-                  <td style="height:20px;borderRight:1px solid #000;textAlign:center">
+                  <td
+                    style="height:20px;borderRight:1px solid #000;textAlign:center"
+                  >
                     第三次
                   </td>
                   <td style="height:20px;textAlign:center">
@@ -108,10 +122,7 @@
                 </tr>
               </thead>
               <tbody>
-                <template
-
-                  v-for="item in basicequipment"
-                >
+                <template v-for="item in basicequipment">
                   <template v-if="item.items.length === 0">
                     <tr :key="item.pId * 2 + 1">
                       <td
@@ -122,7 +133,7 @@
                       </td>
                       <td colspan="3">
                         <svg
-                          :id="'_'+item.pId"
+                          :id="'_' + item.pId"
                           alt=""
                         />
                       </td>
@@ -168,7 +179,7 @@
                         </td>
                         <td colspan="3">
                           <img
-                            :id="'_'+item.pId"
+                            :id="'_' + item.pId"
                             alt=""
                           >
                         </td>
@@ -284,10 +295,9 @@
 </template>
 
 <script>
-
 // import NursingBottom from './nursing-document-teshu-bottom'
 import JsBarcode from 'jsbarcode'
-import {ipcRenderer} from 'electron'
+import { ipcRenderer } from 'electron'
 import Bus from '@/utils/bus.js'
 export default {
   name: 'NursingDocumentTeshu',
@@ -327,11 +337,17 @@ export default {
   mounted () {
     Bus.$on('clickShuaXinTeShu', res => {
       if (res === '1') {
-        this.utilsDebounce(() => { this.EquipmentChange() }, 300)
+        this.utilsDebounce(() => {
+          this.EquipmentChange()
+        }, 300)
       } else if (res === '2') {
-        this.utilsDebounce(() => { this.dayin() }, 300)
+        this.utilsDebounce(() => {
+          this.dayin()
+        }, 300)
       } else if (res === '3') {
-        this.htmlTitle = this.$store.state['nursing-document-list'].patientName + this.htmlTitle
+        this.htmlTitle =
+          this.$store.state['nursing-document-list'].patientName +
+          this.htmlTitle
         this.utilsDebounce(() => {
           //  this.getPdf('nursing-document-teshu')
           this.daochuPDF()
@@ -346,17 +362,29 @@ export default {
     },
     // 打印
     printCurrent () {
-      const printHtml = document.getElementById('nursing-document-teshu').outerHTML
+      const printHtml = document.getElementById('nursing-document-teshu')
+        .outerHTML
       const options = { silent: false }
       // options = JSON.stringify(options)
-      ipcRenderer.send('printChannel', printHtml, 'nursing-document-teshu.css', options)
+      ipcRenderer.send(
+        'printChannel',
+        printHtml,
+        'nursing-document-teshu.css',
+        options
+      )
     },
     daochuPDF () {
-      const printHtml = document.getElementById('nursing-document-teshu').outerHTML
+      const printHtml = document.getElementById('nursing-document-teshu')
+        .outerHTML
       const options = { silent: false }
       // options = JSON.stringify(options)
       this.utilsDebounce(() => {
-        ipcRenderer.send('printpdfChannel', printHtml, 'nursing-document-teshu.css', options)
+        ipcRenderer.send(
+          'printpdfChannel',
+          printHtml,
+          'nursing-document-teshu.css',
+          options
+        )
       }, 1000)
     },
     EquipmentChange () {
@@ -366,7 +394,8 @@ export default {
         cureNo: this.$store.state['nursing-document-list'].cureNo,
         // hospitalNo: 666
 
-        hospitalNo: this.$store.state['nursing-document-list'].hospitalNo
+        hospitalNo: this.$store.state['nursing-document-list'].hospitalNo,
+        operSchNo: this.$store.state['nursing-document-list'].operSchNo
       }
       this.$store.dispatch('ReqNursingDocumentTeShu', obj).then(res => {
         // && res.data.data.specialEquipment.scheduleName === '已清点'
@@ -502,7 +531,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 @import './../../../styles/wenshu.scss';
 .nursing-teshu-container {
   width: 824px;
@@ -521,17 +549,17 @@ export default {
     margin: 0 70px;
   }
   .wenben-content-info {
-      font-size: 16px;
-      display: flex;
-      flex-direction: column;
-      .info-content-title {
-        text-align: center;
-        font-weight: 600;
-        // font-size: 16px;
-      }
-      .info-content-form {
-        padding-left: 15px;
-      }
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    .info-content-title {
+      text-align: center;
+      font-weight: 600;
+      // font-size: 16px;
+    }
+    .info-content-form {
+      padding-left: 15px;
+    }
   }
   .info-content-container {
     padding-left: 20px;
@@ -544,9 +572,9 @@ export default {
             overflow: hidden;
             width: 85px;
             .table-th-time {
-                  width: 40px;
-                  position: relative;
-                  left: 40px;
+              width: 40px;
+              position: relative;
+              left: 40px;
             }
             .table-th-xiangmu {
               width: 40px;
@@ -629,22 +657,21 @@ export default {
   width: 140px;
   height: 1px;
   background-color: #000;
-  transform:  rotate(-155deg);
+  transform: rotate(-155deg);
   // width: 110px;
 }
 .line {
   width: 250px;
   height: 1px;
   background-color: #000;
-
 }
 .td-div {
   display: flex;
 }
 .td-center {
-    width:60px;
-    margin-left: 50%;
-    transform: translateX(-50%);
+  width: 60px;
+  margin-left: 50%;
+  transform: translateX(-50%);
 }
 .td-text-center {
   text-align: center;

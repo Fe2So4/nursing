@@ -26,6 +26,10 @@
           title="住院号"
         />
         <vxe-table-column
+          field="roomNo"
+          title="房间号"
+        />
+        <vxe-table-column
           field="patientName"
           title="病人姓名"
         />
@@ -120,6 +124,7 @@ export default {
     dbSelected ({ row }) {
       console.log(row)
       this.$store.commit('SAVE_HOSNO', row.hospitalNo)
+      this.$store.commit('SAVE_OPERSCHNO', row.operSchNo)
       this.$store.commit('SAVE_PATLENTNAME', row.patientName)
       this.$store.commit('SAVE_CURENO', row.cureNo)
       this.$router.push({

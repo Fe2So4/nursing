@@ -18,6 +18,10 @@
           width="80"
         />
         <vxe-table-column
+          field="realRoomNo"
+          title="房间号"
+        />
+        <vxe-table-column
           field="pathologyId"
           title="病理号"
         />
@@ -27,7 +31,7 @@
         />
         <vxe-table-column
           field="patientName"
-          title="病人名称"
+          title="病人姓名"
         />
         <vxe-table-column
           field="hologyType"
@@ -35,6 +39,7 @@
           :formatter="changeHologyType"
         />
         <vxe-table-column
+          width="350px"
           field="opsName"
           title="手术名称及所见"
         />
@@ -84,9 +89,10 @@
       >
         <div class="dialog-footer-div">
           <el-button
+            :loading="btnLoad"
             size="mini"
             class="btn"
-            @click="exitPathological"
+            @click="exitPathologicalTimeOut"
           >是(Y)</el-button>
           <el-button
             size="mini"
@@ -113,9 +119,10 @@
       >
         <div class="dialog-footer-div">
           <el-button
+            :loading="btnLoad"
             size="mini"
             class="btn"
-            @click="sendPathological"
+            @click="sendPathologicalTimeOut"
           >是(Y)</el-button>
           <el-button
             size="mini"
@@ -134,7 +141,8 @@ export default {
   name: 'PathologicalTable',
   data () {
     return {
-      hologyType: '0',
+      btnLoad: false,
+      hologyType: '1',
       tableData: [
         // {
         //   pathologyId: '', // 病理号
@@ -164,9 +172,7 @@ export default {
   },
   mounted () {
     Bus.$on('sub-pathological-hologyType', res => {
-      this.utilsDebounce(() => {
-        this.hologyType = res
-      }, 300)
+      this.hologyType = res
     })
     Bus.$on('user-info-initData', res => {
       this.utilsDebounce(() => {
@@ -196,22 +202,27 @@ export default {
       this.selectData = []
       this.selectData.push(row)
       Bus.$emit('pathological-table', row)
+      console.log(row.historyDetails)
+      this.$store.commit(
+        'SAVE_USERINFOHISTORYDETAILS',
+        row.historyDetails || ''
+      )
       this.$store.commit('SAVE_SELECTTABLEITEM', this.selectData)
-      this.$store.commit('CLEAR_USERINFOHISTORYDETAILS')
     },
     // 撤销派单
     exitOrder () {
-      console.log(this.selectData)
       if (this.selectData.length === 0) {
         this.$alert('请先双击选中一条数据')
         return false
       }
-      // if (this.selectData[0].sendOrderStatus === 1) {
-      //   this.$alert('该病理已派单,不可撤销')
-      //   return false
-      // }
-      console.log(this.selectData)
+      this.btnLoad = false
       this.exitdialogVisible = true
+    },
+    exitPathologicalTimeOut () {
+      this.btnLoad = true
+      this.utilsDebounce(() => {
+        this.exitPathological()
+      }, 300)
     },
     // 撤销之后
     exitPathological () {
@@ -231,6 +242,7 @@ export default {
         } else {
           this.openToast('error', res.data.msg)
         }
+        Bus.$emit('pathological-table-dayinBtn')
       })
     },
     // 点击派单
@@ -239,12 +251,9 @@ export default {
         this.$alert('请先双击选中一条数据')
         return false
       }
-      // if (this.selectData[0].sendOrderStatus === 1) {
-      //   this.$alert('该病理已派单,请勿重复提交')
-      //   return false
-      // }
+      // Bus.$emit('pathological-table-dayinBtn')
+      this.btnLoad = false
       this.getDayinStatus()
-      // this.senddialogVisible = true
     },
     // 获取打印瓶贴状态
     getDayinStatus () {
@@ -253,7 +262,6 @@ export default {
         // id: '300000001'
       }
       this.$store.dispatch('ReqgetPrintState', obj).then(res => {
-        console.log(res)
         if (res.data.code === 200) {
           if (res.data.data.printstate !== 1) {
             this.$alert('该病理未打印瓶贴,请先打印瓶贴')
@@ -266,11 +274,18 @@ export default {
         }
       })
     },
+    sendPathologicalTimeOut () {
+      this.btnLoad = true
+      this.utilsDebounce(() => {
+        this.sendPathological()
+      }, 300)
+    },
     // 发起派单
     sendPathological () {
       let obj = {
         orderId: this.selectData[0].pathologyId,
-        roomCode: this.$store.state['pathological-table'].userInfo.roomNo
+        roomCode: this.selectData[0].realRoomNo,
+        realRoomCode: this.selectData[0].realRoomNo
       }
 
       this.$store.dispatch('ReqsendPathologicOrder', obj).then(res => {
@@ -281,9 +296,11 @@ export default {
             'sub-pathological-success',
             this.$store.state['pathological-table'].userInfo.operSchNo
           )
+          Bus.$emit('pathological-table-dayinBtn')
         } else {
           this.openToast('error', res.data.msg)
         }
+        // Bus.$emit('pathological-table-dayinBtn')
       })
     },
     // 提示方法

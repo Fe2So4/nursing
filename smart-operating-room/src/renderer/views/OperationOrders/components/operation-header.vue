@@ -23,7 +23,6 @@
         <vxe-form-item field="nickname">
           <template v-slot>
             <vxe-input
-
               v-model="formData1.nickname"
               placeholder="病人姓名/手术名称/住院号"
               clearable
@@ -49,8 +48,8 @@
         <vxe-button
           status="my-purple"
           size="mini"
-
           class="btn"
+          v-if="formData2.isSend !== '2'"
           content="退 单"
           @click="changeItem(1)"
         />
@@ -73,7 +72,6 @@
         <vxe-form-item field="startDate">
           <template v-slot>
             <vxe-radio
-
               name="n1"
               v-model="formData2.isSend"
               label="0"
@@ -84,7 +82,6 @@
         <vxe-form-item field="nickname">
           <template v-slot>
             <vxe-radio
-
               name="n1"
               v-model="formData2.isSend"
               label="1"
@@ -92,6 +89,17 @@
             />
           </template>
         </vxe-form-item>
+        <vxe-form-item field="nickname">
+          <template v-slot>
+            <vxe-radio
+              name="n1"
+              v-model="formData2.isSend"
+              label="2"
+              content="已退单"
+            />
+          </template>
+        </vxe-form-item>
+
         <vxe-form-item title="楼层">
           <vxe-select
             size="mini"
@@ -127,9 +135,7 @@ export default {
         selectFloor: '',
         isSend: '0'
       },
-      floorList: [
-
-      ]
+      floorList: []
     }
   },
   mounted () {
@@ -144,7 +150,7 @@ export default {
         if (res.data.code === 200) {
           this.$store.commit('SAVE_FLOOR', res.data.data)
           this.floorList = JSON.parse(JSON.stringify(res.data.data))
-          this.floorList.unshift({floorNo: '', floorName: '全部'})
+          this.floorList.unshift({ floorNo: '', floorName: '全部' })
         }
       })
     },
@@ -190,13 +196,18 @@ export default {
         this.$emit('changeRadio', newVal)
         this.$store.commit('CHANGE_ISSHEND', newVal)
       }
+    },
+    'formData2.selectFloor' (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.searchCardList()
+      }
     }
   }
 }
 </script>
 
-<style lang="scss"  scoped>
-.el-scrollbar__wrap{
+<style lang="scss" scoped>
+.el-scrollbar__wrap {
   overflow-y: hidden;
 }
 /deep/ .vxe-input.is--suffix .vxe-input--inner {
@@ -206,53 +217,53 @@ export default {
   width: 90px;
   // height: 30px;
   color: #303133;
-  background-color: #E9EDF7;
+  background-color: #e9edf7;
 }
 .mgl5 {
-    margin-left: 5px;
+  margin-left: 5px;
 }
 .mgl10 {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 .mgl20 {
-    margin-left: 20px;
+  margin-left: 20px;
 }
 .header-container {
-    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
-    border-radius: 5px;
-    width: 100%;
-    // padding-bottom: 20px;
-    background-color: #fff;
-    height: 70px;
+  box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+  border-radius: 5px;
+  width: 100%;
+  // padding-bottom: 20px;
+  background-color: #fff;
+  height: 70px;
+  display: flex;
+  // flex-flow: wrap;
+  justify-content: space-between;
+  .container-left {
+    // flex: 1;
+    min-width: 680px;
     display: flex;
-    // flex-flow: wrap;
-    justify-content: space-between;
-    .container-left {
-        // flex: 1;
-        min-width: 680px;
-        display: flex;
-        align-items: center;
-        .left-title {
-            font-size: 14px;
-        }
-        .form {
-            display: flex;
-        }
+    align-items: center;
+    .left-title {
+      font-size: 14px;
     }
-    .container-right {
-        // flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        .form {
-            display: flex;
-        }
+    .form {
+      display: flex;
     }
+  }
+  .container-right {
+    // flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    .form {
+      display: flex;
+    }
+  }
 }
 .el-scrollbar__wrap {
   margin-bottom: 0px !important;
 }
 /deep/ .vxe-radio .vxe-radio--label {
-    vertical-align: inherit;
+  vertical-align: inherit;
 }
 </style>

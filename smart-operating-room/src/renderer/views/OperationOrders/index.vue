@@ -30,9 +30,7 @@ import OperationContent from './components/operation-content'
 export default {
   name: 'OperationOrders',
   data () {
-    return {
-
-    }
+    return {}
   },
   components: {
     OperationHeader,
@@ -69,6 +67,7 @@ export default {
 
     // 点击修改或退单
     changeItem (data) {
+      console.log(data)
       this.$nextTick(() => {
         let selectItem = this.$refs.OperationContent.isSelectItem
         console.log(selectItem)
@@ -78,8 +77,10 @@ export default {
         }
         if (data.type === 1) {
           this.$refs.OperationContent.exitDialogShow(data.isSend)
-        } else {
+        } else if (data.type === 2) {
           this.$refs.OperationContent.changeDialogShow()
+        } else {
+          // this.$refs.OperationContent.cancleDialogShow()
         }
       })
     },
@@ -104,10 +105,12 @@ export default {
 }
 
 /deep/ .vxe-button.size--mini.type--button:hover {
-  background-color: #3377FF;
-  color: #FFFFFF;
+  background-color: #3377ff;
+  color: #ffffff;
 }
-/deep/ .vxe-button--content, .vxe-button--icon, .vxe-button--loading-icon {
+/deep/ .vxe-button--content,
+.vxe-button--icon,
+.vxe-button--loading-icon {
   vertical-align: unset;
 }
 </style>
