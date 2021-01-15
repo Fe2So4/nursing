@@ -119,7 +119,7 @@ export default {
     },
     getSpecialData () {
       request({
-        url: getSpecialData + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`,
+        url: getSpecialData + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}/${this.patientInfo.operSchNo}`,
         method: 'get'
       }).then(res => {
         let data = JSON.parse(res.data.data.specialEquipmentStr)

@@ -129,7 +129,8 @@ export default {
         this.socket.on('push_event', (data) => {
           if (data) {
             let arr = []
-            this.setCureNo({cureNo: data.cureNo, hospitalNo: data.hospitalNo})
+            console.log(data)
+            this.setCureNo({cureNo: data.cureNo, hospitalNo: data.hospitalNo, operSchNo: data.operSchNo})
             $bus.$emit('getPatientInfo')
             $bus.$emit('getStepList')
             $bus.$emit('getRecord2')

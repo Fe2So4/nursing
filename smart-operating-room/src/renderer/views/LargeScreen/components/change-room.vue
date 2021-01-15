@@ -129,8 +129,7 @@ export default {
       } else {
         this.handleChangeRoom(this.roomList[0])
       }
-
-      this.$emit('handleClose')
+      this.$emit('update:roomVisible', false)
     },
     handleChangeRoom (item) {
       this.activeIndex = item.roomCode

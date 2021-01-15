@@ -5,7 +5,10 @@
       :direction="direction"
       :before-close="handleClose"
     >
-      <div slot="title" class="drawer-title">
+      <div
+        slot="title"
+        class="drawer-title"
+      >
         <i />
         <span>历史患者</span>
       </div>
@@ -17,18 +20,14 @@
             @click="handleBindPatient(item)"
           >
             <p>
-              <span>{{ item.cureNo }}</span
-              ><span>{{ item.patientName }}</span
-              ><span>男</span>
+              <span>{{ item.cureNo }}</span><span>{{ item.patientName }}</span><span>男</span>
             </p>
             <p>
-              <span class="label">手术</span
-              ><span>{{ item.operationName }}</span>
+              <span class="label">手术</span><span>{{ item.operationName }}</span>
             </p>
             <p>
               <span>
-                <span class="label">台次</span
-                ><span style="color: #ff2525">6</span>
+                <span class="label">台次</span><span style="color: #ff2525">6</span>
               </span>
               <span>
                 <span class="label">床位</span><span>{{ item.bedNo }}</span>
@@ -39,8 +38,7 @@
                 <span class="label">主刀</span><span>{{ item.surgeon }}</span>
               </span>
               <span class="span-last">
-                <span style="color: #388ff7">泌尿科</span
-                ><span style="color: #388ff7">8病区</span>
+                <span style="color: #388ff7">泌尿科</span><span style="color: #388ff7">8病区</span>
               </span>
             </p>
           </li>
@@ -78,66 +76,66 @@
 </template>
 
 <script>
-import { getPatientHistoryRecord } from "@/api/large-screen";
-import request from "@/utils/request2";
-import { mapState, mapActions } from "vuex";
-import $bus from "@/utils/busScreen";
+import { getPatientHistoryRecord } from '@/api/large-screen'
+import request from '@/utils/request2'
+import { mapState, mapActions } from 'vuex'
+import $bus from '@/utils/busScreen'
 export default {
-  name: "HistoryRecord",
-  data() {
+  name: 'HistoryRecord',
+  data () {
     return {
-      direction: "btt",
-      historyList: [],
+      direction: 'btt',
+      historyList: []
       // drawer: true
-    };
+    }
   },
   props: {
     historyVisible: {
       type: Boolean,
-      required: false,
-    },
+      required: false
+    }
   },
   computed: {
-    ...mapState("LargeScreen", ["currentRoom", "patientInfo"]),
+    ...mapState('LargeScreen', ['currentRoom', 'patientInfo'])
   },
   methods: {
-    ...mapActions("LargeScreen", ["setPatientInfo", "setCurrentRoom"]),
-    handleClose() {
-      this.$emit("handleClose");
+    ...mapActions('LargeScreen', ['setPatientInfo', 'setCurrentRoom']),
+    handleClose () {
+      this.$emit('handleClose')
     },
-    handleBindPatient(data) {
-      this.setPatientInfo({ cureNo: data.cureNo, hospitalNo: data.hospitalNo });
-      $bus.$emit("getPatientInfo");
-      $bus.$emit("getStepList");
-      $bus.$emit("getRecord2");
-      $bus.$emit("getOrdinaryData");
-      $bus.$emit("getSpecialData");
-      $bus.$emit("getSignInInfo");
-      $bus.$emit("getTimeOutInfo");
-      $bus.$emit("getSignOutInfo");
+    handleBindPatient (data) {
+      this.setPatientInfo({ cureNo: data.cureNo, hospitalNo: data.hospitalNo, operationId: data.operSchNo })
+      $bus.$emit('getPatientInfo')
+      $bus.$emit('getStepList')
+      $bus.$emit('getRecord2')
+      $bus.$emit('getOrdinaryData')
+      $bus.$emit('getSpecialData')
+      $bus.$emit('getSignInInfo')
+      $bus.$emit('getTimeOutInfo')
+      $bus.$emit('getSignOutInfo')
     },
     // handleShowHistory () {
     //   this.$emit('handleShowHistory')
     // },
-    getHistoryRecord() {
+    getHistoryRecord () {
       if (this.currentRoom) {
         request({
-          url: getPatientHistoryRecord + "/" + this.currentRoom,
-          method: "get",
+          url: getPatientHistoryRecord + '/' + this.currentRoom,
+          method: 'get'
         }).then((res) => {
-          this.historyList = res.data.data;
-        });
+          this.historyList = res.data.data
+        })
       }
-    },
+    }
   },
-  created() {
-    this.getHistoryRecord();
-    $bus.$on("getHistoryRecord", this.getHistoryRecord);
+  created () {
+    this.getHistoryRecord()
+    $bus.$on('getHistoryRecord', this.getHistoryRecord)
   },
-  beforeDestroy() {
-    $bus.$off("getHistoryRecord");
-  },
-};
+  beforeDestroy () {
+    $bus.$off('getHistoryRecord')
+  }
+}
 </script>
 
 <style lang="scss" scoped>

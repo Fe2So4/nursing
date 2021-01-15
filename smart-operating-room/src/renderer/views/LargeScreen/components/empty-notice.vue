@@ -8,10 +8,12 @@
       <span
         style="position: absolute; right: 50px; cursor: pointer"
         @click="handleShowHistory"
-        >历史患者</span
-      >
+      >历史患者</span>
     </div>
-    <div class="bottom" v-if="currentRoom">
+    <div
+      class="bottom"
+      v-if="currentRoom"
+    >
       <ul>
         <li>
           <div class="li-top">
@@ -55,21 +57,21 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 export default {
-  data() {
-    return {};
+  data () {
+    return {}
   },
   computed: {
-    ...mapState("LargeScreen", ["currentRoom"]),
+    ...mapState('LargeScreen', ['currentRoom'])
   },
   methods: {
-    handleShowHistory() {
-      this.$emit("handleShowHistory");
-    },
+    handleShowHistory () {
+      this.$emit('handleShowHistory')
+    }
   },
-  mounted() {},
-};
+  mounted () {}
+}
 </script>
 
 <style lang="scss" scoped>

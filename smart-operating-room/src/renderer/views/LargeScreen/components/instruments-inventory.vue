@@ -59,7 +59,7 @@ export default {
     },
     getOrdinaryData () {
       request({
-        url: getOrdinaryData + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`,
+        url: getOrdinaryData + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}/${this.patientInfo.operSchNo}`,
         method: 'get'
       }).then(res => {
         this.list = res.data.data
@@ -67,7 +67,7 @@ export default {
     },
     getSpecialData () {
       request({
-        url: getSpecialData + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`,
+        url: getSpecialData + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}/${this.patientInfo.operSchNo}`,
         method: 'get'
       }).then(res => {
 

@@ -63,7 +63,7 @@ export default {
   methods: {
     getData () {
       request({
-        url: getPathology + '/' + this.patientInfo.cureNo,
+        url: getPathology + '/' + this.patientInfo.cureNo + '/' + this.patientInfo.operSchNo,
         method: 'get'
       }).then(res => {
         this.list = res.data.data

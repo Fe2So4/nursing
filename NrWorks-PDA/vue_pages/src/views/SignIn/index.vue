@@ -95,7 +95,7 @@
             />
           </template>
         </van-cell>
-        <div v-show="!recordForm[6].value">
+        <div v-show="!recordForm[6].value" class="cell-degree">
           <van-cell
             title="部位："
             title-class="left-title"
@@ -113,6 +113,7 @@
           </van-cell>
           <van-cell
             title="程度："
+            class="cell-after"
             title-class="left-title"
             value-class="right-value"
           >
@@ -520,6 +521,21 @@ export default {
   .list {
     height: calc(100% - 324px);
     overflow-y: auto;
+  }
+  .cell-degree{
+    .van-cell{
+      &:nth-last-child(1):after{
+        border-bottom: 1PX solid #E2E2E2 !important;
+        position: absolute;
+        box-sizing: border-box;
+        content: ' ';
+        pointer-events: none;
+        right: 0.5rem;
+        bottom: 0;
+        left: 0.5rem;
+        transform: unset
+      }
+    }
   }
   .van-cell {
     line-height: 94px;

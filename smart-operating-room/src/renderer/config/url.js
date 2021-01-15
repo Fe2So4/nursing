@@ -15,8 +15,8 @@ if (process.env.NODE_ENV === 'production') {
   api = {
     // baseURL: 'http://192.168.1.58:5090',
     // socketURL: 'http://192.168.1.58:5099'
-    baseURL: 'http://128.0.18.38:5090',
-    socketURL: 'http://128.0.18.38:6099'
+    baseURL: 'http://128.0.18.38:5091',
+    socketURL: 'http://128.0.18.38:6098'
     // baseURL: 'http://192.168.1.118:5090'
     // baseURL: 'http://192.168.1.106:5090'
   }

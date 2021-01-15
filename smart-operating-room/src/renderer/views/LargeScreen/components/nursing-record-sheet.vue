@@ -179,7 +179,7 @@ export default {
     },
     getData () {
       request({
-        url: getRecord2Data + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`,
+        url: getRecord2Data + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}/${this.patientInfo.operSchNo}`,
         method: 'get'
       }).then(res => {
         let data = res.data.data

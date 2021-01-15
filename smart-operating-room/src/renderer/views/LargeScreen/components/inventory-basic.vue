@@ -109,7 +109,7 @@ export default {
   methods: {
     getOrdinaryData () {
       request({
-        url: getOrdinaryData + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`,
+        url: getOrdinaryData + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}/${this.patientInfo.operSchNo}`,
         method: 'get'
       }).then(res => {
         let data = res.data.data

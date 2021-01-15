@@ -61,7 +61,7 @@ export default {
 
     },
     getSignData () {
-      let obj = {cureNo: this.patientInfo.cureNo, hospitalNo: this.patientInfo.hospitalNo}
+      let obj = {cureNo: this.patientInfo.cureNo, hospitalNo: this.patientInfo.hospitalNo, operSchNo: this.patientInfo.operSchNo}
       request({
         url: getSign,
         method: 'post',

@@ -9,8 +9,11 @@ export const startSpeak = (text) => {
   // 继续
   // window.speechSynthesis.resume();
   window.speechSynthesis.speak(msg)
+  window.speechSynthesis.onvoiceschanged = (param) => {
+    console.log(param)
+  }
   msg.onend = (event) => {
-    console.log(123)
+    console.log('123sjadjajdajkjad')
   }
 }
 export const pauseSpeak = () => {

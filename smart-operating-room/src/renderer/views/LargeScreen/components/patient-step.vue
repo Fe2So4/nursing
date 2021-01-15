@@ -12,7 +12,17 @@
       >
         <template slot="description">
           <p>{{ item.time }}</p>
-          <p>{{ item.mins }}</p>
+          <el-button
+            type="primary"
+            v-if="item.title==='手术结束'"
+            size="mini"
+            @click="handleStop"
+          >
+            结束
+          </el-button>
+          <p v-else>
+            {{ item.mins }}
+          </p>
         </template>
       </el-step>
     </el-steps>
@@ -20,7 +30,7 @@
 </template>
 
 <script>
-import {getPatientStep} from '@/api/large-screen'
+import {getPatientStep, stopOperation} from '@/api/large-screen'
 import request from '@/utils/request2'
 import {mapState} from 'vuex'
 import $bus from '@/utils/busScreen'
@@ -73,6 +83,12 @@ export default {
           status: '0'
         },
         {
+          title: '手术结束',
+          time: '123456',
+          mins: '',
+          status: '0'
+        },
+        {
           title: '出手术室',
           time: '',
           mins: '',
@@ -94,7 +110,7 @@ export default {
     getStepList () {
       request({
         method: 'get',
-        url: getPatientStep + `/${this.patientInfo.cureNo}/${this.patientInfo.hospitalNo}`
+        url: getPatientStep + `/${this.patientInfo.cureNo}/${this.patientInfo.hospitalNo}/${this.patientInfo.operSchNo}`
       }).then(res => {
         let data = res.data.data
         if (Array.isArray(data)) {
@@ -117,6 +133,24 @@ export default {
           this.stepList[7].status = data.outOperroomState
           this.stepList[8].time = data.backRoomTime !== '' ? moment(data.backRoomTime).format('HH:mm') : ''
           this.stepList[8].status = data.backRoomState
+        }
+      })
+    },
+    handleStop () {
+      request({
+        method: 'post',
+        url: stopOperation,
+        data: {
+          cureNo: this.patientInfo.cureNo,
+          hospitalNo: this.patientInfo.hospitalNo,
+          operSchNo: this.patientInfo.operSchNo,
+          operatingEndTime: moment(new Date()).format('YYYY-MM-DD HH:mm')
+        }
+      }).then(res => {
+        if (res.data.data) {
+          this.$message({message: '手术结束成功', type: 'success', showClose: true})
+        } else {
+          this.$message({message: res.data.msg, type: 'error', showClose: true})
         }
       })
     }
