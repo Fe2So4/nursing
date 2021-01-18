@@ -51,124 +51,139 @@
 </template>
 
 <script>
-import PatiendCard from '@/components/PatientCard.vue'
-import { mapState } from 'vuex'
-import { joinOperationRoom } from '@/api/patient-info'
-import request from '@/utils/request'
-import $bus from '@/utils/bus'
+import PatiendCard from "@/components/PatientCard.vue";
+import { mapState } from "vuex";
+import { joinOperationRoom } from "@/api/patient-info";
+import request from "@/utils/request";
+import $bus from "@/utils/bus";
 export default {
-  data () {
+  data() {
     return {
       checked: true,
-      input: '',
+      input: "",
       showFullSkin: false,
-      visible: false
-    }
+      visible: false,
+    };
   },
   computed: {
-    ...mapState('Patient', ['patientInfo'])
+    ...mapState("Patient", ["patientInfo"]),
   },
   components: {
-    PatiendCard
+    PatiendCard,
   },
-  mounted () {
-    $bus.$on('handleOpeRoomCode', this.handleScanCode)
+  mounted() {
+    $bus.$on("handleOpeRoomCode", this.handleScanCode);
   },
-  beforeDestory () {
-    $bus.$off('handleOpeRoomCode')
+  beforeDestory() {
+    $bus.$off("handleOpeRoomCode");
   },
   methods: {
-    onClickLeft () {
-      this.$router.push('/home')
+    onClickLeft() {
+      this.$router.push("/home");
     },
 
     // 扫码入手术室、出手术室、入诱导、出诱导
-    handleScanCode (code) {
-      let codeStr = ''
-      if (code.indexOf('OpeRoom') !== -1) {
-        codeStr = code.replace('OpeRoom=', '')
-        // this.cureNo = OpsRQCode
-      } else if (code.indexOf('InductionRoom') !== -1) {
-        codeStr = code.replace('InductionRoom=', '')
+    handleScanCode(code) {
+      let codeStr = "";
+      if (code.indexOf("OpeRoom") !== -1) {
+        codeStr = code.replace("OpeRoom=", "");
+        request({
+          method: "post",
+          url: joinOperationRoom,
+          data: {
+            cureNo: this.patientInfo.cureNo,
+            hospitalNo: this.patientInfo.hospitalNo,
+            operSchNo: this.patientInfo.operSchNo,
+            operatingRoomTime: moment(new Date()).format("YYYY-MM-DD HH:mm"),
+            roomNo: codeStr,
+            realRoomNo: this.patientInfo.roomNo,
+          },
+        });
+      } else if (code.indexOf("InductionRoom") !== -1) {
+        codeStr = code.replace("InductionRoom=", "");
+        request({
+          method: "post",
+          url: joinOperationRoom,
+          data: {
+            cureNo: this.patientInfo.cureNo,
+            hospitalNo: this.patientInfo.hospitalNo,
+            operSchNo: this.patientInfo.operSchNo,
+            inductionRoomTime: moment(new Date()).format("YYYY-MM-DD HH:mm"),
+            roomNo: codeStr,
+            realRoomNo: this.patientInfo.roomNo,
+          },
+        });
       }
-      console.log(codeStr)
-      request({
-        method: 'post',
-        url: joinOperationRoom,
-        data: {
-
-        }
-      })
     },
-    onClickRight () {},
-    handleJump (param) {
+    onClickRight() {},
+    handleJump(param) {
       switch (param) {
         case 1:
           this.$dialog
             .confirm({
-              title: '安全核查',
-              message: '确定要进行安全核查吗？'
+              title: "安全核查",
+              message: "确定要进行安全核查吗？",
             })
             .then(
               () => {
-                this.$router.push('/sign-in')
+                this.$router.push("/sign-in");
               }
               // eslint-disable-next-line handle-callback-err
             )
             // eslint-disable-next-line handle-callback-err
-            .catch((error) => {})
-          break
+            .catch((error) => {});
+          break;
         case 2:
           this.$dialog
             .confirm({
-              title: '安全核查',
-              message: '确定要进行安全核查吗？'
+              title: "安全核查",
+              message: "确定要进行安全核查吗？",
             })
             .then(
               () => {
-                this.$router.push('/time-out')
+                this.$router.push("/time-out");
               }
               // eslint-disable-next-line handle-callback-err
             )
             // eslint-disable-next-line handle-callback-err
-            .catch((error) => {})
-          break
+            .catch((error) => {});
+          break;
         case 3:
           this.$dialog
             .confirm({
-              title: '安全核查',
-              message: '确定要进行安全核查吗？'
+              title: "安全核查",
+              message: "确定要进行安全核查吗？",
             })
             .then(
               () => {
-                this.$router.push('/sign-out')
+                this.$router.push("/sign-out");
               }
               // eslint-disable-next-line handle-callback-err
             )
             // eslint-disable-next-line handle-callback-err
-            .catch((error) => {})
-          break
+            .catch((error) => {});
+          break;
         case 4:
-          this.$router.push('/transfer-handover')
-          break
+          this.$router.push("/transfer-handover");
+          break;
         case 5:
-          this.$router.push('/record2')
-          break
+          this.$router.push("/record2");
+          break;
         case 6:
-          this.$router.push('/record3')
+          this.$router.push("/record3");
       }
     },
-    handleChange () {
-      this.showFullSkin = !this.showFullSkin
+    handleChange() {
+      this.showFullSkin = !this.showFullSkin;
     },
-    handleShowSignature () {
-      this.visible = true
+    handleShowSignature() {
+      this.visible = true;
     },
-    handleCloseSignature () {
-      this.visible = false
-    }
-  }
-}
+    handleCloseSignature() {
+      this.visible = false;
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
