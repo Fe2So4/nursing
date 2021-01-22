@@ -94,3 +94,19 @@ input[type="time"] {
 #app /deep/ .el-tree {
   background-color: unset;
 }
+
+#app /deep/ .el-tabs__nav-wrap::after{
+  background-color: unset;
+}
+@import '@/styles/themes';
+#app  /deep/ .el-tabs__item {
+  @include theme-property('color',font_color_secondary);
+}
+#app  /deep/ .el-tabs__item.is-active {
+  @include theme-property('color',font_color_primary);
+}
+#app /deep/ .el-tabs__active-bar {
+  left: 16px;
+  // background-color: #3377ff;
+  @include theme-property('background-color',font_color_primary);
+}

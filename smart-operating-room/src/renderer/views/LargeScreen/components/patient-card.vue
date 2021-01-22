@@ -208,11 +208,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  @import '@/styles/themes';
 .patient-card {
   height: 110px;
   position: relative;
-  background: #ffffff;
-  box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+  // background: #ffffff;
+  @include theme-property('background-color',background_color_primary);
+  @include theme-property('box-shadow',box_color_shadow);
   border-radius: 5px;
   display: flex;
   .security-voice {
@@ -235,10 +237,11 @@ export default {
       width: 160px;
       margin: 10px;
       height: 90px;
-      background: #e9edf7;
-      border: 2px solid #cdd7f1;
+      @include theme-property('background-color',background_color_card);
+      border: 2px solid;
+      @include theme-property('border-color',border_color_card);
       border-radius: 10px;
-      color: #3377ff;
+      @include theme-property('color',font_color_primary);
       line-height: 90px;
       font-size: 40px;
       font-weight: bold;
@@ -248,7 +251,8 @@ export default {
         position: absolute;
         right: 10px;
         bottom: 10px;
-        border-bottom: 10px solid #7f99bc;
+        border-bottom: 10px solid;
+        @include theme-property('border-bottom-color',background_color_triangle);
         border-left: 10px solid transparent;
       }
     }
@@ -259,9 +263,9 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    color: #91949a;
+    @include theme-property('color',font_color_secondary);
     .value {
-      color: #444444;
+      @include theme-property('color',font_color_value);
     }
     .pc-option {
       position: absolute;

@@ -84,7 +84,7 @@ export default {
         },
         {
           title: '手术结束',
-          time: '123456',
+          time: '',
           mins: '',
           status: '0'
         },
@@ -166,19 +166,24 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/themes';
   .patient-step{
-    background: #ffffff;
-    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+    @include theme-property('background-color',background_color_primary);
+    // box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+    @include theme-property('box-shadow',box_color_shadow);
     border-radius: 5px;
     padding: 15px 0 13px 0;
     /deep/ .el-step__head{
       &.is-success{
         color:#388FF7;
         border-color:#388FF7;
+        // @include theme-property('color',font_color_success);
+        // @include theme-property('border-color',font_color_success);
       }
       &.is-wait{
         border-color: #C7C9CD;
-        color: #C7C9CD;
+        @include theme-property('border-color',font_color_wait);
+        @include theme-property('color',font_color_wait);
         .el-step__line{
           background-color: #C7C9CD;
         }
@@ -186,18 +191,21 @@ export default {
     }
     /deep/ .el-step__title{
       &.is-success{
-        color:#444444;
+        @include theme-property('color',font_color_secondary);
       }
       &.is-error{
         color:#444444;
       }
     }
     /deep/ .el-step__description{
+      p{
+        min-height: 20px;
+      }
       &.is-success{
-        color:#388FF7;
+        @include theme-property('color',font_color_success);
         p{
           &:last-child{
-            color:#91949A;
+            @include theme-property('color',font_color_value);
           }
         }
       }
@@ -209,17 +217,13 @@ export default {
           }
         }
       }
-      &.is-success{
-        color:#388FF7;
-        p{
-          &:last-child{
-            color:#91949A;
-          }
-        }
-      }
     }
     /deep/ .el-step__line{
       background-color:#388FF7;
+    }
+    /deep/ .el-button{
+      @include theme-property('background-color',font_color_primary);
+      @include theme-property('border-color',font_color_primary);
     }
   }
 </style>

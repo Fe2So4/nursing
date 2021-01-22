@@ -138,13 +138,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/themes';
   .inventory-special{
     height: 100%;
     padding-bottom: 10px;
     .data-empty{
       text-align: center;
       height: calc(100% - 58px);
-      color: #91949A;
+      @include theme-property('color',font_color_secondary);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -166,14 +167,14 @@ export default {
       border-collapse:separate;
       border-spacing:0 10px;
       thead{
-        background: #F2F2F2;
+        @include theme-property('background-color',background_color_device_thead);
         border-radius: 5px;
         font-size: 16px;
         tr{
           border-radius: 5px;
           th{
             line-height: 55px;
-            color: #929498;
+            @include theme-property('color',font_color_secondary);
             font-weight: lighter;
             min-width: 60px;
             &:first-child{
@@ -201,11 +202,13 @@ export default {
           border-radius: 5px;
           td{
             line-height: 55px;
-            background: #F5F8FD;
+            @include theme-property('background-color',background_color_info_item);
+            @include theme-property('color',font_color_value);
             font-size: 16px;
             &:first-child{
               padding-left: 10px;
               border-radius: 5px 0 0 5px;
+              @include theme-property('color',font_color_secondary);
             }
             &:last-child{
               padding-right: 10px;

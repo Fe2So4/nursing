@@ -75,20 +75,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/themes';
 .empty-notice {
   .top {
     height: 70px;
-    background: #ffffff;
-    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15);
+    // background: #ffffff;
+    @include theme-property('background-color',background_color_secondary);
+    // box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15);
+    @include theme-property('box-shadow',box_color_shadow);
     border-radius: 5px;
     color: #303133;
     font-size: 24px;
     line-height: 70px;
     padding-left: 20px;
     vertical-align: middle;
-    border-top: 5px solid #3377ff;
+    border-top: 5px solid;
+    @include theme-property('border-color',font_color_primary);
     i {
-      color: #3377ff;
+      @include theme-property('color',font_color_primary);
       font-weight: bold;
     }
   }
@@ -98,7 +102,8 @@ export default {
       display: flex;
       li {
         flex: 1;
-        box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15);
+        @include theme-property('box-shadow',box_color_shadow);
+        @include theme-property('background-color',background_color_secondary);
         border-radius: 10px;
         .li-top {
           color: #303133;
@@ -107,7 +112,7 @@ export default {
             width: 4px;
             display: inline-block;
             height: 18px;
-            background: #3377ff;
+            @include theme-property('background-color',font_color_primary);
             border-radius: 2px;
             vertical-align: middle;
             margin-right: 4px;
@@ -119,7 +124,8 @@ export default {
           line-height: 58px;
         }
         .li-bottom {
-          color: #919398;
+          // color: #919398;
+          @include theme-property('color',font_color_secondary);
           padding-left: 20px;
           border-top: 1px solid #e9ebf4;
           p {

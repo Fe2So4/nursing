@@ -167,6 +167,7 @@ import PatientList from './components/patient-list'
 import Bus from '@/utils/bus.js'
 import PathologyList from './components/pathology-list'
 import DetailDrawer from './components/detail-drawer'
+import {getLargeScreenTheme, setLargeScreenTheme} from '@/utils/storage'
 import { receiveOrderList, floorList, roomList } from '@/api/receiving-orders'
 import request from '@/utils/request2'
 const config = require('@/config/url.js')
@@ -200,7 +201,10 @@ export default {
   },
   created () {
     const win = BrowserWindow.getFocusedWindow()
-    win.maximize()
+    if (win) {
+      win.maximize()
+    }
+    this.setTheme()
   },
   methods: {
     // 获取楼层列表
@@ -363,6 +367,29 @@ export default {
         type: type,
         duration: 3000
       })
+    },
+    setTheme () {
+      let theme = getLargeScreenTheme()
+      let type = 'dark'
+      if (theme) {
+        type = theme
+      }
+      window.document.documentElement.setAttribute('theme', type)
+    },
+    changeTheme () {
+      let theme = getLargeScreenTheme()
+      let type = 'light'
+      if (theme) {
+        if (theme === 'dark') {
+          type = 'light'
+        } else {
+          type = 'dark'
+        }
+      } else {
+        type = 'dark'
+      }
+      setLargeScreenTheme(type)
+      window.document.documentElement.setAttribute('theme', type)
     }
   },
   mounted () {
@@ -396,6 +423,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/themes';
 .receiving-orders {
   height: 100%;
   .order-option {
@@ -403,12 +431,12 @@ export default {
     justify-content: space-between;
     height: 56px;
     line-height: 56px;
-    background: #ffffff;
+    @include theme-property('background-color',background_color_primary);
     padding: 0 20px;
-    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+    @include theme-property('box-shadow',box_color_shadow);
     border-radius: 5px;
     .option-left {
-      color: #444444;
+      @include theme-property('color',font_color_title);
       font-weight: 600;
     }
   }
@@ -416,13 +444,17 @@ export default {
     margin-top: 20px;
     padding: 20px;
     height: calc(100% - 76px);
-    background: #ffffff;
-    box-shadow: 0px 0px 5px 0px rgba(5, 26, 51, 0.05);
+    @include theme-property('background-color',background_color_primary);
+    @include theme-property('box-shadow',box_color_shadow);
     border-radius: 5px;
     .list-option {
       display: flex;
       justify-content: space-between;
       box-sizing: border-box;
+      /deep/ .el-radio-button__orig-radio:checked+.el-radio-button__inner{
+        @include theme-property('background-color',font_color_primary);
+        @include theme-property('border-color',font_color_primary);
+      }
       .lo-left {
         font-size: 18px;
         line-height: 36px;
@@ -499,8 +531,8 @@ export default {
         flex: 1;
       }
       .list-common {
-        background: #ffffff;
-        box-shadow: 0px 0px 5px 0px rgba(5, 26, 51, 0.15);
+        @include theme-property('background-color',background_color_secondary);
+        @include theme-property('box-shadow',box_color_shadow);
         border-radius: 10px;
         // width: 100%;
         height: 100%;
@@ -510,6 +542,7 @@ export default {
           position: relative;
           font-size: 20px;
           border-bottom: 1px solid #e9ecf4;
+          @include theme-property('border-bottom-color',border_color_info);
           vertical-align: middle;
           span {
             vertical-align: center;
@@ -538,7 +571,7 @@ export default {
           li {
             margin: 0 auto;
             height: 110px;
-            background: #f4f7fd;
+            @include theme-property('background-color',background_color_info_item);
             border-radius: 5px;
             margin-top: 10px;
             cursor: pointer;

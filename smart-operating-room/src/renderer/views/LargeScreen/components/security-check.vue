@@ -343,8 +343,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/themes';
 .security-check {
-  box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15);
+  // box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15);
+  @include theme-property('box-shadow',box_color_shadow);
+  @include theme-property('background-color',background_color_secondary);
   border-radius: 10px;
   height: 100%;
   flex: 0.25;
@@ -357,8 +360,9 @@ export default {
     position: relative;
     text-indent: 33px;
     line-height: 58px;
-    border-bottom: 1px solid #e9ebf4;
-    color: #303133;
+    @include theme-property('color',font_color_title);
+    border-bottom: 1px solid;
+    @include theme-property('border-bottom-color',border_color_info);
     font-size: 20px;
     i {
       position: absolute;
@@ -368,7 +372,7 @@ export default {
       bottom: 0;
       margin: auto;
       height: 18px;
-      background: #3377ff;
+      @include theme-property('background-color',font_color_primary);
       border-radius: 2px;
     }
     .security-voice {
@@ -395,7 +399,7 @@ export default {
   .data-empty {
     text-align: center;
     height: calc(100% - 58px);
-    color: #91949a;
+    @include theme-property('color',font_color_secondary);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -404,16 +408,19 @@ export default {
       transform: translateX(10px);
     }
   }
-  /deep/ .el-tabs__active-bar {
-    left: 16px;
-    background-color: #3377ff;
-  }
+  // /deep/ .el-tabs__active-bar {
+  //   left: 16px;
+  //   background-color: #3377ff;
+  // }
   /deep/ .el-tabs__nav {
     text-indent: 12px;
   }
-  /deep/ .el-tabs__item.is-active {
-    color: #3377ff;
+  /deep/ .el-tabs__nav-wrap::after{
+    background-color: unset;
   }
+  // /deep/ .el-tabs__item.is-active {
+  //   color: #3377ff;
+  // }
   /deep/ .el-tabs__content {
     height: calc(100% - 55px);
     overflow-y: auto;

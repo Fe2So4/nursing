@@ -48,6 +48,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import '@/styles/themes';
   .el-container{
     height: 100%;
     width: 100%;
@@ -58,7 +59,8 @@ export default {
       width: auto !important
     }
     .el-main{
-      background: #f3f5fa;
+      // background: #f3f5fa;
+      @include theme-property('background-color',background_color_home);
       padding-bottom: 34px;
       position: relative;
       box-sizing: border-box;

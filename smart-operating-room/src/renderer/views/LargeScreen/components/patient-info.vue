@@ -92,11 +92,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/themes';
 .patient-info {
   height: 100%;
-  padding: 20px 20px 30px 20px;
-  background: #ffffff;
-  box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+  padding: 20px 20px 24px 20px;
+  @include theme-property('background-color',background_color_primary);
+  // box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+  @include theme-property('box-shadow',box_color_shadow);
   border-radius: 5px;
   .tab {
     display: flex;
@@ -106,7 +108,9 @@ export default {
       li {
         padding: 0 17px;
         line-height: 40px;
-        background: #e9edf7;
+        // @include theme-property('box-shadow',box_color_shadow);
+        @include theme-property('color',font_color_title);
+        @include theme-property('background-color',background_color_card);
         border-radius: 5px;
         margin-right: 20px;
         cursor: pointer;
@@ -118,15 +122,15 @@ export default {
           left: calc(50% - 8px);
           right: 0;
           margin: 0 auto;
-          color: #3377ff;
+          @include theme-property('color',font_color_primary);
         }
         &.active {
-          background: #3377ff;
-          color: #ffffff;
+          @include theme-property('background-color',font_color_primary);
+          color: #ffffff !important;
         }
         &:hover {
-          background: #3377ff;
-          color: #ffffff;
+          @include theme-property('background-color',font_color_primary);
+          color: #ffffff !important;
         }
       }
     }
@@ -134,11 +138,17 @@ export default {
       line-height: 40px;
       span{
         font-size: 18px;
+        @include theme-property('color',font_color_secondary);
         &:first-child{
-          color: #919398;
+          @include theme-property('color',font_color_secondary);
+          .el-button{
+            @include theme-property('color',font_color_secondary);
+            @include theme-property('background-color',background_color_card);
+            border: unset;
+          }
         }
         &:last-child{
-          color:#FF5959;
+          color:#FF5959 !important;
           font-weight: 600;
         }
         &.active{
@@ -149,7 +159,7 @@ export default {
   }
   .content {
     margin-top: 20px;
-    height: calc(100% - 70px);
+    height: calc(100% - 64px);
   }
 }
-</style>>
+</style>
