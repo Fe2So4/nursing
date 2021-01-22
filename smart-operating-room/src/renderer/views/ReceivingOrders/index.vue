@@ -14,7 +14,7 @@
         <span
           style="vertical-align:middle;margin-left:18px;"
         >数据更新时间:
-          <span style="color:#388FF7;font-weight:600;">{{ time }}</span></span>
+          <span style="color:#388FF7 !important;font-weight:600;">{{ time }}</span></span>
       </div>
     </div>
     <div class="order-list">
@@ -439,6 +439,14 @@ export default {
       @include theme-property('color',font_color_title);
       font-weight: 600;
     }
+    .option-right{
+      span{
+        @include theme-property('color',font_color_secondary);
+        >span{
+          // @include theme-property('color',font_color_secondary);
+        }
+      }
+    }
   }
   .order-list {
     margin-top: 20px;
@@ -473,7 +481,7 @@ export default {
           }
         }
         strong {
-          color: #444444;
+          @include theme-property('color',font_color_value);
         }
       }
     }
