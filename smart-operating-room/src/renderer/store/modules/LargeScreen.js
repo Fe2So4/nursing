@@ -2,7 +2,8 @@ import {reqfloorList, reqGetRoomByFloor} from '@/api/large-screen.js'
 const state = {
   patientInfo: {
     cureNo: null,
-    hospitalNo: null
+    hospitalNo: null,
+    operSchNo: null
   },
   currentRoom: null,
   voiceSwitch: true
@@ -12,6 +13,7 @@ const mutations = {
   SET_PATIENT_INFO (state, payload) {
     state.patientInfo.cureNo = payload.cureNo
     state.patientInfo.hospitalNo = payload.hospitalNo
+    state.patientInfo.operSchNo = payload.operSchNo
   },
   SET_CURRENT_ROOM (state, payload) {
     state.currentRoom = payload

@@ -70,7 +70,7 @@ export default {
     getMedicalAdvice () {
       request({
         method: 'get',
-        url: getMedicalAdvice + '/' + this.patientInfo.cureNo
+        url: getMedicalAdvice + '/' + this.patientInfo.cureNo + '/' + this.patientInfo.operSchNo
       }).then(res => {
         let data = res.data.data
         data.forEach(item => {
@@ -86,14 +86,14 @@ export default {
     getMedicalHistory () {
       request({
         method: 'get',
-        url: getMedicalHistory + '/' + this.patientInfo.cureNo
+        url: getMedicalHistory + '/' + this.patientInfo.cureNo + '/' + this.patientInfo.operSchNo
       }).then(res => {
         this.historyList = res.data.data
       })
     },
     getInspectReportData () {
       request({
-        url: getInspectReport + '/' + this.patientInfo.cureNo,
+        url: getInspectReport + '/' + this.patientInfo.cureNo + '/' + this.patientInfo.operSchNo,
         method: 'get'
       }).then(res => {
         let data = res.data.data
@@ -107,7 +107,7 @@ export default {
     // 获取术中带药
     getMedecialData () {
       request({
-        url: getMedecial + '/' + this.patientInfo.hospitalNo,
+        url: getMedecial + '/' + this.patientInfo.hospitalNo + '/' + this.patientInfo.operSchNo,
         method: 'get'
       }).then(res => {
         let data = res.data.data
@@ -124,7 +124,7 @@ export default {
     // 获取抗生素用药
     getAntibioticData () {
       request({
-        url: getAntibiotic + '/' + this.patientInfo.hospitalNo,
+        url: getAntibiotic + '/' + this.patientInfo.hospitalNo + '/' + this.patientInfo.operSchNo,
         method: 'get'
       }).then(res => {
         let data = res.data.data
@@ -141,7 +141,7 @@ export default {
     getTestReportData () {
       request({
         method: 'get',
-        url: getTestReport + '/' + this.patientInfo.cureNo
+        url: getTestReport + '/' + this.patientInfo.cureNo + '/' + this.patientInfo.operSchNo
       }).then(res => {
         let data = res.data.data
         data.forEach(item => {

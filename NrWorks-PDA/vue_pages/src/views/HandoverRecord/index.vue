@@ -432,9 +432,9 @@
 </template>
 
 <script>
-import Signature from "@/components/Signature";
-import moment from "moment";
-import PatientCard from "@/components/PatientCard";
+import Signature from '@/components/Signature'
+import moment from 'moment'
+import PatientCard from '@/components/PatientCard'
 import {
   getRecord,
   submitRoom,
@@ -443,390 +443,390 @@ import {
   submitOutOpeRoom,
   submitOutPacu,
   submitPatRoom,
-  changeApplyStatus,
-} from "@/api/handover-record";
-import request from "@/utils/request";
-import { mapState } from "vuex";
+  changeApplyStatus
+} from '@/api/handover-record'
+import request from '@/utils/request'
+import { mapState } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       checked: true,
       visible: false,
-      input: "",
+      input: '',
       currentTime: null,
       showFullSkin: false,
       currentDate: new Date(),
       timeVisible: false,
-      value1: "",
+      value1: '',
       transferType: 0,
-      transferTitle: "",
+      transferTitle: '',
       showDialog: false,
       result: [],
       checkBoxList: null,
-      dialogTitle: "",
+      dialogTitle: '',
       recordForm: {
         startTime: new Date(), // 转运起始时间
-        suggest: "", // 建议
-        department: "", // 手术/监护室/透析室
-        inpatientWard: "", // 住院/转病区
+        suggest: '', // 建议
+        department: '', // 手术/监护室/透析室
+        inpatientWard: '', // 住院/转病区
         // 导管
         catheter: [],
         conduitTime: new Date(), // 留置时间
         // 物品
         goodsJson: [],
-        number: "", // 备注数量
-        time: "", // 出手术室时间，入手术室时间
+        number: '', // 备注数量
+        time: '', // 出手术室时间，入手术室时间
         // 皮肤
-        skinName: "", // 破损/完整
-        skinPart: "", // 部位
-        skinDegree: "", // 程度
-        skinSize: "", // 大小
-        pulse: "", // 脉搏
-        breathe: "", // 呼吸
-        temp: "",
-        bp: "", // 血压
-        o2: "", // 氧饱和度
-        consciousness: "", // 意识
-        consciousnessOther: "", // 意识其它
-        ache: "", // 疼痛
-        strength: "", // 强度
-        achePart: "", // 疼痛部位
+        skinName: '', // 破损/完整
+        skinPart: '', // 部位
+        skinDegree: '', // 程度
+        skinSize: '', // 大小
+        pulse: '', // 脉搏
+        breathe: '', // 呼吸
+        temp: '',
+        bp: '', // 血压
+        o2: '', // 氧饱和度
+        consciousness: '', // 意识
+        consciousnessOther: '', // 意识其它
+        ache: '', // 疼痛
+        strength: '', // 强度
+        achePart: '', // 疼痛部位
         conduit: [], // 留置导管固定畅通
-        nature: "", // 性质
-        signatureImage2: "", // 签名
+        nature: '', // 性质
+        signatureImage2: '' // 签名
       },
       zyOptions: [
-        { text: "住院", value: "1" },
-        { text: "转病区", value: "2" },
-        { text: "", value: "" },
+        { text: '住院', value: '1' },
+        { text: '转病区', value: '2' },
+        { text: '', value: '' }
       ], // 住院/转病区
       bfOptions: [
-        { text: "手术", value: "1" },
-        { text: "监护室", value: "2" },
-        { text: "透析室", value: "3" },
-        { text: "", value: "" },
+        { text: '手术', value: '1' },
+        { text: '监护室', value: '2' },
+        { text: '透析室', value: '3' },
+        { text: '', value: '' }
       ], // 手术室/监护室/透析室
       ysOptions: [
-        { text: "清楚", value: "1" },
-        { text: "烦躁", value: "2" },
-        { text: "嗜睡", value: "3" },
-        { text: "昏迷", value: "4" },
-        { text: "其它", value: "5" },
-        { text: "", value: "" },
+        { text: '清楚', value: '1' },
+        { text: '烦躁', value: '2' },
+        { text: '嗜睡', value: '3' },
+        { text: '昏迷', value: '4' },
+        { text: '其它', value: '5' },
+        { text: '', value: '' }
       ], // 意识
       ttOptions: [
-        { text: "NRS", value: "1" },
-        { text: "FLACC", value: "2" },
-        { text: "CCPOT", value: "WONG-BAKER" },
-        { text: "", value: "" },
+        { text: 'NRS', value: '1' },
+        { text: 'FLACC', value: '2' },
+        { text: 'CCPOT', value: 'WONG-BAKER' },
+        { text: '', value: '' }
       ], // 疼痛
       xzOptions: [
-        { text: "刀割样痛", value: "1" },
-        { text: "绞痛", value: "2" },
-        { text: "灼烧样痛", value: "3" },
-        { text: "刺痛", value: "4" },
-        { text: "压痛", value: "5" },
-        { text: "胀痛", value: "6" },
-        { text: "钝痛", value: "7" },
-        { text: "", value: "" },
+        { text: '刀割样痛', value: '1' },
+        { text: '绞痛', value: '2' },
+        { text: '灼烧样痛', value: '3' },
+        { text: '刺痛', value: '4' },
+        { text: '压痛', value: '5' },
+        { text: '胀痛', value: '6' },
+        { text: '钝痛', value: '7' },
+        { text: '', value: '' }
       ],
       pfOptions: [
-        { text: "完整", value: "1" },
-        { text: "破损", value: "2" },
-        { text: "", value: "" },
+        { text: '完整', value: '1' },
+        { text: '破损', value: '2' },
+        { text: '', value: '' }
       ],
       dgOptions: [
-        { text: "氧气", value: "o2" },
-        { text: "浅静脉留置", value: "qjm" },
-        { text: "深静脉留置", value: "sjm" },
-        { text: "PICC", value: "picc" },
-        { text: "动脉留置", value: "dml" },
-        { text: "胃肠减压", value: "cwj" },
-        { text: "鼻饲", value: "bc" },
-        { text: "留置导尿", value: "lzd" },
-        { text: "气质导管", value: "qgd" },
-        { text: "负压球", value: "fyq" },
-        { text: "胸腔引流", value: "xqy" },
-        { text: "T管", value: "tg" },
-        { text: "其他", value: "qita" },
-        { text: "无", value: "wu" },
+        { text: '氧气', value: 'o2' },
+        { text: '浅静脉留置', value: 'qjm' },
+        { text: '深静脉留置', value: 'sjm' },
+        { text: 'PICC', value: 'picc' },
+        { text: '动脉留置', value: 'dml' },
+        { text: '胃肠减压', value: 'cwj' },
+        { text: '鼻饲', value: 'bc' },
+        { text: '留置导尿', value: 'lzd' },
+        { text: '气质导管', value: 'qgd' },
+        { text: '负压球', value: 'fyq' },
+        { text: '胸腔引流', value: 'xqy' },
+        { text: 'T管', value: 'tg' },
+        { text: '其他', value: 'qita' },
+        { text: '无', value: 'wu' }
       ],
       lzdgOptions: [
-        { text: "静脉", value: "jm" },
-        { text: "动脉", value: "dm" },
-        { text: "胃管", value: "wg" },
-        { text: "导尿", value: "dn" },
-        { text: "气管导管", value: "qgdg" },
-        { text: "负压球", value: "fyq" },
-        { text: "胸腔引流", value: "xqyl" },
-        { text: "PICC", value: "picc" },
-        { text: "其他", value: "qita" },
-        { text: "无", value: "wu" },
+        { text: '静脉', value: 'jm' },
+        { text: '动脉', value: 'dm' },
+        { text: '胃管', value: 'wg' },
+        { text: '导尿', value: 'dn' },
+        { text: '气管导管', value: 'qgdg' },
+        { text: '负压球', value: 'fyq' },
+        { text: '胸腔引流', value: 'xqyl' },
+        { text: 'PICC', value: 'picc' },
+        { text: '其他', value: 'qita' },
+        { text: '无', value: 'wu' }
       ],
       wpOptions: [
-        { text: "输液", value: "1" },
-        { text: "X片", value: "2" },
-        { text: "CT片", value: "3" },
-        { text: "磁共振片", value: "4" },
-        { text: "其它", value: "5" },
-      ],
-    };
+        { text: '输液', value: '1' },
+        { text: 'X片', value: '2' },
+        { text: 'CT片', value: '3' },
+        { text: '磁共振片', value: '4' },
+        { text: '其它', value: '5' }
+      ]
+    }
   },
   components: {
     Signature,
-    PatientCard,
+    PatientCard
   },
   computed: {
-    ...mapState("Patient", ["patientInfo", "opePeopleInfo"]),
-    time() {
-      return moment(this.currentDate).format("YYYY-MM-DD HH:mm");
-    },
+    ...mapState('Patient', ['patientInfo', 'opePeopleInfo']),
+    time () {
+      return moment(this.currentDate).format('YYYY-MM-DD HH:mm')
+    }
   },
   watch: {},
   methods: {
-    formatTime(time) {
-      return moment(time).format("YYYY-MM-DD HH:mm");
+    formatTime (time) {
+      return moment(time).format('YYYY-MM-DD HH:mm')
     },
-    handleFilterLabel(obj) {
-      let str = "";
-      var reg = /,$/gi;
-      if (this.recordForm[obj.value] !== "") {
+    handleFilterLabel (obj) {
+      let str = ''
+      var reg = /,$/gi
+      if (this.recordForm[obj.value] !== '') {
         this[obj.list].forEach((item) => {
           this.recordForm[obj.value].forEach((_item) => {
             if (item.value === _item) {
-              str = str + item.text + ",";
+              str = str + item.text + ','
             }
-          });
-        });
-        return str.replace(reg, "");
+          })
+        })
+        return str.replace(reg, '')
       } else {
-        return "";
+        return ''
       }
     },
-    onClickLeft() {
-      this.$router.push("/transfer-handover");
+    onClickLeft () {
+      this.$router.push('/transfer-handover')
     },
-    getData() {
+    getData () {
       request({
-        method: "get",
+        method: 'get',
         url:
           getRecord +
-          "/" +
+          '/' +
           this.patientInfo.hospitalNo +
-          "/" +
+          '/' +
           this.patientInfo.cureNo +
-          "/" +
-          this.patientInfo.operSchNo,
+          '/' +
+          this.patientInfo.operSchNo
       }).then((res) => {
         if (res.data.code === 200) {
-          let data = res.data.data;
+          let data = res.data.data
           switch (this.transferTitle) {
-            case "病房交接":
+            case '病房交接':
               if (data.goodsJson.length) {
-                this.recordForm.goodsJson = data.goodsJson[0].goods;
-                this.recordForm.number = data.goodsJson[0].number;
+                this.recordForm.goodsJson = data.goodsJson[0].goods
+                this.recordForm.number = data.goodsJson[0].number
               }
-              this.recordForm.inpatientWard = data.inpatientWard;
-              if (data.startTime !== "") {
-                this.recordForm.startTime = data.startTime;
+              this.recordForm.inpatientWard = data.inpatientWard
+              if (data.startTime !== '') {
+                this.recordForm.startTime = data.startTime
               }
-              this.recordForm.signatureImage2 = data.carrier;
-              this.recordForm.suggest = data.suggest;
-              this.recordForm.department = data.department;
-              this.recordForm.forwardingWard = data.forwardingWard; // 转运去向病区
-              this.recordForm.conduitTime = data.catheterJson[0].conduitTime;
-              this.recordForm.catheter = data.catheterJson[0].catheter; // 导管
-              this.recordForm.ache = data.appraiseJson[0].ache.acheName;
-              this.recordForm.strength = data.appraiseJson[0].ache.acheStrength;
-              this.recordForm.achePart = data.appraiseJson[0].ache.achePart;
-              this.recordForm.nature = data.appraiseJson[0].nature;
-              this.recordForm.pulse = data.appraiseJson[0].vitalSigns.pulse;
-              this.recordForm.breathe = data.appraiseJson[0].vitalSigns.breathe;
-              this.recordForm.bp = data.appraiseJson[0].vitalSigns.bp;
-              this.recordForm.temp = data.appraiseJson[0].vitalSigns.temp;
-              this.recordForm.o2 = data.appraiseJson[0].vitalSigns.o2;
-              this.recordForm.skinName = data.appraiseJson[0].skin.skinName;
-              this.recordForm.skinPart = data.appraiseJson[0].skin.skinPart;
-              this.recordForm.skinDegree = data.appraiseJson[0].skin.skinDegree;
-              this.recordForm.skinSize = data.appraiseJson[0].skin.skinSize;
+              this.recordForm.signatureImage2 = data.carrier
+              this.recordForm.suggest = data.suggest
+              this.recordForm.department = data.department
+              this.recordForm.forwardingWard = data.forwardingWard // 转运去向病区
+              this.recordForm.conduitTime = data.catheterJson[0].conduitTime
+              this.recordForm.catheter = data.catheterJson[0].catheter // 导管
+              this.recordForm.ache = data.appraiseJson[0].ache.acheName
+              this.recordForm.strength = data.appraiseJson[0].ache.acheStrength
+              this.recordForm.achePart = data.appraiseJson[0].ache.achePart
+              this.recordForm.nature = data.appraiseJson[0].nature
+              this.recordForm.pulse = data.appraiseJson[0].vitalSigns.pulse
+              this.recordForm.breathe = data.appraiseJson[0].vitalSigns.breathe
+              this.recordForm.bp = data.appraiseJson[0].vitalSigns.bp
+              this.recordForm.temp = data.appraiseJson[0].vitalSigns.temp
+              this.recordForm.o2 = data.appraiseJson[0].vitalSigns.o2
+              this.recordForm.skinName = data.appraiseJson[0].skin.skinName
+              this.recordForm.skinPart = data.appraiseJson[0].skin.skinPart
+              this.recordForm.skinDegree = data.appraiseJson[0].skin.skinDegree
+              this.recordForm.skinSize = data.appraiseJson[0].skin.skinSize
               this.recordForm.consciousness =
-                data.appraiseJson[0].consciousness.consciousnessName; // 意识
+                data.appraiseJson[0].consciousness.consciousnessName // 意识
               this.recordForm.consciousnessOther =
-                data.appraiseJson[0].consciousness.consciousnessOther;
-              break;
-            case "进手术室":
-              if (data.pointInRoomtime !== "") {
-                this.recordForm.startTime = data.pointInRoomtime; // 进手术间时间
+                data.appraiseJson[0].consciousness.consciousnessOther
+              break
+            case '进手术室':
+              if (data.pointInRoomtime !== '') {
+                this.recordForm.startTime = data.pointInRoomtime // 进手术间时间
               }
-              this.recordForm.pulse = data.pointInRoom[0].pulse;
-              this.recordForm.breathe = data.pointInRoom[0].breathe;
-              this.recordForm.bp = data.pointInRoom[0].bp;
-              this.recordForm.consciousness = data.pointInRoom[0].consciousness;
-              this.recordForm.conduit = data.pointInRoom[0].conduit;
-              this.recordForm.skinName = data.pointInRoom[0].skinName;
-              this.recordForm.skinPart = data.pointInRoom[0].skinPart;
-              this.recordForm.skinDegree = data.pointInRoom[0].skinDegree;
-              this.recordForm.skinSize = data.pointInRoom[0].skinSize;
+              this.recordForm.pulse = data.pointInRoom[0].pulse
+              this.recordForm.breathe = data.pointInRoom[0].breathe
+              this.recordForm.bp = data.pointInRoom[0].bp
+              this.recordForm.consciousness = data.pointInRoom[0].consciousness
+              this.recordForm.conduit = data.pointInRoom[0].conduit
+              this.recordForm.skinName = data.pointInRoom[0].skinName
+              this.recordForm.skinPart = data.pointInRoom[0].skinPart
+              this.recordForm.skinDegree = data.pointInRoom[0].skinDegree
+              this.recordForm.skinSize = data.pointInRoom[0].skinSize
               this.recordForm.signatureImage2 =
-                data.pointInRoom[0].signatureImage2;
-              break;
-            case "出手术室":
-              this.recordForm.pulse = data.pointOutRoom[0].pulse;
-              this.recordForm.breathe = data.pointOutRoom[0].breathe;
-              this.recordForm.bp = data.pointOutRoom[0].bp;
+                data.pointInRoom[0].signatureImage2
+              break
+            case '出手术室':
+              this.recordForm.pulse = data.pointOutRoom[0].pulse
+              this.recordForm.breathe = data.pointOutRoom[0].breathe
+              this.recordForm.bp = data.pointOutRoom[0].bp
               this.recordForm.consciousness =
-                data.pointOutRoom[0].consciousness;
-              this.recordForm.conduit = data.pointOutRoom[0].conduit;
-              this.recordForm.skinName = data.pointOutRoom[0].skinName;
-              this.recordForm.skinPart = data.pointOutRoom[0].skinPart;
-              this.recordForm.skinDegree = data.pointOutRoom[0].skinDegree;
-              this.recordForm.skinSize = data.pointOutRoom[0].skinSize;
+                data.pointOutRoom[0].consciousness
+              this.recordForm.conduit = data.pointOutRoom[0].conduit
+              this.recordForm.skinName = data.pointOutRoom[0].skinName
+              this.recordForm.skinPart = data.pointOutRoom[0].skinPart
+              this.recordForm.skinDegree = data.pointOutRoom[0].skinDegree
+              this.recordForm.skinSize = data.pointOutRoom[0].skinSize
               this.recordForm.signatureImage2 =
-                data.pointOutRoom[0].signatureImage2;
-              if (data.pointOutRoom[0].appraiseTime !== "") {
-                this.recordForm.startTime = data.pointOutRoom[0].appraiseTime;
+                data.pointOutRoom[0].signatureImage2
+              if (data.pointOutRoom[0].appraiseTime !== '') {
+                this.recordForm.startTime = data.pointOutRoom[0].appraiseTime
               }
-              break;
-            case "进PACU":
-              this.recordForm.pulse = data.pointPacu[0].pulse;
-              this.recordForm.breathe = data.pointPacu[0].breathe;
-              this.recordForm.bp = data.pointPacu[0].bp;
-              this.recordForm.consciousness = data.pointPacu[0].consciousness;
-              this.recordForm.conduit = data.pointPacu[0].conduit;
-              this.recordForm.skinName = data.pointPacu[0].skinName;
-              this.recordForm.skinPart = data.pointPacu[0].skinPart;
-              this.recordForm.skinDegree = data.pointPacu[0].skinDegree;
-              this.recordForm.skinSize = data.pointPacu[0].skinSize;
+              break
+            case '进PACU':
+              this.recordForm.pulse = data.pointPacu[0].pulse
+              this.recordForm.breathe = data.pointPacu[0].breathe
+              this.recordForm.bp = data.pointPacu[0].bp
+              this.recordForm.consciousness = data.pointPacu[0].consciousness
+              this.recordForm.conduit = data.pointPacu[0].conduit
+              this.recordForm.skinName = data.pointPacu[0].skinName
+              this.recordForm.skinPart = data.pointPacu[0].skinPart
+              this.recordForm.skinDegree = data.pointPacu[0].skinDegree
+              this.recordForm.skinSize = data.pointPacu[0].skinSize
               this.recordForm.signatureImage2 =
-                data.pointPacu[0].signatureImage2;
-              if (data.pointPacu[0].appraiseTime !== "") {
-                this.recordForm.startTime = data.pointPacu[0].appraiseTime;
+                data.pointPacu[0].signatureImage2
+              if (data.pointPacu[0].appraiseTime !== '') {
+                this.recordForm.startTime = data.pointPacu[0].appraiseTime
               }
-              break;
-            case "出PACU":
-              this.recordForm.pulse = data.outPacu[0].pulse;
-              this.recordForm.consciousness = data.outPacu[0].consciousness;
-              this.recordForm.conduit = data.outPacu[0].conduit;
-              this.recordForm.breathe = data.outPacu[0].breathe;
-              this.recordForm.bp = data.outPacu[0].bp;
-              this.recordForm.skinName = data.outPacu[0].skinName;
-              this.recordForm.skinPart = data.outPacu[0].skinPart;
-              this.recordForm.skinDegree = data.outPacu[0].skinDegree;
-              this.recordForm.skinSize = data.outPacu[0].skinSize;
-              this.recordForm.signatureImage2 = data.outPacu[0].signatureImage2;
-              if (data.outPacu[0].appraiseTime !== "") {
-                this.recordForm.startTime = data.outPacu[0].appraiseTime;
+              break
+            case '出PACU':
+              this.recordForm.pulse = data.outPacu[0].pulse
+              this.recordForm.consciousness = data.outPacu[0].consciousness
+              this.recordForm.conduit = data.outPacu[0].conduit
+              this.recordForm.breathe = data.outPacu[0].breathe
+              this.recordForm.bp = data.outPacu[0].bp
+              this.recordForm.skinName = data.outPacu[0].skinName
+              this.recordForm.skinPart = data.outPacu[0].skinPart
+              this.recordForm.skinDegree = data.outPacu[0].skinDegree
+              this.recordForm.skinSize = data.outPacu[0].skinSize
+              this.recordForm.signatureImage2 = data.outPacu[0].signatureImage2
+              if (data.outPacu[0].appraiseTime !== '') {
+                this.recordForm.startTime = data.outPacu[0].appraiseTime
               }
-              break;
-            case "病房收治":
-              if (data.arrivalTime !== "") {
-                this.recordForm.startTime = data.arrivalTime;
+              break
+            case '病房收治':
+              if (data.arrivalTime !== '') {
+                this.recordForm.startTime = data.arrivalTime
               }
-              this.recordForm.signatureImage2 = data.recipient;
+              this.recordForm.signatureImage2 = data.recipient
           }
         }
-      });
+      })
     },
-    handleSubmitImage(image) {
-      this.recordForm.signatureImage2 = image;
+    handleSubmitImage (image) {
+      this.recordForm.signatureImage2 = image
     },
-    changeApplyStatus() {
+    changeApplyStatus () {
       request({
         url: changeApplyStatus,
-        method: "post",
+        method: 'post',
         data: {
           // code: this.opePeopleInfo.userCode,
           // name: this.opePeopleInfo.userName,
           orderId: this.patientInfo.operSchNo,
-          status: 2,
-        },
-      });
+          status: 2
+        }
+      })
     },
-    handleDrowDownChange(value) {
-      if (value === "2") {
+    handleDrowDownChange (value) {
+      if (value === '2') {
         // this.showFullSkin = true
       } else {
         // this.showFullSkin = false
-        this.recordForm.skinSize = "";
-        this.recordForm.skinPart = "";
-        this.recordForm.skinDegree = "";
+        this.recordForm.skinSize = ''
+        this.recordForm.skinPart = ''
+        this.recordForm.skinDegree = ''
       }
     },
-    onClickRight() {
+    onClickRight () {
       this.$dialog
         .confirm({
-          title: "提示",
-          message: "确认提交",
+          title: '提示',
+          message: '确认提交'
         })
         .then(() => {
           // on confirm
-          this.handleSubmit();
+          this.handleSubmit()
         })
         .catch(() => {
           // on cancel
-        });
+        })
     },
-    handleCloseDialog(action, done) {
-      done();
+    handleCloseDialog (action, done) {
+      done()
     },
-    handleDialogConfirm() {
+    handleDialogConfirm () {
       switch (this.dialogTitle) {
-        case "导管":
-          this.recordForm.catheter = this.result;
-          break;
-        case "留置导管固定畅通":
-          this.recordForm.conduit = this.result;
-          break;
-        case "物品":
-          this.recordForm.goodsJson = this.result;
+        case '导管':
+          this.recordForm.catheter = this.result
+          break
+        case '留置导管固定畅通':
+          this.recordForm.conduit = this.result
+          break
+        case '物品':
+          this.recordForm.goodsJson = this.result
       }
     },
-    hanldeShowTime(param) {
-      this.currentDate = moment(this.recordForm[param]).toDate();
-      console.log(this.recordForm[param], this.currentDate);
-      this.currentTime = param;
-      this.timeVisible = true;
+    hanldeShowTime (param) {
+      this.currentDate = moment(this.recordForm[param]).toDate()
+      console.log(this.recordForm[param], this.currentDate)
+      this.currentTime = param
+      this.timeVisible = true
     },
-    handleSubmit() {
+    handleSubmit () {
       let obj = {
         cureNo: this.patientInfo.cureNo,
         hospitalNo: this.patientInfo.hospitalNo,
-        operSchNo: this.patientInfo.operSchNo,
-      };
-      let submitUrl = "";
+        operSchNo: this.patientInfo.operSchNo
+      }
+      let submitUrl = ''
       switch (this.transferTitle) {
-        case "病房交接":
-          submitUrl = submitRoom;
+        case '病房交接':
+          submitUrl = submitRoom
           obj.goodsJson = [
             {
               goods: this.recordForm.goodsJson,
-              number: this.recordForm.number,
-            },
-          ];
-          obj.inpatientWard = this.recordForm.inpatientWard;
-          obj.startTime = this.recordForm.startTime;
+              number: this.recordForm.number
+            }
+          ]
+          obj.inpatientWard = this.recordForm.inpatientWard
+          obj.startTime = moment(this.recordForm.startTime).format('YYYY-MM-DD HH:mm')
           obj.patForwardingRoomState =
-            this.recordForm.signatureImage2 !== "" ? "2" : "1";
-          obj.carrier = this.recordForm.signatureImage2;
-          obj.suggest = this.recordForm.suggest;
-          obj.department = this.recordForm.department;
-          obj.forwardingWard = this.recordForm.forwardingWard; // 转运去向病区
+            this.recordForm.signatureImage2 !== '' ? '2' : '1'
+          obj.carrier = this.recordForm.signatureImage2
+          obj.suggest = this.recordForm.suggest
+          obj.department = this.recordForm.department
+          obj.forwardingWard = this.recordForm.forwardingWard // 转运去向病区
           obj.catheterJson = [
             {
-              conduitTime: this.recordForm.conduitTime,
-              catheter: this.recordForm.catheter,
-            },
-          ]; // 导管
+              conduitTime: moment(this.recordForm.conduitTime).format('YYYY-MM-DD HH:mm'),
+              catheter: this.recordForm.catheter
+            }
+          ] // 导管
           obj.appraiseJson = [
             {
               consciousness: {
                 consciousnessName: this.recordForm.consciousness,
-                consciousnessOther: this.recordForm.consciousnessOther,
+                consciousnessOther: this.recordForm.consciousnessOther
               },
               ache: {
                 acheName: this.recordForm.ache, // 疼痛
                 acheStrength: this.recordForm.strength, // 强度
-                achePart: this.recordForm.achePart, // 疼痛部位
+                achePart: this.recordForm.achePart // 疼痛部位
               },
               nature: this.recordForm.nature,
               vitalSigns: {
@@ -834,20 +834,20 @@ export default {
                 breathe: this.recordForm.breathe,
                 bp: this.recordForm.bp,
                 temp: this.recordForm.temp,
-                o2: this.recordForm.o2, // 氧饱和度
+                o2: this.recordForm.o2 // 氧饱和度
               },
               skin: {
                 skinName: this.recordForm.skinName,
                 skinPart: this.recordForm.skinPart,
                 skinDegree: this.recordForm.skinDegree,
-                skinSize: this.recordForm.skinSize,
-              },
-            },
-          ]; // 评估
-          break;
-        case "进手术室":
-          submitUrl = submitInOpeRoom;
-          obj.pointInRoomTime = moment(new Date()).format("YYYY-MM-DD HH:mm"); // 进手术间时间
+                skinSize: this.recordForm.skinSize
+              }
+            }
+          ] // 评估
+          break
+        case '进手术室':
+          submitUrl = submitInOpeRoom
+          obj.pointInRoomTime = moment(new Date()).format('YYYY-MM-DD HH:mm') // 进手术间时间
           obj.pointInRoom = [
             {
               pulse: this.recordForm.pulse,
@@ -860,13 +860,13 @@ export default {
               skinDegree: this.recordForm.skinDegree,
               skinSize: this.recordForm.skinSize,
               signatureImage2: this.recordForm.signatureImage2,
-              appraiseTime: this.recordForm.startTime,
-            },
-          ];
+              appraiseTime: moment(this.recordForm.startTime).format('YYYY-MM-DD HH:mm')
+            }
+          ]
           obj.pointInRoomState =
-            this.recordForm.signatureImage2 !== "" ? "2" : "1";
-          break;
-        case "出手术室":
+            this.recordForm.signatureImage2 !== '' ? '2' : '1'
+          break
+        case '出手术室':
           obj.pointOutRoom = [
             {
               pulse: this.recordForm.pulse,
@@ -879,15 +879,15 @@ export default {
               skinDegree: this.recordForm.skinDegree,
               skinSize: this.recordForm.skinSize,
               signatureImage2: this.recordForm.signatureImage2,
-              appraiseTime: this.recordForm.startTime,
-            },
-          ];
+              appraiseTime: moment(this.recordForm.startTime).format('YYYY-MM-DD HH:mm')
+            }
+          ]
           obj.pointOutRoomState =
-            this.recordForm.signatureImage2 !== "" ? "2" : "1";
-          obj.pointOutRoomTime = moment(new Date()).format("YYYY-MM-DD HH:mm");
-          submitUrl = submitOutOpeRoom;
-          break;
-        case "进PACU":
+            this.recordForm.signatureImage2 !== '' ? '2' : '1'
+          obj.pointOutRoomTime = moment(new Date()).format('YYYY-MM-DD HH:mm')
+          submitUrl = submitOutOpeRoom
+          break
+        case '进PACU':
           obj.pointPacu = [
             {
               pulse: this.recordForm.pulse,
@@ -900,15 +900,15 @@ export default {
               skinDegree: this.recordForm.skinDegree,
               skinSize: this.recordForm.skinSize,
               signatureImage2: this.recordForm.signatureImage2,
-              appraiseTime: this.recordForm.startTime,
-            },
-          ];
+              appraiseTime: moment(this.recordForm.startTime).format('YYYY-MM-DD HH:mm')
+            }
+          ]
           obj.pointPacuState =
-            this.recordForm.signatureImage2 !== "" ? "2" : "1";
-          obj.pointPacuTime = moment(new Date()).format("YYYY-MM-DD HH:mm");
-          submitUrl = submitInPacu;
-          break;
-        case "出PACU":
+            this.recordForm.signatureImage2 !== '' ? '2' : '1'
+          obj.pointPacuTime = moment(new Date()).format('YYYY-MM-DD HH:mm')
+          submitUrl = submitInPacu
+          break
+        case '出PACU':
           obj.outPacu = [
             {
               pulse: this.recordForm.pulse,
@@ -921,69 +921,69 @@ export default {
               skinDegree: this.recordForm.skinDegree,
               skinSize: this.recordForm.skinSize,
               signatureImage2: this.recordForm.signatureImage2,
-              appraiseTime: this.recordForm.startTime,
-            },
-          ];
-          obj.outPacuState = this.recordForm.signatureImage2 !== "" ? "2" : "1";
-          obj.outPacuTime = moment(new Date()).format("YYYY-MM-DD HH:mm");
-          submitUrl = submitOutPacu;
-          break;
-        case "病房收治":
-          submitUrl = submitPatRoom;
-          obj.arrivalTime = this.recordForm.startTime;
-          obj.patRoomState = this.recordForm.signatureImage2 !== "" ? "2" : "1";
-          obj.recipient = this.recordForm.signatureImage2;
+              appraiseTime: moment(this.recordForm.startTime).format('YYYY-MM-DD HH:mm')
+            }
+          ]
+          obj.outPacuState = this.recordForm.signatureImage2 !== '' ? '2' : '1'
+          obj.outPacuTime = moment(new Date()).format('YYYY-MM-DD HH:mm')
+          submitUrl = submitOutPacu
+          break
+        case '病房收治':
+          submitUrl = submitPatRoom
+          obj.arrivalTime = moment(this.recordForm.startTime).format('YYYY-MM-DD HH:mm')
+          obj.patRoomState = this.recordForm.signatureImage2 !== '' ? '2' : '1'
+          obj.recipient = this.recordForm.signatureImage2
       }
       request({
-        method: "post",
+        method: 'post',
         url: submitUrl,
-        data: obj,
+        data: obj
       }).then((res) => {
         if (res.data.code === 200) {
           // this.$router.push('/transfer-handover')
-          this.$notify({ type: "success", message: "提交成功" });
-          if (this.transferTitle === "病房交接") {
-            this.changeApplyStatus();
+          this.$notify({ type: 'success', message: res.data.msg })
+          if (this.transferTitle === '病房交接') {
+            this.changeApplyStatus()
           }
         }
-      });
+      })
     },
-    handleCancel() {
-      this.timeVisible = false;
+    handleCancel () {
+      this.timeVisible = false
     },
     // handleTimeChange (picker) {
     //   console.log(picker)
     //   // this.currentDate = moment(value).format('YYYY-MM-DD HH:mm')
     // },
-    handleConfirm(value) {
-      this.currentDate = value;
+    handleConfirm (value) {
+      this.currentDate = value
       this.recordForm[this.currentTime] = moment(value).format(
-        "YYYY-MM-DD HH:mm"
-      );
-      this.timeVisible = false;
+        'YYYY-MM-DD HH:mm'
+      )
+      this.timeVisible = false
     },
-    handleShowSignature() {
-      this.visible = true;
+    handleShowSignature () {
+      this.visible = true
     },
-    handleCloseSignature() {
-      this.visible = false;
+    handleCloseSignature () {
+      this.visible = false
     },
-    handleChange() {
-      this.showFullSkin = !this.showFullSkin;
+    handleChange () {
+      this.showFullSkin = !this.showFullSkin
     },
-    handleShowDialog(obj) {
-      this.dialogTitle = obj.title;
-      this.result = this.recordForm[obj.model];
-      this.checkBoxList = this[obj.list];
-      this.showDialog = true;
-    },
+    handleShowDialog (obj) {
+      this.dialogTitle = obj.title
+      this.result = this.recordForm[obj.model]
+      this.checkBoxList = this[obj.list]
+      this.showDialog = true
+    }
   },
-  created() {
-    this.transferType = parseInt(this.$route.query.type);
-    this.transferTitle = this.$route.query.title;
-    this.getData();
-  },
-};
+  created () {
+    this.transferType = parseInt(this.$route.query.type)
+    this.transferTitle = this.$route.query.title
+    this.getData()
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -994,16 +994,13 @@ export default {
     height: 100px;
     background: linear-gradient(90deg, #666666, #303030);
     /deep/ .van-nav-bar__title {
-      color: #ffffff;
       font-size: 34px;
       line-height: 100px;
     }
     /deep/ .van-nav-bar__text {
-      color: #ffffff;
       font-size: 30px;
     }
     /deep/ .van-icon-arrow-left {
-      color: #ffffff;
       font-size: 36px;
     }
   }

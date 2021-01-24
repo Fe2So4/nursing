@@ -46,6 +46,9 @@ export const floorList = `${config.default.api.baseURL}/ocis/dict/getFloorScreen
 // 获取患者历史记录
 export const getPatientHistoryRecord = `${config.default.api.baseURL}/ocis/pdaScann/getBingdingHistory`
 
+// 手术结束
+export const stopOperation = `${config.default.api.baseURL}/ocis/forwardingReport/saveTimeNodeScreen`
+
 // 获取楼层列表
 const floorListUrl = `${config.default.api.baseURL}/ocis/dict/getFloorScreen`
 export const reqfloorList = () => {

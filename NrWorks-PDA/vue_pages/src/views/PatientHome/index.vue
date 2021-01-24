@@ -53,6 +53,8 @@
 <script>
 import PatiendCard from "@/components/PatientCard.vue";
 import { mapState } from "vuex";
+import { joinOperationRoom } from "@/api/patient-info";
+import request from "@/utils/request";
 import $bus from "@/utils/bus";
 export default {
   data() {
@@ -85,11 +87,33 @@ export default {
       let codeStr = "";
       if (code.indexOf("OpeRoom") !== -1) {
         codeStr = code.replace("OpeRoom=", "");
-        // this.cureNo = OpsRQCode
+        request({
+          method: "post",
+          url: joinOperationRoom,
+          data: {
+            cureNo: this.patientInfo.cureNo,
+            hospitalNo: this.patientInfo.hospitalNo,
+            operSchNo: this.patientInfo.operSchNo,
+            operatingRoomTime: moment(new Date()).format("YYYY-MM-DD HH:mm"),
+            roomNo: codeStr,
+            realRoomNo: this.patientInfo.roomNo,
+          },
+        });
       } else if (code.indexOf("InductionRoom") !== -1) {
         codeStr = code.replace("InductionRoom=", "");
+        request({
+          method: "post",
+          url: joinOperationRoom,
+          data: {
+            cureNo: this.patientInfo.cureNo,
+            hospitalNo: this.patientInfo.hospitalNo,
+            operSchNo: this.patientInfo.operSchNo,
+            inductionRoomTime: moment(new Date()).format("YYYY-MM-DD HH:mm"),
+            roomNo: codeStr,
+            realRoomNo: this.patientInfo.roomNo,
+          },
+        });
       }
-      console.log(codeStr);
     },
     onClickRight() {},
     handleJump(param) {
@@ -106,6 +130,7 @@ export default {
               }
               // eslint-disable-next-line handle-callback-err
             )
+            // eslint-disable-next-line handle-callback-err
             .catch((error) => {});
           break;
         case 2:
@@ -120,6 +145,7 @@ export default {
               }
               // eslint-disable-next-line handle-callback-err
             )
+            // eslint-disable-next-line handle-callback-err
             .catch((error) => {});
           break;
         case 3:
@@ -134,6 +160,7 @@ export default {
               }
               // eslint-disable-next-line handle-callback-err
             )
+            // eslint-disable-next-line handle-callback-err
             .catch((error) => {});
           break;
         case 4:

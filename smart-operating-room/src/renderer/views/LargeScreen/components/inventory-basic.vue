@@ -109,7 +109,7 @@ export default {
   methods: {
     getOrdinaryData () {
       request({
-        url: getOrdinaryData + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`,
+        url: getOrdinaryData + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}/${this.patientInfo.operSchNo}`,
         method: 'get'
       }).then(res => {
         let data = res.data.data
@@ -184,6 +184,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/themes';
   .inventory-basic{
     height: 100%;
     padding-bottom: 10px;
@@ -194,14 +195,14 @@ export default {
       border-collapse:separate;
       border-spacing:0 10px;
       thead{
-        background: #F2F2F2;
+        @include theme-property('background-color',background_color_device_thead);
         border-radius: 5px;
         font-size: 16px;
         tr{
           border-radius: 5px;
           th{
             line-height: 55px;
-            color: #929498;
+            @include theme-property('color',font_color_secondary);
             min-width: 60px;
             font-weight: lighter;
             &:first-child{
@@ -231,10 +232,12 @@ export default {
           td{
             line-height: 20px;
             padding:18px 0;
-            background: #F5F8FD;
+            @include theme-property('background-color',background_color_info_item);
+            @include theme-property('color',font_color_value);
             &:first-child{
               padding-left: 10px;
               border-radius: 5px 0 0 5px;
+              @include theme-property('color',font_color_secondary);
             }
             &:last-child{
               padding-right: 10px;

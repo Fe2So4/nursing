@@ -12,7 +12,17 @@
       >
         <template slot="description">
           <p>{{ item.time }}</p>
-          <p>{{ item.mins }}</p>
+          <el-button
+            type="primary"
+            v-if="item.title==='手术结束'"
+            size="mini"
+            @click="handleStop"
+          >
+            结束
+          </el-button>
+          <p v-else>
+            {{ item.mins }}
+          </p>
         </template>
       </el-step>
     </el-steps>
@@ -20,7 +30,7 @@
 </template>
 
 <script>
-import {getPatientStep} from '@/api/large-screen'
+import {getPatientStep, stopOperation} from '@/api/large-screen'
 import request from '@/utils/request2'
 import {mapState} from 'vuex'
 import $bus from '@/utils/busScreen'
@@ -73,6 +83,12 @@ export default {
           status: '0'
         },
         {
+          title: '手术结束',
+          time: '',
+          mins: '',
+          status: '0'
+        },
+        {
           title: '出手术室',
           time: '',
           mins: '',
@@ -94,7 +110,7 @@ export default {
     getStepList () {
       request({
         method: 'get',
-        url: getPatientStep + `/${this.patientInfo.cureNo}/${this.patientInfo.hospitalNo}`
+        url: getPatientStep + `/${this.patientInfo.cureNo}/${this.patientInfo.hospitalNo}/${this.patientInfo.operSchNo}`
       }).then(res => {
         let data = res.data.data
         if (Array.isArray(data)) {
@@ -119,6 +135,24 @@ export default {
           this.stepList[8].status = data.backRoomState
         }
       })
+    },
+    handleStop () {
+      request({
+        method: 'post',
+        url: stopOperation,
+        data: {
+          cureNo: this.patientInfo.cureNo,
+          hospitalNo: this.patientInfo.hospitalNo,
+          operSchNo: this.patientInfo.operSchNo,
+          operatingEndTime: moment(new Date()).format('YYYY-MM-DD HH:mm')
+        }
+      }).then(res => {
+        if (res.data.data) {
+          this.$message({message: '手术结束成功', type: 'success', showClose: true})
+        } else {
+          this.$message({message: res.data.msg, type: 'error', showClose: true})
+        }
+      })
     }
   },
   mounted () {
@@ -132,19 +166,24 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/themes';
   .patient-step{
-    background: #ffffff;
-    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+    @include theme-property('background-color',background_color_primary);
+    // box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+    @include theme-property('box-shadow',box_color_shadow);
     border-radius: 5px;
     padding: 15px 0 13px 0;
     /deep/ .el-step__head{
       &.is-success{
         color:#388FF7;
         border-color:#388FF7;
+        // @include theme-property('color',font_color_success);
+        // @include theme-property('border-color',font_color_success);
       }
       &.is-wait{
         border-color: #C7C9CD;
-        color: #C7C9CD;
+        @include theme-property('border-color',font_color_wait);
+        @include theme-property('color',font_color_wait);
         .el-step__line{
           background-color: #C7C9CD;
         }
@@ -152,18 +191,21 @@ export default {
     }
     /deep/ .el-step__title{
       &.is-success{
-        color:#444444;
+        @include theme-property('color',font_color_secondary);
       }
       &.is-error{
         color:#444444;
       }
     }
     /deep/ .el-step__description{
+      p{
+        min-height: 20px;
+      }
       &.is-success{
-        color:#388FF7;
+        @include theme-property('color',font_color_success);
         p{
           &:last-child{
-            color:#91949A;
+            @include theme-property('color',font_color_value);
           }
         }
       }
@@ -175,17 +217,13 @@ export default {
           }
         }
       }
-      &.is-success{
-        color:#388FF7;
-        p{
-          &:last-child{
-            color:#91949A;
-          }
-        }
-      }
     }
     /deep/ .el-step__line{
       background-color:#388FF7;
+    }
+    /deep/ .el-button{
+      @include theme-property('background-color',font_color_primary);
+      @include theme-property('border-color',font_color_primary);
     }
   }
 </style>

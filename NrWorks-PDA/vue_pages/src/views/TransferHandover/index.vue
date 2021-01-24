@@ -80,64 +80,64 @@
 </template>
 
 <script>
-import request from "@/utils/request";
-import { handoverStep } from "@/api/handover-record";
-import { mapState } from "vuex";
+import request from '@/utils/request'
+import { handoverStep } from '@/api/handover-record'
+import { mapState } from 'vuex'
 export default {
-  name: "TransferHandover",
-  data() {
+  name: 'TransferHandover',
+  data () {
     return {
       checked: true,
-      input: "",
+      input: '',
       showFullSkin: false,
       visible: false,
       step: {
-        outPacuState: "0",
-        patForwardingRoomState: "0",
-        patRoomState: "0",
-        pointInRoomState: "0",
-        pointOutRoomState: "0",
-        pointPacuState: "0",
-      },
-    };
+        outPacuState: '0',
+        patForwardingRoomState: '0',
+        patRoomState: '0',
+        pointInRoomState: '0',
+        pointOutRoomState: '0',
+        pointPacuState: '0'
+      }
+    }
   },
   computed: {
-    ...mapState("Patient", ["patientInfo"]),
+    ...mapState('Patient', ['patientInfo'])
   },
   components: {},
-  created() {
-    this.getStep();
+  created () {
+    this.getStep()
   },
-  mounted() {},
+  mounted () {},
   methods: {
-    onClickLeft() {
-      this.$router.push("/patient-home");
+    onClickLeft () {
+      this.$router.push('/patient-home')
     },
-    getStep() {
+    getStep () {
       request({
         url:
           handoverStep +
           `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}/${this.patientInfo.operSchNo}`,
-        method: "get",
+        method: 'get'
       }).then((res) => {
-        this.step = res.data.data;
-      });
+        this.step = res.data.data
+      })
     },
-    onClickRight() {},
-    handleJump(type, title) {
-      this.$router.push({ path: "transfer", query: { type, title } });
+    onClickRight () {},
+    handleJump (type, title) {
+      this.$router.push({ path: 'transfer', query: { type, title } })
     },
-    handleChange() {
-      this.showFullSkin = !this.showFullSkin;
+    handleChange () {
+      this.showFullSkin = !this.showFullSkin
     },
-    handleShowSignature() {
-      this.visible = true;
+    handleShowSignature () {
+      this.visible = true
     },
-    handleCloseSignature() {
-      this.visible = false;
-    },
-  },
-};
+    handleCloseSignature () {
+      this.visible = false
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

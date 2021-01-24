@@ -1,0 +1,133 @@
+// $font_color_primary:(
+//   dark:'',
+//   light:''
+// );
+// $font_color_secondary:(
+//   dark:'',
+//   light:''
+// );
+// $background_color_primary:(
+//   dark:#353537,
+//   light:#FFFFFF
+// );
+// $background_color_secondary:(
+//   dark:'',
+//   light:''
+// );
+$themes:(
+  light:(
+    // 主要文字颜色-light
+    font_color_primary: #3377FF,
+    // 次要文字颜色-light
+    font_color_secondary: #91949A,
+    // 文案值的颜色-light
+    font_color_value: #444444,
+    // 标题颜色
+    font_color_title: #303133,
+    // 进度条等待颜色
+    font_color_wait: #999999,
+    // 进度条成功颜色
+    font_color_success: #388FF7,
+    // 接单大屏患者信息颜色
+    font_color_order_pt: #388FF7,
+
+    // 主要背景颜色-light
+    background_color_primary: #FFFFFF,
+    // 次要背景颜色-light
+    background_color_secondary:#FFFFFF,
+    // 主页背景色
+    background_color_home: #1E1F22,
+    // 房间选择卡片背景色-light
+    background_color_card:#E9EDF7,
+    // 房间选择卡片下标三角-light
+    background_color_triangle:#7F99BC,
+    // 信息内容-light
+    background_color_info_item:#F4F7FD,
+    // 器械清点表格标题
+    background_color_device_thead:#F2F2F2,
+
+    // 房间选择卡片边框-light
+    border_color_card:#CDD7F1,
+    // 检查信息下边框
+    border_color_info: #E9EBF4,
+    // 阴影
+    box_color_shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05)
+  ),
+  dark:(
+    // 主要文字颜色-dark
+    font_color_primary: #FB6716,
+    // 次要文字颜色-dark
+    font_color_secondary: #BABABA,
+    // 文案值的颜色-light
+    font_color_value: #FAFAFA,
+    // 标题颜色
+    font_color_title: #BABABA,
+    // 进度条等待颜色
+    font_color_wait:#BABABA,
+    // 进度条成功颜色
+    font_color_success: #427BE9,
+    // 接单大屏患者信息颜色
+    font_color_order_pt: #43E2FF,
+    // 主要背景颜色-dark
+    background_color_primary:#353537,
+    // 次要背景颜色-dark
+    background_color_secondary:#474747,
+    // 主页背景色
+    background_color_home: #1E1F22,
+    // 房间选择卡片背景色-dark
+    background_color_card:#2D2D33,
+    // 房间选择卡片下标三角-dark
+    background_color_triangle:#93AAC8,
+    // 信息内容-light
+    background_color_info_item:#2D2D33,
+    // 器械清点表格标题
+    background_color_device_thead:#353537,
+
+    // 房间选择卡片边框-dark
+    border_color_card:#626262,
+    // 检查信息下边框
+    border_color_info: #63666E,
+    // 阴影
+    box_color_shadow: 0px 0px 8px 0px rgba(18, 6, 3, 0.5)
+  )
+);
+
+// // 获取颜色方案
+// @mixin theme-property($property, $var) {
+//   @each $theme, $value in $var {
+//     .#{$theme} & {
+//       #{$property}: $value;
+//     }
+//   }
+// }
+
+@mixin theme-property($property, $var) {
+  @include themeify {
+    #{$property}: themed($var)!important;
+  }
+}
+
+//遍历主题map
+@mixin themeify {
+  @each $theme-name, $theme-map in $themes {
+      //!global 把局部变量强升为全局变量
+      $theme-map: $theme-map !global;
+      //判断html的data-theme的属性值  #{}是sass的插值表达式
+      //& sass嵌套里的父容器标识   @content是混合器插槽，像vue的slot
+      [theme="#{$theme-name}"] & {
+          @content;
+      }
+  }
+}
+
+//声明一个根据Key获取颜色的function
+@function themed($key) {
+  @return map-get($theme-map, $key);
+}
+
+//获取背景颜色
+@mixin background_color($color) {
+  @include themeify {
+      background: themed($color)!important;
+  }
+}

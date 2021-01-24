@@ -9,7 +9,7 @@
       </div>
       <h4>请在此处签名</h4>
       <div class="option">
-        <van-button round color="#3377FF" icon="success" @click="handleSaveImg">确定</van-button>
+        <van-button round icon="success" @click="handleSaveImg">确定</van-button>
         <van-button round color="#D5DDF1" icon="replay" @click="handleRefresh">清屏</van-button>
         <van-button round color="#FF4E4E" @click="handleClose" icon="cross">取消</van-button>
       </div>
@@ -141,8 +141,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/themes/_handle.scss";
   .signature{
-    background: #F2F2F2;
+    // background: #F2F2F2;
+    @include background_color('bg_sign');
     width: 100%;
     position: fixed;
     top: 0;
@@ -154,7 +156,7 @@ export default {
     z-index: 999;
     box-sizing: border-box;
     .signature-body{
-      background: #ffffff;
+      @include background_color('bg_sign_container');
       height: 100%;
       overflow: hidden;
       position: relative;
@@ -163,7 +165,7 @@ export default {
       h3{
         font-size: 36px;
         text-align: center;
-        color: #2E2E2E;
+        @include font_color('bg_sign_title_text');
         &:nth-child(1){
           font-weight:lighter;
           margin-top: 40px;
@@ -174,7 +176,7 @@ export default {
       }
       h4{
         text-align: center;
-        color: #7F7F7F;
+        @include font_color('bg_popup_option');
         line-height: 66px;
         font-size: 26px;
         font-weight: lighter;
@@ -184,7 +186,7 @@ export default {
         height: 680px;
         margin: 0 auto;
         box-sizing: border-box;
-        background: #EBEBEB;
+        @include background_color('bg_sign_content');
         border: 1px solid #A9A9A9;
       }
       .option{
@@ -194,8 +196,12 @@ export default {
           line-height: 80px;
           font-size: 30px;
           height: 80px;
+          color: #ffffff;
           /deep/ .van-button__icon{
             font-size: 28px;
+          }
+          &:nth-child(1){
+            @include background_color('bg_circle');
           }
           &:nth-child(2){
             margin:0 20px;

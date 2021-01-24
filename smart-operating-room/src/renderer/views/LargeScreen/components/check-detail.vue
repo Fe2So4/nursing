@@ -53,6 +53,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/themes';
   .check-detail{
      height: 100%;
      ul{
@@ -99,7 +100,7 @@ export default {
     .data-empty{
       text-align: center;
       height: calc(100% - 58px);
-      color: #91949A;
+      @include theme-property('color',font_color_secondary);
       display: flex;
       justify-content: center;
       align-items: center;

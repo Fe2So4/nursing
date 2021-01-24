@@ -129,8 +129,7 @@ export default {
       } else {
         this.handleChangeRoom(this.roomList[0])
       }
-
-      this.$emit('handleClose')
+      this.$emit('update:roomVisible', false)
     },
     handleChangeRoom (item) {
       this.activeIndex = item.roomCode
@@ -180,12 +179,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/themes';
 .change-room {
   .content {
     font-size: 18px;
     h3 {
       line-height: 76px;
-      color: #919398;
+      @include theme-property('color',font_color_secondary);
       font-weight: unset;
       span {
         margin-right: 14px;
@@ -222,13 +222,14 @@ export default {
     padding-top: unset;
   }
   /deep/ .el-dialog__header{
-    border-bottom:1px solid #e1e3ed;
+    border-bottom:1px solid;
+    @include theme-property('border-bottom-color',border_color_info);
   }
   .title{
     i{
       width: 4px;
       height: 18px;
-      background: #3377FF;
+      @include theme-property('background-color',font_color_primary);
       border-radius: 2px;
       display: inline-block;
       vertical-align: middle;
@@ -238,7 +239,7 @@ export default {
       margin-left: 12px;
       font-size: 20px;
       font-weight: 600;
-      color: #303133;
+      @include theme-property('color',font_color_title);
       vertical-align: middle;
     }
   }

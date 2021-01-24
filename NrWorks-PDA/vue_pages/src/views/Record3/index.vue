@@ -5,7 +5,6 @@
       @click-left="onClickLeft"
       @click-right="onClickRight"
       left-arrow
-      right-text="提交"
     >
     </van-nav-bar>
     <PatientCard></PatientCard>
@@ -125,29 +124,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import "@/themes/_handle.scss";
   .record2{
     height: 100%;
     .van-nav-bar{
       height: 100px;
       background: linear-gradient(90deg, #666666, #303030);
       /deep/ .van-nav-bar__title{
-        color:#ffffff;
         font-size: 34px;
         line-height: 100px;
       }
       /deep/ .van-nav-bar__text{
-        color: #ffffff;
         font-size: 30px;
       }
       /deep/ .van-icon-arrow-left{
-        color: #ffffff;
         font-size: 36px;
       }
     }
     .patient-card{
       padding: 15px 20px;
       .content{
-        background: #ffffff;
         display: flex;
         height: 194px;
         box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
@@ -196,14 +192,15 @@ export default {
       overflow-y: auto;
       h3{
         text-align: center;
-        color: #7F7F7F;
+        @include font_color('font_color_third');
         font-size: 30px;
         padding: 15px 0 10px;
       }
       ul{
         padding:20px 15px 0;
         li{
-          background: #FFFFFF;
+          // background: #FFFFFF;
+          @include background_color('bg_home');
           box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.15);
           border-radius: 10px;
           height: 120px;
@@ -216,7 +213,7 @@ export default {
             padding: 0 20px;
             .van-icon{
               font-size: 60px;
-              color:#3377FF;
+              @include font_color('font_color_primary');
             }
             .van-image{
               width: 80px;
@@ -236,11 +233,11 @@ export default {
             justify-content: center;
             p{
               &:first-child{
-                color:#2E2E2E;
+                @include font_color('bg_popup_title');
                 font-size: 30px;
               }
               &:last-child{
-                color:#7F7F7F;
+                @include font_color('font_color_secound');
                 margin-top: 20px;
                 font-size: 26px;
               }

@@ -42,6 +42,7 @@ import $bus from '@/utils/busScreen'
 import EmptyNotice from './components/empty-notice'
 import {mapActions, mapState} from 'vuex'
 import HistoryRecord from './components/history-record'
+import {getLargeScreenTheme, setLargeScreenTheme} from '@/utils/storage'
 const config = require('@/config/url.js')
 const { BrowserWindow } = require('electron').remote
 export default {
@@ -129,7 +130,8 @@ export default {
         this.socket.on('push_event', (data) => {
           if (data) {
             let arr = []
-            this.setCureNo({cureNo: data.cureNo, hospitalNo: data.hospitalNo})
+            console.log(data)
+            this.setCureNo({cureNo: data.cureNo, hospitalNo: data.hospitalNo, operSchNo: data.operSchNo})
             $bus.$emit('getPatientInfo')
             $bus.$emit('getStepList')
             $bus.$emit('getRecord2')
@@ -154,13 +156,39 @@ export default {
           }
         })
       }
+    },
+    setTheme () {
+      let theme = getLargeScreenTheme()
+      let type = 'dark'
+      if (theme) {
+        type = theme
+      }
+      window.document.documentElement.setAttribute('theme', type)
+    },
+    changeTheme () {
+      let theme = getLargeScreenTheme()
+      let type = 'light'
+      if (theme) {
+        if (theme === 'dark') {
+          type = 'light'
+        } else {
+          type = 'dark'
+        }
+      } else {
+        type = 'dark'
+      }
+      setLargeScreenTheme(type)
+      window.document.documentElement.setAttribute('theme', type)
     }
+  },
+  beforeCreate () {
   },
   created () {
     const win = BrowserWindow.getFocusedWindow()
     if (win) {
       win.maximize()
     }
+    this.setTheme()
   },
   mounted () {
     this.initSocket()
@@ -173,6 +201,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/themes';
   .large-screen{
     height: 100%;
     width: 100%;
@@ -199,7 +228,7 @@ export default {
     }
     .ls-empty{
       flex: 1;
-      background: #ffffff;
+      @include theme-property('background-color',background_color_primary);
       margin-top: 20px;
       box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
       border-radius: 5px;

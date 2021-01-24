@@ -117,8 +117,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  @import '@/styles/themes';
   .info-list{
-    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15);
+    @include theme-property('background-color',background_color_secondary);
+    @include theme-property('box-shadow',box_color_shadow);
     border-radius: 10px;
     // height: 400px;
     height: 100%;
@@ -132,8 +134,9 @@ export default {
       position: relative;
       text-indent: 33px;
       line-height: 58px;
-      border-bottom:1px solid #E9EBF4;
-      color: #303133;
+      border-bottom:1px solid;
+      @include theme-property('border-bottom-color',border_color_info);
+      @include theme-property('color',font_color_title);
       font-size: 20px;
       i{
         position: absolute;
@@ -143,7 +146,7 @@ export default {
         bottom: 0;
         margin:auto;
         height: 18px;
-        background: #3377FF;
+        @include theme-property('background-color',font_color_primary);
         border-radius: 2px;
       }
     }
@@ -204,7 +207,7 @@ export default {
     .data-empty{
       text-align: center;
       height: calc(100% - 58px);
-      color: #91949A;
+      @include theme-property('color',font_color_secondary);
       display: flex;
       justify-content: center;
       align-items: center;

@@ -66,6 +66,7 @@
 
 <script>
 import request from "@/utils/request";
+import { bindingPatPushScreen, execOperation } from "@/api/patient-info";
 import {
   getHandoverCodeStatus,
   saveHandoverCodeStatus,
@@ -123,6 +124,27 @@ export default {
       this.$router.go(-1);
     },
     onClickRight() {},
+    handleExecute() {
+      request({
+        method: "post",
+        url: execOperation + "/" + this.patientInfo.operSchNo,
+      }).then((res) => {});
+    },
+    // 绑定患者
+    bindingPatPushScreen() {
+      request({
+        url: bindingPatPushScreen,
+        method: "post",
+        params: {
+          cureNo: this.patientInfo.cureNo,
+          operSchNo: this.patientInfo.operSchNo,
+        },
+      }).then((res) => {
+        if (res.data.code === 200) {
+          // this.handleJump();
+        }
+      });
+    },
     saveCodeStatus() {
       let mark = null;
       let arr = [];
@@ -391,6 +413,10 @@ export default {
         },
       }).then((res) => {
         if (res.data.code === 200) {
+          if (mark === 2) {
+            this.bindingPatPushScreen();
+            this.handleExecute();
+          }
           this.$notify({ message: "扫码成功", type: "success" });
           // this.getCodeStatus();
         }
@@ -519,8 +545,8 @@ export default {
       if (key === 13) {
         setTimeout(() => {
           // this.handleCode('RoomNum=606')
-          this.handleCode("19058456");
-          this.handleCode("Worker=19058456");
+          this.handleCode("19094620");
+          // this.handleCode('Worker=19058456')
         }, 1000);
       }
       if (key === 8) {
@@ -648,23 +674,28 @@ export default {
           }
         }
         /deep/ .van-step__line {
-          top: 20px;
+          top: 45px;
           background-color: #c9c9c9;
+          // background-color: green;
+          // @include background_color('');
         }
         /deep/ .van-step__circle {
           // background: #3377ff;
           @include background_color("bg_circle");
         }
         /deep/ .van-step__title--active {
-          color: #2e2e2e;
+          // color: #2e2e2e;
+          @include font_color("bg_popup_title");
         }
         /deep/ .van-step--finish .van-step__line {
-          background-color: #3377ff;
+          // background-color: #3377ff;
+          @include background_color("bg_switch_active");
           width: 1px;
         }
         /deep/ .van-step__icon--active,
         .van-step__title--active {
-          color: #3377ff;
+          // color: #3377ff;
+          @include font_color("bg_switch_active");
         }
       }
     }

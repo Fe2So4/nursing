@@ -30,18 +30,18 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       // patient: {}
-    };
+    }
   },
   computed: {
-    ...mapState("Patient", ["patientInfo"]),
+    ...mapState('Patient', ['patientInfo'])
   },
-  methods: {},
-};
+  methods: {}
+}
 </script>
 
 <style lang="scss" scoped>

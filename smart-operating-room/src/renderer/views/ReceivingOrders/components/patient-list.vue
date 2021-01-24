@@ -9,8 +9,8 @@
           <i
             class="el-icon-female"
             :class="{
-              female: ptData.patientGender === '女',
-              male: ptData.patientGender === '男'
+              female: ptData.patientGender === '2',
+              male: ptData.patientGender === '1'
             }"
           />
           <span class="pt-info">{{ ptData.patientName }}</span>
@@ -19,7 +19,7 @@
           <span class="pt-info">{{ ptData.bedNo }}床</span>
           <span class="pt-info">{{ ptData.hospitalNo }}</span>
         </span>
-        <span style="color:#444444;font-weight:bold;">{{ ptData.roomNo }}</span>
+        <span class="room">{{ ptData.roomNo }}</span>
       </p>
       <p>{{ ptData.operationName }}</p>
       <p>
@@ -49,6 +49,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/themes';
 .patient-list {
   height: 100%;
   // width: 100%;
@@ -84,33 +85,38 @@ export default {
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
+      span{
+        &.room{
+          @include theme-property('color',font_color_value);
+        }
+      }
       &:first-child {
         font-size: 18px;
         display: flex;
         justify-content: space-between;
         i {
           &.female {
-            color: #ff6687;
+            color: #ff6687 !important;
           }
           &.male {
-            color: #3478ff;
+            color: #3478ff !important;
           }
         }
         .pt-info {
-          color: #3890f8;
+          @include theme-property('color',font_color_order_pt);
         }
       }
       &:nth-child(2) {
         font-size: 18px;
-        color: #444444;
+        @include theme-property('color',font_color_value);
       }
       &:nth-child(3) {
         font-size: 16px;
-        color: #929498;
+        @include theme-property('color',font_color_secondary);
       }
       &:nth-child(4) {
         font-size: 16px;
-        color: #929498;
+        @include theme-property('color',font_color_secondary);
         display: flex;
         justify-content: space-between;
       }

@@ -48,3 +48,11 @@ export function setCurrentRoom (val) {
 export function getCurrentRoom (val) {
   return localStorage.getItem(screenRoom, val)
 }
+
+export function getLargeScreenTheme () {
+  return localStorage.getItem('SCREEN_THEME')
+}
+
+export function setLargeScreenTheme (val) {
+  return localStorage.setItem('SCREEN_THEME', val)
+}
