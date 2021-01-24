@@ -500,6 +500,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/_handle.scss';
 .dialog-body-span {
   text-align: center;
 }
@@ -512,9 +513,12 @@ export default {
   padding: 20px;
   width: 100%;
   // height: 132px;
-  background-color: #fff;
+  // background-color: #fff;
+  @include background('search_header_bgc');
+  @include font_color('search_header_font');
   .container-title {
-    color: #444;
+    // color: #444;
+    @include font_color('search_header_font');
     font-size: 14px;
   }
   .container-content {

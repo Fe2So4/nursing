@@ -6,6 +6,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './styles/index.scss'
 import './styles/scrollbar.scss'
+import './styles/_mystyles.scss'
 import router from './router'
 import store from './store'
 import 'xe-utils'
@@ -38,7 +39,7 @@ process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true'
 Vue.use(htmlToPdf)
 Vue.use(vueiInfinite)
 Vue.directive('loadmore', {
-  bind (el, binding) {
+  bind(el, binding) {
     var p = 0
     var t = 0
     var down = true

@@ -92,10 +92,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/_handle.scss';
+
 .layout-header {
   height: 100%;
   width: 100%;
-  background: linear-gradient(90deg, #666666, #303030);
+  @include background('header_bgc');
   color: #fff;
   display: flex;
   justify-content: space-between;

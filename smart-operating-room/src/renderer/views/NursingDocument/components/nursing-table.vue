@@ -145,9 +145,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-/deep/ .table-conten .vxe-table .vxe-body--row.row--current {
-  background-color: #d6dce8 !important;
-}
+@import '@/styles/_handle.scss';
 .table-conten {
   height: 100%;
 }
@@ -156,7 +154,8 @@ export default {
   border-radius: 5px;
   padding-left: 5px;
   padding-right: 5px;
-  background-color: #fff;
+  // background-color: #fff;
+  @include background('search_header_bgc');
   width: 100%;
   height: 100%;
 }

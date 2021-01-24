@@ -43,34 +43,36 @@ export default {
       immediate: true
     }
   },
-  components: {Header, Nav, WinHeader}
+  components: { Header, Nav, WinHeader }
 }
 </script>
 
 <style lang="scss" scoped>
-  .el-container{
+@import '@/styles/_handle.scss';
+.el-container {
+  height: 100%;
+  width: 100%;
+  .el-header {
+    padding: 0;
+  }
+  .el-aside {
+    width: auto !important;
+  }
+  .el-main {
+    @include background('main_bgc');
+
+    padding-bottom: 34px;
+    position: relative;
+    box-sizing: border-box;
     height: 100%;
-    width: 100%;
-    .el-header{
-      padding: 0;
-    }
-    .el-aside{
-      width: auto !important
-    }
-    .el-main{
-      background: #f3f5fa;
-      padding-bottom: 34px;
-      position: relative;
-      box-sizing: border-box;
-      height: 100%;
-      .copyright{
-        position: absolute;
-        color: #929498;
-        font-size: 14px;
-        line-height: 34px;
-        bottom: 0;
-        right: 20px;
-      }
+    .copyright {
+      position: absolute;
+      color: #929498;
+      font-size: 14px;
+      line-height: 34px;
+      bottom: 0;
+      right: 20px;
     }
   }
-</style>>
+}</style
+>>

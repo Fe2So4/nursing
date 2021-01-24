@@ -1,0 +1,175 @@
+$themes: (
+
+    light: (
+    // 主题颜色
+        vxe_primary_color: #409eff,
+    // 选中时候的颜色
+        select_color: 1px solid #409eff,
+
+    //背景色
+        // 头部背景颜色
+        header_bgc: linear-gradient(90deg, #666666, #303030),
+        // 侧边栏背景颜色
+        nav_bgc: linear-gradient(#666666, #4A4A4A),
+        //手术派单页面样式 
+        order_line: #55DEFF, //单子竖线
+        // 手术派单头部
+        order_header: #3770e2,
+        // 手术派单body
+        order_body: #fff,
+        order_body_active: #e9eff9,
+        // 主页main背景颜色
+        main_bgc: #f3f5fa,
+        
+        // 页面组建头部
+        search_header_bgc: #fff,
+        el_dialog_bgc: #fff,
+        table_bgc: #fff,
+        table_banma: #fafafa,
+        // 日期选择器背景颜色
+        vxe_input_panel_wrapper: #fff,
+        // 日期选择器选中背景颜色
+        vxe_input_panel_wrapper_select: #409eff,
+        // 日期选择器hover背景颜色
+        vxe_input_panel_wrapper_hover: #f2f6fc,
+        // 按钮hover的按钮颜色
+        btn_hover_color: #fff,
+        // 弹出框背景颜色
+        diolog_bgc_color: #fff,
+        //表格选中颜色
+        table_select: #D6DCE8,
+        //侧边栏
+        nursing_list_nav: #D6DCE8,
+
+    //字体色
+        //搜索头部字体色
+        search_header_font: #000, 
+        table_header_font: #333,
+        // 输入框字体颜色
+        input_font_color: #444444,
+        // 单子body字体颜色
+        order_body_font_coloc: #000,
+        // 单子body病区字体颜色
+        order_body_ward_color: #3478ff,
+        // 日期选择器上下月字体
+        vxe_input_panel_font: #bfbfbf,
+        // 日期选择器当前日
+        vxe_input_panel_font_current: #606266,
+        // 日期选择器选中字体颜色
+        vxe_input_panel_select: #409eff,
+        // 弹出框标题颜色
+        diolog_title_color: #444444,
+        // 文书头部
+        nursing_list_herder_font: #444,
+        
+    // 边框色
+        // 输入框边框颜色
+        input_inner_fontboder: 1px solid #dcdfe6,
+
+
+
+
+        font_color1: #303133,
+        font_color2: #fff,
+        placeholder_color: #D3D6DC,
+        //背景
+        
+
+        background_color: #fff,
+        background_color1: #f3f5fa,
+        //按钮背景颜色
+        btn_background_color1: #E9EDF7,
+        btn_background_color2: #3377FF,
+        
+
+        background_color3: #E9EDF7,
+        background_color4: #f0f2f5,
+        background_color5: red,
+        background_color6: #2674e7,
+        
+        //边框
+        border_color1: #3d414a,
+    
+    ),
+    
+    dark: ( 
+    // 主题颜色
+        vxe_primary_color: #FF7529,
+    // 选中时候的颜色
+        select_color: 1px solid #FF7529,
+    // 头部背景颜色
+        header_bgc: linear-gradient(90deg, #353537, #353537),
+        // 侧边栏背景颜色
+        nav_bgc: linear-gradient(#353537, #353537),
+        //手术派单页面样式
+        order_line: #FCA06E, //单子竖线
+        // 手术派单头部
+        order_header: #FF7529,
+        // 手术派单body
+        order_body: #474747,
+        order_body_active: #111,
+        // 主页main背景颜色
+        main_bgc: #000000,
+        el_dialog_bgc: #1E1F22,
+        // 页面组建头部
+        search_header_bgc: #353537,
+        // 日期选择器背景颜色
+        vxe_input_panel_wrapper: #474747,
+        // 日期选择器选中背景颜色
+        vxe_input_panel_wrapper_select: #FF7529,
+        // 日期选择器hover背景颜色
+        vxe_input_panel_wrapper_hover: #353537,
+        // 按钮hover的按钮颜色
+        btn_hover_color: #FF7529,
+        // 弹出框背景颜色
+        diolog_bgc_color: #1E1F22,
+        //表格选中颜色
+        table_select: #6a6a6a,
+        table_bgc: #353537,
+        table_banma: #444,
+        //侧边栏
+        nursing_list_nav: #FF7529,
+    //字体色
+        //搜索头部字体色
+        search_header_font: #BABABA,
+        table_header_font: #fff,
+        // 输入框字体颜色
+        input_font_color: #BABABA,
+        // 单子body字体颜色
+        order_body_font_coloc: #BABABA,
+        // 单子body病区字体颜色
+        order_body_ward_color: #FF7529,
+        // 日期选择器上下月字体
+        vxe_input_panel_font: #bfbfbf,
+        // 日期选择器当前日
+        vxe_input_panel_font_current: #fff,
+        // 日期选择器选中字体颜色
+        vxe_input_panel_select: #FF7529,
+        // 弹出框标题颜色
+        diolog_title_color: #FF7529,
+        // 文书头部
+        nursing_list_herder_font: #fafafa,
+    // 边框色
+        // 输入框边框颜色
+        input_inner_fontboder: 1px solid #484848,
+
+
+
+        font_color1: #fff,
+        font_color2: #fff,
+        placeholder_color: #f3f5fa,
+        //背景
+        
+        background_color: #ccc,
+        background_color1: #1b2531,
+        background_color2: #283142,
+        background_color3: #1e6ceb,
+        background_color4: #323e4e,
+        //按钮背景颜色
+        btn_background_color1: #E9EDF7,
+        btn_background_color2: #3377FF,
+        //边框
+        border_color1: #3d414a,
+    
+    )
+);

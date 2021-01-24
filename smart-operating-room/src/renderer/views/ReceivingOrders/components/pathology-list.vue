@@ -25,15 +25,20 @@
       <p>
         <span
           class="pt-info"
-        >{{ ptData.floor }}号楼手术室{{ ptData.roomNo }}</span><span
+        >{{ ptData.floor }}号楼手术室{{ ptData.roomNo }}</span>
+      </p>
+      <p>
+        <span
           v-if="ptData.orderState === '1' || ptData.orderState === '2'"
-          style="font-weight:600;"
-        >{{ ptData.workerName }}</span>
+        >工勤人员：{{ ptData.workerName }}</span>
       </p>
       <p v-if="ptData.orderState === '1'">
         <span>接单时间：{{ ptData.updateTime }}</span>
       </p>
-      <div v-if="ptData.orderState === '2'">
+      <div
+        v-if="ptData.orderState === '2'"
+        style="font-size: 12px"
+      >
         <div>
           <span style="color:#929498">接单时间：{{ ptData.updateTime }}</span>
         </div>
@@ -146,7 +151,7 @@ export default {
         justify-content: space-between;
       }
       &:nth-child(4) {
-        text-align: right;
+        // text-align: right;
         font-size: 16px;
         color: #929498;
       }

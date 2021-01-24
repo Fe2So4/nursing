@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="statistical-table"
-  >
+  <div class="statistical-table">
     <div class="baobiaodan" />
     <div class="table-conten">
       <!-- <vxe-table
@@ -117,7 +115,7 @@
           v-if="runningTableList.length !== 0"
         >
           <tr
-            v-for="(item,index) in runningTableList"
+            v-for="(item, index) in runningTableList"
             :key="index"
           >
             <td style="width:60px;textAlign:center">
@@ -163,9 +161,7 @@
       </table>
     </div>
     <div v-show="false">
-      <table
-        id="statistical-running-table"
-      >
+      <table id="statistical-running-table">
         <thead style="display:table-header-group">
           <tr>
             <th style="display:flex;justifyContent: center;font-weight: 500;">
@@ -208,7 +204,7 @@
         </thead>
         <tbody>
           <tr
-            v-for="(item,index) in runningTableList"
+            v-for="(item, index) in runningTableList"
             :key="index"
           >
             <td style="width:40px;textAlign:center">
@@ -253,7 +249,7 @@
 
 <script>
 import Bus from '@/utils/bus.js'
-import {ipcRenderer} from 'electron'
+import { ipcRenderer } from 'electron'
 export default {
   name: 'StatisticalTable',
   props: {
@@ -278,17 +274,24 @@ export default {
     })
   },
   methods: {
-
     dayin () {
-      this.utilsDebounce(() => { this.printCurrent() }, 1000)
+      this.utilsDebounce(() => {
+        this.printCurrent()
+      }, 1000)
     },
     // 打印
     printCurrent () {
-      const printHtml = document.getElementById('statistical-running-table').outerHTML
+      const printHtml = document.getElementById('statistical-running-table')
+        .outerHTML
       console.log(printHtml)
       const options = { silent: false }
       // options = JSON.stringify(options)
-      ipcRenderer.send('printChannel', printHtml, 'statistical-running-table.css', options)
+      ipcRenderer.send(
+        'printChannel',
+        printHtml,
+        'statistical-running-table.css',
+        options
+      )
     }
     // load () {
     //   console.log(132)
@@ -308,18 +311,21 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/_handle.scss';
 
 .statistical-table {
-    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
-    border-radius: 5px;
-    height: 100%;
-    background-color: #fff;
-    width: 100%;
-    .table-conten {
-      height: calc(100% - 25px);
-      display: flex;
-      justify-content: center;
-    }
+  box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+  border-radius: 5px;
+  height: 100%;
+  // background-color: #fff;
+  @include background('search_header_bgc');
+  @include font_color('search_header_font');
+  width: 100%;
+  .table-conten {
+    height: calc(100% - 25px);
+    display: flex;
+    justify-content: center;
+  }
 }
 .baobiaodan {
   color: #333333;
@@ -330,56 +336,57 @@ export default {
 
 .vxe-table--header {
   font-size: 14px;
-  height: calc(100% - 0px) ;
+  height: calc(100% - 0px);
 }
 /deep/ .vxe-table--header thead {
-  display:table-header-group
+  display: table-header-group;
 }
 
 table tbody {
-    color: #000;
-    display:block;
-    height:calc(100% - 25px); //高度根据实际自定义
-    overflow-y:scroll;
-    -webkit-overflow-scrolling: touch; // 为了滚动顺畅
+  color: #000;
+  display: block;
+  height: calc(100% - 25px); //高度根据实际自定义
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch; // 为了滚动顺畅
 }
 
 table tbody::-webkit-scrollbar {
-    // display: none; // 隐藏滚动条，不需要可取消
-    width: 10px;
-    height: 10px;
+  // display: none; // 隐藏滚动条，不需要可取消
+  width: 10px;
+  height: 10px;
 }
 /*滚动条的轨道*/
 table tbody::-webkit-scrollbar-track {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 /*滚动条里面的小方块，能向上向下移动*/
 table tbody::-webkit-scrollbar-thumb {
   background-color: #bfbfbf;
   border-radius: 5px;
-  border: 1px solid #F1F1F1;
-  box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  border: 1px solid #f1f1f1;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
-table thead th, table tbody tr {
-    display:table;
-    // width:100%;
-    table-layout:fixed;//fixed：固定表格布局
+table thead th,
+table tbody tr {
+  display: table;
+  // width:100%;
+  table-layout: fixed; //fixed：固定表格布局
 }
 table tbody tr td {
   text-align: left;
 }
 table thead {
-    width: calc( 100% - 1em )//函数计算宽度
+  width: calc(100% - 1em); //函数计算宽度
 }
-.header-tr{
+.header-tr {
   display: flex;
 }
-.noneData{
+.noneData {
   text-align: center;
-    margin-top: 30%;
-    // font-weight: 600;
-    font-size: 14px;
-    // color: #ccc;
+  margin-top: 30%;
+  // font-weight: 600;
+  font-size: 14px;
+  // color: #ccc;
 }
 /deep/ th {
   color: #333333;

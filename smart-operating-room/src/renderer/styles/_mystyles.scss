@@ -1,0 +1,205 @@
+@import "./_handle.scss";
+@import 'vxe-table/styles/variable.scss';
+
+
+.el-message-box {
+  @include background_color('order_body')
+}
+.el-message-box__content {
+  @include font_color('vxe_input_panel_font_current');
+}
+.el-dialog {
+  @include background_color('el_dialog_bgc');
+}
+.button--primary,.el-button--primary:focus, .el-button--primary:hover {
+  @include background_color('vxe_primary_color');
+  @include border_color('vxe_primary_color');
+  @include font_color('font_color2');
+}
+.el-button:hover {
+  @include background_color('vxe_primary_color');
+  @include border_color('vxe_primary_color');
+  @include font_color('font_color2');
+}
+.icon-gantanghao {
+  @include font_color('vxe_input_panel_select');
+}
+.el-dialog {
+  border-radius: 5px !important;
+}
+.el-dialog__footer {
+  padding: 10px 20px 10px !important;
+}
+.el-dialog__header {
+  line-height: normal !important;
+}
+.el-dialog__body {
+  @include font_color('vxe_input_panel_font_current');
+}
+.el-dialog__title {
+  font-size: 16px !important;
+  @include font_color('diolog_title_color');
+  font-weight: 600;
+}
+.el-dialog__headerbtn .el-dialog__close:hover {
+  @include font_color('vxe_input_panel_select');
+}
+// 修改样式变量
+
+.vxe-font-color { @include font_color('search_header_font')};
+.vxe-form { @include background('search_header_bgc')};
+.vxe-input--inner, .vxe-textarea--inner { 
+   @include background('search_header_bgc'); 
+   @include font_color('input_font_color')};
+.el-select .el-input__inner {
+   @include background('search_header_bgc'); 
+   @include font_color('order_body_font_coloc');
+}
+.el-select-dropdown__item.selected {
+  @include font_color('order_body_ward_color');
+}
+.vxe-input:not(.is--disabled).is--active .vxe-input--inner {
+   @include border_color('select_color');
+}
+.vxe-form--item-title-label {
+  @include font_color('search_header_font')
+}
+.vxe-input--panel-wrapper { @include background_color('vxe_input_panel_wrapper') }
+.is--prev, .is--next{ @include font_color('vxe_input_panel_font') }
+.is--current {
+  @include font_color('vxe_input_panel_font_current')
+}
+.vxe-input--date-picker-body td.is--hover {
+  @include background_color('vxe_input_panel_wrapper_hover')
+}
+.vxe-input--date-picker-body td.is--selected {
+  @include background_color('vxe_input_panel_wrapper_select')
+}
+.vxe-input--date-picker-body td.is--now:not(.is--selected).is--current .vxe-input--date-label {
+   @include font_color('vxe_input_panel_select')  
+}
+.vxe-input--panel .vxe-input--date-picker-body th {
+  @include font_color('vxe_input_panel_font_current')
+}
+.btn.theme--my-purple:hover {
+  @include font_color('font_color2');
+  @include background_color('vxe_input_panel_select');
+  @include border_color('vxe_input_panel_select')
+}
+.btn.theme--my-purple {
+  @include border_color('vxe_input_panel_select')
+}
+.vxe-radio>input:checked+.vxe-radio--icon {
+  @include background_color('vxe_input_panel_select');
+  @include border_color('vxe_input_panel_select')
+}
+.vxe-radio>input:checked+.vxe-radio--icon+.vxe-radio--label {
+  @include font_color('vxe_input_panel_select')
+}
+.vxe-select-option--wrapper, .el-select-dropdown__list{
+  @include background_color('vxe_input_panel_wrapper');
+  @include font_color('order_body_font_coloc')
+}
+.el-select-dropdown__item {
+  @include font_color('order_body_font_coloc')
+}
+.vxe-select-option:hover {
+  @include background_color('vxe_input_panel_wrapper_hover');
+}
+.vxe-select-option.is--selected {
+  @include font_color('vxe_input_panel_wrapper_select')
+}
+// .vxe-table th, .table-content, .vxe-table--body-wrapper{
+//   @include background_color('table_banma');
+//   @include font_color('search_header_font');
+// }
+.vxe-body--row {
+  @include background_color('table_bgc');
+  @include font_color('search_header_font');
+}
+.vxe-header--row {
+  @include background_color('table_bgc');
+}
+.vxe-header--row th .vxe-cell {
+  @include font_color('table_header_font');
+}
+.vxe-body--row  td .vxe-cell {
+  @include font_color('table_header_font');
+}
+.vxe-body--row.row--stripe {
+  @include background_color('table_banma');
+  // @include font_color('search_header_font');
+}
+.vxe-table--body-wrapper, .vxe-table--header-wrapper {
+  @include background_color('table_bgc');
+  // @include font_color('search_header_font');
+}
+.vxe-table .vxe-body--row.row--current {
+  @include background_color('table_select');
+}
+.header-content {
+  @include background('search_header_bgc');
+  @include font_color('search_header_font');
+}
+.vxe-table--header thead tr th{
+  @include font_color('table_header_font');
+}
+.surgery-table, .statistical-table ,.continuous-table{
+  @include background('search_header_bgc');
+  @include font_color('search_header_font');
+}
+.nursing-document-list .content .header, .nursing-document-list .leftNav .left-nav-container{
+  @include background('search_header_bgc');
+  @include font_color('search_header_font');
+}
+.nursing-document-list .leftNav .nav-title{
+  @include font_color('input_font_color');
+}
+.left-nav-container .el-menu {
+   @include background('search_header_bgc');
+  
+}
+.left-nav-container .el-menu .el-menu-item, .left-nav-container .el-submenu__title {
+@include font_color('table_header_font');
+}
+.nursing-documentlist-header {
+  @include background('table_bgc'); 
+}
+.nursing-documentlist-header .title{
+  @include font_color('nursing_list_herder_font'); 
+}
+.nursing-document-list .leftNav .el-menu-item.is-active {
+  @include background('nursing_list_nav'); 
+}
+// .vxe-table .vxe-body--row.row--current {
+//   background-color: #000 !important;
+// }
+// .vxe-input-disabled-color: { @include background('search_header_bgc')};
+// .vxe-input-disabled-background-color: { @include background('search_header_bgc')};
+// .vxe-input-placeholder-color: { @include background('search_header_bgc')};
+// ...
+
+@import 'vxe-table/styles/modules.scss';
+// .btn:hover {
+//   @include background_color('btn_background_color2');
+//   @include font_color('font_color2');
+// }
+
+// .btn {
+//   width: 90px;
+//   // height: 30px;
+//   @include font_color('font_color1');
+//   @include background_color('btn_background_color1');
+// }
+
+// .vxe-input--inner, .vxe-input--panel, .form ,.vxe-input--panel-wrapper, .vxe-input--date-picker-btn,.vxe-select-option--wrapper, .vxe-textarea--inner{
+//   @include background_color('background_color');
+//   @include font_color('font_color1');
+  
+// }
+// .is--hover {
+//   @include background_color('background_color1');
+// }
+// input::-webkit-input-placeholder {
+//   @include font_color('placeholder_color');
+// }

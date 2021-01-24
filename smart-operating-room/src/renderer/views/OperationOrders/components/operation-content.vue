@@ -880,6 +880,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/_handle.scss';
+
 .el-scrollbar__wrap {
   overflow-x: hidden;
 }
@@ -940,7 +942,8 @@ export default {
       position: relative;
       display: flex;
       align-items: center;
-      background-color: #3770e2;
+      // background-color: #3770e2;
+      @include background('order_header');
       padding: 10px;
       .header-img {
         position: absolute;
@@ -948,7 +951,8 @@ export default {
         top: 0;
         height: 100%;
         width: 8px;
-        background-color: #55deff;
+        // background-color: #55deff;
+        @include background('order_line');
         border-top-left-radius: 5px;
       }
       .fontCss {
@@ -959,7 +963,9 @@ export default {
       }
     }
     .body {
+      @include background('order_body');
       padding: 15px 18px;
+      @include font_color('order_body_font_coloc');
       .boxFlex {
         align-items: center;
         margin-bottom: 8px;
@@ -973,7 +979,8 @@ export default {
             color: #888888;
           }
           .blue {
-            color: #3478ff;
+            // color: #3478ff;
+            @include font_color('order_body_ward_color');
           }
           .red {
             font-weight: bold;
@@ -1011,8 +1018,8 @@ export default {
   width: 60px;
   text-align: right;
 }
-.active {
-  background-color: #e9eff9 !important;
+.operation-body-container .active .body {
+  @include background('order_body_active');
 }
 /deep/ .el-scrollbar__view {
   height: 100%;

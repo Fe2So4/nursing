@@ -94,9 +94,7 @@ export default {
     handleSelect (index) {
       this.activeIndex = index
     },
-    handleClose () {
-
-    },
+    handleClose () {},
     handleCollapse () {
       this.isCollapse = !this.isCollapse
     }
@@ -106,57 +104,60 @@ export default {
 
 <style scoped lang="scss">
 @import './../assets/iconfont/iconfont.css';
-  .layout-aside{
-    height: 100%;
-    // width: 100%;
-    position: relative;
-    background: linear-gradient(180deg, #666666, #4A4A4A);
-    .el-menu{
-      background-color: unset;
-      border-right: unset;
-      .el-menu-item{
-        color: #C6DEFF;
-        font-size: 18px;
-        i{
-          color: #C6DEFF;
-          font-size: 20px;
-        }
-        &.is-active{
-          background: linear-gradient(90deg, #3269CE, #2E5287);
-          color: #fff;
-          i{
-            color: #fff;
-          }
-        }
+@import '@/styles/_handle.scss';
+
+.layout-aside {
+  height: 100%;
+  // width: 100%;
+  position: relative;
+  @include background('nav_bgc');
+  .el-menu {
+    background-color: unset;
+    border-right: unset;
+    .el-menu-item {
+      color: #c6deff;
+      font-size: 18px;
+      i {
+        color: #c6deff;
+        font-size: 20px;
       }
-      .el-menu-item:focus, .el-menu-item:hover{
-        background: linear-gradient(90deg, #3269CE, #2E5287);
+      &.is-active {
+        background: linear-gradient(90deg, #3269ce, #2e5287);
         color: #fff;
-        i{
+        i {
           color: #fff;
         }
       }
     }
-    .line{
-      width: 6px;
-      position: absolute;
-      left: 0;
-      top: 0;
-      height: 56px;
-      background: #6699FF;
-    }
-    .collapse-icon{
-      position:absolute;
-      right: 20px;
-      bottom: 20px;
-      font-size: 28px;
-      color: #C7DFFF;
-      cursor: pointer;
+    .el-menu-item:focus,
+    .el-menu-item:hover {
+      background: linear-gradient(90deg, #3269ce, #2e5287);
+      color: #fff;
+      i {
+        color: #fff;
+      }
     }
   }
+  .line {
+    width: 6px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 56px;
+    background: #6699ff;
+  }
+  .collapse-icon {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    font-size: 28px;
+    color: #c7dfff;
+    cursor: pointer;
+  }
+}
 </style>
 <style>
- .el-menu-vertical-demo:not(.el-menu--collapse) {
-    width: 200px;
-  }
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px;
+}
 </style>

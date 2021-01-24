@@ -207,6 +207,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/_handle.scss';
+@import '@/styles/_handle.scss';
+
 .el-scrollbar__wrap {
   overflow-y: hidden;
 }
@@ -233,7 +236,9 @@ export default {
   border-radius: 5px;
   width: 100%;
   // padding-bottom: 20px;
-  background-color: #fff;
+  @include background('search_header_bgc');
+  @include font_color('search_header_font');
+
   height: 70px;
   display: flex;
   // flex-flow: wrap;

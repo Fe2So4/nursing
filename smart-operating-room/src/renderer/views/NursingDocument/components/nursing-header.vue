@@ -35,7 +35,7 @@
       </vxe-form-item>
       <vxe-form-item>
         <vxe-button
-          class="btnBlue"
+          class="btn"
           size="mini"
           status="my-purple"
           @click="searchTable"
@@ -82,26 +82,24 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.btnBlue {
+@import '@/styles/_handle.scss';
+
+.btn {
   background-color: #eaeef7;
   width: 90px;
-  // background-color:#3377FF;
-  // color: #fff;
   margin-left: 20px;
 }
 
 .header-content {
   box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
   border-radius: 5px;
-  background-color: #fff;
+  // background-color: #fff;
+  @include background('search_header_bgc');
+  @include font_color('search_header_font');
   padding: 20px;
   .header-content-form {
     display: flex;
     align-items: center;
   }
-}
-.vxe-button.size--mini.type--button:hover {
-  background-color: #3377ff;
-  color: #ffffff;
 }
 </style>

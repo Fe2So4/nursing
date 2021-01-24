@@ -7,7 +7,7 @@
       size="mini"
     >
       <div class="subP-container-top">
-        <span>类别</span>
+        <span class="leibie">类别</span>
         <vxe-form-item
           class="mgl15"
           field="name"
@@ -93,7 +93,7 @@
         </div>
 
         <div class="body-right">
-          <!-- <vxe-form-item>
+          <vxe-form-item v-if="dayinBtn">
             <vxe-button
               class="btn"
               size="mini"
@@ -102,7 +102,7 @@
             >
               送检单
             </vxe-button>
-          </vxe-form-item> -->
+          </vxe-form-item>
           <vxe-form-item v-if="dayinBtn">
             <vxe-button
               @click="dayinPingTie"
@@ -657,6 +657,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/_handle.scss';
 .btn {
   border: none;
   color: #303133;
@@ -692,11 +693,16 @@ export default {
 .btnForm {
   text-align: center;
 }
+.leibie {
+  @include font_color('search_header_font');
+}
 .subP-container {
   box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
   border-radius: 5px;
   height: 350px;
-  background-color: #fff;
+  @include background('search_header_bgc');
+  @include font_color('search_header_font');
+  // background-color: #fff;
   padding: 10px 20px;
   .container-content {
     .subP-container-body {

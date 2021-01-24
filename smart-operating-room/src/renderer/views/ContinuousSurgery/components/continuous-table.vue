@@ -62,9 +62,7 @@ export default {
     }
   },
   data () {
-    return {
-
-    }
+    return {}
   },
   mounted () {
     this.addScrollHandle()
@@ -73,7 +71,7 @@ export default {
     addScrollHandle () {
       this.dom = this.$refs.xTable.elemStore['main-body-wrapper']
       this.dom.addEventListener('scroll', () => {
-      // 滚动距离
+        // 滚动距离
         let scrollTop = this.dom.scrollTop
         // 变量windowHeight是可视区的高度
         let windowHeight = this.dom.clientHeight || this.dom.clientHeight
@@ -104,24 +102,20 @@ export default {
 </script>
 
 <style scoped lang="scss">
-/deep/ .table-conten .vxe-table .vxe-body--row.row--current {
-    background-color:#D6DCE8 !important;
-}
-
 .continuous-table {
-    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
-    border-radius: 5px;
+  box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+  border-radius: 5px;
+  height: 100%;
+  padding-left: 5px;
+  padding-right: 5px;
+  background-color: #fff;
+  width: 100%;
+  .table-conten {
     height: 100%;
-    padding-left: 5px;
-    padding-right: 5px;
-    background-color: #fff;
-    width: 100%;
-    .table-conten {
-      height: 100%;
-    }
+  }
 }
 /deep/ .vxe-table .vxe-body--row.row--stripe {
-      background-color: #f9fafc;
+  background-color: #f9fafc;
 }
 /deep/ th {
   color: #333333;

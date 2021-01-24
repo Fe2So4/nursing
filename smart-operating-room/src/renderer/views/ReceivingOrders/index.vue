@@ -341,8 +341,10 @@ export default {
     },
     // 点击刷新
     shuaxin () {
+      // this.getFloorList()
       this.getReceiveOrders()
       this.getNewTime()
+      this.initSocket()
     },
     // 获取当前时间
     getNewTime () {

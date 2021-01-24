@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div class="nursing-documentlist-header">
     <div class="title">
       <div class="name">
         {{ ListeningName }}
@@ -106,9 +106,9 @@ export default {
 <style scoped lang="scss">
 .btn {
   width: 90px;
-  background-color: #EAEEF7;
+  background-color: #eaeef7;
 }
-.header {
+.nursing-documentlist-header {
   box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
   border-radius: 5px;
   width: 100%;
@@ -132,7 +132,9 @@ export default {
     align-items: center;
   }
 }
-/deep/ .vxe-button--content, .vxe-button--icon, .vxe-button--loading-icon {
+/deep/ .vxe-button--content,
+.vxe-button--icon,
+.vxe-button--loading-icon {
   vertical-align: unset;
 }
 </style>

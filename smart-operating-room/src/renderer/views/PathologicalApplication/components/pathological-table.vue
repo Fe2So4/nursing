@@ -331,13 +331,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-/deep/ .table-content .vxe-table .vxe-body--row.row--current {
-  background-color: #d6dce8 !important;
-}
-
-/deep/ .vxe-header--row {
-  background-color: #fff;
-}
+@import '@/styles/_handle.scss';
 .el-scrollbar__wrap {
   overflow-x: hidden;
 }
@@ -347,8 +341,8 @@ export default {
 }
 .btnBlue {
   width: 90px;
-  background-color: #3377ff;
-  color: #fff;
+  // background-color: #3377ff;
+  // color: #fff;
 }
 .table-container {
   box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
@@ -357,7 +351,8 @@ export default {
   width: 100%;
   .table-content {
     padding: 5px 0 0 0;
-    background-color: #fff;
+    // background-color: #fff;
+    @include background_color('table_bgc');
     box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
     border-radius: 5px;
     // padding-left: 20px;
@@ -366,8 +361,8 @@ export default {
     box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
     border-radius: 5px;
     text-align: right;
-    background-color: #fff;
-    padding: 35px 15px 15px 15px;
+    // background-color: #fff;
+    padding: 15px 15px 15px 15px;
   }
 }
 .dialog-body-span {

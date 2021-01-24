@@ -1,11 +1,13 @@
+@import "./_handle.scss";
 /*滚动条整体部分*/
 #app /deep/ .mytable-scrollbar div::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 /*滚动条的轨道*/
-#app /deep/ .mytable-scrollbar div::-webkit-scrollbar-track {
-  background-color: #FFFFFF;
+#app /deep/ .mytable-scrollbar div::-webkit-scrollbar-track{
+   @include background('search_header_bgc');
+  // background-color: #fff;
 }
 /*滚动条里面的小方块，能向上向下移动*/
 #app /deep/ .mytable-scrollbar div::-webkit-scrollbar-thumb {

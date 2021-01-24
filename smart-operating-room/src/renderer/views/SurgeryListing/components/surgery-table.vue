@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="surgery-table"
-  >
+  <div class="surgery-table">
     <div class="baobiaodan">
       连台手术清洁检查表
     </div>
@@ -50,36 +48,29 @@
               v-model="value12"
             >
               <vxe-checkbox
-
                 label="1"
                 content="手术床"
               />
               <vxe-checkbox
-
                 label="2"
                 content="吸引器"
               />
               <vxe-checkbox
-
                 label="3"
                 content="麻醉车"
               />
               <vxe-checkbox
-
                 label="4"
                 content="输液架"
               />
               <vxe-checkbox
-
                 label="5"
                 content="地面"
               />
             </vxe-checkbox-group>
           </template>
         </vxe-table-column>
-        <vxe-table-colgroup
-          title="手术时使用过的需"
-        >
+        <vxe-table-colgroup title="手术时使用过的需">
           <vxe-table-column
             field="age"
             title="要清洁的消毒物品"
@@ -106,9 +97,7 @@
             </template>
           </vxe-table-column>
         </vxe-table-colgroup>
-        <vxe-table-colgroup
-          title="每台手术后需要"
-        >
+        <vxe-table-colgroup title="每台手术后需要">
           <vxe-table-column
             field="age1"
             width="260"
@@ -147,9 +136,7 @@
             </template>
           </vxe-table-column>
         </vxe-table-colgroup>
-        <vxe-table-colgroup
-          title="如果有污染"
-        >
+        <vxe-table-colgroup title="如果有污染">
           <vxe-table-column
             field="age2"
             width="180"
@@ -253,7 +240,7 @@
         </thead>
         <tbody>
           <tr
-            v-for="(item,index) in surgeryTableList"
+            v-for="(item, index) in surgeryTableList"
             :key="index"
           >
             <td style="width:40px">
@@ -278,27 +265,22 @@
                   v-model="value12"
                 >
                   <vxe-checkbox
-
                     label="1"
                     content="手术床"
                   />
                   <vxe-checkbox
-
                     label="2"
                     content="吸引器"
                   />
                   <vxe-checkbox
-
                     label="3"
                     content="麻醉车"
                   />
                   <vxe-checkbox
-
                     label="4"
                     content="输液架"
                   />
                   <vxe-checkbox
-
                     label="5"
                     content="地面"
                   />
@@ -391,7 +373,7 @@
 
 <script>
 import Bus from '@/utils/bus.js'
-import {ipcRenderer} from 'electron'
+import { ipcRenderer } from 'electron'
 export default {
   name: 'SurgeryTable',
   props: {
@@ -439,7 +421,9 @@ export default {
     //   // this.tableData = this.tableData.concat(this.tableData)
     // },
     dayin () {
-      this.utilsDebounce(() => { this.printCurrent() }, 1000)
+      this.utilsDebounce(() => {
+        this.printCurrent()
+      }, 1000)
     },
     // 打印
     printCurrent () {
@@ -460,23 +444,19 @@ export default {
 </script>
 
 <style scoped lang="scss">
-/deep/ .table-conten .vxe-table .vxe-body--row.row--current {
-    background-color:#D6DCE8 !important;
-}
-
 .surgery-table {
-    box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
-    border-radius: 5px;
-    overflow: hidden;
+  box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
+  border-radius: 5px;
+  overflow: hidden;
+  height: 100%;
+  padding-left: 20px;
+  padding-right: 5px;
+  padding-top: 20px;
+  background-color: #fff;
+  width: 100%;
+  .table-conten {
     height: 100%;
-    padding-left: 20px;
-    padding-right: 5px;
-    padding-top: 20px;
-    background-color: #fff;
-    width: 100%;
-    .table-conten {
-      height: 100%;
-    }
+  }
 }
 
 .baobiaodan {
@@ -494,11 +474,15 @@ export default {
 /deep/ .vxe-header--row th {
   padding: 0 !important;
 }
-/deep/ .vxe-checkbox.is--disabled>input+.vxe-checkbox--icon {
+/deep/ .vxe-checkbox.is--disabled > input + .vxe-checkbox--icon {
   border-color: none;
   background-color: unset;
 }
-/deep/ .vxe-checkbox.is--disabled>input+.vxe-checkbox--icon+.vxe-checkbox--label {
+/deep/
+  .vxe-checkbox.is--disabled
+  > input
+  + .vxe-checkbox--icon
+  + .vxe-checkbox--label {
   color: unset;
   font-weight: 500;
 }
@@ -517,10 +501,11 @@ table tbody {
 table tbody::-webkit-scrollbar {
   display: none;
 }
-table thead th, table tbody tr {
-    display:table;
-    // width:100%;
-    table-layout:fixed;//fixed：固定表格布局
+table thead th,
+table tbody tr {
+  display: table;
+  // width:100%;
+  table-layout: fixed; //fixed：固定表格布局
 }
 .header-tr {
   display: flex;
@@ -532,6 +517,6 @@ td {
   color: #333333;
 }
 /deep/ .vxe-table .vxe-body--row.row--stripe {
-      background-color: #f9fafc;
+  background-color: #f9fafc;
 }
 </style>
