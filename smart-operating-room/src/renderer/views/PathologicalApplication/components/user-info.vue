@@ -490,7 +490,7 @@ export default {
       }
     },
     'formData1.roomNo' (newVal) {
-      this.copyFormData.roomNo = newVal
+      this.copyFormData.roomNo = JSON.parse(JSON.stringify(newVal))
       this.$store.commit('CLEAR_USERINFO')
       this.$store.commit('SAVE_USERINFO', this.copyFormData || {})
       this.searchPathologyByOperSchNo(this.formData1.operSchNo)
