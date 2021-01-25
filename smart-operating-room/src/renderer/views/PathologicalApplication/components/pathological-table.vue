@@ -237,7 +237,7 @@ export default {
           this.openToast('success', res.data.msg)
           Bus.$emit(
             'sub-pathological-success',
-            this.$store.state['pathological-table'].userInfo.operSchNo
+            JSON.parse(JSON.stringify(this.$store.state['pathological-table'].userInfo.operSchNo))
           )
         } else {
           this.openToast('error', res.data.msg)
