@@ -490,10 +490,12 @@ export default {
       }
     },
     'formData1.roomNo' (newVal) {
-      this.copyFormData.roomNo = JSON.parse(JSON.stringify(newVal))
+      this.copyFormData.roomNo = newVal
+      let obj = JSON.parse(JSON.stringify(this.copyFormData))
       this.$store.commit('CLEAR_USERINFO')
-      this.$store.commit('SAVE_USERINFO', this.copyFormData || {})
-      this.searchPathologyByOperSchNo(this.formData1.operSchNo)
+      // this.$store.commit('SAVE_USERINFO', this.copyFormData || {})
+      this.$store.commit('SAVE_USERINFO', obj)
+      // this.searchPathologyByOperSchNo(this.formData1.operSchNo)
     }
   }
 }

@@ -511,7 +511,7 @@ export default {
     // 提交申请
     timeSubApplication () {
       this.type = true
-      this.userInfo = this.$store.state['pathological-table'].userInfo
+      this.userInfo = JSON.parse(JSON.stringify(this.$store.state['pathological-table'].userInfo))
       if (this.userInfo.roomNo === '') {
         this.$alert('请先选择房间号', '提示')
         this.setTimeCloseBtnLoad()
