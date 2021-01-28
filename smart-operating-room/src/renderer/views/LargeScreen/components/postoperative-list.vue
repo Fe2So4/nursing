@@ -85,7 +85,7 @@ export default {
 @import '@/styles/themes';
   .postoperative-list{
     @include theme-property('background-color',background_color_secondary);
-    @include theme-property('box-shadow',box_color_shadow);
+    @include theme-property('box-shadow',box_color_shadow_info);
     border-radius: 10px;
     height: 100%;
     flex: 0.35;

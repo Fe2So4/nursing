@@ -190,6 +190,19 @@ export default {
       span {
         margin-right: 14px;
       }
+      .el-radio-group{
+        /deep/ .el-radio-button__inner{
+          @include theme-property('color',font_color_secondary);
+          @include theme-property('border-color',background_color_info_item);
+          @include theme-property('background-color',background_color_info_item);
+        }
+        /deep/ .el-radio-button__orig-radio:checked+.el-radio-button__inner{
+          color: #ffffff !important;
+          @include theme-property('border-color',font_color_primary);
+          @include theme-property('background-color',font_color_primary);
+          @include theme-property('box-shadow',radio_shadow);
+        }
+      }
     }
     ul {
       // display: grid;
@@ -197,7 +210,7 @@ export default {
       // grid-template-columns: repeat(auto-fill, 100px);
       // grid-row-gap: 40px;
       // grid-column-gap: 40px;
-      background: #f8f8f8;
+      @include theme-property('background',background_color_change_room);
       // padding: 40px;
       border-radius: 10px;
       li {
@@ -207,13 +220,19 @@ export default {
         margin: 40px 0 0 40px;
         height: 60px;
         line-height: 60px;
-        background: #ffffff;
-        border: 1px solid #d6d8e1;
+        @include theme-property('background-color',background_color_room_item);
+        border: 1px solid;
+        @include theme-property('border-color',border_color_room);
+        @include theme-property('color',font_color_secondary);
         border-radius: 10px;
         text-align: center;
         &.active {
-          background: #d6d8e1;
-          color: #0094ff;
+          @include theme-property('background-color',background_color_room_active);
+          @include theme-property('color',font_color_room_active);
+        }
+        &:hover {
+          @include theme-property('background-color',background_color_room_active);
+          @include theme-property('color',font_color_room_active);
         }
       }
     }
@@ -224,6 +243,9 @@ export default {
   /deep/ .el-dialog__header{
     border-bottom:1px solid;
     @include theme-property('border-bottom-color',border_color_info);
+  }
+  /deep/ .el-dialog, .el-pager li{
+    @include theme-property('background-color',background_color_primary);
   }
   .title{
     i{
@@ -248,5 +270,9 @@ export default {
   display: flex;
   justify-content: center;
   margin-top: 15px;
+  .el-button--primary{
+    @include theme-property('background-color',font_color_primary);
+    @include theme-property('border-color',font_color_primary);
+  }
 }
 </style>>

@@ -8,7 +8,7 @@
       right-text="保存"
     >
     </van-nav-bar>
-    <PatientCard></PatientCard>
+    <PatientCard :radius="true"></PatientCard>
     <div class="list">
       <van-cell-group>
         <van-cell
@@ -1277,6 +1277,8 @@ export default {
         method: 'get'
       }).then((res) => {
         let data = res.data.data
+        this.recordForm.deptName = data.deptName
+        this.recordForm.opsName = data.opsName
         if (data.recordTwoState !== '0') {
           if (!this.IsEmpty(data.equipment)) {
             data.electrotome = data.equipment.electrotome

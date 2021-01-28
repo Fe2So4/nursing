@@ -8,7 +8,7 @@
       right-text="保存"
     >
     </van-nav-bar>
-    <PatientCard></PatientCard>
+    <PatientCard :radius="true"></PatientCard>
     <div class="list">
       <div class="tree">
         <div class="tree-left">
@@ -312,7 +312,7 @@ export default {
     getPackageList () {
       request({
         method: 'get',
-        url: getPackageDataSpecial + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`
+        url: getPackageDataSpecial + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}/${this.patientInfo.operSchNo}`
       }).then(res => {
         if (!this.IsEmpty(JSON.parse(res.data.data.specialEquipmentStr))) {
           let data = res.data.data
@@ -721,6 +721,7 @@ export default {
       obj.specialEquipment = JSON.stringify(obj.specialEquipment)
       obj.cureNo = this.patientInfo.cureNo
       obj.hospitalNo = this.patientInfo.hospitalNo
+      obj.operSchNo = this.patientInfo.operSchNo
       obj.modifier = this.opePeopleInfo.userName
       obj.modifierCode = this.opePeopleInfo.userCode
       request({

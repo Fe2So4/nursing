@@ -8,7 +8,7 @@
       right-text="运送"
     >
     </van-nav-bar>
-    <PatientCard></PatientCard>
+    <PatientCard :radius="true"></PatientCard>
     <div class="list">
       <van-cell-group>
         <van-cell
@@ -442,8 +442,7 @@ import {
   submitInPacu,
   submitOutOpeRoom,
   submitOutPacu,
-  submitPatRoom,
-  changeApplyStatus
+  submitPatRoom
 } from '@/api/handover-record'
 import request from '@/utils/request'
 import { mapState } from 'vuex'
@@ -730,18 +729,18 @@ export default {
     handleSubmitImage (image) {
       this.recordForm.signatureImage2 = image
     },
-    changeApplyStatus () {
-      request({
-        url: changeApplyStatus,
-        method: 'post',
-        data: {
-          // code: this.opePeopleInfo.userCode,
-          // name: this.opePeopleInfo.userName,
-          orderId: this.patientInfo.operSchNo,
-          status: 2
-        }
-      })
-    },
+    // changeApplyStatus () {
+    //   request({
+    //     url: changeApplyStatus,
+    //     method: 'post',
+    //     data: {
+    //       // code: this.opePeopleInfo.userCode,
+    //       // name: this.opePeopleInfo.userName,
+    //       orderId: this.patientInfo.operSchNo,
+    //       status: 2
+    //     }
+    //   })
+    // },
     handleDrowDownChange (value) {
       if (value === '2') {
         // this.showFullSkin = true
@@ -942,9 +941,9 @@ export default {
         if (res.data.code === 200) {
           // this.$router.push('/transfer-handover')
           this.$notify({ type: 'success', message: res.data.msg })
-          if (this.transferTitle === '病房交接') {
-            this.changeApplyStatus()
-          }
+          // if (this.transferTitle === '病房交接') {
+          //   this.changeApplyStatus()
+          // }
         }
       })
     },

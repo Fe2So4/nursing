@@ -7,7 +7,7 @@
       left-arrow
     >
     </van-nav-bar>
-    <PatientCard></PatientCard>
+    <PatientCard :radius="true"></PatientCard>
     <div class="list">
       <h3>手术病人护理记录单(三)</h3>
       <ul>

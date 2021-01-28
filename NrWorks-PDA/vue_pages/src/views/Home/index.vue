@@ -123,7 +123,8 @@ export default {
       showMenu: false,
       showPtSelect: false,
       patientList: [],
-      radio: ''
+      radio: '',
+      operateNo: null
     }
   },
   computed: {
@@ -187,8 +188,14 @@ export default {
     },
     getPatientData () {
       // this.showLoading = true
+      let url = ''
+      if (!this.operateNo) {
+        url = `${getPatientInfo}?cureNo=${this.cureNo}`
+      } else {
+        url = `${getPatientInfo}?cureNo=${this.cureNo}&operSchNo=${this.operateNo}`
+      }
       request({
-        url: getPatientInfo + '/' + this.cureNo,
+        url: url,
         method: 'get'
       }).then((res) => {
         if (res) {
@@ -210,7 +217,6 @@ export default {
               // if (res.data.data[0].state === '1' || res.data.data[0].state === '2') {
               this.getPatient(res.data.data[0])
               this.handleJump()
-              this.bindingPatPushScreen()
               // } else {
               //   this.$notify({type: 'warning', message: '当前手术未接单'})
               // }
@@ -259,14 +265,20 @@ export default {
       window.document.documentElement.setAttribute('data-theme', type)
     },
     getPatientDataUpdate () {
-      this.showLoading = true
+      // this.showLoading = true
+      let operateNo = ''
+      if (this.operateNo) {
+        operateNo = this.operateNo
+      } else {
+        operateNo = this.patientInfo.operSchNo
+      }
       request({
-        url: getPatientInfo + '/' + this.cureNo,
+        url: `${getPatientInfo}?cureNo=${this.cureNo}&operSchNo=${operateNo}`,
         method: 'get'
       }).then((res) => {
         if (res) {
           if (res.data.code === 200) {
-            this.getPatient(res.data.data)
+            this.getPatient(res.data.data[0])
           } else {
           }
         } else {
@@ -282,11 +294,8 @@ export default {
       // 患者腕带条码
       if (parseInt(code)) {
         this.cureNo = code
-        this.getPatientData()
         // this.subjectOfPatientWristband.next(code)
-      }
-      // 手术通知单二维码
-      if (code.indexOf('OpsQRCode') !== -1) {
+      } else if (code.indexOf('OpsQRCode') !== -1) {
         // var jsonStr
         if (code.indexOf('OpsSchNo') !== -1) {
           var codelist = code.split(',')
@@ -299,16 +308,19 @@ export default {
           this.cureNo = code.replace('OpsQRCode=', '')
           // jsonStr = JSON.stringify({ cureno: code.replace('OpsQRCode=', '') })
         }
-        this.getPatientData()
-        // this.subjectOfPatientNoticeForm.next(jsonStr)
       }
+      // 手术通知单二维码
+      // if (code.indexOf('OpsQRCode') !== -1) {
+      this.getPatientData()
+      //   // this.subjectOfPatientNoticeForm.next(jsonStr)
+      // }
     }
   },
   created () {
     document.onkeydown = (e) => {
       var key = window.event.keyCode
       if (key === 13) {
-        this.handleScan('19102497')
+        this.handleScan('OpsQRCode=19162832,OpsSchNo=415089')
       }
     }
     this.setTheme()
