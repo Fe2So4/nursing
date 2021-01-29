@@ -215,7 +215,7 @@
             :loading="btnLoad"
             :disabled="dayinBtn"
             class="btn"
-            style="width:120px;height:35px;font-size:16px;font-weight:bold"
+            style="width:120px;height:35px;font-size:16px;font-weight:bold;line-height:14px"
             type="primary"
             @click="submitApplication"
           >
@@ -595,6 +595,9 @@ export default {
           this.openToast('error', res.data.msg)
         }
       })
+      setTimeout(() => {
+        this.setTimeCloseBtnLoad()
+      }, 6000)
     },
     // 打印瓶贴
     dayinPingTie () {
@@ -669,6 +672,7 @@ export default {
   color: #ffffff;
 }
 .btnRed {
+  border: 1px solid #fe5353;
   color: #fff;
   width: 90px;
   background-color: #fe5353;

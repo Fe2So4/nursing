@@ -190,7 +190,11 @@ export default {
       let item = this.hologyTypeList.find(item => item.value === cellValue)
       return item ? item.label : ''
     },
-    handleClose () {},
+    handleClose () {
+      this.exitdialogVisible = false
+      this.senddialogVisible = false
+      this.btnLoad = false
+    },
     // 获取高亮行
     getCurrentEvent () {
       this.$XModal.alert(JSON.stringify(this.$refs.xTable.getCurrentRecord()))
@@ -358,6 +362,7 @@ export default {
     // padding-left: 20px;
   }
   .button-content {
+    @include background_color('table_bgc');
     box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05);
     border-radius: 5px;
     text-align: right;

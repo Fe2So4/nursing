@@ -10,7 +10,7 @@
             class="el-dropdown-link"
             style="font-size:16px;color:#fff"
           >
-            <i class="el-icon-share" />
+            <i class="el-icon-magic-stick" />
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native="theme('light')">
@@ -31,7 +31,7 @@
       <span
         @click="changeWin(2)"
         v-if="type === 2"
-        class="zuidahua"
+        class="zuidahua span"
       />
       <span
         class="span"

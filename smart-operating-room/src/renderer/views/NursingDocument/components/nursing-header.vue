@@ -28,6 +28,7 @@
       </vxe-form-item>
       <vxe-form-item title="姓名/住院号">
         <vxe-input
+          @keyup.enter.native="searchTable"
           clearable
           v-model="formData.hospitalNoOrName"
           placeholder="请输入姓名/住院号"

@@ -251,6 +251,7 @@ export default {
           ) {
             if (data.object.state === 1) {
               this.selectRow.orderState = 1
+              this.selectRow.workerCode = data.object.workerCode
               this.openToast(
                 'success',
                 '订单已接单，可进行打印手术通知单或瓶贴'

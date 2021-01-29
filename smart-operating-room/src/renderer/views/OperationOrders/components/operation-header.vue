@@ -23,6 +23,7 @@
         <vxe-form-item field="nickname">
           <template v-slot>
             <vxe-input
+              @keyup.enter.native="searchCardList"
               v-model="formData1.nickname"
               placeholder="病人姓名/手术名称/住院号"
               clearable
@@ -102,6 +103,7 @@
 
         <vxe-form-item title="楼层">
           <vxe-select
+            @change="changeSelectFloor"
             size="mini"
             clearable
             style="width:120px"
@@ -140,7 +142,6 @@ export default {
   },
   mounted () {
     this.formData1.startDate = this.utilsGetNewDate()
-    console.log(this.formData1.startDate)
     this.getFloorList()
   },
   methods: {
@@ -151,7 +152,14 @@ export default {
           this.$store.commit('SAVE_FLOOR', res.data.data)
           this.floorList = JSON.parse(JSON.stringify(res.data.data))
           this.floorList.unshift({ floorNo: '', floorName: '全部' })
+          this.getSaveFloor()
         }
+      })
+    },
+    // 获取记忆楼层
+    getSaveFloor () {
+      this.$store.dispatch('ReqgetNurseFloor').then(res => {
+        this.formData2.selectFloor = res.data.data || ''
       })
     },
     // 点击同步按钮
@@ -188,6 +196,14 @@ export default {
         type: type,
         duration: 3000
       })
+    },
+    // 换房间
+    changeSelectFloor (item) {
+      let obj = {
+        floor: item.value
+      }
+      this.$store.dispatch('ReqSaveNurseFloor', obj)
+      this.searchCardList()
     }
   },
   watch: {
@@ -195,11 +211,6 @@ export default {
       if (newVal !== oldVal) {
         this.$emit('changeRadio', newVal)
         this.$store.commit('CHANGE_ISSHEND', newVal)
-      }
-    },
-    'formData2.selectFloor' (newVal, oldVal) {
-      if (newVal !== oldVal) {
-        this.searchCardList()
       }
     }
   }

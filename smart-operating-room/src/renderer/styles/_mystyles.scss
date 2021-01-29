@@ -5,16 +5,21 @@
 .el-message-box {
   @include background_color('order_body')
 }
-.el-message-box__content {
+
+.el-message-box__content, .el-message-box__header .el-message-box__title{
   @include font_color('vxe_input_panel_font_current');
 }
 .el-dialog {
   @include background_color('el_dialog_bgc');
 }
-.button--primary,.el-button--primary:focus, .el-button--primary:hover {
+.button--primary,.el-button--primary:focus, .el-button--primary:hover, .vxe-input--time-picker-confirm{
   @include background_color('vxe_primary_color');
   @include border_color('vxe_primary_color');
   @include font_color('font_color2');
+}
+.el-message-box .el-button {
+  @include background_color('vxe_primary_color');
+  @include border_color('vxe_primary_color');
 }
 .el-button:hover {
   @include background_color('vxe_primary_color');
@@ -41,16 +46,25 @@
   @include font_color('diolog_title_color');
   font-weight: 600;
 }
-.el-dialog__headerbtn .el-dialog__close:hover {
+.el-dialog__headerbtn .el-dialog__close:hover,.el-message-box__headerbtn:hover, .el-message-box__close.el-icon-close:hover{
   @include font_color('vxe_input_panel_select');
 }
 // 修改样式变量
 
 .vxe-font-color { @include font_color('search_header_font')};
 .vxe-form { @include background('search_header_bgc')};
-.vxe-input--inner, .vxe-textarea--inner { 
+.vxe-input--inner, .vxe-textarea--inner, .el-input__inner, .vxe-input--time-picker-title{ 
    @include background('search_header_bgc'); 
-   @include font_color('input_font_color')};
+   @include font_color('input_font_color');
+   @include border_color('input_inner_fontboder')
+  };
+.vxe-input--time-picker-body .is--selected {
+  @include font_color('order_body_ward_color');
+}
+.vxe-input--time-picker-body ul li {
+  @include font_color('table_header_font');
+  
+}
 .el-select .el-input__inner {
    @include background('search_header_bgc'); 
    @include font_color('order_body_font_coloc');
@@ -114,7 +128,7 @@
 //   @include font_color('search_header_font');
 // }
 .vxe-body--row {
-  @include background_color('table_bgc');
+  @include background_color('table_banma');
   @include font_color('search_header_font');
 }
 .vxe-header--row {
@@ -127,7 +141,7 @@
   @include font_color('table_header_font');
 }
 .vxe-body--row.row--stripe {
-  @include background_color('table_banma');
+  @include background_color('table_bgc');
   // @include font_color('search_header_font');
 }
 .vxe-table--body-wrapper, .vxe-table--header-wrapper {
@@ -149,6 +163,7 @@
   @include font_color('search_header_font');
 }
 .nursing-document-list .content .header, .nursing-document-list .leftNav .left-nav-container{
+  overflow: hidden;
   @include background('search_header_bgc');
   @include font_color('search_header_font');
 }
@@ -160,7 +175,10 @@
   
 }
 .left-nav-container .el-menu .el-menu-item, .left-nav-container .el-submenu__title {
-@include font_color('table_header_font');
+  @include font_color('table_header_font');
+}
+.left-nav-container .el-menu .el-menu-item.is-active {
+  @include font_color('nav_select_color');
 }
 .nursing-documentlist-header {
   @include background('table_bgc'); 
@@ -170,6 +188,15 @@
 }
 .nursing-document-list .leftNav .el-menu-item.is-active {
   @include background('nursing_list_nav'); 
+}
+.layout-aside .el-menu-vertical-demo .el-menu-item:hover {
+  @include background('nav_menu_item_color'); 
+}
+.layout-aside .el-menu-vertical-demo .el-menu-item.is-active {
+  @include background('nav_menu_item_color'); 
+}
+.layout-aside .line {
+  @include background('nav_line'); 
 }
 // .vxe-table .vxe-body--row.row--current {
 //   background-color: #000 !important;

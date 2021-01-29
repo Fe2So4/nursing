@@ -1,3 +1,9 @@
+@media print {
+  @page {
+    size: landscape;
+  }
+}
+
 .detail-patient {
   display: block !important;
 }
@@ -7,13 +13,10 @@
   height: 100%;
   margin: 0 auto;
   width: 960px;
-
   border-radius: 5px 5px 0px 0px;
   color: #202020;
 }
-.print-content td {
-  height: 44px;
-}
+
 .print-content h3 {
   text-align: center;
 }
