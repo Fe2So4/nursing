@@ -159,7 +159,7 @@ export default {
     },
     setTheme () {
       let theme = getLargeScreenTheme()
-      let type = 'dark'
+      let type = 'light'
       if (theme) {
         type = theme
       }

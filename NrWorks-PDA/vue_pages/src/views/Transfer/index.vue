@@ -65,157 +65,169 @@
 </template>
 
 <script>
-import request from "@/utils/request";
-import { bindingPatPushScreen, execOperation } from "@/api/patient-info";
+import request from '@/utils/request'
+import { bindingPatPushScreen, execOperation } from '@/api/patient-info'
 import {
   getHandoverCodeStatus,
   saveHandoverCodeStatus,
-} from "@/api/handover-record";
-import { mapState } from "vuex";
-import $bus from "@/utils/bus";
-import moment from "moment";
+  changeApplyStatus
+} from '@/api/handover-record'
+import { mapState } from 'vuex'
+import $bus from '@/utils/bus'
+import moment from 'moment'
 export default {
-  name: "Transfer",
-  data() {
+  name: 'Transfer',
+  data () {
     return {
       active: -1,
-      code: "",
+      code: '',
       stepList: [],
       roomScanList: [
-        { label: "手术房间", value: false, active: 2, room: "", time: "" },
+        { label: '手术房间', value: false, active: 2, room: '', time: '' }
       ],
-      outPacuScan: [{ label: "患者腕带", value: false, active: 0, time: "" }], // 出pacu
-      outWardScan: [{ label: "患者腕带", value: false, active: 0, time: "" }], // 病房交接
+      outPacuScan: [{ label: '患者腕带', value: false, active: 0, time: '' }], // 出pacu
+      outWardScan: [{ label: '患者腕带', value: false, active: 0, time: '' }], // 病房交接
       pointInRoomScan: [
-        { label: "患者腕带", value: false, active: 0, time: "" },
-        { label: "手术通知单", value: false, active: 1, time: "" },
+        { label: '患者腕带', value: false, active: 0, time: '' },
+        { label: '手术通知单', value: false, active: 1, time: '' }
       ], // 进手术室
       pointOutRoomScan: [
-        { label: "患者腕带", value: false, active: 0, time: "" },
-        { label: "工勤人员二维码", value: false, active: 1, time: "" },
+        { label: '患者腕带', value: false, active: 0, time: '' },
+        { label: '工勤人员二维码', value: false, active: 1, time: '' }
       ], // 出手术室
-      pointPacuScan: [{ label: "患者腕带", value: false, active: 0, time: "" }], // 进pacu
+      pointPacuScan: [{ label: '患者腕带', value: false, active: 0, time: '' }], // 进pacu
       pointWardScan: [
-        { label: "患者腕带", value: false, active: 0, time: "" },
-        { label: "工勤人员二维码", value: false, active: 1, time: "" },
-      ], // 回病房---病房收治
-    };
+        { label: '患者腕带', value: false, active: 0, time: '' },
+        { label: '工勤人员二维码', value: false, active: 1, time: '' }
+      ] // 回病房---病房收治
+    }
   },
   watch: {
     stepList: {
-      handler(newVal, old) {
-        let active = -1;
+      handler (newVal, old) {
+        let active = -1
         this.stepList.forEach((item) => {
           if (item.value) {
-            active = item.active;
+            active = item.active
           }
-        });
-        this.active = active;
+        })
+        this.active = active
       },
       imediate: true,
-      deep: true,
-    },
+      deep: true
+    }
   },
   computed: {
-    ...mapState("Patient", ["patientInfo"]),
+    ...mapState('Patient', ['patientInfo'])
   },
   methods: {
-    onClickLeft() {
-      this.$router.go(-1);
+    onClickLeft () {
+      this.$router.go(-1)
     },
-    onClickRight() {},
-    handleExecute() {
+    onClickRight () {},
+    handleExecute () {
       request({
-        method: "post",
-        url: execOperation + "/" + this.patientInfo.operSchNo,
-      }).then((res) => {});
+        method: 'get',
+        url: execOperation + '/' + this.patientInfo.operSchNo
+      }).then((res) => {})
+    },
+    changeApplyStatus () {
+      request({
+        url: changeApplyStatus,
+        method: 'post',
+        data: {
+          orderId: this.patientInfo.operSchNo,
+          status: 2
+        }
+      })
     },
     // 绑定患者
-    bindingPatPushScreen() {
+    bindingPatPushScreen () {
       request({
         url: bindingPatPushScreen,
-        method: "post",
+        method: 'post',
         params: {
           cureNo: this.patientInfo.cureNo,
           operSchNo: this.patientInfo.operSchNo,
-        },
+          roomNo: this.patientInfo.roomNo
+        }
       }).then((res) => {
         if (res.data.code === 200) {
           // this.handleJump();
         }
-      });
+      })
     },
-    saveCodeStatus() {
-      let mark = null;
-      let arr = [];
-      let time = moment(new Date()).format("YYYY-MM-DD HH:mm");
-      if (this.$route.query.title === "病房交接") {
+    saveCodeStatus () {
+      let mark = null
+      let arr = []
+      let time = moment(new Date()).format('YYYY-MM-DD HH:mm')
+      if (this.$route.query.title === '病房交接') {
         if (parseInt(this.code)) {
           if (this.patientInfo.cureNo === this.code) {
             if (this.stepList[0].value) {
               this.$notify({
-                message: "当前患者已扫码,请勿重复扫码",
-                type: "warning",
-              });
-              return;
+                message: '当前患者已扫码,请勿重复扫码',
+                type: 'warning'
+              })
+              return
             } else {
-              mark = 1;
-              this.stepList[0].value = true;
-              this.stepList[0].time = time;
-              arr = JSON.parse(JSON.stringify(this.stepList));
+              mark = 1
+              this.stepList[0].value = true
+              this.stepList[0].time = time
+              arr = JSON.parse(JSON.stringify(this.stepList))
             }
           } else {
-            this.$notify({ message: "匹配失败", type: "warning" });
-            return;
+            this.$notify({ message: '匹配失败', type: 'warning' })
+            return
           }
         } else {
-          this.$notify({ message: "请扫描患者腕带", type: "warning" });
-          return;
+          this.$notify({ message: '请扫描患者腕带', type: 'warning' })
+          return
         }
-      } else if (this.$route.query.title === "进手术室") {
+      } else if (this.$route.query.title === '进手术室') {
         if (this.stepList[0].value) {
           if (!this.stepList[1].value) {
-            if (this.code.indexOf("OpsQRCode") !== -1) {
-              var OpsRQCode = this.code.replace("OpsQRCode=", "");
+            if (this.code.indexOf('OpsQRCode') !== -1) {
+              var OpsRQCode = this.code.replace('OpsQRCode=', '')
               if (this.patientInfo.cureNo !== OpsRQCode) {
                 this.$notify({
-                  message: "该手术通知单与当前患者不匹配",
-                  type: "warning",
-                });
-                return;
+                  message: '该手术通知单与当前患者不匹配',
+                  type: 'warning'
+                })
+                return
               } else {
-                mark = 2;
-                this.stepList[1].value = true;
-                this.stepList[1].time = time;
+                mark = 2
+                this.stepList[1].value = true
+                this.stepList[1].time = time
                 arr = [
-                  { stepList: this.stepList, roomScanList: this.roomScanList },
-                ];
+                  { stepList: this.stepList, roomScanList: this.roomScanList }
+                ]
               }
             } else {
               this.$notify({
-                message: "请扫描患者手术通知单",
-                type: "warning",
-              });
-              return;
+                message: '请扫描患者手术通知单',
+                type: 'warning'
+              })
+              return
             }
           } else {
             if (!this.roomScanList[0].value) {
-              if (this.code.indexOf("RoomNum") !== -1) {
-                let roomCode = this.code.replace("RoomNum=", "");
-                mark = 2;
-                this.roomScanList[0].value = true;
-                this.roomScanList[0].room = roomCode;
-                this.roomScanList[0].time = time;
+              if (this.code.indexOf('RoomNum') !== -1) {
+                let roomCode = this.code.replace('RoomNum=', '')
+                mark = 2
+                this.roomScanList[0].value = true
+                this.roomScanList[0].room = roomCode
+                this.roomScanList[0].time = time
                 arr = [
-                  { stepList: this.stepList, roomScanList: this.roomScanList },
-                ];
+                  { stepList: this.stepList, roomScanList: this.roomScanList }
+                ]
               } else {
-                this.$notify({ message: "请扫描手术房间", type: "warning" });
-                return;
+                this.$notify({ message: '请扫描手术房间', type: 'warning' })
+                return
               }
             } else {
-              this.$notify({ message: "请勿重复扫码", type: "warning" });
-              return;
+              this.$notify({ message: '请勿重复扫码', type: 'warning' })
+              return
             }
           }
         } else {
@@ -223,62 +235,62 @@ export default {
             if (this.patientInfo.cureNo === this.code) {
               if (this.stepList[0].value) {
                 this.$notify({
-                  message: "当前患者已扫码,请勿重复扫码",
-                  type: "warning",
-                });
-                return;
+                  message: '当前患者已扫码,请勿重复扫码',
+                  type: 'warning'
+                })
+                return
               } else {
-                mark = 2;
-                this.stepList[0].value = true;
-                this.stepList[0].time = time;
+                mark = 2
+                this.stepList[0].value = true
+                this.stepList[0].time = time
                 arr = [
-                  { stepList: this.stepList, roomScanList: this.roomScanList },
-                ];
+                  { stepList: this.stepList, roomScanList: this.roomScanList }
+                ]
               }
             } else {
-              this.$notify({ message: "患者匹配失败", type: "warning" });
-              return;
+              this.$notify({ message: '患者匹配失败', type: 'warning' })
+              return
             }
           } else {
-            this.$notify({ message: "请扫描患者腕带", type: "warning" });
-            return;
+            this.$notify({ message: '请扫描患者腕带', type: 'warning' })
+            return
           }
         }
-      } else if (this.$route.query.title === "出手术室") {
+      } else if (this.$route.query.title === '出手术室') {
         if (this.stepList[0].value) {
           if (!this.stepList[1].value) {
-            if (this.code.indexOf("Worker") !== -1) {
-              mark = 3;
-              this.stepList[1].value = true;
-              this.stepList[1].time = time;
+            if (this.code.indexOf('Worker') !== -1) {
+              mark = 3
+              this.stepList[1].value = true
+              this.stepList[1].time = time
               arr = [
-                { stepList: this.stepList, roomScanList: this.roomScanList },
-              ];
+                { stepList: this.stepList, roomScanList: this.roomScanList }
+              ]
             } else {
               this.$notify({
-                message: "请扫描工勤人员二维码",
-                type: "warning",
-              });
-              return;
+                message: '请扫描工勤人员二维码',
+                type: 'warning'
+              })
+              return
             }
           } else {
             if (!this.roomScanList[0].value) {
-              if (this.code.indexOf("RoomNum") !== -1) {
-                let roomCode = this.code.replace("RoomNum=", "");
-                mark = 3;
-                this.roomScanList[0].value = true;
-                this.roomScanList[0].room = roomCode;
-                this.roomScanList[0].time = time;
+              if (this.code.indexOf('RoomNum') !== -1) {
+                let roomCode = this.code.replace('RoomNum=', '')
+                mark = 3
+                this.roomScanList[0].value = true
+                this.roomScanList[0].room = roomCode
+                this.roomScanList[0].time = time
                 arr = [
-                  { stepList: this.stepList, roomScanList: this.roomScanList },
-                ];
+                  { stepList: this.stepList, roomScanList: this.roomScanList }
+                ]
               } else {
-                this.$notify({ message: "请扫描手术房间", type: "warning" });
-                return;
+                this.$notify({ message: '请扫描手术房间', type: 'warning' })
+                return
               }
             } else {
-              this.$notify({ message: "请勿重复扫码", type: "warning" });
-              return;
+              this.$notify({ message: '请勿重复扫码', type: 'warning' })
+              return
             }
           }
         } else {
@@ -286,291 +298,292 @@ export default {
             if (this.patientInfo.cureNo === this.code) {
               if (this.stepList[0].value) {
                 this.$notify({
-                  message: "当前患者已扫码,请勿重复扫码",
-                  type: "warning",
-                });
-                return;
+                  message: '当前患者已扫码,请勿重复扫码',
+                  type: 'warning'
+                })
+                return
               } else {
-                mark = 3;
-                this.stepList[0].value = true;
-                this.stepList[0].time = time;
+                mark = 3
+                this.stepList[0].value = true
+                this.stepList[0].time = time
                 arr = [
-                  { stepList: this.stepList, roomScanList: this.roomScanList },
-                ];
+                  { stepList: this.stepList, roomScanList: this.roomScanList }
+                ]
               }
             } else {
-              this.$notify({ message: "患者匹配失败", type: "warning" });
-              return;
+              this.$notify({ message: '患者匹配失败', type: 'warning' })
+              return
             }
           } else {
-            this.$notify({ message: "请扫描患者腕带", type: "warning" });
-            return;
+            this.$notify({ message: '请扫描患者腕带', type: 'warning' })
+            return
           }
         }
-      } else if (this.$route.query.title === "进PACU") {
+      } else if (this.$route.query.title === '进PACU') {
         if (parseInt(this.code)) {
           if (this.patientInfo.cureNo === this.code) {
             if (this.stepList[0].value) {
               this.$notify({
-                message: "当前患者已扫码,请勿重复扫码",
-                type: "warning",
-              });
-              return;
+                message: '当前患者已扫码,请勿重复扫码',
+                type: 'warning'
+              })
+              return
             } else {
-              mark = 4;
-              this.stepList[0].value = true;
-              this.stepList[0].time = time;
-              arr = JSON.parse(JSON.stringify(this.stepList));
+              mark = 4
+              this.stepList[0].value = true
+              this.stepList[0].time = time
+              arr = JSON.parse(JSON.stringify(this.stepList))
             }
           } else {
-            this.$notify({ message: "匹配失败", type: "warning" });
-            return;
+            this.$notify({ message: '匹配失败', type: 'warning' })
+            return
           }
         } else {
-          this.$notify({ message: "请扫描患者腕带", type: "warning" });
-          return;
+          this.$notify({ message: '请扫描患者腕带', type: 'warning' })
+          return
         }
-      } else if (this.$route.query.title === "出PACU") {
+      } else if (this.$route.query.title === '出PACU') {
         if (parseInt(this.code)) {
           if (this.patientInfo.cureNo === this.code) {
             if (this.stepList[0].value) {
               this.$notify({
-                message: "当前患者已扫码,请勿重复扫码",
-                type: "warning",
-              });
-              return;
+                message: '当前患者已扫码,请勿重复扫码',
+                type: 'warning'
+              })
+              return
             } else {
-              mark = 5;
-              this.stepList[0].value = true;
-              this.stepList[0].time = time;
-              arr = JSON.parse(JSON.stringify(this.stepList));
+              mark = 5
+              this.stepList[0].value = true
+              this.stepList[0].time = time
+              arr = JSON.parse(JSON.stringify(this.stepList))
             }
           } else {
-            this.$notify({ message: "患者匹配失败", type: "warning" });
-            return;
+            this.$notify({ message: '患者匹配失败', type: 'warning' })
+            return
           }
         } else {
-          this.$notify({ message: "请扫描患者腕带", type: "warning" });
-          return;
+          this.$notify({ message: '请扫描患者腕带', type: 'warning' })
+          return
         }
-      } else if (this.$route.query.title === "病房收治") {
+      } else if (this.$route.query.title === '病房收治') {
         if (this.stepList[0].value) {
           if (!this.stepList[1].value) {
-            if (this.code.indexOf("Worker") !== -1) {
-              mark = 6;
-              this.stepList[1].value = true;
-              this.stepList[1].time = time;
-              arr = JSON.parse(JSON.stringify(this.stepList));
+            if (this.code.indexOf('Worker') !== -1) {
+              mark = 6
+              this.stepList[1].value = true
+              this.stepList[1].time = time
+              arr = JSON.parse(JSON.stringify(this.stepList))
             } else {
               this.$notify({
-                message: "请扫描工勤人员二维码",
-                type: "warning",
-              });
-              return;
+                message: '请扫描工勤人员二维码',
+                type: 'warning'
+              })
+              return
             }
           } else {
             this.$notify({
-              message: "当前患者已扫码,请勿重复扫码",
-              type: "warning",
-            });
-            return;
+              message: '当前患者已扫码,请勿重复扫码',
+              type: 'warning'
+            })
+            return
           }
         } else {
           if (parseInt(this.code)) {
             if (this.patientInfo.cureNo === this.code) {
               if (this.stepList[0].value) {
                 this.$notify({
-                  message: "当前患者已扫码,请勿重复扫码",
-                  type: "warning",
-                });
-                return;
+                  message: '当前患者已扫码,请勿重复扫码',
+                  type: 'warning'
+                })
+                return
               } else {
-                mark = 6;
-                this.stepList[0].value = true;
-                this.stepList[0].time = time;
-                arr = JSON.parse(JSON.stringify(this.stepList));
+                mark = 6
+                this.stepList[0].value = true
+                this.stepList[0].time = time
+                arr = JSON.parse(JSON.stringify(this.stepList))
               }
             } else {
-              this.$notify({ message: "患者匹配失败", type: "warning" });
-              return;
+              this.$notify({ message: '患者匹配失败', type: 'warning' })
+              return
             }
           } else {
-            this.$notify({ message: "请扫描患者腕带", type: "warning" });
-            return;
+            this.$notify({ message: '请扫描患者腕带', type: 'warning' })
+            return
           }
         }
       }
       request({
         url: saveHandoverCodeStatus,
-        method: "post",
+        method: 'post',
         data: {
           cureNo: this.patientInfo.cureNo,
           hospitalNo: this.patientInfo.hospitalNo,
           operSchNo: this.patientInfo.operSchNo,
           mark: mark,
           status: this.code,
-          statusList: arr,
-        },
+          statusList: arr
+        }
       }).then((res) => {
         if (res.data.code === 200) {
           if (mark === 2) {
-            this.bindingPatPushScreen();
-            this.handleExecute();
+            this.bindingPatPushScreen()
+            this.handleExecute()
+            this.changeApplyStatus()
           }
-          this.$notify({ message: "扫码成功", type: "success" });
+          this.$notify({ message: '扫码成功', type: 'success' })
           // this.getCodeStatus();
         }
-      });
+      })
     },
-    getCodeStatus() {
+    getCodeStatus () {
       request({
         url:
           getHandoverCodeStatus +
-          "/" +
+          '/' +
           this.patientInfo.hospitalNo +
-          "/" +
+          '/' +
           this.patientInfo.cureNo +
-          "/" +
+          '/' +
           this.patientInfo.operSchNo,
-        method: "get",
+        method: 'get'
       }).then((res) => {
         switch (this.$route.query.title) {
-          case "病房交接":
+          case '病房交接':
             if (res.data.data.outWardScan.length > 0) {
-              this.stepList = res.data.data.outWardScan;
+              this.stepList = res.data.data.outWardScan
             }
-            break;
-          case "进手术室":
+            break
+          case '进手术室':
             // 需要操作
             if (res.data.data.pointInRoomScan.length > 0) {
-              this.stepList = res.data.data.pointInRoomScan[0].stepList;
-              this.roomScanList = res.data.data.pointInRoomScan[0].roomScanList;
+              this.stepList = res.data.data.pointInRoomScan[0].stepList
+              this.roomScanList = res.data.data.pointInRoomScan[0].roomScanList
             }
-            break;
-          case "出手术室":
+            break
+          case '出手术室':
             // 需要操作
             if (res.data.data.pointOutRoomScan.length > 0) {
-              this.stepList = res.data.data.pointOutRoomScan[0].stepList;
+              this.stepList = res.data.data.pointOutRoomScan[0].stepList
               this.roomScanList =
-                res.data.data.pointOutRoomScan[0].roomScanList;
+                res.data.data.pointOutRoomScan[0].roomScanList
             }
-            break;
-          case "进PACU":
+            break
+          case '进PACU':
             if (res.data.data.pointPacuScan.length > 0) {
-              this.stepList = res.data.data.pointPacuScan;
+              this.stepList = res.data.data.pointPacuScan
             }
-            break;
-          case "出PACU":
+            break
+          case '出PACU':
             if (res.data.data.outPacuScan.length > 0) {
-              this.stepList = res.data.data.outPacuScan;
+              this.stepList = res.data.data.outPacuScan
             }
-            break;
-          case "病房收治":
+            break
+          case '病房收治':
             if (res.data.data.pointWardScan.length > 0) {
-              this.stepList = res.data.data.pointWardScan;
+              this.stepList = res.data.data.pointWardScan
             }
         }
-      });
+      })
     },
-    handleCode(code) {
+    handleCode (code) {
       // 患者腕带条码
       if (parseInt(code)) {
-        this.code = code;
-        this.saveCodeStatus();
+        this.code = code
+        this.saveCodeStatus()
         // this.subjectOfPatientWristband.next(code)
       }
       // 房间二维码
-      if (code.indexOf("RoomNum") !== -1) {
+      if (code.indexOf('RoomNum') !== -1) {
         // this.code = code.replace('RoomNum=', '')
-        this.code = code;
-        this.saveCodeStatus();
+        this.code = code
+        this.saveCodeStatus()
       }
       // 手术通知单二维码
-      if (code.indexOf("OpsQRCode") !== -1) {
+      if (code.indexOf('OpsQRCode') !== -1) {
         // var jsonStr
-        if (code.indexOf("OpsSchNo") !== -1) {
-          var codelist = code.split(",");
+        if (code.indexOf('OpsSchNo') !== -1) {
+          var codelist = code.split(',')
           // var OpsRQCode = codelist[0].replace('OpsQRCode=', '')
-          var OpsRQCode = codelist[0];
-          this.code = OpsRQCode;
+          var OpsRQCode = codelist[0]
+          this.code = OpsRQCode
         } else {
           // this.code = code.replace('OpsQRCode=', '')
-          this.code = code;
+          this.code = code
         }
-        this.saveCodeStatus();
+        this.saveCodeStatus()
       }
       // 工勤的二维码
-      if (code.indexOf("Worker") !== -1) {
+      if (code.indexOf('Worker') !== -1) {
         // this.code = code.replace('Worker=', '')
-        this.code = code;
-        this.saveCodeStatus();
+        this.code = code
+        this.saveCodeStatus()
       }
       // 器械包条码
-      if (code.indexOf("P-") !== -1) {
+      if (code.indexOf('P-') !== -1) {
         // this.subjectOfQiXiePackage.next(code.replace('P-', ''))
       }
     },
-    currentStep() {
+    currentStep () {
       switch (this.$route.query.title) {
-        case "病房交接":
-          this.stepList = this.outWardScan;
-          break;
-        case "进手术室":
-          this.stepList = this.pointInRoomScan;
-          break;
-        case "出手术室":
-          this.stepList = this.pointOutRoomScan;
-          break;
-        case "进PACU":
-          this.stepList = this.pointPacuScan;
-          break;
-        case "出PACU":
-          this.stepList = this.outPacuScan;
-          break;
-        case "病房收治":
-          this.stepList = this.pointWardScan;
-          break;
+        case '病房交接':
+          this.stepList = this.outWardScan
+          break
+        case '进手术室':
+          this.stepList = this.pointInRoomScan
+          break
+        case '出手术室':
+          this.stepList = this.pointOutRoomScan
+          break
+        case '进PACU':
+          this.stepList = this.pointPacuScan
+          break
+        case '出PACU':
+          this.stepList = this.outPacuScan
+          break
+        case '病房收治':
+          this.stepList = this.pointWardScan
+          break
       }
     },
-    jumpTransferRecord() {
+    jumpTransferRecord () {
       this.$router.push({
-        path: "/handover-record",
-        query: { type: this.$route.query.type, title: this.$route.query.title },
-      });
-    },
+        path: '/handover-record',
+        query: { type: this.$route.query.type, title: this.$route.query.title }
+      })
+    }
   },
-  created() {
+  created () {
     document.onkeydown = (e) => {
-      var key = window.event.keyCode;
+      var key = window.event.keyCode
       if (key === 13) {
         setTimeout(() => {
           // this.handleCode('RoomNum=606')
-          this.handleCode("19094620");
+          this.handleCode('19094620')
           // this.handleCode('Worker=19058456')
-        }, 1000);
+        }, 1000)
       }
       if (key === 8) {
         setTimeout(() => {
           // this.handleCode('RoomNum=606')
           // this.handleCode("19058456");
-          this.handleCode("Worker=19058456");
-        }, 1000);
+          this.handleCode('Worker=19058456')
+        }, 1000)
       }
-    };
-    this.currentStep();
+    }
+    this.currentStep()
   },
-  mounted() {
-    $bus.$on("handleCode", this.handleCode);
-    this.getCodeStatus();
+  mounted () {
+    $bus.$on('handleCode', this.handleCode)
+    this.getCodeStatus()
   },
-  beforeDestroy() {
-    $bus.$off("handleCode");
+  beforeDestroy () {
+    $bus.$off('handleCode')
     // this.active = -1
     // this.stepList = []
     // 移除 <div> 事件句柄
     // document.removeEventListener('deviceready', this.onDeviceReady)
-  },
-};
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -675,6 +688,7 @@ export default {
         }
         /deep/ .van-step__line {
           top: 45px;
+          height: 83%;
           background-color: #c9c9c9;
           // background-color: green;
           // @include background_color('');

@@ -82,7 +82,7 @@ export default {
     // background: #ffffff;
     @include theme-property('background-color',background_color_secondary);
     // box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15);
-    @include theme-property('box-shadow',box_color_shadow);
+    @include theme-property('box-shadow',box_color_shadow_info);
     border-radius: 5px;
     color: #303133;
     font-size: 24px;
@@ -102,7 +102,7 @@ export default {
       display: flex;
       li {
         flex: 1;
-        @include theme-property('box-shadow',box_color_shadow);
+        @include theme-property('box-shadow',box_color_shadow_info);
         @include theme-property('background-color',background_color_secondary);
         border-radius: 10px;
         .li-top {

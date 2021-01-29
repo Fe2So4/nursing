@@ -84,7 +84,7 @@ export default {
 @import '@/styles/themes';
   .security-check{
     @include theme-property('background-color',background_color_secondary);
-    @include theme-property('box-shadow',box_color_shadow);
+    @include theme-property('box-shadow',box_color_shadow_info);
     // box-shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.15);
     border-radius: 10px;
     height: 100%;

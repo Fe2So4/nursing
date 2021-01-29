@@ -120,7 +120,7 @@ export default {
   @import '@/styles/themes';
   .info-list{
     @include theme-property('background-color',background_color_secondary);
-    @include theme-property('box-shadow',box_color_shadow);
+    @include theme-property('box-shadow',box_color_shadow_info);
     border-radius: 10px;
     // height: 400px;
     height: 100%;

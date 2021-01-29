@@ -8,7 +8,7 @@
       right-text="保存"
     >
     </van-nav-bar>
-    <PatientCard></PatientCard>
+    <PatientCard :radius="true"></PatientCard>
     <div class="list">
       <van-cell-group :border="false">
         <van-cell

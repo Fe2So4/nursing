@@ -8,7 +8,7 @@
       right-text="保存"
     >
     </van-nav-bar>
-    <PatientCard></PatientCard>
+    <PatientCard :radius="true"></PatientCard>
     <div class="list">
       <van-cell-group>
         <van-cell title="患者姓名、住院号、性别、年龄正确：" value="" value-class="first-cell van-cell-center">

@@ -8,7 +8,7 @@
       right-text="运送"
     >
     </van-nav-bar>
-    <PatientCard></PatientCard>
+    <PatientCard :radius="true"></PatientCard>
     <div class="list">
       <div class="tree">
         <div class="tree-left">
@@ -261,7 +261,7 @@ export default {
       // if (this.packageList.length > 0) {
       request({
         method: 'get',
-        url: getPackageData + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}`
+        url: getPackageData + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}/${this.patientInfo.operSchNo}`
       }).then(res => {
         let data = res.data.data
         // data.basicEquipment = JSON.parse(JSON.stringify(data.basicEquipment))
@@ -835,6 +835,7 @@ export default {
       }
       obj.basicEquipment = JSON.stringify(obj.basicEquipment)
       obj.hospitalNo = this.patientInfo.hospitalNo
+      obj.operSchNo = this.patientInfo.operSchNo
       obj.modifier = this.opePeopleInfo.userinsName
       obj.modifierCode = this.opePeopleInfo.userCode
       obj.cureNo = this.patientInfo.cureNo

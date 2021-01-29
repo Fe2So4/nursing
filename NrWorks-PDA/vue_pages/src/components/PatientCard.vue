@@ -1,6 +1,6 @@
 <template>
   <div class="patient-card">
-    <div class="content">
+    <div :class="{'content':true,'radius':radius}">
       <div class="left">
         <span>{{ patientInfo.roomNo }}</span>
       </div>
@@ -37,6 +37,12 @@ export default {
       // patient: {}
     }
   },
+  props: {
+    radius: {
+      type: Boolean,
+      required: true
+    }
+  },
   computed: {
     ...mapState('Patient', ['patientInfo'])
   },
@@ -56,6 +62,9 @@ export default {
     border-radius: 10px 10px 0 0;
     box-sizing: border-box;
     overflow: hidden;
+    &.radius{
+      border-radius: 10px;
+    }
     .left {
       display: flex;
       justify-content: center;
@@ -119,6 +128,9 @@ export default {
     border-radius: 0 0 10px 10px;
     box-sizing: border-box;
     padding-left: 32px;
+    &.radius{
+      border-radius: 10px;
+    }
     p {
       // text-indent: 32px;
       font-size: 30px;
