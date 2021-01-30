@@ -273,7 +273,7 @@ export default {
         operateNo = this.patientInfo.operSchNo
       }
       request({
-        url: `${getPatientInfo}?cureNo=${this.cureNo}&operSchNo=${operateNo}`,
+        url: `${getPatientInfo}?cureNo=${this.patientInfo.cureNo}&operSchNo=${operateNo}`,
         method: 'get'
       }).then((res) => {
         if (res) {
@@ -320,7 +320,7 @@ export default {
     document.onkeydown = (e) => {
       var key = window.event.keyCode
       if (key === 13) {
-        this.handleScan('OpsQRCode=19162832,OpsSchNo=415089')
+        this.handleScan('19159660')
       }
     }
     this.setTheme()

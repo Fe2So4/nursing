@@ -120,7 +120,7 @@ export default {
     getHistoryRecord () {
       if (this.currentRoom) {
         request({
-          url: getPatientHistoryRecord + '/' + this.currentRoom,
+          url: getPatientHistoryRecord + '/' + this.currentRoom + '/' + this.patientInfo.operSchNo,
           method: 'get'
         }).then((res) => {
           this.historyList = res.data.data

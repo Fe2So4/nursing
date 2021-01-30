@@ -147,7 +147,7 @@ export default {
           operatingEndTime: moment(new Date()).format('YYYY-MM-DD HH:mm')
         }
       }).then(res => {
-        if (res.data.data) {
+        if (res.data.code === 200) {
           this.$message({message: '手术结束成功', type: 'success', showClose: true})
         } else {
           this.$message({message: res.data.msg, type: 'error', showClose: true})
