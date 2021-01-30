@@ -1,6 +1,7 @@
 <template>
   <div class="nursing-table">
     <div class="table-conten">
+      <!-- :loading="loading" -->
       <vxe-table
         stripe
         highlight-current-row
@@ -8,7 +9,7 @@
         class="mytable-scrollbar"
         height="100%"
         border="none"
-        :loading="loading"
+
         :data="tableData"
         @current-change="currentChangeEvent"
         @cell-dblclick="dbSelected"

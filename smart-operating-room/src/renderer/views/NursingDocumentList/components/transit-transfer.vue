@@ -396,13 +396,13 @@
         >
           <span style="marginLeft:42px">
             <IsSelect :myselect="catheter.includes('o2') ? true : false" />
-            <span>氧气</span>
+            <span>氧气({{ conduitTime || '留置日期' }})</span>
           </span>
-          <span style="marginLeft:130px">
+          <span style="marginLeft:48px">
             <IsSelect :myselect="catheter.includes('qjm') ? true : false" />
             <span>浅静脉留置({{ conduitTime || '留置日期' }})</span>
           </span>
-          <span style="marginLeft:100px">
+          <span style="marginLeft:56px">
             <IsSelect :myselect="catheter.includes('sjm') ? true : false" />
             <span>深静脉留置({{ conduitTime || '留置日期' }})</span>
           </span>

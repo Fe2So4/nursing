@@ -9,6 +9,25 @@ export const reqgetFloor = () => {
     method: 'get'
   })
 }
+// 记忆楼层
+
+const reqSaveNurseFloorUrl = `${config.default.api.baseURL}/ocis/sendOrder/saveNurseFloor`
+export const reqSaveNurseFloor = (obj) => {
+  return request({
+    url: reqSaveNurseFloorUrl,
+    method: 'get',
+    params: obj
+  })
+}
+// 获取记忆楼层
+const reqgetNurseFloorUrl = `${config.default.api.baseURL}/ocis/sendOrder/getNurseFloor`
+export const reqgetNurseFloor = () => {
+  return request({
+    url: reqgetNurseFloorUrl,
+    method: 'get'
+  })
+}
+
 // 获取房间列表
 const reqgetRoomByFloorUrl = `${config.default.api.baseURL}/ocis/dict/getRoomByFloor`
 export const reqgetRoomByFloor = (obj) => {
@@ -102,7 +121,7 @@ const reqrepeatOrderMsgTipsUrl = `${config.default.api.baseURL}/ocis/sendOrder/r
 export const reqrepeatOrderMsgTips = (obj) => {
   return request({
     url: reqrepeatOrderMsgTipsUrl + `/${obj.cureNo}` + `/${obj.hospitalNo}`,
-    method: 'get',
+    method: 'get'
   })
 }
 // 同步排班信息

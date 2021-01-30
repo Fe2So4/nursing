@@ -37,7 +37,9 @@
       @click="handleFocus"
     >
       <el-input
+        type="password"
         ref="inputs"
+        @keyup.enter.native="enterInput"
         v-model="codeInput"
         :placeholder="optas"
         @blur="handleBlurCodeInput"
@@ -185,6 +187,7 @@ export default {
       this.workCode = ''
       if (!this.codeInput.includes('=')) {
         this.$alert('请先扫描工勤人员二维码')
+        this.codeInput = ''
         return false
       }
       if (this.selectRow.orderState === '0') {
@@ -194,6 +197,7 @@ export default {
       } else {
         if (this.exitType !== '1') {
           this.$alert('请先点击取消接单')
+          this.codeInput = ''
           return false
         }
 
@@ -201,12 +205,14 @@ export default {
         console.log(this.selectRow.workerCode, this.workCode)
         if (this.selectRow.workerCode !== this.workCode) {
           this.$alert('接单工勤人员与扫描人员工号不符,请确认后重试')
+          this.codeInput = ''
           return false
         }
         this.changePatient(0)
       }
     },
     changePatient (type) {
+      this.codeInput = ''
       request({
         url: changeReceiveOrderList,
         method: 'post',
@@ -236,28 +242,28 @@ export default {
       this.optas = '扫描工勤人员二维码，进行接单...'
     }
   },
-  watch: {
-    codeInput: function (newVal) {
-      if (this.codeInput.length % 2 !== 0) {
-        this.timearr[0] = new Date().getTime()
-      } else {
-        this.timearr[1] = new Date().getTime()
-      }
-      if (
-        this.codeInput.length > 1 &&
-        Math.abs(this.timearr[1] - this.timearr[0]) > 40
-      ) {
-        this.codeInput = ''
-      }
-      this.utilsDebounce(() => {
-        setTimeout(() => {
-          if (this.codeInput !== '') {
-            this.enterInput()
-          }
-        }, 1000)
-      }, 1000)
-    }
-  },
+  // watch: {
+  //   codeInput: function (newVal) {
+  //     if (this.codeInput.length % 2 !== 0) {
+  //       this.timearr[0] = new Date().getTime()
+  //     } else {
+  //       this.timearr[1] = new Date().getTime()
+  //     }
+  //     if (
+  //       this.codeInput.length > 1 &&
+  //       Math.abs(this.timearr[1] - this.timearr[0]) > 40
+  //     ) {
+  //       this.codeInput = ''
+  //     }
+  //     this.utilsDebounce(() => {
+  //       setTimeout(() => {
+  //         if (this.codeInput !== '') {
+  //           this.enterInput()
+  //         }
+  //       }, 1000)
+  //     }, 1000)
+  //   }
+  // },
   filters: {
     formatGender: function (value) {
       if (!value) return ''

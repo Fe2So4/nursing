@@ -490,12 +490,14 @@ export default {
       }
     },
     'formData1.roomNo' (newVal) {
+      Bus.$emit('pathological-table-dayinBtn')
+      Bus.$emit('user-info-initData', '1')
       this.copyFormData.roomNo = newVal
       let obj = JSON.parse(JSON.stringify(this.copyFormData))
       this.$store.commit('CLEAR_USERINFO')
       // this.$store.commit('SAVE_USERINFO', this.copyFormData || {})
       this.$store.commit('SAVE_USERINFO', obj)
-      // this.searchPathologyByOperSchNo(this.formData1.operSchNo)
+      this.searchPathologyByOperSchNo(this.formData1.operSchNo)
     }
   }
 }

@@ -5,7 +5,10 @@ $themes: (
         vxe_primary_color: #409eff,
     // 选中时候的颜色
         select_color: 1px solid #409eff,
-
+    // 侧边栏
+        nav_menu_item_color: linear-gradient(90deg, #3269ce, #2e5287),
+    // 侧边栏line
+        nav_line: #6699ff,
     //背景色
         // 头部背景颜色
         header_bgc: linear-gradient(90deg, #666666, #303030),
@@ -45,6 +48,7 @@ $themes: (
         //搜索头部字体色
         search_header_font: #000, 
         table_header_font: #333,
+        nav_select_color: #333,
         // 输入框字体颜色
         input_font_color: #444444,
         // 单子body字体颜色
@@ -97,6 +101,10 @@ $themes: (
         vxe_primary_color: #FF7529,
     // 选中时候的颜色
         select_color: 1px solid #FF7529,
+    // 侧边栏
+        nav_menu_item_color: linear-gradient(90deg, #FF6E1F, #FC8848),
+    // 侧边栏line
+        nav_line: #FF9053,
     // 头部背景颜色
         header_bgc: linear-gradient(90deg, #353537, #353537),
         // 侧边栏背景颜色
@@ -132,7 +140,8 @@ $themes: (
     //字体色
         //搜索头部字体色
         search_header_font: #BABABA,
-        table_header_font: #fff,
+        table_header_font: #BABABA,
+        nav_select_color: #FFF,
         // 输入框字体颜色
         input_font_color: #BABABA,
         // 单子body字体颜色

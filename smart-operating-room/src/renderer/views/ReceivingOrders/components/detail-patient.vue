@@ -51,7 +51,9 @@
         @click="handleFocus"
       >
         <el-input
+          type="password"
           ref="inputs"
+          @keyup.enter.native="enterInput"
           v-model="codeInput"
           :placeholder="optas"
           @blur="handleBlurCodeInput"
@@ -231,6 +233,10 @@ export default {
 
       // this.utilsDebounce(() => { this.printCurrent() }, 1000)
     },
+    // // 扫码回车
+    // codeInputChange () {
+    //   console.log(this.codeInput)
+    // },
     handleFocus () {
       this.codeInputFocus = true
       this.$refs.inputs.focus()
@@ -260,6 +266,7 @@ export default {
       this.workCode = ''
       if (!this.codeInput.includes('=')) {
         this.$alert('请先扫描工勤人员二维码')
+        this.codeInput = ''
         return false
       }
       if (this.selectRow.orderState === '0') {
@@ -269,14 +276,19 @@ export default {
       } else {
         if (this.exitType !== '1') {
           this.$alert('请先点击取消接单')
+          this.codeInput = ''
           return false
         }
+        console.log(this.codeInput)
         this.workCode = this.codeInput.split('=')[1]
         // this.selectRow.workerCode
         // this.workCode
+        console.log(this.selectRow)
+        console.log(this.workCode)
 
         if (this.selectRow.workerCode !== this.workCode) {
           this.$alert('接单工勤人员与扫描人员工号不符,请确认后重试')
+          this.codeInput = ''
           return false
         }
 
@@ -284,6 +296,7 @@ export default {
       }
     },
     changePatient (type) {
+      this.codeInput = ''
       request({
         url: changeReceiveOrderList,
         method: 'post',
@@ -337,28 +350,28 @@ export default {
     }
     console.log(this.selectRow)
   },
-  watch: {
-    codeInput: function (newVal) {
-      if (this.codeInput.length % 2 !== 0) {
-        this.timearr[0] = new Date().getTime()
-      } else {
-        this.timearr[1] = new Date().getTime()
-      }
-      if (
-        this.codeInput.length > 1 &&
-        Math.abs(this.timearr[1] - this.timearr[0]) > 40
-      ) {
-        this.codeInput = ''
-      }
-      this.utilsDebounce(() => {
-        setTimeout(() => {
-          if (this.codeInput !== '') {
-            this.enterInput()
-          }
-        }, 1000)
-      }, 1000)
-    }
-  },
+  // watch: {
+  //   codeInput: function (newVal) {
+  //     if (this.codeInput.length % 2 !== 0) {
+  //       this.timearr[0] = new Date().getTime()
+  //     } else {
+  //       this.timearr[1] = new Date().getTime()
+  //     }
+  //     if (
+  //       this.codeInput.length > 1 &&
+  //       Math.abs(this.timearr[1] - this.timearr[0]) > 40
+  //     ) {
+  //       this.codeInput = ''
+  //     }
+  //     this.utilsDebounce(() => {
+  //       setTimeout(() => {
+  //         if (this.codeInput !== '') {
+  //           this.enterInput()
+  //         }
+  //       }, 1000)
+  //     }, 1000)
+  //   }
+  // },
   components: {
     PrintNotice
   }
@@ -415,6 +428,9 @@ export default {
         z-index: -666;
         left: 0;
         top: 0;
+        input {
+          ime-mode:active !important;
+        }
       }
       &.active {
         border-color: rgb(64, 153, 240);

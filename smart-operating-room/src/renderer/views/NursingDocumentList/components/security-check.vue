@@ -1046,7 +1046,7 @@ export default {
 @import './../../../styles/wenshu.scss';
 .content-wenben-container {
   width: 824px;
-  height: 920px;
+  height: 955px;
   min-width: 824px;
   min-height: 920px;
   background-color: #fff;

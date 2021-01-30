@@ -439,7 +439,7 @@ export default {
   },
   mounted () {
     this.initSearchCardParams()
-    this.getCardList()
+
     // 监听查询按钮
     Bus.$on('operation-header-searchCard', res => {
       this.searchCardParams.date = res.date
@@ -489,7 +489,14 @@ export default {
       this.searchCardParams.date = this.utilsGetNewDate()
       this.searchCardParams.isOrder = '0'
       this.searchCardParams.condition = ''
-      this.searchCardParams.floorNo = ''
+      this.getSaveFloor()
+    },
+    // 获取记忆楼层
+    getSaveFloor () {
+      this.$store.dispatch('ReqgetNurseFloor').then(res => {
+        this.searchCardParams.floorNo = res.data.data || ''
+        this.getCardList()
+      })
     },
     // 获取内容列表
     getCardList () {

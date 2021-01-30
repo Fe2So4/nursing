@@ -1,12 +1,13 @@
 <template>
   <div class="statistical-table">
     <div class="table-conten">
+      <!-- :loading="loading" -->
       <vxe-table
         stripe
         highlight-current-row
         ref="xTable"
         class="mytable-scrollbar"
-        :loading="loading"
+
         height="100%"
         border="none"
         :data="tableList"

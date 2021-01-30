@@ -23,12 +23,21 @@
       </span> -->
     </div>
     <div class="right">
-      {{ time }}
+      <div class="userInfo">
+        <span>
+          <!-- <i class="el-icon-user-solid" /> -->
+          <div>{{ time }}</div>
+        </span>
+      </div>
+      <div class="caozuo">
+        <Operation />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Operation from '@/components/win-operation'
 export default {
   data () {
     return {
@@ -71,6 +80,9 @@ export default {
     this.updateTime()
     this.interval = setInterval(this.updateTime, 1000)
   },
+  components: {
+    Operation
+  },
   destroyed () {
     this.interval = null
   }
@@ -112,8 +124,18 @@ export default {
     }
   }
   .right {
-    font-size: 24px;
+    position: relative;
+    display: flex;
+    font-size: 16px;
     margin-right: 21px;
+    .userInfo {
+      margin-right: 150px;
+    }
+    .caozuo {
+      position: absolute;
+      // top: -15px;
+      right: 0;
+    }
   }
 }</style
 >>

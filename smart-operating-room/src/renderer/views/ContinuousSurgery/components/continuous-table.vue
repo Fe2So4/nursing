@@ -1,10 +1,11 @@
 <template>
   <div class="continuous-table">
     <div class="table-conten">
+      <!-- :loading="loading" -->
       <vxe-table
         stripe
         highlight-current-row
-        :loading="loading"
+
         ref="xTable"
         class="mytable-scrollbar"
         height="100%"
