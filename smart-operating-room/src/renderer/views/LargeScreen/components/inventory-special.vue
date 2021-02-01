@@ -123,7 +123,9 @@ export default {
         method: 'get'
       }).then(res => {
         let data = JSON.parse(res.data.data.specialEquipmentStr)
-        this.list = data.allList
+        if (data.allList && data.allList.length) {
+          this.list = data.allList
+        }
       })
     }
   },

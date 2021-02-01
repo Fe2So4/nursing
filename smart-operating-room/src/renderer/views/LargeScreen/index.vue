@@ -128,6 +128,7 @@ export default {
           this.connect = false
         })
         this.socket.on('push_event', (data) => {
+          console.log(data)
           if (data) {
             let arr = []
             console.log(data)

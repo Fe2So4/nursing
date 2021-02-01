@@ -143,19 +143,21 @@ export default {
     },
     // 绑定患者
     bindingPatPushScreen () {
-      request({
-        url: bindingPatPushScreen,
-        method: 'post',
-        params: {
-          cureNo: this.patientInfo.cureNo,
-          operSchNo: this.patientInfo.operSchNo,
-          roomNo: this.patientInfo.roomNo
-        }
-      }).then((res) => {
-        if (res.data.code === 200) {
-          // this.handleJump();
-        }
-      })
+      if (this.patientInfo.state === '1' || this.patientInfo.state === '2') {
+        request({
+          url: bindingPatPushScreen,
+          method: 'post',
+          params: {
+            cureNo: this.patientInfo.cureNo,
+            operSchNo: this.patientInfo.operSchNo,
+            roomNo: this.patientInfo.roomNo
+          }
+        }).then((res) => {
+          if (res.data.code === 200) {
+            // this.handleJump();
+          }
+        })
+      }
     },
     saveCodeStatus () {
       let mark = null
@@ -550,6 +552,9 @@ export default {
         path: '/handover-record',
         query: { type: this.$route.query.type, title: this.$route.query.title }
       })
+      if (this.$route.query.title === '进手术室') {
+        this.bindingPatPushScreen()
+      }
     }
   },
   created () {

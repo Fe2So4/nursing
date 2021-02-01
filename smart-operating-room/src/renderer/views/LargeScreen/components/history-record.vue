@@ -27,7 +27,7 @@
             </p>
             <p>
               <span>
-                <span class="label">台次</span><span style="color: #ff2525">6</span>
+                <span class="label">台次</span><span style="color: #ff2525">{{ item.sequence }}</span>
               </span>
               <span>
                 <span class="label">床位</span><span>{{ item.bedNo }}</span>
@@ -120,7 +120,7 @@ export default {
     getHistoryRecord () {
       if (this.currentRoom) {
         request({
-          url: getPatientHistoryRecord + '/' + this.currentRoom + '/' + this.patientInfo.operSchNo,
+          url: getPatientHistoryRecord + '/' + this.currentRoom,
           method: 'get'
         }).then((res) => {
           this.historyList = res.data.data
