@@ -320,7 +320,7 @@ export default {
     document.onkeydown = (e) => {
       var key = window.event.keyCode
       if (key === 13) {
-        this.handleScan('19159660')
+        this.handleScan('OpsQRCode=19160551,OpsSchNo=415064')
       }
     }
     this.setTheme()

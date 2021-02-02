@@ -189,7 +189,7 @@ export default {
         this.state = data.recordTwoState
         if (data.recordTwoState && data.recordTwoState !== '0') {
           this.recordList[0].value = data.deptName
-          this.recordList[1].value = data.opsMode
+          this.recordList[1].value = data.opsName
           this.recordList[2].value = data.opsType === '1' ? '择期' : data.opsType === '2' ? '非择期' : '急诊'
           this.recordList[3].value = data.consciousness === '1' ? '清醒' : data.consciousness === '2' ? '烦躁' : '昏迷'
           if (!this.IsEmpty(data.skin)) {

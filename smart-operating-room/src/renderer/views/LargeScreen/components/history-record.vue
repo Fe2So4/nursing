@@ -104,7 +104,8 @@ export default {
       this.$emit('handleClose')
     },
     handleBindPatient (data) {
-      this.setPatientInfo({ cureNo: data.cureNo, hospitalNo: data.hospitalNo, operationId: data.operSchNo })
+      // this.setPatientInfo({ cureNo: data.cureNo, hospitalNo: data.hospitalNo, operationId: data.operSchNo })
+      this.$store.commit('LargeScreen/SET_PATIENT_INFO', data)
       $bus.$emit('getPatientInfo')
       $bus.$emit('getStepList')
       $bus.$emit('getRecord2')

@@ -344,7 +344,8 @@ export default {
         method: 'post',
         params: {
           cureNo: this.selectRow.cureNo,
-          hospitalNo: this.selectRow.hospitalNo
+          hospitalNo: this.selectRow.hospitalNo,
+          operSchNo: this.selectRow.operSchNo
         }
 
       }

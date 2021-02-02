@@ -146,6 +146,7 @@ export default {
           }
         })
         this.socket.on('push_event_screen', (data) => {
+          console.log(data)
           if (data.sendMessage === 'option') {
             $bus.$emit('getStepList')
             $bus.$emit('getRecord2')

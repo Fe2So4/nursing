@@ -1,7 +1,7 @@
 <template>
   <div class="signature">
     <div class="signature-body">
-      <h3>巡回护士签名</h3>
+      <h3></h3>
       <h3>电子签名板</h3>
       <div class="signature-content" ref="canvasBox">
         <canvas ref="canvasF" @touchstart="touchStart" @touchmove="touchMove"

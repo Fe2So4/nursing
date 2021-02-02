@@ -151,6 +151,7 @@ export default {
       }).then(res => {
         if (res.data.code === 200) {
           this.$message({message: '手术结束成功', type: 'success', showClose: true})
+          this.getStepList()
         } else {
           this.$message({message: res.data.msg, type: 'error', showClose: true})
         }
