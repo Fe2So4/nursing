@@ -79,6 +79,15 @@ export default {
   insName: 'DeviceList',
   data () {
     return {
+      addingFour: 0,
+      addingOne: 0,
+      addingThree: 0,
+      addingTwo: 0,
+      beforeStatus: 0,
+      clossAfter: 0,
+      clossBefore: 0,
+      sutureAfter: 0,
+
       checked: true,
       input: '',
       state: 0, // 清点状态
@@ -289,6 +298,7 @@ export default {
                 this.packageList = data.basicEquipment.before
               }
               this.state = data.beforeStatus
+              this.beforeStatus = data.beforeStatus
               this.sign1 = data.xsSqQm
               this.sign2 = data.xhSqQm
               break
@@ -297,6 +307,7 @@ export default {
                 this.packageList = data.basicEquipment.adding
               }
               this.state = data.addingOne
+              this.addingOne = data.addingOne
               this.sign1 = data.xsOneQm
               this.sign2 = data.xhOneQm
               break
@@ -305,6 +316,7 @@ export default {
                 this.packageList = data.basicEquipment.adding1
               }
               this.state = data.addingTwo
+              this.addingTwo = data.addingTwo
               this.sign1 = data.xsTwoQm
               this.sign2 = data.xhTwoQm
               break
@@ -313,6 +325,7 @@ export default {
                 this.packageList = data.basicEquipment.adding2
               }
               this.state = data.addingThree
+              this.addingThree = data.addingThree
               this.sign1 = data.xsThreeQm
               this.sign2 = data.xhThreeQm
               break
@@ -321,6 +334,7 @@ export default {
                 this.packageList = data.basicEquipment.adding3
               }
               this.state = data.addingFour
+              this.addingFour = data.addingFour
               this.sign1 = data.xsFourQm
               this.sign2 = data.xhFourQm
               break
@@ -329,6 +343,7 @@ export default {
                 this.packageList = data.basicEquipment.before2
               }
               this.state = data.clossBefore
+              this.clossBefore = data.clossBefore
               this.sign1 = data.xsClossQm
               this.sign2 = data.xhClossQm
               break
@@ -337,6 +352,7 @@ export default {
                 this.packageList = data.basicEquipment.after
               }
               this.state = data.clossAfter
+              this.clossAfter = data.clossAfter
               this.sign1 = data.xsAllClossQm
               this.sign2 = data.xhAllClossQm
               break
@@ -345,6 +361,7 @@ export default {
                 this.packageList = data.basicEquipment.after2
               }
               this.state = data.sutureAfter
+              this.sutureAfter = data.sutureAfter
               this.sign1 = data.xsFhQm
               this.sign2 = data.xhFhQm
               break
@@ -380,6 +397,15 @@ export default {
     },
     handleSubmit () {
       let obj = JSON.parse(JSON.stringify(this.recordForm))
+      obj.addingFour = this.addingFour
+      obj.addingOne = this.addingOne
+      obj.addingThree = this.addingThree
+      obj.addingTwo = this.addingTwo
+      obj.beforeStatus = this.beforeStatus
+      obj.clossAfter = this.clossAfter
+      obj.clossBefore = this.clossBefore
+      obj.sutureAfter = this.sutureAfter
+
       switch (this.active) {
         case 0:
           obj.basicEquipment.before = this.packageList

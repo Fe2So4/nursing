@@ -478,7 +478,7 @@
             </div>
           </div>
           <van-cell
-            title="拔针心时间"
+            title="拔针芯时间"
             @click="handleShowTime('needleHeartTime')"
             :value="formatTime(recordForm.waistPuncture.needleHeartTime)"
           ></van-cell>
@@ -1237,6 +1237,17 @@ export default {
     },
     onClickRight () {
       var reg = /,$/gi
+      this.recordForm.waistPuncture.needleHeartTime = moment(this.recordForm.waistPuncture.needleHeartTime).format(
+        'YYYY-MM-DD HH:mm'
+      )
+      this.recordForm.waistPuncture.needleTime = moment(this.recordForm.waistPuncture.needleTime).format(
+        'YYYY-MM-DD HH:mm'
+      )
+      this.recordForm.bhMachine.bhMachineList.forEach(item => {
+        item.cqTime = moment(item.cqTime).format('YYYY-MM-DD HH:mm')
+        item.fqTime = moment(item.fqTime).format('YYYY-MM-DD HH:mm')
+      })
+      console.log(this.recordForm.bhMachine)
       this.recordForm.equipment.electrotome = this.recordForm.electrotome
       // this.recordForm.equipment.electrotomeLocation = this.recordForm.electrotomeLocation
       this.recordForm.equipment.bhMachine = this.recordForm.bhMachine

@@ -98,6 +98,14 @@ export default {
       confirmDialog: false,
       clearList: [],
       state: 0, // 清点状态
+      addingFour: 0,
+      addingOne: 0,
+      addingThree: 0,
+      addingTwo: 0,
+      beforeStatus: 0,
+      clossAfter: 0,
+      clossBefore: 0,
+      sutureAfter: 0,
       stepper: '',
       items: [{ text: '术前', active: 0 }, { text: '术中(一)', active: 1 },
         { text: '术中(二)', active: 2 }, { text: '术中(三)', active: 3 }, { text: '术中(四)', active: 4 },
@@ -327,8 +335,8 @@ export default {
           data.tsXhThreeQm = data.xhThreeQm
           data.tsXsFourQm = data.xsFourQm
           data.tsXhFourQm = data.xhFourQm
-          data.tsXsClossQm = data.xsCloseQm
-          data.tsXhClossQm = data.xhCloseQm
+          data.tsXsClossQm = data.xsClossQm
+          data.tsXhClossQm = data.xhClossQm
           data.tsXsAllClossQm = data.xsAllClossQm
           data.tsXhAllClossQm = data.xhAllClossQm
           data.tsXsFhQm = data.xsFhQm
@@ -337,30 +345,35 @@ export default {
             case 0:
               this.packageList = JSON.parse(JSON.stringify(data.specialEquipment.before))
               this.state = data.beforeStatus
+              this.beforeStatus = data.beforeStatus
               this.sign1 = data.xsSqQm
               this.sign2 = data.xhSqQm
               break
             case 1:
               this.packageList = JSON.parse(JSON.stringify(data.specialEquipment.adding))
               this.state = data.addingOne
+              this.addingOne = data.addingOne
               this.sign1 = data.xsOneQm
               this.sign2 = data.xhOneQm
               break
             case 2:
               this.packageList = JSON.parse(JSON.stringify(data.specialEquipment.adding1))
               this.state = data.addingTwo
+              this.addingTwo = data.addingTwo
               this.sign1 = data.xsTwoQm
               this.sign2 = data.xhTwoQm
               break
             case 3:
               this.packageList = JSON.parse(JSON.stringify(data.specialEquipment.adding2))
               this.state = data.addingThree
+              this.addingThree = data.addingThree
               this.sign1 = data.xsThreeQm
               this.sign2 = data.xhThreeQm
               break
             case 4:
               this.packageList = JSON.parse(JSON.stringify(data.specialEquipment.adding3))
               this.state = data.addingFour
+              this.addingFour = data.addingFour
               this.sign1 = data.xsFourQm
               this.sign2 = data.xhFourQm
               break
@@ -373,6 +386,7 @@ export default {
               })
               this.packageList = before2
               this.state = data.clossBefore
+              this.clossBefore = data.clossBefore
               this.sign1 = data.xsClossQm
               this.sign2 = data.xhClossQm
               break
@@ -385,6 +399,7 @@ export default {
               })
               this.packageList = after
               this.state = data.clossAfter
+              this.clossAfter = data.clossAfter
               this.sign1 = data.xsAllClossQm
               this.sign2 = data.xhAllClossQm
               break
@@ -397,11 +412,13 @@ export default {
               })
               this.packageList = after2
               this.state = data.sutureAfter
+              this.sutureAfter = data.sutureAfter
               this.sign1 = data.xsFhQm
               this.sign2 = data.xhFhQm
               break
           }
           this.recordForm = data
+          console.log(this.recordForm)
           this.packageList.forEach(item => {
             item.submit = '1'
           })
@@ -582,6 +599,14 @@ export default {
     },
     handleSubmit () {
       let obj = this.recordForm
+      obj.tsAddingFour = this.addingFour
+      obj.tsAddingOne = this.addingOne
+      obj.tsAddingThree = this.addingThree
+      obj.tsAddingTwo = this.addingTwo
+      obj.tsBeforeStatus = this.beforeStatus
+      obj.tsClossAfter = this.clossAfter
+      obj.tsClossBefore = this.clossBefore
+      obj.tsSutureAfter = this.sutureAfter
       switch (this.active) {
         case 0:
           obj.tsBeforeStatus = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
