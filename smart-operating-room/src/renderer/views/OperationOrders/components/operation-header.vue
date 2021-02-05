@@ -212,6 +212,11 @@ export default {
         this.$emit('changeRadio', newVal)
         this.$store.commit('CHANGE_ISSHEND', newVal)
       }
+    },
+    'formData1.nickname' (newVal, oldVal) {
+      if (newVal === '') {
+        Bus.$emit('clearInitCondition')
+      }
     }
   }
 }

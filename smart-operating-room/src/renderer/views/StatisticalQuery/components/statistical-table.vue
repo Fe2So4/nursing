@@ -28,13 +28,14 @@
         />
         <vxe-table-column
           field="operateDate"
-          title="手术时间"
+          title="手术日期"
         />
         <vxe-table-column
           field="anesDoc"
           title="麻醉医师"
         />
         <vxe-table-column
+          width="130px"
           field="categpry"
           title="病区-科室"
         />
@@ -51,23 +52,27 @@
           title="巡回护士"
         />
         <vxe-table-column
+          width="160px"
           field="anesBeforeChkTime"
           title="麻醉开始前时间"
         />
         <vxe-table-column
+          width="160px"
           field="beforeOperChkTime"
           title="手术开始前时间"
         />
         <vxe-table-column
           field="leaveBeforeChkUpdateTime"
-          width="140"
+          width="160px"
           title="离开手术室前时间"
         />
         <vxe-table-column
+          width="160px"
           field="pointInRoomTime"
           title="进手术室时间"
         />
         <vxe-table-column
+          width="160px"
           field="pointOutRoomTime"
           title="出手术室时间"
         />

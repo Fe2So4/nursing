@@ -396,7 +396,7 @@
           <el-button
             size="mini"
             class="btn mgl40"
-            @click="cancleVisible = false"
+            @click="handleCloseCancle"
           >否(N)</el-button>
         </div>
       </span>
@@ -464,6 +464,10 @@ export default {
         this.getTongbuCardList()
       }, 1000)
     })
+    // 监听清空
+    Bus.$on('clearInitCondition', res => {
+      this.initCondition()
+    })
     // 获取护士列表
     this.getNurseList()
     // let card = this.$refs.operation
@@ -490,6 +494,10 @@ export default {
       this.searchCardParams.isOrder = '0'
       this.searchCardParams.condition = ''
       this.getSaveFloor()
+    },
+    // 初始化condition
+    initCondition () {
+      this.searchCardParams.condition = ''
     },
     // 获取记忆楼层
     getSaveFloor () {
@@ -669,12 +677,15 @@ export default {
     },
     handleClose (done) {
       this.exitdialogVisible = false
+      this.btnLoad = false
     },
     handleCloseOperation () {
       this.dbdialogVisible = false
+      this.btnLoad = false
     },
     handleCloseCancle () {
       this.cancleVisible = false
+      this.btnLoad = false
     },
     // 显示派单弹窗
     operationCard (item) {

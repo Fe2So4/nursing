@@ -167,6 +167,32 @@ export default {
           this.deviceList.forEach(item => {
             item.all = item.before + item.adding + item.adding1 + item.adding2 + item.adding3
           })
+        } else {
+          this.deviceList = [
+            { name: '腔脑室外引流管', value: 26, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
+            { name: '小纱布', value: 25, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
+            { name: '腔镜纱布', value: 24, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
+            { name: '纱布', value: 23, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
+            { name: '纱布垫', value: 22, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
+            { name: '脑棉', value: 21, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
+            { name: '纱条', value: 20, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
+            { name: '缝针', value: 19, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
+            { name: '刀片', value: 18, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
+            { name: '切口保护器', value: 17, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
+            { name: '长电刀头', value: 13, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
+            { name: '红色尿管', value: 12, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
+            { name: '皮片', value: 11, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
+            { name: '彩带', value: 10, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
+            { name: '临时阻断夹', value: 9, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
+            { name: '花生米', value: 8, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
+            { name: '穿刺针', value: 7, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
+            { name: '纱带', value: 6, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
+            { name: '线团', value: 5, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
+            { name: '血管夹', value: 4, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
+            { name: '长针头', value: 3, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
+            { name: '清洁片', value: 2, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 },
+            { name: '电刀头', value: 1, before: 0, adding: 0, adding1: 0, adding2: 0, adding3: 0, before2: 0, after: 0, after2: 0 }
+          ]
         }
       })
     }

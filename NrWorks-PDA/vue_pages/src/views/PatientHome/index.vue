@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import { Notify } from 'vant'
 import PatiendCard from '@/components/PatientCard.vue'
 import { mapState } from 'vuex'
 import { joinOperationRoom } from '@/api/patient-info'
@@ -113,6 +114,10 @@ export default {
             inductionRoomTime: moment(new Date()).format('YYYY-MM-DD HH:mm'),
             roomNo: codeStr,
             realRoomNo: this.patientInfo.roomNo
+          }
+        }).then(res => {
+          if (res.data.code === 200) {
+            Notify({ type: 'success', message: '扫描诱导室二维码成功' })
           }
         })
       }

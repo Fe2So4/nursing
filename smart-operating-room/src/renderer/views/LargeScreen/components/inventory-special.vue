@@ -125,6 +125,8 @@ export default {
         let data = JSON.parse(res.data.data.specialEquipmentStr)
         if (data.allList && data.allList.length) {
           this.list = data.allList
+        } else {
+          this.list = []
         }
       })
     }

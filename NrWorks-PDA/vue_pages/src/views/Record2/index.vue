@@ -626,7 +626,7 @@
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
               <van-dropdown-item
-                v-model="recordForm.pathologyCount"
+                v-model="recordForm.pathology.pathologyCount"
                 :options="pathologyList"
               />
             </van-dropdown-menu>

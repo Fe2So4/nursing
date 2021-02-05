@@ -200,6 +200,7 @@ export default {
     DetailDrawer
   },
   created () {
+    this.getIPAdress()
     const win = BrowserWindow.getFocusedWindow()
     if (win) {
       win.maximize()
@@ -223,13 +224,26 @@ export default {
         }
       })
     },
+    getIPAdress () {
+      let interfaces = require('os').networkInterfaces()
+      for (var devName in interfaces) {
+        var iface = interfaces[devName]
+        for (var i = 0; i < iface.length; i++) {
+          let alias = iface[i]
+          if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+            // console.log(alias.address);
+            return alias.address
+          }
+        }
+      }
+    },
     initSocket () {
       if (this.socket) {
         this.socket = null
       }
 
       this.socket = io(config.default.api.socketURL, {
-        query: 'sendName=' + 'ReceivingOrders'
+        query: 'sendName=' + this.getIPAdress()
       })
       this.socket.on('connect', () => {
         console.log('socket.io connected')
