@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import Operation from '@/components/win-operation'
+import Operation from '@/components/operation'
 export default {
   data () {
     return {

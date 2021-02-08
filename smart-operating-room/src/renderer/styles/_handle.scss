@@ -1,5 +1,4 @@
 @import "./themes1.scss";
-
 //遍历主题map
 @mixin themeify {
     @each $theme-name, $theme-map in $themes {

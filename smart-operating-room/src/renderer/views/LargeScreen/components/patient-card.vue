@@ -160,7 +160,7 @@ export default {
               this.handleSpeak()
             }
             // 大屏启动后10秒刷新一次数据
-            // this.intervalRefresh()
+            this.intervalRefresh()
           }
         })
       }
