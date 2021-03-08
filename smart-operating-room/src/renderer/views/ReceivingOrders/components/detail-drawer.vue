@@ -76,7 +76,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/deep/ .el-drawer.rtl {
-  overflow-y: scroll;
+@import '@/styles/themes';
+.detail-drawer{
+
+  /deep/ .el-drawer.rtl {
+    // overflow-y: scroll;
+    overflow-y: auto;
+  }
+  /deep/ .el-drawer__body{
+    @include theme-property('background-color',background_color_receive);
+  }
 }
 </style>

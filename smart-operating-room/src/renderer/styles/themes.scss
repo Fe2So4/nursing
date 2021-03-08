@@ -35,12 +35,23 @@ $themes:(
     // 选择房间房间背景颜色
     background_color_room_item:#FFFFFF,
     background_color_room_active:#E9EDF7,
+    // 接单背景色
+    background_color_receive: #ffffff,
+    // 接单输入框
+    background_color_input:#FFFFFF,
+    // 冰冻信息title
+    background_color_dp_title:#E0E0E0,
+    background_color_dp_info: #ffffff,
     // 房间选择卡片边框-light
     border_color_card:#CDD7F1,
     // 检查信息下边框
     border_color_info: #E9EBF4,
     // 房间边框
     border_color_room: #D6D8E1,
+    // 抽屉顶部下边框
+    border_color_drawer:#e1e1e1,
+    // 接单输入框边框
+    border_color_input:#E4E4E4,
     // 阴影
     box_color_shadow: 0px 0px 5px 0px rgba(5, 25, 51, 0.05),
     box_color_shadow_info: 0px 0px 5px 0px rgba(5, 25, 51, 0.15),
@@ -80,11 +91,22 @@ $themes:(
     // 选择房间房间背景颜色
     background_color_room_item:#2D2D33,
     background_color_room_active:#FB6716,
+    // 接单背景色
+    background_color_receive:#1E1F22,
+    // 接单输入框
+    background_color_input:#2D2D33,
+    // 冰冻信息title
+    background_color_dp_title:#474747,
+    background_color_dp_info: #353537,
     // 房间选择卡片边框-dark
     border_color_card:#626262,
     // 检查信息下边框
-    border_color_info: #63666E,
-    border_color_room: #484848,
+    border_color_info:#63666E,
+    border_color_room:#484848,
+    // 抽屉顶部下边框
+    border_color_drawer:#5a5a5a,
+     // 接单输入框边框
+    border_color_input:#484848,
     // 阴影
     box_color_shadow: 0px 0px 8px 0px rgba(18, 6, 3, 0.5),
     box_color_shadow_info: 0px 0px 8px 0px rgba(18, 6, 3, 0.5),

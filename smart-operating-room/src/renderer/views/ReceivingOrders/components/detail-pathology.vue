@@ -8,27 +8,27 @@
     </div>
     <el-row>
       <el-col :span="8">
-        <span>患者：</span>
+        <span class="dp-title-span">患者：</span>
         <span class="dp-value">{{ selectRow.patientName }}</span>
       </el-col>
       <el-col :span="8">
-        <span>性别：</span>
+        <span class="dp-title-span">性别：</span>
         <span class="dp-value">{{
           selectRow.patientGender | formatGender
         }}</span>
       </el-col>
       <el-col :span="8">
-        <span>年龄：</span>
+        <span class="dp-title-span">年龄：</span>
         <span class="dp-value">{{ selectRow.patientAge }}</span>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="16">
-        <span>住院号：</span>
+        <span class="dp-title-span">住院号：</span>
         <span class="dp-value">{{ selectRow.hospitalNo }}</span>
       </el-col>
       <el-col :span="8">
-        <span>床位：</span>
+        <span class="dp-title-span">床位：</span>
         <span class="dp-value">{{ selectRow.bedNo }}</span>
       </el-col>
     </el-row>
@@ -279,12 +279,17 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/themes';
 .detail-pathology {
   font-size: 18px;
   color: #92949a;
   padding: 0 20px;
+  @include theme-property('background-color',background_color_receive);
   .dp-value {
-    color: #444444;
+    @include theme-property('color',font_color_value);
+  }
+  .dp-title-span{
+    @include theme-property('color',font_color_secondary);
   }
   .dp-title-top {
     position: relative;
@@ -292,7 +297,8 @@ export default {
     left: -20px;
     text-indent: 20px;
     line-height: 60px;
-    border-bottom: 1px solid #e1e1e1;
+    border-bottom: 1px solid;
+    @include theme-property('border-color',border_color_drawer);
     margin-bottom: 20px;
   }
   p {
@@ -304,9 +310,11 @@ export default {
     margin: 25px 0;
   }
   .code-input {
+    @include theme-property('background-color',background_color_input);
     line-height: 40px;
     position: relative;
-    border: 1px solid #e4e4e4;
+    border: 1px solid;
+    @include theme-property('border-color',border_color_input);
     height: 40px;
     .el-input {
       position: absolute;
@@ -315,12 +323,14 @@ export default {
       top: 0;
     }
     &.active {
-      border-color: rgb(64, 153, 240);
+      border-color: rgb(64, 153, 240) !important;
     }
   }
   .dp-info {
-    border: 1px solid #e0e0e0;
+    border: 1px solid;
     border-radius: 5px;
+    @include theme-property('border-color',border_color_drawer);
+    @include theme-property('background-color',background_color_dp_info);
     .dp-title {
       cursor: pointer;
       padding-left: 10px;

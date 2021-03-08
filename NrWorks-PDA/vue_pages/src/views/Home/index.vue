@@ -106,7 +106,7 @@
 
 <script>
 import request from '../../utils/request'
-import { getPatientInfo, bindingPatPushScreen} from '@/api/patient-info'
+import { getPatientInfo, bindingPatPushScreen } from '@/api/patient-info'
 import Loading from '@/components/Loading'
 // import {getOpePeople} from '@/api/device-package'
 import def from '@/assets/def.png'

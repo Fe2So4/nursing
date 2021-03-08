@@ -9,33 +9,33 @@
     <div class="dp-info-basic">
       <el-row>
         <el-col :span="3">
-          <span>患者：</span>
+          <span class="dp-title-span">患者：</span>
           <span class="dp-value">{{ selectRow.patientName }}</span>
         </el-col>
         <el-col :span="3">
-          <span>性别：</span>
+          <span class="dp-title-span">性别：</span>
           <span class="dp-value">{{
             selectRow.patientGender | formatGender
           }}</span>
         </el-col>
         <el-col :span="3">
-          <span>年龄：</span>
+          <span class="dp-title-span">年龄：</span>
           <span class="dp-value">{{ selectRow.patientAge }}</span>
         </el-col>
         <el-col :span="3">
-          <span>病区：</span>
+          <span class="dp-title-span">病区：</span>
           <span class="dp-value">{{ selectRow.wardName }}</span>
         </el-col>
         <el-col :span="4">
-          <span>住院号：</span>
+          <span class="dp-title-span">住院号：</span>
           <span class="dp-value">{{ selectRow.hospitalNo }}</span>
         </el-col>
         <el-col :span="3">
-          <span>科室：</span>
+          <span class="dp-title-span">科室：</span>
           <span class="dp-value">{{ selectRow.deptName }}</span>
         </el-col>
         <el-col :span="3">
-          <span>床位：</span>
+          <span class="dp-title-span">床位：</span>
           <span class="dp-value">{{ selectRow.bedNo }}</span>
         </el-col>
       </el-row>
@@ -253,7 +253,7 @@ export default {
       // eslint-disable-next-line no-new
       new QRCode(this.$refs.qrCodeDiv, {
         text: text,
-        width: 160,
+        width: 158,
         height: 160,
         colorDark: '#333333', // 二维码颜色
         colorLight: '#ffffff', // 二维码背景色
@@ -379,6 +379,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/themes';
 .detail-patient {
   font-size: 18px;
   color: #92949a;
@@ -386,8 +387,10 @@ export default {
   padding: 0 20px;
   // overflow-y: auto;
   background: #f3f5fa;
+  @include theme-property('background-color',background_color_receive);
   .dp-value {
     color: #444444;
+    @include theme-property('color',font_color_value);
   }
   .dp-info-title {
     position: relative;
@@ -402,7 +405,7 @@ export default {
     text-indent: 20px;
   }
   .dp-info-basic {
-    background: #ffffff;
+    @include theme-property('background',background_color_dp_info);
     box-shadow: 0px 0px 5px 0px rgba(5, 26, 51, 0.05);
     border-radius: 5px;
     padding: 20px 20px 13px;
@@ -420,8 +423,10 @@ export default {
     }
     .code-input {
       line-height: 40px;
+      @include theme-property('background-color',background_color_input);
       position: relative;
-      border: 1px solid #e4e4e4;
+      border: 1px solid;
+      @include theme-property('border-color',border_color_input);
       height: 40px;
       .el-input {
         position: absolute;
@@ -433,16 +438,17 @@ export default {
         }
       }
       &.active {
-        border-color: rgb(64, 153, 240);
+        border-color: rgb(64, 153, 240) !important;
       }
     }
   }
   .dp-info-notice {
-    border: 1px solid #e0e0e0;
+    border: 1px solid;
     border-radius: 5px;
+    @include theme-property('border-color',border_color_drawer);
+    @include theme-property('background-color',background_color_dp_info);
     // padding-bottom: 40px;
     margin: 10px 0;
-    background: #ffffff;
     .dp-title {
       cursor: pointer;
       padding-left: 10px;
@@ -467,6 +473,8 @@ export default {
         margin-right: 60px;
         .qrcode {
           margin-top: 20px;
+          border: 1px solid #ffffff;
+          box-sizing: border-box;
         }
       }
       .dp-content-right {

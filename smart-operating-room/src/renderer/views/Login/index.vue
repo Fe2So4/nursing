@@ -9,15 +9,28 @@
           <span>智能护理</span>
           <span>v1.0.0</span>
         </p>
-        <img src="../../assets/welcome.png" alt />
+        <img
+          src="../../assets/welcome.png"
+          alt
+        >
       </div>
       <div class="right">
         <div class="form-icon">
-          <img src="../../assets/dandelion.png" alt />
+          <img
+            src="../../assets/dandelion.png"
+            alt
+          >
         </div>
-        <div class="title">账 户 登 录</div>
+        <div class="title">
+          账 户 登 录
+        </div>
         <div class="line" />
-        <el-form :rules="rules" ref="form" :model="form" hide-required-asterisk>
+        <el-form
+          :rules="rules"
+          ref="form"
+          :model="form"
+          hide-required-asterisk
+        >
           <el-form-item prop="username">
             <el-input
               prefix-icon="el-icon-s-custom"
@@ -38,12 +51,27 @@
           </el-form-item>
         </el-form>
         <div class="option clearfix">
-          <div class="button" @click="login">确定</div>
-          <div class="button" @click="close">取消</div>
+          <div
+            class="button"
+            @click="login"
+          >
+            确定
+          </div>
+          <div
+            class="button"
+            @click="close"
+          >
+            取消
+          </div>
         </div>
       </div>
-      <div class="copyright">Copyright©{{ copyrightTime }}蓝想健康版权所有</div>
-      <div class="close" style="-webkit-app-region: drag">
+      <div class="copyright">
+        Copyright©{{ copyrightTime }}蓝想健康版权所有
+      </div>
+      <div
+        class="close"
+        style="-webkit-app-region: drag"
+      >
         <i
           class="el-icon-minus"
           @click="mini"
@@ -60,95 +88,95 @@
 </template>
 
 <script>
-import { login, reqgetLoginUserInfo } from "@/api/login";
+import { login, reqgetLoginUserInfo } from '@/api/login'
 // import request from '@/utils/request'
-import { setUserToken } from "../../utils/storage";
-import moment from "moment";
+import { setUserToken } from '../../utils/storage'
+import moment from 'moment'
 // import {ipcRenderer} from 'electron'
-const { BrowserWindow } = require("electron").remote;
+const { BrowserWindow } = require('electron').remote
 
 export default {
-  name: "Login",
-  data() {
+  name: 'Login',
+  data () {
     return {
       form: {
-        username: "",
-        password: "",
+        username: '',
+        password: ''
       },
       rules: {
         username: [
-          { required: true, message: "请正确填写用户名", trigger: "blur" },
+          { required: true, message: '请正确填写用户名', trigger: 'blur' }
         ],
         password: [
-          { required: true, message: "请正确填写密码", trigger: "blur" },
-        ],
+          { required: true, message: '请正确填写密码', trigger: 'blur' }
+        ]
       },
-      copyrightTime: moment(new Date()).format("YYYY"),
-    };
+      copyrightTime: moment(new Date()).format('YYYY')
+    }
   },
-  created() {
-    const win = BrowserWindow.getFocusedWindow();
+  created () {
+    const win = BrowserWindow.getFocusedWindow()
     if (win) {
-      win.unmaximize();
+      win.unmaximize()
     }
   },
   methods: {
-    jumpHome() {},
-    handleInputPass() {
-      let pass = this.$refs.password;
-      pass.focus();
+    jumpHome () {},
+    handleInputPass () {
+      let pass = this.$refs.password
+      pass.focus()
     },
-    login() {
+    login () {
       this.$refs.form.validate((valid) => {
         if (valid) {
           let obj = {
             loginName: this.form.username,
-            loginPwd: this.form.password,
-          };
+            loginPwd: this.form.password
+          }
           login(obj).then((res) => {
-            if (res.data.code === "0") {
-              setUserToken(res.data.data);
+            if (res.data.code === '0') {
+              setUserToken(res.data.data)
               reqgetLoginUserInfo().then((res) => {
                 if (res.data.code === 200) {
                   let obj = {
                     userName: res.data.data.userName,
-                    userCode: res.data.data.userCode,
-                  };
-                  this.$store.commit("SAVE_LOGIN_USERINFO", obj);
-                  localStorage.setItem("userName", obj.userName);
-                  localStorage.setItem("userCode", obj.userCode);
+                    userCode: res.data.data.userCode
+                  }
+                  this.$store.commit('SAVE_LOGIN_USERINFO', obj)
+                  localStorage.setItem('userName', obj.userName)
+                  localStorage.setItem('userCode', obj.userCode)
                 }
-              });
+              })
 
               // ipcRenderer.send('login-window')
-              const win = BrowserWindow.getFocusedWindow();
-              win.maximize();
+              const win = BrowserWindow.getFocusedWindow()
+              win.maximize()
               // win.close()
-              this.$router.push("/home");
+              this.$router.push('/home')
             } else {
-              this.$message({ type: "error", message: res.data.message });
+              this.$message({ type: 'error', message: res.data.message })
             }
-          });
+          })
         } else {
-          return false;
+          return false
         }
-      });
+      })
     },
-    enter(e) {
+    enter (e) {
       if (e.keyCode === 13) {
-        this.login();
+        this.login()
       }
     },
-    close() {
-      const win = BrowserWindow.getFocusedWindow();
-      win.close();
+    close () {
+      const win = BrowserWindow.getFocusedWindow()
+      win.close()
     },
-    mini() {
-      const win = BrowserWindow.getFocusedWindow();
-      win.minimize();
-    },
-  },
-};
+    mini () {
+      const win = BrowserWindow.getFocusedWindow()
+      win.minimize()
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
