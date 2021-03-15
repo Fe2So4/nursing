@@ -90,17 +90,10 @@
 <script>
 import { login, reqgetLoginUserInfo } from '@/api/login'
 // import request from '@/utils/request'
-<<<<<<< .mine
 import { setUserToken } from '../../utils/storage'
 import moment from 'moment'
 import {ipcRenderer} from 'electron'
 const { BrowserWindow } = require('electron').remote
-=======
-import { setUserToken } from '../../utils/storage'
-import moment from 'moment'
-// import {ipcRenderer} from 'electron'
-const { BrowserWindow } = require('electron').remote
->>>>>>> .theirs
 
 export default {
   name: 'Login',
@@ -121,7 +114,6 @@ export default {
       copyrightTime: moment(new Date()).format('YYYY')
     }
   },
-<<<<<<< .mine
   mounted () {
     this.autoUpdate()
     ipcRenderer.on('message', (event, { message, data }) => {
@@ -137,41 +129,14 @@ export default {
   },
   created () {
     const win = BrowserWindow.getFocusedWindow()
-=======
-  created () {
-    const win = BrowserWindow.getFocusedWindow()
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> .theirs
     if (win) {
       win.unmaximize()
     }
   },
   methods: {
-<<<<<<< .mine
     autoUpdate () {
       ipcRenderer.send('update')
-
-
-=======
-    jumpHome () {},
-    handleInputPass () {
-      let pass = this.$refs.password
-      pass.focus()
->>>>>>> .theirs
     },
-<<<<<<< .mine
     keyUpListener (e) {
       if (e.keyCode === 112) {
         this.$electron.ipcRenderer.send('open-config-file')
@@ -183,19 +148,6 @@ export default {
       pass.focus()
     },
     login () {
-=======
-    login () {
-
-
-
-
-
-
-
-
-
-
->>>>>>> .theirs
       this.$refs.form.validate((valid) => {
         if (valid) {
           let obj = {
