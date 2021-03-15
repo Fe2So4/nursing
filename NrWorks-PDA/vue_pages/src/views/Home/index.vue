@@ -106,7 +106,7 @@
 
 <script>
 import request from '../../utils/request'
-import { getPatientInfo, bindingPatPushScreen} from '@/api/patient-info'
+import { getPatientInfo, bindingPatPushScreen } from '@/api/patient-info'
 import Loading from '@/components/Loading'
 // import {getOpePeople} from '@/api/device-package'
 import def from '@/assets/def.png'
@@ -320,7 +320,7 @@ export default {
     document.onkeydown = (e) => {
       var key = window.event.keyCode
       if (key === 13) {
-        this.handleScan('OpsQRCode=19199643,OpsSchNo=417153')
+        this.handleScan('OpsQRCode=19338062,OpsSchNo=424644')
       }
     }
     this.setTheme()

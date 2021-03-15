@@ -13,6 +13,16 @@
       class="right"
       v-if="patientInfo.cureNo"
     >
+      <el-row style="text-align:right">
+        <el-button
+          @click="yanzhen"
+          style="margin-right:20px;margin-button:10px"
+          size="mini"
+          type="danger"
+        >
+          终止手术
+        </el-button>
+      </el-row>
       <el-row>
         <el-col :span="8">
           患者信息：<span class="value">
@@ -88,21 +98,116 @@
       :room-visible.sync="roomVisible"
       @handleClose="handleClose"
     />
+    <el-dialog
+      append-to-body
+      title="用户身份验证"
+      :visible.sync="dialogVisible"
+      width="520px"
+      top="30vh"
+      :before-close="handleCloseShousu"
+    >
+      <div class="dialog-div">
+        <span class="dialog-div-title">手术室用户验证</span>
+        <el-form
+          class="dialog-div-form"
+          ref="form"
+          :rules="rules"
+          size="mini"
+          :model="form"
+          label-width="60px"
+          hide-required-asterisk
+        >
+          <el-form-item
+            prop="username"
+            label="用户名"
+          >
+            <el-input
+              prefix-icon="el-icon-s-custom"
+              placeholder="请输入用户名"
+              v-model="form.username"
+            />
+          </el-form-item>
+          <el-form-item
+            prop="password"
+            style="marginTop:20px"
+            label="密码"
+          >
+            <el-input
+              prefix-icon="el-icon-lock"
+              placeholder="请输入密码"
+              v-model="form.password"
+              @keydown.native="enter"
+              show-password
+            />
+          </el-form-item>
+        </el-form>
+      </div>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <div class="dialog-footer-btn">
+          <vxe-button
+            class="btn"
+            size="mini"
+            status="my-purple"
+            @click="yishilogin"
+          >
+            验 证
+          </vxe-button>
+          <vxe-button
+            class="btn"
+            size="mini mgl30"
+            status="my-purple"
+            @click="dialogVisible = false"
+          >
+            取 消
+          </vxe-button>
+        </div>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import { reqcheckSendDoctor } from '@/api/login'
 import ChangeRoom from './change-room'
 import { mapActions, mapState } from 'vuex'
 import request from '@/utils/request2'
-import { getPatientInfo } from '@/api/large-screen'
+import { getPatientInfo, terminateOper } from '@/api/large-screen'
 import $bus from '@/utils/busScreen'
 import { startSpeak, cancelSpeak } from '@/utils/voiceSpeak'
 import { getCurrentRoom } from '@/utils/storage'
 export default {
   name: 'PatientCard',
   data () {
+    var changeUserName = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('用户名不能为空'))
+      }
+      setTimeout(() => {
+        callback()
+      }, 1000)
+    }
+    var changePassWord = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('密码不能为空'))
+      }
+      setTimeout(() => {
+        callback()
+      }, 1000)
+    }
     return {
+      form: {
+        username: '',
+        password: ''
+      },
+      rules: {
+        username: [{ validator: changeUserName, trigger: 'blur' }],
+        password: [{ validator: changePassWord, trigger: 'blur' }]
+      },
+
+      dialogVisible: false,
       roomVisible: false,
       voice: true,
       interval: null,
@@ -130,6 +235,72 @@ export default {
   },
   methods: {
     ...mapActions('LargeScreen', ['setCurrentRoom']),
+    // 终止手术用户验证
+    yanzhen () {
+      this.form.username = ''
+      this.form.password = ''
+      this.dialogVisible = true
+    },
+    enter (e) {
+      if (e.keyCode === 13) {
+        this.yishilogin()
+      }
+    },
+    yishilogin () {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          let obj = {
+            loginName: this.form.username,
+            password: this.form.password
+          }
+          reqcheckSendDoctor(obj).then(res => {
+            if (res.data.code === 200) {
+              this.$confirm('此操作将终止该手术, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'error'
+              }).then(() => {
+                this.stopTerminateOper()
+              }).catch(() => {
+                this.$message({
+                  type: 'info',
+                  message: '已取消终止'
+                })
+              })
+            } else {
+              this.openToast('error', '验证医师错误,请重试')
+              this.form.username = ''
+              this.form.password = ''
+            }
+            this.dialogVisible = false
+          })
+        } else {
+          return false
+        }
+      })
+    },
+    stopTerminateOper () {
+      request({
+        url: terminateOper + '/' + this.patientInfo.operSchNo + '/' + this.form.username,
+        method: 'get'
+      }).then((res) => {
+        if (res.data.code === 200) {
+          this.$message({
+            type: 'success',
+            message: '终止成功!'
+          })
+        } else {
+          this.$message({
+            type: 'error',
+            message: '终止失败!'
+          })
+        }
+      })
+    },
+    handleCloseShousu (done) {
+      this.dialogVisible = false
+      // done()
+    },
     handleChangeRoom () {
       // if (!this.currentRoom) {
       this.roomVisible = true
@@ -271,7 +442,7 @@ export default {
       position: absolute;
       cursor: pointer;
       right: 10px;
-      bottom: -10px;
+      bottom: -20px;
       height: 20px;
       font-size: 14px;
       background: #ffff;
@@ -281,6 +452,21 @@ export default {
       line-height: 20px;
       border: 1px solid #91949a;
     }
+  }
+}
+.dialog-div {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  .dialog-div-title {
+    color: #303133;
+    font-weight: 600;
+    font-size: 24px;
+  }
+  .dialog-div-form {
+    width: 65%;
+    margin-top: 30px;
   }
 }
 </style>

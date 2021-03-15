@@ -38,7 +38,7 @@ export const getSign = `${config.default.api.baseURL}/ocis/operationScreen/getMo
 export const getAntibiotic = `${config.default.api.baseURL}/ocis/basicInfo/getAntibioticScreen`
 
 // 获取术中病理
-export const getPathology = `${config.default.api.baseURL}/ocis/basicInfo/getIntraoperativePathologyScreen`
+export const getPathology = `${config.default.api.baseURL}/ocis/getIntraoperativePathologyScreen`
 
 // 获取楼层列表
 export const floorList = `${config.default.api.baseURL}/ocis/dict/getFloorScreen`
@@ -67,3 +67,6 @@ export const reqGetRoomByFloor = (data) => {
     params: data
   })
 }
+
+// 终止手术
+export const terminateOper = `${config.default.api.baseURL}/ocis/operationScreen/terminateOper`

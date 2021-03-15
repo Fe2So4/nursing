@@ -8,6 +8,7 @@
       right-text="运送"
     >
     </van-nav-bar>
+    <span class="shouyeBtn" @click="gotoShouye">返回首页</span>
     <PatientCard :radius="true"></PatientCard>
     <div class="list">
       <van-cell-group>
@@ -583,6 +584,9 @@ export default {
   },
   watch: {},
   methods: {
+    gotoShouye () {
+      this.$router.push('/patient-home')
+    },
     formatTime (time) {
       return moment(time).format('YYYY-MM-DD HH:mm')
     },

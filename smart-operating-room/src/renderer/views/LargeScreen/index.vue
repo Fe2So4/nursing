@@ -76,6 +76,11 @@ export default {
   components: {PatientCard, PatientStep, PatientInfo, EmptyNotice, HistoryRecord},
   methods: {
     ...mapActions('LargeScreen', ['setPatientInfo', 'setCurrentRoom']),
+    keyUpListener (e) {
+      if (e.keyCode === 112) {
+        this.$electron.ipcRenderer.send('open-config-file')
+      }
+    },
     handleShowStep () {
       this.stepVisible = !this.stepVisible
     },
@@ -194,10 +199,13 @@ export default {
   },
   mounted () {
     this.initSocket()
+    document.addEventListener('keyup', this.keyUpListener)
   },
+
   beforeDestroy () {
     this.socket = null
     this.interval = null
+    document.removeEventListener('keyup', this.keyUpListener)
   }
 }
 </script>

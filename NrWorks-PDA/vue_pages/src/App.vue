@@ -18,4 +18,11 @@ export default {
   width: 100%;
   font-size: 26px;
 }
+.shouyeBtn {
+  z-index: 6666;
+  position: absolute;
+  top: 30px;
+  left: 70px;
+  color: #1989fa;
+}
 </style>

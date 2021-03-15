@@ -208,6 +208,11 @@ export default {
     this.setTheme()
   },
   methods: {
+    keyUpListener (e) {
+      if (e.keyCode === 112) {
+        this.$electron.ipcRenderer.send('open-config-file')
+      }
+    },
     // 获取楼层列表
     getFloorList () {
       this.floor = ''
@@ -387,7 +392,7 @@ export default {
     },
     setTheme () {
       let theme = getLargeScreenTheme()
-      let type = 'dark'
+      let type = 'light'
       if (theme) {
         type = theme
       }
@@ -410,6 +415,7 @@ export default {
     }
   },
   mounted () {
+    document.addEventListener('keyup', this.keyUpListener)
     this.getNewTime()
     this.getFloorList()
     Bus.$on('shuaxinPatient', res => {
@@ -435,6 +441,7 @@ export default {
   },
   beforeDestroy () {
     this.socket = null
+    document.removeEventListener('keyup', this.keyUpListener)
   }
 }
 </script>

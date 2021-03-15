@@ -7,6 +7,7 @@
       left-arrow
     >
     </van-nav-bar>
+    <span class="shouyeBtn" @click="gotoShouye">返回首页</span>
     <div class="step">
       <div class="step-content">
         <div>
@@ -52,12 +53,14 @@
               : stepList[stepList.length - 1].value
           "
         >
-          <p class="option">扫完码之后请点击转运交接单按钮</p>
-          <p class="option">
-            <van-button round @click="jumpTransferRecord"
-              >转运交接单</van-button
-            >
-          </p>
+          <div v-if="$route.query.title !== '进缓冲区'">
+            <p class="option">扫完码之后请点击转运交接单按钮</p>
+            <p class="option">
+              <van-button round @click="jumpTransferRecord"
+                >转运交接单</van-button
+              >
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -70,7 +73,8 @@ import { bindingPatPushScreen, execOperation } from '@/api/patient-info'
 import {
   getHandoverCodeStatus,
   saveHandoverCodeStatus,
-  changeApplyStatus
+  changeApplyStatus,
+  storagePointBuffer
 } from '@/api/handover-record'
 import { mapState } from 'vuex'
 import $bus from '@/utils/bus'
@@ -84,6 +88,11 @@ export default {
       stepList: [],
       roomScanList: [
         { label: '手术房间', value: false, active: 2, room: '', time: '' }
+      ],
+      inCache: [
+        { label: '患者腕带', value: false, active: 0, time: '' },
+        { label: '工勤人员二维码', value: false, active: 1, time: '' },
+        { label: '缓冲区楼层号', value: false, active: 2, time: '' }
       ],
       outPacuScan: [{ label: '患者腕带', value: false, active: 0, time: '' }], // 出pacu
       outWardScan: [{ label: '患者腕带', value: false, active: 0, time: '' }], // 病房交接
@@ -121,6 +130,9 @@ export default {
     ...mapState('Patient', ['patientInfo'])
   },
   methods: {
+    gotoShouye () {
+      this.$router.push('/patient-home')
+    },
     onClickLeft () {
       this.$router.go(-1)
     },
@@ -185,6 +197,73 @@ export default {
         } else {
           this.$notify({ message: '请扫描患者腕带', type: 'warning' })
           return
+        }
+      } else if (this.$route.query.title === '进缓冲区') {
+        console.log(this.stepList)
+        if (this.stepList[0].value) {
+          if (!this.stepList[1].value) {
+            if (this.code.indexOf('Worker') !== -1) {
+              this.code = this.code.replace('Worker=', '')
+              mark = 7
+              this.stepList[1].value = true
+              this.stepList[1].time = time
+              this.stepList[1].workerCode = this.code
+              arr = [
+                { stepList: this.stepList }
+              ]
+            } else {
+              this.$notify({
+                message: '请扫描工勤人员二维码',
+                type: 'warning'
+              })
+              return
+            }
+          } else {
+            if (!this.stepList[2].value) {
+              if (this.code.indexOf('floorNum') !== -1) {
+                let floorNum = this.code.replace('floorNum=', '')
+                mark = 7
+                this.stepList[2].value = true
+                this.stepList[2].floorNum = floorNum
+                this.stepList[2].time = time
+                arr = [
+                  { stepList: this.stepList }
+                ]
+              } else {
+                this.$notify({ message: '请扫描缓冲区楼层号', type: 'warning' })
+                return
+              }
+            } else {
+              this.getStoragePointBuffer()
+              this.$notify({ message: '请勿重复扫码', type: 'warning' })
+              return
+            }
+          }
+        } else {
+          if (parseInt(this.code)) {
+            if (this.patientInfo.cureNo === this.code) {
+              if (this.stepList[0].value) {
+                this.$notify({
+                  message: '当前患者已扫码,请勿重复扫码',
+                  type: 'warning'
+                })
+                return
+              } else {
+                mark = 7
+                this.stepList[0].value = true
+                this.stepList[0].time = time
+                arr = [
+                  { stepList: this.stepList }
+                ]
+              }
+            } else {
+              this.$notify({ message: '患者匹配失败', type: 'warning' })
+              return
+            }
+          } else {
+            this.$notify({ message: '请扫描患者腕带', type: 'warning' })
+            return
+          }
         }
       } else if (this.$route.query.title === '进手术室') {
         if (this.stepList[0].value) {
@@ -432,9 +511,36 @@ export default {
             this.handleExecute()
             this.changeApplyStatus()
           }
+          if (mark === 7) {
+            if (this.stepList[this.stepList.length - 1].value) {
+              this.getStoragePointBuffer()
+            }
+          }
           this.$notify({ message: '扫码成功', type: 'success' })
           // this.getCodeStatus();
         }
+      })
+    },
+    // 缓冲区修改上一页列表状态
+    getStoragePointBuffer () {
+      let arr = [
+        { stepList: this.stepList }
+      ]
+      let obj = {
+        cureNo: this.patientInfo.cureNo,
+        hospitalNo: this.patientInfo.hospitalNo,
+        operSchNo: this.patientInfo.operSchNo,
+        pointBufferState: '2',
+        pointBufferCode: this.stepList[1].workerCode,
+        pointBuffer: arr,
+        pointBufferTime: ''
+      }
+      request({
+        url: storagePointBuffer,
+        method: 'POST',
+        data: obj
+      }).then((res) => {
+
       })
     },
     getCodeStatus () {
@@ -454,6 +560,12 @@ export default {
             if (res.data.data.outWardScan.length > 0) {
               this.stepList = res.data.data.outWardScan
             }
+            break
+          case '进缓冲区':
+            if (res.data.data.pointBufferScan.length > 0) {
+              this.stepList = res.data.data.pointBufferScan[0].stepList
+            }
+
             break
           case '进手术室':
             // 需要操作
@@ -520,6 +632,12 @@ export default {
         this.code = code
         this.saveCodeStatus()
       }
+      // 楼层的二维码
+      if (code.indexOf('floor') !== -1) {
+        // this.code = code.replace('Worker=', '')
+        this.code = code
+        this.saveCodeStatus()
+      }
       // 器械包条码
       if (code.indexOf('P-') !== -1) {
         // this.subjectOfQiXiePackage.next(code.replace('P-', ''))
@@ -529,6 +647,9 @@ export default {
       switch (this.$route.query.title) {
         case '病房交接':
           this.stepList = this.outWardScan
+          break
+        case '进缓冲区':
+          this.stepList = this.inCache
           break
         case '进手术室':
           this.stepList = this.pointInRoomScan
@@ -563,8 +684,11 @@ export default {
       if (key === 13) {
         setTimeout(() => {
           // this.handleCode('RoomNum=606')
-          this.handleCode('19094620')
+          // this.handleCode('19338062')
           // this.handleCode('Worker=19058456')
+
+          this.handleCode('floorNum=6')
+          // this.handleCode('OpsQRCode=19338062,OpsSchNo=424644')
         }, 1000)
       }
       if (key === 8) {

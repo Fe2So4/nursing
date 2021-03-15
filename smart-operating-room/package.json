@@ -1,5 +1,5 @@
 {
-  "name": "large-screen",
+  "name": "smart-nursing",
   "version": "1.0.0",
   "author": "dyw-design <1875742887@qq.com>",
   "description": "An electron-vue project",
@@ -26,11 +26,17 @@
     "postinstall": "npm run lint:fix"
   },
   "build": {
-    "productName": "large-screen",
-    "appId": "large-screen",
+    "productName": "smart-nursing",
+    "appId": "smart-nursing",
     "directories": {
       "output": "build"
     },
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "http://128.0.18.38:8080/nursing/smart_nursing"
+      }
+    ],
     "files": [
       "dist/electron/**/*"
     ],
@@ -53,7 +59,7 @@
       "icon": "build/icons/icon.icns"
     },
     "win": {
-      "icon": "build/icons/large_screen.ico"
+      "icon": "build/icons/smart_nursing.ico"
     },
     "linux": {
       "icon": "build/icons"
@@ -62,18 +68,20 @@
       "oneClick": false,
       "allowElevation": true,
       "allowToChangeInstallationDirectory": true,
-      "installerIcon": "build/icons/large_screen.ico",
-      "uninstallerIcon": "build/icons/large_screen.ico",
-      "installerHeaderIcon": "build/icons/large_screen.ico",
+      "installerIcon": "build/icons/smart_nursing.ico",
+      "uninstallerIcon": "build/icons/smart_nursing.ico",
+      "installerHeaderIcon": "build/icons/smart_nursing.ico",
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "large_screen"
+      "shortcutName": "smart_nursing"
     }
   },
   "dependencies": {
     "axios": "^0.18.0",
     "bufferutil": "^4.0.2",
+    "chokidar": "^3.5.1",
     "el-table-infinite-scroll": "^1.0.10",
+    "electron-updater": "^4.3.8",
     "element-ui": "^2.13.2",
     "html2canvas": "^1.0.0-rc.7",
     "jsbarcode": "^3.11.3",

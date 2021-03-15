@@ -21,3 +21,6 @@ export const saveHandoverCodeStatus = `${config.api.baseURL}/ocis/forwardingRepo
 
 // 已接单改成已完成
 export const changeApplyStatus = `${config.api.baseURL}/ocis/receivingorders/updateOrderstatus`
+
+// 转运交接单存储进手术室缓冲区
+export const storagePointBuffer = `${config.api.baseURL}/ocis/forwardingReport/storagePointBuffer`
