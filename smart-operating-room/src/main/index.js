@@ -5,7 +5,7 @@ import { filePath as configJsonFilePath } from './ip'
 const { autoUpdater } = require('electron-updater')
 const Path = require('path')
 const fs = require('fs')
-const feedUrl = 'http://128.0.18.38:8080/nursing/smart_nursing'
+const feedUrl = 'http://128.0.18.38:8080/nursing/smartnursing'
 // import '../renderer/store'
 /**
  * Set `__static` path to static files in production
