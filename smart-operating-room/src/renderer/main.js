@@ -39,7 +39,7 @@ process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true'
 Vue.use(htmlToPdf)
 Vue.use(vueiInfinite)
 Vue.directive('loadmore', {
-  bind(el, binding) {
+  bind (el, binding) {
     var p = 0
     var t = 0
     var down = true
