@@ -55,6 +55,9 @@
             style="color:#02CB4E;"
           >进行中 <strong>{{ haveInHandOrderCount || 0 }}</strong></span>
           <span
+            style="color:#e7920b;"
+          >缓冲区 <strong>{{ inBufferOrderCount || 0 }}</strong></span>
+          <span
             style="color:#3478FF;"
           >已完成 <strong>{{ completeOrderCount || 0 }}</strong></span>
         </div>
@@ -126,6 +129,29 @@
             </li>
           </ul>
         </div>
+        <div class="list-cache list-common">
+          <h3
+            class="title"
+            style="color:#e7920b;"
+          >
+            <span>缓冲区</span><i />
+          </h3>
+          <ul>
+            <li
+              v-for="(item, index) in inBufferOrder"
+              :key="index"
+            >
+              <patient-list
+                v-if="item.orderType === 0"
+                :pt-data="item"
+              />
+              <pathology-list
+                v-else
+                :pt-data="item"
+              />
+            </li>
+          </ul>
+        </div>
         <div class="list-finish list-common">
           <h3
             class="title"
@@ -170,6 +196,7 @@ import DetailDrawer from './components/detail-drawer'
 import {getLargeScreenTheme, setLargeScreenTheme} from '@/utils/storage'
 import { receiveOrderList, floorList, roomList } from '@/api/receiving-orders'
 import request from '@/utils/request2'
+import {ipcRenderer} from 'electron'
 const config = require('@/config/url.js')
 const { BrowserWindow } = require('electron').remote
 export default {
@@ -187,6 +214,8 @@ export default {
       receivedOrderCount: 0,
       haveInHandOrder: [],
       haveInHandOrderCount: 0,
+      inBufferOrderCount: 0,
+      inBufferOrder: [],
       completeOrder: [],
       completeOrderCount: 0,
       detailVisible: false,
@@ -338,9 +367,11 @@ export default {
           let arrList = res.data.data
           this.receivedOrderCount = arrList.receivedOrderCount
           this.haveInHandOrderCount = arrList.haveInHandOrderCount
+          this.inBufferOrderCount = arrList.inBufferOrderCount
           this.completeOrderCount = arrList.completeOrderCount
           this.receivedOrder = arrList.receivedOrder
           this.haveInHandOrder = arrList.haveInHandOrder
+          this.inBufferOrder = arrList.inBufferOrder
           this.completeOrder = arrList.completeOrder
         } else {
           this.openToast('error', res.data.msg)
@@ -416,6 +447,7 @@ export default {
   },
   mounted () {
     document.addEventListener('keyup', this.keyUpListener)
+    ipcRenderer.send('open-main')
     this.getNewTime()
     this.getFloorList()
     Bus.$on('shuaxinPatient', res => {
@@ -561,6 +593,10 @@ export default {
       }
       .list-finish {
         flex: 1;
+      }
+      .list-cache {
+        flex: 1;
+        margin-right: 20px
       }
       .list-common {
         @include theme-property('background-color',background_color_secondary);

@@ -34,7 +34,7 @@
     "publish": [
       {
         "provider": "generic",
-        "url": "http://128.0.18.38:8080/nursing/smart_nursing"
+        "url": "http://128.0.18.38:8080/nursing/smartnursing"
       }
     ],
     "files": [

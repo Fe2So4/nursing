@@ -19,62 +19,116 @@
           title="序号"
         />
         <vxe-table-column
+          width="100px"
           field="hospitalNo"
           title="住院号"
         />
         <vxe-table-column
+          width="100px"
           field="patientName"
           title="患者姓名"
         />
         <vxe-table-column
+          width="100px"
           field="operateDate"
           title="手术日期"
         />
-        <vxe-table-column
+        <!-- <vxe-table-column
+          width="100px"
           field="anesDoc"
           title="麻醉医师"
-        />
+        /> -->
         <vxe-table-column
           width="130px"
           field="categpry"
           title="病区-科室"
         />
-        <vxe-table-column
+        <!-- <vxe-table-column
+          width="100px"
           field="washNurseName"
           title="洗手护士"
         />
         <vxe-table-column
+          width="100px"
           field="surgeon"
           title="主刀医师"
         />
         <vxe-table-column
+          width="100px"
           field="runNurseName"
           title="巡回护士"
+        /> -->
+        <vxe-table-column
+          width="110px"
+          field="sendOrderTime"
+          title="派单时间"
         />
         <vxe-table-column
-          width="160px"
-          field="anesBeforeChkTime"
-          title="麻醉开始前时间"
+          width="110px"
+          field="receivingOrderTime"
+          title="接单时间"
         />
         <vxe-table-column
-          width="160px"
-          field="beforeOperChkTime"
-          title="手术开始前时间"
+          width="110px"
+          field="outWardTime"
+          title="到达病房时间"
         />
         <vxe-table-column
-          field="leaveBeforeChkUpdateTime"
-          width="160px"
-          title="离开手术室前时间"
+          width="100px"
+          field="inBufferTime"
+          title="到达缓冲区时间"
         />
         <vxe-table-column
-          width="160px"
+          width="100px"
+          field="inInductionRoomTime"
+          title="入术前pacu时间"
+        />
+        <vxe-table-column
+          width="100px"
+          field="outInductionRoomTime"
+          title="出术前pacu时间"
+        />
+        <vxe-table-column
+          width="100px"
           field="pointInRoomTime"
           title="进手术室时间"
         />
         <vxe-table-column
-          width="160px"
+          width="100px"
+          field="anesBeforeChkTime"
+          title="麻醉开始前时间"
+        />
+
+        <vxe-table-column
+          width="100px"
+          field="beforeOperChkTime"
+          title="手术开始前时间"
+        />
+        <vxe-table-column
+          width="100px"
+          field="leaveBeforeChkUpdateTime"
+          title="离开手术室前时间"
+        />
+        <vxe-table-column
+          width="100px"
           field="pointOutRoomTime"
           title="出手术室时间"
+        />
+        <vxe-table-column
+          width="100px"
+          field="pointPacuTime"
+          title="术后入pacu时间"
+        />
+        <vxe-table-column
+          field="outPacuTime"
+          width="100px"
+          title="术后出pacu时间"
+        />
+
+        <vxe-table-column
+          width="100px"
+          field="arrivalTime"
+          title="病房收治时间"
         />
       </vxe-table>
     </div>

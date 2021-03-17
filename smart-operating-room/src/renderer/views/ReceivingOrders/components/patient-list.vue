@@ -81,7 +81,7 @@ export default {
     justify-content: space-around;
     p {
       // width: 100%;
-      max-width: 512px;
+      max-width: 461px;
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;

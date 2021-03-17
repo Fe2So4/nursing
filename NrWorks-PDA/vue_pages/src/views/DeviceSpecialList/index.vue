@@ -771,7 +771,7 @@ export default {
       this.getPackageList()
     },
     handleDeviceCode (code) {
-      alert(code)
+      // alert(code)
       if (this.active === 5 || this.active === 6 || this.active === 7) {
         // console.log('不允许扫码操作')
         return
@@ -784,17 +784,17 @@ export default {
     }
   },
   created () {
-    document.onkeydown = (e) => {
-      var key = window.event.keyCode
-      if (key === 13) {
-        if (this.active === 5 || this.active === 6 || this.active === 7) {
-          return
-        }
-        setTimeout(() => {
-          this.getData()
-        }, 200)
-      }
-    }
+    // document.onkeydown = (e) => {
+    //   var key = window.event.keyCode
+    //   if (key === 13) {
+    //     if (this.active === 5 || this.active === 6 || this.active === 7) {
+    //       return
+    //     }
+    //     setTimeout(() => {
+    //       this.getData()
+    //     }, 200)
+    //   }
+    // }
   },
   async mounted () {
     this.getPackageList()

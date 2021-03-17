@@ -401,6 +401,7 @@ export default {
           }
         }
       } else if (this.$route.query.title === '进PACU') {
+        console.log(this.code)
         if (parseInt(this.code)) {
           if (this.patientInfo.cureNo === this.code) {
             if (this.stepList[0].value) {
@@ -684,11 +685,11 @@ export default {
       if (key === 13) {
         setTimeout(() => {
           // this.handleCode('RoomNum=606')
-          // this.handleCode('19338062')
+          this.handleCode('19346398')
           // this.handleCode('Worker=19058456')
 
-          this.handleCode('floorNum=6')
-          // this.handleCode('OpsQRCode=19338062,OpsSchNo=424644')
+          // this.handleCode('floorNum=6')
+          // this.handleCode('OpsQRCode=19346458,OpsSchNo=424967')
         }, 1000)
       }
       if (key === 8) {

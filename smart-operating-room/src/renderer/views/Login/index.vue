@@ -115,18 +115,11 @@ export default {
     }
   },
   mounted () {
-    this.autoUpdate()
-    ipcRenderer.on('message', (event, { message, data }) => {
-      if (message === 'isUpdateNow') {
-        if (confirm('检测到存在新版本,是否立即更新？')) {
-          ipcRenderer.send('updateNow')
-        }
-      }
-    })
+    ipcRenderer.send('open-main')
+    console.log('success-更新成功')
     document.addEventListener('keyup', this.keyUpListener)
   },
   beforeDestroy () {
-    ipcRenderer.removeAll(['message', 'isUpdateNow', 'update'])
     document.removeEventListener('keyup', this.keyUpListener)
   },
   created () {
@@ -136,9 +129,6 @@ export default {
     }
   },
   methods: {
-    autoUpdate () {
-      ipcRenderer.send('update')
-    },
     keyUpListener (e) {
       if (e.keyCode === 112) {
         this.$electron.ipcRenderer.send('open-config-file')

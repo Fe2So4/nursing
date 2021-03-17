@@ -70,30 +70,29 @@
         style="color:#606266"
         class="vxe-table--header"
       >
-        <thead style="display:table-header-group">
+        <thead>
           <tr>
             <th style="display:flex;justifyContent: center;font-weight: 500;">
               手术患者转运交接报表单
             </th>
           </tr>
           <tr class="header-tr">
-            <th style="width:60px" />
-            <th style="width:85px">
+            <th style="width:75px;text-align:left;">
               住院号
             </th>
-            <th style="width:80px">
+            <th style="width:70px;text-align:left;">
               患者姓名
             </th>
-            <th style="width:120px">
+            <th style="width:90px;text-align:left;">
               手术时间
             </th>
-            <th style="width:80px">
+            <!-- <th style="width:80px">
               麻醉医师
-            </th>
-            <th style="width:160px">
+            </th> -->
+            <th style="width:80px;text-align:left;">
               病区-科室
             </th>
-            <th style="width:80px">
+            <!-- <th style="width:80px">
               洗手护士
             </th>
             <th style="width:80px">
@@ -101,12 +100,48 @@
             </th>
             <th style="width:80px">
               巡回护士
+            </th> -->
+            <th style="width:90px;text-align:left;">
+              派单时间
             </th>
-            <th style="width:120px">
+            <th style="width:90px;text-align:left;">
+              接单时间
+            </th>
+            <th style="width:90px;text-align:left;">
+              到达病房时间
+            </th>
+            <th style="width:90px;text-align:left;">
+              到达缓冲区时间
+            </th>
+            <th style="width:90px;text-align:left;">
+              入术前pacu时间
+            </th>
+            <th style="width:90px;text-align:left;">
+              出术前pacu时间
+            </th>
+            <th style="width:90px;text-align:left;">
               进手术室时间
             </th>
-            <th style="width:120px">
+            <th style="width:90px;text-align:left;">
+              麻醉开始前时间
+            </th>
+            <th style="width:90px;text-align:left;">
+              手术开始前时间
+            </th>
+            <th style="width:90px;text-align:left;">
+              离开手术室前时间
+            </th>
+            <th style="width:90px;text-align:left;">
               出手术室时间
+            </th>
+            <th style="width:90px;text-align:left;">
+              术后入pacu时间
+            </th>
+            <th style="width:90px;text-align:left;">
+              术后出pacu时间
+            </th>
+            <th style="width:90px;text-align:left;">
+              病房收治时间
             </th>
           </tr>
         </thead>
@@ -118,25 +153,22 @@
             v-for="(item, index) in runningTableList"
             :key="index"
           >
-            <td style="width:60px;textAlign:center">
-              {{ index + 1 }}
-            </td>
-            <td style="width:85px;textAlign:center">
+            <td style="width:75px;textAlign:left">
               {{ item.hospitalNo || '' }}
             </td>
-            <td style="width:80px;textAlign:center">
+            <td style="width:65px;textAlign:left">
               {{ item.patientName || '' }}
             </td>
-            <td style="width:120px;textAlign:center">
+            <td style="width:90px;textAlign:center">
               {{ item.operateDate || '' }}
             </td>
-            <td style="width:80px;textAlign:center">
+            <!-- <td style="width:80px;textAlign:center">
               {{ item.anesDoc || '' }}
-            </td>
-            <td style="width:160px;textAlign:center">
+            </td> -->
+            <td style="width:85px;textAlign:left">
               {{ item.categpry || '' }}
             </td>
-            <td style="width:80px;textAlign:left">
+            <!-- <td style="width:80px;textAlign:left">
               {{ item.washNurseName || '' }}
             </td>
             <td style="width:80px;textAlign:left">
@@ -144,12 +176,48 @@
             </td>
             <td style="width:80px;textAlign:left">
               {{ item.runNurseName || '' }}
+            </td> -->
+            <td style="width:90px;textAlign:left">
+              {{ item.sendOrderTime || '' }}
             </td>
-            <td style="width:120px;textAlign:left">
+            <td style="width:90px;textAlign:left">
+              {{ item.receivingOrderTime || '' }}
+            </td>
+            <td style="width:90px;textAlign:left">
+              {{ item.outWardTime || '' }}
+            </td>
+            <td style="width:90px;textAlign:left">
+              {{ item.inBufferTime || '' }}
+            </td>
+            <td style="width:90px;textAlign:left">
+              {{ item.inInductionRoomTime || '' }}
+            </td>
+            <td style="width:90px;textAlign:left">
+              {{ item.outInductionRoomTime || '' }}
+            </td>
+            <td style="width:90px;textAlign:left">
               {{ item.pointInRoomTime || '' }}
             </td>
-            <td style="width:120px;textAlign:left">
+            <td style="width:90px;textAlign:left">
+              {{ item.anesBeforeChkTime || '' }}
+            </td>
+            <td style="width:90px;textAlign:left">
+              {{ item.beforeOperChkTime || '' }}
+            </td>
+            <td style="width:90px;textAlign:left">
+              {{ item.leaveBeforeChkUpdateTime || '' }}
+            </td>
+            <td style="width:90px;textAlign:left">
               {{ item.pointOutRoomTime || '' }}
+            </td>
+            <td style="width:90px;textAlign:left">
+              {{ item.pointPacuTime || '' }}
+            </td>
+            <td style="width:90px;textAlign:left">
+              {{ item.outPacuTime || '' }}
+            </td>
+            <td style="width:90px;textAlign:left">
+              {{ item.arrivalTime || '' }}
             </td>
           </tr>
         </tbody>
@@ -163,29 +231,28 @@
     <div v-show="false">
       <table id="statistical-running-table">
         <thead style="display:table-header-group">
-          <tr>
-            <th style="display:flex;justifyContent: center;font-weight: 500;">
+          <tr style="display:flex;justifyContent: center;font-weight: 500;">
+            <th>
               手术患者转运交接报表单
             </th>
           </tr>
           <tr class="header-tr">
-            <th style="width:40px" />
-            <th style="width:85px">
+            <th style="width:75px;text-align:left;">
               住院号
             </th>
-            <th style="width:80px">
+            <th style="width:70px;text-align:left;">
               患者姓名
             </th>
-            <th style="width:120px">
+            <th style="width:90px;text-align:left;">
               手术时间
             </th>
-            <th style="width:80px">
+            <!-- <th style="width:80px">
               麻醉医师
-            </th>
-            <th style="width:160px">
+            </th> -->
+            <th style="width:80px;text-align:left;">
               病区-科室
             </th>
-            <th style="width:80px">
+            <!-- <th style="width:80px">
               洗手护士
             </th>
             <th style="width:80px">
@@ -193,12 +260,48 @@
             </th>
             <th style="width:80px">
               巡回护士
+            </th> -->
+            <th style="width:90px;text-align:left;">
+              派单时间
             </th>
-            <th style="width:120px">
+            <th style="width:90px;text-align:left;">
+              接单时间
+            </th>
+            <th style="width:90px;text-align:left;">
+              到达病房时间
+            </th>
+            <th style="width:90px;text-align:left;">
+              到达缓冲区时间
+            </th>
+            <th style="width:90px;text-align:left;">
+              入术前pacu时间
+            </th>
+            <th style="width:90px;text-align:left;">
+              出术前pacu时间
+            </th>
+            <th style="width:90px;text-align:left;">
               进手术室时间
             </th>
-            <th style="width:120px">
+            <th style="width:90px;text-align:left;">
+              麻醉开始前时间
+            </th>
+            <th style="width:90px;text-align:left;">
+              手术开始前时间
+            </th>
+            <th style="width:90px;text-align:left;">
+              离开手术室前时间
+            </th>
+            <th style="width:80px;text-align:left;">
               出手术室时间
+            </th>
+            <th style="width:80px;text-align:left;">
+              术后入pacu时间
+            </th>
+            <th style="width:80px;text-align:left;">
+              术后出pacu时间
+            </th>
+            <th style="width:90px;text-align:left;">
+              病房收治时间
             </th>
           </tr>
         </thead>
@@ -207,38 +310,71 @@
             v-for="(item, index) in runningTableList"
             :key="index"
           >
-            <td style="width:40px;textAlign:center">
-              {{ index }}
-            </td>
-            <td style="width:85px;textAlign:center">
+            <td style="width:75px;textAlign:left">
               {{ item.hospitalNo || '' }}
             </td>
-            <td style="width:80px;textAlign:center">
+            <td style="width:65px;textAlign:left">
               {{ item.patientName || '' }}
             </td>
-            <td style="width:120px;textAlign:center">
+            <td style="width:90px;textAlign:center">
               {{ item.operateDate || '' }}
             </td>
-            <td style="width:80px;textAlign:center">
+            <!-- <td style="width:80px;textAlign:center">
               {{ item.anesDoc || '' }}
-            </td>
-            <td style="width:160px;textAlign:center">
+            </td> -->
+            <td style="width:85px;textAlign:left">
               {{ item.categpry || '' }}
             </td>
-            <td style="width:80px;textAlign:center">
+            <!-- <td style="width:80px;textAlign:left">
               {{ item.washNurseName || '' }}
             </td>
-            <td style="width:80px;textAlign:center">
+            <td style="width:80px;textAlign:left">
               {{ item.surgeon || '' }}
             </td>
-            <td style="width:80px;textAlign:center">
+            <td style="width:80px;textAlign:left">
               {{ item.runNurseName || '' }}
+            </td> -->
+            <td style="width:90px;textAlign:left">
+              {{ item.sendOrderTime || '' }}
             </td>
-            <td style="width:110px;textAlign:center">
+            <td style="width:90px;textAlign:left">
+              {{ item.receivingOrderTime || '' }}
+            </td>
+            <td style="width:90px;textAlign:left">
+              {{ item.outWardTime || '' }}
+            </td>
+            <td style="width:90px;textAlign:left">
+              {{ item.inBufferTime || '' }}
+            </td>
+            <td style="width:90px;textAlign:left">
+              {{ item.inInductionRoomTime || '' }}
+            </td>
+            <td style="width:90px;textAlign:left">
+              {{ item.outInductionRoomTime || '' }}
+            </td>
+            <td style="width:90px;textAlign:left">
               {{ item.pointInRoomTime || '' }}
             </td>
-            <td style="width:110px;textAlign:center">
+            <td style="width:90px;textAlign:left">
+              {{ item.anesBeforeChkTime || '' }}
+            </td>
+            <td style="width:90px;textAlign:left">
+              {{ item.beforeOperChkTime || '' }}
+            </td>
+            <td style="width:90px;textAlign:left">
+              {{ item.leaveBeforeChkUpdateTime || '' }}
+            </td>
+            <td style="width:80px;textAlign:left">
               {{ item.pointOutRoomTime || '' }}
+            </td>
+            <td style="width:80px;textAlign:left">
+              {{ item.pointPacuTime || '' }}
+            </td>
+            <td style="width:80px;textAlign:left">
+              {{ item.outPacuTime || '' }}
+            </td>
+            <td style="width:90px;textAlign:left">
+              {{ item.arrivalTime || '' }}
             </td>
           </tr>
         </tbody>
@@ -284,7 +420,7 @@ export default {
       const printHtml = document.getElementById('statistical-running-table')
         .outerHTML
       console.log(printHtml)
-      const options = { silent: false }
+      const options = { silent: true }
       // options = JSON.stringify(options)
       ipcRenderer.send(
         'printChannel',

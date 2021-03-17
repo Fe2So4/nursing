@@ -144,7 +144,7 @@ export default {
     handlePrint () {
       this.$nextTick(() => {
         const printHtml = document.getElementById('pathology-report').outerHTML
-        const options = { silent: false }
+        const options = { silent: true }
         // options = JSON.stringify(options)
         ipcRenderer.send('printChannel', printHtml, 'pathology-report.css', options)
         this.$emit('handleClose')

@@ -43,6 +43,7 @@ import EmptyNotice from './components/empty-notice'
 import {mapActions, mapState} from 'vuex'
 import HistoryRecord from './components/history-record'
 import {getLargeScreenTheme, setLargeScreenTheme} from '@/utils/storage'
+import {ipcRenderer} from 'electron'
 const config = require('@/config/url.js')
 const { BrowserWindow } = require('electron').remote
 export default {
@@ -198,6 +199,7 @@ export default {
     this.setTheme()
   },
   mounted () {
+    ipcRenderer.send('open-main')
     this.initSocket()
     document.addEventListener('keyup', this.keyUpListener)
   },

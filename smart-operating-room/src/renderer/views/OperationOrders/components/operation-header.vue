@@ -105,7 +105,6 @@
           <vxe-select
             @change="changeSelectFloor"
             size="mini"
-            clearable
             style="width:120px"
             v-model="formData2.selectFloor"
             placeholder="选择楼层"

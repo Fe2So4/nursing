@@ -1565,7 +1565,7 @@ export default {
     // 打印
     printCurrent () {
       const printHtml = document.getElementById('transit-transfer').outerHTML
-      const options = { silent: false }
+      const options = { silent: true }
       // options = JSON.stringify(options)
       ipcRenderer.send(
         'printChannel',

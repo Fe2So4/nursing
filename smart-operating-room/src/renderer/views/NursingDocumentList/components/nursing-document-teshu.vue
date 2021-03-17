@@ -364,7 +364,7 @@ export default {
     printCurrent () {
       const printHtml = document.getElementById('nursing-document-teshu')
         .outerHTML
-      const options = { silent: false }
+      const options = { silent: true }
       // options = JSON.stringify(options)
       ipcRenderer.send(
         'printChannel',

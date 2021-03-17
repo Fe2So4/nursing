@@ -28,3 +28,13 @@ export const reqcheckSendDoctor = (obj) => {
     params: obj
   })
 }
+
+// 获取终止医师
+const reqcheckSendDoctorScreenUrl = `${config.default.api.baseURL}/ocis/dict/screen/checkSendDoctorScreen`
+export const reqcheckSendDoctorScreen = (obj) => {
+  return request({
+    url: reqcheckSendDoctorScreenUrl,
+    method: 'post',
+    params: obj
+  })
+}

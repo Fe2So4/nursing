@@ -170,7 +170,7 @@
 </template>
 
 <script>
-import { reqcheckSendDoctor } from '@/api/login'
+import { reqcheckSendDoctorScreen } from '@/api/login'
 import ChangeRoom from './change-room'
 import { mapActions, mapState } from 'vuex'
 import request from '@/utils/request2'
@@ -253,7 +253,7 @@ export default {
             loginName: this.form.username,
             password: this.form.password
           }
-          reqcheckSendDoctor(obj).then(res => {
+          reqcheckSendDoctorScreen(obj).then(res => {
             if (res.data.code === 200) {
               this.$confirm('此操作将终止该手术, 是否继续?', '提示', {
                 confirmButtonText: '确定',

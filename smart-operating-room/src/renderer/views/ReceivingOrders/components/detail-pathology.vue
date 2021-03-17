@@ -146,6 +146,8 @@ export default {
   },
   data () {
     return {
+      startTime: 0,
+      endTime: 0,
       timearr: [0, 0],
       optas: '',
       codeInput: '',
@@ -191,23 +193,28 @@ export default {
         return false
       }
       if (this.selectRow.orderState === '0') {
+        this.startTime = new Date().getTime()
         this.workCode = this.codeInput.split('=')[1]
 
         this.changePatient(1)
       } else {
-        if (this.exitType !== '1') {
-          this.$alert('请先点击取消接单')
-          this.codeInput = ''
-          return false
-        }
-
         this.workCode = this.codeInput.split('=')[1]
-        console.log(this.selectRow.workerCode, this.workCode)
         if (this.selectRow.workerCode !== this.workCode) {
           this.$alert('接单工勤人员与扫描人员工号不符,请确认后重试')
           this.codeInput = ''
           return false
         }
+        if (this.exitType !== '1') {
+          this.endTime = new Date().getTime()
+          if (this.endTime - this.startTime < 300000) {
+            this.openToast('warning', '接单与入缓冲区时间间隔小于5秒,请重试')
+            return false
+          } else {
+            this.changePatient(3)
+          }
+          return false
+        }
+
         this.changePatient(0)
       }
     },

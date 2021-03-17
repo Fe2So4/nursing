@@ -763,7 +763,7 @@ export default {
     // 打印
     printCurrent () {
       const printHtml = document.getElementById('security-check').outerHTML
-      const options = { silent: false }
+      const options = { silent: true }
       // options = JSON.stringify(options)
       ipcRenderer.send('printChannel', printHtml, 'security-check.css', options)
     },

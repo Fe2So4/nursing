@@ -428,7 +428,7 @@ export default {
     // 打印
     printCurrent () {
       const printHtml = document.getElementById('surgery-table').outerHTML
-      const options = { silent: false }
+      const options = { silent: true }
       // options = JSON.stringify(options)
       ipcRenderer.send('printChannel', printHtml, 'surgery-table.css', options)
     },

@@ -28,7 +28,7 @@
             <van-icon name="checked" color="#30C76C"></van-icon>
           </template>
         </van-cell>
-        <van-cell
+        <!-- <van-cell
           title="进缓冲区"
           :value="step.pointBufferState === '0' ? '[转运交接单]' : step.pointBufferState === '1' ? '[转运交接单]' : ''"
           @click="handleJump(1, '进缓冲区')"
@@ -36,7 +36,7 @@
           <template #right-icon v-if="step.pointBufferState === '2'">
             <van-icon name="checked" color="#30C76C"></van-icon>
           </template>
-        </van-cell>
+        </van-cell> -->
         <van-cell
           title="进手术室"
           :value="step.pointInRoomState === '0' ? '[转运交接单]' : step.pointInRoomState === '1' ? '[转运交接单]' : ''"
