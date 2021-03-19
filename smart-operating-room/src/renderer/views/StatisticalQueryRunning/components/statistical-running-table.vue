@@ -77,6 +77,9 @@
             </th>
           </tr>
           <tr class="header-tr">
+            <th style="width:50px;text-align:left;">
+              台次
+            </th>
             <th style="width:75px;text-align:left;">
               住院号
             </th>
@@ -131,9 +134,9 @@
             <th style="width:90px;text-align:left;">
               离开手术室前时间
             </th>
-            <th style="width:90px;text-align:left;">
+            <!-- <th style="width:90px;text-align:left;">
               出手术室时间
-            </th>
+            </th> -->
             <th style="width:90px;text-align:left;">
               术后入pacu时间
             </th>
@@ -153,6 +156,9 @@
             v-for="(item, index) in runningTableList"
             :key="index"
           >
+            <td style="width:50px;textAlign:left">
+              {{ item.sequenceNo || '' }}
+            </td>
             <td style="width:75px;textAlign:left">
               {{ item.hospitalNo || '' }}
             </td>
@@ -207,9 +213,9 @@
             <td style="width:90px;textAlign:left">
               {{ item.leaveBeforeChkUpdateTime || '' }}
             </td>
-            <td style="width:90px;textAlign:left">
+            <!-- <td style="width:90px;textAlign:left">
               {{ item.pointOutRoomTime || '' }}
-            </td>
+            </td> -->
             <td style="width:90px;textAlign:left">
               {{ item.pointPacuTime || '' }}
             </td>
@@ -237,6 +243,9 @@
             </th>
           </tr>
           <tr class="header-tr">
+            <th style="width:50px;text-align:left;">
+              台次
+            </th>
             <th style="width:75px;text-align:left;">
               住院号
             </th>
@@ -261,46 +270,46 @@
             <th style="width:80px">
               巡回护士
             </th> -->
-            <th style="width:90px;text-align:left;">
+            <th style="width:85px;text-align:left;">
               派单时间
             </th>
-            <th style="width:90px;text-align:left;">
+            <th style="width:85px;text-align:left;">
               接单时间
             </th>
-            <th style="width:90px;text-align:left;">
+            <th style="width:85px;text-align:left;">
               到达病房时间
             </th>
-            <th style="width:90px;text-align:left;">
+            <th style="width:85px;text-align:left;">
               到达缓冲区时间
             </th>
-            <th style="width:90px;text-align:left;">
+            <th style="width:85px;text-align:left;">
               入术前pacu时间
             </th>
-            <th style="width:90px;text-align:left;">
+            <th style="width:85px;text-align:left;">
               出术前pacu时间
             </th>
-            <th style="width:90px;text-align:left;">
+            <th style="width:85px;text-align:left;">
               进手术室时间
             </th>
-            <th style="width:90px;text-align:left;">
+            <th style="width:85px;text-align:left;">
               麻醉开始前时间
             </th>
-            <th style="width:90px;text-align:left;">
+            <th style="width:85px;text-align:left;">
               手术开始前时间
             </th>
-            <th style="width:90px;text-align:left;">
+            <th style="width:85px;text-align:left;">
               离开手术室前时间
             </th>
-            <th style="width:80px;text-align:left;">
+            <!-- <th style="width:85px;text-align:left;">
               出手术室时间
-            </th>
-            <th style="width:80px;text-align:left;">
+            </th> -->
+            <th style="width:85px;text-align:left;">
               术后入pacu时间
             </th>
-            <th style="width:80px;text-align:left;">
+            <th style="width:85px;text-align:left;">
               术后出pacu时间
             </th>
-            <th style="width:90px;text-align:left;">
+            <th style="width:85px;text-align:left;">
               病房收治时间
             </th>
           </tr>
@@ -310,6 +319,9 @@
             v-for="(item, index) in runningTableList"
             :key="index"
           >
+            <td style="width:50px;textAlign:left">
+              {{ item.sequenceNo || '' }}
+            </td>
             <td style="width:75px;textAlign:left">
               {{ item.hospitalNo || '' }}
             </td>
@@ -334,46 +346,46 @@
             <td style="width:80px;textAlign:left">
               {{ item.runNurseName || '' }}
             </td> -->
-            <td style="width:90px;textAlign:left">
+            <td style="width:70px;textAlign:left">
               {{ item.sendOrderTime || '' }}
             </td>
             <td style="width:90px;textAlign:left">
               {{ item.receivingOrderTime || '' }}
             </td>
-            <td style="width:90px;textAlign:left">
+            <td style="width:80px;textAlign:left">
               {{ item.outWardTime || '' }}
             </td>
-            <td style="width:90px;textAlign:left">
+            <td style="width:85px;textAlign:left">
               {{ item.inBufferTime || '' }}
             </td>
-            <td style="width:90px;textAlign:left">
+            <td style="width:85px;textAlign:left">
               {{ item.inInductionRoomTime || '' }}
             </td>
-            <td style="width:90px;textAlign:left">
+            <td style="width:85px;textAlign:left">
               {{ item.outInductionRoomTime || '' }}
             </td>
-            <td style="width:90px;textAlign:left">
+            <td style="width:85px;textAlign:left">
               {{ item.pointInRoomTime || '' }}
             </td>
-            <td style="width:90px;textAlign:left">
+            <td style="width:85px;textAlign:left">
               {{ item.anesBeforeChkTime || '' }}
             </td>
-            <td style="width:90px;textAlign:left">
+            <td style="width:85px;textAlign:left">
               {{ item.beforeOperChkTime || '' }}
             </td>
-            <td style="width:90px;textAlign:left">
+            <td style="width:85px;textAlign:left">
               {{ item.leaveBeforeChkUpdateTime || '' }}
             </td>
-            <td style="width:80px;textAlign:left">
+            <!-- <td style="width:90px;textAlign:left">
               {{ item.pointOutRoomTime || '' }}
-            </td>
-            <td style="width:80px;textAlign:left">
+            </td> -->
+            <td style="width:85px;textAlign:left">
               {{ item.pointPacuTime || '' }}
             </td>
-            <td style="width:80px;textAlign:left">
+            <td style="width:85px;textAlign:left">
               {{ item.outPacuTime || '' }}
             </td>
-            <td style="width:90px;textAlign:left">
+            <td style="width:85px;textAlign:left">
               {{ item.arrivalTime || '' }}
             </td>
           </tr>

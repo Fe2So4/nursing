@@ -392,6 +392,7 @@ export default {
         if (res.data.code === 200) {
           this.$notify({ message: '保存成功', type: 'success' })
           this.getData()
+          this.$router.push('/patient-home')
         }
       })
     },

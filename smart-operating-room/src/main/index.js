@@ -5,9 +5,10 @@ import { filePath as configJsonFilePath } from './ip'
 const { autoUpdater } = require('electron-updater')
 const Path = require('path')
 const fs = require('fs')
-const feedUrl = 'http://128.0.18.38:8080/nursing/smartnursing'
+// const feedUrl = 'http://128.0.18.38:8080/nursing/smartnursing'
 // const feedUrl = 'http://128.0.18.38:8080/nursing/largescreen'
 // const feedUrl = 'http://128.0.18.38:8080/nursing/orderscreen'
+const feedUrl = 'http://localhost:9088/build'
 // import '../renderer/store'
 /**
  * Set `__static` path to static files in production
@@ -264,9 +265,9 @@ ipcMain.on('print-content', (e, options) => {
           message: '未完成打印'
         })
       }
-      if (printWin) {
-        printWin.close()
-      }
+      // if (printWin) {
+      //   printWin.close()
+      // }
     })
   } else {
     printWin.webContents.print()

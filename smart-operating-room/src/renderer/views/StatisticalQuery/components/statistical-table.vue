@@ -14,9 +14,9 @@
         @current-change="currentChangeEvent"
       >
         <vxe-table-column
-          type="seq"
-          width="50"
-          title="序号"
+          field="sequenceNo"
+          width="50px"
+          title="台次"
         />
         <vxe-table-column
           width="100px"
@@ -109,11 +109,11 @@
           field="leaveBeforeChkUpdateTime"
           title="离开手术室前时间"
         />
-        <vxe-table-column
+        <!-- <vxe-table-column
           width="100px"
           field="pointOutRoomTime"
           title="出手术室时间"
-        />
+        /> -->
         <vxe-table-column
           width="100px"
           field="pointPacuTime"

@@ -10,7 +10,7 @@
         v-for="item in stepList"
         :key="item.title"
       >
-        <template slot="description">
+        <!-- <template slot="description">
           <p>{{ item.time }}</p>
           <el-button
             type="primary"
@@ -23,7 +23,7 @@
           <p v-else>
             {{ item.mins }}
           </p>
-        </template>
+        </template> -->
       </el-step>
     </el-steps>
   </div>
@@ -82,12 +82,12 @@ export default {
           mins: '',
           status: '0'
         },
-        {
-          title: '手术结束',
-          time: '',
-          mins: '',
-          status: '0'
-        },
+        // {
+        //   title: '手术结束',
+        //   time: '',
+        //   mins: '',
+        //   status: '0'
+        // },
         {
           title: '出手术室',
           time: '',
@@ -129,12 +129,12 @@ export default {
           this.stepList[5].status = data.operBeforeState
           this.stepList[6].time = data.leaveBeforeTime !== '' ? moment(data.leaveBeforeTime).format('HH:mm') : ''
           this.stepList[6].status = data.leaveBeforeState
-          this.stepList[7].time = data.operatingEndTime !== '' ? moment(data.operatingEndTime).format('HH:mm') : ''
-          this.stepList[7].status = data.operatingEndTime === '' ? '0' : '2'
-          this.stepList[8].time = data.outOperroomTime !== '' ? moment(data.outOperroomTime).format('HH:mm') : ''
-          this.stepList[8].status = data.outOperroomState
-          this.stepList[9].time = data.backRoomTime !== '' ? moment(data.backRoomTime).format('HH:mm') : ''
-          this.stepList[9].status = data.backRoomState
+          // this.stepList[7].time = data.operatingEndTime !== '' ? moment(data.operatingEndTime).format('HH:mm') : ''
+          // this.stepList[7].status = data.operatingEndTime === '' ? '0' : '2'
+          this.stepList[7].time = data.outOperroomTime !== '' ? moment(data.outOperroomTime).format('HH:mm') : ''
+          this.stepList[7].status = data.outOperroomState
+          this.stepList[8].time = data.backRoomTime !== '' ? moment(data.backRoomTime).format('HH:mm') : ''
+          this.stepList[8].status = data.backRoomState
         }
       })
     },

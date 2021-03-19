@@ -1,5 +1,5 @@
 {
-  "name": "smart-nursing",
+  "name": "order-screen",
   "version": "1.0.0",
   "author": "dyw-design <1875742887@qq.com>",
   "description": "An electron-vue project",
@@ -26,15 +26,15 @@
     "postinstall": "npm run lint:fix"
   },
   "build": {
-    "productName": "smart-nursing",
-    "appId": "smart-nursing",
+    "productName": "order-screen",
+    "appId": "order-screen",
     "directories": {
       "output": "build"
     },
     "publish": [
       {
         "provider": "generic",
-        "url": "http://128.0.18.38:8080/nursing/smartnursing"
+        "url": "http://128.0.18.38:8080/nursing/orderscreen"
       }
     ],
     "files": [
@@ -59,7 +59,7 @@
       "icon": "build/icons/icon.icns"
     },
     "win": {
-      "icon": "build/icons/smart_nursing.ico"
+      "icon": "build/icons/order_screen.ico"
     },
     "linux": {
       "icon": "build/icons"
@@ -68,12 +68,12 @@
       "oneClick": false,
       "allowElevation": true,
       "allowToChangeInstallationDirectory": true,
-      "installerIcon": "build/icons/smart_nursing.ico",
-      "uninstallerIcon": "build/icons/smart_nursing.ico",
-      "installerHeaderIcon": "build/icons/smart_nursing.ico",
+      "installerIcon": "build/icons/order_screen.ico",
+      "uninstallerIcon": "build/icons/order_screen.ico",
+      "installerHeaderIcon": "build/icons/order_screen.ico",
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "smart_nursing"
+      "shortcutName": "order_screen"
     }
   },
   "dependencies": {
