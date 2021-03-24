@@ -56,7 +56,7 @@
           >进行中 <strong>{{ haveInHandOrderCount || 0 }}</strong></span>
           <span
             style="color:#e7920b;"
-          >缓冲区 <strong>{{ inBufferOrderCount || 0 }}</strong></span>
+          >楼面缓冲区 <strong>{{ inBufferOrderCount || 0 }}</strong></span>
           <span
             style="color:#3478FF;"
           >已完成 <strong>{{ completeOrderCount || 0 }}</strong></span>
@@ -134,7 +134,7 @@
             class="title"
             style="color:#e7920b;"
           >
-            <span>缓冲区</span><i />
+            <span>楼面缓冲区</span><i />
           </h3>
           <ul>
             <li

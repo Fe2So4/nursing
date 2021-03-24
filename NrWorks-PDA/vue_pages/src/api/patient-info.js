@@ -9,3 +9,9 @@ export const joinOperationRoom = `${config.api.baseURL}/ocis/forwardingReport/sa
 
 // 手术是否执行
 export const execOperation = `${config.api.baseURL}/ocis/forwardingReport/insertOpeIsExcute`
+
+// 获取房间号
+export const getRoomNo = `${config.api.baseURL}/ocis/receivingorders/getRoomNo`
+
+// 修改房间号
+export const updateRoomNo = `${config.api.baseURL}/ocis/receivingorders/updateRoomNo`

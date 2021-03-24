@@ -317,12 +317,12 @@ export default {
     }
   },
   created () {
-    document.onkeydown = (e) => {
-      var key = window.event.keyCode
-      if (key === 13) {
-        this.handleScan('OpsQRCode=19364140,OpsSchNo=426205')
-      }
-    }
+    // document.onkeydown = (e) => {
+    //   var key = window.event.keyCode
+    //   if (key === 13) {
+    //     this.handleScan('OpsQRCode=19377699,OpsSchNo=426786')
+    //   }
+    // }
     this.setTheme()
   },
   mounted () {

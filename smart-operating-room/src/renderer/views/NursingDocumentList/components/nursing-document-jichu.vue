@@ -155,56 +155,14 @@
                   </td>
                 </tr>
               </template>
-              <template v-else>
-                <tr>
-                  <td>
-                    刀片
-                  </td>
-                  <td class="td-text-center" />
-
-                  <td class="td-text-center border-right1" />
-                  <td class="td-text-center border-right1" />
-                  <td class="td-text-center border-right1" />
-                  <td class="td-text-center" />
-
-                  <td class="td-text-center" />
-                  <td class="td-text-center" />
-                  <td class="td-text-center" />
-                </tr>
-                <tr>
-                  <td>
-                    缝针
-                  </td>
-                  <td class="td-text-center" />
-
-                  <td class="td-text-center border-right1" />
-                  <td class="td-text-center border-right1" />
-                  <td class="td-text-center border-right1" />
-                  <td class="td-text-center" />
-
-                  <td class="td-text-center" />
-                  <td class="td-text-center" />
-                  <td class="td-text-center" />
-                </tr>
-                <tr>
-                  <td>
-                    腔镜纱布
-                  </td>
-                  <td class="td-text-center" />
-
-                  <td class="td-text-center border-right1" />
-                  <td class="td-text-center border-right1" />
-                  <td class="td-text-center border-right1" />
-                  <td class="td-text-center" />
-
-                  <td class="td-text-center" />
-                  <td class="td-text-center" />
-                  <td class="td-text-center" />
-                </tr>
-                <tr>
-                  <td>
-                    纱布
-                  </td>
+              <template
+                v-else
+              >
+                <tr
+                  v-for="item in 15"
+                  :key="item"
+                >
+                  <td />
                   <td class="td-text-center" />
 
                   <td class="td-text-center border-right1" />

@@ -505,12 +505,14 @@ export default {
           // console.log('特殊器械清单列表', this.basicequipment)
         }
         this.$nextTick(() => {
-          this.basicequipment.forEach(item => {
-            JsBarcode(`#_${item.pId}`, `P-${item.pId}`, {
-              height: 30,
-              fontSize: 12
+          if (this.basicequipment) {
+            this.basicequipment.forEach(item => {
+              JsBarcode(`#_${item.pId}`, `P-${item.pId}`, {
+                height: 30,
+                fontSize: 12
+              })
             })
-          })
+          }
         })
       })
     },

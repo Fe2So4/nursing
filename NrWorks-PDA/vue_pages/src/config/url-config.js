@@ -6,6 +6,7 @@ if (process.env.NODE_ENV === 'production') {
     // baseURL: 'http://128.0.18.38:5091'
     // baseURL: 'http://192.168.1.38:5091'
     baseURL: 'http://128.0.18.38:5091'
+    // baseURL: 'http://192.168.1.106:5091'
     // baseURL: 'http://192.168.1.175:8090'
     // baseURL: 'http://47.103.105.200:8090'
   }

@@ -11,10 +11,16 @@ const mutations = {
   },
   SET_OPE_PEOPLE_INFO (state, info) {
     state.opePeopleInfo = info
+  },
+  UPDATA_ROOMNO (state, data) {
+    state.patientInfo.roomNo = data
   }
 }
 
 const actions = {
+  upRoomNo ({commit}, data) {
+    commit('UPDATA_ROOMNO', data)
+  },
   getPatient ({commit}, payload) {
     // var str="a,b,c,d,"
     var reg = /,$/gi

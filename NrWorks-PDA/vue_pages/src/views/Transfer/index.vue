@@ -67,20 +67,23 @@
 
 <script>
 import request from '@/utils/request'
-import { bindingPatPushScreen, execOperation } from '@/api/patient-info'
+import { bindingPatPushScreen, execOperation, getRoomNo, updateRoomNo } from '@/api/patient-info'
 import {
   getHandoverCodeStatus,
   saveHandoverCodeStatus,
   changeApplyStatus,
   storagePointBuffer
 } from '@/api/handover-record'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import $bus from '@/utils/bus'
 import moment from 'moment'
 export default {
   name: 'Transfer',
   data () {
     return {
+      saveRoomCode: '',
+      goOnFlag: 1,
+      operRoomNum: '',
       active: -1,
       code: '',
       stepList: [],
@@ -128,6 +131,7 @@ export default {
     ...mapState('Patient', ['patientInfo'])
   },
   methods: {
+    ...mapActions('Patient', ['getPatient', 'upRoomNo']),
     gotoShouye () {
       this.$router.push('/patient-home')
     },
@@ -160,7 +164,7 @@ export default {
           params: {
             cureNo: this.patientInfo.cureNo,
             operSchNo: this.patientInfo.operSchNo,
-            roomNo: this.patientInfo.roomNo
+            roomNo: this.saveRoomCode
           }
         }).then((res) => {
           if (res.data.code === 200) {
@@ -169,7 +173,7 @@ export default {
         })
       }
     },
-    saveCodeStatus () {
+    async saveCodeStatus () {
       let mark = null
       let arr = []
       let time = moment(new Date()).format('YYYY-MM-DD HH:mm')
@@ -264,17 +268,40 @@ export default {
           }
         }
       } else if (this.$route.query.title === '进手术室') {
+        this.goOnFlag = 1
         if (this.stepList[0].value) {
           if (!this.roomScanList[0].value) {
             if (this.code.indexOf('RoomNum') !== -1) {
+              this.saveRoomCode = this.code.replace('RoomNum=', '')
               let roomCode = this.code.replace('RoomNum=', '')
-              mark = 2
-              this.roomScanList[0].value = true
-              this.roomScanList[0].room = roomCode
-              this.roomScanList[0].time = time
-              arr = [
-                { stepList: this.stepList, roomScanList: this.roomScanList }
-              ]
+              if (roomCode !== this.operRoomNum) {
+                await this.$dialog.confirm({
+                  title: '提示',
+                  message: `当前手术间为${roomCode},患者原手术间为${this.operRoomNum},确定更换房间吗`
+                })
+                  .then(() => {
+                    this.updateRoomNo()
+                    mark = 2
+                    this.roomScanList[0].value = true
+                    this.roomScanList[0].room = roomCode
+                    this.roomScanList[0].time = time
+                    arr = [
+                      { stepList: this.stepList, roomScanList: this.roomScanList }
+                    ]
+                  })
+                  .catch(() => {
+                    this.goOnFlag = 2
+                    return false
+                  })
+              } else {
+                mark = 2
+                this.roomScanList[0].value = true
+                this.roomScanList[0].room = roomCode
+                this.roomScanList[0].time = time
+                arr = [
+                  { stepList: this.stepList, roomScanList: this.roomScanList }
+                ]
+              }
             } else {
               this.$notify({ message: '请扫描手术房间', type: 'warning' })
               return
@@ -321,6 +348,12 @@ export default {
                   { stepList: this.stepList, roomScanList: this.roomScanList }
                 ]
               }
+            } else {
+              this.$notify({
+                message: '请扫描正确的患者腕带或手术通知单',
+                type: 'warning'
+              })
+              return
             }
           }
         }
@@ -465,6 +498,9 @@ export default {
               this.stepList[0].time = time
               arr = JSON.parse(JSON.stringify(this.stepList))
             }
+          } else {
+            this.$notify({ message: '请扫描患者腕带或手术通知单', type: 'warning' })
+            return
           }
         }
         // if (parseInt(this.code)) {
@@ -524,6 +560,9 @@ export default {
               this.stepList[0].time = time
               arr = JSON.parse(JSON.stringify(this.stepList))
             }
+          } else {
+            this.$notify({ message: '请扫描患者腕带或手术通知单', type: 'warning' })
+            return
           }
         }
         // if (parseInt(this.code)) {
@@ -595,7 +634,10 @@ export default {
           }
         }
       }
-      request({
+      if (this.goOnFlag === 2) {
+        return false
+      }
+      await request({
         url: saveHandoverCodeStatus,
         method: 'post',
         data: {
@@ -609,19 +651,42 @@ export default {
       }).then((res) => {
         if (res.data.code === 200) {
           if (mark === 2) {
-            this.bindingPatPushScreen()
+            // this.bindingPatPushScreen()
             this.handleExecute()
             this.changeApplyStatus()
           }
-          if (mark === 7) {
-            if (this.stepList[this.stepList.length - 1].value) {
-              this.getStoragePointBuffer()
-            }
-          }
+          // if (mark === 7) {
+          //   if (this.stepList[this.stepList.length - 1].value) {
+          //     this.getStoragePointBuffer()
+          //   }
+          // }
           this.$notify({ message: '扫码成功', type: 'success' })
           // this.getCodeStatus();
         }
       })
+    },
+    // 获取患者房间号
+    getUserRoomNum () {
+      request({
+        url: `${getRoomNo}/${this.patientInfo.operSchNo}`,
+        method: 'get'
+      }).then((res) => {
+        this.operRoomNum = res.data.data
+      })
+    },
+    // 更新房间号
+    updateRoomNo () {
+      request({
+        url: `${updateRoomNo}/${this.patientInfo.operSchNo}/${this.saveRoomCode}`,
+        method: 'get'
+      }).then((res) => {
+        this.getPatientInfo()
+        // this.operRoomNum = res.data.data
+      })
+    },
+    // 更新患者数据
+    getPatientInfo () {
+      this.upRoomNo(this.saveRoomCode)
     },
     // 缓冲区修改上一页列表状态
     getStoragePointBuffer () {
@@ -782,29 +847,33 @@ export default {
     }
   },
   created () {
-    document.onkeydown = (e) => {
-      var key = window.event.keyCode
-      if (key === 13) {
-        setTimeout(() => {
-          // this.handleCode('RoomNum=606')
-          // this.handleCode('19364140')
-          this.handleCode('Worker=22350195')
+    // document.onkeydown = (e) => {
+    //   var key = window.event.keyCode
+    //   if (key === 13) {
+    //     setTimeout(() => {
+    //       this.handleCode('RoomNum=606')
+    //       // this.handleCode('19363038')
+    //       // this.handleCode('Worker=22350195')
 
-          // this.handleCode('floorNum=6')
-          // this.handleCode('OpsQRCode=19364140,OpsSchNo=426205')
-        }, 1000)
-      }
-      if (key === 8) {
-        setTimeout(() => {
-          // this.handleCode('RoomNum=606')
-          // this.handleCode("19058456");
-          this.handleCode('Worker=19058456')
-        }, 1000)
-      }
-    }
+    //       // this.handleCode('floorNum=6')
+    //       // this.handleCode('OpsQRCode=19377699,OpsSchNo=426786')
+    //     }, 1000)
+    //   }
+    //   if (key === 8) {
+    //     setTimeout(() => {
+    //       // this.handleCode('RoomNum=606')
+    //       // this.handleCode("19058456");
+    //       this.handleCode('Worker=19058456')
+    //     }, 1000)
+    //   }
+    // }
     this.currentStep()
   },
   mounted () {
+    if (this.$route.query.title === '进手术室') {
+      this.getUserRoomNum()
+    }
+    this.saveRoomCode = this.patientInfo.roomNo
     $bus.$on('handleCode', this.handleCode)
     this.getCodeStatus()
   },

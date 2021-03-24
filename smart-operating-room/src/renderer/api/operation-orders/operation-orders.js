@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import noTimeRequest from '@/utils/noTimeRequest'
 const config = require('@/config/url.js')
 
 // 获取楼层列表
@@ -127,7 +128,7 @@ export const reqrepeatOrderMsgTips = (obj) => {
 // 同步排班信息
 const reqsyncOperScheduleInfoUrl = `${config.default.api.baseURL}/ocis/sendOrder/syncOperScheduleInfo`
 export const reqsyncOperScheduleInfo = (obj) => {
-  return request({
+  return noTimeRequest({
     url: reqsyncOperScheduleInfoUrl,
     method: 'post',
     params: obj

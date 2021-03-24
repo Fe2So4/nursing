@@ -46,6 +46,14 @@
             />
           </vxe-select>
         </vxe-form-item>
+        <vxe-form-item>
+          <vxe-input
+            @keyup.enter.native="search"
+            clearable
+            placeholder="姓名"
+            v-model="formData.name"
+          />
+        </vxe-form-item>
         <!-- <vxe-form-item field="timeType">
           <vxe-select
             style="width:96px"
@@ -81,14 +89,6 @@
         </vxe-form-item>
       </div>
       <div class="form-right">
-        <vxe-form-item>
-          <vxe-input
-            @keyup.enter.native="search"
-            clearable
-            placeholder="姓名"
-            v-model="formData.name"
-          />
-        </vxe-form-item>
         <vxe-form-item>
           <vxe-button
             class="btn"

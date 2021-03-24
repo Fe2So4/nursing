@@ -77,6 +77,21 @@ export default {
   mounted () {
     $bus.$on('handleOpeRoomCode', this.handleScanCode)
   },
+  created () {
+    // document.onkeydown = (e) => {
+    //   var key = window.event.keyCode
+    //   if (key === 13) {
+    //     setTimeout(() => {
+    //       // this.handleCode('RoomNum=606')
+    //       this.handleScanCode('InductionRoom=6')
+    //       // this.handleCode('Worker=22350195')
+
+    //       // this.handleCode('floorNum=6')
+    //       // this.handleCode('OpsQRCode=19363038,OpsSchNo=426059')
+    //     }, 1000)
+    //   }
+    // }
+  },
   beforeDestory () {
     $bus.$off('handleOpeRoomCode')
   },
