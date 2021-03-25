@@ -37,11 +37,6 @@
         <el-col :span="6">
           麻醉医师：<span class="value">{{ patientBasicInfo.anesDoc }}</span>
         </el-col>
-        <el-col
-          :span="4"
-          style="text-align: right; padding-right: 20px"
-        >
-        </el-col>
       </el-row>
       <el-row style="margin-top: 20px">
         <el-col :span="8">
