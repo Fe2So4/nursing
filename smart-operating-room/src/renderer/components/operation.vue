@@ -43,6 +43,7 @@ export default {
       window.document.documentElement.setAttribute('data-theme', type)
     },
     close () {
+      localStorage.removeItem('userName')
       const win = BrowserWindow.getFocusedWindow()
       win.close()
     },

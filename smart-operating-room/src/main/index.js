@@ -69,9 +69,9 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
-    // useContentSize: true,
-    width: 1000,
+    height: 560,
+    useContentSize: true,
+    width: 880,
     // movable: false,
     webPreferences: {
       // webSecurity: false, // 官方建议不要禁用
@@ -115,9 +115,10 @@ const checkForUpdates = () => {
   autoUpdater.setFeedURL(feedUrl)
   // 下面是自动更新的整个生命周期所发生的事件
   autoUpdater.on('error', function (message) {
-    console.log('是否执行，错误')
+    console.log('执行更新错误')
     sendUpdateMessage('error', message)
-    createUpdateWindow()
+    createInitialWindow()
+    createWindow()
   })
   autoUpdater.on('checking-for-update', function (message) {
     // sendUpdateMessage('checking-for-update', message)

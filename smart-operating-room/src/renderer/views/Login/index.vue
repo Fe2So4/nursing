@@ -159,13 +159,13 @@ export default {
                   localStorage.setItem('userName', obj.userName)
                   localStorage.setItem('userCode', obj.userCode)
                 }
-              })
-
-              // ipcRenderer.send('login-window')
-              const win = BrowserWindow.getFocusedWindow()
-              win.maximize()
-              // win.close()
-              this.$router.push('/home')
+              }).then(
+                () => {
+                  const win = BrowserWindow.getFocusedWindow()
+                  win.maximize()
+                  return this.$router.push('/home')
+                }
+              )
             } else {
               this.$message({ type: 'error', message: res.data.message })
             }
@@ -181,6 +181,7 @@ export default {
       }
     },
     close () {
+      localStorage.removeItem('userName')
       const win = BrowserWindow.getFocusedWindow()
       win.close()
     },
