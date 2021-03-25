@@ -1,5 +1,5 @@
 module.exports = {
-  'productName': 'order-screen',
+  'productName': '接单中心',
   'appId': 'order-screen',
   'directories': {
     'output': 'build/order-screen'

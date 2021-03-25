@@ -1,5 +1,5 @@
 module.exports = {
-  'productName': 'large-screen',
+  'productName': '术中大屏',
   'appId': 'large-screen',
   'directories': {
     'output': 'build/large-screen'

@@ -1,5 +1,5 @@
 module.exports = {
-  'productName': 'smart-nursing',
+  'productName': '智能护理',
   'appId': 'smart-nursing',
   'directories': {
     'output': 'build/smart-nursing'
