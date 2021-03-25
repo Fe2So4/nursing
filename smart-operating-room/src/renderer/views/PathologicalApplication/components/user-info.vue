@@ -41,11 +41,11 @@
               >
                 <vxe-option
                   value="1"
-                  label="女"
+                  label="男"
                 />
                 <vxe-option
                   value="2"
-                  label="男"
+                  label="女"
                 />
               </vxe-select>
             </template>
