@@ -580,7 +580,7 @@ export default {
       this.confirmDialog = false
     },
     onClickRight () {
-      if ([0, 1, 2, 3, 4].includes(this.active)) {
+      if (this.active === 0 || this.active === 1 || this.active === 2 || this.active === 3 || this.active === 4) {
         if (this.packageList.some(item => !item.isEnsure)) {
           this.$dialog.alert({
             title: '提示',
@@ -591,7 +591,7 @@ export default {
           return false
         }
         return this.handleSubmit()
-      } else if ([5, 6, 7].includes(this.active)) {
+      } else if (this.active === 5 || this.active === 6 || this.active === 7) {
         let arr = []
         let items = []
         this.packageList.forEach(item => {
@@ -639,7 +639,12 @@ export default {
             } else {
               const arr = ['before2', 'after', 'after2', 'allList']
               arr.forEach(key => {
-                const existIdx = obj.specialEquipment[key].findIndex(item => item._uuid === _uuid)
+                let existIdx = -1
+                for (let i = 0; i < obj.specialEquipment[key].length; i++) {
+                  if (obj.specialEquipment[key][i]._uuid === _uuid) {
+                    existIdx = i
+                  }
+                }
                 if (existIdx !== -1) {
                   obj.specialEquipment[key].splice(existIdx, 1, item)
                 }
@@ -663,7 +668,12 @@ export default {
             } else {
               const arr = ['before2', 'after', 'after2', 'allList']
               arr.forEach(key => {
-                const existIdx = obj.specialEquipment[key].findIndex(item => item._uuid === _uuid)
+                let existIdx = -1
+                for (let i = 0; i < obj.specialEquipment[key].length; i++) {
+                  if (obj.specialEquipment[key][i]._uuid === _uuid) {
+                    existIdx = i
+                  }
+                }
                 if (existIdx !== -1) {
                   obj.specialEquipment[key].splice(existIdx, 1, item)
                 }
@@ -687,7 +697,12 @@ export default {
             } else {
               const arr = ['before2', 'after', 'after2', 'allList']
               arr.forEach(key => {
-                const existIdx = obj.specialEquipment[key].findIndex(item => item._uuid === _uuid)
+                let existIdx = -1
+                for (let i = 0; i < obj.specialEquipment[key].length; i++) {
+                  if (obj.specialEquipment[key][i]._uuid === _uuid) {
+                    existIdx = i
+                  }
+                }
                 if (existIdx !== -1) {
                   obj.specialEquipment[key].splice(existIdx, 1, item)
                 }
@@ -711,7 +726,12 @@ export default {
             } else {
               const arr = ['before2', 'after', 'after2', 'allList']
               arr.forEach(key => {
-                const existIdx = obj.specialEquipment[key].findIndex(item => item._uuid === _uuid)
+                let existIdx = -1
+                for (let i = 0; i < obj.specialEquipment[key].length; i++) {
+                  if (obj.specialEquipment[key][i]._uuid === _uuid) {
+                    existIdx = i
+                  }
+                }
                 if (existIdx !== -1) {
                   obj.specialEquipment[key].splice(existIdx, 1, item)
                 }
@@ -735,7 +755,12 @@ export default {
             } else {
               const arr = ['before2', 'after', 'after2', 'allList']
               arr.forEach(key => {
-                const existIdx = obj.specialEquipment[key].findIndex(item => item._uuid === _uuid)
+                let existIdx = -1
+                for (let i = 0; i < obj.specialEquipment[key].length; i++) {
+                  if (obj.specialEquipment[key][i]._uuid === _uuid) {
+                    existIdx = i
+                  }
+                }
                 if (existIdx !== -1) {
                   obj.specialEquipment[key].splice(existIdx, 1, item)
                 }
