@@ -117,6 +117,7 @@ const checkForUpdates = () => {
   autoUpdater.on('error', function (message) {
     console.log('是否执行，错误')
     sendUpdateMessage('error', message)
+    createUpdateWindow()
   })
   autoUpdater.on('checking-for-update', function (message) {
     // sendUpdateMessage('checking-for-update', message)
