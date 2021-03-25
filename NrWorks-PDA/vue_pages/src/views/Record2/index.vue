@@ -28,7 +28,7 @@
           value-class="right-value"
         >
           <template #right-icon>
-            <van-field v-model="recordForm.opsName" />
+            <van-field v-model="recordForm.opsName" readonly />
           </template>
         </van-cell>
       </van-cell-group>
@@ -1233,10 +1233,19 @@ export default {
       this.timeVisible = false
     },
     onClickLeft () {
-      this.$router.go(-1)
+      this.saveData().then(
+        () => {
+          this.$notify({ type: 'success', message: '保存成功' })
+          this.$router.go(-1)
+        },
+        e => {
+          this.$notify({ type: 'warning', message: e.message })
+          this.$router.go(-1)
+        }
+      )
     },
-    onClickRight () {
-      var reg = /,$/gi
+    saveData () {
+      const reg = /,$/gi
       this.recordForm.waistPuncture.needleHeartTime = moment(this.recordForm.waistPuncture.needleHeartTime).format(
         'YYYY-MM-DD HH:mm'
       )
@@ -1247,7 +1256,6 @@ export default {
         item.cqTime = moment(item.cqTime).format('YYYY-MM-DD HH:mm')
         item.fqTime = moment(item.fqTime).format('YYYY-MM-DD HH:mm')
       })
-      console.log(this.recordForm.bhMachine)
       this.recordForm.equipment.electrotome = this.recordForm.electrotome
       // this.recordForm.equipment.electrotomeLocation = this.recordForm.electrotomeLocation
       this.recordForm.equipment.bhMachine = this.recordForm.bhMachine
@@ -1267,17 +1275,31 @@ export default {
       this.recordForm.anesthesiaMode = this.recordForm.anesthesiaMode
         .join(',')
         .replace(reg, '')
-      request({
+      return request({
         method: 'post',
         url: submitRecord,
         data: this.recordForm
-      }).then((res) => {
-        if (res.data.code === 200) {
-          this.$notify({ type: 'success', message: '保存成功' })
-          // this.recordForm.anesthesiaMode = this.recordForm.anesthesiaMode.split(',')
-          $bus.$emit('getPatientDataUpdate')
-          this.getData()
+      }).then(
+        res => {
+          if (res.data.code === 200) {
+            return res
+          } else {
+            return Promise.reject(new Error('保存失败，请稍后尝试'))
+          }
+        },
+        e => {
+          return Promise.reject(new Error('网络错误，请稍后尝试'))
         }
+      )
+    },
+    onClickRight () {
+      this.saveData().then((res) => {
+        this.$notify({ type: 'success', message: '保存成功' })
+        // this.recordForm.anesthesiaMode = this.recordForm.anesthesiaMode.split(',')
+        $bus.$emit('getPatientDataUpdate')
+        this.getData()
+      }, e => {
+        this.$notify({ type: 'warning', message: e.message })
       })
     },
     getData () {
@@ -1454,6 +1476,7 @@ export default {
     }
     .left-title {
       flex: unset;
+      white-space: nowrap;
     }
     .right-value {
       .van-field {

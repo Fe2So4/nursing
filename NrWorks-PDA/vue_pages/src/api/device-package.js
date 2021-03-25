@@ -13,3 +13,6 @@ export const savePackageDataSpecial = `${config.api.baseURL}/ocis/nursingRecord/
 export const getOpePeople = `${config.api.baseURL}/ocis/pdaScann/getUserCodeAndName`
 // 获取器械清点进度
 export const getDeviceStep = `${config.api.baseURL}/ocis/nursingRecord/getNuringRecordThreeProgres`
+
+// 获取清点状态 2021-03-25
+export const getSaftyCheckState = `${config.api.baseURL}/ocis/pdaScann/getSaftyCheckState`

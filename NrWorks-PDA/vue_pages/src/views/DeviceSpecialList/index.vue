@@ -13,7 +13,9 @@
       <div class="tree">
         <div class="tree-left">
           <ul>
-            <li v-for="item in items" :key="item.active" :class="{'active':active===item.active}" @click="handleChange(item.active)">{{item.text}}</li>
+            <li v-for="item in items" :key="item.active" :class="{'active':active===item.active}"
+                @click="handleChange(item.active)">{{ item.text }}
+            </li>
           </ul>
         </div>
         <div class="tree-right">
@@ -21,36 +23,39 @@
             <div class="title-left">
               特殊手术器械清点
             </div>
-            <div class="title-right">{{state === 0 ? '未清点' : '已清点'}}</div>
+            <div class="title-right">{{ state === 0 ? '未清点' : '已清点' }}</div>
           </div>
           <div class="packageContent">
             <div class="package" v-for="(item,index) in packageList" :key="item.pId + index + active">
               <div class="packageItem" @click="handleShowList($event)">
-                <span class="packageName">{{item.pName}}（{{item.items.length}}）</span>
+                <span class="packageName">{{ item.pName }}（{{ item.items.length }}）</span>
                 <span>
                   <span class="ensure-option" v-show="!item.isEnsure" @click.stop="handleEnsure(item)">确认清点</span>
                   <span class="option" @click.stop="handleDelete(item.pId)">删除</span>
                 </span>
               </div>
               <div class="packageItemList" ref="packageDetailList">
-                <van-cell :title="_item.insName" value="已清点" :title-class="{'first-cell':true,'un-ensure':changeColor(_item)}" border v-for="(_item,i) in item.items" :key="i">
+                <van-cell :title="_item.insName" value="已清点"
+                          :title-class="{'first-cell':true,'un-ensure':changeColor(_item)}" border
+                          v-for="(_item,i) in item.items" :key="i">
                   <template #right-icon>
                     <span v-show="!item.isEnsure">确认数量</span>
                     <div class="stepper-content" style="display:flex;justify-content:flex-end;">
-                      <span class="all-number" v-show="active === 5 || active === 6 || active === 7">{{ _item[_item.type] }}</span>
+<!--                     <span class="all-number"
+                            v-show="active === 5 || active === 6 || active === 7">{{ _item[_item.type] }}</span>-->
                       <van-stepper v-show="item.isEnsure" v-model="_item.number" theme="round" min="0"/>
                     </div>
                   </template>
-              </van-cell>
+                </van-cell>
               </div>
             </div>
             <div @click="handleSign1" class="sign">
               <span class="sign-class">洗手护士签名</span>
-              <span class="sign-value">{{sign1}}</span>
+              <span class="sign-value">{{ sign1 }}</span>
             </div>
             <div @click="handleSign2" class="sign">
               <span class="sign-class">巡回护士签名</span>
-              <span class="sign-value">{{sign2}}</span>
+              <span class="sign-value">{{ sign2 }}</span>
             </div>
           </div>
         </div>
@@ -61,12 +66,12 @@
         <ul>
           <li style="text-align:center;line-height:60px;">以下器械清点数量不匹配，请重新核对！</li>
           <li v-for="(item,index) in clearList" :key="index">
-            <p class="packageName">包名：<span>{{item.pName}}</span></p>
+            <p class="packageName">包名：<span>{{ item.pName }}</span></p>
             <div class="clearItem">
               <p v-for="_item in item.list" :key="_item.name">
-                <span style="flex:1;">器械：<span style="color:red;">{{_item.name}}</span></span>
-                <span style="margin:0 40px;">数量：<span style="color:#3377FF;">{{_item.clear}}</span></span>
-                <span>已清点：<span style="color:red;">{{_item.number}}</span></span>
+                <span style="flex:1;">器械：<span style="color:red;">{{ _item.name }}</span></span>
+                <span style="margin:0 40px;">数量：<span style="color:#3377FF;">{{ _item.clear }}</span></span>
+                <span>已清点：<span style="color:red;">{{ _item.number }}</span></span>
               </p>
             </div>
           </li>
@@ -82,6 +87,7 @@ import {getPackage, getPackageDataSpecial, savePackageDataSpecial} from '@/api/d
 import request from '@/utils/request'
 import {mapState} from 'vuex'
 import $bus from '@/utils/bus'
+import { v4 as uuidv4 } from 'uuid'
 export default {
   name: 'DeviceList',
   data () {
@@ -107,9 +113,9 @@ export default {
       clossBefore: 0,
       sutureAfter: 0,
       stepper: '',
-      items: [{ text: '术前', active: 0 }, { text: '术中(一)', active: 1 },
-        { text: '术中(二)', active: 2 }, { text: '术中(三)', active: 3 }, { text: '术中(四)', active: 4 },
-        { text: '体腔关闭前', active: 5 }, { text: '体腔关闭后', active: 6 }, { text: '皮肤缝合后', active: 7 }],
+      items: [{text: '术前', active: 0}, {text: '术中(一)', active: 1},
+        {text: '术中(二)', active: 2}, {text: '术中(三)', active: 3}, {text: '术中(四)', active: 4},
+        {text: '体腔关闭前', active: 5}, {text: '体腔关闭后', active: 6}, {text: '皮肤缝合后', active: 7}],
       packageList: [],
       recordForm: {
         specialEquipment: {
@@ -174,7 +180,10 @@ export default {
       }
     },
     onClickLeft () {
-      this.$router.go(-1)
+      this.handleSubmit().then(
+        () => this.$router.go(-1),
+        () => this.$router.go(-1)
+      )
     },
     handleEnsure (item) {
       item.isEnsure = true
@@ -238,11 +247,11 @@ export default {
     },
     handleShowList (e) {
       // 根据当前点击的dom，获取需要展示隐藏的dom
-      var listCardsBlock = e.currentTarget.nextElementSibling
-      if (listCardsBlock.style.display === '' || listCardsBlock.style.display === 'none') {
-        listCardsBlock.style.display = 'block'
-      } else {
+      const listCardsBlock = e.currentTarget.nextElementSibling
+      if (!listCardsBlock.style.display || listCardsBlock.style.display === 'block') {
         listCardsBlock.style.display = 'none'
+      } else {
+        listCardsBlock.style.display = 'block'
       }
     },
     handleSign1 () {
@@ -379,11 +388,11 @@ export default {
               break
             case 5:
               let before2 = data.specialEquipment.before2
-              before2.forEach(item => {
-                item.items.forEach(_item => {
-                  _item.number = _item.before2
-                })
-              })
+              // before2.forEach(item => {
+              //   item.items.forEach(_item => {
+              //     _item.number = _item.before2
+              //   })
+              // })
               this.packageList = before2
               this.state = data.clossBefore
               this.clossBefore = data.clossBefore
@@ -392,11 +401,11 @@ export default {
               break
             case 6:
               let after = data.specialEquipment.after
-              after.forEach(item => {
-                item.items.forEach(_item => {
-                  _item.number = _item.after
-                })
-              })
+              // after.forEach(item => {
+              //   item.items.forEach(_item => {
+              //     _item.number = _item.after
+              //   })
+              // })
               this.packageList = after
               this.state = data.clossAfter
               this.clossAfter = data.clossAfter
@@ -405,11 +414,11 @@ export default {
               break
             case 7:
               let after2 = data.specialEquipment.after2
-              after2.forEach(item => {
-                item.items.forEach(_item => {
-                  _item.number = _item.after2
-                })
-              })
+              // after2.forEach(item => {
+              //   item.items.forEach(_item => {
+              //     _item.number = _item.after2
+              //   })
+              // })
               this.packageList = after2
               this.state = data.sutureAfter
               this.sutureAfter = data.sutureAfter
@@ -418,7 +427,6 @@ export default {
               break
           }
           this.recordForm = data
-          console.log(this.recordForm)
           this.packageList.forEach(item => {
             item.submit = '1'
           })
@@ -442,8 +450,9 @@ export default {
         obj.pId = data.id
         obj.code = data.code
         obj.pName = data.name
-        obj.isEnsure = false
+        obj.isEnsure = true
         obj.items = data.packageDetail
+        const _uuid = uuidv4()
         switch (this.active) {
           case 0:
             data.packageDetail.forEach(item => {
@@ -457,7 +466,9 @@ export default {
               item.after2 = 0
               item.type = 'before'
             })
-            this.recordForm.specialEquipment.before.push({pId: obj.pId,
+            this.recordForm.specialEquipment.before.push({
+              _uuid,
+              pId: obj.pId,
               pName: obj.pName,
               code: data.code,
               isEnsure: obj.isEnsure,
@@ -478,6 +489,7 @@ export default {
               item.type = 'adding'
             })
             this.recordForm.specialEquipment.adding.push({
+              _uuid,
               pId: obj.pId,
               pName: obj.pName,
               code: data.code,
@@ -499,6 +511,7 @@ export default {
               item.type = 'adding1'
             })
             this.recordForm.specialEquipment.adding1.push({
+              _uuid,
               pId: obj.pId,
               pName: obj.pName,
               code: data.code,
@@ -520,6 +533,7 @@ export default {
               item.type = 'adding2'
             })
             this.recordForm.specialEquipment.adding2.push({
+              _uuid,
               pId: obj.pId,
               pName: obj.pName,
               code: data.code,
@@ -541,6 +555,7 @@ export default {
               item.type = 'adding3'
             })
             this.recordForm.specialEquipment.adding3.push({
+              _uuid,
               pId: obj.pId,
               pName: obj.pName,
               code: data.code,
@@ -550,50 +565,50 @@ export default {
             })
             break
         }
-        this.packageList.push({pId: obj.pId,
+        this.packageList.push({
+          _uuid,
+          pId: obj.pId,
           pName: obj.pName,
           code: data.code,
           submit: '0',
           isEnsure: obj.isEnsure,
-          items: data.packageDetail})
+          items: data.packageDetail
+        })
       })
     },
     handleConfirm () {
       this.confirmDialog = false
     },
     onClickRight () {
-      if (this.active === 0 || this.active === 1 || this.active === 2 || this.active === 3 || this.active === 4) {
-        this.packageList.forEach(item => {
-          if (!item.isEnsure) {
-            this.$dialog.alert({
-              title: '提示',
-              message: '请先完成数量确认'
-            }).then(() => {
-              // on close
-            })
-            return false
-          }
-        })
-        this.handleSubmit()
-      } else if (this.active === 5 || this.active === 6 || this.active === 7) {
+      if ([0, 1, 2, 3, 4].includes(this.active)) {
+        if (this.packageList.some(item => !item.isEnsure)) {
+          this.$dialog.alert({
+            title: '提示',
+            message: '请先完成数量确认'
+          }).then(() => {
+            // on close
+          })
+          return false
+        }
+        return this.handleSubmit()
+      } else if ([5, 6, 7].includes(this.active)) {
         let arr = []
         let items = []
         this.packageList.forEach(item => {
           item.items.forEach(_item => {
             if (_item.number !== _item[_item.type]) {
-              items.push({ name: _item.insName, number: _item.number, clear: _item[_item.type] })
+              items.push({name: _item.insName, number: _item.number, clear: _item[_item.type]})
             }
           })
           if (items.length) {
             arr.push({pName: item.pName, list: items})
           }
-        }
-        )
+        })
         if (arr.length > 0) {
           this.confirmDialog = true
           this.clearList = arr
         } else {
-          this.handleSubmit()
+          return this.handleSubmit()
         }
       }
     },
@@ -612,6 +627,7 @@ export default {
           obj.tsBeforeStatus = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
           obj.specialEquipment.before = this.packageList
           obj.specialEquipment.before.forEach(item => {
+            const {_uuid} = item
             item.items.forEach(_item => {
               _item.before = _item.number
             })
@@ -620,6 +636,14 @@ export default {
               obj.specialEquipment.after.push(item)
               obj.specialEquipment.after2.push(item)
               obj.specialEquipment.allList.push(item)
+            } else {
+              const arr = ['before2', 'after', 'after2', 'allList']
+              arr.forEach(key => {
+                const existIdx = obj.specialEquipment[key].findIndex(item => item._uuid === _uuid)
+                if (existIdx !== -1) {
+                  obj.specialEquipment[key].splice(existIdx, 1, item)
+                }
+              })
             }
           })
           break
@@ -627,6 +651,7 @@ export default {
           obj.tsAddingOne = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
           obj.specialEquipment.adding = this.packageList
           obj.specialEquipment.adding.forEach(item => {
+            const {_uuid} = item
             item.items.forEach(_item => {
               _item.adding = _item.number
             })
@@ -635,6 +660,14 @@ export default {
               obj.specialEquipment.after.push(item)
               obj.specialEquipment.after2.push(item)
               obj.specialEquipment.allList.push(item)
+            } else {
+              const arr = ['before2', 'after', 'after2', 'allList']
+              arr.forEach(key => {
+                const existIdx = obj.specialEquipment[key].findIndex(item => item._uuid === _uuid)
+                if (existIdx !== -1) {
+                  obj.specialEquipment[key].splice(existIdx, 1, item)
+                }
+              })
             }
           })
           break
@@ -642,6 +675,7 @@ export default {
           obj.tsAddingTwo = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
           obj.specialEquipment.adding1 = this.packageList
           obj.specialEquipment.adding1.forEach(item => {
+            const {_uuid} = item
             item.items.forEach(_item => {
               _item.adding1 = _item.number
             })
@@ -650,6 +684,14 @@ export default {
               obj.specialEquipment.after.push(item)
               obj.specialEquipment.after2.push(item)
               obj.specialEquipment.allList.push(item)
+            } else {
+              const arr = ['before2', 'after', 'after2', 'allList']
+              arr.forEach(key => {
+                const existIdx = obj.specialEquipment[key].findIndex(item => item._uuid === _uuid)
+                if (existIdx !== -1) {
+                  obj.specialEquipment[key].splice(existIdx, 1, item)
+                }
+              })
             }
           })
           break
@@ -657,6 +699,7 @@ export default {
           obj.tsAddingThree = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
           obj.specialEquipment.adding2 = this.packageList
           obj.specialEquipment.adding2.forEach(item => {
+            const {_uuid} = item
             item.items.forEach(_item => {
               _item.adding2 = _item.number
             })
@@ -665,6 +708,14 @@ export default {
               obj.specialEquipment.after.push(item)
               obj.specialEquipment.after2.push(item)
               obj.specialEquipment.allList.push(item)
+            } else {
+              const arr = ['before2', 'after', 'after2', 'allList']
+              arr.forEach(key => {
+                const existIdx = obj.specialEquipment[key].findIndex(item => item._uuid === _uuid)
+                if (existIdx !== -1) {
+                  obj.specialEquipment[key].splice(existIdx, 1, item)
+                }
+              })
             }
           })
           break
@@ -672,6 +723,7 @@ export default {
           obj.tsAddingFour = this.sign1 === '' || this.sign2 === '' ? '0' : '1'
           obj.specialEquipment.adding3 = this.packageList
           obj.specialEquipment.adding3.forEach(item => {
+            const {_uuid} = item
             item.items.forEach(_item => {
               _item.adding3 = _item.number
             })
@@ -680,6 +732,14 @@ export default {
               obj.specialEquipment.after.push(item)
               obj.specialEquipment.after2.push(item)
               obj.specialEquipment.allList.push(item)
+            } else {
+              const arr = ['before2', 'after', 'after2', 'allList']
+              arr.forEach(key => {
+                const existIdx = obj.specialEquipment[key].findIndex(item => item._uuid === _uuid)
+                if (existIdx !== -1) {
+                  obj.specialEquipment[key].splice(existIdx, 1, item)
+                }
+              })
             }
           })
           break
@@ -749,7 +809,7 @@ export default {
       obj.operSchNo = this.patientInfo.operSchNo
       obj.modifier = this.opePeopleInfo.userName
       obj.modifierCode = this.opePeopleInfo.userCode
-      request({
+      return request({
         url: savePackageDataSpecial,
         method: 'post',
         data: obj
@@ -758,8 +818,7 @@ export default {
           this.$notify({type: 'success', message: '保存成功'})
           this.getPackageList()
         }
-      }
-      )
+      })
     },
     async handleChange (index) {
       this.active = index
@@ -771,9 +830,9 @@ export default {
       this.getPackageList()
     },
     handleDeviceCode (code) {
-      // alert(code)
+      // 测试数据
+      // handleDeviceCode('P-2185410')
       if (this.active === 5 || this.active === 6 || this.active === 7) {
-        // console.log('不允许扫码操作')
         return
       }
       // 器械包条码
@@ -807,59 +866,75 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .device-list{
-    height: 100%;
-    .van-nav-bar{
-      height: 100px;
-      background: linear-gradient(90deg, #666666, #303030);
-      /deep/ .van-nav-bar__title{
-        color:#ffffff;
-        font-size: 34px;
-        line-height: 100px;
-      }
-      /deep/ .van-nav-bar__text{
-        color: #ffffff;
-        font-size: 30px;
-      }
-      /deep/ .van-icon-arrow-left{
-        color: #ffffff;
-        font-size: 36px;
-      }
+.van-stepper {
+  white-space: nowrap;
+}
+.device-list {
+  height: 100%;
+
+  .van-nav-bar {
+    height: 100px;
+    background: linear-gradient(90deg, #666666, #303030);
+
+    /deep/ .van-nav-bar__title {
+      color: #ffffff;
+      font-size: 34px;
+      line-height: 100px;
     }
-    .list{
-      height:calc(100% - 324px);
-      .tree{
-        display: flex;
-        height: 100%;
-        .tree-left{
-          width: 200px;
-          ul{
-            display: flex;
-            flex-direction: column;
-            li{
-              color: #2E2E2E;
-              padding: 20px 0 20px 16px;
-              font-size: 30px;
-              border:1PX solid #E2E2E2;
-              &.active{
-                color: #FFFFFF;
-                background: #3377FF;
-              }
+
+    /deep/ .van-nav-bar__text {
+      color: #ffffff;
+      font-size: 30px;
+    }
+
+    /deep/ .van-icon-arrow-left {
+      color: #ffffff;
+      font-size: 36px;
+    }
+  }
+
+  .list {
+    height: calc(100% - 324px);
+
+    .tree {
+      display: flex;
+      height: 100%;
+
+      .tree-left {
+        width: 200px;
+
+        ul {
+          display: flex;
+          flex-direction: column;
+
+          li {
+            color: #2E2E2E;
+            padding: 20px 0 20px 16px;
+            font-size: 30px;
+            border: 1PX solid #E2E2E2;
+
+            &.active {
+              color: #FFFFFF;
+              background: #3377FF;
             }
           }
         }
-        .tree-right{
-          flex: 1;
-          height: 100%;
+      }
+
+      .tree-right {
+        flex: 1;
+        height: 100%;
+        font-size: 30px;
+
+        .title {
+          display: flex;
+          justify-content: space-between;
+          line-height: 104px;
           font-size: 30px;
-          .title{
-            display: flex;
-            justify-content: space-between;
-            line-height: 104px;
-            font-size: 30px;
-            padding: 10px 15px;
-            border-top: 1PX solid #e2e2e2;
-            .title-left{
+          padding: 10px 15px;
+          border-top: 1PX solid #e2e2e2;
+
+          .title-left {
 
             }
             .title-right{
@@ -893,7 +968,7 @@ export default {
                 }
               }
               .packageItemList{
-                display: none;
+                display: block;
               }
             }
             .sign-class{
@@ -948,6 +1023,10 @@ export default {
       }
       .first-cell{
         flex: unset;
+        max-width: 220px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         &.un-ensure{
           color: red;
         }

@@ -5,7 +5,7 @@
       @click-left="onClickLeft"
       @click-right="onClickRight"
       left-arrow
-      right-text="运送"
+      right-text="保存"
     >
     </van-nav-bar>
     <span class="shouyeBtn" @click="gotoShouye">返回首页</span>
@@ -607,7 +607,16 @@ export default {
       }
     },
     onClickLeft () {
-      this.$router.push('/transfer-handover')
+      this.handleSubmit().then(
+        () => {
+          this.$router.push('/transfer-handover')
+        }
+      ).catch(
+        e => {
+          this.$notify({ type: 'warning', message: e.message })
+          this.$router.push('/transfer-handover')
+        }
+      )
     },
     getData () {
       request({
@@ -733,18 +742,6 @@ export default {
     handleSubmitImage (image) {
       this.recordForm.signatureImage2 = image
     },
-    // changeApplyStatus () {
-    //   request({
-    //     url: changeApplyStatus,
-    //     method: 'post',
-    //     data: {
-    //       // code: this.opePeopleInfo.userCode,
-    //       // name: this.opePeopleInfo.userName,
-    //       orderId: this.patientInfo.operSchNo,
-    //       status: 2
-    //     }
-    //   })
-    // },
     handleDrowDownChange (value) {
       if (value === '2') {
         // this.showFullSkin = true
@@ -761,10 +758,7 @@ export default {
           title: '提示',
           message: '确认提交'
         })
-        .then(() => {
-          // on confirm
-          this.handleSubmit()
-        })
+        .then(() => this.handleSubmit())
         .catch(() => {
           // on cancel
         })
@@ -937,18 +931,19 @@ export default {
           obj.patRoomState = this.recordForm.signatureImage2 !== '' ? '2' : '1'
           obj.recipient = this.recordForm.signatureImage2
       }
-      request({
+      return request({
         method: 'post',
         url: submitUrl,
         data: obj
       }).then((res) => {
         if (res.data.code === 200) {
-          // this.$router.push('/transfer-handover')
           this.$notify({ type: 'success', message: res.data.msg })
-          // if (this.transferTitle === '病房交接') {
-          //   this.changeApplyStatus()
-          // }
+        } else {
+          return Promise.reject(new Error('保存失败，请稍后尝试'))
         }
+      },
+      e => {
+        return Promise.reject(new Error('网络错误，请稍后尝试'))
       })
     },
     handleCancel () {

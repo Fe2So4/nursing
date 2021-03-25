@@ -33,15 +33,15 @@
     <div class="list">
       <h3>安全核查</h3>
       <div class="options">
-        <van-button @click="handleJump(1)">SIGN IN</van-button>
-        <van-button @click="handleJump(2)">TIME OUT</van-button>
-        <van-button @click="handleJump(3)">SIGN OUT</van-button>
+        <van-button @click="handleJump(1)"><van-icon name="success" v-show="isCheck1" />SIGN IN</van-button>
+        <van-button @click="handleJump(2)"><van-icon name="success" v-show="isCheck2" />TIME OUT</van-button>
+        <van-button @click="handleJump(3)"><van-icon name="success" v-show="isCheck3" />SIGN OUT</van-button>
       </div>
       <h3>护理记录单</h3>
       <div class="options">
         <van-button @click="handleJump(4)">转运交接</van-button>
-        <van-button @click="handleJump(5)">记录单二</van-button>
-        <van-button @click="handleJump(6)">记录单三</van-button>
+        <van-button @click="handleJump(5)"><van-icon name="success" v-show="isCheck4" />记录单二</van-button>
+        <van-button @click="handleJump(6)"><van-icon name="success" v-show="isCheck5" />记录单三</van-button>
       </div>
     </div>
     <!-- <transition name="van-slide-up">
@@ -58,6 +58,7 @@ import { joinOperationRoom } from '@/api/patient-info'
 import request from '@/utils/request'
 import $bus from '@/utils/bus'
 import moment from 'moment'
+import {getSaftyCheckState} from '@/api/device-package'
 export default {
   data () {
     return {
@@ -65,7 +66,12 @@ export default {
       input: '',
       showFullSkin: false,
       visible: false,
-      radius: false
+      radius: false,
+      isCheck1: 0,
+      isCheck2: 0,
+      isCheck3: 0,
+      isCheck4: 0,
+      isCheck5: 0
     }
   },
   computed: {
@@ -91,8 +97,9 @@ export default {
     //     }, 1000)
     //   }
     // }
+    this.getSaftyCheckState()
   },
-  beforeDestory () {
+  beforeDestroy () {
     $bus.$off('handleOpeRoomCode')
   },
   methods: {
@@ -203,6 +210,23 @@ export default {
     },
     handleCloseSignature () {
       this.visible = false
+    },
+    getSaftyCheckState () {
+      return request({
+        url: `${getSaftyCheckState}/${this.patientInfo.operSchNo}`
+      }).then(
+        res => {
+          if (res.data.code === 200) {
+            ({
+              nursingRecordThreeState: this.isCheck5 = 0,
+              nursingRecordTwoState: this.isCheck4 = 0,
+              signInState: this.isCheck1 = 0,
+              signOutState: this.isCheck3 = 0,
+              timeOutState: this.isCheck2 = 0
+            } = res.data.data)
+          }
+        }
+      )
     }
   }
 }
@@ -210,6 +234,9 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/themes/_handle.scss";
+.van-icon {
+  color: #62c462;
+}
 .patient-home {
   height: 100%;
   .van-nav-bar {

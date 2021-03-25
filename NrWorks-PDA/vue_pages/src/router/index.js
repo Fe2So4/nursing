@@ -12,7 +12,7 @@ import HandoverRecord from '@/views/HandoverRecord/index'
 import DeviceBasicList from '@/views/DeviceBasicList/index'
 import DeviceSpecialList from '@/views/DeviceSpecialList/index'
 import Transfer from '@/views/Transfer/index'
-import PatinetHome from '@/views/PatientHome/index'
+import PatientHome from '@/views/PatientHome/index'
 import Signature from '@/components/Signature'
 import Hello from '@/components/Signature2'
 import Demo from '@/views/Demo'
@@ -101,8 +101,8 @@ export default new Router({
     },
     {
       path: '/patient-home',
-      name: 'PatinetHome',
-      component: PatinetHome
+      name: 'PatientHome',
+      component: PatientHome
     }
   ]
 })

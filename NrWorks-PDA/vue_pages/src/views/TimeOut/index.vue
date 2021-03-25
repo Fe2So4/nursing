@@ -277,7 +277,16 @@ export default {
   },
   methods: {
     onClickLeft () {
-      this.$router.go(-1)
+      this.saveData().then(
+        res => {
+          this.$notify({ message: '保存成功', type: 'success' })
+          this.$router.go(-1)
+        },
+        e => {
+          this.$notify({ message: e.message, type: 'warning' })
+          this.$router.go(-1)
+        }
+      )
     },
     handleSubmitImage (image) {
       switch (this.currentSign) {
@@ -292,6 +301,15 @@ export default {
       }
     },
     onClickRight () {
+      this.saveData().then(() => {
+        this.$notify({ message: '保存成功', type: 'success' })
+        this.$router.push('/patient-home')
+      }, e => {
+        this.$notify({ message: e.message, type: 'warning' })
+        this.$router.push('/patient-home')
+      })
+    },
+    saveData () {
       let arr = JSON.parse(JSON.stringify(this.recordForm))
       let state = ''
       for (var i = 0; i < arr.length; i++) {
@@ -315,7 +333,7 @@ export default {
           }
         }
       })
-      request({
+      return request({
         method: 'post',
         url: submitTimeout,
         data: {
@@ -327,13 +345,18 @@ export default {
           cureNo: this.patientInfo.cureNo,
           operSchNo: this.patientInfo.operSchNo
         }
-      }).then((res) => {
-        if (res.data.code === 200) {
-          this.$notify({ message: '保存成功', type: 'success' })
-          this.getData()
-          this.$router.push('/patient-home')
+      }).then(
+        (res) => {
+          if (res.data.code === 200) {
+            return res
+          } else {
+            return Promise.reject(new Error('保存失败，请稍后尝试'))
+          }
+        },
+        e => {
+          return Promise.reject(new Error('网络异常，请稍后尝试'))
         }
-      })
+      )
     },
     handleShowSignature (param) {
       this.visible = true
