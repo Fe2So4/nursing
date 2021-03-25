@@ -41,13 +41,6 @@
           :span="4"
           style="text-align: right; padding-right: 20px"
         >
-          语音开关：<span class="value">
-            <el-switch
-              v-model="voiceSwitch"
-              active-color="#13ce66"
-              inactive-color="#ff4949"
-            />
-          </span>
         </el-col>
       </el-row>
       <el-row style="margin-top: 20px">
@@ -212,8 +205,7 @@ export default {
       voice: true,
       interval: null,
       patientBasicInfo: {},
-      voiceIcon: 'el-icon-microphone',
-      voiceSwitch: true
+      voiceIcon: 'el-icon-microphone'
     }
   },
   components: {
@@ -327,9 +319,6 @@ export default {
         }).then((res) => {
           if (res.data.code === 200) {
             this.patientBasicInfo = res.data.data
-            if (this.voiceSwitch) {
-              this.handleSpeak()
-            }
             // 大屏启动后10秒刷新一次数据
             this.intervalRefresh()
           }
@@ -337,8 +326,8 @@ export default {
       }
     },
     handleSpeak () {
-      let text = `患者：${this.patientBasicInfo.patientName},${this.patientBasicInfo.patientAge}岁,${this.patientBasicInfo.wardName}病区,${this.patientBasicInfo.bedNo}床,住院号：${this.patientBasicInfo.hospitalNo} 
-            手术名称：${this.patientBasicInfo.operationName},麻醉方式：${this.patientBasicInfo.anesMethodName},主刀医师：${this.patientBasicInfo.surgeon},麻醉医师：${this.patientBasicInfo.anesDoc} 
+      let text = `患者：${this.patientBasicInfo.patientName},${this.patientBasicInfo.patientAge}岁,${this.patientBasicInfo.wardName}病区,${this.patientBasicInfo.bedNo}床,住院号：${this.patientBasicInfo.hospitalNo}
+            手术名称：${this.patientBasicInfo.operationName},麻醉方式：${this.patientBasicInfo.anesMethodName},主刀医师：${this.patientBasicInfo.surgeon},麻醉医师：${this.patientBasicInfo.anesDoc}
             第一助手：${this.patientBasicInfo.opaSsisName1},洗手护士：${this.patientBasicInfo.washNurseName1},巡回护士：${this.patientBasicInfo.runNurseName1}`
       startSpeak(text)
     },
@@ -371,9 +360,6 @@ export default {
     handleShowStep () {
       this.$emit('handleShowStep')
     }
-    // handleChangeSwitch () {
-    //   this.setVoiceSwitch()
-    // }
   }
 }
 </script>
