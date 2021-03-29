@@ -7,7 +7,7 @@
       left-arrow
     >
     </van-nav-bar>
-    <PatiendCard :radius="radius"/>
+    <PatientCard :radius="radius"/>
     <div class="operation-content">
       <div class="operation-info">
         <p>
@@ -52,7 +52,7 @@
 
 <script>
 import { Notify } from 'vant'
-import PatiendCard from '@/components/PatientCard.vue'
+import PatientCard from '@/components/PatientCard.vue'
 import { mapState } from 'vuex'
 import { joinOperationRoom } from '@/api/patient-info'
 import request from '@/utils/request'
@@ -78,7 +78,7 @@ export default {
     ...mapState('Patient', ['patientInfo'])
   },
   components: {
-    PatiendCard
+    PatientCard
   },
   mounted () {
     $bus.$on('handleOpeRoomCode', this.handleScanCode)
@@ -157,10 +157,8 @@ export default {
               () => {
                 this.$router.push('/sign-in')
               }
-              // eslint-disable-next-line handle-callback-err
             )
-            // eslint-disable-next-line handle-callback-err
-            .catch((error) => {})
+            .catch(e => {})
           break
         case 2:
           this.$dialog
@@ -172,10 +170,8 @@ export default {
               () => {
                 this.$router.push('/time-out')
               }
-              // eslint-disable-next-line handle-callback-err
             )
-            // eslint-disable-next-line handle-callback-err
-            .catch((error) => {})
+            .catch(e => {})
           break
         case 3:
           this.$dialog
@@ -187,10 +183,8 @@ export default {
               () => {
                 this.$router.push('/sign-out')
               }
-              // eslint-disable-next-line handle-callback-err
             )
-            // eslint-disable-next-line handle-callback-err
-            .catch((error) => {})
+            .catch(e => {})
           break
         case 4:
           this.$router.push('/transfer-handover')

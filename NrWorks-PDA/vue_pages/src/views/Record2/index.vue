@@ -18,7 +18,7 @@
           value-class="right-value"
         >
           <template #right-icon>
-            <van-field v-model="recordForm.deptName" />
+            <van-field v-model="recordForm.deptName"/>
           </template>
         </van-cell>
         <van-cell
@@ -28,7 +28,7 @@
           value-class="right-value"
         >
           <template #right-icon>
-            <van-field v-model="recordForm.opsName" readonly />
+            <van-field v-model="recordForm.opsName" readonly/>
           </template>
         </van-cell>
       </van-cell-group>
@@ -71,7 +71,7 @@
             value-class="right-value"
           >
             <template #right-icon>
-              <van-field v-model="recordForm.skin.skinLocate" />
+              <van-field v-model="recordForm.skin.skinLocate"/>
             </template>
           </van-cell>
           <van-cell
@@ -81,7 +81,7 @@
             value-class="right-value"
           >
             <template #right-icon>
-              <van-field v-model="recordForm.skin.skinDegree" />
+              <van-field v-model="recordForm.skin.skinDegree"/>
             </template>
           </van-cell>
         </div>
@@ -102,11 +102,11 @@
         >
           <template #right-icon>
             <span class="mul-ellipsis">{{
-              handleFilterLabel({
-                list: "anesMethodOptions",
-                value: "anesthesiaMode",
-              })
-            }}</span>
+                handleFilterLabel({
+                  list: "anesMethodOptions",
+                  value: "anesthesiaMode",
+                })
+              }}</span>
             <!-- <van-icon name="play"/> -->
           </template>
         </van-cell>
@@ -125,8 +125,8 @@
         >
           <template #right-icon>
             <span class="mul-ellipsis">{{
-              handleFilterLabel({ list: "bodyOptions", value: "position" })
-            }}</span>
+                handleFilterLabel({list: "bodyOptions", value: "position"})
+              }}</span>
             <!-- <van-icon name="play"/> -->
           </template>
         </van-cell>
@@ -145,8 +145,8 @@
         >
           <template #right-icon>
             <span class="mul-ellipsis">{{
-              handleFilterLabel({ list: "deviceOptions", value: "device" })
-            }}</span>
+                handleFilterLabel({list: "deviceOptions", value: "device"})
+              }}</span>
             <!-- <van-icon name="play"/> -->
           </template>
         </van-cell>
@@ -183,7 +183,7 @@
             value-class="right-value"
           >
             <template #right-icon>
-              <van-field v-model="recordForm.catheter.catheterType" />
+              <van-field v-model="recordForm.catheter.catheterType"/>
             </template>
           </van-cell>
           <van-cell
@@ -193,7 +193,7 @@
             value-class="right-value"
           >
             <template #right-icon>
-              <van-field v-model="recordForm.catheter.catheterNature" />
+              <van-field v-model="recordForm.catheter.catheterNature"/>
             </template>
           </van-cell>
           <van-cell
@@ -220,6 +220,7 @@
               <van-dropdown-item
                 v-model="recordForm.electrotome.electrotomeName"
                 :options="constraintOptions"
+                @change="value => onChangeDropdown('electrotome', value)"
               />
             </van-dropdown-menu>
           </template>
@@ -268,6 +269,7 @@
               <van-dropdown-item
                 v-model="recordForm.bhMachine.bhMachineName"
                 :options="constraintOptions"
+                @change="value => onChangeDropdown('bhMachine', value)"
               />
             </van-dropdown-menu>
           </template>
@@ -348,7 +350,7 @@
               v-if="item.cqSign !== ''"
             >
               <div class="signatureImage-content" v-if="item.cqSign !== ''">
-                <img :src="item.cqSign" alt="" class="signatureImage" />
+                <img :src="item.cqSign" alt="" class="signatureImage"/>
               </div>
             </div>
             <van-cell
@@ -376,7 +378,7 @@
               v-if="item.fqSign !== ''"
             >
               <div class="signatureImage-content" v-if="item.cqSign !== ''">
-                <img :src="item.fqSign" alt="" class="signatureImage" />
+                <img :src="item.fqSign" alt="" class="signatureImage"/>
               </div>
             </div>
           </template>
@@ -396,8 +398,8 @@
         >
           <template #right-icon>
             <span class="mul-ellipsis">{{
-              handleFilterLabel({ list: "szcxOptions", value: "rinseList" })
-            }}</span>
+                handleFilterLabel({list: "szcxOptions", value: "rinseList"})
+              }}</span>
             <!-- <van-icon name="play"/> -->
           </template>
         </van-cell>
@@ -409,7 +411,7 @@
             value-class="right-value"
           >
             <template #right-icon>
-              <van-field v-model="recordForm.rinse.liquidMedicine1" />
+              <van-field v-model="recordForm.rinse.liquidMedicine1"/>
             </template>
           </van-cell>
           <van-cell
@@ -419,7 +421,7 @@
             value-class="right-value"
           >
             <template #right-icon>
-              <van-field v-model="recordForm.rinse.liquidMedicine2" />
+              <van-field v-model="recordForm.rinse.liquidMedicine2"/>
             </template>
           </van-cell>
           <van-cell
@@ -429,7 +431,7 @@
             value-class="right-value"
           >
             <template #right-icon>
-              <van-field v-model="recordForm.rinse.liquidMedicine3" />
+              <van-field v-model="recordForm.rinse.liquidMedicine3"/>
             </template>
           </van-cell>
           <van-cell
@@ -439,7 +441,7 @@
             value-class="right-value"
           >
             <template #right-icon>
-              <van-field v-model="recordForm.rinse.liquidMedicine4" />
+              <van-field v-model="recordForm.rinse.liquidMedicine4"/>
             </template>
           </van-cell>
         </div>
@@ -449,6 +451,7 @@
               <van-dropdown-item
                 v-model="recordForm.waistPuncture.waistPunctureName"
                 :options="constraintOptions"
+                @change="value => onChangeDropdown('waistPuncture', value)"
               />
             </van-dropdown-menu>
           </template>
@@ -540,6 +543,7 @@
               <van-dropdown-item
                 v-model="recordForm.handOver.handOverName"
                 :options="constraintOptions"
+
               />
             </van-dropdown-menu>
           </template>
@@ -550,7 +554,7 @@
           v-show="recordForm.handOver.handOverName === '2'"
         >
           <template #right-icon>
-            <van-field v-model="recordForm.handOver.handOverRemarks" />
+            <van-field v-model="recordForm.handOver.handOverRemarks"/>
           </template>
         </van-cell>
         <van-cell title="术中冰冻：" value="">
@@ -586,7 +590,7 @@
               :key="item.sendDoc"
             >
               <div class="signatureImage-content" v-if="item.sendDoc !== ''">
-                <img :src="item.sendDoc" alt="" class="signatureImage" />
+                <img :src="item.sendDoc" alt="" class="signatureImage"/>
               </div>
             </div>
             <van-cell
@@ -604,7 +608,7 @@
               :key="item.receiveDoc"
             >
               <div class="signatureImage-content" v-if="item.receiveDoc !== ''">
-                <img :src="item.receiveDoc" alt="" class="signatureImage" />
+                <img :src="item.receiveDoc" alt="" class="signatureImage"/>
               </div>
             </div>
           </template>
@@ -701,7 +705,7 @@
             value-class="right-value"
           >
             <template #right-icon>
-              <van-field v-model="item.skinStatus" />
+              <van-field v-model="item.skinStatus"/>
             </template>
           </van-cell>
         </template>
@@ -737,6 +741,7 @@
               <van-dropdown-item
                 v-model="recordForm.opsChange.opsChangeName"
                 :options="constraintOptions"
+                @change="value => onChangeDropdown('opsChange', value)"
               />
             </van-dropdown-menu>
           </template>
@@ -824,8 +829,9 @@
               :key="item.value"
               :name="item.value"
               shape="square"
-              >{{ item.text }}</van-checkbox
             >
+              {{ item.text }}
+            </van-checkbox>
           </van-checkbox-group>
         </div>
       </van-dialog>
@@ -856,10 +862,11 @@
 import Signature from '@/components/Signature'
 import PatientCard from '@/components/PatientCard'
 import request from '@/utils/request'
-import { submitRecord, getRecordData } from '@/api/nursing-record'
-import { mapState } from 'vuex'
+import {submitRecord, getRecordData} from '@/api/nursing-record'
+import {mapState} from 'vuex'
 import $bus from '@/utils/bus'
 import moment from 'moment'
+
 export default {
   name: 'Record2',
   data () {
@@ -877,96 +884,96 @@ export default {
       currenSign: '',
       value1: '',
       option: [
-        { text: 'PACU', value: '1' },
-        { text: '病房', value: '2' },
-        { text: 'ICU病房', value: '3' },
-        { text: '急诊', value: '4' },
-        { text: '离院', value: '5' }
+        {text: 'PACU', value: '1'},
+        {text: '病房', value: '2'},
+        {text: 'ICU病房', value: '3'},
+        {text: '急诊', value: '4'},
+        {text: '离院', value: '5'}
       ],
       result: [],
       // 电极板
       djbOptions: [
-        { text: '大腿', value: '1' },
-        { text: '小腿', value: '2' },
-        { text: '臀部', value: '3' },
-        { text: '其它', value: '4' },
-        { text: '负极返回路垫', value: '5' },
-        { text: '无', value: '6' },
-        { text: '', value: '' }
+        {text: '大腿', value: '1'},
+        {text: '小腿', value: '2'},
+        {text: '臀部', value: '3'},
+        {text: '其它', value: '4'},
+        {text: '负极返回路垫', value: '5'},
+        {text: '无', value: '6'},
+        {text: '', value: ''}
       ],
       wOptions: [],
       // 术中冲洗
       szcxOptions: [
-        { text: '0.9%氯化钠溶液', value: '1' },
-        { text: '灭菌注射用水', value: '2' },
-        { text: '药液', value: '3' }
+        {text: '0.9%氯化钠溶液', value: '1'},
+        {text: '灭菌注射用水', value: '2'},
+        {text: '药液', value: '3'}
       ],
       // 病理数量
       pathologyList: [
-        { text: '1', value: '1' },
-        { text: '2', value: '2' },
-        { text: '3', value: '3' },
-        { text: '4', value: '4' },
-        { text: '5', value: '5' },
-        { text: '6', value: '6' },
-        { text: '7', value: '7' },
-        { text: '8', value: '8' },
-        { text: '9', value: '9' },
-        { text: '10', value: '10' },
-        { text: '', value: '' }
+        {text: '1', value: '1'},
+        {text: '2', value: '2'},
+        {text: '3', value: '3'},
+        {text: '4', value: '4'},
+        {text: '5', value: '5'},
+        {text: '6', value: '6'},
+        {text: '7', value: '7'},
+        {text: '8', value: '8'},
+        {text: '9', value: '9'},
+        {text: '10', value: '10'},
+        {text: '', value: ''}
       ],
       catheterOptions: [
-        { text: '无', value: '1' },
-        { text: '病房带入', value: '2' },
-        { text: '手术室插入', value: '3' },
-        { text: '', value: '' }
+        {text: '无', value: '1'},
+        {text: '病房带入', value: '2'},
+        {text: '手术室插入', value: '3'},
+        {text: '', value: ''}
       ],
       constraintOptions: [
-        { value: '1', text: '无' },
-        { value: '2', text: '有' },
-        { value: '', text: '' }
+        {value: '1', text: '无'},
+        {value: '2', text: '有'},
+        {value: '', text: ''}
       ], // 约束带
       bodyOptions: [
-        { text: '仰卧位', value: '1' },
-        { text: '俯卧位', value: '2' },
-        { text: '左侧卧位', value: '3' },
-        { text: '右侧卧位', value: '4' },
-        { text: '左侧俯卧位', value: '5' },
-        { text: '右侧俯卧位', value: '6' },
-        { text: '坐位', value: '7' },
-        { text: '俯卧位', value: '8' }
+        {text: '仰卧位', value: '1'},
+        {text: '俯卧位', value: '2'},
+        {text: '左侧卧位', value: '3'},
+        {text: '右侧卧位', value: '4'},
+        {text: '左侧俯卧位', value: '5'},
+        {text: '右侧俯卧位', value: '6'},
+        {text: '坐位', value: '7'},
+        {text: '俯卧位', value: '8'}
       ],
       presureValueList: [],
       presureOptions: [
-        { text: 'kPa', value: 'kPa' },
-        { text: 'mmHg', value: 'mmHg' },
-        { text: '', value: '' }
+        {text: 'kPa', value: 'kPa'},
+        {text: 'mmHg', value: 'mmHg'},
+        {text: '', value: ''}
       ],
       deviceOptions: [
-        { text: '肩垫', value: '1' },
-        { text: '腋垫', value: '2' },
-        { text: '胸垫', value: '3' },
-        { text: '背垫', value: '4' },
-        { text: '腰垫', value: '5' },
-        { text: '肘垫', value: '6' },
-        { text: '两脚间垫', value: '7' },
-        { text: '膝垫', value: '8' },
-        { text: '后跟垫', value: '9' },
-        { text: '其他', value: '10' },
-        { text: '无', value: '11' }
+        {text: '肩垫', value: '1'},
+        {text: '腋垫', value: '2'},
+        {text: '胸垫', value: '3'},
+        {text: '背垫', value: '4'},
+        {text: '腰垫', value: '5'},
+        {text: '肘垫', value: '6'},
+        {text: '两脚间垫', value: '7'},
+        {text: '膝垫', value: '8'},
+        {text: '后跟垫', value: '9'},
+        {text: '其他', value: '10'},
+        {text: '无', value: '11'}
       ],
       anesMethodOptions: [
-        { text: '全麻', value: '1' },
-        { text: '臂丛麻醉', value: '2' },
-        { text: '硬膜外麻醉', value: '3' },
-        { text: '丛麻醉', value: '4' },
-        { text: '跟阻麻醉', value: '5' },
-        { text: '静脉麻醉', value: '6' },
-        { text: '腰麻', value: '7' },
-        { text: '颈从麻醉', value: '8' },
-        { text: '局麻监护', value: '9' },
-        { text: '局麻', value: '10' },
-        { text: '唤醒麻醉', value: '11' }
+        {text: '全麻', value: '1'},
+        {text: '臂丛麻醉', value: '2'},
+        {text: '硬膜外麻醉', value: '3'},
+        {text: '丛麻醉', value: '4'},
+        {text: '跟阻麻醉', value: '5'},
+        {text: '静脉麻醉', value: '6'},
+        {text: '腰麻', value: '7'},
+        {text: '颈从麻醉', value: '8'},
+        {text: '局麻监护', value: '9'},
+        {text: '局麻', value: '10'},
+        {text: '唤醒麻醉', value: '11'}
       ],
       typeOptions: [
         {
@@ -987,22 +994,22 @@ export default {
         }
       ],
       skinOptions: [
-        { text: '完整', value: '1' },
-        { text: '不完整', value: '2' },
-        { text: '', value: '' }
+        {text: '完整', value: '1'},
+        {text: '不完整', value: '2'},
+        {text: '', value: ''}
       ],
       locationOptions: [
-        { text: '左上肢', value: '1' },
-        { text: '左下肢', value: '2' },
-        { text: '右上肢', value: '3' },
-        { text: '右下肢', value: '4' },
-        { text: '', value: '' }
+        {text: '左上肢', value: '1'},
+        {text: '左下肢', value: '2'},
+        {text: '右上肢', value: '3'},
+        {text: '右下肢', value: '4'},
+        {text: '', value: ''}
       ],
       consciousnessOptions: [
-        { text: '清醒', value: '1' },
-        { text: '烦躁', value: '2' },
-        { text: '昏迷', value: '3' },
-        { text: '', value: '' }
+        {text: '清醒', value: '1'},
+        {text: '烦躁', value: '2'},
+        {text: '昏迷', value: '3'},
+        {text: '', value: ''}
       ],
       recordForm: {
         anesthesiaMode: [],
@@ -1017,8 +1024,8 @@ export default {
         electrotome: {
           electrotomeDQ: '', // 电切功率
           electrotomeDN: '', // 电凝功率
-          electrotomeName: ''
-        }, // 电刀名称
+          electrotomeName: '' // 电刀名称
+        },
         bhMachine: {
           bhMachineName: '',
           bhMachineList: [
@@ -1026,28 +1033,28 @@ export default {
               presure: '',
               presureValue: '',
               locateName: '',
-              cqTime: new Date(),
-              cqSign: new Date(),
-              fqTime: new Date(),
-              fqSign: new Date()
+              cqTime: '',
+              cqSign: '',
+              fqTime: '',
+              fqSign: ''
             },
             {
               presure: '',
               presureValue: '',
               locateName: '',
-              cqTime: new Date(),
-              cqSign: new Date(),
-              fqTime: new Date(),
-              fqSign: new Date()
+              cqTime: '',
+              cqSign: '',
+              fqTime: '',
+              fqSign: ''
             },
             {
               presure: '',
               presureValue: '',
               locateName: '',
-              cqTime: new Date(),
-              cqSign: new Date(),
-              fqTime: new Date(),
-              fqSign: new Date()
+              cqTime: '',
+              cqSign: '',
+              fqTime: '',
+              fqSign: ''
             }
           ]
         },
@@ -1065,11 +1072,11 @@ export default {
         frozen: {
           frozenName: '',
           frozenList: [
-            { sendDoc: '', receiveDoc: '' },
-            { sendDoc: '', receiveDoc: '' },
-            { sendDoc: '', receiveDoc: '' },
-            { sendDoc: '', receiveDoc: '' },
-            { sendDoc: '', receiveDoc: '' }
+            {sendDoc: '', receiveDoc: ''},
+            {sendDoc: '', receiveDoc: ''},
+            {sendDoc: '', receiveDoc: ''},
+            {sendDoc: '', receiveDoc: ''},
+            {sendDoc: '', receiveDoc: ''}
           ]
         },
         handOver: {
@@ -1082,12 +1089,12 @@ export default {
           opsChangeName: '',
           opsChangeList: [
             {
-              time: moment(new Date()).format('YYYY-MM-DD HH:mm'),
+              time: '',
               jiaobrSign: '',
               jiebrSign: ''
             },
             {
-              time: moment(new Date()).format('YYYY-MM-DD HH:mm'),
+              time: '',
               jiaobrSign: '',
               jiebrSign: ''
             }
@@ -1118,8 +1125,8 @@ export default {
         waistPuncture: {
           waistPunctureName: '',
           operationDoc: '',
-          needleHeartTime: new Date(),
-          needleTime: new Date(),
+          needleHeartTime: '',
+          needleTime: '',
           needleSign: '',
           needleHeartSign: ''
         }
@@ -1136,7 +1143,7 @@ export default {
   created () {
     this.handleOpenConstraint()
     for (let i = 1; i <= 8; i++) {
-      this.recordForm.compressedSkin.push({ isFull: '', skinStatus: '' })
+      this.recordForm.compressedSkin.push({isFull: '', skinStatus: ''})
     }
   },
   mounted () {
@@ -1144,13 +1151,17 @@ export default {
   },
   methods: {
     formatTime (time) {
-      return moment(time).format('YYYY-MM-DD HH:mm')
+      if (time) {
+        return moment(time).format('YYYY-MM-DD HH:mm')
+      } else {
+        return time
+      }
     },
     handleFilterLabel (obj) {
       let str = ''
       var reg = /,$/gi
       // setTimeout(() => {
-      if (this.recordForm[obj.value] !== '' && obj.value !== 'rinseList') {
+      if (Array.isArray(this.recordForm[obj.value]) && this.recordForm[obj.value] !== '' && obj.value !== 'rinseList') {
         this[obj.list].forEach((item) => {
           this.recordForm[obj.value].forEach((_item) => {
             if (item.value === _item) {
@@ -1177,25 +1188,25 @@ export default {
       // }, 10)
     },
     handleShowTime (param) {
+      const getDate = str => {
+        const time = moment(str)
+        if (time.isValid()) {
+          return time.toDate()
+        } else {
+          return new Date()
+        }
+      }
       if (param.indexOf('opsChangeList') !== -1) {
         let index = parseInt(param.substr(param.length - 1, 1))
-        this.currentDate = moment(
-          this.recordForm.opsChange.opsChangeList[index].time
-        ).toDate()
+        this.currentDate = getDate(this.recordForm.opsChange.opsChangeList[index].time)
       } else if (param.indexOf('cqTime') !== -1) {
         let index = parseInt(param.substr(param.length - 1, 1))
-        this.currentDate = moment(
-          this.recordForm.bhMachine.bhMachineList[index].cqTime
-        ).toDate()
+        this.currentDate = getDate(this.recordForm.bhMachine.bhMachineList[index].cqTime)
       } else if (param.indexOf('fqTime') !== -1) {
         let index = parseInt(param.substr(param.length - 1, 1))
-        this.currentDate = moment(
-          this.recordForm.bhMachine.bhMachineList[index].fqTime
-        ).toDate()
+        this.currentDate = getDate(this.recordForm.bhMachine.bhMachineList[index].fqTime)
       } else {
-        this.currentDate = moment(
-          this.recordForm.waistPuncture[param]
-        ).toDate()
+        this.currentDate = getDate(this.recordForm.waistPuncture[param])
       }
       this.currentTime = param
       this.timeVisible = true
@@ -1235,34 +1246,24 @@ export default {
     onClickLeft () {
       this.saveData().then(
         () => {
-          this.$notify({ type: 'success', message: '保存成功' })
+          this.$notify({type: 'success', message: '保存成功'})
           this.$router.go(-1)
         },
         e => {
-          this.$notify({ type: 'warning', message: e.message })
+          this.$notify({type: 'warning', message: e.message})
           this.$router.go(-1)
         }
       )
     },
     saveData () {
       const reg = /,$/gi
-      this.recordForm.waistPuncture.needleHeartTime = moment(this.recordForm.waistPuncture.needleHeartTime).format(
-        'YYYY-MM-DD HH:mm'
-      )
-      this.recordForm.waistPuncture.needleTime = moment(this.recordForm.waistPuncture.needleTime).format(
-        'YYYY-MM-DD HH:mm'
-      )
-      this.recordForm.bhMachine.bhMachineList.forEach(item => {
-        item.cqTime = moment(item.cqTime).format('YYYY-MM-DD HH:mm')
-        item.fqTime = moment(item.fqTime).format('YYYY-MM-DD HH:mm')
-      })
       this.recordForm.equipment.electrotome = this.recordForm.electrotome
       // this.recordForm.equipment.electrotomeLocation = this.recordForm.electrotomeLocation
       this.recordForm.equipment.bhMachine = this.recordForm.bhMachine
       this.recordForm.admitNo = this.patientInfo.admitNo
       this.recordForm.cureNo = this.patientInfo.cureNo
       this.recordForm.operSchNo = this.patientInfo.operSchNo
-      this.recordForm.skin = this.recordForm.skin
+      // this.recordForm.skin = this.recordForm.skin
       this.recordForm.hospitalNo = this.patientInfo.hospitalNo
       this.recordForm.recordTwoState = '2'
       this.recordForm.device =
@@ -1294,12 +1295,12 @@ export default {
     },
     onClickRight () {
       this.saveData().then((res) => {
-        this.$notify({ type: 'success', message: '保存成功' })
+        this.$notify({type: 'success', message: '保存成功'})
         // this.recordForm.anesthesiaMode = this.recordForm.anesthesiaMode.split(',')
         $bus.$emit('getPatientDataUpdate')
         this.getData()
       }, e => {
-        this.$notify({ type: 'warning', message: e.message })
+        this.$notify({type: 'warning', message: e.message})
       })
     },
     getData () {
@@ -1328,13 +1329,13 @@ export default {
     handleOpenConstraint () {
       let arr = []
       for (var i = 20; i <= 160; i++) {
-        arr.push({ text: i, value: i })
+        arr.push({text: i, value: i})
       }
       for (var j = 200; j <= 300; j++) {
-        this.presureValueList.push({ text: j, value: j })
+        this.presureValueList.push({text: j, value: j})
       }
-      this.presureValueList.push({ text: '', value: '' })
-      arr.push({ text: '', value: '' })
+      this.presureValueList.push({text: '', value: ''})
+      arr.push({text: '', value: ''})
       this.wOptions = arr
     },
     handleShowSignature (param) {
@@ -1432,6 +1433,44 @@ export default {
       }
       this.checkBoxList = this[obj.list]
       this.showDialog = true
+    },
+    onChangeDropdown (key, value) {
+      console.log(key, value)
+      // 如果选择了 无
+      if (+value === 1) {
+        switch (key) {
+          // 电刀
+          case 'electrotome': {
+            this.recordForm.electrotome.electrotomeDQ =
+            this.recordForm.electrotome.electrotomeDN = ''
+            break
+          }
+          // 气囊止血机
+          case 'bhMachine': {
+            this.recordForm.bhMachine.bhMachineList.forEach(i => {
+              i.cqTime = i.cqSign = i.fqTime = i.fqSign = ''
+            })
+            break
+          }
+          // 腰穿留置
+          case 'waistPuncture': {
+            this.recordForm.waistPuncture.operationDoc =
+              this.recordForm.waistPuncture.needleHeartTime =
+                this.recordForm.waistPuncture.needleTime =
+                  this.recordForm.waistPuncture.needleSign =
+                    this.recordForm.waistPuncture.needleHeartSign = ''
+            break
+          }
+          // 术中交接班
+          case 'opsChange': {
+            this.recordForm.opsChange.opsChangeList.forEach(i => {
+              i.time = i.jiaobrSign = i.jiebrSign = ''
+            })
+            break
+          }
+          default:
+        }
+      }
     }
   }
 }
@@ -1440,63 +1479,79 @@ export default {
 <style lang="scss" scoped>
 .record2 {
   height: 100%;
+
   .van-nav-bar {
     height: 100px;
     background: linear-gradient(90deg, #666666, #303030);
+
     /deep/ .van-nav-bar__title {
       color: #ffffff;
       font-size: 34px;
       line-height: 100px;
     }
+
     /deep/ .van-nav-bar__text {
       color: #ffffff;
       font-size: 30px;
     }
+
     /deep/ .van-icon-arrow-left {
       color: #ffffff;
       font-size: 36px;
     }
   }
+
   .list {
     height: calc(100% - 324px);
     overflow-y: auto;
   }
+
   .van-cell {
     line-height: 94px;
     color: #2e2e2e;
     font-size: 30px;
+
     &::after {
       border-color: #e2e2e2;
     }
+
     &.presure {
       height: 104px !important;
     }
+
     .first-cell {
       flex: unset;
     }
+
     .left-title {
       flex: unset;
       white-space: nowrap;
     }
+
     .right-value {
       .van-field {
         padding-top: 0;
         padding-bottom: 0;
       }
     }
+
     .van-dropdown-menu {
       height: 100%;
+
       /deep/ .van-dropdown-menu__bar {
         height: 100%;
         box-shadow: unset;
       }
+
       /deep/ .van-dropdown-menu__item {
         justify-content: flex-end;
       }
+
       /deep/ .van-dropdown-menu__title {
         font-size: 30px;
         line-height: unset;
         padding-right: 30px;
+
         &::after {
           border-color: transparent transparent #808080 #808080;
           border-width: 6px;
@@ -1504,64 +1559,78 @@ export default {
           right: 5px;
         }
       }
+
       /deep/ .van-dropdown-item__option {
         font-size: 30px;
         line-height: 60px;
       }
     }
+
     /deep/ .van-icon-play {
       transform: rotate(90deg);
       font-size: 20px;
       vertical-align: middle;
     }
   }
+
   .van-cell {
     .van-cell__value {
       color: #7f7f7f;
     }
+
     .sign-title {
       color: #32db64;
     }
   }
+
   .van-cell-group {
     &.sign-area {
       margin-top: 15px;
       margin-bottom: 15px;
+
       .van-cell {
         .van-cell__value {
           color: #7f7f7f;
         }
+
         .sign-title {
           color: #32db64;
         }
       }
     }
   }
+
   .van-dialog {
     font-size: 30px;
+
     /deep/ .van-dialog__header {
       line-height: 80px;
       text-align: left;
       text-indent: 20px;
       border-bottom: 1px solid #e2e2e2;
     }
+
     .van-checkbox {
       padding-left: 15px;
+
       /deep/ .van-checkbox__icon {
         line-height: 80px;
         // height: 60px;
         width: 30px;
         height: 30px;
+
         .van-icon {
           line-height: 30px;
           width: 30px;
           height: 30px;
         }
       }
+
       /deep/ .van-checkbox__label {
         line-height: 80px;
       }
     }
+
     /deep/ .van-dialog__footer {
       /deep/ .van-button {
         line-height: 80px;
@@ -1570,6 +1639,7 @@ export default {
       }
     }
   }
+
   .van-overlay {
     background-color: rgba(0, 0, 0, 0.5);
   }

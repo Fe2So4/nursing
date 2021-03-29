@@ -155,10 +155,10 @@ export default {
         }
       }).then(
         res => {
-          if (res.data && res.data.code === '0') {
+          if (res && res.data && res.data.code === '0') {
             return res
           } else {
-            return Promise.reject(new Error('登录失败，请检查登录信息'))
+            return Promise.reject(new Error('登录失败，请检查用户名和密码'))
           }
         },
         e => {

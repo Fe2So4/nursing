@@ -134,8 +134,34 @@ export default {
     Loading,
     Menu
   },
+  created () {
+    if (process.env.NODE_ENV === 'development') {
+      document.addEventListener('keydown', this.onkeydown)
+    }
+    this.setTheme()
+  },
+  mounted () {
+    document.addEventListener('deviceready', this.onDeviceReady, false)
+    $bus.$on('handleScan', this.handleScan)
+    $bus.$on('getPatientDataUpdate', this.getPatientDataUpdate)
+  },
+  beforeDestroy () {
+    this.showLoading = false
+    $bus.$off('handleScan')
+    $bus.$off('getPatientDataUpdate')
+    // 移除 <div> 事件句柄
+    document.removeEventListener('deviceready', this.onDeviceReady)
+    if (process.env.NODE_ENV === 'development') {
+      document.addEventListener('keydown', this.onkeydown)
+    }
+  },
   methods: {
     ...mapActions('Patient', ['getPatient']),
+    onkeydown (e) {
+      if (e.keyCode === 13) {
+        this.handleScan('OpsQRCode=19386706,OpsSchNo=428232')
+      }
+    },
     onClickLeft () {
       this.showMenu = true
     },
@@ -190,7 +216,7 @@ export default {
       // this.showLoading = true
       let url = ''
       if (!this.operateNo) {
-        url = `${getPatientInfo}?cureNo=${this.cureNo}`
+        url = `${getPatientInfo}?cureNo=${this.cureNo}&operSchNo=`
       } else {
         url = `${getPatientInfo}?cureNo=${this.cureNo}&operSchNo=${this.operateNo}`
       }
@@ -217,22 +243,8 @@ export default {
               // if (res.data.data[0].state === '1' || res.data.data[0].state === '2') {
               this.getPatient(res.data.data[0])
               this.handleJump()
-              // } else {
-              //   this.$notify({type: 'warning', message: '当前手术未接单'})
-              // }
             }
-            // setTimeout(() => {
-            //   this.showLoading = false
-            // }, 2000)
-          } else {
-            // setTimeout(() => {
-            //   this.showLoading = false
-            // }, 2000)
           }
-        } else {
-          // setTimeout(() => {
-          //   this.showLoading = false
-          // }, 2000)
         }
       })
     },
@@ -314,49 +326,24 @@ export default {
       this.getPatientData()
       //   // this.subjectOfPatientNoticeForm.next(jsonStr)
       // }
-    }
-  },
-  created () {
-    // document.onkeydown = (e) => {
-    //   var key = window.event.keyCode
-    //   if (key === 13) {
-    //     this.handleScan('OpsQRCode=19382980,OpsSchNo=427977')
-    //   }
-    // }
-    this.setTheme()
-  },
-  mounted () {
-    // this.getPatientData()
-    document.addEventListener('deviceready', onDeviceReady, false)
-    let that = this
-    function onDeviceReady () {
-      // eslint-disable-next-line no-undef
-      cordova.ScanCode.getCode('12', (e) => {
+    },
+    onDeviceReady () {
+      window.cordova.ScanCode.getCode('12', (e) => {
         if (e) {
-          if (that.$route.path === '/home') {
-            that.handleScan(e)
-          } else if (that.$route.path === '/transfer') {
+          if (this.$route.path === '/home') {
+            this.handleScan(e)
+          } else if (this.$route.path === '/transfer') {
             // alert('/transfer')
             $bus.$emit('handleCode', e)
-          } else if (that.$route.path === '/device-special') {
+          } else if (this.$route.path === '/device-special') {
             // alert('/device-special', e)
             $bus.$emit('handleDeviceCode', e)
-          } else if (that.$route.path === '/patient-home') {
+          } else if (this.$route.path === '/patient-home') {
             $bus.$emit('handleOpeRoomCode', e)
           }
         }
       })
     }
-    $bus.$on('handleScan', this.handleScan)
-    $bus.$on('getPatientDataUpdate', this.getPatientDataUpdate)
-  },
-  beforeDetroy () {
-    // eslint-disable-next-line no-undef
-    this.showLoading = false
-    $bus.$off('handleScan')
-    $bus.$off('getPatientDataUpdate')
-    // 移除 <div> 事件句柄
-    document.removeEventListener('deviceready')
   }
 }
 </script>

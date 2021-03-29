@@ -8,7 +8,7 @@
         <p>
           <span>{{ patientInfo.patientName }}</span
           ><span>{{ patientInfo.bedNo }}床</span
-          ><span>{{ patientInfo.cureNo }}</span>
+          ><span>{{ patientInfo.hospitalNo }}</span>
         </p>
         <p>
           主刀/麻醉<span class="patient-value"
