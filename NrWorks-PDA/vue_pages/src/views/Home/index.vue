@@ -303,6 +303,8 @@ export default {
       }
     },
     handleScan (code) {
+      // 清空两个号码
+      this.cureNo = this.operateNo = ''
       // 患者腕带条码
       if (parseInt(code)) {
         this.cureNo = code

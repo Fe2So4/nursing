@@ -519,6 +519,7 @@ export default {
     }
     .left-title {
       flex: unset;
+      white-space: nowrap;
     }
     .right-value {
       .van-field {
