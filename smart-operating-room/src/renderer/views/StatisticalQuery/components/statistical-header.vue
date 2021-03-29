@@ -54,20 +54,34 @@
             v-model="formData.name"
           />
         </vxe-form-item>
-        <!-- <vxe-form-item field="timeType">
+        <vxe-form-item
+          title=""
+          field="floor"
+        >
           <vxe-select
             style="width:96px"
-            v-model="formData.timeType"
-            placeholder=""
+            v-model="formData.floor"
+            placeholder="楼层"
+            clearable
+            @change="search"
           >
             <vxe-option
-              v-for="item in timeTypeList"
-              :key="item.id"
-              :value="item.value"
-              :label="item.label"
+              v-for="item in floorList"
+              :key="item.floorNo"
+              :value="item.floorNo"
+              :label="item.floorName"
             />
           </vxe-select>
-        </vxe-form-item> -->
+        </vxe-form-item>
+        <vxe-form-item>
+          <vxe-input
+            style="width:96px"
+            @keyup.enter.native="search"
+            clearable
+            placeholder="房间号"
+            v-model="formData.roomNo"
+          />
+        </vxe-form-item>
         <vxe-form-item
           title="开始"
           field="startTime"
@@ -126,6 +140,7 @@
 
 <script>
 import Bus from '@/utils/bus.js'
+import {reqgetFloor} from '@/api/operation-orders/operation-orders'
 export default {
   name: 'StatisticalHeader',
   props: {
@@ -144,7 +159,9 @@ export default {
         endDate: '',
         startTime: '',
         endTime: '',
-        name: ''
+        name: '',
+        floor: '',
+        roomNo: ''
       },
       typeList: [
         {
@@ -185,8 +202,12 @@ export default {
           label: '进出手术室时间'
         }
       ],
-      queryParams: {}
+      queryParams: {},
+      floorList: []
     }
+  },
+  created () {
+    this.getFloorList()
   },
   mounted () {
     this.initQueryParams()
@@ -211,6 +232,19 @@ export default {
     // 打印
     dayin () {
       Bus.$emit('statistical', '1')
+    },
+    getFloorList () {
+      return reqgetFloor().then(res => {
+        if (res.data.data) {
+          return res.data.data
+        } else {
+          return Promise.reject('未能获取到数据')
+        }
+      }).then(
+        list => {
+          this.floorList = list
+        }
+      )
     }
   }
 }

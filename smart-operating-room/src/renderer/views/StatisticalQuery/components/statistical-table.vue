@@ -33,31 +33,23 @@
           field="operateDate"
           title="手术日期"
         />
-        <!-- <vxe-table-column
-          width="100px"
-          field="anesDoc"
-          title="麻醉医师"
-        /> -->
         <vxe-table-column
           width="130px"
           field="categpry"
           title="病区-科室"
         />
-        <!-- <vxe-table-column
-          width="100px"
-          field="washNurseName"
-          title="洗手护士"
+        <vxe-table-column
+          width="80px"
+          field="floor"
+          title="楼层"
+          align="center"
         />
         <vxe-table-column
-          width="100px"
-          field="surgeon"
-          title="主刀医师"
+          width="80px"
+          field="roomNo"
+          title="房间号"
+          align="center"
         />
-        <vxe-table-column
-          width="100px"
-          field="runNurseName"
-          title="巡回护士"
-        /> -->
         <vxe-table-column
           width="110px"
           field="sendOrderTime"
@@ -98,7 +90,6 @@
           field="anesBeforeChkTime"
           title="麻醉开始前时间"
         />
-
         <vxe-table-column
           width="100px"
           field="beforeOperChkTime"
@@ -109,11 +100,6 @@
           field="leaveBeforeChkUpdateTime"
           title="离开手术室前时间"
         />
-        <!-- <vxe-table-column
-          width="100px"
-          field="pointOutRoomTime"
-          title="出手术室时间"
-        /> -->
         <vxe-table-column
           width="100px"
           field="pointPacuTime"
@@ -124,7 +110,6 @@
           width="100px"
           title="术后出pacu时间"
         />
-
         <vxe-table-column
           width="100px"
           field="arrivalTime"
@@ -158,10 +143,6 @@ export default {
       currentRow: {}
     }
   },
-  mounted () {
-    // this.addScrollHandle()
-    console.log(this.tableData)
-  },
   methods: {
     addScrollHandle () {
       this.dom = this.$refs.xTable.elemStore['main-body-wrapper']
@@ -177,12 +158,6 @@ export default {
           if (!this.allData) this.getMoreLog()
         }
       })
-    },
-    getMoreLog () {
-      this.load()
-    },
-    load () {
-      // this.tableData = this.tableData.concat(this.tableData)
     },
     // 获取数据
     getTableData (res) {
