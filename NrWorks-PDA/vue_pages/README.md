@@ -1,5 +1,5 @@
 # nurse-works-pda
-
+护理一期PDA
 > A Vue.js project
 
 ## Build Setup
@@ -25,3 +25,34 @@ jarsigner -verbose -keystore pda.keystore -signedjar pda.apk app-release-unsigne
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+## 项目结构
+```
+project
+|-- vue_pages vue 相关页面
+    |-- src
+        |-- views
+            |-- Demo 扫码demo
+            |-- DeviceBasicList 一般器械包
+            |-- DeviceSpecialList 特殊器械包
+            |-- HandoverRecord ?
+            |-- Home 主页
+            |-- Login 登录
+            |-- PatientHome 患者首页
+            |-- Record2 护理记录单二
+            |-- Record3 护理记录单三
+            |-- SignIn SignIn
+            |-- SignOut SignOut
+            |-- TimeOut TimeOut
+            |-- Transfer 转运交接
+            |-- TransferHandover ？
+|-- www vue打包好的静态资源存放位置
+```
+
+## 注意事项
+
+- 使用ES5语法，ES6+会导致兼容性问题
+- 打包流程
+  - vue_pages `npm run build`
+  - project `cordova build android`
+
