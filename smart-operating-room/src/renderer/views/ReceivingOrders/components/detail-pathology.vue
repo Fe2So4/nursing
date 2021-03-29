@@ -168,15 +168,15 @@ export default {
       this.codeInputFocus = false
     },
     gotoThree () {
-      if (
-        this.selectRow.orderState === 1 ||
-        this.selectRow.orderState === '1'
-      ) {
-        let url = 'http://128.0.16.55:8009'
+      // 打印时打开第三方页面
+      const {
+        orderId
+      } = this.selectRow
+      if (+this.selectRow.orderState === 1 && orderId) {
+        const url = `http://128.0.16.55:8009/Inspection/PrintSpecimenByPidxNew?type=worker&pid=${orderId}`
         this.$electron.shell.openExternal(url)
       } else {
         this.$alert('请先扫描工勤人员二维码进行接单')
-        return false
       }
     },
     // 取消接单
