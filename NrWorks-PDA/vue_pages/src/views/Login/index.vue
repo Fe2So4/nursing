@@ -17,7 +17,7 @@
           <van-field
             v-model="username"
             name="用户名"
-            type="number"
+            type="text"
             label=""
             style="border: 1px solid #8496b6"
             left-icon="user-o"
@@ -73,30 +73,33 @@ export default {
     return {
       username: '',
       password: '',
-      version: '',
-      newVersion: '2.0.0',
-      oldVersion: '1.0.0',
-      fileName: 'PDA',
-      path: '',
+      // version: '',
+      // newVersion: '2.0.0',
+      // oldVersion: '1.0.0',
+      // fileName: 'PDA',
+      // path: '',
       time: moment(new Date()),
-      progress: 0,
+      // progress: 0,
       imgUrl: logo,
       isRemember: false
     }
   },
+  created () {
+    this.getAccount()
+  },
   methods: {
     ...mapActions('Patient', ['setOpePeopleInfo']),
     getOpePeople () {
-      request({
+      return request({
         method: 'get',
         url: getOpePeople
       }).then((res) => {
-        console.log(res.data.data)
         this.setOpePeopleInfo(res.data.data)
       })
     },
     // 获取当前用户名和密码
     getAccount () {
+      // 从缓存中获取
       let res = getCurrentAccount()
       if (res) {
         let obj = JSON.parse(res)
@@ -114,7 +117,7 @@ export default {
       })
       setCurrentAccount(obj)
     },
-    onSubmit (values) {
+    onSubmit () {
       if (this.username === '') {
         this.$notify('用户名不能为空')
         return
@@ -123,28 +126,45 @@ export default {
         this.$notify('密码不能为空')
         return
       }
-      request({
-        url: login,
-        method: 'post',
-        data: {
-          loginName: this.username,
-          loginPwd: this.password
-        }
-      }).then((res) => {
-        if (res.data.code === '0') {
+      this.login().then(
+        (res) => {
           setUserToken(res.data.data)
           if (this.isRemember) {
             this.storageAccount()
           } else {
             clearCurrentAccount()
           }
-          if (res.data.data) {
-            this.getOpePeople()
-            this.$router.push('/home')
-          }
+          return this.getOpePeople()
         }
-      })
-      // this.$router.push('/signature')
+      ).then(
+        () => {
+          this.$router.push('/home')
+        },
+        e => {
+          this.$notify(e.message)
+        }
+      )
+    },
+    login () {
+      return request({
+        url: login,
+        method: 'post',
+        data: {
+          loginName: this.username,
+          loginPwd: this.password
+        }
+      }).then(
+        res => {
+          if (res.data && res.data.code === '0') {
+            return res
+          } else {
+            return Promise.reject(new Error('登录失败，请检查登录信息'))
+          }
+        },
+        e => {
+          return Promise.reject(new Error('网络错误，请稍后尝试'))
+        }
+      )
     }
     // openFile () {
     //   var url = '/sdcard/tencent/MicroMsg/Download/pda.apk'
@@ -224,21 +244,6 @@ export default {
     //       })
     //   }
     //   // })
-    // }
-  },
-  created () {
-    this.getAccount()
-  },
-  mounted () {
-    // document.addEventListener('deviceready', onDeviceReady, false)
-    // function onDeviceReady () {
-    //   console.log('console.log works well')
-    // }
-    // document.addEventListener('deviceready', onDeviceReady, false)
-    // var me = this
-    // function onDeviceReady () {
-    //   me.msg = 'cordova is ready'
-    //   me.init()
     // }
   }
 }
