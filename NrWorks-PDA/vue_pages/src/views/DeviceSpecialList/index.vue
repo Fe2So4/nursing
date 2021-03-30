@@ -31,7 +31,7 @@
                 <span class="packageName">{{ item.pName }}（{{ item.items.length }}）</span>
                 <span>
                   <span class="ensure-option" v-show="!item.isEnsure" @click.stop="handleEnsure(item)">确认清点</span>
-                  <span class="option" @click.stop="handleDelete(item.pId)">删除</span>
+                  <span class="option" @click.stop="handleDelete(item._uuid)">删除</span>
                 </span>
               </div>
               <div class="packageItemList" ref="packageDetailList">
@@ -194,55 +194,26 @@ export default {
       // })
     },
     handleDelete (id) {
-      this.packageList.forEach((item, index) => {
-        if (item.pId === id) {
-          this.packageList.splice(index, 1)
-        }
-      })
-      this.recordForm.specialEquipment.before.forEach((item, index) => {
-        if (item.pId === id) {
-          this.recordForm.specialEquipment.before.splice(index, 1)
-        }
-      })
-      this.recordForm.specialEquipment.adding.forEach((item, index) => {
-        if (item.pId === id) {
-          this.recordForm.specialEquipment.adding.splice(index, 1)
-        }
-      })
-      this.recordForm.specialEquipment.adding1.forEach((item, index) => {
-        if (item.pId === id) {
-          this.recordForm.specialEquipment.adding1.splice(index, 1)
-        }
-      })
-      this.recordForm.specialEquipment.adding2.forEach((item, index) => {
-        if (item.pId === id) {
-          this.recordForm.specialEquipment.adding2.splice(index, 1)
-        }
-      })
-      this.recordForm.specialEquipment.adding3.forEach((item, index) => {
-        if (item.pId === id) {
-          this.recordForm.specialEquipment.adding3.splice(index, 1)
-        }
-      })
-      this.recordForm.specialEquipment.before2.forEach((item, index) => {
-        if (item.pId === id) {
-          this.recordForm.specialEquipment.before2.splice(index, 1)
-        }
-      })
-      this.recordForm.specialEquipment.after.forEach((item, index) => {
-        if (item.pId === id) {
-          this.recordForm.specialEquipment.after.splice(index, 1)
-        }
-      })
-      this.recordForm.specialEquipment.after2.forEach((item, index) => {
-        if (item.pId === id) {
-          this.recordForm.specialEquipment.after2.splice(index, 1)
-        }
-      })
-      this.recordForm.specialEquipment.allList.forEach((item, index) => {
-        if (item.pId === id) {
-          this.recordForm.specialEquipment.allList.splice(index, 1)
-        }
+      const deletePackage = (id, list) => {
+        list.forEach((item, index) => {
+          if (item._uuid === id) {
+            list.splice(index, 1)
+          }
+        })
+      }
+      [
+        this.packageList,
+        this.recordForm.specialEquipment.before,
+        this.recordForm.specialEquipment.adding,
+        this.recordForm.specialEquipment.adding1,
+        this.recordForm.specialEquipment.adding2,
+        this.recordForm.specialEquipment.adding3,
+        this.recordForm.specialEquipment.before2,
+        this.recordForm.specialEquipment.after,
+        this.recordForm.specialEquipment.after2,
+        this.recordForm.specialEquipment.allList
+      ].forEach(list => {
+        deletePackage(id, list)
       })
     },
     handleShowList (e) {
@@ -438,6 +409,9 @@ export default {
     },
     getData () {
       let deviceId = this.code
+      const hasPackage = (pId, list) => {
+        return list.some(i => i.pId === pId)
+      }
       request({
         method: 'get',
         url: getPackage + '/' + deviceId
@@ -453,127 +427,66 @@ export default {
         obj.isEnsure = true
         obj.items = data.packageDetail
         const _uuid = uuidv4()
+
+        const setDetail = (type) => {
+          const types = [
+            'before',
+            'adding',
+            'adding1',
+            'adding2',
+            'adding3',
+            'before2',
+            'after',
+            'after2'
+          ]
+          data.packageDetail.forEach(item => {
+            types.forEach(t => {
+              if (t === type) {
+                item[t] = +item.insCount
+              } else {
+                item[t] = 0
+              }
+            })
+            item.type = type
+          })
+        }
+
+        const addPackage = (type) => {
+          setDetail(type)
+          if (!hasPackage(data.id, this.recordForm.specialEquipment[type])) {
+            const packageObj = {
+              _uuid,
+              pId: obj.pId,
+              pName: obj.pName,
+              code: data.code,
+              submit: '0',
+              isEnsure: obj.isEnsure,
+              items: data.packageDetail
+            }
+            this.recordForm.specialEquipment[type].push(packageObj)
+            this.packageList.push(packageObj)
+          } else {
+            this.$notify({type: 'primary', message: '当前阶段已存在此包'})
+          }
+        }
+
         switch (this.active) {
           case 0:
-            data.packageDetail.forEach(item => {
-              item.before = parseInt(item.insCount)
-              item.adding = 0
-              item.adding1 = 0
-              item.adding2 = 0
-              item.adding3 = 0
-              item.before2 = 0
-              item.after = 0
-              item.after2 = 0
-              item.type = 'before'
-            })
-            this.recordForm.specialEquipment.before.push({
-              _uuid,
-              pId: obj.pId,
-              pName: obj.pName,
-              code: data.code,
-              isEnsure: obj.isEnsure,
-              submit: '0',
-              items: data.packageDetail
-            })
+            addPackage('before')
             break
           case 1:
-            data.packageDetail.forEach(item => {
-              item.before = 0
-              item.adding = item.insCount
-              item.adding1 = 0
-              item.adding2 = 0
-              item.adding3 = 0
-              item.before2 = 0
-              item.after = 0
-              item.after2 = 0
-              item.type = 'adding'
-            })
-            this.recordForm.specialEquipment.adding.push({
-              _uuid,
-              pId: obj.pId,
-              pName: obj.pName,
-              code: data.code,
-              submit: '0',
-              isEnsure: obj.isEnsure,
-              items: data.packageDetail
-            })
+            addPackage('adding')
             break
           case 2:
-            data.packageDetail.forEach(item => {
-              item.before = 0
-              item.adding = 0
-              item.adding1 = item.insCount
-              item.adding2 = 0
-              item.adding3 = 0
-              item.before2 = 0
-              item.after = 0
-              item.after2 = 0
-              item.type = 'adding1'
-            })
-            this.recordForm.specialEquipment.adding1.push({
-              _uuid,
-              pId: obj.pId,
-              pName: obj.pName,
-              code: data.code,
-              submit: '0',
-              isEnsure: obj.isEnsure,
-              items: data.packageDetail
-            })
+            addPackage('adding1')
             break
           case 3:
-            data.packageDetail.forEach(item => {
-              item.before = 0
-              item.adding = 0
-              item.adding1 = 0
-              item.adding2 = item.insCount
-              item.adding3 = 0
-              item.before2 = 0
-              item.after = 0
-              item.after2 = 0
-              item.type = 'adding2'
-            })
-            this.recordForm.specialEquipment.adding2.push({
-              _uuid,
-              pId: obj.pId,
-              pName: obj.pName,
-              code: data.code,
-              submit: '0',
-              isEnsure: obj.isEnsure,
-              items: data.packageDetail
-            })
+            addPackage('adding2')
             break
           case 4:
-            data.packageDetail.forEach(item => {
-              item.before = 0
-              item.adding = 0
-              item.adding1 = 0
-              item.adding2 = 0
-              item.adding3 = item.insCount
-              item.before2 = 0
-              item.after = 0
-              item.after2 = 0
-              item.type = 'adding3'
-            })
-            this.recordForm.specialEquipment.adding3.push({
-              _uuid,
-              pId: obj.pId,
-              pName: obj.pName,
-              code: data.code,
-              submit: '0',
-              isEnsure: obj.isEnsure,
-              items: data.packageDetail
-            })
+            addPackage('adding3')
             break
         }
-        this.packageList.push({
-          _uuid,
-          pId: obj.pId,
-          pName: obj.pName,
-          code: data.code,
-          submit: '0',
-          isEnsure: obj.isEnsure,
-          items: data.packageDetail
-        })
       })
     },
     handleConfirm () {
@@ -847,10 +760,6 @@ export default {
     },
     async handleChange (index) {
       this.active = index
-      // let Olist = this.$refs.packageDetailList
-      // Olist.forEach(item => {
-      //   item.style.display = 'none'
-      // })
       this.$forceUpdate()
       this.getPackageList()
     },
@@ -865,27 +774,27 @@ export default {
         this.code = code.replace('P-', '')
         this.getData()
       }
+    },
+    onkeydownForTest (e) {
+      console.log(e.keyCode)
+      // 按键1
+      if (e.keyCode === 49) {
+        this.handleDeviceCode('P-2185412')
+      }
     }
-  },
-  created () {
-    // document.onkeydown = (e) => {
-    //   var key = window.event.keyCode
-    //   if (key === 13) {
-    //     if (this.active === 5 || this.active === 6 || this.active === 7) {
-    //       return
-    //     }
-    //     setTimeout(() => {
-    //       this.getData()
-    //     }, 200)
-    //   }
-    // }
   },
   async mounted () {
     this.getPackageList()
     $bus.$on('handleDeviceCode', this.handleDeviceCode)
+    if (process.env.NODE_ENV === 'development') {
+      document.addEventListener('keydown', this.onkeydownForTest)
+    }
   },
   beforeDestroy () {
     $bus.$off('handleDeviceCode')
+    if (process.env.NODE_ENV === 'development') {
+      document.removeEventListener('keydown', this.onkeydownForTest)
+    }
   }
 }
 </script>
@@ -900,6 +809,8 @@ export default {
   .van-nav-bar {
     height: 100px;
     background: linear-gradient(90deg, #666666, #303030);
+    position: sticky;
+    top: 0;
 
     /deep/ .van-nav-bar__title {
       color: #ffffff;
@@ -931,6 +842,8 @@ export default {
         ul {
           display: flex;
           flex-direction: column;
+          max-height: 100%;
+          overflow: auto;
 
           li {
             color: #2E2E2E;

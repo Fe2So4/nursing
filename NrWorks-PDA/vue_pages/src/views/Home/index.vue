@@ -159,7 +159,7 @@ export default {
     ...mapActions('Patient', ['getPatient']),
     onkeydown (e) {
       if (e.keyCode === 13) {
-        this.handleScan('19377222')
+        this.handleScan('19382924')
       }
     },
     onClickLeft () {
@@ -356,6 +356,8 @@ export default {
   height: 100%;
   .van-nav-bar {
     height: 100px;
+    position: sticky;
+    top: 0;
     // background: linear-gradient(90deg, #666666, #303030);
     /deep/ .van-nav-bar__title {
       font-size: 34px;

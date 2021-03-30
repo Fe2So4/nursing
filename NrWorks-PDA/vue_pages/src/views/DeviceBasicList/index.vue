@@ -949,6 +949,8 @@ export default {
   .van-nav-bar {
     height: 100px;
     background: linear-gradient(90deg, #666666, #303030);
+    position: sticky;
+    top: 0;
 
     /deep/ .van-nav-bar__title {
       color: #ffffff;
@@ -980,6 +982,8 @@ export default {
         ul {
           display: flex;
           flex-direction: column;
+          max-height: 100%;
+          overflow: auto;
 
           li {
             color: #2E2E2E;

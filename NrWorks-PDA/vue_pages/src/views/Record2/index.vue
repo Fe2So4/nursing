@@ -73,7 +73,10 @@
           title="麻醉方式："
           title-class="left-title"
           value-class="right-value multipul-select"
-          value=""
+          :value="filterLabel({
+                  list: 'anesMethodOptions',
+                  value: 'anesthesiaMode',
+                  })"
           @click="
             handleShowDialog({
               list: 'anesMethodOptions',
@@ -82,21 +85,15 @@
             })
           "
         >
-          <template #right-icon>
-            <div class="mul-ellipsis">{{
-                handleFilterLabel({
-                  list: "anesMethodOptions",
-                  value: "anesthesiaMode",
-                })
-              }}</div>
-            <!-- <van-icon name="play"/> -->
-          </template>
         </van-cell>
         <van-cell
           title="手术体位："
           title-class="left-title"
           value-class="right-value"
-          value=""
+          :value="filterLabel({
+                  list: 'bodyOptions',
+                  value: 'position',
+                  })"
           @click="
             handleShowDialog({
               list: 'bodyOptions',
@@ -105,18 +102,15 @@
             })
           "
         >
-          <template #right-icon>
-            <span class="mul-ellipsis">{{
-                handleFilterLabel({list: "bodyOptions", value: "position"})
-              }}</span>
-            <!-- <van-icon name="play"/> -->
-          </template>
         </van-cell>
         <van-cell
           title="体位装置："
           title-class="left-title"
           value-class="right-value multipul-select"
-          value=""
+          :value="filterLabel({
+                  list: 'deviceOptions',
+                  value: 'device',
+                  })"
           @click="
             handleShowDialog({
               list: 'deviceOptions',
@@ -125,12 +119,6 @@
             })
           "
         >
-          <template #right-icon>
-            <span class="mul-ellipsis">{{
-                handleFilterLabel({list: "deviceOptions", value: "device"})
-              }}</span>
-            <!-- <van-icon name="play"/> -->
-          </template>
         </van-cell>
         <van-cell title="约束带：" value="">
           <template #right-icon>
@@ -369,7 +357,10 @@
           title="术中冲洗："
           title-class="left-title"
           value-class="right-value multipul-select"
-          value=""
+          :value="filterLabel({
+                  list: 'szcxOptions',
+                  value: 'rinseList',
+                  })"
           @click="
             handleShowDialog({
               list: 'szcxOptions',
@@ -378,54 +369,12 @@
             })
           "
         >
-          <template #right-icon>
-            <span class="mul-ellipsis">{{
-                handleFilterLabel({list: "szcxOptions", value: "rinseList"})
-              }}</span>
-            <!-- <van-icon name="play"/> -->
-          </template>
         </van-cell>
         <div v-show="recordForm.rinse.rinseList.indexOf('3') !== -1">
-          <van-cell
-            title="药液1："
-            value=""
-            title-class="left-title"
-            value-class="right-value"
-          >
-            <template #right-icon>
-              <van-field v-model="recordForm.rinse.liquidMedicine1"/>
-            </template>
-          </van-cell>
-          <van-cell
-            title="药液2："
-            value=""
-            title-class="left-title"
-            value-class="right-value"
-          >
-            <template #right-icon>
-              <van-field v-model="recordForm.rinse.liquidMedicine2"/>
-            </template>
-          </van-cell>
-          <van-cell
-            title="药液3："
-            value=""
-            title-class="left-title"
-            value-class="right-value"
-          >
-            <template #right-icon>
-              <van-field v-model="recordForm.rinse.liquidMedicine3"/>
-            </template>
-          </van-cell>
-          <van-cell
-            title="药液4："
-            value=""
-            title-class="left-title"
-            value-class="right-value"
-          >
-            <template #right-icon>
-              <van-field v-model="recordForm.rinse.liquidMedicine4"/>
-            </template>
-          </van-cell>
+          <van-field v-model="recordForm.rinse.liquidMedicine1" label="药液1：" placeholder="请输入药液1" />
+          <van-field v-model="recordForm.rinse.liquidMedicine2" label="药液2：" placeholder="请输入药液2" />
+          <van-field v-model="recordForm.rinse.liquidMedicine3" label="药液3：" placeholder="请输入药液3" />
+          <van-field v-model="recordForm.rinse.liquidMedicine4" label="药液4：" placeholder="请输入药液4" />
         </div>
         <van-cell title="腰穿留置：" value="">
           <template #right-icon>
@@ -923,7 +872,7 @@ export default {
         {text: '左侧俯卧位', value: '5'},
         {text: '右侧俯卧位', value: '6'},
         {text: '坐位', value: '7'},
-        {text: '俯卧位', value: '8'}
+        {text: '截石位', value: '8'}
       ],
       presureValueList: [],
       presureOptions: [
@@ -1116,7 +1065,37 @@ export default {
     }
   },
   computed: {
-    ...mapState('Patient', ['patientInfo'])
+    ...mapState('Patient', ['patientInfo']),
+    filterLabel () {
+      return (obj) => {
+        let str = ''
+        var reg = /,$/gi
+        if (Array.isArray(this.recordForm[obj.value]) && this.recordForm[obj.value] !== '' && obj.value !== 'rinseList') {
+          this[obj.list].forEach((item) => {
+            this.recordForm[obj.value].forEach((_item) => {
+              if (item.value === _item) {
+                str = str + item.text + ','
+              }
+            })
+          })
+          return str.replace(reg, '') || '请选择'
+        } else if (
+          this.recordForm.rinse[obj.value] !== '' &&
+          obj.value === 'rinseList'
+        ) {
+          this[obj.list].forEach((item) => {
+            this.recordForm.rinse.rinseList.forEach((_item) => {
+              if (item.value === _item) {
+                str = str + item.text + ','
+              }
+            })
+          })
+          return str.replace(reg, '') || '请选择'
+        } else {
+          return ''
+        }
+      }
+    }
   },
   components: {
     Signature,
@@ -1142,7 +1121,6 @@ export default {
     handleFilterLabel (obj) {
       let str = ''
       var reg = /,$/gi
-      // setTimeout(() => {
       if (Array.isArray(this.recordForm[obj.value]) && this.recordForm[obj.value] !== '' && obj.value !== 'rinseList') {
         this[obj.list].forEach((item) => {
           this.recordForm[obj.value].forEach((_item) => {
@@ -1167,7 +1145,6 @@ export default {
       } else {
         return ''
       }
-      // }, 10)
     },
     handleShowTime (param) {
       const getDate = str => {
