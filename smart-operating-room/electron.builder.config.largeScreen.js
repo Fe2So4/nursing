@@ -50,6 +50,6 @@ module.exports = {
     'installerHeaderIcon': 'build/icons/large_screen.ico',
     'createDesktopShortcut': true,
     'createStartMenuShortcut': true,
-    'shortcutName': 'large_screen'
+    'shortcutName': '术中大屏'
   }
 }

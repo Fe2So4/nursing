@@ -50,6 +50,6 @@ module.exports = {
     'installerHeaderIcon': 'build/icons/smart_nursing.ico',
     'createDesktopShortcut': true,
     'createStartMenuShortcut': true,
-    'shortcutName': 'smart_nursing'
+    'shortcutName': '智能护理'
   }
 }

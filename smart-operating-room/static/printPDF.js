@@ -24,7 +24,6 @@ ipcRenderer.on('print-page-ready-reply-test', (e, html, css, options) => {
   }, 500)
 })
 ipcRenderer.send('print-page-ready-test')
-console.log(11111111)
 let timeout = null
 function utilsDebounce (fn, wait) {
   if (timeout !== null) clearTimeout(timeout)

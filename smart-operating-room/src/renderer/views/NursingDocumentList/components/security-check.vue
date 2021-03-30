@@ -740,11 +740,11 @@ export default {
       if (res === '1') {
         this.utilsDebounce(() => {
           this.searchData()
-        }, 1000)
+        }, 200)
       } else if (res === '2') {
         this.utilsDebounce(() => {
           this.dayin()
-        }, 1000)
+        }, 200)
       } else if (res === '3') {
         this.htmlTitle =
           this.$store.state['nursing-document-list'].patientName +
@@ -752,7 +752,7 @@ export default {
         this.utilsDebounce(() => {
           // this.getPdf('security-check')
           this.daochuPDF()
-        }, 1000)
+        }, 200)
       }
     })
   },

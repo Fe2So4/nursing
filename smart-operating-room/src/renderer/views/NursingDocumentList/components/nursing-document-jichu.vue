@@ -354,11 +354,11 @@ export default {
       if (res === '1') {
         this.utilsDebounce(() => {
           this.search()
-        }, 300)
+        }, 200)
       } else if (res === '2') {
         this.utilsDebounce(() => {
           this.dayin()
-        }, 300)
+        }, 200)
       } else if (res === '3') {
         this.htmlTitle =
           this.$store.state['nursing-document-list'].patientName +
@@ -370,7 +370,7 @@ export default {
           // this.$electron.shell.openExternal('https://www.baidu.com/')
 
           this.daochuPDF()
-        }, 1000)
+        }, 200)
       }
     })
   },

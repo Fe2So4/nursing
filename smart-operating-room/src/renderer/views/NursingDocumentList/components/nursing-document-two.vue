@@ -917,7 +917,7 @@ export default {
         { text: '左侧俯卧位', value: '5' },
         { text: '右侧俯卧位', value: '6' },
         { text: '坐位', value: '7' },
-        { text: '俯卧位', value: '8' }
+        { text: '截石位', value: '8' }
       ],
       selectBody: [],
       deviceOption: [
@@ -943,11 +943,11 @@ export default {
       if (res === '1') {
         this.utilsDebounce(() => {
           this.getWenShuData()
-        }, 1000)
+        }, 200)
       } else if (res === '2') {
         this.utilsDebounce(() => {
           this.dayin()
-        }, 1000)
+        }, 200)
       } else if (res === '3') {
         this.htmlTitle =
           this.$store.state['nursing-document-list'].patientName +
@@ -955,7 +955,7 @@ export default {
         this.utilsDebounce(() => {
           //  this.getPdf('nursing-document-two')
           this.daochuPDF()
-        }, 1000)
+        }, 200)
       }
     })
   },

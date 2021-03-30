@@ -125,7 +125,7 @@ export default {
         {text: '左侧俯卧位', value: '5'},
         {text: '右侧俯卧位', value: '6'},
         {text: '坐位', value: '7'},
-        {text: '俯卧位', value: '8'}
+        {text: '截石位', value: '8'}
       ],
       deviceOptions: [
         {text: '肩垫', value: '1'},

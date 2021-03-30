@@ -1542,18 +1542,18 @@ export default {
       if (res === '1') {
         this.utilsDebounce(() => {
           this.getWenShuData()
-        }, 1000)
+        }, 200)
       } else if (res === '2') {
         this.utilsDebounce(() => {
           this.dayin()
-        }, 1000)
+        }, 200)
       } else if (res === '3') {
         this.htmlTitle =
           this.$store.state['nursing-document-list'].patientName + '转运交接单'
         this.utilsDebounce(() => {
           //  this.getPdf('transit-transfer')
           this.daochuPDF()
-        }, 1000)
+        }, 200)
       }
     })
     this.getWenShuData()

@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow, ipcMain, dialog } from 'electron'
+import { app, BrowserWindow, ipcMain, dialog, Notification } from 'electron'
 import { filePath as configJsonFilePath } from './ip'
 const { autoUpdater } = require('electron-updater')
 const Path = require('path')
@@ -215,8 +215,8 @@ app.on('ready', () => {
 const printPageURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9088/static/print.html`
   : Path.join(__dirname, '/static/print.html')
-const printWindows = new Set()
-const createPrintWindow = () => {
+const printWindows = new Map()
+const createPrintWindow = (html, css, options) => {
   let newPrintWindow = new BrowserWindow({
     show: false,
     // frame: false,
@@ -237,42 +237,42 @@ const createPrintWindow = () => {
     newPrintWindow = null
   })
 
-  printWindows.add(newPrintWindow)
+  printWindows.set(newPrintWindow, {
+    html,
+    css,
+    options
+  })
   return newPrintWindow
 }
-let printHtml = ''
-let cssFileName = ''
-let printWin = null
-let printOptions = null
 ipcMain.on('printChannel', (e, html, css, options) => {
-  printWin = createPrintWindow()
-  printHtml = html
-  cssFileName = css
-  printOptions = options
+  createPrintWindow(html, css, options)
 })
 
 ipcMain.on('print-page-ready', (e) => {
-  e.reply('print-page-ready-reply', printHtml, cssFileName, printOptions)
+  console.log(e.sender)
+  const win = BrowserWindow.fromWebContents(e.sender)
+  const {html, css, options} = printWindows.get(win)
+  e.reply('print-page-ready-reply', html, css, options)
 })
 
 ipcMain.on('print-content', (e, options) => {
-  // console.log(e, options)
   if (options) {
-    printWin.webContents.print(options, (success, errorType) => {
+    e.sender.print(options, (success, errorType) => {
       if (!success) {
-        console.log(errorType)
-        dialog.showMessageBox(printWin, {
+        dialog.showMessageBox(BrowserWindow.fromWebContents(e.sender), {
           type: 'info',
           title: '提示',
           message: '未完成打印'
         })
+      } else {
+        const notification = new Notification({
+          title: '已发送至打印机，请等待打印'
+        })
+        notification.show()
       }
-      // if (printWin) {
-      //   printWin.close()
-      // }
     })
   } else {
-    printWin.webContents.print()
+    e.sender.print()
   }
 // const options = { silent: true, landscape: true }
 })

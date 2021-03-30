@@ -50,6 +50,6 @@ module.exports = {
     'installerHeaderIcon': 'build/icons/order_screen.ico',
     'createDesktopShortcut': true,
     'createStartMenuShortcut': true,
-    'shortcutName': 'order_screen'
+    'shortcutName': '接单中心'
   }
 }
