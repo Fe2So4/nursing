@@ -159,7 +159,7 @@ export default {
     ...mapActions('Patient', ['getPatient']),
     onkeydown (e) {
       if (e.keyCode === 13) {
-        this.handleScan('OpsQRCode=19386706,OpsSchNo=428232')
+        this.handleScan('19377222')
       }
     },
     onClickLeft () {

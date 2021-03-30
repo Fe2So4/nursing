@@ -91,7 +91,6 @@ export default {
       clossAfter: 0,
       clossBefore: 0,
       sutureAfter: 0,
-
       checked: true,
       input: '',
       state: 0, // 清点状态
@@ -284,7 +283,7 @@ export default {
     getPackageList () {
       request({
         method: 'get',
-        url: getPackageData + `/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}/${this.patientInfo.operSchNo}`
+        url: `${getPackageData}/${this.patientInfo.hospitalNo}/${this.patientInfo.cureNo}/${this.patientInfo.operSchNo}`
       }).then(res => {
         let data = res.data.data
         if (!this.IsEmpty(data.basicEquipment)) {
@@ -388,6 +387,8 @@ export default {
               this.sign2 = data.xhFhQm
               break
           }
+        } else {
+          return this.saveData()
         }
       })
     },

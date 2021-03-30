@@ -11,26 +11,8 @@
     <PatientCard :radius="true"></PatientCard>
     <div class="list">
       <van-cell-group>
-        <van-cell
-          title="手术科室："
-          value=""
-          title-class="left-title"
-          value-class="right-value"
-        >
-          <template #right-icon>
-            <van-field v-model="recordForm.deptName"/>
-          </template>
-        </van-cell>
-        <van-cell
-          title="手术方式："
-          value=""
-          title-class="left-title"
-          value-class="right-value"
-        >
-          <template #right-icon>
-            <van-field v-model="recordForm.opsName" readonly/>
-          </template>
-        </van-cell>
+        <van-field v-model="recordForm.deptName" label="手术科室：" placeholder="请输入手术科室" />
+        <van-field v-model="recordForm.opsName" label="手术方式：" placeholder="请输入手术方式" />
       </van-cell-group>
       <van-cell-group style="margin-top: 15px">
         <van-cell title="手术类型：" value="">
@@ -101,19 +83,19 @@
           "
         >
           <template #right-icon>
-            <span class="mul-ellipsis">{{
+            <div class="mul-ellipsis">{{
                 handleFilterLabel({
                   list: "anesMethodOptions",
                   value: "anesthesiaMode",
                 })
-              }}</span>
+              }}</div>
             <!-- <van-icon name="play"/> -->
           </template>
         </van-cell>
         <van-cell
           title="手术体位："
           title-class="left-title"
-          value-class="right-value multipul-select"
+          value-class="right-value"
           value=""
           @click="
             handleShowDialog({
@@ -1536,7 +1518,7 @@ export default {
     }
 
     .van-dropdown-menu {
-      height: 100%;
+      //height: 100%;
 
       /deep/ .van-dropdown-menu__bar {
         height: 100%;

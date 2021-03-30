@@ -13,118 +13,98 @@
       <van-cell-group>
         <van-cell title="患者姓名、住院号、性别、年龄正确：" value="" value-class="first-cell van-cell-center">
           <template #right-icon>
-            <van-switch
-              v-model="recordForm[0].value"
-              active-color="#3478FF"
-              inactive-color="#E8E8E8"
-            />
+            <div class="switch-wrapper">
+              <van-switch
+                v-model="recordForm[0].value"
+                active-color="#3478FF"
+                inactive-color="#E8E8E8"
+              />
+            </div>
           </template>
         </van-cell>
         <van-cell title="实际手术方式确认：" value="" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch
-              v-model="recordForm[1].value"
-              active-color="#3478FF"
-              inactive-color="#E8E8E8"
-            />
+            <div class="switch-wrapper">
+              <van-switch
+                v-model="recordForm[1].value"
+                active-color="#3478FF"
+                inactive-color="#E8E8E8"
+              />
+            </div>
           </template>
         </van-cell>
         <van-cell title="手术部位、体位、标识正确：" value="" value-class="first-cell van-cell-center">
           <template #right-icon>
-            <van-switch
-              v-model="recordForm[2].value"
-              active-color="#3478FF"
-              inactive-color="#E8E8E8"
-            />
+            <div class="switch-wrapper">
+              <van-switch
+                v-model="recordForm[2].value"
+                active-color="#3478FF"
+                inactive-color="#E8E8E8"
+              />
+            </div>
           </template>
         </van-cell>
-        <van-cell title="手术用药、输血、冰冻报告的核查正确：" value="" title-class="first-cell" value-class="van-cell-center">
+        <van-cell title="手术用药、输血、冰冻报告的核查正确：" value="" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch
-              v-model="recordForm[3].value"
-              active-color="#3478FF"
-              inactive-color="#E8E8E8"
-            />
+            <div class="switch-wrapper">
+              <van-switch
+                v-model="recordForm[3].value"
+                active-color="#3478FF"
+                inactive-color="#E8E8E8"
+              />
+            </div>
           </template>
         </van-cell>
         <van-cell title="病理标本：" value="" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch
-              v-model="recordForm[4].value"
-              active-color="#3478FF"
-              inactive-color="#E8E8E8"
-            />
+            <div class="switch-wrapper">
+              <van-switch
+                v-model="recordForm[4].value"
+                active-color="#3478FF"
+                inactive-color="#E8E8E8"
+              />
+            </div>
           </template>
         </van-cell>
         <van-cell title="病理标本号核对正确：" value="" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch
-              v-model="recordForm[15].value"
-              active-color="#3478FF"
-              inactive-color="#E8E8E8"
-            />
+            <div class="switch-wrapper">
+              <van-switch
+                v-model="recordForm[15].value"
+                active-color="#3478FF"
+                inactive-color="#E8E8E8"
+              />
+            </div>
           </template>
         </van-cell>
         <van-cell title="手术用物清点正确：" value="" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch
-              v-model="recordForm[5].value"
-              active-color="#3478FF"
-              inactive-color="#E8E8E8"
-            />
+            <div class="switch-wrapper">
+              <van-switch
+                v-model="recordForm[5].value"
+                active-color="#3478FF"
+                inactive-color="#E8E8E8"
+              />
+            </div>
           </template>
         </van-cell>
         <van-cell title="皮肤是否完整：" value="" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch
-              v-model="recordForm[6].value"
-              active-color="#3478FF"
-              inactive-color="#E8E8E8"
-              @change="handleChange"
-            />
+            <div class="switch-wrapper">
+              <van-switch
+                v-model="recordForm[6].value"
+                active-color="#3478FF"
+                inactive-color="#E8E8E8"
+                @change="handleChange"
+              />
+            </div>
           </template>
         </van-cell>
         <van-cell-group v-show="!recordForm[6].value">
-          <van-cell
-            title="部位："
-            title-class="left-title"
-            value-class="right-value"
-          >
-            <template #right-icon>
-              <van-field
-                v-model="recordForm[6].items[0].value"
-                label=""
-                placeholder="请输入部位："
-                label-align="right"
-                input-align="right"
-              />
-            </template>
-          </van-cell>
-          <van-cell
-            title="程度："
-            title-class="left-title"
-            value-class="right-value"
-          >
-            <template #right-icon>
-              <van-field
-                v-model="recordForm[6].items[1].value"
-                label=""
-                placeholder="请输入程度："
-                label-align="right"
-                input-align="right"
-              />
-            </template>
-          </van-cell>
+          <van-field v-model="recordForm[6].items[0].value" label="部位：" placeholder="请输入部位" />
+          <van-field v-model="recordForm[6].items[1].value" label="程度：" placeholder="请输入程度" />
         </van-cell-group>
-        <van-cell title="其它：" value="" title-class="left-title" value-class="right-value">
-          <template #right-icon>
-            <van-field
-              v-model="recordForm[7].value"
-              label=""
-              placeholder="请输入其它："
-            />
-          </template>
-        </van-cell>
+        <van-field v-model="recordForm[7].value" label="其它：" placeholder="请输入其它" />
       </van-cell-group>
       <van-cell-group style="margin-top:15px;">
         <van-cell title="患者去向：" value="">
@@ -141,57 +121,69 @@
         </van-cell>
         <van-cell title="动脉通路：" value="" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch
-              v-model="recordForm[9].value"
-              active-color="#3478FF"
-              inactive-color="#E8E8E8"
-            />
+            <div class="switch-wrapper">
+              <van-switch
+                v-model="recordForm[9].value"
+                active-color="#3478FF"
+                inactive-color="#E8E8E8"
+              />
+            </div>
           </template>
         </van-cell>
         <van-cell title="静脉通路：" value="" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch
-              v-model="recordForm[10].value"
-              active-color="#3478FF"
-              inactive-color="#E8E8E8"
-            />
+            <div class="switch-wrapper">
+              <van-switch
+                v-model="recordForm[10].value"
+                active-color="#3478FF"
+                inactive-color="#E8E8E8"
+              />
+            </div>
           </template>
         </van-cell>
         <van-cell title="气管插管：" value="" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch
-              v-model="recordForm[11].value"
-              active-color="#3478FF"
-              inactive-color="#E8E8E8"
-            />
+            <div class="switch-wrapper">
+              <van-switch
+                v-model="recordForm[11].value"
+                active-color="#3478FF"
+                inactive-color="#E8E8E8"
+              />
+            </div>
           </template>
         </van-cell>
         <van-cell title="伤口引流：" value="" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch
-              v-model="recordForm[12].value"
-              active-color="#3478FF"
-              inactive-color="#E8E8E8"
-            />
+            <div class="switch-wrapper">
+              <van-switch
+                v-model="recordForm[12].value"
+                active-color="#3478FF"
+                inactive-color="#E8E8E8"
+              />
+            </div>
           </template>
         </van-cell>
         <van-cell title="胃管：" value="" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch
-              v-model="recordForm[13].value"
-              active-color="#3478FF"
-              inactive-color="#E8E8E8"
-            />
+            <div class="switch-wrapper">
+              <van-switch
+                v-model="recordForm[13].value"
+                active-color="#3478FF"
+                inactive-color="#E8E8E8"
+              />
+            </div>
           </template>
         </van-cell>
         <van-cell title="尿管：" value="" value-class="van-cell-center">
           <template #right-icon>
-            <van-switch
-              v-model="recordForm[14].value"
-              active-color="#3478FF"
-              inactive-color="#E8E8E8"
-              @change="handleChange"
-            />
+            <div class="switch-wrapper">
+              <van-switch
+                v-model="recordForm[14].value"
+                active-color="#3478FF"
+                inactive-color="#E8E8E8"
+                @change="handleChange"
+              />
+            </div>
           </template>
         </van-cell>
       </van-cell-group>
@@ -527,8 +519,8 @@ export default {
         padding-bottom: 0;
       }
     }
-    /deep/ .van-dropdown-menu {
-      height: 100%;
+    .van-dropdown-menu {
+      //height: 100%;
       .van-dropdown-menu__bar {
         height: 100%;
         box-shadow: unset;
@@ -566,6 +558,13 @@ export default {
         }
       }
     }
+  }
+}
+.switch-wrapper {
+  display: flex;
+  flex-direction: column;
+  .van-switch {
+    margin: auto;
   }
 }
 </style>
