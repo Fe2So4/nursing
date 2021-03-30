@@ -113,6 +113,16 @@
             查 询
           </vxe-button>
         </vxe-form-item>
+        <vxe-form-item>
+          <vxe-button
+            class="btn"
+            size="mini"
+            status="my-purple"
+            @click="onExport"
+          >
+            导出Excel
+          </vxe-button>
+        </vxe-form-item>
         <vxe-form-item v-if="isShow === 0">
           <vxe-button
             class="btn"
@@ -140,7 +150,8 @@
 
 <script>
 import Bus from '@/utils/bus.js'
-import {reqgetFloor} from '@/api/operation-orders/operation-orders'
+import {reqgetFloor, exportCouponList} from '@/api/operation-orders/operation-orders'
+// import exportExcel from "../../../utils/exportExcel";
 export default {
   name: 'StatisticalHeader',
   props: {
@@ -225,6 +236,13 @@ export default {
       this.$parent.isShow = 0
       this.$parent.getStatisticalTable(this.formData)
     },
+    onExport () {
+      let url = `${exportCouponList}?`
+      Object.entries(this.formData).forEach(([key, value]) => {
+        url += `${key}=${value}&`
+      })
+      this.$electron.shell.openExternal(url)
+    },
     // 预览
     yulan () {
       this.$parent.isShow = 1
@@ -238,7 +256,7 @@ export default {
         if (res.data.data) {
           return res.data.data
         } else {
-          return Promise.reject('未能获取到数据')
+          return Promise.reject(new Error('未能获取到数据'))
         }
       }).then(
         list => {

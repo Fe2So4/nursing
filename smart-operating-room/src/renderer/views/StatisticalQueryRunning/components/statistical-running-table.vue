@@ -255,21 +255,15 @@
             <th style="width:90px;text-align:left;">
               手术时间
             </th>
-            <!-- <th style="width:80px">
-              麻醉医师
-            </th> -->
             <th style="width:80px;text-align:left;">
               病区-科室
             </th>
-            <!-- <th style="width:80px">
-              洗手护士
+            <th style="width:60px;text-align:left;">
+              楼层
             </th>
-            <th style="width:80px">
-              主刀医师
+            <th style="width:60px;text-align:left;">
+              房间号
             </th>
-            <th style="width:80px">
-              巡回护士
-            </th> -->
             <th style="width:85px;text-align:left;">
               派单时间
             </th>
@@ -300,9 +294,6 @@
             <th style="width:85px;text-align:left;">
               离开手术室前时间
             </th>
-            <!-- <th style="width:85px;text-align:left;">
-              出手术室时间
-            </th> -->
             <th style="width:85px;text-align:left;">
               术后入pacu时间
             </th>
@@ -336,6 +327,12 @@
             </td> -->
             <td style="width:85px;textAlign:left">
               {{ item.categpry || '' }}
+            </td>
+            <td style="textAlign:center">
+              {{ item.floor || '' }}
+            </td>
+            <td style="textAlign:center">
+              {{ item.roomNo || '' }}
             </td>
             <!-- <td style="width:80px;textAlign:left">
               {{ item.washNurseName || '' }}

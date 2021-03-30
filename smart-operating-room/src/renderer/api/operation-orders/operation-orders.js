@@ -1,5 +1,6 @@
 import request from '@/utils/request'
 import noTimeRequest from '@/utils/noTimeRequest'
+
 const config = require('@/config/url.js')
 
 // 获取楼层列表
@@ -131,6 +132,16 @@ export const reqsyncOperScheduleInfo = (obj) => {
   return noTimeRequest({
     url: reqsyncOperScheduleInfoUrl,
     method: 'post',
+    params: obj
+  })
+}
+
+// 导出Excel
+export const exportCouponList = `${config.default.api.baseURL}/ocis/statisticalQuery/download/exportCouponList`
+export const exportExcel = (obj) => {
+  return noTimeRequest({
+    url: exportCouponList,
+    method: 'get',
     params: obj
   })
 }
