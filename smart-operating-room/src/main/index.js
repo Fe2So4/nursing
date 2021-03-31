@@ -105,7 +105,7 @@ const checkForUpdates = () => {
   // 执行更新检查
   if (process.env.NODE_ENV === 'development') {
     // 调试环境必须主动设置当前版本，electron-update有bug会去取electron的版本,而不是app的版本
-    autoUpdater.currentVersion = '1.0.0'
+    autoUpdater.currentVersion = '1.0.3'
     autoUpdater.updateConfigPath = Path.join(__dirname, '../../build/win-unpacked/resources/app-update.yml')
   } else {
     // autoUpdater.updateConfigPath = Path.join(__filename, '../../build/win-unpacked/resources/app-update.yml')
