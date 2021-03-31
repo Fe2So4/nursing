@@ -41,8 +41,8 @@
                   <template #right-icon>
                     <span v-show="!item.isEnsure">确认数量</span>
                     <div class="stepper-content" style="display:flex;justify-content:flex-end;">
-<!--                     <span class="all-number"
-                            v-show="active === 5 || active === 6 || active === 7">{{ _item[_item.type] }}</span>-->
+                      <!--                     <span class="all-number"
+                                                  v-show="active === 5 || active === 6 || active === 7">{{ _item[_item.type] }}</span>-->
                       <van-stepper v-show="item.isEnsure" v-model="_item.number" theme="round" min="0"/>
                     </div>
                   </template>
@@ -87,7 +87,8 @@ import {getPackage, getPackageDataSpecial, savePackageDataSpecial} from '@/api/d
 import request from '@/utils/request'
 import {mapState} from 'vuex'
 import $bus from '@/utils/bus'
-import { v4 as uuidv4 } from 'uuid'
+import {v4 as uuidv4} from 'uuid'
+
 export default {
   name: 'DeviceList',
   data () {
@@ -803,14 +804,13 @@ export default {
 .van-stepper {
   white-space: nowrap;
 }
+
 .device-list {
   height: 100%;
 
   .van-nav-bar {
     height: 100px;
     background: linear-gradient(90deg, #666666, #303030);
-    position: sticky;
-    top: 0;
 
     /deep/ .van-nav-bar__title {
       color: #ffffff;
@@ -863,6 +863,7 @@ export default {
         flex: 1;
         height: 100%;
         font-size: 30px;
+        width: calc(100% - 200px);
 
         .title {
           display: flex;
@@ -873,182 +874,229 @@ export default {
           border-top: 1PX solid #e2e2e2;
 
           .title-left {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: auto 0 1;
+          }
 
-            }
-            .title-right{
-              color: #10C15B;
-            }
+          .title-right {
+            flex: auto 1 0;
+            text-align: right;
+            color: #10C15B;
           }
-          .packageContent{
-            height: calc(100% - 125px);
-            overflow-y: auto;
-            .package{
-              .packageItem{
-                background: #ffffff;
-                border-bottom:1PX solid #e2e2e2;
-                border-top:1PX solid #e2e2e2;
-                line-height: 90px;
-                display: flex;
-                justify-content: space-between;
-                padding: 10px 15px 10px 15px;
-                .packageName{
-                  color: #3377FF;
-                }
-                .ensure-option{
-                  color: #3377FF;
-                  margin-right: 20px;
-                }
-                .option{
-                  color: red;
-                }
-                &.package-item-between{
-                  justify-content: space-between;
-                }
-              }
-              .packageItemList{
-                display: block;
-              }
-            }
-            .sign-class{
-              color:#10ce5a;
-              line-height: 90px;
-              margin-left: 15px;
-            }
-            .sign-value{
-              line-height: 90px;
-              color: #0000ff;
-              margin-left: 30px;
-            }
-            .sign{
-              background: #FFFFFF;
-              &:nth-last-child(1){
-                border-top: 1PX solid #e2e2e2;
-              }
-            }
-          }
-          ul{
-            height: calc(100% - 124px);
-            li{
+        }
+
+        .packageContent {
+          height: calc(100% - 125px);
+          overflow-y: auto;
+
+          .package {
+            .packageItem {
               background: #ffffff;
-              border-bottom:1PX solid #e2e2e2;
+              border-bottom: 1PX solid #e2e2e2;
+              border-top: 1PX solid #e2e2e2;
               line-height: 90px;
               display: flex;
-              padding: 0 15px 0 15px;
-              &.package{
+              justify-content: space-between;
+              padding: 10px 15px 10px 15px;
+
+              .packageName {
+                color: #3377FF;
+              }
+
+              .ensure-option {
+                color: #3377FF;
+                margin-right: 20px;
+              }
+
+              .option {
+                color: red;
+              }
+
+              &.package-item-between {
                 justify-content: space-between;
               }
             }
-            .sign-class{
-              color: hsl(145, 85%, 41%);
-              line-height: 90px;
-              text-indent: 15px;
+
+            .packageItemList {
+              display: block;
             }
-            .sign-value{
-              line-height: 90px;
-              color: #0000ff;
-              margin-left: 30px;
+          }
+
+          .sign-class {
+            color: #10ce5a;
+            line-height: 90px;
+            margin-left: 15px;
+          }
+
+          .sign-value {
+            line-height: 90px;
+            color: #0000ff;
+            margin-left: 30px;
+          }
+
+          .sign {
+            background: #FFFFFF;
+
+            &:nth-last-child(1) {
+              border-top: 1PX solid #e2e2e2;
             }
           }
         }
-      }
-    }
-    .van-cell{
-      line-height: 94px;
-      color: #2E2E2E;
-      font-size: 30px;
-      &::after{
-        border-color: #E2E2E2;
-      }
-      .first-cell{
-        flex: unset;
-        max-width: 220px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        &.un-ensure{
-          color: red;
-        }
-      }
-      .all-number{
-        color: #3377ff !important;
-        margin-right:60px;
-      }
-      .left-title{
-        flex: unset;
-      }
-      .value-cell{
-        color: #10C15B;
-      }
-      .right-value{
-        .van-field{
-          padding-top: 0;
-          padding-bottom: 0;
-        }
-      }
-    }
-    .van-cell-group{
-      &:last-child{
-        height: calc(100% - 114px);
-        overflow-y: auto;
-      }
-    }
-    .list-item{
-      height: 100%;
-      p{
-        height: 100%;
-      }
-    }
-    /deep/ .van-stepper{
-      button{
-        height: 50px;
-        width: 50px;
-      }
-      input{
-        width: 90px;
-        height: 50px;
-      }
-      /deep/ .van-stepper__input{
-        font-size: 30px;
-      }
-      /deep/ .van-stepper__minus{
-        color: #3377FF;
-        border-color: #3377FF;
-        border: 2px solid #3377FF;
-        box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.15);
-        &::before{
-          height: 3px;
-        }
-      }
-      /deep/ .van-stepper__plus{
-        background-color: #3377FF;
-        &::before{
-          height: 3px;
-        }
-        &::after{
-          width: 3px;
-        }
-      }
-    }
-    .clearBox{
-      height: 400px;
-      overflow-y: auto;
-      ul{
-        height: 100%;
-        .packageName{
-          padding:0 40px;
-          span{
-            color: #3377FF;
-          }
-        }
-        .clearItem{
-          padding:0 40px;
-          p{
+
+        ul {
+          height: calc(100% - 124px);
+
+          li {
+            background: #ffffff;
+            border-bottom: 1PX solid #e2e2e2;
+            line-height: 90px;
             display: flex;
-            line-height: 60px;
-            justify-content: space-between;
+            padding: 0 15px 0 15px;
+
+            &.package {
+              justify-content: space-between;
+            }
+          }
+
+          .sign-class {
+            color: hsl(145, 85%, 41%);
+            line-height: 90px;
+            text-indent: 15px;
+          }
+
+          .sign-value {
+            line-height: 90px;
+            color: #0000ff;
+            margin-left: 30px;
           }
         }
       }
     }
   }
+
+  .van-cell {
+    line-height: 94px;
+    color: #2E2E2E;
+    font-size: 30px;
+
+    &::after {
+      border-color: #E2E2E2;
+    }
+
+    .first-cell {
+      flex: unset;
+      max-width: 220px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      &.un-ensure {
+        color: red;
+      }
+    }
+
+    .all-number {
+      color: #3377ff !important;
+      margin-right: 60px;
+    }
+
+    .left-title {
+      flex: unset;
+    }
+
+    .value-cell {
+      color: #10C15B;
+    }
+
+    .right-value {
+      .van-field {
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+    }
+  }
+
+  .van-cell-group {
+    &:last-child {
+      height: calc(100% - 114px);
+      overflow-y: auto;
+    }
+  }
+
+  .list-item {
+    height: 100%;
+
+    p {
+      height: 100%;
+    }
+  }
+
+  /deep/ .van-stepper {
+    button {
+      height: 50px;
+      width: 50px;
+    }
+
+    input {
+      width: 90px;
+      height: 50px;
+    }
+
+    /deep/ .van-stepper__input {
+      font-size: 30px;
+    }
+
+    /deep/ .van-stepper__minus {
+      color: #3377FF;
+      border-color: #3377FF;
+      border: 2px solid #3377FF;
+      box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.15);
+
+      &::before {
+        height: 3px;
+      }
+    }
+
+    /deep/ .van-stepper__plus {
+      background-color: #3377FF;
+
+      &::before {
+        height: 3px;
+      }
+
+      &::after {
+        width: 3px;
+      }
+    }
+  }
+
+  .clearBox {
+    height: 400px;
+    overflow-y: auto;
+
+    ul {
+      height: 100%;
+
+      .packageName {
+        padding: 0 40px;
+
+        span {
+          color: #3377FF;
+        }
+      }
+
+      .clearItem {
+        padding: 0 40px;
+
+        p {
+          display: flex;
+          line-height: 60px;
+          justify-content: space-between;
+        }
+      }
+    }
+  }
+}
 </style>

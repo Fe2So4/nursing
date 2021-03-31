@@ -272,7 +272,6 @@ export default {
       currentSign: null,
       showFullSkin: true,
       visible: false,
-      // time: moment(new Date()).format('YYYY-MM-DD HH:mm'),
       anesBeforeAnesDoc: '',
       anesBeforeOperDoc: '',
       anesBeforeNurse: '',
@@ -304,7 +303,7 @@ export default {
         { key: '其它', value: '', sort: '16' },
         {
           key: '核查时间',
-          value: moment(new Date()).format('YYYY-MM-DD HH:mm'),
+          value: '',
           sort: '17'
         }
       ]
@@ -352,23 +351,6 @@ export default {
     },
     saveData () {
       let arr = JSON.parse(JSON.stringify(this.recordForm))
-      let state = ''
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i].key === '其它') {
-        } else {
-          if (
-            !arr[i].value ||
-            this.anesBeforeAnesDoc === '' ||
-            this.anesBeforeOperDoc === '' ||
-            this.anesBeforeNurse === ''
-          ) {
-            state = '1'
-            break
-          } else {
-            state = '2'
-          }
-        }
-      }
       arr.forEach((item) => {
         if (item.key === '其它' || item.key === '核查时间') {
         } else {
@@ -379,6 +361,15 @@ export default {
           }
         }
       })
+      // 根据三个签名决定当前状态
+      let state = '1'
+      if (
+        this.anesBeforeAnesDoc &&
+        this.anesBeforeOperDoc &&
+        this.anesBeforeNurse
+      ) {
+        state = '2'
+      }
       return request({
         method: 'post',
         url: submitSignIn,
@@ -433,7 +424,7 @@ export default {
           if (data.anesBeforeNurse) {
             this.anesBeforeNurse = data.anesBeforeNurse
           }
-          this.time = data.anesBeforeChkTime
+
           if (data.anesBeforeCheck.length > 0) {
             data.anesBeforeCheck.forEach((item) => {
               if (item.key === '其它' || item.key === '核查时间') {
@@ -446,6 +437,10 @@ export default {
               }
             })
             this.recordForm = data.anesBeforeCheck
+            // 核查时间取anesBeforeChkTime
+            this.recordForm[16].value = data.anesBeforeChkTime
+          } else {
+            this.recordForm = ''
           }
         }
       })

@@ -281,18 +281,6 @@ export default {
     },
     saveData () {
       let arr = JSON.parse(JSON.stringify(this.recordForm))
-      let state = ''
-      for (var i = 0; i < arr.length; i++) {
-        if (arr[i].key === '其它') {
-        } else {
-          if (!arr[i].value) {
-            state = '1'
-            break
-          } else {
-            state = '2'
-          }
-        }
-      }
       arr.forEach((item) => {
         if (item.key === '其它') {
         } else {
@@ -303,6 +291,15 @@ export default {
           }
         }
       })
+      // 根据三个签名决定当前状态
+      let state = '1'
+      if (
+        this.anesBeforeAnesDoc &&
+        this.anesBeforeOperDoc &&
+        this.anesBeforeNurse
+      ) {
+        state = '2'
+      }
       return request({
         method: 'post',
         url: submitTimeout,

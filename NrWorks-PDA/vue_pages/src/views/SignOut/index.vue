@@ -324,14 +324,10 @@ export default {
           }
         }
       })
-      let state = ''
-      for (var i = 0; i < arr.length; i++) {
-        if (arr[i].value === '否') {
-          state = '1'
-          break
-        } else {
-          state = '2'
-        }
+      // 根据三个签名决定当前状态
+      let state = '1'
+      if (this.anesBeforeAnesDoc && this.anesBeforeNurse && this.anesBeforeOperDoc) {
+        state = '2'
       }
       return request({
         method: 'post',

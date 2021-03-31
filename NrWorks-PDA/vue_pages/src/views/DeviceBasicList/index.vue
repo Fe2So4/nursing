@@ -32,7 +32,7 @@
                         :title-class="{'first-cell':true,'un-ensure':changeColor(item)}" border>
                 <template #right-icon>
                   <div class="stepper-content" style="display:flex;justify-content:flex-end;">
-<!--                    <span class="all-number" v-if="active === 5 || active === 6 || active === 7">{{ item.count }}</span>-->
+                    <!--                    <span class="all-number" v-if="active === 5 || active === 6 || active === 7">{{ item.count }}</span>-->
                     <van-stepper v-model="item.number" theme="round" min='0'/>
                   </div>
                 </template>
@@ -943,14 +943,13 @@ export default {
 .van-stepper {
   white-space: nowrap;
 }
+
 .device-list {
   height: 100%;
 
   .van-nav-bar {
     height: 100px;
     background: linear-gradient(90deg, #666666, #303030);
-    position: sticky;
-    top: 0;
 
     /deep/ .van-nav-bar__title {
       color: #ffffff;
@@ -1003,6 +1002,7 @@ export default {
         flex: 1;
         height: 100%;
         font-size: 30px;
+        width: calc(100% - 200px);
 
         .title {
           display: flex;
@@ -1013,10 +1013,15 @@ export default {
           border-top: 1PX solid #e2e2e2;
 
           .title-left {
-
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: auto 0 1;
           }
 
           .title-right {
+            flex: auto 1 0;
+            text-align: right;
             color: #10C15B;
           }
         }

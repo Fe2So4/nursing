@@ -152,14 +152,15 @@ export default {
     // 移除 <div> 事件句柄
     document.removeEventListener('deviceready', this.onDeviceReady)
     if (process.env.NODE_ENV === 'development') {
-      document.addEventListener('keydown', this.onkeydown)
+      document.removeEventListener('keydown', this.onkeydown)
     }
   },
   methods: {
     ...mapActions('Patient', ['getPatient']),
     onkeydown (e) {
       if (e.keyCode === 13) {
-        this.handleScan('19382924')
+        // 模拟扫码
+        this.handleScan('19409453')
       }
     },
     onClickLeft () {
@@ -356,9 +357,7 @@ export default {
   height: 100%;
   .van-nav-bar {
     height: 100px;
-    position: sticky;
-    top: 0;
-    // background: linear-gradient(90deg, #666666, #303030);
+
     /deep/ .van-nav-bar__title {
       font-size: 34px;
       line-height: 100px;

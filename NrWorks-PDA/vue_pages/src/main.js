@@ -49,7 +49,10 @@ Vue.use(Stepper)
 Vue.use(Radio)
 Vue.use(RadioGroup)
 // Vue.use(VueSignaturePad)
-
+// 设置提示时间
+Notify.setDefaultOptions({
+  duration: 500
+})
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
