@@ -440,7 +440,7 @@ export default {
             // 核查时间取anesBeforeChkTime
             this.recordForm[16].value = data.anesBeforeChkTime
           } else {
-            this.recordForm = ''
+            this.recordForm[16].value = ''
           }
         }
       })
