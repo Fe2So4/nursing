@@ -1,7 +1,8 @@
 'use strict'
 
-import { app, BrowserWindow, ipcMain, dialog, Notification } from 'electron'
+import { app, BrowserWindow, ipcMain, dialog } from 'electron'
 import { filePath as configJsonFilePath } from './ip'
+import './print'
 const { autoUpdater } = require('electron-updater')
 const Path = require('path')
 const fs = require('fs')
@@ -210,72 +211,6 @@ app.on('ready', () => {
   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
 })
  */
-
-// 新建打印窗口
-const printPageURL = process.env.NODE_ENV === 'development'
-  ? `http://localhost:9088/static/print.html`
-  : Path.join(__dirname, '/static/print.html')
-const printWindows = new Map()
-const createPrintWindow = (html, css, options) => {
-  let newPrintWindow = new BrowserWindow({
-    show: false,
-    // frame: false,
-    webPreferences: {
-      webSecurity: false,
-      nodeIntegration: true
-    }
-  })
-
-  newPrintWindow.loadURL(printPageURL)
-  // loadURL(`file://${__dirname}/app/index.html`)
-  newPrintWindow.once('ready-to-show', () => {
-  // newPrintWindow.show()
-  })
-
-  newPrintWindow.on('closed', () => {
-    printWindows.delete(newPrintWindow)
-    newPrintWindow = null
-  })
-
-  printWindows.set(newPrintWindow, {
-    html,
-    css,
-    options
-  })
-  return newPrintWindow
-}
-ipcMain.on('printChannel', (e, html, css, options) => {
-  createPrintWindow(html, css, options)
-})
-
-ipcMain.on('print-page-ready', (e) => {
-  console.log(e.sender)
-  const win = BrowserWindow.fromWebContents(e.sender)
-  const {html, css, options} = printWindows.get(win)
-  e.reply('print-page-ready-reply', html, css, options)
-})
-
-ipcMain.on('print-content', (e, options) => {
-  if (options) {
-    e.sender.print(options, (success, errorType) => {
-      if (!success) {
-        dialog.showMessageBox(BrowserWindow.fromWebContents(e.sender), {
-          type: 'info',
-          title: '提示',
-          message: '未完成打印'
-        })
-      } else {
-        const notification = new Notification({
-          title: '已发送至打印机，请等待打印'
-        })
-        notification.show()
-      }
-    })
-  } else {
-    e.sender.print()
-  }
-// const options = { silent: true, landscape: true }
-})
 
 // 新建导出窗口
 const printPagePDFURL = process.env.NODE_ENV === 'development'
