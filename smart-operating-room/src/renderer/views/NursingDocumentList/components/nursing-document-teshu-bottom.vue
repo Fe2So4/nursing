@@ -1,7 +1,7 @@
 <template>
   <div class="nursing-teshu-container-bottom">
     <div class="container-title">
-      复旦大学附属华山医院
+      福建医科大学附属第一医院
     </div>
     <div class="wenben-content-info mgt10">
       <div class="info-content-container">

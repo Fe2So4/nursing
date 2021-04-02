@@ -5,7 +5,7 @@
   >
     <div class="wenben-content">
       <div class="wenben-content-title">
-        <span>复旦大学附属华山医院</span>
+        <span>福建医科大学附属第一医院</span>
       </div>
       <div class="wenben-content-info">
         <div class="info-content-title">

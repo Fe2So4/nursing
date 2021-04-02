@@ -2,7 +2,7 @@ module.exports = {
   'productName': '接单中心',
   'appId': 'order-screen',
   'directories': {
-    'output': 'build/order-screen'
+    'output': 'build/fj-order-screen'
   },
   'publish': [
     {

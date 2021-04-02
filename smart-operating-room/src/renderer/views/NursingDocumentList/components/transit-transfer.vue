@@ -9,7 +9,7 @@
           <thead style="display: table-header-group;">
             <tr>
               <div class="container-title">
-                <span>复旦大学附属华山医院</span>
+                <span>福建医科大学附属第一医院</span>
                 <span class="title-right">患者转运交接单</span>
               </div>
               <div class="context1 mgt10">

@@ -2,7 +2,7 @@ module.exports = {
   'productName': '术中大屏',
   'appId': 'large-screen',
   'directories': {
-    'output': 'build/large-screen'
+    'output': 'build/fj-large-screen'
   },
   'publish': [
     {

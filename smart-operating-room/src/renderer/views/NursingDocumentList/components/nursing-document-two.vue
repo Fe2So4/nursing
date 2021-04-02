@@ -7,7 +7,7 @@
       <table>
         <thead style="display: table-header-group;">
           <div class="container-title">
-            复旦大学附属华山医院
+            福建医科大学附属第一医院
           </div>
           <div class="info-content-title">
             手术病人护理记录单(二)

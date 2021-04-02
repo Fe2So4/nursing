@@ -29,7 +29,7 @@
             style="text-align:center;height: 20px;
           font-weight:bold;font-size:24px;"
           >
-            华山医院
+            福建医科大学附属第一医院
           </td>
         </tr>
 

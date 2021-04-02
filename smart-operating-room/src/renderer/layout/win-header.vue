@@ -2,7 +2,7 @@
   <div class="layout-header">
     <div class="left">
       <img
-        src="../assets/logo-tq1.png"
+        src="../assets/logo-tq.png"
         alt=""
       >
       <span>Dandelion 智慧手术中心<i />临床护理</span>

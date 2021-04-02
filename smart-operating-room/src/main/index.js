@@ -6,9 +6,9 @@ import './print'
 const { autoUpdater } = require('electron-updater')
 const Path = require('path')
 const fs = require('fs')
-const feedUrl = 'http://128.0.18.38:8080/nursing/smartnursing'
+// const feedUrl = 'http://128.0.18.38:8080/nursing/smartnursing'
 // const feedUrl = 'http://128.0.18.38:8080/nursing/largescreen'
-// const feedUrl = 'http://128.0.18.38:8080/nursing/orderscreen'
+const feedUrl = 'http://128.0.18.38:8080/nursing/orderscreen'
 // const feedUrl = 'http://localhost:9088/build'
 // import '../renderer/store'
 /**

@@ -2,7 +2,7 @@
   <div class="layout-header">
     <div class="left">
       <img
-        src="../assets/logo-tq1.png"
+        src="../assets/logo-tq.png"
         alt=""
         @click="
           () => {
