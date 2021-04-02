@@ -22,10 +22,62 @@ npm test
 npm run lint
 
 ```
-
-```
-
 # 目录列表
+```
+|-- .electron-vue
+|-- build
+|-- dev-tools
+|-- dist
+|-- node_modules
+|-- src
+|   |-- main
+|   |   |-- index.dev.js
+|   |   |-- index.js
+|   |   |-- ip.js
+|   |   |-- print.js
+|   |-- renderer
+|   |   |-- api
+|   |   |-- assets
+|   |   |-- components
+|   |   |-- config
+|   |   |-- layout
+|   |   |-- router
+|   |   |-- routerLargeScreen 术中大屏路由配置
+|   |   |-- routerOrderScreen 接单大屏路由配置
+|   |   |-- store
+|   |   |-- styles
+|   |   |-- utils
+|   |   |-- views
+|   |   |   |-- ContinuousSurgery 连台手术
+|   |   |   |-- LargeScreen 术中大屏
+|   |   |   |-- Login 登录
+|   |   |   |-- NursingDocument 护理记录
+|   |   |   |-- NursingDocumentList 护理记录-护理文书
+|   |   |   |-- OperationOrders
+|   |   |   |-- PathologicalApplication 病理申请
+|   |   |   |-- ReceivingOrders
+|   |   |   |-- StatisticalQuery
+|   |   |   |-- StatisticalQueryRunning
+|   |   |   |-- SurgeryListing
+|   |   |-- App.vue
+|   |   |-- main.js
+|   |   |-- mainLargeScreen.js
+|   |   |-- mainOrderScreen.js
+|   |-- index.ejs
+|-- static
+|-- test
+|-- .babelrc
+|-- .eslintignore
+|-- .eslintrc.js
+|-- .gitignore
+|-- .travis.yml
+|-- appveyor.yml
+|-- electron.builder.config.largeScreen.js
+|-- electron.builder.config.orderScreen.js
+|-- electron.builder.config.smartNursing.js
+|-- package.js
+|-- package-lock.js
+|-- README.md
 # LargeScreen --术中大屏
 # OperationOrders --手术派单
 # ReceivingOders --接单中心
