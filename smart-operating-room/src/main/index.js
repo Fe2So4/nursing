@@ -1,11 +1,11 @@
 'use strict'
 
-import { app, BrowserWindow, ipcMain, dialog } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 import { filePath as configJsonFilePath } from './ip'
 import './print'
+import './printPDF'
 const { autoUpdater } = require('electron-updater')
 const Path = require('path')
-const fs = require('fs')
 const feedUrl = 'http://128.0.18.38:8080/nursing/smartnursing'
 // const feedUrl = 'http://128.0.18.38:8080/nursing/largescreen'
 // const feedUrl = 'http://128.0.18.38:8080/nursing/orderscreen'
@@ -211,65 +211,6 @@ app.on('ready', () => {
   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
 })
  */
-
-// 新建导出窗口
-const printPagePDFURL = process.env.NODE_ENV === 'development'
-  ? `http://localhost:9088/static/printPDF.html`
-  : Path.join(__dirname, '/static/printPDF.html')
-const printPDFWindows = new Set()
-const createPrintPDFWindow = () => {
-  let newPrintPDFWindow = new BrowserWindow({
-    show: false,
-    webPreferences: {
-      webSecurity: false,
-      nodeIntegration: true
-    }
-  })
-
-  newPrintPDFWindow.loadURL(printPagePDFURL)
-  // loadURL(`file://${__dirname}/app/index.html`)
-  newPrintPDFWindow.once('ready-to-show', () => {
-  // newPrintWindow.show()
-  })
-
-  newPrintPDFWindow.on('closed', () => {
-    printPDFWindows.delete(newPrintPDFWindow)
-    newPrintPDFWindow = null
-  })
-
-  printPDFWindows.add(newPrintPDFWindow)
-  return newPrintPDFWindow
-}
-let printPDFHtml = ''
-let cssFilePDFName = ''
-let printPDFWin = null
-let printPDFOptions = null
-ipcMain.on('printpdfChannel', (e, html, css, options) => {
-  printPDFWin = createPrintPDFWindow()
-  printPDFHtml = html
-  cssFilePDFName = css
-  printPDFOptions = options
-})
-
-ipcMain.on('print-page-ready-test', (e) => {
-  e.reply('print-page-ready-reply-test', printPDFHtml, cssFilePDFName, printPDFOptions)
-})
-
-ipcMain.on('did-finish-load', (e, options, a) => {
-  console.log('A', a)
-  var filename = a + '.pdf'
-  var dir = dialog.showSaveDialogSync({ defaultPath: filename, showsTagField: false })
-
-  printPDFWin.webContents.printToPDF({}, (error, data) => {
-    if (error) throw error // 写文件
-    fs.writeFileSync(dir, data)
-    if (printPDFWin) {
-      printPDFWin.close()
-    }
-  })
-
-// const options = { silent: true, landscape: true }
-})
 
 // 监听配置文件修改
 const chokidar = require('chokidar')
