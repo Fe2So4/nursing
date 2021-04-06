@@ -17,14 +17,14 @@
       >
         刷 新
       </vxe-button>
-      <vxe-button
+      <!--      <vxe-button
         class="btn"
         size="mini"
         status="my-purple"
         @click="headerHandle('2')"
       >
         打 印
-      </vxe-button>
+      </vxe-button>-->
       <vxe-button
         class="btn"
         size="mini"
@@ -33,18 +33,42 @@
       >
         PDF
       </vxe-button>
+      <vxe-button
+        class="btn"
+        size="mini"
+        status="my-purple"
+        @click="onSelectDocument"
+      >
+        打印文档
+      </vxe-button>
     </div>
+    <DialogSelectDocument
+      :visible.sync="visibleSelectDocument"
+    />
   </div>
 </template>
 
 <script>
 import Bus from '@/utils/bus.js'
+import DialogSelectDocument from './DialogSelectDocument'
 export default {
   name: 'NursingHeader',
+  components: {DialogSelectDocument},
   data () {
     return {
       UserName: '',
-      num: ''
+      num: '',
+      visibleSelectDocument: true
+    }
+  },
+  computed: {
+    // 获取用户姓名
+    ListeningName () {
+      return this.$store.state['nursing-document-list'].patientName
+    },
+    // 获取用住院号
+    ListeningNo () {
+      return this.$store.state['nursing-document-list'].hospitalNo
     }
   },
   methods: {
@@ -88,16 +112,9 @@ export default {
           Bus.$emit('clickShuaXinTransit', '3')
         }
       }
-    }
-  },
-  computed: {
-    // 获取用户姓名
-    ListeningName () {
-      return this.$store.state['nursing-document-list'].patientName
     },
-    // 获取用住院号
-    ListeningNo () {
-      return this.$store.state['nursing-document-list'].hospitalNo
+    onSelectDocument () {
+      this.visibleSelectDocument = true
     }
   }
 }

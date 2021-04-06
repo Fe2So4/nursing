@@ -4,7 +4,8 @@
   min-width: 824px;
   min-height: 920px;
   background-color: #fff;
-  padding: 10px;
+  page-break-after: always;
+  margin: auto;
 }
 
 .nursing-jichu-container .container-title {
@@ -83,102 +84,102 @@
   display: flex;
 }
 
-img {
+.nursing-jichu-container img {
   height: 25px;
 }
 
-.input-div {
+.nursing-jichu-container .input-div {
   display: flex;
 }
 
-.input-div .input-div-context {
+.nursing-jichu-container .input-div .input-div-context {
   padding: 0 5px;
   width: 100px;
   border-bottom: 1px solid #000;
 }
 
-.input-div .input-div-context-120 {
+.nursing-jichu-container .input-div .input-div-context-120 {
   text-align: center;
   padding: 0 5px;
   width: 140px;
   border-bottom: 1px solid #000;
 }
 
-.input-div .input-div-context-noborder {
+.nursing-jichu-container .input-div .input-div-context-noborder {
   padding: 0 5px;
   width: 100px;
 }
 
-.input-div .input-div-context-short {
+.nursing-jichu-container .input-div .input-div-context-short {
   padding: 0 5px;
   width: 80px;
   border-bottom: 1px solid #000;
 }
 
-.input-div .input-div-context-short-60 {
+.nursing-jichu-container .input-div .input-div-context-short-60 {
   padding: 0 5px;
   width: 60px;
   border-bottom: 1px solid #000;
 }
 
-.input-div .input-div-context-long {
+.nursing-jichu-container .input-div .input-div-context-long {
   padding: 0 5px;
   width: 380px;
   border-bottom: 1px solid #000;
 }
 
-.mgt10 {
+.nursing-jichu-container .mgt10 {
   margin-top: 10px;
 }
 
-.mgt20 {
+.nursing-jichu-container .mgt20 {
   margin-top: 10px;
 }
 
-.mgl50 {
+.nursing-jichu-container .mgl50 {
   margin-left: 50px;
 }
 
-.mgl5 {
+.nursing-jichu-container .mgl5 {
   margin-left: 5px;
 }
 
-.row-line {
+.nursing-jichu-container .row-line {
   width: 140px;
   height: 1px;
   background-color: #000;
   transform: rotate(-155deg);
 }
 
-.line {
+.nursing-jichu-container .line {
   width: 250px;
   height: 1px;
   background-color: #000;
 }
 
-.td-div {
+.nursing-jichu-container .td-div {
   display: flex;
 }
 
-.td-center {
+.nursing-jichu-container .td-center {
   width: 60px;
   margin-left: 50%;
   transform: translateX(-50%);
 }
 
-.td-text-center {
+.nursing-jichu-container .td-text-center {
   text-align: center;
 }
 
-.border-right1 {
+.nursing-jichu-container .border-right1 {
   border-right: 1px solid grey;
 }
 
-label {
+.nursing-jichu-container label {
   font-weight: normal;
 }
 
-.el-input__inner {
+.nursing-jichu-container .el-input__inner {
   font-size: 14px;
   padding: 0 10px;
   border: none;
@@ -186,22 +187,22 @@ label {
   border-bottom: 1px solid #000;
 }
 
-.el-input--mini .el-input__inner {
+.nursing-jichu-container .el-input--mini .el-input__inner {
   height: 20px;
   line-height: 20px;
 }
 
-.el-input.is-disabled .el-input__inner {
+.nursing-jichu-container .el-input.is-disabled .el-input__inner {
   background-color: unset;
   border-color: unset;
   cursor: auto;
   color: unset;
 }
 
-.el-form-item {
+.nursing-jichu-container .el-form-item {
   margin-bottom: 0;
 }
-table thead tr th,
-table tbody tr td {
+.nursing-jichu-container table thead tr th,
+.nursing-jichu-container table tbody tr td {
   border: 1px solid #000;
 }

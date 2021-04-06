@@ -4,7 +4,8 @@
   min-width: 824px;
   min-height: 920px;
   background-color: #fff;
-  padding: 10px;
+  page-break-after: always;
+  margin: auto;
 }
 
 .transit-container .container-title {
@@ -76,80 +77,80 @@
   display: flex;
 }
 
-.input-div {
+.transit-container .input-div {
   display: flex;
 }
 
-.input-div .input-div-context {
+.transit-container .input-div .input-div-context {
   padding: 0 5px;
   width: 100px;
   border-bottom: 1px solid #000;
 }
 
-.input-div .input-div-context-noborder {
+.transit-container .input-div .input-div-context-noborder {
   padding: 0 5px;
   width: 100px;
 }
 
-.input-div .input-div-context-noborder-short {
+.transit-container .input-div .input-div-context-noborder-short {
   padding: 0 5px;
   width: 60px;
 }
 
-.input-div .input-div-context-noborder-40 {
+.transit-container .input-div .input-div-context-noborder-40 {
   padding: 0 5px;
   width: 40px;
 }
 
-.input-div .input-div-context-noborder-33 {
+.transit-container .input-div .input-div-context-noborder-33 {
   padding: 0 5px;
   width: 25px;
 }
 
-.input-div .input-div-context-short {
+.transit-container .input-div .input-div-context-short {
   padding: 0 5px;
   width: 80px;
   border-bottom: 1px solid #000;
 }
 
-.input-div .input-div-context-short-60 {
+.transit-container .input-div .input-div-context-short-60 {
   padding: 0 5px;
   width: 60px;
   border-bottom: 1px solid #000;
 }
 
-.input-div .input-div-context-long {
+.transit-container .input-div .input-div-context-long {
   padding: 0 5px;
   width: 380px;
   border-bottom: 1px solid #000;
 }
 
-.mgt10 {
+.transit-container .mgt10 {
   margin-top: 10px;
 }
 
-.mgt20 {
+.transit-container .mgt20 {
   margin-top: 10px;
 }
 
-.mgl50 {
+.transit-container .mgl50 {
   margin-left: 50px;
 }
 
-.mgl5 {
+.transit-container .mgl5 {
   margin-left: 5px;
 }
 
-.mgl48 {
+.transit-container .mgl48 {
   margin-left: 48px;
 }
 
-.line {
+.transit-container .line {
   width: 160px;
   height: 1px;
   background-color: #000;
 }
 
-.td-div {
+.transit-container .td-div {
   display: flex;
 }

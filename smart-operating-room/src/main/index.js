@@ -4,6 +4,7 @@ import { app, BrowserWindow, ipcMain } from 'electron'
 import { filePath as configJsonFilePath } from './ip'
 import './print'
 import './printPDF'
+import './printDocuments'
 const { autoUpdater } = require('electron-updater')
 const Path = require('path')
 const feedUrl = 'http://128.0.18.38:8080/nursing/smartnursing'
