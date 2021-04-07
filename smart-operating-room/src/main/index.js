@@ -50,8 +50,8 @@ function createUpdateWindow () {
 }
 function createInitialWindow () {
   initialWindow = new BrowserWindow({
-    width: 880,
-    height: 560,
+    width: 900,
+    height: 640,
     frame: false,
     center: true,
     resizable: false,

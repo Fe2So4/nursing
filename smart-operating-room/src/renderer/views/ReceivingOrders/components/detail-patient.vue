@@ -47,6 +47,7 @@
         />
       </p> -->
       <p
+        v-if="selectRow.orderState !== '3'"
         :class="{ 'code-input': true, active: codeInputFocus }"
         @click="handleFocus"
       >
@@ -135,7 +136,7 @@
             </el-col>
           </el-row>
         </div>
-        <p v-if="selectRow.orderState === '1' || selectRow.orderState === 1">
+        <p v-if="selectRow.orderState === '1' || selectRow.orderState === 1 || selectRow.orderState === '3'">
           <el-button
             @click="dayin"
             class="el-icon-printer"
@@ -184,7 +185,7 @@ import QRCode from 'qrcodejs2'
 
 import Bus from '@/utils/bus.js'
 import PrintNotice from './print-notice'
-import { changeReceiveOrderList } from '@/api/receiving-orders'
+import { changeReceiveOrderList, reqUpdatePrintStatus } from '@/api/receiving-orders'
 import request from '@/utils/request2'
 export default {
   name: 'DetailPatient',
@@ -220,13 +221,11 @@ export default {
   },
   methods: {
     dayin () {
-      // selectRow.orderState
-      console.log(this.selectRow.orderState)
       if (
         this.selectRow.orderState === 1 ||
-        this.selectRow.orderState === '1'
+        this.selectRow.orderState === '1' || this.selectRow.orderState === '3'
       ) {
-        Bus.$emit('detail-patient', this.selectRow)
+        this.saveUpdatePrintStatus()
       } else {
         this.$alert('请先扫描工勤人员二维码进行接单')
         return false
@@ -235,13 +234,29 @@ export default {
 
       // this.utilsDebounce(() => { this.printCurrent() }, 1000)
     },
+    // 保存打印信息
+    saveUpdatePrintStatus () {
+      request({
+        url: reqUpdatePrintStatus + `/${this.selectRow.orderId}`,
+        method: 'get'
+      }).then(res => {
+        if (res.data.code === 200) {
+          Bus.$emit('handleClickPrint')
+          Bus.$emit('detail-patient', this.selectRow)
+        } else {
+          this.openToast('error', '网络错误,请稍后重试')
+        }
+      })
+    },
     // // 扫码回车
     // codeInputChange () {
     //   console.log(this.codeInput)
     // },
     handleFocus () {
-      this.codeInputFocus = true
-      this.$refs.inputs.focus()
+      this.$nextTick(() => {
+        this.codeInputFocus = true
+        this.$refs.inputs.focus()
+      })
     },
     handleBlurCodeInput () {
       this.codeInputFocus = false
@@ -285,14 +300,15 @@ export default {
         }
         if (this.exitType !== '1') {
           this.endTime = new Date().getTime()
-          if (this.endTime - this.startTime < 300000) {
+          if (this.endTime - this.startTime < 5000) {
             this.openToast('warning', '接单与入缓冲区时间间隔小于5秒,请重试')
+            return false
+          } else if (this.selectRow.printState !== 1) {
+            this.openToast('warning', '请先打印手术通知单')
             return false
           } else {
             this.changePatient(3)
           }
-          // console.log('进缓冲区')
-
           return false
         }
 
@@ -346,7 +362,9 @@ export default {
       this.bindQRCode()
     })
 
-    this.changfouce()
+    if (this.selectRow.orderState !== '3') {
+      this.changfouce()
+    }
     if (this.selectRow.orderState === '1') {
       this.optas = '点击取消接单后，扫描工勤人员二维码，进行退单...'
     } else {

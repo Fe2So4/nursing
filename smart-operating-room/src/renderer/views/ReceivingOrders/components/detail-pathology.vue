@@ -33,6 +33,7 @@
       </el-col>
     </el-row>
     <p
+      v-if="selectRow.orderState !== '3'"
       :class="{ 'code-input': true, active: codeInputFocus }"
       @click="handleFocus"
     >
@@ -82,7 +83,9 @@
             <span>固定液：</span><span class="dp-value">{{ selectRow.fixed }}</span>
           </el-col>
         </el-row>
-        <p v-if="selectRow.orderState === '1' || selectRow.orderState === 1">
+        <p
+          v-if="selectRow.orderState === '1' || selectRow.orderState === 1 || selectRow.orderState === '3'"
+        >
           <el-button
             @click="gotoThree"
             class="el-icon-printer"
@@ -206,7 +209,7 @@ export default {
         }
         if (this.exitType !== '1') {
           this.endTime = new Date().getTime()
-          if (this.endTime - this.startTime < 300000) {
+          if (this.endTime - this.startTime < 5000) {
             this.openToast('warning', '接单与入缓冲区时间间隔小于5秒,请重试')
             return false
           } else {
@@ -230,6 +233,15 @@ export default {
         }
       }).then(res => {
         // Bus.$emit('shuaxinPatient', '3')
+      })
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
       })
     },
     // 自动聚焦

@@ -13,3 +13,6 @@ export const changeReceiveOrderList = `${config.default.api.baseURL}/ocis/receiv
 
 // 打印提供手术通知单时间
 export const getOperatingNoticeTime = `${config.default.api.baseURL}/ocis/operationScreen/operatingNoticeTimeScreen`
+
+// 打印保存打印状态
+export const reqUpdatePrintStatus = `${config.default.api.baseURL}/ocis/receivingorders/updatePrintStatus`

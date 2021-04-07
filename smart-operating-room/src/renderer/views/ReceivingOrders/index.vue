@@ -140,6 +140,7 @@
             <li
               v-for="(item, index) in inBufferOrder"
               :key="index"
+              @click="handleShowDetail(item)"
             >
               <patient-list
                 v-if="item.orderType === 0"
@@ -236,7 +237,28 @@ export default {
     }
     this.setTheme()
   },
+  mounted () {
+    document.addEventListener('keyup', this.keyUpListener)
+    ipcRenderer.send('open-main')
+    this.getNewTime()
+    this.getFloorList()
+    Bus.$on('shuaxinPatient', res => {
+      this.detailVisible = false
+      this.utilsDebounce(() => {
+        this.getReceiveOrders()
+      }, 1000)
+    })
+    Bus.$on('handleClickPrint', res => {
+      this.changePrintState()
+    })
+    this.initSocket()
+  },
   methods: {
+    changePrintState () {
+      if (this.detailVisible === true) {
+        this.selectRow.printState = 1
+      }
+    },
     keyUpListener (e) {
       if (e.keyCode === 112) {
         this.$electron.ipcRenderer.send('open-config-file')
@@ -444,19 +466,6 @@ export default {
       setLargeScreenTheme(type)
       window.document.documentElement.setAttribute('theme', type)
     }
-  },
-  mounted () {
-    document.addEventListener('keyup', this.keyUpListener)
-    ipcRenderer.send('open-main')
-    this.getNewTime()
-    this.getFloorList()
-    Bus.$on('shuaxinPatient', res => {
-      this.detailVisible = false
-      this.utilsDebounce(() => {
-        this.getReceiveOrders()
-      }, 1000)
-    })
-    this.initSocket()
   },
   computed: {
     // 监听房间切换
