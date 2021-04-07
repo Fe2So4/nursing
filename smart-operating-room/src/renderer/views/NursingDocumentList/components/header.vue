@@ -58,7 +58,7 @@ export default {
     return {
       UserName: '',
       num: '',
-      visibleSelectDocument: true
+      visibleSelectDocument: false
     }
   },
   computed: {
