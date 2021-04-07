@@ -175,7 +175,7 @@ export default {
       const {
         orderId
       } = this.selectRow
-      if (+this.selectRow.orderState === 1 && orderId) {
+      if ((+this.selectRow.orderState === 1 || this.selectRow.orderState === '3') && orderId) {
         const url = `http://128.0.16.55:8009/Inspection/PrintSpecimenByPidxNew?type=worker&pid=${orderId}`
         this.$electron.shell.openExternal(url)
       } else {

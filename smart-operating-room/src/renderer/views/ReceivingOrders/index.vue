@@ -295,11 +295,12 @@ export default {
     },
     initSocket () {
       if (this.socket) {
+        this.socket.close()
         this.socket = null
       }
 
       this.socket = io(config.default.api.socketURL, {
-        query: 'sendName=' + this.getIPAdress()
+        query: 'sendName=' + this.getIPAdress() + new Date().getTime()
       })
       this.socket.on('connect', () => {
         console.log('socket.io connected')
@@ -421,7 +422,7 @@ export default {
       // this.getFloorList()
       this.getReceiveOrders()
       this.getNewTime()
-      this.initSocket()
+      // this.initSocket()
     },
     // 获取当前时间
     getNewTime () {

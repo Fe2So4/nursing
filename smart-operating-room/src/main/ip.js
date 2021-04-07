@@ -13,7 +13,7 @@ function getProdIp () {
     }
   ).catch(
     e => fs.outputJson(filePath, {
-      ip: '192.168.1.58'
+      ip: '128.0.18.38'
     })
   ).then(
     () => fs.readJson(filePath)

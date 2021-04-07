@@ -85,12 +85,14 @@ export default {
   methods: {
     onConfirm () {
       const options = { silent: true }
-      ipcRenderer.send(
-        'printDocument',
-        this.$refs.printContent.innerHTML,
-        options
-      )
-      this.$emit('update:visible', false)
+      this.utilsDebounce(() => {
+        ipcRenderer.send(
+          'printDocument',
+          this.$refs.printContent.innerHTML,
+          options
+        )
+        this.$emit('update:visible', false)
+      }, 300)
     },
     onClosed () {
       this.checkDocumentList = [1, 2, 3, 4, 5]
