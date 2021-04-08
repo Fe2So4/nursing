@@ -302,6 +302,7 @@ export default {
       this.socket = io(config.default.api.socketURL, {
         query: 'sendName=' + this.getIPAdress() + new Date().getTime()
       })
+      console.log(this.socket)
       this.socket.on('connect', () => {
         console.log('socket.io connected')
         this.connect = true
@@ -314,6 +315,7 @@ export default {
         this.connect = false
       })
       this.socket.on('push_event_all', data => {
+        console.log(this.socket, '---------------')
         if (data) {
           console.log(data)
           if (
@@ -419,10 +421,11 @@ export default {
     },
     // 点击刷新
     shuaxin () {
-      // this.getFloorList()
-      this.getReceiveOrders()
-      this.getNewTime()
-      // this.initSocket()
+      this.utilsDebounce(() => {
+        this.getReceiveOrders()
+        this.getNewTime()
+        this.initSocket()
+      }, 300)
     },
     // 获取当前时间
     getNewTime () {
@@ -508,9 +511,6 @@ export default {
     .option-right{
       span{
         @include theme-property('color',font_color_secondary);
-        >span{
-          // @include theme-property('color',font_color_secondary);
-        }
       }
     }
   }

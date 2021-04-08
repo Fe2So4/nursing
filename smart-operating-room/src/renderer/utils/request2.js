@@ -42,6 +42,8 @@ request.interceptors.response.use(function (response) {
       // 对请求错误做些什么
       return Promise.reject(error)
     }
+  } else {
+    return Promise.reject(new Error('网络错误，请稍后尝试'))
   }
 })
 export default request

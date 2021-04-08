@@ -281,6 +281,7 @@ export default {
     // 扫描二维码
     enterInput () {
       this.workCode = ''
+      this.codeInput = 'Worker=22350201'
       if (!this.codeInput.includes('=')) {
         this.$alert('请先扫描工勤人员二维码')
         this.codeInput = ''
@@ -327,11 +328,11 @@ export default {
         }
       }).then(res => {
         if (res.data.code === 200) {
-          // this.openToast('success', res.data.msg)
-          // Bus.$emit('shuaxinPatient', '3')
         } else {
-          this.openToast('error', res.data.msg)
+          return Promise.reject(new Error('请求失败，请稍后尝试'))
         }
+      }).catch(e => {
+        this.openToast('error', e)
       })
     },
     // 提示方法
