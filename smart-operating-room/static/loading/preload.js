@@ -11,8 +11,7 @@ const options = {
   easing: 'ease'
 }
 ipcRenderer.on('close-initial-window', () => {
-  document.querySelector('img').animate(keyframes, options)
-  document.querySelector('.loading').animate(keyframes, options)
+  document.querySelector('.container').animate(keyframes, options)
   setTimeout(() => {
     ipcRenderer.send('close-initial-window')
   }, 3000)

@@ -87,7 +87,7 @@ export default {
       const options = { silent: true }
       this.utilsDebounce(() => {
         ipcRenderer.send(
-          'printDocument',
+          'print-documentPDF',
           this.$refs.printContent.innerHTML,
           options
         )

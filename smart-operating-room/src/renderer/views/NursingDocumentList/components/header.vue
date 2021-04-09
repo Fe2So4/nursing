@@ -49,8 +49,11 @@
 </template>
 
 <script>
+import { ipcRenderer } from 'electron'
+import {ftpUploadPDF} from '@/api/nursingApi/nursing-document'
 import Bus from '@/utils/bus.js'
 import DialogSelectDocument from './DialogSelectDocument'
+import { getUserToken } from '@/utils/storage'
 export default {
   name: 'NursingHeader',
   components: {DialogSelectDocument},
@@ -61,6 +64,7 @@ export default {
       visibleSelectDocument: false
     }
   },
+
   computed: {
     // 获取用户姓名
     ListeningName () {
@@ -69,7 +73,45 @@ export default {
     // 获取用住院号
     ListeningNo () {
       return this.$store.state['nursing-document-list'].hospitalNo
+    },
+    ListeningOperSchNo () {
+      return this.$store.state['nursing-document-list'].operSchNo
     }
+  },
+  created () {
+    // ftp上传
+    ipcRenderer.on('reply', (e, data) => {
+      console.log(data)
+      var xhr = new XMLHttpRequest()
+
+      xhr.open(
+        'POST',
+        ftpUploadPDF +
+          `/${this.ListeningOperSchNo}`
+      )
+      xhr.setRequestHeader('Authorization', getUserToken())
+
+      xhr.overrideMimeType('application/octet-stream')
+      // 直接发送二进制数据
+      xhr.onreadystatechange = function (data) {
+        // 判断是否服务器响应
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          const res = JSON.parse(data.currentTarget.response)
+          if (res.code === 200) {
+            console.log('上传成功')
+            // ipcRenderer.send('upLoadSuccess', '1')
+          } else {
+            console.log('上传失败')
+            // ipcRenderer.send('upLoadSuccess', '2')
+          }
+        }
+      }
+      if (xhr.sendAsBinary) {
+        xhr.sendAsBinary(data)
+      } else {
+        xhr.send(data)
+      }
+    })
   },
   methods: {
     headerHandle (type) {

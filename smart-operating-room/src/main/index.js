@@ -1,15 +1,16 @@
 'use strict'
 
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain, dialog } from 'electron'
 import { filePath as configJsonFilePath } from './ip'
 import './print'
 import './printPDF'
 import './printDocuments'
+// import './printUpdataPDF'
 const { autoUpdater } = require('electron-updater')
 const Path = require('path')
-const feedUrl = 'http://128.0.18.38:8080/nursing/smartnursing'
+// const feedUrl = 'http://128.0.18.38:8080/nursing/smartnursing'
 // const feedUrl = 'http://128.0.18.38:8080/nursing/largescreen'
-// const feedUrl = 'http://128.0.18.38:8080/nursing/orderscreen'
+const feedUrl = 'http://128.0.18.38:8080/nursing/orderscreen'
 // const feedUrl = 'http://localhost:9088/build'
 // import '../renderer/store'
 /**
@@ -219,4 +220,58 @@ const watcher = chokidar.watch(configJsonFilePath)
 watcher.on('change', (path) => {
   console.log(`File ${path} has been changed`)
   mainWindow.reload()
+})
+
+// 导出到pdf
+const printPDFWindows = new Set()
+const createPrintPDFWindow = () => {
+  let newPrintPDFWindow = new BrowserWindow({
+    show: false,
+    webPreferences: {
+      webSecurity: false,
+      nodeIntegration: true
+    }
+  })
+  const printPDFUrl = process.env.NODE_ENV === 'development'
+    ? `http://localhost:9088/static/printUpdataPDF.html`
+    : Path.join(__dirname, '/static/printUpdataPDF.html')
+  newPrintPDFWindow.loadURL(printPDFUrl)
+
+  newPrintPDFWindow.on('closed', () => {
+    printPDFWindows.delete(newPrintPDFWindow)
+    newPrintPDFWindow = null
+  })
+  printPDFWindows.add(newPrintPDFWindow)
+  return newPrintPDFWindow
+}
+
+let printPDFWin
+let printPdfHtml = ''
+ipcMain.on('print-documentPDF', (e, html) => {
+  console.log('点击开始导出PDF')
+  printPDFWin = createPrintPDFWindow()
+  printPdfHtml = html
+})
+ipcMain.on('print-updataPDF-ready', (e) => {
+  console.log('开始读取html')
+  e.reply('print-updataPDF-ready-reply', printPdfHtml)
+})
+ipcMain.on('print-printPdf-document', (event, res) => {
+  console.log('读取html完毕')
+  try {
+    printPDFWin.webContents.printToPDF({}, (error, data) => {
+      console.log(data)
+      if (error === null) {
+        mainWindow.webContents.send('reply', data)
+      } else {
+        dialog.showMessageBox(mainWindow, {
+          type: 'info',
+          title: '提示',
+          message: '文件上传失败'
+        })
+      }
+    })
+  } catch (error) {
+    console.log('这里报错')
+  }
 })

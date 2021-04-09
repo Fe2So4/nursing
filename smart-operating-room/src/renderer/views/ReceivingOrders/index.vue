@@ -230,12 +230,12 @@ export default {
     DetailDrawer
   },
   created () {
-    this.getIPAdress()
     const win = BrowserWindow.getFocusedWindow()
     if (win) {
       win.maximize()
     }
     this.setTheme()
+    this.initSocket()
   },
   mounted () {
     document.addEventListener('keyup', this.keyUpListener)
@@ -251,7 +251,6 @@ export default {
     Bus.$on('handleClickPrint', res => {
       this.changePrintState()
     })
-    this.initSocket()
   },
   methods: {
     changePrintState () {
@@ -424,7 +423,7 @@ export default {
       this.utilsDebounce(() => {
         this.getReceiveOrders()
         this.getNewTime()
-        this.initSocket()
+        // this.initSocket()
       }, 300)
     },
     // 获取当前时间
