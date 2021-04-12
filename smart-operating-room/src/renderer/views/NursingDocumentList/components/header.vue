@@ -41,9 +41,22 @@
       >
         打印文档
       </vxe-button>
+      <vxe-button
+        class="btn"
+        size="mini"
+        status="my-purple"
+        @click="onhandleShowUpdata"
+      >
+        上传文档
+      </vxe-button>
     </div>
     <DialogSelectDocument
-      :visible.sync="visibleSelectDocument"
+      :visible="visibleSelectDocument"
+      @closeVisible="closeVisible"
+    />
+    <HandleShowUpdata
+      :visible="showUpdata"
+      @closeShowUpdata="closeShowUpdata"
     />
   </div>
 </template>
@@ -53,15 +66,17 @@ import { ipcRenderer } from 'electron'
 import {ftpUploadPDF} from '@/api/nursingApi/nursing-document'
 import Bus from '@/utils/bus.js'
 import DialogSelectDocument from './DialogSelectDocument'
+import HandleShowUpdata from './HandleShowUpdata'
 import { getUserToken } from '@/utils/storage'
 export default {
   name: 'NursingHeader',
-  components: {DialogSelectDocument},
+  components: {DialogSelectDocument, HandleShowUpdata},
   data () {
     return {
       UserName: '',
       num: '',
-      visibleSelectDocument: false
+      visibleSelectDocument: false,
+      showUpdata: false
     }
   },
 
@@ -81,42 +96,51 @@ export default {
   created () {
     // ftp上传
     ipcRenderer.on('reply', (e, data) => {
-      console.log(data)
-      var xhr = new XMLHttpRequest()
+      this.utilsDebounce(() => {
+        var xhr = new XMLHttpRequest()
 
-      xhr.open(
-        'POST',
-        ftpUploadPDF +
+        xhr.open(
+          'POST',
+          ftpUploadPDF +
           `/${this.ListeningOperSchNo}`
-      )
-      xhr.setRequestHeader('Authorization', getUserToken())
+        )
+        xhr.setRequestHeader('Authorization', getUserToken())
 
-      xhr.overrideMimeType('application/octet-stream')
-      // 直接发送二进制数据
-      xhr.onreadystatechange = function (data) {
+        xhr.overrideMimeType('application/octet-stream')
+        // 直接发送二进制数据
+        xhr.onreadystatechange = function (data) {
         // 判断是否服务器响应
-        if (xhr.readyState === 4 && xhr.status === 200) {
-          const res = JSON.parse(data.currentTarget.response)
-          if (res.code === 200) {
-            console.log('上传成功')
-            // ipcRenderer.send('upLoadSuccess', '1')
-          } else {
-            console.log('上传失败')
-            // ipcRenderer.send('upLoadSuccess', '2')
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            const res = JSON.parse(data.currentTarget.response)
+            if (res.code === 200) {
+              console.log('上传成功')
+              ipcRenderer.send('upLoadSuccess', '1')
+            } else {
+              console.log('上传失败')
+              ipcRenderer.send('upLoadSuccess', '2')
+            }
           }
         }
-      }
-      if (xhr.sendAsBinary) {
-        xhr.sendAsBinary(data)
-      } else {
-        xhr.send(data)
-      }
+        if (xhr.sendAsBinary) {
+          xhr.sendAsBinary(data)
+        } else {
+          xhr.send(data)
+        }
+      }, 1000)
+      console.log(data)
     })
   },
   methods: {
+    closeVisible () {
+      this.visibleSelectDocument = false
+    },
+    closeShowUpdata () {
+      this.showUpdata = false
+    },
     headerHandle (type) {
-      console.log(this.$route.path)
       let path = this.$route.path
+      console.log(path)
+
       if (type === '1') {
         if (path.includes('security-check')) {
           Bus.$emit('clickShuaXinSecurity', '1')
@@ -157,6 +181,9 @@ export default {
     },
     onSelectDocument () {
       this.visibleSelectDocument = true
+    },
+    onhandleShowUpdata () {
+      this.showUpdata = true
     }
   }
 }

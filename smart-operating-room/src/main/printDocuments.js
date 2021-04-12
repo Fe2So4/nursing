@@ -6,7 +6,7 @@ const printWindows = new Map()
 
 const createPrintWindow = (html, options) => {
   let newPrintWindow = new BrowserWindow({
-    show: true,
+    show: false,
     webPreferences: {
       webSecurity: false,
       nodeIntegration: true

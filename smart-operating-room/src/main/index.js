@@ -8,9 +8,9 @@ import './printDocuments'
 // import './printUpdataPDF'
 const { autoUpdater } = require('electron-updater')
 const Path = require('path')
-// const feedUrl = 'http://128.0.18.38:8080/nursing/smartnursing'
+const feedUrl = 'http://128.0.18.38:8080/nursing/smartnursing'
 // const feedUrl = 'http://128.0.18.38:8080/nursing/largescreen'
-const feedUrl = 'http://128.0.18.38:8080/nursing/orderscreen'
+// const feedUrl = 'http://128.0.18.38:8080/nursing/orderscreen'
 // const feedUrl = 'http://localhost:9088/build'
 // import '../renderer/store'
 /**
@@ -273,5 +273,11 @@ ipcMain.on('print-printPdf-document', (event, res) => {
     })
   } catch (error) {
     console.log('这里报错')
+  }
+})
+// 监听上传是否成功 '1' 成功  '2' 失败
+ipcMain.on('upLoadSuccess', (event, res) => {
+  if (printPDFWin) {
+    printPDFWin.close()
   }
 })

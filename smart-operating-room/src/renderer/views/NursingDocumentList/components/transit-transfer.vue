@@ -1424,6 +1424,13 @@ import { ipcRenderer } from 'electron'
 import Bus from '@/utils/bus.js'
 export default {
   name: 'TransitTransfer',
+  props: {
+    needBus: {
+      default: true,
+      type: Boolean,
+      required: false
+    }
+  },
   data () {
     return {
       htmlTitle: '转运交接单',
@@ -1538,24 +1545,27 @@ export default {
     }
   },
   mounted () {
-    Bus.$on('clickShuaXinTransit', res => {
-      if (res === '1') {
-        this.utilsDebounce(() => {
-          this.getWenShuData()
-        }, 200)
-      } else if (res === '2') {
-        this.utilsDebounce(() => {
-          this.dayin()
-        }, 200)
-      } else if (res === '3') {
-        this.htmlTitle =
+    if (this.needBus) {
+      Bus.$on('clickShuaXinTransit', res => {
+        if (res === '1') {
+          this.utilsDebounce(() => {
+            this.getWenShuData()
+          }, 200)
+        } else if (res === '2') {
+          this.utilsDebounce(() => {
+            this.dayin()
+          }, 200)
+        } else if (res === '3') {
+          this.htmlTitle =
           this.$store.state['nursing-document-list'].patientName + '转运交接单'
-        this.utilsDebounce(() => {
+          this.utilsDebounce(() => {
           //  this.getPdf('transit-transfer')
-          this.daochuPDF()
-        }, 200)
-      }
-    })
+            this.daochuPDF()
+          }, 200)
+        }
+      })
+    }
+
     this.getWenShuData()
   },
   methods: {

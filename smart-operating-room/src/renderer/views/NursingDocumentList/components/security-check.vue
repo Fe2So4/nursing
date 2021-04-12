@@ -651,6 +651,13 @@ import InfoList from './components/info-list'
 import IsSelect from './components/isSelect'
 export default {
   name: 'SecurityCheck',
+  props: {
+    needBus: {
+      default: true,
+      type: Boolean,
+      required: false
+    }
+  },
   data () {
     return {
       htmlTitle: '安全核查记录单',
@@ -736,25 +743,27 @@ export default {
   },
   mounted () {
     this.searchData()
-    Bus.$on('clickShuaXinSecurity', res => {
-      if (res === '1') {
-        this.utilsDebounce(() => {
-          this.searchData()
-        }, 200)
-      } else if (res === '2') {
-        this.utilsDebounce(() => {
-          this.dayin()
-        }, 200)
-      } else if (res === '3') {
-        this.htmlTitle =
+    if (this.needBus) {
+      Bus.$on('clickShuaXinSecurity', res => {
+        if (res === '1') {
+          this.utilsDebounce(() => {
+            this.searchData()
+          }, 200)
+        } else if (res === '2') {
+          this.utilsDebounce(() => {
+            this.dayin()
+          }, 200)
+        } else if (res === '3') {
+          this.htmlTitle =
           this.$store.state['nursing-document-list'].patientName +
           '安全核查记录单'
-        this.utilsDebounce(() => {
+          this.utilsDebounce(() => {
           // this.getPdf('security-check')
-          this.daochuPDF()
-        }, 200)
-      }
-    })
+            this.daochuPDF()
+          }, 200)
+        }
+      })
+    }
   },
   methods: {
     dayin () {

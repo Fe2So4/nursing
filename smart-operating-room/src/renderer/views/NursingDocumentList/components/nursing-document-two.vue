@@ -807,6 +807,13 @@ import IsSelect from './components/isSelect'
 import { ipcRenderer } from 'electron'
 export default {
   name: 'NursingDocumentTwo',
+  props: {
+    needBus: {
+      default: true,
+      type: Boolean,
+      required: false
+    }
+  },
   data () {
     return {
       htmlTitle: '护理记录单(二)',
@@ -939,25 +946,27 @@ export default {
   },
   mounted () {
     this.getWenShuData()
-    Bus.$on('clickShuaXinTwo', res => {
-      if (res === '1') {
-        this.utilsDebounce(() => {
-          this.getWenShuData()
-        }, 200)
-      } else if (res === '2') {
-        this.utilsDebounce(() => {
-          this.dayin()
-        }, 200)
-      } else if (res === '3') {
-        this.htmlTitle =
+    if (this.needBus) {
+      Bus.$on('clickShuaXinTwo', res => {
+        if (res === '1') {
+          this.utilsDebounce(() => {
+            this.getWenShuData()
+          }, 200)
+        } else if (res === '2') {
+          this.utilsDebounce(() => {
+            this.dayin()
+          }, 200)
+        } else if (res === '3') {
+          this.htmlTitle =
           this.$store.state['nursing-document-list'].patientName +
           '护理记录单(二)'
-        this.utilsDebounce(() => {
+          this.utilsDebounce(() => {
           //  this.getPdf('nursing-document-two')
-          this.daochuPDF()
-        }, 200)
-      }
-    })
+            this.daochuPDF()
+          }, 200)
+        }
+      })
+    }
   },
   methods: {
     dayin () {

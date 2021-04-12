@@ -241,6 +241,7 @@ export default {
         method: 'get'
       }).then(res => {
         if (res.data.code === 200) {
+          this.changfouce()
           Bus.$emit('handleClickPrint')
           Bus.$emit('detail-patient', this.selectRow)
         } else {
