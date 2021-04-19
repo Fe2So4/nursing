@@ -41,23 +41,23 @@
       >
         打印文档
       </vxe-button>
-      <vxe-button
+      <!-- <vxe-button
         class="btn"
         size="mini"
         status="my-purple"
         @click="onhandleShowUpdata"
       >
         上传文档
-      </vxe-button>
+      </vxe-button> -->
     </div>
     <DialogSelectDocument
       :visible="visibleSelectDocument"
       @closeVisible="closeVisible"
     />
-    <HandleShowUpdata
+    <!-- <HandleShowUpdata
       :visible="showUpdata"
       @closeShowUpdata="closeShowUpdata"
-    />
+    /> -->
   </div>
 </template>
 

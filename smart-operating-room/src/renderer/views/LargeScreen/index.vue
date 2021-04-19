@@ -116,6 +116,7 @@ export default {
     },
     initSocket () {
       if (this.socket) {
+        this.socket.close()
         this.socket = null
       }
       if (this.currentRoom) {

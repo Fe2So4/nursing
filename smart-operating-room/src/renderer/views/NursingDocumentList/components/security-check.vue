@@ -277,28 +277,31 @@
             <div class="qianming-list">
               <span>麻醉医师签名：</span>
               <div class="text imgbox">
-                <img
-                  :src="anesBeforeCheck.anesBeforeAnesDoc"
+                {{ anesBeforeCheck.anesBeforeAnesDoc }}
+                <!-- <img
+                  :src=""
                   alt=""
-                >
+                > -->
               </div>
             </div>
             <div class="qianming-list">
               <span>手术医师签名：</span>
               <div class="text imgbox">
-                <img
-                  :src="anesBeforeCheck.anesBeforeOperDoc"
+                {{ anesBeforeCheck.anesBeforeOperDoc }}
+                <!-- <img
+                  :src=""
                   alt=""
-                >
+                > -->
               </div>
             </div>
             <div class="qianming-list">
               <span>手术护士签名：</span>
               <div class="text imgbox">
-                <img
-                  :src="anesBeforeCheck.anesBeforeNurse"
+                {{ anesBeforeCheck.anesBeforeNurse }}
+                <!-- <img
+                  :src=""
                   alt=""
-                >
+                > -->
               </div>
             </div>
             <div class="mgt5">
@@ -422,28 +425,31 @@
             <div class="qianming-list">
               <span>麻醉医师签名：</span>
               <div class="text imgbox">
-                <img
-                  :src="opeeBeforeCheck.beforeOperAnesDoctorTwo"
+                {{ opeeBeforeCheck.beforeOperAnesDoctorTwo }}
+                <!-- <img
+                  :src=""
                   alt=""
-                >
+                > -->
               </div>
             </div>
             <div class="qianming-list">
               <span>手术医师签名：</span>
               <div class="text imgbox">
-                <img
-                  :src="opeeBeforeCheck.beforeOperDocTwo"
+                {{ opeeBeforeCheck.beforeOperDocTwo }}
+                <!-- <img
+                  :src=""
                   alt=""
-                >
+                > -->
               </div>
             </div>
             <div class="qianming-list">
               <span>手术护士签名：</span>
               <div class="text imgbox">
-                <img
-                  :src="opeeBeforeCheck.beforeOperNurse"
+                {{ opeeBeforeCheck.beforeOperNurse }}
+                <!-- <img
+                  :src=""
                   alt=""
-                >
+                > -->
               </div>
             </div>
             <div class="mgt5">
@@ -608,28 +614,19 @@
             <div class="qianming-list">
               <span>麻醉医师签名：</span>
               <div class="text imgbox">
-                <img
-                  :src="beforeLeaveRoomCheck.leaveBeforeAnesDoc"
-                  alt=""
-                >
+                {{ beforeLeaveRoomCheck.leaveBeforeAnesDoc }}
               </div>
             </div>
             <div class="qianming-list">
               <span>手术医师签名：</span>
               <div class="text imgbox">
-                <img
-                  :src="beforeLeaveRoomCheck.leaveBeforeOperDoc"
-                  alt=""
-                >
+                {{ beforeLeaveRoomCheck.leaveBeforeOperDoc }}
               </div>
             </div>
             <div class="qianming-list">
               <span>手术护士签名：</span>
               <div class="text imgbox">
-                <img
-                  :src="beforeLeaveRoomCheck.leaveBeforeOperNurse"
-                  alt=""
-                >
+                {{ beforeLeaveRoomCheck.leaveBeforeOperNurse }}
               </div>
             </div>
             <div class="mgt5">
@@ -1266,6 +1263,7 @@ export default {
   }
 }
 .imgbox {
+  font-size: 18px;
   width: 100%;
   height: 100%;
   img {

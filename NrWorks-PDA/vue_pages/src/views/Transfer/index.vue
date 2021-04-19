@@ -847,26 +847,19 @@ export default {
     }
   },
   created () {
-    // document.onkeydown = (e) => {
-    //   var key = window.event.keyCode
-    //   if (key === 13) {
-    //     setTimeout(() => {
-    //       this.handleCode('RoomNum=606')
-    //       // this.handleCode('19363038')
-    //       // this.handleCode('Worker=22350195')
+    document.onkeydown = (e) => {
+      var key = window.event.keyCode
+      if (key === 13) {
+        setTimeout(() => {
+          // this.handleCode('RoomNum=606')
+          this.handleCode('19468254')
+          // this.handleCode('Worker=22350195')
 
-    //       // this.handleCode('floorNum=6')
-    //       // this.handleCode('OpsQRCode=19377699,OpsSchNo=426786')
-    //     }, 1000)
-    //   }
-    //   if (key === 8) {
-    //     setTimeout(() => {
-    //       // this.handleCode('RoomNum=606')
-    //       // this.handleCode("19058456");
-    //       this.handleCode('Worker=19058456')
-    //     }, 1000)
-    //   }
-    // }
+          // this.handleCode('floorNum=6')
+          // this.handleCode('OpsQRCode=19377699,OpsSchNo=426786')
+        }, 1000)
+      }
+    }
     this.currentStep()
   },
   mounted () {

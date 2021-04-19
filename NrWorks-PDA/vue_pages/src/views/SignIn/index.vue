@@ -225,41 +225,57 @@
           title="麻醉医师签名"
           title-class="sign-title"
           @click="handleShowSignature(1)"
-        ></van-cell>
-        <div v-if="anesBeforeAnesDoc !== ''" class="signatureImage-content">
+          :value="anesBeforeAnesDoc"
+          value-class="sign-value"
+        >
+        </van-cell>
+
+        <!-- <div v-if="anesBeforeAnesDoc !== ''" class="signatureImage-content">
           <img :src="anesBeforeAnesDoc" alt="" class="signatureImage" />
-        </div>
+        </div> -->
         <van-cell
           title="手术医师签名"
           title-class="sign-title"
           @click="handleShowSignature(2)"
+          value-class="sign-value"
+          :value="anesBeforeOperDoc"
         ></van-cell>
-        <div v-if="anesBeforeOperDoc !== ''" class="signatureImage-content">
+        <!-- <div v-if="anesBeforeOperDoc !== ''" class="signatureImage-content">
           <img :src="anesBeforeOperDoc" alt="" class="signatureImage" />
-        </div>
+        </div> -->
         <van-cell
           title="手术护士签名"
           title-class="sign-title"
           @click="handleShowSignature(3)"
+          :value="anesBeforeNurse"
+          value-class="sign-value"
         ></van-cell>
-        <div v-if="anesBeforeNurse !== ''" class="signatureImage-content">
+        <!-- <div v-if="anesBeforeNurse !== ''" class="signatureImage-content">
           <img :src="anesBeforeNurse" alt="" class="signatureImage" />
-        </div>
+        </div> -->
       </van-cell-group>
     </div>
     <!-- <transition name="van-slide-up"> -->
-    <signature
+    <!-- <signature
       :visible="visible"
       v-if="visible"
       @handleClose="handleCloseSignature"
       @handleSubmit="handleSubmitImage"
-    />
+    /> -->
+    <SignLogin
+      :signTitle ="signTitle"
+      v-if="visible"
+      :show="visible"
+      @handleClose="handleCloseSignature"
+      @handleSubmit="handleSubmitImage"
+    ></SignLogin>
     <!-- </transition> -->
   </div>
 </template>
 
 <script>
-import Signature from '@/components/Signature'
+import SignLogin from '@/components/SignLogin'
+// import Signature from '@/components/Signature'
 import PatientCard from '@/components/PatientCard'
 import { submitSignIn, getSignIn } from '@/api/check'
 import request from '@/utils/request'
@@ -268,6 +284,7 @@ import moment from 'moment'
 export default {
   data () {
     return {
+      signTitle: '',
       checked: true,
       currentSign: null,
       showFullSkin: true,
@@ -310,7 +327,8 @@ export default {
     }
   },
   components: {
-    Signature,
+    // Signature,
+    SignLogin,
     PatientCard
   },
   computed: {
@@ -400,6 +418,16 @@ export default {
       this.showFullSkin = !this.showFullSkin
     },
     handleShowSignature (param) {
+      switch (param) {
+        case 1:
+          this.signTitle = '麻醉医师签名'
+          break
+        case 2:
+          this.signTitle = '手术医师签名'
+          break
+        case 3:
+          this.signTitle = '手术护士签名'
+      }
       this.currentSign = param
       this.visible = true
     },
@@ -573,6 +601,10 @@ export default {
         }
         .sign-title {
           color: #32db64;
+        }
+        .sign-value {
+          text-align: left;
+          color: #000;
         }
       }
     }

@@ -132,6 +132,7 @@ export default {
       this.$emit('update:roomVisible', false)
     },
     handleChangeRoom (item) {
+      console.log(item.roomCode)
       this.activeIndex = item.roomCode
     },
     saveChangeRoom () {

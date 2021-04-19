@@ -282,7 +282,6 @@ export default {
     // 扫描二维码
     enterInput () {
       this.workCode = ''
-      this.codeInput = 'Worker=22350201'
       if (!this.codeInput.includes('=')) {
         this.$alert('请先扫描工勤人员二维码')
         this.codeInput = ''

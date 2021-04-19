@@ -194,11 +194,12 @@
               class="input-div-context-short"
               style="height:30px;textAlign:center;width:120px"
             >
-              <img
+              {{ catheter.catheterSign }}
+              <!-- <img
                 style="height:100%"
                 :src="catheter.catheterSign"
                 alt=""
-              >
+              > -->
             </div>
           </span>
           <span class="input-div mgl5">
@@ -370,13 +371,14 @@
                 <span style="lineHeight:30px">签名</span>
                 <div
                   class="input-div-context-short-60"
-                  style="height:30px;flex:1"
+                  style="height:30px;flex:1;text-align: center;"
                 >
-                  <img
+                  {{ item.cqSign }}
+                  <!-- <img
                     style="height:100%"
                     :src="item.cqSign"
                     alt=""
-                  >
+                  > -->
                 </div>
               </span>
             </div>
@@ -402,13 +404,14 @@
                 <span style="lineHeight:30px">签名</span>
                 <div
                   class="input-div-context-short-60"
-                  style="height:30px;flex:1"
+                  style="height:30px;flex:1;text-align: center;"
                 >
-                  <img
+                  {{ item.fqSign }}
+                  <!-- <img
                     style="height:100%"
                     :src="item.fqSign"
                     alt=""
-                  >
+                  > -->
                 </div>
               </span>
             </div>
@@ -489,11 +492,12 @@
               class="input-div-context"
               style="height:30px;textAlign:center"
             >
-              <img
+              {{ waistPuncture.operationDoc }}
+              <!-- <img
                 :src="waistPuncture.operationDoc"
                 alt=""
                 style="height:100%"
-              >
+              > -->
             </div>
           </span>
         </div>
@@ -511,11 +515,12 @@
               class="input-div-context"
               style="height:30px;textAlign:center"
             >
-              <img
+              {{ waistPuncture.needleHeartSign }}
+              <!-- <img
                 :src="waistPuncture.needleHeartSign"
                 alt=""
                 style="height:100%"
-              >
+              > -->
             </div>
             <span style="marginLeft:6px">拔针时间</span>
             <div
@@ -529,11 +534,12 @@
               class="input-div-context"
               style="height:30px;textAlign:center"
             >
-              <img
+              {{ waistPuncture.needleSign }}
+              <!-- <img
                 :src="waistPuncture.needleSign"
                 alt=""
                 style="height:100%"
-              >
+              > -->
             </div>
           </span>
         </div>
@@ -588,11 +594,12 @@
                 class="input-div-context-short-60"
                 style="width:150px;height:30px;textAlign:center"
               >
-                <img
+                {{ item.sendDoc }}
+                <!-- <img
                   style="height:100%"
                   :src="item.sendDoc"
                   alt=""
-                >
+                > -->
               </div>
 
               <span style="marginLeft:8px">报告接收者</span>
@@ -600,11 +607,12 @@
                 class="input-div-context-short-60"
                 style="width:150px;height:30px;textAlign:center"
               >
-                <img
+                {{ item.receiveDoc }}
+                <!-- <img
                   style="height:100%"
                   :src="item.receiveDoc"
                   alt=""
-                >
+                > -->
               </div>
             </span>
           </div>
@@ -633,11 +641,12 @@
               class="input-div-context-short"
               style="width:150px;height:30px;textAlign:center"
             >
-              <img
+              {{ pathology.sendDoc }}
+              <!-- <img
                 style="height:100%"
                 :src="pathology.sendDoc"
                 alt=""
-              >
+              > -->
             </div>
           </span>
         </div>
@@ -720,11 +729,12 @@
               class="input-div-context-short"
               style="width:150px;height:30px;textAlign:center"
             >
-              <img
+              {{ nursesSignature }}
+              <!-- <img
                 :src="nursesSignature"
                 style="height:100%"
                 alt=""
-              >
+              > -->
             </div>
           </span>
         </div>
@@ -771,12 +781,12 @@
                   class="input-div-context-noborder"
                   style="width:120px;height:30px;textAlign:center"
                 >
-                  <img
+                  {{ item.jiaobrSign }}
+                  <!-- <img
                     style="height:100%"
                     :src="item.jiaobrSign"
                     alt=""
-                  >
-                  <!-- 123 -->
+                  > -->
                 </div>
               </span>
               <span class="input-div mgl5">
@@ -785,12 +795,12 @@
                   class="input-div-context-noborder"
                   style="width:140px;height:30px;textAlign:center"
                 >
-                  <img
+                  {{ item.jiebrSign }}
+                  <!-- <img
                     style="height:100%"
                     :src="item.jiebrSign"
                     alt=""
-                  >
-                  <!-- 123 -->
+                  > -->
                 </div>
               </span>
             </div>

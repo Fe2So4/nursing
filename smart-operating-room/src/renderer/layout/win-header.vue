@@ -1,5 +1,8 @@
 <template>
-  <div class="layout-header">
+  <div
+    class="layout-header"
+    style="-webkit-app-region: drag"
+  >
     <div class="left">
       <img
         src="../assets/logo-tq1.png"
@@ -136,6 +139,7 @@ export default {
       margin-right: 150px;
     }
     .caozuo {
+      -webkit-app-region: no-drag;
       position: absolute;
       // top: -15px;
       right: 0;

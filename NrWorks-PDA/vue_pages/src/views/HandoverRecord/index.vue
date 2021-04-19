@@ -369,14 +369,18 @@
           title="接收电子签名"
           title-class="sign-title"
           @click="handleShowSignature"
+          :value="recordForm.signatureImage2"
+          value-class="sign-value"
         ></van-cell>
         <van-cell
           v-show="transferType === 0 || transferType === 1"
           title="运送电子签名"
           title-class="sign-title"
           @click="handleShowSignature"
+          :value="recordForm.signatureImage2"
+          value-class="sign-value"
         ></van-cell>
-        <div
+        <!-- <div
           v-if="recordForm.signatureImage2 !== ''"
           style="text-align: center"
         >
@@ -385,7 +389,7 @@
             alt=""
             class="signatureImage"
           />
-        </div>
+        </div> -->
       </van-cell-group>
       <van-dialog
         width="80%"
@@ -421,19 +425,27 @@
         />
       </template>
     </van-action-sheet>
-    <signature
+    <!-- <signature
       :visible="visible"
       v-if="visible"
       @handleClose="handleCloseSignature"
       @handleSubmit="handleSubmitImage"
-    />
+    /> -->
     <!-- <transition name="van-slide-up">
     </transition> -->
+    <SignLogin
+      :signTitle ="signTitle"
+      v-if="false"
+      :show="false"
+      @handleClose="handleCloseSignature"
+      @handleSubmit="handleSubmitImage"
+    ></SignLogin>
   </div>
 </template>
 
 <script>
-import Signature from '@/components/Signature'
+// import Signature from '@/components/Signature'
+import SignLogin from '@/components/SignLogin'
 import moment from 'moment'
 import PatientCard from '@/components/PatientCard'
 import {
@@ -447,9 +459,11 @@ import {
 } from '@/api/handover-record'
 import request from '@/utils/request'
 import { mapState } from 'vuex'
+import {getLoginUserInfo} from '@/api/login'
 export default {
   data () {
     return {
+      signTitle: '',
       checked: true,
       visible: false,
       input: '',
@@ -573,7 +587,8 @@ export default {
     }
   },
   components: {
-    Signature,
+    // Signature,
+    SignLogin,
     PatientCard
   },
   computed: {
@@ -584,6 +599,25 @@ export default {
   },
   watch: {},
   methods: {
+    getUserName () {
+      return request({
+        method: 'get',
+        url: getLoginUserInfo
+      }).then(
+        (res) => {
+          if (res.data.code === 200) {
+            if (res.data.data.userName) {
+              this.recordForm.signatureImage2 = res.data.data.userName
+            }
+          } else {
+            return Promise.reject(new Error(res.data.msg))
+          }
+        },
+        e => {
+          return Promise.reject(new Error('网络异常，请稍后尝试'))
+        }
+      )
+    },
     gotoShouye () {
       this.$router.push('/patient-home')
     },
@@ -643,6 +677,9 @@ export default {
                 this.recordForm.startTime = data.startTime
               }
               this.recordForm.signatureImage2 = data.carrier
+              if (!this.recordForm.signatureImage2) {
+                this.juageImage()
+              }
               this.recordForm.suggest = data.suggest
               this.recordForm.department = data.department
               this.recordForm.forwardingWard = data.forwardingWard // 转运去向病区
@@ -665,69 +702,97 @@ export default {
                 data.appraiseJson[0].consciousness.consciousnessName // 意识
               this.recordForm.consciousnessOther =
                 data.appraiseJson[0].consciousness.consciousnessOther
+
               break
             case '进手术室':
               if (data.pointInRoomtime !== '') {
                 this.recordForm.startTime = data.pointInRoomtime // 进手术间时间
               }
-              this.recordForm.pulse = data.pointInRoom[0].pulse
-              this.recordForm.breathe = data.pointInRoom[0].breathe
-              this.recordForm.bp = data.pointInRoom[0].bp
-              this.recordForm.consciousness = data.pointInRoom[0].consciousness
-              this.recordForm.conduit = data.pointInRoom[0].conduit
-              this.recordForm.skinName = data.pointInRoom[0].skinName
-              this.recordForm.skinPart = data.pointInRoom[0].skinPart
-              this.recordForm.skinDegree = data.pointInRoom[0].skinDegree
-              this.recordForm.skinSize = data.pointInRoom[0].skinSize
-              this.recordForm.signatureImage2 =
+              if (data.pointInRoom.length > 0) {
+                this.recordForm.signatureImage2 =
                 data.pointInRoom[0].signatureImage2
+
+                this.recordForm.pulse = data.pointInRoom[0].pulse
+                this.recordForm.breathe = data.pointInRoom[0].breathe
+                this.recordForm.bp = data.pointInRoom[0].bp
+                this.recordForm.consciousness = data.pointInRoom[0].consciousness
+                this.recordForm.conduit = data.pointInRoom[0].conduit
+                this.recordForm.skinName = data.pointInRoom[0].skinName
+                this.recordForm.skinPart = data.pointInRoom[0].skinPart
+                this.recordForm.skinDegree = data.pointInRoom[0].skinDegree
+                this.recordForm.skinSize = data.pointInRoom[0].skinSize
+              }
+              if (!this.recordForm.signatureImage2) {
+                this.juageImage()
+              }
               break
             case '出手术室':
-              this.recordForm.pulse = data.pointOutRoom[0].pulse
-              this.recordForm.breathe = data.pointOutRoom[0].breathe
-              this.recordForm.bp = data.pointOutRoom[0].bp
-              this.recordForm.consciousness =
-                data.pointOutRoom[0].consciousness
-              this.recordForm.conduit = data.pointOutRoom[0].conduit
-              this.recordForm.skinName = data.pointOutRoom[0].skinName
-              this.recordForm.skinPart = data.pointOutRoom[0].skinPart
-              this.recordForm.skinDegree = data.pointOutRoom[0].skinDegree
-              this.recordForm.skinSize = data.pointOutRoom[0].skinSize
-              this.recordForm.signatureImage2 =
+              if (data.pointOutRoom.length > 0) {
+                this.recordForm.signatureImage2 =
                 data.pointOutRoom[0].signatureImage2
-              if (data.pointOutRoom[0].appraiseTime !== '') {
-                this.recordForm.startTime = data.pointOutRoom[0].appraiseTime
+
+                this.recordForm.pulse = data.pointOutRoom[0].pulse
+                this.recordForm.breathe = data.pointOutRoom[0].breathe
+                this.recordForm.bp = data.pointOutRoom[0].bp
+                this.recordForm.consciousness =
+                data.pointOutRoom[0].consciousness
+                this.recordForm.conduit = data.pointOutRoom[0].conduit
+                this.recordForm.skinName = data.pointOutRoom[0].skinName
+                this.recordForm.skinPart = data.pointOutRoom[0].skinPart
+                this.recordForm.skinDegree = data.pointOutRoom[0].skinDegree
+                this.recordForm.skinSize = data.pointOutRoom[0].skinSize
+                if (data.pointOutRoom[0].appraiseTime !== '') {
+                  this.recordForm.startTime = data.pointOutRoom[0].appraiseTime
+                }
+              }
+
+              if (!this.recordForm.signatureImage2) {
+                this.juageImage()
               }
               break
             case '进PACU':
-              this.recordForm.pulse = data.pointPacu[0].pulse
-              this.recordForm.breathe = data.pointPacu[0].breathe
-              this.recordForm.bp = data.pointPacu[0].bp
-              this.recordForm.consciousness = data.pointPacu[0].consciousness
-              this.recordForm.conduit = data.pointPacu[0].conduit
-              this.recordForm.skinName = data.pointPacu[0].skinName
-              this.recordForm.skinPart = data.pointPacu[0].skinPart
-              this.recordForm.skinDegree = data.pointPacu[0].skinDegree
-              this.recordForm.skinSize = data.pointPacu[0].skinSize
-              this.recordForm.signatureImage2 =
+              if (data.pointPacu.length > 0) {
+                this.recordForm.signatureImage2 =
                 data.pointPacu[0].signatureImage2
-              if (data.pointPacu[0].appraiseTime !== '') {
-                this.recordForm.startTime = data.pointPacu[0].appraiseTime
+
+                this.recordForm.pulse = data.pointPacu[0].pulse
+                this.recordForm.breathe = data.pointPacu[0].breathe
+                this.recordForm.bp = data.pointPacu[0].bp
+                this.recordForm.consciousness = data.pointPacu[0].consciousness
+                this.recordForm.conduit = data.pointPacu[0].conduit
+                this.recordForm.skinName = data.pointPacu[0].skinName
+                this.recordForm.skinPart = data.pointPacu[0].skinPart
+                this.recordForm.skinDegree = data.pointPacu[0].skinDegree
+                this.recordForm.skinSize = data.pointPacu[0].skinSize
+                if (data.pointPacu[0].appraiseTime !== '') {
+                  this.recordForm.startTime = data.pointPacu[0].appraiseTime
+                }
+              }
+
+              if (!this.recordForm.signatureImage2) {
+                this.juageImage()
               }
               break
             case '出PACU':
-              this.recordForm.pulse = data.outPacu[0].pulse
-              this.recordForm.consciousness = data.outPacu[0].consciousness
-              this.recordForm.conduit = data.outPacu[0].conduit
-              this.recordForm.breathe = data.outPacu[0].breathe
-              this.recordForm.bp = data.outPacu[0].bp
-              this.recordForm.skinName = data.outPacu[0].skinName
-              this.recordForm.skinPart = data.outPacu[0].skinPart
-              this.recordForm.skinDegree = data.outPacu[0].skinDegree
-              this.recordForm.skinSize = data.outPacu[0].skinSize
-              this.recordForm.signatureImage2 = data.outPacu[0].signatureImage2
-              if (data.outPacu[0].appraiseTime !== '') {
-                this.recordForm.startTime = data.outPacu[0].appraiseTime
+
+              if (data.outPacu.length > 0) {
+                this.recordForm.signatureImage2 = data.outPacu[0].signatureImage2
+                this.recordForm.pulse = data.outPacu[0].pulse
+                this.recordForm.consciousness = data.outPacu[0].consciousness
+                this.recordForm.conduit = data.outPacu[0].conduit
+                this.recordForm.breathe = data.outPacu[0].breathe
+                this.recordForm.bp = data.outPacu[0].bp
+                this.recordForm.skinName = data.outPacu[0].skinName
+                this.recordForm.skinPart = data.outPacu[0].skinPart
+                this.recordForm.skinDegree = data.outPacu[0].skinDegree
+                this.recordForm.skinSize = data.outPacu[0].skinSize
+                if (data.outPacu[0].appraiseTime !== '') {
+                  this.recordForm.startTime = data.outPacu[0].appraiseTime
+                }
+              }
+
+              if (!this.recordForm.signatureImage2) {
+                this.juageImage()
               }
               break
             case '病房收治':
@@ -735,9 +800,17 @@ export default {
                 this.recordForm.startTime = data.arrivalTime
               }
               this.recordForm.signatureImage2 = data.recipient
+              if (!this.recordForm.signatureImage2) {
+                this.juageImage()
+              }
           }
         }
       })
+    },
+    juageImage () {
+      if (!this.recordForm.signatureImage2) {
+        this.getUserName()
+      }
     },
     handleSubmitImage (image) {
       this.recordForm.signatureImage2 = image
@@ -961,7 +1034,14 @@ export default {
       this.timeVisible = false
     },
     handleShowSignature () {
-      this.visible = true
+      // this.signTitle = '运送电子签名'
+      // this.visible = true
+      this.$dialog.confirm({
+        title: '签名',
+        message: '确定要签名吗？'
+      }).then(() => {
+        this.getUserName()
+      })
     },
     handleCloseSignature () {
       this.visible = false
@@ -980,6 +1060,7 @@ export default {
     this.transferType = parseInt(this.$route.query.type)
     this.transferTitle = this.$route.query.title
     this.getData()
+    // this.getUserName()
   }
 }
 </script>
@@ -1122,6 +1203,10 @@ export default {
       .sign-title {
         color: #32db64;
       }
+      .sign-value {
+          text-align: left;
+          color: #000;
+        }
     }
     // }
     &:last-child {

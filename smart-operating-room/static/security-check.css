@@ -7,7 +7,9 @@
   page-break-after: always;
   margin: auto;
 }
-
+.wenben-content-userinfo {
+  margin-top: 20px;
+}
 .content-wenben-container .wenben-content {
   width: 100%;
   display: flex;
@@ -260,6 +262,7 @@
 }
 
 .content-wenben-container .imgbox {
+  font-size: 18px;
   width: 100%;
   height: 100%;
 }
@@ -270,7 +273,7 @@
 }
 
 .content-wenben-container .mgt5 {
-  margin-top: 5px;
+  margin-top: 15px;
 }
 
 .content-wenben-container .qianming {

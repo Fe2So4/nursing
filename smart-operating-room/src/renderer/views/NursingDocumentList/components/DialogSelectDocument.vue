@@ -108,6 +108,21 @@ export default {
           this.$refs.printContent.innerHTML,
           options
         )
+        // this.$emit('closeVisible')
+        setTimeout(() => {
+          this.onUpdata()
+        }, 3000)
+      }, 300)
+    },
+    onUpdata () {
+      const options = { silent: true }
+      this.utilsDebounce(() => {
+        ipcRenderer.send(
+          // 'printDocument', // 打印
+          'print-documentPDF', // PDF上传
+          this.$refs.printContent.innerHTML,
+          options
+        )
         this.$emit('closeVisible')
       }, 300)
     },

@@ -8,9 +8,9 @@ import './printDocuments'
 // import './printUpdataPDF'
 const { autoUpdater } = require('electron-updater')
 const Path = require('path')
-const feedUrl = 'http://128.0.18.38:8080/nursing/smartnursing'
+// const feedUrl = 'http://128.0.18.38:8080/nursing/smartnursing'
 // const feedUrl = 'http://128.0.18.38:8080/nursing/largescreen'
-// const feedUrl = 'http://128.0.18.38:8080/nursing/orderscreen'
+const feedUrl = 'http://128.0.18.38:8080/nursing/orderscreen'
 // const feedUrl = 'http://localhost:9088/build'
 // import '../renderer/store'
 /**
@@ -49,29 +49,30 @@ function createUpdateWindow () {
   })
   updateWindow.loadURL(Path.resolve(__static, './update/index.html'))
 }
-function createInitialWindow () {
-  initialWindow = new BrowserWindow({
-    width: 900,
-    height: 640,
-    frame: false,
-    center: true,
-    resizable: false,
-    movable: true,
-    transparent: true,
-    focusable: false,
-    alwaysOnTop: true,
-    webPreferences: {
-      devTools: false,
-      preload: Path.resolve(__static, './loading/preload.js')
-    }
-  })
-  initialWindow.loadURL(Path.resolve(__static, './loading/index.html'))
-}
+// function createInitialWindow () {
+//   initialWindow = new BrowserWindow({
+//     width: 900,
+//     height: 640,
+//     frame: false,
+//     center: true,
+//     resizable: false,
+//     movable: true,
+//     transparent: true,
+//     focusable: false,
+//     alwaysOnTop: true,
+//     webPreferences: {
+//       devTools: false,
+//       preload: Path.resolve(__static, './loading/preload.js')
+//     }
+//   })
+//   initialWindow.loadURL(Path.resolve(__static, './loading/index.html'))
+// }
 function createWindow () {
   /**
    * Initial window options
    */
   mainWindow = new BrowserWindow({
+    frame: false,
     height: 560,
     useContentSize: true,
     width: 880,
@@ -94,6 +95,9 @@ function createWindow () {
   }
   mainWindow.on('closed', () => {
     mainWindow = null
+    // if (initialWindow !== null) {
+    //   initialWindow.webContents.send('close-initial-window')
+    // }
   })
 
   // ipcMain.on('login-window', () => {
@@ -108,7 +112,7 @@ const checkForUpdates = () => {
   // 执行更新检查
   if (process.env.NODE_ENV === 'development') {
     // 调试环境必须主动设置当前版本，electron-update有bug会去取electron的版本,而不是app的版本
-    autoUpdater.currentVersion = '1.0.3'
+    autoUpdater.currentVersion = '1.0.6'
     autoUpdater.updateConfigPath = Path.join(__dirname, '../../build/win-unpacked/resources/app-update.yml')
   } else {
     // autoUpdater.updateConfigPath = Path.join(__filename, '../../build/win-unpacked/resources/app-update.yml')
@@ -120,7 +124,7 @@ const checkForUpdates = () => {
   autoUpdater.on('error', function (message) {
     console.log('执行更新错误')
     sendUpdateMessage('error', message)
-    createInitialWindow()
+    // createInitialWindow()
     createWindow()
   })
   autoUpdater.on('checking-for-update', function (message) {
@@ -138,7 +142,7 @@ const checkForUpdates = () => {
   })
   autoUpdater.on('update-not-available', function (message) {
     console.log(message, 'update_dyw_ava')
-    createInitialWindow()
+    // createInitialWindow()
     createWindow()
     // sendUpdateMessage('update-not-available', message)
   })
@@ -189,12 +193,14 @@ app.on('activate', () => {
   }
 })
 ipcMain.once('open-main', () => {
-  initialWindow.webContents.send('close-initial-window')
+  // initialWindow.webContents.send('close-initial-window')
   mainWindow.show()
 })
 
 ipcMain.once('close-initial-window', () => {
-  initialWindow.destroy()
+  if (initialWindow.destroy) {
+    initialWindow.destroy()
+  }
 })
 /**
  * Auto Updater
