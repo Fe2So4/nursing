@@ -33,7 +33,7 @@
                 <template #right-icon>
                   <div class="stepper-content" style="display:flex;justify-content:flex-end;">
                     <!--                    <span class="all-number" v-if="active === 5 || active === 6 || active === 7">{{ item.count }}</span>-->
-                    <van-stepper v-model="item.number" theme="round" min='0'/>
+                    <van-stepper integer @change="changeItemNumber(item)" v-model="item.number" theme="round" min='0'/>
                   </div>
                 </template>
               </van-cell>
@@ -169,6 +169,13 @@ export default {
     ...mapState('Patient', ['patientInfo', 'opePeopleInfo'])
   },
   methods: {
+    changeItemNumber (item) {
+      if (item.number) {
+        item.number = Number(item.number)
+      } else {
+        item.number = 0
+      }
+    },
     changeColor (item) {
       switch (this.active) {
         case 5:
