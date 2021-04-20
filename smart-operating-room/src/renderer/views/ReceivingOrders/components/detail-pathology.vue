@@ -190,18 +190,20 @@ export default {
     // 扫描二维码
     enterInput () {
       this.workCode = ''
-      if (!this.codeInput.includes('=')) {
-        this.$alert('请先扫描工勤人员二维码')
-        this.codeInput = ''
-        return false
-      }
+      // if (!this.codeInput.includes('=')) {
+      //   this.$alert('请先扫描工勤人员二维码')
+      //   this.codeInput = ''
+      //   return false
+      // }
       if (this.selectRow.orderState === '0') {
         this.startTime = new Date().getTime()
-        this.workCode = this.codeInput.split('=')[1]
+        this.workCode = this.codeInput
+        // this.workCode = this.codeInput.split('=')[1]
 
         this.changePatient(1)
       } else {
-        this.workCode = this.codeInput.split('=')[1]
+        // this.workCode = this.codeInput.split('=')[1]
+        this.workCode = this.codeInput
         if (this.selectRow.workerCode !== this.workCode) {
           this.$alert('接单工勤人员与扫描人员工号不符,请确认后重试')
           this.codeInput = ''
