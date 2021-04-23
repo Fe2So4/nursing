@@ -499,6 +499,7 @@ export default {
     },
     // 节流提交申请
     submitApplication () {
+      this.$emit('getUserInfoAge')
       this.btnLoad = true
       this.timeSubApplication()
     },

@@ -3,12 +3,14 @@
 import { app, BrowserWindow, ipcMain, dialog } from 'electron'
 import { filePath as configJsonFilePath } from './ip'
 import './print'
+import './printPDF'
+import './printDocuments'
+// import './printUpdataPDF'
 const { autoUpdater } = require('electron-updater')
 const Path = require('path')
-const fs = require('fs')
 // const feedUrl = 'http://128.0.18.38:8080/nursing/smartnursing'
-// const feedUrl = 'http://128.0.18.38:8080/nursing/largescreen'
-const feedUrl = 'http://128.0.18.38:8080/nursing/orderscreen'
+const feedUrl = 'http://128.0.18.38:8080/nursing/largescreen'
+// const feedUrl = 'http://128.0.18.38:8080/nursing/orderscreen'
 // const feedUrl = 'http://localhost:9088/build'
 // import '../renderer/store'
 /**
@@ -47,29 +49,30 @@ function createUpdateWindow () {
   })
   updateWindow.loadURL(Path.resolve(__static, './update/index.html'))
 }
-function createInitialWindow () {
-  initialWindow = new BrowserWindow({
-    width: 880,
-    height: 560,
-    frame: false,
-    center: true,
-    resizable: false,
-    movable: true,
-    transparent: true,
-    focusable: false,
-    alwaysOnTop: true,
-    webPreferences: {
-      devTools: false,
-      preload: Path.resolve(__static, './loading/preload.js')
-    }
-  })
-  initialWindow.loadURL(Path.resolve(__static, './loading/index.html'))
-}
+// function createInitialWindow () {
+//   initialWindow = new BrowserWindow({
+//     width: 900,
+//     height: 640,
+//     frame: false,
+//     center: true,
+//     resizable: false,
+//     movable: true,
+//     transparent: true,
+//     focusable: false,
+//     alwaysOnTop: true,
+//     webPreferences: {
+//       devTools: false,
+//       preload: Path.resolve(__static, './loading/preload.js')
+//     }
+//   })
+//   initialWindow.loadURL(Path.resolve(__static, './loading/index.html'))
+// }
 function createWindow () {
   /**
    * Initial window options
    */
   mainWindow = new BrowserWindow({
+    frame: false,
     height: 560,
     useContentSize: true,
     width: 880,
@@ -92,6 +95,9 @@ function createWindow () {
   }
   mainWindow.on('closed', () => {
     mainWindow = null
+    // if (initialWindow !== null) {
+    //   initialWindow.webContents.send('close-initial-window')
+    // }
   })
 
   // ipcMain.on('login-window', () => {
@@ -106,7 +112,7 @@ const checkForUpdates = () => {
   // 执行更新检查
   if (process.env.NODE_ENV === 'development') {
     // 调试环境必须主动设置当前版本，electron-update有bug会去取electron的版本,而不是app的版本
-    autoUpdater.currentVersion = '1.0.3'
+    autoUpdater.currentVersion = '1.0.6'
     autoUpdater.updateConfigPath = Path.join(__dirname, '../../build/win-unpacked/resources/app-update.yml')
   } else {
     // autoUpdater.updateConfigPath = Path.join(__filename, '../../build/win-unpacked/resources/app-update.yml')
@@ -118,7 +124,7 @@ const checkForUpdates = () => {
   autoUpdater.on('error', function (message) {
     console.log('执行更新错误')
     sendUpdateMessage('error', message)
-    createInitialWindow()
+    // createInitialWindow()
     createWindow()
   })
   autoUpdater.on('checking-for-update', function (message) {
@@ -136,7 +142,7 @@ const checkForUpdates = () => {
   })
   autoUpdater.on('update-not-available', function (message) {
     console.log(message, 'update_dyw_ava')
-    createInitialWindow()
+    // createInitialWindow()
     createWindow()
     // sendUpdateMessage('update-not-available', message)
   })
@@ -187,12 +193,14 @@ app.on('activate', () => {
   }
 })
 ipcMain.once('open-main', () => {
-  initialWindow.webContents.send('close-initial-window')
+  // initialWindow.webContents.send('close-initial-window')
   mainWindow.show()
 })
 
 ipcMain.once('close-initial-window', () => {
-  initialWindow.destroy()
+  if (initialWindow.destroy) {
+    initialWindow.destroy()
+  }
 })
 /**
  * Auto Updater
@@ -212,10 +220,15 @@ app.on('ready', () => {
 })
  */
 
-// 新建导出窗口
-const printPagePDFURL = process.env.NODE_ENV === 'development'
-  ? `http://localhost:9088/static/printPDF.html`
-  : Path.join(__dirname, '/static/printPDF.html')
+// 监听配置文件修改
+const chokidar = require('chokidar')
+const watcher = chokidar.watch(configJsonFilePath)
+watcher.on('change', (path) => {
+  console.log(`File ${path} has been changed`)
+  mainWindow.reload()
+})
+
+// 导出到pdf
 const printPDFWindows = new Set()
 const createPrintPDFWindow = () => {
   let newPrintPDFWindow = new BrowserWindow({
@@ -225,56 +238,52 @@ const createPrintPDFWindow = () => {
       nodeIntegration: true
     }
   })
-
-  newPrintPDFWindow.loadURL(printPagePDFURL)
-  // loadURL(`file://${__dirname}/app/index.html`)
-  newPrintPDFWindow.once('ready-to-show', () => {
-  // newPrintWindow.show()
-  })
+  const printPDFUrl = process.env.NODE_ENV === 'development'
+    ? `http://localhost:9088/static/printUpdataPDF.html`
+    : Path.join(__dirname, '/static/printUpdataPDF.html')
+  newPrintPDFWindow.loadURL(printPDFUrl)
 
   newPrintPDFWindow.on('closed', () => {
     printPDFWindows.delete(newPrintPDFWindow)
     newPrintPDFWindow = null
   })
-
   printPDFWindows.add(newPrintPDFWindow)
   return newPrintPDFWindow
 }
-let printPDFHtml = ''
-let cssFilePDFName = ''
-let printPDFWin = null
-let printPDFOptions = null
-ipcMain.on('printpdfChannel', (e, html, css, options) => {
+
+let printPDFWin
+let printPdfHtml = ''
+ipcMain.on('print-documentPDF', (e, html) => {
+  console.log('点击开始导出PDF')
   printPDFWin = createPrintPDFWindow()
-  printPDFHtml = html
-  cssFilePDFName = css
-  printPDFOptions = options
+  printPdfHtml = html
 })
-
-ipcMain.on('print-page-ready-test', (e) => {
-  e.reply('print-page-ready-reply-test', printPDFHtml, cssFilePDFName, printPDFOptions)
+ipcMain.on('print-updataPDF-ready', (e) => {
+  console.log('开始读取html')
+  e.reply('print-updataPDF-ready-reply', printPdfHtml)
 })
-
-ipcMain.on('did-finish-load', (e, options, a) => {
-  console.log('A', a)
-  var filename = a + '.pdf'
-  var dir = dialog.showSaveDialogSync({ defaultPath: filename, showsTagField: false })
-
-  printPDFWin.webContents.printToPDF({}, (error, data) => {
-    if (error) throw error // 写文件
-    fs.writeFileSync(dir, data)
-    if (printPDFWin) {
-      printPDFWin.close()
-    }
-  })
-
-// const options = { silent: true, landscape: true }
+ipcMain.on('print-printPdf-document', (event, res) => {
+  console.log('读取html完毕')
+  try {
+    printPDFWin.webContents.printToPDF({}, (error, data) => {
+      console.log(data)
+      if (error === null) {
+        mainWindow.webContents.send('reply', data)
+      } else {
+        dialog.showMessageBox(mainWindow, {
+          type: 'info',
+          title: '提示',
+          message: '文件上传失败'
+        })
+      }
+    })
+  } catch (error) {
+    console.log('这里报错')
+  }
 })
-
-// 监听配置文件修改
-const chokidar = require('chokidar')
-const watcher = chokidar.watch(configJsonFilePath)
-watcher.on('change', (path) => {
-  console.log(`File ${path} has been changed`)
-  mainWindow.reload()
+// 监听上传是否成功 '1' 成功  '2' 失败
+ipcMain.on('upLoadSuccess', (event, res) => {
+  if (printPDFWin) {
+    printPDFWin.close()
+  }
 })

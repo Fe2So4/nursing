@@ -3,10 +3,13 @@
   <el-scrollbar style="height:100%;width:100%">
     <div class="paContainer">
       <div class="user-info">
-        <user-info />
+        <user-info ref="userInfo" />
       </div>
       <div class="pathology-type">
-        <sub-pathological />
+        <sub-pathological
+          @getUserInfoAge="getUserInfoAge"
+          :user-age="userAge"
+        />
       </div>
       <div class="pathology-list">
         <pathological-table />
@@ -23,13 +26,18 @@ export default {
   name: 'PathologicalApplication',
   data () {
     return {
-
+      userAge: ''
     }
   },
   components: {
     UserInfo,
     SubPathological,
     PathologicalTable
+  },
+  methods: {
+    getUserInfoAge () {
+      this.$store.commit('SAVE_USERINFO_AGE', this.$refs.userInfo.formData1.patientAge)
+    }
   }
 }
 </script>

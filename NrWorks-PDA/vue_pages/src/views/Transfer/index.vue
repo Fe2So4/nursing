@@ -178,7 +178,7 @@ export default {
       let arr = []
       let time = moment(new Date()).format('YYYY-MM-DD HH:mm')
       if (this.$route.query.title === '病房交接') {
-        if (parseInt(this.code)) {
+        if (!this.IsEmpty(this.code)) {
           if (this.patientInfo.cureNo === this.code) {
             if (this.stepList[0].value) {
               this.$notify({
@@ -242,7 +242,7 @@ export default {
             }
           }
         } else {
-          if (parseInt(this.code)) {
+          if (!this.IsEmpty(this.code)) {
             if (this.patientInfo.cureNo === this.code) {
               if (this.stepList[0].value) {
                 this.$notify({
@@ -311,7 +311,7 @@ export default {
             return
           }
         } else {
-          if (parseInt(this.code)) {
+          if (!this.IsEmpty(this.code)) {
             if (this.patientInfo.cureNo === this.code) {
               if (this.stepList[0].value) {
                 this.$notify({
@@ -464,7 +464,7 @@ export default {
         //   }
         // }
       } else if (this.$route.query.title === '进PACU') {
-        if (parseInt(this.code)) {
+        if (!this.IsEmpty(this.code)) {
           if (this.patientInfo.cureNo === this.code) {
             if (this.stepList[0].value) {
               this.$notify({
@@ -526,7 +526,7 @@ export default {
         //   return
         // }
       } else if (this.$route.query.title === '出PACU') {
-        if (parseInt(this.code)) {
+        if (!this.IsEmpty(this.code)) {
           if (this.patientInfo.cureNo === this.code) {
             if (this.stepList[0].value) {
               this.$notify({
@@ -610,7 +610,7 @@ export default {
             return
           }
         } else {
-          if (parseInt(this.code)) {
+          if (!this.IsEmpty(this.code)) {
             if (this.patientInfo.cureNo === this.code) {
               if (this.stepList[0].value) {
                 this.$notify({
@@ -769,7 +769,7 @@ export default {
     },
     handleCode (code) {
       // 患者腕带条码
-      if (parseInt(code)) {
+      if (!this.IsEmpty(code)) {
         this.code = code
         this.saveCodeStatus()
         // this.subjectOfPatientWristband.next(code)
@@ -847,26 +847,19 @@ export default {
     }
   },
   created () {
-    // document.onkeydown = (e) => {
-    //   var key = window.event.keyCode
-    //   if (key === 13) {
-    //     setTimeout(() => {
-    //       this.handleCode('RoomNum=606')
-    //       // this.handleCode('19363038')
-    //       // this.handleCode('Worker=22350195')
+    document.onkeydown = (e) => {
+      var key = window.event.keyCode
+      if (key === 13) {
+        setTimeout(() => {
+          // this.handleCode('RoomNum=606')
+          this.handleCode('19468254')
+          // this.handleCode('Worker=22350195')
 
-    //       // this.handleCode('floorNum=6')
-    //       // this.handleCode('OpsQRCode=19377699,OpsSchNo=426786')
-    //     }, 1000)
-    //   }
-    //   if (key === 8) {
-    //     setTimeout(() => {
-    //       // this.handleCode('RoomNum=606')
-    //       // this.handleCode("19058456");
-    //       this.handleCode('Worker=19058456')
-    //     }, 1000)
-    //   }
-    // }
+          // this.handleCode('floorNum=6')
+          // this.handleCode('OpsQRCode=19377699,OpsSchNo=426786')
+        }, 1000)
+      }
+    }
     this.currentStep()
   },
   mounted () {

@@ -140,6 +140,7 @@
             <li
               v-for="(item, index) in inBufferOrder"
               :key="index"
+              @click="handleShowDetail(item)"
             >
               <patient-list
                 v-if="item.orderType === 0"
@@ -229,14 +230,34 @@ export default {
     DetailDrawer
   },
   created () {
-    this.getIPAdress()
     const win = BrowserWindow.getFocusedWindow()
     if (win) {
       win.maximize()
     }
     this.setTheme()
+    this.initSocket()
+  },
+  mounted () {
+    document.addEventListener('keyup', this.keyUpListener)
+    ipcRenderer.send('open-main')
+    this.getNewTime()
+    this.getFloorList()
+    Bus.$on('shuaxinPatient', res => {
+      this.detailVisible = false
+      this.utilsDebounce(() => {
+        this.getReceiveOrders()
+      }, 1000)
+    })
+    Bus.$on('handleClickPrint', res => {
+      this.changePrintState()
+    })
   },
   methods: {
+    changePrintState () {
+      if (this.detailVisible === true) {
+        this.selectRow.printState = 1
+      }
+    },
     keyUpListener (e) {
       if (e.keyCode === 112) {
         this.$electron.ipcRenderer.send('open-config-file')
@@ -273,12 +294,14 @@ export default {
     },
     initSocket () {
       if (this.socket) {
+        this.socket.close()
         this.socket = null
       }
 
       this.socket = io(config.default.api.socketURL, {
-        query: 'sendName=' + this.getIPAdress()
+        query: 'sendName=' + this.getIPAdress() + new Date().getTime()
       })
+      console.log(this.socket)
       this.socket.on('connect', () => {
         console.log('socket.io connected')
         this.connect = true
@@ -291,6 +314,7 @@ export default {
         this.connect = false
       })
       this.socket.on('push_event_all', data => {
+        console.log(this.socket, '---------------')
         if (data) {
           console.log(data)
           if (
@@ -396,10 +420,11 @@ export default {
     },
     // 点击刷新
     shuaxin () {
-      // this.getFloorList()
-      this.getReceiveOrders()
-      this.getNewTime()
-      this.initSocket()
+      this.utilsDebounce(() => {
+        this.getReceiveOrders()
+        this.getNewTime()
+        // this.initSocket()
+      }, 300)
     },
     // 获取当前时间
     getNewTime () {
@@ -445,19 +470,6 @@ export default {
       window.document.documentElement.setAttribute('theme', type)
     }
   },
-  mounted () {
-    document.addEventListener('keyup', this.keyUpListener)
-    ipcRenderer.send('open-main')
-    this.getNewTime()
-    this.getFloorList()
-    Bus.$on('shuaxinPatient', res => {
-      this.detailVisible = false
-      this.utilsDebounce(() => {
-        this.getReceiveOrders()
-      }, 1000)
-    })
-    this.initSocket()
-  },
   computed: {
     // 监听房间切换
     ListeningRoom () {
@@ -498,9 +510,6 @@ export default {
     .option-right{
       span{
         @include theme-property('color',font_color_secondary);
-        >span{
-          // @include theme-property('color',font_color_secondary);
-        }
       }
     }
   }

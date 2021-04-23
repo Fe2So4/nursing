@@ -4,9 +4,12 @@
   min-width: 824px;
   min-height: 920px;
   background-color: #fff;
-  padding: 10px 60px 0 60px;
+  page-break-after: always;
+  margin: auto;
 }
-
+.wenben-content-userinfo {
+  margin-top: 20px;
+}
 .content-wenben-container .wenben-content {
   width: 100%;
   display: flex;
@@ -218,89 +221,90 @@
   flex: 1;
 }
 
-.info-right-one {
+.content-wenben-container .info-right-one {
   width: 100%;
   text-align: right;
   padding: 1px;
 }
 
-.padl5 {
+.content-wenben-container .padl5 {
   padding-left: 5px;
 }
 
-.padl3 {
+.content-wenben-container .padl3 {
   padding-left: 3px;
 }
 
-.padb10 {
+.content-wenben-container .padb10 {
   padding-bottom: 10px;
 }
 
-.title {
+.content-wenben-container .title {
   text-align: center;
   font-weight: 600;
   border-bottom: 1px solid #000;
 }
 
-.mgl10 {
+.content-wenben-container .mgl10 {
   margin-left: 10px;
 }
 
-.qita {
+.content-wenben-container .qita {
   margin-bottom: 10px;
   display: flex;
   font-size: 12px;
 }
 
-.qita .text {
+.content-wenben-container .qita .text {
   padding-left: 5px;
   border-bottom: 1px solid #000;
   flex: 1;
 }
 
-.imgbox {
+.content-wenben-container .imgbox {
+  font-size: 18px;
   width: 100%;
   height: 100%;
 }
 
-.imgbox img {
+.content-wenben-container .imgbox img {
   width: 100%;
   height: 100%;
 }
 
-.mgt5 {
-  margin-top: 5px;
+.content-wenben-container .mgt5 {
+  margin-top: 15px;
 }
 
-.qianming {
+.content-wenben-container .qianming {
   border-top: 1px solid #000;
   padding-bottom: 20px;
   padding-top: 10px;
   font-size: 12px;
 }
 
-.qianming div {
+.content-wenben-container .qianming div {
   display: flex;
   align-items: center;
 }
 
-.qianming div .text {
+.content-wenben-container .qianming div .text {
   padding-left: 5px;
   border-bottom: 1px solid #000;
   flex: 1;
 }
 
-.qianming .qianming-list {
+.content-wenben-container .qianming .qianming-list {
   padding: 0 5px;
   height: 50px;
 }
 
-.guanluqita {
+.content-wenben-container .guanluqita {
   display: flex;
   justify-content: flex-end;
 }
 
-.zidingyi {
+.content-wenben-container .zidingyi {
   width: 150px;
   border-bottom: 1px solid #000;
   text-align: left;
@@ -308,37 +312,37 @@
   text-align: center;
 }
 
-.ziti {
+.content-wenben-container .ziti {
   font-size: 16px;
   font-weight: 600;
 }
-.row {
+.content-wenben-container .row {
   width: 100%;
   display: flex;
   height: 28px;
   padding-left: 10px;
 }
-.col {
+.content-wenben-container .col {
   display: flex;
   font-size: 14px;
   width: 30%;
 }
-.col-50 {
+.content-wenben-container .col-50 {
   display: flex;
   font-size: 14px;
   width: 50%;
 }
-.col-60 {
+.content-wenben-container .col-60 {
   display: flex;
   font-size: 14px;
   width: 60%;
 }
-.col-70 {
+.content-wenben-container .col-70 {
   display: flex;
   font-size: 14px;
   width: 70%;
 }
-.row-lable {
+.content-wenben-container .row-lable {
   width: 150px;
   line-height: 28px;
   text-align: right;
@@ -350,7 +354,7 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-.row-text {
+.content-wenben-container .row-text {
   line-height: 28px;
   width: 100%;
   padding: 0 10px;

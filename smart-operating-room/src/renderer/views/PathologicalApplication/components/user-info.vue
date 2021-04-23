@@ -58,7 +58,6 @@
           >
             <template v-slot>
               <vxe-input
-                readonly
                 style="width:50px"
                 v-model="formData1.patientAge"
               />

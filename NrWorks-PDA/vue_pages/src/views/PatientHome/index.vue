@@ -206,6 +206,7 @@ export default {
       this.visible = false
     },
     getSaftyCheckState () {
+      if (!this.patientInfo.operSchNo) return
       return request({
         url: `${getSaftyCheckState}/${this.patientInfo.operSchNo}`
       }).then(
@@ -349,6 +350,9 @@ export default {
       box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
       border-radius: 10px;
       .van-button {
+        white-space:nowrap;
+       overflow:hidden;
+       text-overflow:ellipsis;
         flex: 1;
         height: 100px;
         line-height: 100px;

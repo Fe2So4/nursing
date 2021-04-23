@@ -39,6 +39,7 @@
         </van-cell>
         <van-cell
           title="手术部位、标识、体位正确："
+          value-class="van-cell-center"
         >
           <template #right-icon>
             <div class="switch-wrapper">
@@ -166,42 +167,56 @@
           title="麻醉医师签名"
           title-class="sign-title"
           @click="handleShowSignature(1)"
+          :value="anesBeforeAnesDoc"
+          value-class="sign-value"
         ></van-cell>
-        <div v-if="anesBeforeAnesDoc !== ''" style="text-align: center">
+        <!-- <div v-if="anesBeforeAnesDoc !== ''" style="text-align: center">
           <img :src="anesBeforeAnesDoc" alt="" class="signatureImage" />
-        </div>
+        </div> -->
         <van-cell
           title="手术医师签名"
           title-class="sign-title"
           @click="handleShowSignature(2)"
+          :value="anesBeforeOperDoc"
+          value-class="sign-value"
         ></van-cell>
-        <div v-if="anesBeforeOperDoc !== ''" style="text-align: center">
+        <!-- <div v-if="anesBeforeOperDoc !== ''" style="text-align: center">
           <img :src="anesBeforeOperDoc" alt="" class="signatureImage" />
-        </div>
+        </div> -->
         <van-cell
           title="手术护士签名"
           title-class="sign-title"
           @click="handleShowSignature(3)"
+          :value="anesBeforeNurse"
+          value-class="sign-value"
         ></van-cell>
-        <div v-if="anesBeforeNurse !== ''" style="text-align: center">
+        <!-- <div v-if="anesBeforeNurse !== ''" style="text-align: center">
           <img :src="anesBeforeNurse" alt="" class="signatureImage" />
-        </div>
+        </div> -->
       </van-cell-group>
     </div>
     <!-- <transition name="van-slide-up">
     </transition> -->
-    <signature
+    <!-- <signature
       :visible="visible"
       v-if="visible"
       @handleClose="handleCloseSignature"
       @handleSubmit="handleSubmitImage"
-    />
+    /> -->
+    <SignLogin
+      :signTitle ="signTitle"
+      v-if="visible"
+      :show="visible"
+      @handleClose="handleCloseSignature"
+      @handleSubmit="handleSubmitImage"
+    ></SignLogin>
   </div>
 </template>
 
 <script>
 // import Signature from '../Signature/index'
-import Signature from '@/components/Signature'
+import SignLogin from '@/components/SignLogin'
+// import Signature from '@/components/Signature'
 import PatientCard from '@/components/PatientCard'
 import { submitTimeout, getTimeout } from '@/api/check'
 import request from '@/utils/request'
@@ -210,6 +225,7 @@ import moment from 'moment'
 export default {
   data () {
     return {
+      signTitle: '',
       checked: true,
       input: '',
       time: moment(new Date()).format('YYYY-MM-DD HH:mm'),
@@ -239,7 +255,8 @@ export default {
     }
   },
   components: {
-    Signature,
+    // Signature,
+    SignLogin,
     PatientCard
   },
   computed: {
@@ -326,6 +343,16 @@ export default {
       )
     },
     handleShowSignature (param) {
+      switch (param) {
+        case 1:
+          this.signTitle = '麻醉医师签名'
+          break
+        case 2:
+          this.signTitle = '手术医师签名'
+          break
+        case 3:
+          this.signTitle = '手术护士签名'
+      }
       this.visible = true
       this.currentSign = param
     },
@@ -451,6 +478,9 @@ export default {
   .list {
     height: calc(100% - 324px);
     overflow-y: auto;
+    .van-cell__value {
+      flex: unset;
+    }
   }
   .van-cell {
     line-height: 94px;
@@ -512,6 +542,10 @@ export default {
         }
         .sign-title {
           color: #32db64;
+        }
+        .sign-value {
+          text-align: left;
+          color: #000;
         }
       }
     }

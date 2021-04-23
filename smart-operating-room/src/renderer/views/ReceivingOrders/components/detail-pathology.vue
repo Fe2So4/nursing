@@ -33,6 +33,7 @@
       </el-col>
     </el-row>
     <p
+      v-if="selectRow.orderState !== '3'"
       :class="{ 'code-input': true, active: codeInputFocus }"
       @click="handleFocus"
     >
@@ -82,7 +83,9 @@
             <span>固定液：</span><span class="dp-value">{{ selectRow.fixed }}</span>
           </el-col>
         </el-row>
-        <p v-if="selectRow.orderState === '1' || selectRow.orderState === 1">
+        <p
+          v-if="selectRow.orderState === '1' || selectRow.orderState === 1 || selectRow.orderState === '3'"
+        >
           <el-button
             @click="gotoThree"
             class="el-icon-printer"
@@ -172,7 +175,7 @@ export default {
       const {
         orderId
       } = this.selectRow
-      if (+this.selectRow.orderState === 1 && orderId) {
+      if ((+this.selectRow.orderState === 1 || this.selectRow.orderState === '3') && orderId) {
         const url = `http://128.0.16.55:8009/Inspection/PrintSpecimenByPidxNew?type=worker&pid=${orderId}`
         this.$electron.shell.openExternal(url)
       } else {
@@ -187,18 +190,20 @@ export default {
     // 扫描二维码
     enterInput () {
       this.workCode = ''
-      if (!this.codeInput.includes('=')) {
-        this.$alert('请先扫描工勤人员二维码')
-        this.codeInput = ''
-        return false
-      }
+      // if (!this.codeInput.includes('=')) {
+      //   this.$alert('请先扫描工勤人员二维码')
+      //   this.codeInput = ''
+      //   return false
+      // }
       if (this.selectRow.orderState === '0') {
         this.startTime = new Date().getTime()
-        this.workCode = this.codeInput.split('=')[1]
+        this.workCode = this.codeInput
+        // this.workCode = this.codeInput.split('=')[1]
 
         this.changePatient(1)
       } else {
-        this.workCode = this.codeInput.split('=')[1]
+        // this.workCode = this.codeInput.split('=')[1]
+        this.workCode = this.codeInput
         if (this.selectRow.workerCode !== this.workCode) {
           this.$alert('接单工勤人员与扫描人员工号不符,请确认后重试')
           this.codeInput = ''
@@ -206,7 +211,7 @@ export default {
         }
         if (this.exitType !== '1') {
           this.endTime = new Date().getTime()
-          if (this.endTime - this.startTime < 300000) {
+          if (this.endTime - this.startTime < 5000) {
             this.openToast('warning', '接单与入缓冲区时间间隔小于5秒,请重试')
             return false
           } else {
@@ -230,6 +235,15 @@ export default {
         }
       }).then(res => {
         // Bus.$emit('shuaxinPatient', '3')
+      })
+    },
+    // 提示方法
+    openToast (type, mesg) {
+      this.$message({
+        showClose: true,
+        message: mesg,
+        type: type,
+        duration: 3000
       })
     },
     // 自动聚焦

@@ -9,6 +9,9 @@ const state = {
 }
 
 const mutations = {
+  SAVE_USERINFO_AGE (state, data) {
+    state.userInfo.patientAge = data || ''
+  },
   SAVE_USERINFO (state, data) {
     state.userInfo = data || {}
   },

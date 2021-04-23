@@ -89,7 +89,7 @@
         <van-cell
           title="手术体位："
           title-class="left-title"
-          value-class="right-value"
+          value-class="right-value multipul-select"
           :value="filterLabel({
                   list: 'bodyOptions',
                   value: 'position',
@@ -170,8 +170,9 @@
             title="插入者"
             title-class="sign-title"
             @click="handleShowSignature('catheterSign')"
+            :value="recordForm.catheter.catheterSign"
           ></van-cell>
-          <div style="padding: 0 16px">
+          <!-- <div style="padding: 0 16px">
             <div
               class="signatureImage-content"
               v-if="recordForm.catheter.catheterSign !== ''"
@@ -182,7 +183,7 @@
                 class="signatureImage"
               />
             </div>
-          </div>
+          </div> -->
         </div>
         <van-cell title="电刀：" value="">
           <template #right-icon>
@@ -309,12 +310,11 @@
               title-class="sign-title"
               :key="'cqsign' + index"
               @click="handleShowSignature('cqSign' + index)"
+              :value="item.cqSign"
             >
             </van-cell>
-            <!-- <div :key="'cqsignImage'+index" v-if="item.cqSign!==''" style="text-align:center;">
-              <img :src="item.cqSign" alt="" class="signatureImage">
-            </div> -->
-            <div
+
+            <!-- <div
               style="padding: 0 16px"
               :key="'cqsignImage' + index"
               v-if="item.cqSign !== ''"
@@ -322,7 +322,7 @@
               <div class="signatureImage-content" v-if="item.cqSign !== ''">
                 <img :src="item.cqSign" alt="" class="signatureImage"/>
               </div>
-            </div>
+            </div> -->
             <van-cell
               title="放气时间"
               :key="'fq' + index"
@@ -337,12 +337,10 @@
               title-class="sign-title"
               :key="'fqsign' + index"
               @click="handleShowSignature('fqSign' + index)"
+              :value="item.fqSign"
             >
             </van-cell>
-            <!-- <div :key="'fqsignImage'+index" v-if="item.fqSign!==''" style="text-align:center;">
-              <img :src="item.fqSign" alt="" class="signatureImage">
-            </div> -->
-            <div
+            <!-- <div
               style="padding: 0 16px"
               :key="'fqsignImage' + index"
               v-if="item.fqSign !== ''"
@@ -350,7 +348,7 @@
               <div class="signatureImage-content" v-if="item.cqSign !== ''">
                 <img :src="item.fqSign" alt="" class="signatureImage"/>
               </div>
-            </div>
+            </div> -->
           </template>
         </div>
         <van-cell
@@ -392,11 +390,10 @@
             title="操作者"
             title-class="sign-title"
             @click="handleShowSignature('operationDoc')"
+            :value="recordForm.waistPuncture.operationDoc"
           ></van-cell>
-          <!-- <div v-if="recordForm.waistPuncture.operationDoc!==''" style="text-align:center;">
-            <img :src="recordForm.waistPuncture.operationDoc" alt="" class="signatureImage">
-          </div> -->
-          <div
+
+          <!-- <div
             style="padding: 0 16px"
             v-if="recordForm.waistPuncture.operationDoc !== ''"
           >
@@ -410,7 +407,7 @@
                 class="signatureImage"
               />
             </div>
-          </div>
+          </div> -->
           <van-cell
             title="拔针芯时间"
             @click="handleShowTime('needleHeartTime')"
@@ -420,11 +417,10 @@
             title="签名"
             title-class="sign-title"
             @click="handleShowSignature('needleHeartSign')"
+            :value="recordForm.waistPuncture.needleHeartSign"
           ></van-cell>
-          <!-- <div v-if="recordForm.waistPuncture.needleHeartSign!==''" style="text-align:center;">
-            <img :src="recordForm.waistPuncture.needleHeartSign" alt="" class="signatureImage">
-          </div> -->
-          <div
+
+          <!-- <div
             style="padding: 0 16px"
             v-if="recordForm.waistPuncture.needleHeartSign !== ''"
           >
@@ -438,7 +434,7 @@
                 class="signatureImage"
               />
             </div>
-          </div>
+          </div> -->
           <van-cell
             title="拔针时间"
             @click="handleShowTime('needleTime')"
@@ -448,11 +444,10 @@
             title="签名"
             title-class="sign-title"
             @click="handleShowSignature('needleSign')"
+            :value="recordForm.waistPuncture.needleSign"
           ></van-cell>
-          <!-- <div v-if="recordForm.waistPuncture.needleSign!==''" style="text-align:center;">
-            <img :src="recordForm.waistPuncture.needleSign" alt="" class="signatureImage">
-          </div> -->
-          <div
+
+          <!-- <div
             style="padding: 0 16px"
             v-if="recordForm.waistPuncture.needleSign !== ''"
           >
@@ -466,7 +461,7 @@
                 class="signatureImage"
               />
             </div>
-          </div>
+          </div> -->
         </div>
         <van-cell title="术中特殊交班：" value="">
           <template #right-icon>
@@ -511,11 +506,10 @@
               :key="item.sendDoc"
               title-class="sign-title"
               @click="handleShowSignature('sendTestDoc' + index)"
+              :value="item.sendDoc"
             ></van-cell>
-            <!-- <div v-if="item.sendDoc!==''" :key="item.sendDoc" style="text-align:center;">
-              <img :src="item.sendDoc" alt="" class="signatureImage">
-            </div> -->
-            <div
+
+            <!-- <div
               style="padding: 0 16px"
               v-if="item.sendDoc !== ''"
               :key="item.sendDoc"
@@ -523,17 +517,16 @@
               <div class="signatureImage-content" v-if="item.sendDoc !== ''">
                 <img :src="item.sendDoc" alt="" class="signatureImage"/>
               </div>
-            </div>
+            </div> -->
             <van-cell
               title="报告接收者"
               :key="item.receiveDoc"
               title-class="sign-title"
               @click="handleShowSignature('receiveDoc' + index)"
+              :value="item.receiveDoc"
             ></van-cell>
-            <!-- <div v-if="item.receiveDoc!==''" :key="item.receiveDoc" style="text-align:center;">
-              <img :src="item.receiveDoc" alt="" class="signatureImage">
-            </div> -->
-            <div
+
+            <!-- <div
               style="padding: 0 16px"
               v-if="item.receiveDoc !== ''"
               :key="item.receiveDoc"
@@ -541,7 +534,7 @@
               <div class="signatureImage-content" v-if="item.receiveDoc !== ''">
                 <img :src="item.receiveDoc" alt="" class="signatureImage"/>
               </div>
-            </div>
+            </div> -->
           </template>
         </div>
         <van-cell title="病理：" value="">
@@ -572,11 +565,10 @@
           title="送验医生签名"
           title-class="sign-title"
           @click="handleShowSignature('sendDoc')"
+          :value="recordForm.pathology.sendDoc"
         ></van-cell>
-        <!-- <div v-if="recordForm.pathology.pathologyName==='2'&&recordForm.pathology.sendDoc!==''" style="text-align:center;">
-          <img :src="recordForm.pathology.sendDoc" alt="" class="signatureImage">
-        </div> -->
-        <div
+
+        <!-- <div
           style="padding: 0 16px"
           v-if="
             recordForm.pathology.pathologyName === '2' &&
@@ -596,7 +588,7 @@
               class="signatureImage"
             />
           </div>
-        </div>
+        </div> -->
         <van-cell title="植入物：" value="">
           <template #right-icon>
             <van-dropdown-menu active-color="#3478FF">
@@ -646,11 +638,10 @@
           title="巡回护士签名"
           title-class="sign-title"
           @click="handleShowSignature('nursesSignature')"
+          :value="recordForm.nursesSignature"
         ></van-cell>
-        <!-- <div v-if="recordForm.nursesSignature!==''" style="text-align:center;">
-          <img :src="recordForm.nursesSignature" alt="" class="signatureImage">
-        </div> -->
-        <div style="padding: 0 16px" v-if="recordForm.nursesSignature !== ''">
+
+        <!-- <div style="padding: 0 16px" v-if="recordForm.nursesSignature !== ''">
           <div
             class="signatureImage-content"
             v-if="recordForm.nursesSignature !== ''"
@@ -661,7 +652,7 @@
               class="signatureImage"
             />
           </div>
-        </div>
+        </div> -->
         <van-cell title="术中交接班">
           <template #right-icon>
             <van-dropdown-menu
@@ -691,11 +682,10 @@
             :key="'jiaobr' + index"
             title-class="sign-title"
             @click="handleShowSignature('jiaobrSign' + index)"
+            :value="recordForm.opsChange.opsChangeList[index].jiaobrSign"
           ></van-cell>
-          <!-- <div v-if="recordForm.opsChange.opsChangeName==='2'&&recordForm.opsChange.opsChangeList[index].jiaobrSign!==''" style="text-align:center;" :key="'jiebr'+index">
-            <img :src="recordForm.opsChange.opsChangeList[index].jiaobrSign" alt="" class="signatureImage">
-          </div> -->
-          <div
+
+          <!-- <div
             style="padding: 0 16px"
             v-if="
               recordForm.opsChange.opsChangeName === '2' &&
@@ -713,18 +703,17 @@
                 class="signatureImage"
               />
             </div>
-          </div>
+          </div> -->
           <van-cell
             v-show="recordForm.opsChange.opsChangeName === '2'"
             title="接班人签名"
             :key="'jbr' + index"
             title-class="sign-title"
             @click="handleShowSignature('jiebrSign' + index)"
+            :value="recordForm.opsChange.opsChangeList[index].jiebrSign"
           ></van-cell>
-          <!-- <div v-if="recordForm.opsChange.opsChangeName==='2'&&recordForm.opsChange.opsChangeList[index].jiebrSign" style="text-align:center;" :key="'jbr'+index">
-            <img :src="recordForm.opsChange.opsChangeList[index].jiebrSign" alt="" class="signatureImage">
-          </div> -->
-          <div
+
+          <!-- <div
             style="padding: 0 16px"
             v-if="
               recordForm.opsChange.opsChangeName === '2' &&
@@ -742,7 +731,7 @@
                 class="signatureImage"
               />
             </div>
-          </div>
+          </div> -->
         </template>
       </van-cell-group>
       <van-dialog
@@ -780,17 +769,25 @@
         />
       </template>
     </van-action-sheet>
-    <signature
+    <!-- <signature
       :visible="visible"
       v-if="visible"
       @handleClose="handleCloseSignature"
       @handleSubmit="handleSubmitImage"
-    />
+    /> -->
+    <SignLogin
+      :signTitle ="signTitle"
+      v-if="visible"
+      :show="visible"
+      @handleClose="handleCloseSignature"
+      @handleSubmit="handleSubmitImage"
+    ></SignLogin>
   </div>
 </template>
 
 <script>
-import Signature from '@/components/Signature'
+// import Signature from '@/components/Signature'
+import SignLogin from '@/components/SignLogin'
 import PatientCard from '@/components/PatientCard'
 import request from '@/utils/request'
 import {submitRecord, getRecordData} from '@/api/nursing-record'
@@ -802,6 +799,7 @@ export default {
   name: 'Record2',
   data () {
     return {
+      signTitle: '获取签名',
       checked: true,
       currentTime: '',
       currentDate: moment(new Date()).format('YYYY-MM-DD HH:mm'),
@@ -1098,7 +1096,8 @@ export default {
     }
   },
   components: {
-    Signature,
+    SignLogin,
+    // Signature,
     PatientCard
   },
   created () {

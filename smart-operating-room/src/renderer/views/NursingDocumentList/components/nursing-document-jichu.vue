@@ -315,6 +315,13 @@ import { ipcRenderer } from 'electron'
 import Bus from '@/utils/bus.js'
 export default {
   name: 'NursingDocumentJiChu',
+  props: {
+    needBus: {
+      default: true,
+      type: Boolean,
+      required: false
+    }
+  },
   data () {
     return {
       htmlTitle: '护理记录单单据(基础)',
@@ -350,29 +357,31 @@ export default {
   },
   mounted () {
     this.search()
-    Bus.$on('clickShuaXinJiChu', res => {
-      if (res === '1') {
-        this.utilsDebounce(() => {
-          this.search()
-        }, 200)
-      } else if (res === '2') {
-        this.utilsDebounce(() => {
-          this.dayin()
-        }, 200)
-      } else if (res === '3') {
-        this.htmlTitle =
+    if (this.needBus) {
+      Bus.$on('clickShuaXinJiChu', res => {
+        if (res === '1') {
+          this.utilsDebounce(() => {
+            this.search()
+          }, 200)
+        } else if (res === '2') {
+          this.utilsDebounce(() => {
+            this.dayin()
+          }, 200)
+        } else if (res === '3') {
+          this.htmlTitle =
           this.$store.state['nursing-document-list'].patientName +
           '护理记录单单据(基础)'
-        this.utilsDebounce(() => {
+          this.utilsDebounce(() => {
           // this.getPdf('nursing-document-jichu')
           // console.log(this.htmlTitle)
           // shell.openExternal(this.htmlTitle)
           // this.$electron.shell.openExternal('https://www.baidu.com/')
 
-          this.daochuPDF()
-        }, 200)
-      }
-    })
+            this.daochuPDF()
+          }, 200)
+        }
+      })
+    }
   },
   methods: {
     dayin () {

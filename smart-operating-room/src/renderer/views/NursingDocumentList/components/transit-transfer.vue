@@ -87,11 +87,12 @@
               class="input-div-context"
               style="textAlign:center;height:30px"
             >
-              <img
+              {{ userInfo.carrier }}
+              <!-- <img
                 style="height:100%"
                 :src="userInfo.carrier"
                 alt=""
-              >
+              > -->
             </div>
           </span>
         </div>
@@ -565,12 +566,13 @@
               class="input-div-context-noborder-40"
               style="height:30px;width:160px;borderBottom:1px solid #000;paddingLeft:15px;lineHeight:30px;textAlign:center"
             >
+              {{ pointInRoom.signatureImage2 }}
               <!-- <span>{{  }}</span> -->
-              <img
+              <!-- <img
                 style="height:100%"
                 :src="pointInRoom.signatureImage2"
                 alt=""
-              >
+              > -->
             </div>
           </span>
         </div>
@@ -1358,32 +1360,36 @@
                 签名
               </td>
               <td style="textAlign:center;height:60px">
-                <img
+                {{ pointInRoom.signatureImage2 }}
+                <!-- <img
                   style="height:100%"
                   :src="pointInRoom.signatureImage2"
                   alt=""
-                >
+                > -->
               </td>
               <td style="textAlign:center;height:60px">
-                <img
+                {{ pointOutRoom.signatureImage2 }}
+                <!-- <img
                   style="height:100%"
                   :src="pointOutRoom.signatureImage2"
                   alt=""
-                >
+                > -->
               </td>
               <td style="textAlign:center;height:60px">
-                <img
+                {{ pointPacu.signatureImage2 }}
+                <!-- <img
                   style="height:100%"
                   :src="pointPacu.signatureImage2"
                   alt=""
-                >
+                > -->
               </td>
               <td style="textAlign:center;height:60px">
-                <img
+                {{ outPacu.signatureImage2 }}
+                <!-- <img
                   style="height:100%"
                   :src="outPacu.signatureImage2"
                   alt=""
-                >
+                > -->
               </td>
             </tr>
           </table>
@@ -1405,11 +1411,12 @@
               class="input-div-context-noborder"
               style="width:160px;paddingLeft:15px;borderBottom:1px solid #000;height:30px"
             >
-              <img
+              {{ userInfo.recipient }}
+              <!-- <img
                 style="height:100%"
                 :src="userInfo.recipient"
                 alt=""
-              >
+              > -->
             </div>
           </span>
         </div>
@@ -1424,6 +1431,13 @@ import { ipcRenderer } from 'electron'
 import Bus from '@/utils/bus.js'
 export default {
   name: 'TransitTransfer',
+  props: {
+    needBus: {
+      default: true,
+      type: Boolean,
+      required: false
+    }
+  },
   data () {
     return {
       htmlTitle: '转运交接单',
@@ -1538,24 +1552,27 @@ export default {
     }
   },
   mounted () {
-    Bus.$on('clickShuaXinTransit', res => {
-      if (res === '1') {
-        this.utilsDebounce(() => {
-          this.getWenShuData()
-        }, 200)
-      } else if (res === '2') {
-        this.utilsDebounce(() => {
-          this.dayin()
-        }, 200)
-      } else if (res === '3') {
-        this.htmlTitle =
+    if (this.needBus) {
+      Bus.$on('clickShuaXinTransit', res => {
+        if (res === '1') {
+          this.utilsDebounce(() => {
+            this.getWenShuData()
+          }, 200)
+        } else if (res === '2') {
+          this.utilsDebounce(() => {
+            this.dayin()
+          }, 200)
+        } else if (res === '3') {
+          this.htmlTitle =
           this.$store.state['nursing-document-list'].patientName + '转运交接单'
-        this.utilsDebounce(() => {
+          this.utilsDebounce(() => {
           //  this.getPdf('transit-transfer')
-          this.daochuPDF()
-        }, 200)
-      }
-    })
+            this.daochuPDF()
+          }, 200)
+        }
+      })
+    }
+
     this.getWenShuData()
   },
   methods: {

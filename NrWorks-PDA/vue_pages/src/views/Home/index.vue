@@ -160,7 +160,7 @@ export default {
     onkeydown (e) {
       if (e.keyCode === 13) {
         // 模拟扫码
-        this.handleScan('19409453')
+        this.handleScan('19468254')
       }
     },
     onClickLeft () {

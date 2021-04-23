@@ -4,7 +4,8 @@
   min-width: 824px;
   min-height: 920px;
   background-color: #fff;
-  padding: 10px;
+  page-break-after: always;
+  margin: auto;
 }
 
 .hulijilv-two-container .container-title {
@@ -87,89 +88,89 @@
   align-items: center;
 }
 
-.input-div {
+.hulijilv-two-container .input-div {
   display: flex;
 }
 
-.input-div .input-div-context {
+.hulijilv-two-container .input-div .input-div-context {
   padding: 0 5px;
   width: 100px;
   border-bottom: 1px solid #000;
 }
 
-.input-div .input-div-context-noborder {
+.hulijilv-two-container .input-div .input-div-context-noborder {
   padding: 0 5px;
   width: 100px;
 }
 
-.input-div .input-div-context-short {
+.hulijilv-two-container .input-div .input-div-context-short {
   padding: 0 5px;
   width: 80px;
   border-bottom: 1px solid #000;
 }
 
-.input-div .input-div-context-short-60 {
+.hulijilv-two-container .input-div .input-div-context-short-60 {
   padding: 0 5px;
   width: 60px;
   border-bottom: 1px solid #000;
 }
 
-.input-div .input-div-context-long {
+.hulijilv-two-container .input-div .input-div-context-long {
   padding: 0 5px;
   width: 380px;
   border-bottom: 1px solid #000;
 }
 
-.mgt10 {
+.hulijilv-two-container .mgt10 {
   margin-top: 10px;
 }
 
-.mgt20 {
+.hulijilv-two-container .mgt20 {
   margin-top: 10px;
 }
 
-.mgl50 {
+.hulijilv-two-container .mgl50 {
   margin-left: 50px;
 }
 
-.mgl5 {
+.hulijilv-two-container .mgl5 {
   margin-left: 5px;
 }
 
-.line {
+.hulijilv-two-container .line {
   width: 84px;
   height: 1px;
   background-color: #000;
   transform: rotate(-140deg);
 }
 
-.row {
+.hulijilv-two-container .row {
   width: 100%;
   display: flex;
   height: 28px;
   padding-left: 10px;
 }
 
-.col {
+.hulijilv-two-container .col {
   display: flex;
   font-size: 14px;
   width: 30%;
   flex-wrap: nowrap
 }
 
-.col-50 {
+.hulijilv-two-container .col-50 {
   display: flex;
   font-size: 14px;
   width: 50%;
   flex-wrap: nowrap
 }
-.col-40 {
+.hulijilv-two-container .col-40 {
   display: flex;
   font-size: 14px;
   width: 40%;
   flex-wrap: nowrap
 }
-.col-70 {
+.hulijilv-two-container .col-70 {
   display: flex;
   font-size: 14px;
   width: 70%;
@@ -177,7 +178,7 @@
 }
 
 
-.row-lable {
+.hulijilv-two-container .row-lable {
   width: 135px;
   line-height: 28px;
   text-align: right;
@@ -190,7 +191,7 @@
   box-sizing: border-box;
 }
 
-.row-text {
+.hulijilv-two-container .row-text {
   line-height: 28px;
   width: 100%;
   padding: 0 10px;

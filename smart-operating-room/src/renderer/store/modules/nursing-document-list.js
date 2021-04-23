@@ -28,29 +28,29 @@ const mutations = {
 const actions = {
   // 获取安全护理单数据
   async reqSecurityCheckTable ({ commit }, query) {
-    let res = reqSecurityCheck(query)
+    let res = await reqSecurityCheck(query)
     return res
   },
 
   // 获取护理记录单(二)数据
   async ReqNursingDocumentTwo ({ commit }, query) {
-    let res = reqNursingDocumentTwo(query)
+    let res = await reqNursingDocumentTwo(query)
     return res
   },
 
   // 获取护理记录单(三)基础数据
   async ReqNursingDocumentJiChu ({ commit }, query) {
-    let res = reqNursingDocumentJiChu(query)
+    let res = await reqNursingDocumentJiChu(query)
     return res
   },
   // 获取护理记录单(三)特殊数据
   async ReqNursingDocumentTeShu ({ commit }, query) {
-    let res = reqNursingDocumentTeShu(query)
+    let res = await reqNursingDocumentTeShu(query)
     return res
   },
   // 获取转运交接单数据
   async ReqTransitTransfer ({ commit }, query) {
-    let res = reqTransitTransfer(query)
+    let res = await reqTransitTransfer(query)
     return res
   }
 }

@@ -1,6 +1,8 @@
 .nursing-teshu-container {
   width: 824px;
   min-width: 824px;
+  page-break-after: always;
+  margin: auto;
 }
 
 .nursing-teshu-container .container-title {
@@ -75,106 +77,106 @@
   display: flex;
 }
 
-.nursing-top {
+.nursing-teshu-container .nursing-top {
   padding: 10px;
   background-color: #fff;
 }
 
-.input-div {
+.nursing-teshu-container .input-div {
   display: flex;
 }
 
-.input-div .input-div-context {
+.nursing-teshu-container .input-div .input-div-context {
   padding: 0 5px;
   width: 100px;
   border-bottom: 1px solid #000;
 }
 
-.input-div .input-div-context-120 {
+.nursing-teshu-container .input-div .input-div-context-120 {
   text-align: center;
   padding: 0 5px;
   width: 140px;
   border-bottom: 1px solid #000;
 }
 
-.input-div .input-div-context-noborder {
+.nursing-teshu-container .input-div .input-div-context-noborder {
   padding: 0 5px;
   width: 100px;
 }
 
-.input-div .input-div-context-short {
+.nursing-teshu-container .input-div .input-div-context-short {
   padding: 0 5px;
   width: 80px;
   border-bottom: 1px solid #000;
 }
 
-.input-div .input-div-context-short-60 {
+.nursing-teshu-container .input-div .input-div-context-short-60 {
   padding: 0 5px;
   width: 60px;
   border-bottom: 1px solid #000;
 }
 
-.input-div .input-div-context-long {
+.nursing-teshu-container .input-div .input-div-context-long {
   padding: 0 5px;
   width: 380px;
   border-bottom: 1px solid #000;
 }
 
-.mgt10 {
+.nursing-teshu-container .mgt10 {
   margin-top: 10px;
 }
 
-.mgt20 {
+.nursing-teshu-container .mgt20 {
   margin-top: 10px;
 }
 
-.mgl50 {
+.nursing-teshu-container .mgl50 {
   margin-left: 50px;
 }
 
-.mgl5 {
+.nursing-teshu-container .mgl5 {
   margin-left: 5px;
 }
 
-.row-line {
+.nursing-teshu-container .row-line {
   width: 140px;
   height: 1px;
   background-color: #000;
   transform: rotate(-155deg);
 }
 
-.line {
+.nursing-teshu-container .line {
   width: 250px;
   height: 1px;
   background-color: #000;
 }
 
-.td-div {
+.nursing-teshu-container .td-div {
   display: flex;
 }
 
-.td-center {
+.nursing-teshu-container .td-center {
   width: 60px;
   margin-left: 50%;
   transform: translateX(-50%);
 }
 
-.td-text-center {
+.nursing-teshu-container .td-text-center {
   text-align: center;
 }
 
-.td-colspan {
+.nursing-teshu-container .td-colspan {
   height: 50px;
   line-height: 50px;
   background-color: #ccc;
   font-weight: 600;
 }
 
-.container-bottom {
+.nursing-teshu-container .container-bottom {
   margin-top: 50px;
 }
 
-table thead tr th,
-table tbody tr td {
+.nursing-teshu-container table thead tr th,
+.nursing-teshu-container table tbody tr td {
   border: 1px solid #000;
 }
